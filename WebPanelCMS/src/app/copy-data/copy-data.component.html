@@ -1,0 +1,278 @@
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px',fullScreenBackdrop:true  }">
+</ngx-loading>
+ 
+ 
+<div class="col-lg-12" style="padding: 0 0 0 0;">
+  <ul class="nav nav-tabs" role="tablist" style="background: #fff;color: #000;">
+    <li class="nav-item">
+      <a class="nav-link active" (click)="SetTabValue('CPS')" data-toggle="tab" href="#CopyPlaylistSchedule">Copy Playlist Schedule</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-toggle="tab" href="#CopyContent">Copy Content</a>
+    </li>
+    <li class="nav-item d-none">
+      <a class="nav-link" data-toggle="tab" href="#copysanitizerannouncement">Copy Sanitizer Announcement</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" (click)="SetTabValue('TCT')"  data-toggle="tab" href="#TransferTokens">Transfer Customer Tokens</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-toggle="tab" href="#TransferContent">Transfer Content</a>
+    </li>
+    
+  </ul>
+
+</div>
+
+<div class="tab-content">
+  <div id="CopyPlaylistSchedule" role="tabpanel" class="tab-pane active" style="padding: 0 0 0 0;margin: 0 0 0 0;">
+
+    <div class="col-lg-12 p-0">
+      <div class="col-sm-12">
+        <div class="form-row">
+          <div class="form-group col-sm-3 m-0">
+            <label for="SearchcName" class="mb-2 mr-sm-2">Customer Name:</label>
+            <select name="SearchcName" class="custom-select form-control mb-2 mr-sm-2 " [(ngModel)]="cmbSearchCustomer"
+              (change)="onChangeSearchCustomer($event.target.value)" id="SearchcName">
+              <option selected value="0"></option>
+              <option *ngFor="let cLst of CustomerList" [value]="cLst.Id">{{cLst.DisplayName}}</option>
+            </select>
+
+          </div>
+          <div class="form-group col-sm-3 m-0">
+
+            <label for="SearchTName" class="mb-2 mr-sm-2">Token :</label>
+            <select class="custom-select form-control mb-2 mr-sm-2 " [(ngModel)]="cmbSearchToken"
+              (change)="onChangeToken($event.target.value)" id="SearchTName">
+              <option selected value="0"></option>
+              <option *ngFor="let fLst of SearchTokenList" [value]="fLst.tokenid">{{fLst.tokenCode}} - {{fLst.location}}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-hover table table-sm  table-bordered mb-0">
+          <thead class="thead-light">
+            <tr>
+              <th scope="col">Format Name</th>
+              <th scope="col">Playlist Name</th>
+              <th scope="col">Start Time</th>
+              <th scope="col">End Time</th>
+              <th scope="col">Week Day</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let schLst of ScheduleList;">
+              <td data-label="Format Name">
+                {{schLst.formatName}}
+              </td>
+              <td data-label="Playlist Name">
+                {{schLst.playlistName}}
+              </td>
+              <td data-label="Start Time">
+                {{schLst.StartTime}}
+              </td>
+              <td data-label="End Time">
+                {{schLst.EndTime}}
+              </td>
+              <td data-label="Week Day">
+                {{schLst.WeekDay}}
+              </td>
+
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-sm-12 mt-2">
+        <div class="form-row">
+          <div class="form-group col-sm-3  m-0">
+            <label for="cName" class="mb-2 mr-sm-2">Customer Name:</label>
+            <select name="cName" class="custom-select form-control mb-2 mr-sm-2 " [(ngModel)]="cmbCustomer"
+              (change)="onChangeCustomer($event.target.value)" id="cName">
+              <option selected value="0"></option>
+              <option *ngFor="let cLst of CustomerList" [value]="cLst.Id">{{cLst.DisplayName}}</option>
+            </select>
+          </div>
+          <div class="form-group col-sm-1  m-0">
+            <div class="">
+              <button class="btn btn-primary mt-5 mb-2" type="button" (click)="SaveContent()">
+                <i class="fa fa-floppy-o fa-lg"></i>
+              </button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="form-row mb-1">
+        <div class="form-group col-sm-8 m-0 pt-2 pb-2">
+           
+        </div>
+        <div class="form-group  col-lg-4">
+        <div class="col-sm-12 m-0 float-right">
+        <ng-multiselect-dropdown id="GroupId" [placeholder]="'Groups'" 
+        [settings]="GroupSettings" [data]="GroupList"
+              (onSelect)="onItemSelectGroup($event)"
+            (onSelectAll)="onSelectAllGroup($event)" (onDeSelect)="onItemDeSelectGroup($event)"
+            (onDeSelectAll)="onDeSelectAllGroup($event)"
+            [(ngModel)]="SelectedGroupArray" [ngModelOptions]="{standalone: true}">
+        </ng-multiselect-dropdown>
+      </div>
+    </div>
+    </div>
+     
+      <div class="table-responsive">
+
+        <table class="table table-sm table-bordered">
+          <thead class="thead-light">
+            <tr>
+              <th scope="col" style="Width:60px">
+                <div class="custom-control custom-checkbox">
+                  <input (change)="allToken($event)" type="checkbox" class="custom-control-input" name="allToken"
+                    id="AllToken">
+                  <label class="custom-control-label cursor-pointer pt-1" for="AllToken">All</label>
+                </div>
+              </th>
+              <th scope="col" sortable="countryName" (sort)="onSort($event)">Country </th>
+              <th scope="col" sortable="city" (sort)="onSort($event)" style="width: 170px;">City </th>
+              <th scope="col" sortable="location" (sort)="onSort($event)" style="width: 170px;">Location </th>
+              <th scope="col" sortable="MediaType" (sort)="onSort($event)"  style="width: 120px;">Media Type</th>
+              <th scope="col" sortable="gName" (sort)="onSort($event)" >Group</th>
+              <th scope="col" sortable="tokenCode" (sort)="onSort($event)">Token No</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="let TokenLst of TokenList | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize;let i = index">
+              <td data-label="" class="">
+                <div class="custom-control custom-checkbox">
+                  <input (change)="SelectToken(TokenLst.tokenid,$event)" type="checkbox" class="custom-control-input"
+                    id="{{TokenLst.tokenid}}{{i}}" [checked]="TokenLst.check" name="chkTokenList">
+                  <label class="custom-control-label cursor-pointer" for="{{TokenLst.tokenid}}{{i}}"></label>
+                </div>
+              </td>
+              <td data-label="Country ">{{TokenLst.countryName}}</td>
+              <td data-label="City">{{TokenLst.city}}</td>
+              <td data-label="Location">{{TokenLst.location}}</td>
+              <td data-label="Media Type">{{TokenLst.MediaType}}</td>
+              <td data-label="Group">{{TokenLst.gName}}</td>
+              <td data-label="Token No">{{TokenLst.tokenCode}}</td>
+
+            </tr>
+          </tbody>
+        </table>
+
+        <ngb-pagination [collectionSize]="TokenList.length" [(page)]="page" [pageSize]="pageSize"
+          aria-label="Default pagination"></ngb-pagination>
+
+
+      </div>
+    </div>
+
+  </div>
+  <div id="CopyContent" role="tabpanel" class="col-lg-12 tab-pane fade" style="padding: 0 0 0 0;margin: 0 0 0 0;">
+    <app-copy-content></app-copy-content>
+  </div>
+  <div id="copysanitizerannouncement" role="tabpanel" class="col-lg-12 tab-pane fade" style="padding: 0 0 0 0;margin: 0 0 0 0;">
+    <app-copysanitizerannouncement></app-copysanitizerannouncement>
+  </div>
+  <div id="TransferTokens" role="tabpanel" class="col-lg-12 tab-pane fade" style="padding: 0 0 0 0;margin: 0 0 0 0;">
+    <div class="col-lg-12 p-0">
+      <div class="col-sm-12 mt-2">
+        <div class="form-row">
+          <div class="form-group col-sm-3  m-0">
+            <label for="cTName" class="mb-2 mr-sm-2">Customer Name:</label>
+            <select name="cTName" class="custom-select form-control mb-2 mr-sm-2 " [(ngModel)]="cmbFromCustomer"
+              (change)="onChangeFromCustomer($event.target.value)" id="cTName">
+              <option selected value="0"></option>
+              <option *ngFor="let ctLst of TransferCustomerList" [value]="ctLst.Id">{{ctLst.DisplayName}}</option>
+            </select>
+          </div>
+          <div class="form-group col-sm-2  m-0"></div>
+          <div class="form-group col-sm-3  m-0">
+            <label for="cName" class="mb-2 mr-sm-2">Transfer Customer Name:</label>
+            <select name="cName" class="custom-select form-control mb-2 mr-sm-2 " [(ngModel)]="cmbTransferCustomer"
+              id="cName">
+              <option selected value="0"></option>
+              <option *ngFor="let cLst of CustomerList" [value]="cLst.Id">{{cLst.DisplayName}}</option>
+            </select>
+          </div>
+          <div class="form-group col-sm-1  m-0">
+            <div class="">
+              <button class="btn btn-primary mt-5 mb-2" type="button" (click)="SaveTransferTokens()">
+                <i class="fa fa-floppy-o fa-lg"></i>
+              </button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="form-row mb-1">
+        <div class="form-group col-sm-8 m-0 pt-2 pb-2">
+           
+        </div>
+        <div class="form-group  col-lg-4">
+        <div class="col-sm-6 m-0 float-right">
+          <input id="txtSearchExt" type="text" [(ngModel)]="TransferSearchText" class="form-control mt-1" placeholder="Search">
+      </div>
+    </div>
+    </div>
+      <div class="table-responsive">
+
+        <table class="table table-sm table-bordered">
+          <thead class="thead-light">
+            <tr>
+              <th scope="col" style="Width:60px">
+                <div class="custom-control custom-checkbox">
+                  <!--<input (change)="allTransferToken($event)" type="checkbox" class="custom-control-input"
+                    name="AllTokenT" id="AllTokenT">
+                  <label class="custom-control-label cursor-pointer pt-1" for="AllTokenT">All</label>
+                  -->
+                </div>
+              </th>
+              <th scope="col" sortable="countryName" (sort)="onSort($event)">Country </th>
+              <th scope="col" sortable="city" (sort)="onSort($event)" style="width: 170px;">City </th>
+              <th scope="col" sortable="location" (sort)="onSort($event)" style="width: 170px;">Location </th>
+              <th scope="col" sortable="MediaType" (sort)="onSort($event)"  style="width: 120px;">Media Type</th>
+              <th scope="col" sortable="gName" (sort)="onSort($event)" >Group</th>
+              <th scope="col" sortable="tokenCode" (sort)="onSort($event)">Token No</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="let TfLst of TransferTokenList|filter:TransferSearchText | slice: (Tpage-1) * TpageSize : (Tpage-1) * TpageSize + TpageSize;let i = index">
+              <td data-label="" class="">
+                <div class="custom-control custom-checkbox">
+                  <input (change)="SelectTransferToken(TfLst.tokenid,$event)" type="checkbox"
+                    class="custom-control-input" id="{{TfLst.tokenid}}{{i}}" [checked]="TfLst.check"
+                    name="chkTransferTokenList">
+                  <label class="custom-control-label cursor-pointer" for="{{TfLst.tokenid}}{{i}}"></label>
+
+                </div>
+              </td>
+
+              <td data-label="Country ">{{TfLst.countryName}}</td>
+              <td data-label="City">{{TfLst.city}}</td>
+              <td data-label="Location">{{TfLst.location}}</td>
+              <td data-label="Media Type">{{TfLst.MediaType}}</td>
+              <td data-label="Group">{{TfLst.gName}}</td>
+              <td data-label="Token No">{{TfLst.tokenCode}}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <ngb-pagination [collectionSize]="TransferTokenList.length" [(page)]="Tpage" [pageSize]="TpageSize"
+          aria-label="Default pagination"></ngb-pagination>
+
+
+      </div>
+
+
+
+
+    </div>
+  </div>
+  <div id="TransferContent" role="tabpanel" class="col-lg-12 tab-pane fade" style="padding: 0 0 0 0;margin: 0 0 0 0;">
+    <app-transfer-content></app-transfer-content>
+  </div>
+</div>

@@ -1,0 +1,483 @@
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }">
+</ngx-loading>
+
+
+ 
+<div class="col-lg-12" style="padding: 0 0 0 0;">
+    <ul class="nav nav-tabs" role="tablist" style="background: #fff;color: #000;">
+        <li class="nav-item"> 
+          <a class="nav-link active" data-toggle="tab" href="#NormalAds">Normal Advertisement</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link"  data-toggle="tab" href="#PlaylistAdvt">Playlist Advertisement</a>
+        </li>
+       
+         <li class="nav-item">
+          <a class="nav-link"  data-toggle="tab" href="#SanitizerAnnouncement">Sanitizer Sensor Announcement</a>
+        </li>  
+        <li class="nav-item">
+          <a class="nav-link"  data-toggle="tab" href="#keyboardEvents">Keyboard Events</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link"  data-toggle="tab" href="#Emergency">Emergency Alert</a>
+          </li>
+      
+         <li class="nav-item">
+          <a class="nav-link"  data-toggle="tab" href="#Prayer">Prayer</a>
+      </li>
+      </ul>
+</div>
+<div class="tab-content">
+    <div id="NormalAds" role="tabpanel" class="col-lg-12 tab-pane active m-0 p-0">
+      
+<div class="col-lg-12" style="padding: 0 0 0 0;">
+    <ngb-tabset #t="ngbTabset">
+        <ngb-tab id="tab-selectbyid1" title="Search">
+            <ng-template ngbTabContent>
+                <div class="container-fluid">
+                    <div class="form-row">
+                        <div class="form-group col-sm-4 m-0">
+                            <label for="SearchAdvtDate" class="mb-2 mr-sm-2">Advt Date:</label>
+                            <input id="SearchAdvtDate" class="form-control mb-2 mr-sm-2" [owlDateTimeTrigger]="dtSearch"
+                                [(ngModel)]="SearchADate" [owlDateTime]="dtSearch" readonly>
+                            <owl-date-time [pickerType]="'calendar'" (afterPickerClosed)="SearchAd()" #dtSearch>
+                            </owl-date-time>
+                        </div>
+                        <div class="form-group col-sm-4 m-0">
+                            <label for="SearchCName" class="mb-2 mr-sm-2">Customer Name:</label>
+
+                            <select name="SearchCustomerName" class="custom-select form-control mb-2 mr-sm-2"
+                                [(ngModel)]="cmbSearchCustomer" id="SearchCName" (change)="SearchAd()">
+                                <option selected value="0"></option>
+                                <option *ngFor="let cLst of SearchCustomerList" [value]="cLst.Id">{{cLst.DisplayName}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-group col-sm-4 m-0">
+                            <button class="btn btn-secondary mb-2 mt-5" type="button" (click)="SearchAd()">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-sm table-bordered">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">Advt Name</th>
+                                <th scope="col">Type</th>
+                                <th scope="col">Start Date</th>
+                                <th scope="col">Playing Mode</th>
+                                <th scope="col" *ngIf="UserId ==0" class=" Link-Center_Width"></th>
+                                <th scope="col" *ngIf="UserId ==0" class="Link-Center_Width"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr
+                                *ngFor="let adLst of AdsList  | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                                <td data-label="Advt Name">
+                                    <a href="{{adLst.adsLink}}" target="_blank">
+                                        {{adLst.adName}}
+                                    </a>
+                                </td>
+                                <td data-label="Type">{{adLst.atype}}</td>
+                                <td data-label="Start Date">{{adLst.startDate}}</td>
+                                <td data-label="Playing Mode">{{adLst.playingMode}}</td>
+                                <td data-label="" *ngIf="UserId ==0" class=" cursor-pointer Link-Center_Width">
+                                    <a href="javascript:;" (click)="EditAds(adLst.id)"
+                                        (click)="t.select('tab-selectbyid2')">
+                                        <i class="fa fa-pencil-square-o text-primary" aria-hidden="true"></i>
+                                    </a>
+                                </td>
+                                <td data-label="" *ngIf="UserId ==0" class=" cursor-pointer Link-Center_Width"
+                                    (click)="openAdsDeleteModal(AdsDeleteModal,adLst.id)">
+                                    <i class="fa fa-trash" style="color:red;" aria-hidden="true"></i>
+                                </td>
+                        </tbody>
+                    </table>
+                    <ngb-pagination [collectionSize]="AdsList.length" [(page)]="page" [pageSize]="pageSize"
+                        aria-label="Default pagination"></ngb-pagination>
+
+                </div>
+            </ng-template>
+        </ngb-tab>
+        <ngb-tab id="tab-selectbyid2" title="AddNew">
+            <ng-template ngbTabContent>
+                <div class="container-fluid">
+                    <form [formGroup]="Adform" (ngSubmit)="onSubmitAd()">
+                        <div class="form-row">
+                            <div class="form-group col-sm-3 m-0">
+                                <label for="cName" class="mb-2 mr-sm-2">Name:</label>
+                                <input type="text" formControlName="aName" id="cName"
+                                    [ngClass]="{ 'is-invalid': submitted && f.aName.errors }" autocomplete="off"
+                                    class="form-control mb-2 mr-sm-2" />
+                                <div *ngIf="submitted && f.aName.errors" class="invalid-feedback"></div>
+                            </div>
+                            <div class="form-group col-sm-3 m-0">
+                                <label for="cName" class="mb-2 mr-sm-2">Company Name:</label>
+                                <input type="text" id="cName" formControlName="cName" autocomplete="off"
+                                    class="form-control mb-2 mr-sm-2" />
+                            </div>
+                            <div class="form-group col-sm-3 m-0">
+                                <label for="pType" class="mb-2 mr-sm-2">Playing Type:</label>
+                                <select name="pType" formControlName="pType"
+                                    [ngClass]="{ 'is-invalid': submitted && f.pType.errors }" class="custom-select"
+                                    id="pType">
+                                    <option selected value="0"></option>
+                                    <option value="Hard Stop">Hard Stop</option>
+                                    <option value="Soft Stop">Soft Stop</option>
+                                </select>
+                                <div *ngIf="submitted && f.pType.errors" class="invalid-feedback"></div>
+                            </div>
+                            <div class="form-group col-sm-3 m-0">
+                                <label for="CatName" class="mb-2 mr-sm-2">Category Name:</label>
+                                <select name="cName" formControlName="category" class="custom-select" id="CatName">
+                                    <option selected value="0"></option>
+                                    <option *ngFor="let ctLst of Category" [value]="ctLst.Id">{{ctLst.DisplayName}}
+                                    </option>
+
+                                </select>
+                            </div>
+                            <div class="form-group col-sm-3 m-0">
+                                <label for="dt1" class="mb-2 mr-sm-2">Start Date:</label>
+                                <input id="dt1" formControlName="sDate" class="form-control mb-2 mr-sm-2"
+                                    [owlDateTimeTrigger]="dt1" [owlDateTime]="dt1" readonly>
+                                <owl-date-time [pickerType]="'calendar'" #dt1></owl-date-time>
+
+                            </div>
+                            <div class="form-group col-sm-3 m-0">
+                                <label for="dt2" class="mb-2 mr-sm-2">End Date:</label>
+                                <input id="dt2" formControlName="eDate" class="form-control mb-2 mr-sm-2"
+                                    [owlDateTimeTrigger]="dt2" [owlDateTime]="dt2" readonly>
+                                <owl-date-time [pickerType]="'calendar'" #dt2></owl-date-time>
+
+                            </div>
+                            <div class="form-group col-sm-3 m-0">
+                                <label for="pType" class="mb-2 mr-sm-2">Playing Mode:</label>
+                                <select name="plType" formControlName="pMode" class="custom-select"
+                                    (change)="onChangePlayingMode($event.target.value)" id="pType">
+
+                                    <option value="Time">Time</option>
+                                    <option value="Minutes">Minutes</option>
+                                    <option value="Song">Song</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-sm-3 m-0">
+                                <div *ngIf="!IsTime" style="padding: 0 0 0 5px;">
+                                    <label for="pType" class="mb-2 mr-sm-2">Frequency: </label>
+
+                                    <input *ngIf="!IsTime" type="number" max="100" min="1" id="pType"
+                                        formControlName="TotalFrequancy" autocomplete="off"
+                                        class="form-control mb-2 mr-sm-2" />
+                                </div>
+
+                                <div *ngIf="IsTime" style="padding: 0 0 0 5px;">
+                                    <label for="pType" class="mb-2 mr-sm-2">Frequency: </label>
+                                    <ngb-timepicker formControlName="sTime" ></ngb-timepicker>
+                                    <!--
+                                    <input id="sTime" class="form-control mb-2 mr-sm-2" formControlName="sTime"
+                                        [owlDateTimeTrigger]="dt" [owlDateTime]="dt" readonly>
+                                    <owl-date-time [pickerType]="'timer'" #dt></owl-date-time>
+-->
+                                </div>
+
+
+                            </div>
+                            <div class="form-group col-sm-3 m-0">
+                                <label for="Type" class="mb-2 mr-sm-2">Type:</label>
+                                <select name="mType" formControlName="type" class="custom-select"
+                                    (change)="onChangeType($event.target.value)" id="Type">
+                                    <option value="Audio">Audio</option>
+                                    <option value="Video">Video</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-sm-3 m-0">
+                                <label class="control-label" for="customFile">File</label>
+                                <div class="file-upload" id="customFile">
+                                    <div *ngIf="IsEditClick == 'No'" class="file-select">
+                                        <div class="file-select-button" id="fileName1">Choose File</div>
+                                        <div class="file-select-name" id="noFile1"> {{ this.InputFileName }}</div>
+                                        <input type="file" name="profile" #myInput type="file" name="chooseFile2"
+                                            (change)="onSelectedFile($event)" id="chooseFile1"
+                                            accept="{{ this.InputAccept }}" />
+                                        <!--
+                                        <input #myInput type="file" formControlName="FilePath" name="chooseFile2"
+                                            id="chooseFile1" ngFileSelect [options]="options"
+                                            (uploadOutput)="onUploadOutput($event)" [uploadInput]="uploadInput"
+                                            (change)="onChange($event.target.value)" accept="{{ this.InputAccept }}">
+                                         -->
+                                    </div>
+                                    <input *ngIf="IsEditClick == 'Yes'" id="fPath" type="text"
+                                        class="form-control mb-2 mr-sm-2" value="{{ this.fPath }}" readonly>
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-3 m-0">
+                                <label class="mb-2 mr-sm-2" for="week">Week Day:</label>
+                                <ng-multiselect-dropdown id="week" [placeholder]="'Week Days'"
+                                    [settings]="dropdownSettings" [data]="dropdownList" formControlName="wList"
+                                    (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
+
+                                </ng-multiselect-dropdown>
+                            </div>
+                            <div class="form-group col-sm-3 mt-5">
+                                <button class="btn btn-primary">
+                                    <i class="fa fa-floppy-o fa-lg" aria-hidden="true"></i>
+                                </button>
+
+                                <button id="btnRefersh1" class="btn btn-primary ml-1" (click)="Refresh()" type="button">
+                                    <i class="fa fa-refresh fa-lg" aria-hidden="true"></i>
+                                </button> </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div *ngIf="fileUpload.status==='progress'">
+                                <div class="progress" style="height: 20px;margin-bottom:20px;">
+                                    <div class="progress-bar" role="progressbar" [style.width.%]="fileUpload.message"
+                                        aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{fileUpload.message}}%
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+
+
+                        <div class="row  mt-0">
+                            <div class="col-sm-2 col-sm-2-spl p-1">
+                                <div class="table-responsive" style="height:340px">
+                                    <table class="table table-sm table-bordered">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th scope="col">Country Name</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let CountryLst of CountryList;">
+                                                <td data-label="Country Name">
+                                                    <div class="custom-control custom-checkbox  mb-2 mr-sm-2">
+                                                        <input #checkboxesCountry
+                                                            (change)="SelectCountry(CountryLst.Id,$event)"
+                                                            type="checkbox" class="custom-control-input"
+                                                            id="{{CountryLst.Id}} {{CountryLst.DisplayName}}"
+                                                            [checked]="CountryLst.check" name="chkCountry">
+                                                        <label class="custom-control-label"
+                                                            for="{{CountryLst.Id}} {{CountryLst.DisplayName}}">{{CountryLst.DisplayName}}</label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col-sm-2 col-sm-2-spl p-1">
+                                <div class="table-responsive" style="height:340px">
+                                    <table class="table table-sm table-bordered">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th scope="col">Customer Name</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let CustomerLst of CustomerList;">
+                                                <td data-label="Country Name">
+                                                    <div class="custom-control custom-checkbox  mb-2 mr-sm-2 ">
+                                                        <input (change)="SelectCustomer(CustomerLst.Id,$event)"
+                                                            type="checkbox" class="custom-control-input"
+                                                            id="{{CustomerLst.Id}} {{CustomerLst.DisplayName}}"
+                                                            [checked]="CustomerLst.check" name="chkCustomer">
+                                                        <label class="custom-control-label"
+                                                            for="{{CustomerLst.Id}} {{CustomerLst.DisplayName}}">{{CustomerLst.DisplayName}}</label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-2 col-sm-2-spl p-1">
+                                <div class="table-responsive" style="height:340px">
+                                    <table class="table table-sm table-bordered">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th scope="col">State Name</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let StateLst of StateList;">
+                                                <td data-label="State Name">
+                                                    <div class="custom-control custom-checkbox  mb-2 mr-sm-2 ">
+                                                        <input (change)="SelectState(StateLst.Id,$event)"
+                                                            type="checkbox" class="custom-control-input"
+                                                            id="{{StateLst.Id}} {{StateLst.DisplayName}}"
+                                                            name="chkState">
+                                                        <label class="custom-control-label"
+                                                            for="{{StateLst.Id}} {{StateLst.DisplayName}}">{{StateLst.DisplayName}}</label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-2 col-sm-2-spl p-1">
+                                <div class="table-responsive" style="height:340px">
+                                    <table class="table table-sm table-bordered">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th scope="col">City Name</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let CityLst of CityList;">
+                                                <td data-label="City Name">
+                                                    <div class="custom-control custom-checkbox  mb-2 mr-sm-2">
+                                                        <input (change)="SelectCity(CityLst.Id,$event)" type="checkbox"
+                                                            class="custom-control-input"
+                                                            id="{{CityLst.Id}} {{CityLst.DisplayName}}" name="chkCity">
+                                                        <label class="custom-control-label"
+                                                            for="{{CityLst.Id}} {{CityLst.DisplayName}}">{{CityLst.DisplayName}}</label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col-sm-2 col-sm-2-spl p-1">
+                                <div class="table-responsive" style="height:340px">
+                                    <table class="table table-sm table-bordered">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th scope="col">Group Name</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let GroupLst of GroupList;">
+                                                <td data-label="Group Name">
+                                                    <div class="custom-control custom-checkbox  mb-2 mr-sm-2 ">
+                                                        <input (change)="SelectGroup(GroupLst.Id,$event)"
+                                                            type="checkbox" class="custom-control-input"
+                                                            id="{{GroupLst.Id}} {{GroupLst.DisplayName}}"
+                                                            name="chkGroup">
+                                                        <label class="custom-control-label"
+                                                            for="{{GroupLst.Id}} {{GroupLst.DisplayName}}">{{GroupLst.DisplayName}}</label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+
+
+
+                            <div class="col-sm-2 p-1">
+                                <div class="table-responsive" style="height:340px">
+                                    <table class="table table-sm">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th scope="col" style="Width:60px">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input (change)="allToken($event)" type="checkbox"
+                                                            class="custom-control-input" name="allToken" id="AllToken">
+                                                        <label class="custom-control-label cursor-pointer pt-1"
+                                                            for="AllToken">All</label>
+                                                    </div>
+                                                </th>
+                                                <!-- <th scope="col">Token</th>
+                                            <th scope="col">Location</th>-->
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let tLst of TokenList;">
+                                                <td data-label="Token">
+                                                    <div class="custom-control custom-checkbox  mb-2 mr-sm-2">
+                                                        <input (change)="SelectToken(tLst.tokenid,$event)"
+                                                            type="checkbox" class="custom-control-input"
+                                                            id="{{tLst.tokenid}}" [checked]="tLst.check"
+                                                            name="chkToken">
+                                                        <label class="custom-control-label"
+                                                            for="{{tLst.tokenid}}">{{tLst.tokenCode}}</label>
+
+                                                    </div>
+                                                </td>
+                                                <!-- <td data-label="tokenCode">
+                                                {{tLst.tokenCode}}
+                                            </td>
+
+                                           <td data-label="Location">
+                                                {{tLst.location}}
+                                            </td>-->
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </ng-template>
+        </ngb-tab>
+
+    </ngb-tabset>
+
+
+
+
+</div>
+
+<ng-template #AdsDeleteModal let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h5>Delete Ads</h5>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <p>Are you sure to delete?</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <button class="btn btn-primary col-sm-2  pull-right" (click)="d('Cross click')">
+                        <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+                    </button>
+                    <button class="btn btn-danger col-sm-2  pull-right mr-2" (click)="DeleteAds()"
+                        (click)="d('Cross click')">
+                        <i class="fa fa-check fa-lg" aria-hidden="true"></i>
+                    </button>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</ng-template>
+    </div>
+    <div id="PlaylistAdvt" role="tabpanel" class="col-lg-12 tab-pane  m-0 p-0">
+      <app-ad-playlists></app-ad-playlists>
+    </div>
+    <div id="SanitizerAnnouncement" role="tabpanel" class="col-lg-12 tab-pane  m-0 p-0">
+        <app-machine-announcement></app-machine-announcement>
+    </div>
+    <div id="keyboardEvents" role="tabpanel" class="col-lg-12 tab-pane  m-0 p-0">
+      <app-keyboardannouncement></app-keyboardannouncement>
+    </div>
+    <div id="Emergency" role="tabpanel" class="col-lg-12 tab-pane  m-0 p-0">
+        <app-emergency-alert></app-emergency-alert>
+      </div>
+    <div id="Prayer" role="tabpanel" class="col-lg-12 tab-pane  m-0 p-0">
+      <app-prayer></app-prayer>
+    </div>
+  </div>

@@ -1,0 +1,60 @@
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }">
+</ngx-loading>
+ 
+
+<div class="container-fluid">
+
+  <div class="d-flex ">
+    <div>
+        <label for="cmbCustomer">Customer Name:</label>
+        <select name="CustomerName" class=" custom-select form-control mb-2 mr-sm-3   mr-1 " 
+        (change)="onChangeCustomer($event.target.value)" id="cmbCustomer">
+          <option selected value="0"></option>
+          <option *ngFor="let cLst of CustomerList" [value]="cLst.Id" >{{cLst.DisplayName}}</option>
+        </select>
+    </div>
+    
+</div>
+
+
+<div class="row">
+  <div class="border col-sm-12 p-0">
+    
+    <div class="table-responsive">
+      <table class="table table-sm table-bordered">
+        <thead class="thead-light">
+          <tr>
+            <th scope="col">Client Name</th>
+            <th scope="col" >IP Address</th>
+            <th scope="col">Description</th>
+            <th scope="col">DateTime </th>
+             
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let cLst of LogList  | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+            <td data-label ="Client Name">
+              {{cLst.clientname}}
+            </td>
+            <td data-label ="Ip Address">
+              {{cLst.Ipaddress}}
+            </td>
+            <td data-label ="Modification">
+              {{cLst.modifydata}}
+            </td>
+            <td data-label ="Modify DateTime">
+              {{cLst.ModifyDateTime}}
+            </td>
+             
+          </tr>
+        </tbody>
+        
+      </table>
+      <ngb-pagination [collectionSize]="LogList.length" [(page)]="page" [pageSize]="pageSize" aria-label="Default pagination"></ngb-pagination>
+    </div>
+  </div>
+</div>
+
+
+
+</div>

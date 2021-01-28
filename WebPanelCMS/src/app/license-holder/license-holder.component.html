@@ -1,0 +1,707 @@
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px',fullScreenBackdrop:true  }">
+</ngx-loading>
+  
+<div class="container-fluid">
+  <div class="row">
+  <div class="col-sm-12">
+    <div class="form-row">
+      <div class="form-group col-sm-3 m-0">
+        <label for="cmbCustomer" class="mb-2 mr-sm-2">Customer Name:</label>
+        <select name="cmbCustomer" class=" custom-select form-control mb-2 mr-sm-2   mr-1 "
+          (change)="onChangeCustomer($event.target.value)" id="cmbCustomer" 
+          (click)="t.select(2)"   [(ngModel)]="cmbCustomerId" >
+          <option selected value="0"></option>
+          <option *ngFor="let cLst of CustomerList" [value]="cLst.Id">{{cLst.DisplayName}}</option>
+        </select>
+      </div>
+      
+      <div class="form-group col-sm-2 m-0">
+        <label for="btnSig" class="d-none d-xl-block mb-2 mr-sm-2">&nbsp;</label>
+        <input type="button" id="btnSig" class="btn btn-primary mb-2 mr-sm-2 mr-1" (click)="SetSignage(modalSignage)"
+          value="Set Signage App Logo" style="width:100%;" />
+      </div>
+      <div class="form-group col-sm-2 m-0">
+        <label for="btnIndi" class="d-none d-xl-block mb-2 mr-sm-2">&nbsp;</label>
+        <input type="button"  id="btnIndi" class="btn btn-primary mb-2 mr-sm-2 mr-1" (click)="SetIndicator(true)"
+          value="Show Indicator" style="width:100%;" />
+      </div>
+      <div class="form-group col-sm-2 m-0">
+        <label for="btnIndi" class="d-none d-xl-block mb-2 mr-sm-2">&nbsp;</label>
+        <input type="button"  id="btnIndi" class="btn btn-primary mb-2 mr-sm-2 mr-1" (click)="SetIndicator(false)"
+          value="Disable Indicator" style="width:100%;" />
+
+      </div>
+      <div class="form-group col-sm-1 m-0">
+        <label for="btnForce" class="d-none d-xl-block mb-2 mr-sm-2">&nbsp;</label>
+        <input type="button" id="btnForce" class="btn btn-primary mb-2 mr-sm-2 mr-1" 
+        (click)="ForceUpdateModal(modalForceUpdate)"
+          value="Publish" style="width:100%;" />
+      </div>
+      <div class="form-group col-sm-2 m-0">
+        <label for="btnExport" class="d-none d-xl-block mb-2 mr-sm-2">&nbsp;</label>
+        <input type="button" id="btnExport" class="btn btn-primary mb-2 mr-sm-2 mr-1"
+          (click)="BulkActivation(modalUploadExcel)" value="Bulk Activation" style="width:100%;" />
+      </div>
+
+       
+      <div class="form-group col-sm-2 m-0 d-none">
+        <label for="btnSearch" class="d-none d-xl-block mb-2 mr-sm-2">&nbsp;</label>
+        <input id="btnSearch" type="text" class="float-right" id="cName" [(ngModel)]="searchText" autocomplete="off"
+          placeholder="&#61442;  Search any text" class="form-control mb-2 mr-sm-2" style="width:100%;" />
+      </div>
+
+    </div>
+  </div>
+</div>
+  <div class="row mb-2">
+    <div class="col-lg-12 pDetail">
+      <ul ngbNav #t="ngbNav"  [(activeId)]="active" (navChange)="onNavChange($event)" class="nav-tabs">
+        <li [ngbNavItem]="1" class="pr-2">
+          <input id="txtSearchExt" ngbNavLink type="text" [(ngModel)]="searchText" class="form-control mt-1 ml-1" placeholder="Search" (keyup)="filterById()">
+           
+          <ng-template ngbNavContent>
+           
+          </ng-template>
+        </li>
+        
+        <li [ngbNavItem]="2">
+          <a ngbNavLink (click)="FilterTokenList('All')" class="form-control-Tab mt-1">All</a>
+          <ng-template ngbNavContent>
+             
+          </ng-template>
+        </li>
+        <li [ngbNavItem]="3">
+          <a ngbNavLink (click)="FilterTokenList('Regsiter')" class="form-control-Tab mt-1">Registered</a>
+          <ng-template ngbNavContent>
+           
+          </ng-template>
+        </li>
+        <li [ngbNavItem]="4">
+          <a ngbNavLink (click)="FilterTokenList('Audio')" class="form-control-Tab mt-1">Audio</a>
+          <ng-template ngbNavContent>
+          
+          </ng-template>
+        </li>
+
+        <li [ngbNavItem]="5">
+          <a ngbNavLink (click)="FilterTokenList('Video')" class="form-control-Tab mt-1">Video</a>
+          <ng-template ngbNavContent>
+          
+          </ng-template>
+        </li>
+        <li [ngbNavItem]="6">
+          <a ngbNavLink (click)="FilterTokenList('Sanitizer')" class="form-control-Tab mt-1">Sanitizer</a>
+          <ng-template ngbNavContent>
+          
+          </ng-template>
+        </li>
+        
+        <li [ngbNavItem]="7">
+          <a ngbNavLink (click)="FilterTokenList('Signage')" class="form-control-Tab mt-1">Signage</a>
+          <ng-template ngbNavContent>
+          
+          </ng-template>
+        </li>
+        <li [ngbNavItem]="8">
+          <a ngbNavLink (click)="FilterTokenList('UnRegsiter')" class="form-control-Tab mt-1">Un-Registered</a>
+          <ng-template ngbNavContent>
+          
+          </ng-template>
+        </li>
+        <li [ngbNavItem]="9">
+          <a ngbNavLink  (click)="OpenGroupsModal(modalManageGroups)" class="form-control-Tab mt-1">Groups</a>
+          <ng-template ngbNavContent>
+          
+          </ng-template>
+        </li>
+        <li [ngbNavItem]="10">
+          <a ngbNavLink  (click)="OpenOpeningHoursModal(modalManageOpeningHours)" class="form-control-Tab mt-1">Opening Hours/Reboot Time</a>
+          <ng-template ngbNavContent>
+          
+          </ng-template>
+        </li>
+        <li [ngbNavItem]="11">
+          <a ngbNavLink  (click)="OpenUpdateInfo(modalUpdateInfo)" class="form-control-Tab mt-1">Player Copy Info</a>
+          <ng-template ngbNavContent>
+          
+          </ng-template>
+        </li>
+      </ul>
+
+       
+
+
+
+     
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="border col-sm-12 p-0">
+
+      <div class="table-responsive">
+        <table id="first-table" datatable  [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-sm table-bordered">
+          <thead class="thead-light">
+            <tr>
+              <!--<th scope="col" [appSort]="TokenList" data-order="asc" data-name="tokenCode">Token Code</th>
+              <th scope="col" [appSort]="TokenList" data-order="asc" data-name="location">Location </th>
+              -->
+              <th scope="col" style="width:100px !important;">Country </th>
+              <th scope="col" style="width:130px !important;">City </th>
+              <th scope="col">Location </th>
+              <!--
+<th scope="col" style="width:120px !important;">Player Type </th>
+              -->
+              <th scope="col" style="width:120px !important;">Media Type </th>
+              <th scope="col">Group</th>
+              <th scope="col" style="width:240px !important;">Token Code</th>
+              <th scope="col" style="width:150px !important;">Time Zone</th>
+              <th scope="col" style="width:150px !important;">Available Space</th>
+              <th scope="col" style="width:50px !important;">V.</th>
+              <th scope="col" style="width:75px !important;">Status</th>
+              <th scope="col" style="width: 30px !important;"></th>
+              <th scope="col" style="width: 30px !important;"></th>
+              <th scope="col" style="width: 0px !important;"></th>
+              <th scope="col" style="width: 0px !important;"></th>
+              <th scope="col" style="width: 0px !important;"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let cLst of TokenList;let i=index">
+              <td data-label="Country ">
+                {{cLst.countryName}}
+              </td>
+              <td data-label="City">
+                {{cLst.city}}
+              </td>
+              <td data-label="Location">
+                {{cLst.location}}
+              </td>
+              <!--
+              <td data-label="Player Type ">
+                {{cLst.playerType}}
+              </td>
+              -->
+
+              <td data-label="Media Type">
+                {{cLst.MediaType}}
+              </td>
+              <td data-label="Group">
+                {{cLst.gName}}
+              </td>
+              <td data-label="Token Code">
+                {{cLst.tokenCode}}
+              </td>
+              <td data-label="Time Zone">
+                {{cLst.tZone}}
+              </td>
+              <td data-label="Available Space" *ngIf="cLst.fSpace==='0 MB'">
+              </td>
+              <td data-label="Available Space" *ngIf="cLst.fSpace !='0 MB'">
+                {{cLst.fSpace}}
+              </td>
+              <!--
+              <td data-label="Space">
+                <div *ngIf="cLst.token =='used'"  class="progress">
+                <div *ngIf="cLst.SpaceStatus == 50" class="progress-bar bg-success" [ngStyle]="{'width.%':cLst.SpacePer}"></div>
+                  <div *ngIf="cLst.SpaceStatus == 75" class="progress-bar bg-warning" [ngStyle]="{'width.%':cLst.SpacePer}"></div>
+                  <div *ngIf="cLst.SpaceStatus == 100" (click)="onDeletePlaylistSongModal(DeletePlaylistSongsModal,cLst.tokenid)" class="progress-bar bg-danger" [ngStyle]="{'width.%':cLst.SpacePer}"></div>
+                </div>
+                <div *ngIf="cLst.token !='used'"  class="progress">
+                  <div class="progress-bar" style="width:0%"></div>
+                </div>
+              </td>
+              -->
+
+
+              <td data-label="">
+                {{cLst.Version}}
+              </td>
+
+              <td data-label="" style="padding: 0;margin: 0;" 
+              *ngIf="((IsForceUpdateRunning == false) && (IsForceUpdateAll == false))">
+                
+                <input *ngIf="cLst.PublishUpdate =='True'" type="button" class="btn btn-danger p-1 m-0"
+                  (click)="ForceUpdate(cLst.tokenid,i)" value="Update &nbsp;" style="font-size: 0.975rem;"/>
+                
+                  <input *ngIf="cLst.PublishUpdate =='False'" type="button" class="btn btn-success p-1 m-0" 
+                  (click)="ForceUpdate(cLst.tokenid,i)" style="font-size: 0.975rem;"value="Updated" />
+                
+              </td>
+
+              <td data-label="" style="padding: 0;margin: 0;" 
+              *ngIf="((IsForceUpdateRunning == true) && (enableEditIndex != i))">
+                
+                <input *ngIf="cLst.PublishUpdate =='True'" type="button" class="btn btn-danger p-1 m-0"
+                  (click)="ForceUpdate(cLst.tokenid,i)" value="Update &nbsp;" style="font-size: 0.975rem;"/>
+                
+                  <input *ngIf="cLst.PublishUpdate =='False'" type="button" class="btn btn-success p-1 m-0" 
+                style="font-size: 0.975rem;"value="Updated" />
+                
+              </td>
+
+              <td data-label="" style="padding: 0;margin: 0;" 
+              *ngIf="((IsForceUpdateRunning == true) && (enableEditIndex == i))">
+             
+                <div class="progress"  *ngIf="cLst.token =='used'">
+                  <div class="progress-bar progress-bar-striped progress-bar-animated" [style.width.%]="ForceUpdateBar"></div>
+                </div>
+                
+
+                <input *ngIf="cLst.token !='used'"  type="button" class="btn btn-danger p-1 m-0"
+                  value="Update &nbsp;" style="font-size: 0.975rem;"/> 
+              </td>
+              <td data-label="" style="padding: 0;margin: 0;" 
+              *ngIf="((IsForceUpdateRunning == false) && (IsForceUpdateAll == true))">
+              
+                <div class="progress"  *ngIf="cLst.token =='used'">
+                  <div class="progress-bar progress-bar-striped progress-bar-animated" [style.width.%]="ForceUpdateBar"></div>
+                </div>
+                
+                <input *ngIf="cLst.token !='used'"  type="button" class="btn btn-danger p-1 m-0"
+                  value="Update &nbsp;" style="font-size: 0.975rem;"/> 
+              </td>
+
+
+
+              <td data-label="" *ngIf="IsIndicatorShow == true">
+                <img src="/assets/img/green.png" alt="green" *ngIf="cLst.IsIndicatorActive == '1'" style="width: 20px;margin-left: auto;margin-right: auto;display: block;">
+                <img src="/assets/img/red.png" alt="green" *ngIf="cLst.IsIndicatorActive == '0'" style="width: 20px;margin-left: auto;margin-right: auto;display: block;">
+              </td>
+              <td data-label="" *ngIf="IsIndicatorShow == false">
+                <img src="/assets/img/red.png" alt="green"  style="width: 20px;margin-left: auto;margin-right: auto;display: block;">
+              </td>
+
+
+
+              <td data-label="" class="text-primary m-0 p-0" (click)="open(content,cLst.tokenid)"> 
+                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+              </td>
+              <td data-label="">
+                {{cLst.token}}
+              </td>
+              <td data-label="">
+                {{cLst.TokenStatus}}
+              </td>
+              <td data-label="">
+                {{cLst.DeviceType}}
+              </td>              
+            </tr>
+          </tbody>
+
+        </table>
+      </div>
+    </div>
+  </div>
+  
+</div>
+ 
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h5>Token Information ({{Token_Id_App}})</h5>
+    <button type="button" class="close" aria-label="Close"   (click)="tokenInfoClose()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body p-1">
+    <app-token-info></app-token-info>
+  </div>
+
+</ng-template>
+
+
+<ng-template #modalSignage let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h5>Signage App Logo</h5>
+     
+      <div class="">
+        <label   class="mb-1 ml-5 mr-2 mt-1">Folder Name:</label>
+      </div>
+      <div class="col-sm-3 m-0 p-0">
+        <select name="cmbCustomer" class=" custom-select form-control mb-2 mr-sm-2   mr-1 "
+          (change)="onChangeFolder($event.target.value)" id="cmbFolder" [(ngModel)]="cmbFolder">
+          <option selected value="0"></option>
+          <option  value="777">All</option>
+          <option *ngFor="let cLst of FolderList" [value]="cLst.Id">{{cLst.DisplayName}}</option>
+        </select>
+      </div>
+    
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      
+      
+      <div class="col-sm-3 col-6 mb-2" *ngFor="let songLst of SongsList;">
+        <div class="card">
+          <img class="card-img-top p-1" src="{{songLst.TitleIdLink}}" alt="Card image" style="height: 100px;object-fit: contain;">
+          <div class="card-body p-1">
+            <a href="javascript:;" (click)="SetLogo(songLst.id)" class="btn btn-primary">Set</a>
+            <a href="javascript:;" (click)=OpenFullImageModal(modalFullImage,songLst.TitleIdLink) (click)="d('Cross click')" class="text-White">Full View</a>
+            <a *ngIf="LogoId!=songLst.id" href="javascript:;" (click)="DeleteLogoModal(LogoDeleteModal,songLst.id)"
+              class="btn btn-danger" style="padding: 9px;margin: 0px;float: right;">
+              <i class="fa fa-trash-o float-right p-0 m-0" aria-hidden="true"></i>
+            </a>
+            <i *ngIf="LogoId==songLst.id" class="fa fa-check-circle float-right pt-2"
+              style="color: green;font-size: 1.5rem;" aria-hidden="true"></i>
+          </div>
+        </div>  
+ 
+      </div>
+    </div>
+  </div>
+
+</ng-template>
+
+
+<ng-template #modalFullImage let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <button type="button" class="close" aria-label="Close" (click)="SetSignage(modalSignage)" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-white">
+    <div class="row">
+      <div class="col-lg-12">
+        <img class="p-1" src="{{FullImageUrl}}" alt="Card image" style="
+        margin-left: auto;
+        margin-right: auto;
+        display: block;object-fit: contain;
+    ">
+      </div>
+ 
+      </div>
+    </div>
+   
+
+</ng-template>
+
+
+<ng-template #LogoDeleteModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h5>Delete Logo</h5>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12">
+          <p>Are you sure to delete?</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <button class="btn btn-primary col-sm-2  pull-right" (click)="d('Cross click')">
+            <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+          </button>
+          <button class="btn btn-danger col-sm-2  pull-right mr-2" (click)="DeleteLogo()" (click)="d('Cross click')">
+            <i class="fa fa-check fa-lg" aria-hidden="true"></i>
+          </button>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</ng-template>
+
+<ng-template #modalUploadExcel let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h5>Bulk Activation</h5>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row mb-2" *ngIf="!uExcel">
+      <div class="col-lg-12">
+
+        <label for="btnExport" class="mb-2 mr-sm-2">Step 1.</label>
+        <input type="button" id="btnExport" class="btn btn-primary" (click)="ExportExcel()"
+          value="Export tokens to excel sheet" style="width:100%;" />
+      </div>
+    </div>
+    <div class="row mb-2" *ngIf="!uExcel">
+      <div class="col-lg-12">
+        <label for="btnUp" class="mb-2 mr-sm-2">Step 2.</label>
+        <input type="button" id="btnUp" class="btn btn-primary" (click)="UploadExcel()"
+          value="Upload excel sheet" style="width:100%;" />
+      </div>
+    </div>
+
+    <div *ngIf="uExcel">
+    <div class="row">
+      <div class="col-lg-12">
+
+        <input type="file" name="profile" #myInput (change)="onSelectedFile($event)" id="chooseFile1" accept=".xlsx"
+          class="btn btn-primary" style="width: 100%;" />
+
+      </div>
+
+    </div>
+
+    <div class="row mt-2">
+      <div class="col-lg-12">
+        <div *ngIf="fileUpload.status==='progress'">
+          <div class="progress" style="height: 20px;margin-bottom:20px;">
+            <div class="progress-bar" role="progressbar" [style.width.%]="fileUpload.message" aria-valuenow="25"
+              aria-valuemin="0" aria-valuemax="100">{{fileUpload.message}}%
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-2">
+      <div class="col-lg-12">
+        
+        <button type="button" class="btn btn-info btn-s float-right ml-2" (click)="Cancel()">
+          Cancel
+        </button>
+        <button type="button" class="btn btn-success btn-s float-right" (click)="Upload()" (click)="myInput.value=''">
+          <span class="fa fa-cloud-upload"></span> Upload
+        </button>
+      </div>
+
+
+    </div>
+  </div>
+  </div>
+
+</ng-template>
+
+<ng-template #modalForceUpdate let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h5>Force Update</h5>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-lg-12">
+        <input type="button"  class="btn btn-primary pull-right mb-2" value="Update" 
+        (click)="ForceUpdateAll()" />
+      </div>
+      <div class="col-lg-12 m-0 p-0">
+        <div class="table-responsive">
+
+          <table class="table table-sm table-bordered">
+              <thead class="thead-light">
+                  <tr>
+                      <th scope="col" style="Width:60px">
+                          <div class="custom-control custom-checkbox">
+                              <input (change)="allActiveToken($event)" type="checkbox"
+                                  class="custom-control-input" name="AllActiveToken" id="AllActiveToken" [(ngModel)]="chkAll">
+                              <label class="custom-control-label cursor-pointer pt-1"
+                                  for="AllActiveToken" >All</label>
+                          </div>
+                      </th>
+                      <th scope="col">City </th>
+                      <th scope="col">Location </th>
+                      <th scope="col">Token No</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr
+                      *ngFor="let tLst of ActiveTokenList ;let i = index">
+                      <td data-label="" class="">
+                          <div class="custom-control custom-checkbox">
+                              <input (change)="SelectActiveToken(tLst.tokenid,$event)" type="checkbox"
+                                  class="custom-control-input" id="{{tLst.tokenid}}{{i}}"
+                                  [checked]="tLst.check" name="chkTokenList">
+                              <label class="custom-control-label cursor-pointer"
+                                  for="{{tLst.tokenid}}{{i}}"></label>
+                          </div>
+                      </td>
+                      <td data-label="City">{{tLst.city}}</td>
+                      <td data-label="Location">{{tLst.location}}</td>
+                      <td data-label="Token No">{{tLst.tokenCode}}</td>
+                  </tr>
+              </tbody>
+          </table>
+
+      </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #modalManageGroups let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h5>Groups</h5>
+    <button type="button" class="close" aria-label="Close" (click)="t.select(2)" (click)="tokenInfoClose()" >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+   <app-managegroups></app-managegroups>
+  </div>
+</ng-template>
+
+
+<ng-template #DeletePlaylistSongsModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h5>Delete songs with percentage</h5>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12 p-0 m-0">
+          <label for="cName" class="mb-2 mr-sm-2">Playlist:</label>
+          <select name="cName" class="custom-select form-control mb-2 mr-sm-2"
+            (change)="onChangePlaylist($event.target.value)" id="cName"  [(ngModel)]="cmbPlaylist">
+            <option selected value="0"></option>
+            <option *ngFor="let fLst of TokenPlaylistList" [value]="fLst.Id">{{fLst.DisplayName}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="row mt-4" *ngIf="cmbPlaylist !='0' ">
+        
+        <div class="col-sm-6 p-0 m-0 mb-2">
+          <label class="cursor-pointer mr-2" style="vertical-align: sub;">
+            Delete songs with percentage</label>
+          </div>
+        <div class="col-sm-2 p-0 m-0 mb-2">
+            <input type="number" min=0  class="form-control" [(ngModel)]="txtDelPer"/>
+        </div>
+        <div  class="col-sm-4 mb-2 pr-0">
+          <button *ngIf="txtDelPer=='0'" class="btn btn-danger col-sm-12 mr-0" disabled>
+            <i class="fa fa-trash" aria-hidden="true"></i> Delete
+          </button>
+          <button *ngIf="txtDelPer!='0'" class="btn btn-danger col-sm-12 mr-0"
+          (click)="onDeletePercentageClick(DeletePercentageModal)" (click)="d('Cross click')">
+            <i class="fa fa-trash" aria-hidden="true"></i> Delete
+          </button>
+      </div>
+        <div class="col-sm-10 p-0 m-0 mb-2 d-none">
+          <label class="cursor-pointer mr-2"   style="vertical-align: sub;">
+            Delete songs with number</label></div>
+            <div class="col-sm-2 p-0 m-0 mb-2 d-none">
+            <input type="text"  class="form-control"/>
+        </div>
+      </div>
+       
+
+    </div>
+  </div>
+
+</ng-template>
+
+<ng-template #DeletePercentageModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h5>Delete</h5>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12">
+          <p>Are you sure to delete?</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <button class="btn btn-primary col-sm-2  pull-right" (click)="d('Cross click')">
+            <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+          </button>
+          <button class="btn btn-danger col-sm-2  pull-right mr-2" (click)="DeleteTitlePercentage()" (click)="d('Cross click')">
+            <i class="fa fa-check fa-lg" aria-hidden="true"></i>
+          </button>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</ng-template>
+
+
+<ng-template #modalManageOpeningHours let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h5>Manage Opening Hours/Reboot Time</h5>
+    <button type="button" class="close" aria-label="Close" (click)="t.select(2)" (click)="tokenInfoClose()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+   <app-openinghour></app-openinghour>
+    
+  </div>
+</ng-template>
+
+
+<ng-template #modalUpdateInfo let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h5>Manage Player Information</h5>
+    <button type="button" class="close" aria-label="Close" (click)="t.select(2)" (click)="tokenInfoClose()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row mb-2" *ngIf="!uExcel">
+      <div class="col-lg-12">
+
+        <label for="btnExport" class="mb-2 mr-sm-2">Step 1.</label>
+        <input type="button" id="btnExport" class="btn btn-primary" (click)="ExportExcelInfo()"
+          value="Export tokens to excel sheet" style="width:100%;" />
+      </div>
+    </div>
+    <div class="row mb-2" *ngIf="!uExcel">
+      <div class="col-lg-12">
+        <label for="btnUp" class="mb-2 mr-sm-2">Step 2.</label>
+        <input type="button" id="btnUp" class="btn btn-primary" (click)="UploadExcelInfo()"
+          value="Upload excel sheet" style="width:100%;" />
+      </div>
+    </div>
+
+    <div *ngIf="uExcel">
+    <div class="row">
+      <div class="col-lg-12">
+
+        <input type="file" name="profile" #myInput (change)="onSelectedFileInfo($event)" id="chooseFile1" accept=".xlsx"
+          class="btn btn-primary" style="width: 100%;" />
+
+      </div>
+
+    </div>
+
+    <div class="row mt-2">
+      <div class="col-lg-12">
+        <div *ngIf="fileUpload.status==='progress'">
+          <div class="progress" style="height: 20px;margin-bottom:20px;">
+            <div class="progress-bar" role="progressbar" [style.width.%]="fileUpload.message" aria-valuenow="25"
+              aria-valuemin="0" aria-valuemax="100">{{fileUpload.message}}%
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-2">
+      <div class="col-lg-12">
+        
+        <button type="button" class="btn btn-info btn-s float-right ml-2" (click)="CancelInfo()">
+          Cancel
+        </button>
+        <button type="button" class="btn btn-success btn-s float-right" (click)="UploadInfo()" (click)="myInput.value=''">
+          <span class="fa fa-cloud-upload"></span> Upload
+        </button>
+      </div>
+
+
+    </div>
+  </div>
+  </div>
+</ng-template>
+
+ 
