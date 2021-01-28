@@ -57,7 +57,7 @@ export class StoreAndForwardComponent implements OnInit {
   ForceUpdateType = '';
   searchText: string = '';
   chkAll: boolean = false;
-  cmbMediaType;
+  cmbMediaType='';
   MediaTypeList = [];
   cmbSearchMediaType;
   SearchMediaTypeList = [];
@@ -459,6 +459,7 @@ export class StoreAndForwardComponent implements OnInit {
   }
 
   FillTokenInfo(deviceValue) {
+    
     this.loading = true;
     this.sfService
       .FillTokenInfo(deviceValue)
@@ -1187,7 +1188,16 @@ export class StoreAndForwardComponent implements OnInit {
     console.log('Triggered');
   }
 
-   
+  GetSortOrder(prop) {    
+    return function(a, b) {    
+        if (a[prop] > b[prop]) {    
+            return 1;    
+        } else if (a[prop] < b[prop]) {    
+            return -1;    
+        }    
+        return 0;    
+    }    
+}    
   AddItem() {
     if (this.SFform.value.PlaylistId == '0') {
       this.toastrSF.error('Please select a playlist name');
@@ -1240,7 +1250,7 @@ export class StoreAndForwardComponent implements OnInit {
     let wlist =[];
 
     if (this.SFform.value.ScheduleType != 'PercentageSchedule'){
-        wlist=obj['wList'];
+        wlist=obj['wList'].sort(this.GetSortOrder("id"));
     }
     else{
       wlist=[
@@ -1265,13 +1275,14 @@ export class StoreAndForwardComponent implements OnInit {
     let itemPercentageValue=0
     this.CustomSchedulePlaylist.forEach(item => {
       itemPercentageValue= itemPercentageValue+item["PercentageValue"];
-      if ((item["sTime"]===dt.toTimeString().slice(0, 5)) && (item["eTime"]===dt2.toTimeString().slice(0, 5)))
+      if ((item["sTime"]===dt.toTimeString().slice(0, 5)) && (item["eTime"]===dt2.toTimeString().slice(0, 5)) && (item['wName']===ObjWeekName))
       {
         IsTimeFind = "Yes";
       }
     });
     if (this.SFform.value.ScheduleType === 'Normal'){
     if (IsTimeFind === "Yes"){
+      this.toastrSF.error('Same time schedule is already in list');
      return;
     }
   }
@@ -1327,8 +1338,10 @@ export class StoreAndForwardComponent implements OnInit {
   }
   
   onChangeScheduleType(e){
+    if (this.cmbMediaType!=''){
     this.CustomSchedulePlaylist =[];
     this.TotalPercentageValue=0;
     this.FillTokenInfo(this.cid);
+    }
   }
 }

@@ -151,6 +151,7 @@ export class TokenInfoComponent implements OnInit {
       ModifyStartTime: [],
       ModifyEndTime: [],
       pschid: [''],
+      PercentageValue:[0]
     });
     this.FillCountry();
     this.scheduleList = [];
@@ -163,21 +164,27 @@ export class TokenInfoComponent implements OnInit {
   }
 
   onSubmitTokenInfo = function () {
-    this.submitted = true;
+    
     if (this.TokenInfo.invalid) {
       return;
     }
     // var date = new Date(this.TokenInfo.value.ExpiryDate);
     //var FromDateS = (date.getDate() + '-' + this.shortmonths[date.getMonth()] + '-' + date.getFullYear());
 
-    this.loading = true;
+    
     const frm= this.TokenInfo.value;
 if (frm['chkMediaType']==='Audio'){
   frm['DeviceType']="";
+  if ( frm['LicenceType']===''){
+  frm['LicenceType']="Copyright";
+  }
 }
 if (frm['chkMediaType']==='Video'){
   frm['DeviceType']="Screen";
+  frm['LicenceType']="Copyright";
 }
+ 
+this.submitted = true;this.loading = true;
     this.tService
       .SaveTokenInfo(this.TokenInfo.value)
       .pipe()
@@ -223,7 +230,7 @@ if (frm['chkMediaType']==='Video'){
       );
   }
 
-  openModal(content, pname, pschid, stime, eTime) {
+  openModal(content, pname, pschid, stime, eTime,PercentageValue) {
     var t = '1900-01-01 ' + stime;
     var t2 = '1900-01-01 ' + eTime;
     console.log(t+ ' ' + t2);
@@ -232,13 +239,12 @@ if (frm['chkMediaType']==='Video'){
 
     var time: NgbTimeStruct = { hour: dt.getHours(), minute: dt.getMinutes(), second: 0 };
     var time2: NgbTimeStruct = { hour: dt2.getHours(), minute: dt2.getMinutes(), second: 0 };
-    console.log(time);
-    console.log(time2);
     this.TokenInfoModifyPlaylist = this.formBuilder.group({
       ModifyPlaylistName: [pname],
       ModifyStartTime: [time],
       ModifyEndTime: [time2],
       pschid: [pschid],
+      PercentageValue:[PercentageValue]
     });
     this.modalService.open(content, { centered: true });
   }
@@ -251,11 +257,12 @@ if (frm['chkMediaType']==='Video'){
     const dt2 = new Date('Mon Mar 09 2020 ' + eTime.hour + ':' + eTime.minute + ':00');
 
     var pschid = this.TokenInfoModifyPlaylist.value.pschid;
+    var PercentageValue= this.TokenInfoModifyPlaylist.value.PercentageValue;
     this.tService
       .UpdateTokenSch(
         pschid,
         dt.toTimeString().slice(0, 5),
-        dt2.toTimeString().slice(0, 5)
+        dt2.toTimeString().slice(0, 5),PercentageValue
       )
       .pipe()
       .subscribe(
@@ -757,6 +764,7 @@ if (frm['chkMediaType']==='Video'){
     ArrayItem['Id'] = Id;
     ArrayItem['DisplayName'] = '';
     this.NewFilterList = [];
+    this.citName=''
     this.GetJSONRecord(ArrayItem, this.CityList);
     if (this.NewFilterList.length > 0) {
       this.citName = this.NewFilterList[0].DisplayName;

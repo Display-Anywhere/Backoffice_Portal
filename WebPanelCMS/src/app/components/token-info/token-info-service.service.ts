@@ -31,10 +31,10 @@ export class TokenInfoServiceService {
      return this.http.post(this.cApi.SaveTokenInformation,params,{headers:headers})
       .pipe((data=>{return data;}))
   }
-  UpdateTokenSch(pschid:string,stime:string,eTime:string){
+  UpdateTokenSch(pschid:string,stime:string,eTime:string,PercentageValue){
     
     let headers = new HttpHeaders({ 'Content-Type':'application/json' });
-  var params = JSON.stringify({pschid:pschid,ModifyStartTime:stime,ModifyEndTime:eTime});
+  var params = JSON.stringify({pschid:pschid,ModifyStartTime:stime,ModifyEndTime:eTime,PercentageValue:PercentageValue});
     return this.http.post(this.cApi.UpdateTokenSchedule,params,{headers:headers})
      .pipe((data=>{return data;}))
  }
