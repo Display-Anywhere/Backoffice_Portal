@@ -1,186 +1,246 @@
-<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" >
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }">
 </ngx-loading>
-    
 
-
-<div class="container-fluid m-0 p-0">
-  <div class="row col-sm-12">
-    <div class="form-inline p-1 col-sm-12">
-      <label for="cmbCustomer" class="col-lg-2 text-left"
-        style="justify-content:left;max-width: 12% !important;">Customer Name:</label>
-      <select name="CustomerName" class="custom-select col-lg-4"
-       (change)="onChangeCustomer($event.target.value)"
-      [(ngModel)]="cmbCustomerId"  id="cmbCustomer">
-        <option selected value="0"></option>
-        <option *ngFor="let cLst of CustomerList" [value]="cLst.Id">{{cLst.DisplayName}}</option>
-      </select>
-    </div>
+<div class="mb-3">
+  <div class="form-inline">
+    <label for="cmbCustomer" class="col-lg-2 text-left custom-label"
+      >Customer Name:</label
+    >
+    <select
+      name="CustomerName"
+      class="custom-select col-lg-4"
+      (change)="onChangeCustomer($event.target.value)"
+      [(ngModel)]="cmbCustomerId"
+      id="cmbCustomer"
+    >
+      <option selected value="0"></option>
+      <option *ngFor="let cLst of CustomerList" [value]="cLst.Id">
+        {{ cLst.DisplayName }}
+      </option>
+    </select>
   </div>
-  <div class="row col-sm-12 m-0 p-0">
-    <div class="col-sm-4   mt-2">
-      <div class="card" style="color:#fff;background:#2E8B57">
-        <div class="card-header">
-          <div class="row">
-            <div class="col-md-3">
-              <i class="fa fa-music fa-5x"></i>
-            </div>
-            <div class="col-md-9 text-right">
-              <div class="huge">
-                {{TotalPlayers}}
-              </div>
-              <div>Total players</div>
-            </div>
+</div>
+<hr />
+<div class="row">
+  <!-- start -->
+  <div class="col-12 col-lg-4">
+    <div class="card radius-15 bg-voilet">
+      <div class="card-body">
+        <div class="d-flex align-items-center">
+          <div>
+            <h2 class="mb-0 text-white">
+              {{ TotalPlayers }}
+              <i class="bx bxs-up-arrow-alt font-14 text-white"></i>
+            </h2>
+          </div>
+          <div class="ml-auto font-35 text-white">
+            <img class="mt-3" src="../../assets/img/user.png" alt="" />
           </div>
         </div>
-        <div class="card-footer bg-light text-dark">
-          <a href="javascript:;" (click)="GetCustomerTokenDetailFilter('Total')">
-            <span class="pull-left">View players</span>
-            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-          </a>
+        <div class="d-flex align-items-center">
+          <div>
+            <p class="mb-0 text-white">Total Players</p>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="col-sm-4 mt-2">
-      <div class="card" style="color:#fff;background:#008000">
-        <div class="card-header">
-          <div class="row">
-            <div class="col-md-3">
-              <i class="fa fa-play-circle fa-5x"></i>
-            </div>
-            <div class="col-md-9 text-right">
-              <div class="huge">
-                {{OnlinePlayers}}
-              </div>
-              <div>Online players</div>
-            </div>
-          </div>
-        </div>
-        <div class="card-footer bg-light text-dark">
-          <a href="javascript:;" (click)="GetCustomerTokenDetailFilter('Online')">
-            <span class="pull-left">View players</span>
-            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-          </a>
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-4  mt-2">
-      <div class="card" style="color:#fff;background:#696969">
-        <div class="card-header">
-          <div class="row">
-            <div class="col-md-3">
-              <i class="fa fa-stop-circle fa-5x"></i>
-            </div>
-            <div class="col-md-9 text-right">
-              <div class="huge">
-                {{OfflinePlayer}}
-              </div>
-              <div>Offline players</div>
-            </div>
-          </div>
-        </div>
-        <div class="card-footer bg-light text-dark">
-          <a href="javascript:;" (click)="GetCustomerTokenDetailFilter('Away')">
-            <span class="pull-left">View players</span>
-            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-          </a>
-        </div>
+      <div class="card-footer">
+        <p
+          class="text-right text-white custom-text cursor"
+          (click)="GetCustomerTokenDetailFilter('Total')"
+        >
+          View Players <i class="fa fa-angle-right mt-1"></i>
+        </p>
       </div>
     </div>
   </div>
+  <!-- end -->
+  <!-- start -->
+  <div class="col-12 col-lg-4">
+    <div class="card radius-15 bg-primary-blue">
+      <div class="card-body">
+        <div class="d-flex align-items-center">
+          <div>
+            <h2 class="mb-0 text-white">
+              {{ OnlinePlayers }}
+              <i class="bx bxs-up-arrow-alt font-14 text-white"></i>
+            </h2>
+          </div>
+          <div class="ml-auto font-35 text-white">
+            <img class="mt-3" src="../../assets/img/online.png" alt="" />
+          </div>
+        </div>
+        <div class="d-flex align-items-center">
+          <div>
+            <p class="mb-0 text-white">Online Players</p>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <p
+          class="text-right text-white custom-text cursor"
+          (click)="GetCustomerTokenDetailFilter('Online')"
+        >
+          View Players <i class="fa fa-angle-right mt-1"></i>
+        </p>
+      </div>
+    </div>
+  </div>
+  <!-- end -->
+  <!-- start -->
+  <div class="col-12 col-lg-4">
+    <div class="card radius-15 bg-sunset">
+      <div class="card-body">
+        <div class="d-flex align-items-center">
+          <div>
+            <h2 class="mb-0 text-white">
+              {{ OfflinePlayer }}
+              <i class="bx bxs-up-arrow-alt font-14 text-white"></i>
+            </h2>
+          </div>
+          <div class="ml-auto font-35 text-white">
+            <img class="mt-3" src="../../assets/img/offline.png" alt="" />
+          </div>
+        </div>
+        <div class="d-flex align-items-center">
+          <div>
+            <p class="mb-0 text-white">Offline Players</p>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <p
+          class="text-right text-white custom-text cursor"
+          (click)="GetCustomerTokenDetailFilter('Away')"
+        >
+          View Players <i class="fa fa-angle-right mt-1"></i>
+        </p>
+      </div>
+    </div>
+  </div>
+  <!-- end -->
+</div>
 
-
-  <div class="row col-sm-12 m-0 p-0  mt-2">
-
-    <div class="card  col-sm-12 p-0 m-0">
-      <div class="card-header">
-        <div class="row">
-          <h4 class="text-primary">{{PlayerFillType}}</h4>
-          <button class="btn btn-primary mb-2 ml-2" type="button" (click)="RefershClick()">
+<div class="row col-sm-12 m-0 p-0 mt-2">
+  <div class="card col-sm-12 p-0 m-0">
+    <div class="card-header">
+      <div class="row">
+        <div class="col-12 text-right float-right">
+          <button
+            class="btn btn-primary"
+            type="button"
+            (click)="RefershClick()"
+          >
+            {{ PlayerFillType }}
             <i class="fa fa-refresh" aria-hidden="true"></i>
           </button>
         </div>
       </div>
-      <div class="card-body p-0 m-0">
+    </div>
+    <div class="card-body p-0 m-0">
+      <div class="col-sm-12 p-0 m-0">
+        <div class="table-responsive">
+          <table
+            class="table data-table table-striped table-bordered mydatatable"
+          >
+            <thead class="bg-primary text-white">
+              <tr>
+                <th scope="col">City</th>
+                <th scope="col">Location</th>
+                <th scope="col" style="width: 130px">Token Code</th>
+                <th scope="col">Last Status</th>
+                <!--<th scope="col">Playlist</th>-->
+                <th
+                  scope="col"
+                  style="width: 30px"
+                  class="Link-Center_Width"
+                ></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="
+                  let cLst of TokenList
+                    | filter: searchText
+                    | slice
+                      : (page - 1) * pageSize
+                      : (page - 1) * pageSize + pageSize
+                "
+              >
+                <td data-label="City">
+                  {{ cLst.city }}
+                </td>
+                <td data-label="Location">
+                  {{ cLst.location }}
+                </td>
+                <td data-label="Token Code">
+                  {{ cLst.tokenCode }}
+                </td>
+                <td data-label="Last Status">
+                  {{ cLst.lStatus }}
+                </td>
+                <!--
+                <td data-label="Last Played">
+                  {{cLst.lPlayed}}
+                </td>
+                <td data-label="Playlist">
+                  {{cLst.pName}}
+                </td>
+                -->
 
-        <div class="col-sm-12 p-0 m-0">
-
-          <div class="table-responsive">
-            <table class="table table-sm table-bordered">
-              <thead class="thead-light">
-                <tr>
-                  <th scope="col">City</th>
-                  <th scope="col">Location</th>
-                  <th scope="col" style="width: 130px">Token Code</th>
-                  <th scope="col">Last Status</th>
-                  <!--<th scope="col">Playlist</th>-->
-                  <th scope="col" style="width: 30px" class="Link-Center_Width"></th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr
-                  *ngFor="let cLst of TokenList | filter:searchText | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
-                  <td data-label="City">
-                    {{cLst.city}}
-                  </td>
-                  <td data-label="Location">
-                    {{cLst.location}}
-                  </td>
-                  <td data-label="Token Code">
-                    {{cLst.tokenCode}}
-                  </td>
-                  <td data-label="Last Status">
-                    {{cLst.lStatus}}
-                  </td>
-                  <!--
-                  <td data-label="Last Played">
-                    {{cLst.lPlayed}}
-                  </td>
-                  <td data-label="Playlist">
-                    {{cLst.pName}}
-                  </td>
-                  -->
-
-
-                  <td data-label="" class=" text-primary"
-                    (click)="openModal(contentPlayerLog,cLst.tokenid, cLst.location,cLst.city)">
-                    <i class="fa fa-align-justify" aria-hidden="true"></i></td>
-                </tr>
-              </tbody>
-
-            </table>
-
-          </div>
+                <td
+                  data-label=""
+                  class="text-primary"
+                  (click)="
+                    openModal(
+                      contentPlayerLog,
+                      cLst.tokenid,
+                      cLst.location,
+                      cLst.city
+                    )
+                  "
+                >
+                  <i
+                    *ngIf="cLst.city"
+                    class="fa fa-align-justify"
+                    aria-hidden="true"
+                  ></i>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
-      <div class="card-footer pt-3 pl-0 pb-0 pr-0">
-       
-        <ngb-pagination [collectionSize]="TokenList.length" [(page)]="page" [pageSize]="pageSize"
-          aria-label="Default pagination"></ngb-pagination>
-        
+    </div>
+    <div class="card-footer pt-3 pl-0 pb-0 pr-0">
+      <div class="col-12 custom-pagination">
+        <ngb-pagination
+          [collectionSize]="TokenList.length"
+          [(page)]="page"
+          [pageSize]="pageSize"
+          aria-label="Default pagination"
+        ></ngb-pagination>
       </div>
     </div>
-
-
-
-
-
   </div>
- 
 </div>
 
-<ng-template #contentPlayerLog let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <h5>{{TokenInfo}}</h5>
+<!-- modal start -->
 
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+<ng-template #contentPlayerLog let-c="close" let-d="dismiss">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">{{ TokenInfo }}</h5>
+
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
-    
-     <app-player-log></app-player-log>
-    
-    
+    <app-player-log></app-player-log>
   </div>
-
 </ng-template>
+<!-- modal end -->
