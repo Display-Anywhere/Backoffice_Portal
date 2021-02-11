@@ -57,12 +57,12 @@ export class StoreAndForwardComponent implements OnInit {
   ForceUpdateType = '';
   searchText: string = '';
   chkAll: boolean = false;
-  cmbMediaType = '';
+  cmbMediaType='';
   MediaTypeList = [];
   cmbSearchMediaType;
   SearchMediaTypeList = [];
   CustomSchedulePlaylist = [];
-  TotalPercentageValue = 0;
+  TotalPercentageValue=0;
   constructor(
     private formBuilder: FormBuilder,
     public toastrSF: ToastrService,
@@ -158,10 +158,10 @@ export class StoreAndForwardComponent implements OnInit {
       return;
     }
     if (this.SFform.value.FormatId == '0') {
-      this.toastrSF.error('Please select a format name');
+      this.toastrSF.error('Please select a campaign name');
       return;
     }
-
+    
     if (this.TokenSelected.length == 0) {
       this.toastrSF.error('Please select at least one token', '');
       return;
@@ -183,14 +183,12 @@ export class StoreAndForwardComponent implements OnInit {
 
     this.SFform.controls['lstPlaylist'].setValue(this.CustomSchedulePlaylist);
 
-    if (this.SFform.value.ScheduleType === 'PercentageSchedule') {
-      if (this.TotalPercentageValue < 100) {
-        this.toastrSF.error(
-          'Total percentage value should  be greater than or equal to 100'
-        );
-        return;
+    if (this.SFform.value.ScheduleType === 'PercentageSchedule'){
+      if (this.TotalPercentageValue<100){
+        this.toastrSF.error('Total percentage value should  be greater than or equal to 100');
+        return;        
       }
-    }
+  }
 
     this.loading = true;
     this.sfService
@@ -204,8 +202,8 @@ export class StoreAndForwardComponent implements OnInit {
             this.toastrSF.info('Saved', 'Success!');
             this.loading = false;
             this.chkAll = false;
-            this.CustomSchedulePlaylist = [];
-            this.TotalPercentageValue = 0;
+            this.CustomSchedulePlaylist =[];
+            this.TotalPercentageValue=0;
             this.SFform.reset();
             this.SFform.get('ScheduleType').setValue('Normal');
             this.SFform.get('startTime').setValue(sTime);
@@ -365,11 +363,11 @@ export class StoreAndForwardComponent implements OnInit {
     this.SelectedCityArray = [];
     this.PlaylistList = [];
     this.selectedItems = [];
-    this.TokenList = [];
-    this.MainPlaylistList = [];
-    this.FormatList = [];
-    this.CustomSchedulePlaylist = [];
-    this.TotalPercentageValue = 0;
+    this.TokenList =[];
+    this.MainPlaylistList =[];
+    this.FormatList =[];
+    this.CustomSchedulePlaylist= [];
+    this.TotalPercentageValue=0;
     this.SFform.get('FormatId').setValue('0');
     this.SFform.get('PlaylistId').setValue('0');
 
@@ -461,6 +459,7 @@ export class StoreAndForwardComponent implements OnInit {
   }
 
   FillTokenInfo(deviceValue) {
+    
     this.loading = true;
     this.sfService
       .FillTokenInfo(deviceValue)
@@ -468,33 +467,30 @@ export class StoreAndForwardComponent implements OnInit {
       .subscribe(
         (data) => {
           var returnData = JSON.stringify(data);
-          var obj = JSON.parse(returnData);
+          var obj =JSON.parse(returnData);
           const objfrm = this.SFform.value;
-          var objmType = this.cmbMediaType.split(' ');
-          let mtype = '';
-          let ptype = '';
-          let objList = [];
-          if (objmType.length == 2) {
-            mtype = objmType[0].trim();
-            ptype = objmType[1].trim();
-          } else {
-            mtype = this.cmbMediaType;
+          var objmType= this.cmbMediaType.split(" ");
+          let mtype=""; let ptype="";let objList=[]
+          if (objmType.length==2){
+            mtype=objmType[0].trim();
+            ptype=objmType[1].trim();
           }
-          if (ptype === '') {
-            objList = obj.filter(
-              (order) =>
-                order.ScheduleType === objfrm['ScheduleType'] &&
-                order.MediaType === mtype
-            );
-          } else {
-            objList = obj.filter(
-              (order) =>
-                order.ScheduleType === objfrm['ScheduleType'] &&
-                order.MediaType === mtype &&
-                order.LicenceType === ptype
-            );
+          else{
+            mtype=this.cmbMediaType;
           }
-
+        if (ptype===""){
+          objList = obj.filter(
+            (order) => order.ScheduleType === objfrm['ScheduleType'] 
+            && order.MediaType === mtype
+          );
+        }
+        else{
+          objList = obj.filter(
+            (order) => order.ScheduleType === objfrm['ScheduleType'] 
+            && order.MediaType === mtype && order.LicenceType === ptype
+          );
+        }
+          
           this.TokenList = objList;
           this.MainTokenList = objList;
           this.loading = false;
@@ -571,9 +567,7 @@ export class StoreAndForwardComponent implements OnInit {
       ModifyEndTime: [dt2],
       pschid: [pschid],
     });
-    this.modalService.open(content, {
-      centered: true,
-    });
+    this.modalService.open(content, { centered: true });
   }
   onSubmitTokenInfoModifyPlaylist(UpdateModel) {
     //this.loading = true;
@@ -711,7 +705,7 @@ export class StoreAndForwardComponent implements OnInit {
   }
   open(content, tid) {
     localStorage.setItem('tokenid', tid);
-    this.modalService.open(content, { size: 'lg', windowClass: 'tokenmodal' });
+    this.modalService.open(content, { size: 'lg' });
   }
   tokenInfoClose() {
     this.FillTokenInfo(this.cid);
@@ -1194,34 +1188,38 @@ export class StoreAndForwardComponent implements OnInit {
     console.log('Triggered');
   }
 
-  GetSortOrder(prop) {
-    return function (a, b) {
-      if (a[prop] > b[prop]) {
-        return 1;
-      } else if (a[prop] < b[prop]) {
-        return -1;
-      }
-      return 0;
-    };
-  }
+  GetSortOrder(prop) {    
+    return function(a, b) {    
+        if (a[prop] > b[prop]) {    
+            return 1;    
+        } else if (a[prop] < b[prop]) {    
+            return -1;    
+        }    
+        return 0;    
+    }    
+}    
   AddItem() {
     if (this.SFform.value.PlaylistId == '0') {
       this.toastrSF.error('Please select a playlist name');
       return;
     }
-    if (this.SFform.value.ScheduleType != 'PercentageSchedule') {
-      var startTime = this.SFform.controls['startTime'].value['hour'];
-      var EndTime = this.SFform.controls['EndTime'].value['hour'];
+    if (this.SFform.value.ScheduleType != 'PercentageSchedule'){
+    var startTime = this.SFform.controls['startTime'].value['hour'];
+    var EndTime = this.SFform.controls['EndTime'].value['hour'];
 
-      if (EndTime < startTime) {
-        this.toastrSF.error('End time should be greater than start time');
-        return;
-      }
-      if (this.SFform.value.wList.length == 0) {
-        this.toastrSF.error('Please select a week day');
-        return;
-      }
+    if (EndTime < startTime) {
+      this.toastrSF.error('End time should be greater than start time');
+      return;
     }
+    if (this.SFform.value.wList.length == 0) {
+      this.toastrSF.error('Please select a week day');
+      return;
+    }
+  }
+
+
+
+
 
     const obj = this.SFform.value;
     const pname = this.PlaylistList.filter(
@@ -1231,35 +1229,36 @@ export class StoreAndForwardComponent implements OnInit {
     let eTime = obj['EndTime'];
     let dt = new Date();
     let dt2 = new Date();
-    if (this.SFform.value.ScheduleType != 'PercentageSchedule') {
+    if (this.SFform.value.ScheduleType != 'PercentageSchedule'){
       dt = new Date(
         'Mon Mar 09 2020 ' + sTime['hour'] + ':' + sTime['minute'] + ':00'
       );
       dt2 = new Date(
         'Mon Mar 09 2020 ' + eTime['hour'] + ':' + eTime['minute'] + ':00'
       );
-    } else {
-      dt = new Date('Mon Mar 09 2020 00:00:00');
-      dt2 = new Date('Mon Mar 09 2020 23:59:00');
+    }
+    else{
+      dt = new Date(
+        'Mon Mar 09 2020 00:00:00'
+      );
+      dt2 = new Date(
+        'Mon Mar 09 2020 23:59:00'
+      );
     }
     let ObjWeekName = '';
     let ObjWeekId = '';
-    let wlist = [];
+    let wlist =[];
 
-    if (this.SFform.value.ScheduleType != 'PercentageSchedule') {
-      wlist = obj['wList'].sort(this.GetSortOrder('id'));
-    } else {
-      wlist = [
-        { id: '1', itemName: 'Mon' },
-        { id: '2', itemName: 'Tue' },
-        { id: '3', itemName: 'Wed' },
-        { id: '4', itemName: 'Thu' },
-        { id: '5', itemName: 'Fri' },
-        { id: '6', itemName: 'Sat' },
-        { id: '7', itemName: 'Sun' },
-      ];
+    if (this.SFform.value.ScheduleType != 'PercentageSchedule'){
+        wlist=obj['wList'].sort(this.GetSortOrder("id"));
     }
-
+    else{
+      wlist=[
+        {id:"1",itemName:"Mon"},{id:"2",itemName:"Tue"},{id:"3",itemName:"Wed"},{id:"4",itemName:"Thu"},{id:"5",itemName:"Fri"},{id:"6",itemName:"Sat"},{id:"7",itemName:"Sun"}
+      ]
+    }
+    
+       
     wlist.forEach((element) => {
       if (ObjWeekName === '') {
         ObjWeekName = element['itemName'];
@@ -1272,48 +1271,44 @@ export class StoreAndForwardComponent implements OnInit {
         ObjWeekId = ObjWeekId + ',' + element['id'];
       }
     });
-    let IsTimeFind = 'No';
-    let itemPercentageValue = 0;
-    this.CustomSchedulePlaylist.forEach((item) => {
-      itemPercentageValue = itemPercentageValue + item['PercentageValue'];
-      if (
-        item['sTime'] === dt.toTimeString().slice(0, 5) &&
-        item['eTime'] === dt2.toTimeString().slice(0, 5) &&
-        item['wName'] === ObjWeekName
-      ) {
-        IsTimeFind = 'Yes';
+    let IsTimeFind ="No";
+    let itemPercentageValue=0
+    this.CustomSchedulePlaylist.forEach(item => {
+      itemPercentageValue= itemPercentageValue+item["PercentageValue"];
+      if ((item["sTime"]===dt.toTimeString().slice(0, 5)) && (item["eTime"]===dt2.toTimeString().slice(0, 5)) && (item['wName']===ObjWeekName))
+      {
+        IsTimeFind = "Yes";
       }
     });
-    if (this.SFform.value.ScheduleType === 'Normal') {
-      if (IsTimeFind === 'Yes') {
-        this.toastrSF.error('Same time schedule is already in list');
-        return;
-      }
+    if (this.SFform.value.ScheduleType === 'Normal'){
+    if (IsTimeFind === "Yes"){
+      this.toastrSF.error('Same time schedule is already in list');
+     return;
     }
-    this.TotalPercentageValue = itemPercentageValue + obj['PercentageValue'];
+  }
+  this.TotalPercentageValue= itemPercentageValue+ obj['PercentageValue'];
 
-    if (this.SFform.value.ScheduleType === 'PercentageSchedule') {
-      if (this.TotalPercentageValue > 100) {
-        this.toastrSF.error(
-          'Total percentage value should not be greater than 100'
-        );
-        return;
+  if (this.SFform.value.ScheduleType === 'PercentageSchedule'){
+      if (this.TotalPercentageValue>100){
+        this.toastrSF.error('Total percentage value should not be greater than 100');
+        return;        
       }
-    } else {
-      obj['PercentageValue'] = '0';
-    }
+  }
+  else{
+    obj['PercentageValue']="0";
+  }
 
     this.CustomSchedulePlaylist = [
       ...this.CustomSchedulePlaylist,
       {
-        Id: this.CustomSchedulePlaylist.length + '' + pname[0].Id,
+        Id: this.CustomSchedulePlaylist.length+''+pname[0].Id, 
         pName: pname[0].DisplayName,
         splId: pname[0].Id,
         sTime: dt.toTimeString().slice(0, 5),
         eTime: dt2.toTimeString().slice(0, 5),
         wId: ObjWeekId,
         wName: ObjWeekName,
-        PercentageValue: obj['PercentageValue'],
+        PercentageValue:obj['PercentageValue']
       },
     ];
     this.SFform.controls['PlaylistId'].setValue('0');
@@ -1321,7 +1316,7 @@ export class StoreAndForwardComponent implements OnInit {
     /*
     this.PlaylistList =[];
     this.MainPlaylistList.forEach(CSP => {
-
+       
       const obj = this.CustomSchedulePlaylist.filter(d => d.splId === CSP["Id"]);
     if (obj.length === 0){
       this.PlaylistList.push(CSP);
@@ -1329,10 +1324,8 @@ export class StoreAndForwardComponent implements OnInit {
     });
     */
   }
-  RemoveItem(id) {
-    this.CustomSchedulePlaylist = this.CustomSchedulePlaylist.filter(
-      (d) => d.Id !== id
-    );
+  RemoveItem(id){
+    this.CustomSchedulePlaylist = this.CustomSchedulePlaylist.filter(d => d.Id !== id);
     /*
     this.PlaylistList =[];
     this.MainPlaylistList.forEach(CSP => {
@@ -1343,12 +1336,12 @@ export class StoreAndForwardComponent implements OnInit {
     });
     */
   }
-
-  onChangeScheduleType(e) {
-    if (this.cmbMediaType != '') {
-      this.CustomSchedulePlaylist = [];
-      this.TotalPercentageValue = 0;
-      this.FillTokenInfo(this.cid);
+  
+  onChangeScheduleType(e){
+    if (this.cmbMediaType!=''){
+    this.CustomSchedulePlaylist =[];
+    this.TotalPercentageValue=0;
+    this.FillTokenInfo(this.cid);
     }
   }
 }

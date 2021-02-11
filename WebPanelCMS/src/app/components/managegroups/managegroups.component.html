@@ -1,270 +1,194 @@
 <div class="row">
-  <div class="col-lg-12">
-    <ul ngbNav #tGroups="ngbNav" [(activeId)]="GroupActive" class="nav-tabs">
-      <li [ngbNavItem]="1" class="pr-2">
-        <a ngbNavLink>Search</a>
-        <ng-template ngbNavContent>
-          <div class="form-row">
-            <div class="form-group col-sm-4 pb-0 m-0">
-              <div class="col-sm-12 p-0 pr-1 m-0 pull-left">
-                <label for="GroupId">Group:</label>
-                <select
-                  name="GroupId"
-                  [(ngModel)]="cmbSearchGroup"
-                  class="custom-select"
-                  (change)="onChangeSearchGroup($event.target.value)"
-                  id="GroupId"
-                >
-                  <option selected value="0"></option>
-                  <option
-                    *ngFor="let grpLst of SearchGroupList"
-                    [value]="grpLst.Id"
-                  >
-                    {{ grpLst.DisplayName }}
-                  </option>
-                </select>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-12 m-0 p-0 mt-3">
-            <div class="table-responsive">
-              <table
-                class="table data-table table-striped table-bordered mydatatable"
-              >
-                <thead class="bg-primary">
-                  <tr>
-                    <th scope="col">City</th>
-                    <th scope="col">Location</th>
-                    <th scope="col">Token No</th>
-                    <th scope="col"></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let tLst of GroupSearchTokenList; let i = index">
-                    <td data-label="City">{{ tLst.city }}</td>
-                    <td data-label="Location">{{ tLst.location }}</td>
-                    <td data-label="Token No">{{ tLst.tokenCode }}</td>
-                    <td
-                      data-label=""
-                      class="text-center m-0 p-0"
-                      (click)="openDeleteModal(tLst.tokenid)"
-                    >
-                      <button class="btn btn-sm btn-danger rounded-pill">
-                        Un-Assign
-                      </button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </ng-template>
-      </li>
-      <li [ngbNavItem]="2" class="pr-2">
-        <a ngbNavLink (click)="SetSort()">Locations not assigned</a>
-        <ng-template ngbNavContent>
-          <div class="form-row">
-            <div class="form-group col-sm-6 pb-0 m-0">
-              <div class="col-sm-6 p-0 pr-1 m-0 pull-left">
-                <label for="GroupId">Group:</label>
-                <select
-                  name="GroupId"
-                  [(ngModel)]="cmbGroup"
-                  class="custom-select"
-                  (change)="onChangeGroup($event.target.value)"
-                  id="GroupId"
-                >
-                  <option selected value="0"></option>
-                  <option *ngFor="let grpLst of GroupList" [value]="grpLst.Id">
-                    {{ grpLst.DisplayName }}
-                  </option>
-                </select>
-              </div>
-              <div class="col-sm-6 p-0 pull-left mt-5">
-                <button
-                  id="btnGroup"
-                  class="btn btn-primary mr-2"
-                  (click)="openCommonModal(modalCommon, 'Group')"
-                  style="padding: 0.2rem 0.5rem"
-                >
-                  <i class="fa fa-bars" aria-hidden="true"></i>
-                </button>
-                <button
-                  id="btnGroup2"
-                  class="btn btn-primary mr-2"
-                  (click)="UpdateTokenGroups()"
-                  style="padding: 0.2rem 0.5rem"
-                >
-                  <i class="fa fa-floppy-o fa-lg" aria-hidden="true"></i>
-                </button>
-                <button
-                  id="btnGroup3"
-                  class="btn btn-danger"
-                  (click)="OpenDeleteGroupModal(DeleteGroupModal)"
-                  style="padding: 0.2rem 0.5rem"
-                >
-                  <i class="fa fa-trash-o fa-lg" aria-hidden="true"></i>
-                </button>
-              </div>
-            </div>
-            <div class="form-group col-sm-6 pb-0 m-0 mt-4">
-              <div class="p-0 pr-1 m-0 pull-right">
-                <div class="iq-search-bar device-search">
-                  <div class="searchbox1">
-                    <input
-                      type="text"
-                      id="txtSearch"
-                      placeholder="Search"
-                      class="text search-input"
-                      [(ngModel)]="grpSearchText"
-                    />
-                    <a class="search-link" href="#"
-                      ><i class="fa fa-search"></i
-                    ></a>
-                  </div>
+    <div class="col-lg-12">
+        <ul ngbNav #tGroups="ngbNav"  [(activeId)]="GroupActive" class="nav-tabs">
+
+            <li [ngbNavItem]="1" class="pr-2">
+                <a ngbNavLink >Search</a>
+                <ng-template ngbNavContent>
+                  <div class="form-row">
+                  <div class="form-group col-sm-4 pb-0 m-0">
+                    <div class="col-sm-12 p-0 pr-1 m-0 pull-left">
+                    <label for="GroupId">Group:</label>
+                    <select name="GroupId" [(ngModel)]="cmbSearchGroup" class="custom-select" 
+                        (change)="onChangeSearchGroup($event.target.value)" id="GroupId">
+                            <option selected value="0"></option>
+                            <option *ngFor="let grpLst of SearchGroupList" [value]="grpLst.Id">{{grpLst.DisplayName}}</option>
+                        </select>
                 </div>
+                </div>
+            </div>
+            <div class="col-lg-12 m-0 p-0 mt-3">
+              <div class="table-responsive">
+        
+                <table class="table table-sm table-bordered">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col">City </th>
+                            <th scope="col">Location </th>
+                            <th scope="col">Token No</th>
+                            <th scope="col" style="width: 8% !important;"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr
+                            *ngFor="let tLst of GroupSearchTokenList;let i = index">
+                            <td data-label="City">{{tLst.city}}</td>
+                            <td data-label="Location">{{tLst.location}}</td>
+                            <td data-label="Token No">{{tLst.tokenCode}}</td>
+                            <td data-label="" class="text-danger m-0 p-0"
+                                    (click)="openDeleteModal(tLst.tokenid)">
+                                    Un-Assign
+                                </td>
+                        </tr>
+                    </tbody>
+                </table>
+        
+            </div>
+            </div>
+                  
+                </ng-template>
+              </li>
+              <li [ngbNavItem]="2" class="pr-2">
+              <a ngbNavLink   (click)="SetSort()">Locations not assigned</a>
+              <ng-template ngbNavContent>
+              <div class="form-row">
+
+           
+                <div class="form-group col-sm-4 pb-0 m-0">
+                  <div class="col-sm-8 p-0 pr-1 m-0 pull-left">
+                  <label for="GroupId">Group:</label>
+                  <select name="GroupId" [(ngModel)]="cmbGroup" class="custom-select" 
+                      (change)="onChangeGroup($event.target.value)" id="GroupId">
+                          <option selected value="0"></option>
+                          <option *ngFor="let grpLst of GroupList" [value]="grpLst.Id">{{grpLst.DisplayName}}</option>
+                      </select>
               </div>
-            </div>
-          </div>
-
-          <div class="col-lg-12 m-0 p-0 mt-3">
-            <div class="table-responsive">
-              <table
-                class="table data-table table-striped table-bordered mydatatable"
-              >
-                <thead class="bg-primary">
-                  <tr>
-                    <th scope="col" style="width: 60px"></th>
-                    <th scope="col" sortable="city" (sort)="onSort($event)">
-                      City
-                    </th>
-                    <th scope="col" sortable="location" (sort)="onSort($event)">
-                      Location
-                    </th>
-                    <th
-                      scope="col"
-                      sortable="tokenCode"
-                      (sort)="onSort($event)"
-                    >
-                      Token No
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr
-                    *ngFor="
-                      let tLst of GroupTokenList | filter: grpSearchText;
-                      let i = index
-                    "
-                  >
-                    <td data-label="" class="">
-                      <div class="custom-control custom-checkbox">
-                        <input
-                          (change)="SelectGroupToken(tLst.tokenid, $event)"
-                          type="checkbox"
-                          class="custom-control-input"
-                          id="{{ tLst.tokenid }}{{ i }}"
-                          [checked]="tLst.check"
-                          name="chkgrpTokenList"
-                        />
-                        <label
-                          class="custom-control-label cursor-pointer"
-                          for="{{ tLst.tokenid }}{{ i }}"
-                        ></label>
-                      </div>
-                    </td>
-                    <td data-label="City">{{ tLst.city }}</td>
-                    <td data-label="Location">{{ tLst.location }}</td>
-                    <td data-label="Token No">{{ tLst.tokenCode }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div></ng-template
-        >
-      </li>
-    </ul>
-    <div [ngbNavOutlet]="tGroups" class="mt-2"></div>
-  </div>
-</div>
-
-<ng-template #modalCommon let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <h5>Groups</h5>
-    <button
-      type="button"
-      class="close"
-      aria-label="Close"
-      (click)="d('Cross click')"
-    >
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-sm-12">
-          <label for="State" class="mb-2 mr-sm-2">Name:</label>
-          <input
-            type="text"
-            [(ngModel)]="ModifyGroupName"
-            class="form-control mb-2 mr-sm-2"
-            id="fName"
-          />
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-12">
-          <button
-            class="btn btn-primary col-sm-2 pull-right"
-            type="button"
-            (click)="onSubmitModal()"
-            (click)="d('Cross click')"
-          >
+              <div class="col-sm-4 p-0 pull-left mt-5">
+               <button id="btnGroup" class="btn btn-primary mr-2" 
+               (click)="openCommonModal(modalCommon,'Group')" style="padding: 0.200rem 0.5rem;">
+              <i class="fa fa-bars" aria-hidden="true"></i>
+            </button>
+            <button id="btnGroup2" class="btn btn-primary mr-2" (click)="UpdateTokenGroups()"
+             style="padding: 0.200rem 0.5rem;">
             <i class="fa fa-floppy-o fa-lg" aria-hidden="true"></i>
           </button>
+          <button id="btnGroup3" class="btn btn-danger" (click)="OpenDeleteGroupModal(DeleteGroupModal)"
+             style="padding: 0.200rem 0.5rem;">
+            <i class="fa fa-trash-o fa-lg" aria-hidden="true"></i>
+          </button>
+              </div>
+               
+          </div>
+          <div class="form-group col-sm-8 pb-0 m-0">
+            <div class="col-sm-4 p-0 pr-1 m-0 pull-right">
+              <label for="txtSearch" class="mb-2 mr-sm-2">&nbsp;</label>
+              <input type="text" id="txtSearch" placeholder="Search" class="form-control" [(ngModel)]="grpSearchText"   />
         </div>
       </div>
-    </div>
-  </div>
-</ng-template>
+      
+                </div>
 
-<ng-template #DeleteGroupModal let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <h5>Delete Group</h5>
-    <button
-      type="button"
-      class="close"
-      aria-label="Close"
-      (click)="d('Cross click')"
-    >
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-sm-12">
-          <p>Are you sure to delete?</p>
+              <div class="col-lg-12 m-0 p-0 mt-3">
+              <div class="table-responsive">
+
+<table class="table table-sm table-bordered">
+    <thead class="thead-light">
+        <tr>
+            <th scope="col" style="Width:60px">
+            </th>
+            <th scope="col"  sortable="city" (sort)="onSort($event)">City </th>
+            <th scope="col"  sortable="location" (sort)="onSort($event)">Location </th>
+            <th scope="col"  sortable="tokenCode" (sort)="onSort($event)">Token No</th>
+            
+           
+        </tr>
+    </thead>
+    <tbody>
+        <tr
+            *ngFor="let tLst of GroupTokenList|filter:grpSearchText ;let i = index">
+            <td data-label="" class="">
+                <div class="custom-control custom-checkbox">
+                    <input (change)="SelectGroupToken(tLst.tokenid,$event)" type="checkbox"
+                        class="custom-control-input" id="{{tLst.tokenid}}{{i}}"
+                        [checked]="tLst.check" name="chkgrpTokenList">
+                    <label class="custom-control-label cursor-pointer"
+                        for="{{tLst.tokenid}}{{i}}"></label>
+                </div>
+            </td>
+            <td data-label="City">{{tLst.city}}</td>
+            <td data-label="Location">{{tLst.location}}</td>
+            <td data-label="Token No">{{tLst.tokenCode}}</td>
+        </tr>
+    </tbody>
+</table>
+</div></div></ng-template></li>
+</ul>
+<div [ngbNavOutlet]="tGroups" class="mt-2"></div>
+</div>
+
+  
+
+</div>
+
+
+<ng-template #modalCommon let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h5>Groups</h5>
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="container-fluid">
+  
+        <div class="row">
+          <div class="col-sm-12">
+            <label for="State" class="mb-2 mr-sm-2">Name:</label>
+            <input type="text" [(ngModel)]="ModifyGroupName" class="form-control mb-2 mr-sm-2" id="fName">
+          </div>
+  
         </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-12">
-          <button
-            class="btn btn-primary col-sm-2 pull-right"
-            (click)="d('Cross click')"
-          >
-            <i class="fa fa-times fa-lg" aria-hidden="true"></i>
-          </button>
-          <button
-            class="btn btn-danger col-sm-2 pull-right mr-2"
-            (click)="DeleteGroup()"
-            (click)="d('Cross click')"
-          >
-            <i class="fa fa-check fa-lg" aria-hidden="true"></i>
-          </button>
+        <div class="row">
+          <div class="col-sm-12">
+            <button class="btn btn-primary col-sm-2  pull-right" type="button" (click)="onSubmitModal()"
+              (click)="d('Cross click')">
+              <i class="fa fa-floppy-o fa-lg" aria-hidden="true"></i>
+            </button>
+          </div>
         </div>
+  
       </div>
     </div>
-  </div>
-</ng-template>
+  
+  </ng-template>
+  
+  <ng-template #DeleteGroupModal let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h5>Delete Group</h5>
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-12">
+            <p>Are you sure to delete?</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12">
+            <button class="btn btn-primary col-sm-2  pull-right" (click)="d('Cross click')">
+              <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+            </button>
+            <button class="btn btn-danger col-sm-2  pull-right mr-2" (click)="DeleteGroup()" (click)="d('Cross click')">
+              <i class="fa fa-check fa-lg" aria-hidden="true"></i>
+            </button>
+  
+          </div>
+        </div>
+  
+      </div>
+    </div>
+  
+  </ng-template>

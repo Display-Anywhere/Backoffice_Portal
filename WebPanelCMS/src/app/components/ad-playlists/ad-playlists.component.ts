@@ -258,7 +258,7 @@ export class AdPlaylistsComponent implements OnInit {
       return;
     }
     if(this.Plform.value.FormatId == 0){
-      this.toastr.error("Please select a format name");
+      this.toastr.error("Please select a campaign name");
       return;
     }
     if(this.Plform.value.PlaylistId == 0){
