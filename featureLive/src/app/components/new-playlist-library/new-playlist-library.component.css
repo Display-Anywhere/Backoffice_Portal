@@ -1,0 +1,8 @@
+.hr {
+    border-bottom: 1px solid #e4e4e4;
+}
+
+.custom-control, .custom-control-input, .custom-control-label {
+    cursor: pointer !important;
+} 
+ 

@@ -1,0 +1,33 @@
+.fa-star {
+    font-size: 1rem;
+    color: #b0c4de;
+    cursor: pointer;
+    
+  }
+  .star {
+    font-size: 1.5rem;
+    color: #b0c4de;
+  }
+.fa-star.filled {
+  color: #1e90ff;
+}
+.fa-star:hover {
+  color: #1e90ff;
+}
+.filled {
+    color: #1e90ff;
+  }
+  
+.bad {
+    color: #1e90ff;
+  }
+  .filled.bad {
+    color: #1e90ff;
+  }
+  :focus {
+    outline: -webkit-focus-ring-color auto 0px;
+}
+.search-results {
+  height: 780px !important;
+  overflow-y: scroll;
+}
