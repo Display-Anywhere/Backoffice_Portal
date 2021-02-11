@@ -1,9 +1,9 @@
-.owl-dt-inline-container .owl-dt-calendar, .owl-dt-popup-container .owl-dt-calendar{
+/* .owl-dt-inline-container .owl-dt-calendar, .owl-dt-popup-container .owl-dt-calendar{
     z-index: 99999999 !important;
 }
 .cdk-overlay-container {
     z-index: 999999999 !important;
-} 
+}
 .modal-backdrop{
     z-index: 1040 !important;
 }
@@ -31,12 +31,12 @@ table {
     }
 
     table th,
-    
+
 
     table th {
         font-size: .85em;
         letter-spacing: .1em;
-       
+
     }
 
 @media screen and (max-width: 600px) {
@@ -80,18 +80,15 @@ table {
         }
         table tr:hover {
             background-color: #f8f8f8 !important;
-            
+
         }
 
             table td::before {
-                /*
-* aria-label has no advantage, it won't be read inside a table
-content: attr(aria-label);
-*/
+
                 content: attr(data-label);
                 float: left;
                 font-weight: bold;
-                
+
             }
 
             table td:last-child {
@@ -101,4 +98,13 @@ content: attr(aria-label);
 
 .mb-sm-2, .my-sm-2 {
     margin-bottom: 0.7rem !important;
+} */
+/* main start */
+.modal-xl,
+.modal-lg {
+  /* max-width: 1140px; */
+  max-width: 80% !important;
+}
+.nav-tabs {
+  font-size: 0.92em !important;
 }
