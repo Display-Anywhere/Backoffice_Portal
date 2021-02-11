@@ -1,136 +1,182 @@
-<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' ,fullScreenBackdrop:true }">
+<ngx-loading
+  [show]="loading"
+  [config]="{ backdropBorderRadius: '3px', fullScreenBackdrop: true }"
+>
 </ngx-loading>
 
- <div class="col-lg-12 p-0">
-    <div class="col-sm-12">
-      <div class="form-row">
-        <div class="form-group col-sm-3 m-0">
-          <label for="SearchcName" class="mb-2 mr-sm-2">Customer Name:</label>
-          <select name="SearchcName" class="custom-select form-control mb-2 mr-sm-2 " [(ngModel)]="cmbCustomer"
-            (change)="onChangeCustomer($event.target.value)" id="SearchcName">
-            <option selected value="0"></option>
-            <option *ngFor="let cLst of CustomerList" [value]="cLst.Id">{{cLst.DisplayName}}</option>
-          </select>
+<div class="col-lg-12 p-0">
+  <div class="col-sm-12">
+    <div class="form-row">
+      <div class="form-group col-sm-3 m-0">
+        <label for="SearchcName" class="mb-2 mr-sm-2">Customer Name:</label>
+        <select
+          name="SearchcName"
+          class="custom-select mb-3"
+          [(ngModel)]="cmbCustomer"
+          (change)="onChangeCustomer($event.target.value)"
+          id="SearchcName"
+        >
+          <option selected value="0"></option>
+          <option *ngFor="let cLst of CustomerList" [value]="cLst.Id">
+            {{ cLst.DisplayName }}
+          </option>
+        </select>
+      </div>
+      <div class="form-group col-sm-3 m-0">
+        <label for="SearchTName" class="mb-2 mr-sm-2">Token :</label>
+        <select
+          class="custom-select mb-3"
+          [(ngModel)]="cmbToken"
+          (change)="onChangeToken($event.target.value)"
+          id="SearchTName"
+        >
+          <option value="0"></option>
+          <option *ngFor="let fLst of TokenList" [value]="fLst.tokenid">
+            {{ fLst.tokenCode }} - {{ fLst.location }}
+          </option>
+        </select>
+      </div>
 
+      <div class="form-group col-sm-1 m-0">
+        <div class="">
+          <button
+            class="btn btn-primary mt-5 mb-2"
+            type="button"
+            (click)="SaveContent()"
+          >
+            <i class="fa fa-floppy-o fa-lg"></i>
+          </button>
         </div>
-        <div class="form-group col-sm-3 m-0">
-
-          <label for="SearchTName" class="mb-2 mr-sm-2">Token :</label>
-          <select class="custom-select form-control mb-2 mr-sm-2 " [(ngModel)]="cmbToken"
-            (change)="onChangeToken($event.target.value)" id="SearchTName">
-            <option  value="0"></option>
-            <option *ngFor="let fLst of TokenList" [value]="fLst.tokenid">{{fLst.tokenCode}} - {{fLst.location}}
-            </option>
-          </select>
-        </div>
- 
-            <div class="form-group col-sm-1  m-0">
-              <div class="">
-                <button class="btn btn-primary mt-5 mb-2" type="button" (click)="SaveContent()">
-                  <i class="fa fa-floppy-o fa-lg"></i>
-                </button>
-              </div>
-  
-            </div>
-         
-
-
       </div>
     </div>
-    
-    <div class="table-responsive">
+  </div>
 
-      <table class="table table-sm table-bordered">
-        <thead class="thead-light">
+  <div class="table-responsive">
+    <table class="table data-table table-striped table-bordered mydatatable">
+      <thead class="bg-primary">
+        <tr>
+          <th scope="col">Title</th>
+          <th scope="col">Artist</th>
+          <th scope="col">Genre</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let TokenLst of ContentList">
+          <td data-label="Title">
+            <a href="{{ TokenLst.url }}" target="_blank">
+              {{ TokenLst.title }}
+            </a>
+          </td>
+          <td data-label="Artist">{{ TokenLst.Artist }}</td>
+          <td data-label="Genre">{{ TokenLst.genreName }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="col-sm-12 mt-4">
+    <div class="form-row">
+      <div class="form-group col-sm-2 m-0">
+        <label for="btnSearch" class="d-xl-block">&nbsp;</label>
+        <input
+          id="btnSearch"
+          type="text"
+          class="float-right"
+          id="cName"
+          [(ngModel)]="searchText"
+          autocomplete="off"
+          placeholder="Search"
+          class="form-control"
+          (keyup)="filterById()"
+          style="width: 100%"
+        />
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-12 mt-2 p-0">
+    <div class="table-responsive">
+      <table
+        datatable
+        [dtOptions]="dtOptions"
+        [dtTrigger]="dtTrigger"
+        class="table data-table table-striped table-bordered mydatatable"
+      >
+        <thead class="bg-primary">
           <tr>
-            <th scope="col">Title</th>
-            <th scope="col">Artist</th>
-            <th scope="col">Genre</th>
+            <th>
+              <div
+                *ngIf="searchText === ''"
+                class="custom-control custom-checkbox"
+              >
+                <input
+                  (change)="allContent($event)"
+                  type="checkbox"
+                  class="custom-control-input"
+                  name="allContentA"
+                  id="AllContentA"
+                  [(ngModel)]="chkAll"
+                />
+                <label
+                  class="custom-control-label cursor-pointer pt-1"
+                  for="AllContentA"
+                  >All</label
+                >
+              </div>
+            </th>
+            <th scope="col" style="width: 100px !important">Country</th>
+            <th scope="col" style="width: 130px !important">City</th>
+            <th scope="col">Location</th>
+            <th scope="col" style="width: 120px !important">Media Type</th>
+            <th scope="col">Group</th>
+            <th scope="col" style="width: 240px !important">Token Code</th>
+            <th></th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
-          <tr
-            *ngFor="let TokenLst of ContentList">
-            <td data-label="Title">
-                <a href="{{TokenLst.url}}" target="_blank">
-                    {{TokenLst.title}}
-                  </a>
-                 </td>
-            <td data-label="Artist">{{TokenLst.Artist}}</td>
-            <td data-label="Genre">{{TokenLst.genreName}}</td>
-
+          <tr *ngFor="let cLst of FilterTokenList; let i = index">
+            <td>
+              <div class="custom-control custom-checkbox">
+                <input
+                  (change)="SelectContent(cLst.tokenid, $event)"
+                  type="checkbox"
+                  class="custom-control-input"
+                  id="{{ cLst.tokenid }}{{ i }}"
+                  [checked]="cLst.check"
+                  name="chkTokenList"
+                />
+                <label
+                  class="custom-control-label cursor-pointer"
+                  for="{{ cLst.tokenid }}{{ i }}"
+                ></label>
+              </div>
+            </td>
+            <td data-label="Country ">
+              {{ cLst.countryName }}
+            </td>
+            <td data-label="City">
+              {{ cLst.city }}
+            </td>
+            <td data-label="Location">
+              {{ cLst.location }}
+            </td>
+            <td data-label="Media Type">
+              {{ cLst.MediaType }}
+            </td>
+            <td data-label="Group">
+              {{ cLst.gName }}
+            </td>
+            <td data-label="Token Code">
+              {{ cLst.tokenCode }}
+            </td>
+            <td data-label="">
+              {{ cLst.token }}
+            </td>
+            <td data-label="">
+              {{ cLst.TokenStatus }}
+            </td>
           </tr>
         </tbody>
       </table>
     </div>
-    <div class="col-sm-12 mt-4">
-        <div class="form-row">
-            <div class="form-group col-sm-2 m-0 ">
-                <label for="btnSearch" class="d-xl-block">&nbsp;</label>
-                <input id="btnSearch" type="text" class="float-right" id="cName" [(ngModel)]="searchText" autocomplete="off"
-                  placeholder="Search" class="form-control" (keyup)="filterById()" style="width:100%;" />
-              </div>
-        </div>
-    </div>
-    <div class="col-sm-12 mt-2 p-0">
-          <div class="table-responsive">
-            <table datatable  [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-sm table-bordered">
-                <thead class="thead-light">
-                  <tr>
-                      <th><div *ngIf="searchText===''" class="custom-control custom-checkbox">
-                        <input (change)="allContent($event)" type="checkbox" class="custom-control-input" name="allContentA"
-                          id="AllContentA" [(ngModel)]="chkAll">
-                        <label class="custom-control-label cursor-pointer pt-1" for="AllContentA">All</label>
-                      </div></th>
-                    <th scope="col" style="width:100px !important;">Country </th>
-                    <th scope="col" style="width:130px !important;">City </th>
-                    <th scope="col">Location </th>
-                    <th scope="col" style="width:120px !important;">Media Type </th>
-                    <th scope="col">Group</th>
-                    <th scope="col" style="width:240px !important;">Token Code</th>
-                    <th></th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let cLst of FilterTokenList;let i=index">
-                      <td><div class="custom-control custom-checkbox">
-                        <input (change)="SelectContent(cLst.tokenid,$event)" type="checkbox" class="custom-control-input"
-                          id="{{cLst.tokenid}}{{i}}" [checked]="cLst.check" name="chkTokenList">
-                        <label class="custom-control-label cursor-pointer" for="{{cLst.tokenid}}{{i}}"></label>
-                      </div></td>
-                    <td data-label="Country ">
-                      {{cLst.countryName}}
-                    </td>
-                    <td data-label="City">
-                      {{cLst.city}}
-                    </td>
-                    <td data-label="Location">
-                      {{cLst.location}}
-                    </td>
-                    <td data-label="Media Type">
-                      {{cLst.MediaType}}
-                    </td>
-                    <td data-label="Group">
-                      {{cLst.gName}}
-                    </td>
-                    <td data-label="Token Code">
-                      {{cLst.tokenCode}}
-                    </td>
-                    <td data-label="">
-                      {{cLst.token}}
-                    </td>
-                    <td data-label="">
-                      {{cLst.TokenStatus}}
-                    </td>
-                  </tr>
-                </tbody>
-      
-              </table>
-      
-      
-          </div>
-    </div>
   </div>
-  
- 
+</div>

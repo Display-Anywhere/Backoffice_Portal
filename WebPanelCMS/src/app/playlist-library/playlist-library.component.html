@@ -1,187 +1,1164 @@
-<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px',fullScreenBackdrop:true }">
+<ngx-loading
+  [show]="loading"
+  [config]="{ backdropBorderRadius: '3px', fullScreenBackdrop: true }"
+>
 </ngx-loading>
 
-
-<div class="col-lg-12 p-0">
-
-  <div class="col-lg-3  pull-left p-0">
-    <div class="col-lg-12 ml-0 pl-0">
-      
-        <label for="cName" class="mb-2 mr-sm-2">Customer Name:</label>
-        <select name="cName" class="custom-select form-control mb-2 mr-sm-2"
-          (change)="onChangeCustomer($event.target.value)" id="cName"  [(ngModel)]="cmbCustomer">
-          <option selected value="0"></option>
-          <option *ngFor="let fLst of CustomerList" [value]="fLst.Id">{{fLst.DisplayName}}</option>
-        </select>
-       
-    </div>
-    <div class="col-lg-12 ml-0 pl-0">
-      
-      <label for="cName" class="mb-2 mr-sm-2">Media Type:</label>
-      <select name="cName" class="custom-select form-control mb-2 mr-sm-2"
-      (change)="onChangeCustomerMediaType($event.target.value)"  id="mtName"  [(ngModel)]="cmbCustomerMediaType">
-        <option selected value=""></option>
-        <option *ngFor="let mLst of CustomerMediaTypeList" [value]="mLst.Id">{{mLst.DisplayName}}</option>
-      </select>
-     
-  </div>
-    <div class="col-lg-12 p-0 m-0">
-     
-      <div class="col-lg-9 p-0 m-0 pull-left">
-        <label for="FormatName" class="mb-2 mr-sm-2">Campaign Name:</label>
-        <select name="FormatName" class="custom-select form-control mb-2 mr-sm-2"
-          (change)="onChangeFormat($event.target.value,'')" id="FormatName">
-          <option selected value="0"></option>
-          <option *ngFor="let fLst of FormatList" [value]="fLst.Id">{{fLst.DisplayName}}</option>
-        </select>
-      </div>
-      <div class="col-lg-3 p-0 m-0 mt-5 mtbtn pull-left">
-        <button class="btn btn-danger mb-2 mr-1 pull-right" (click)="openDeleteFormatModal(modalDeleteFormat)">
-          <i class="fa fa-trash" aria-hidden="true"></i>
-        </button>
-        <button  class="btn btn-primary mb-2 mr-1 pull-right"
-          (click)="openFormatModal(modalFormat)">
-          <i class="fa fa-bars" aria-hidden="true"></i>
-        </button>
-
-        <!-- <button *ngIf="IsSubAdminLogin" class="btn btn-primary mb-2 mr-1 pull-right"
-          (click)="openFormatModal(modalFormat)">
-          <i class="fa fa-bars" aria-hidden="true"></i>
-        </button> -->
-
-      </div>
-    </div>
-    <div  class="col-lg-12 p-0 m-0 pull-left">
-      <ul class="nav nav-tabs m-1" role="tablist" style="background: #fff;color: #000;">
-        <li class="nav-item">
-          <a class="nav-link active" data-toggle="tab" href="#NewPlaylist">Playlists</a>
-        </li>
-        <li   class="nav-item d-none">
-          <a class="nav-link" data-toggle="tab" href="#SpecialPlaylists">Special Playlists</a>
-        </li>
-        <li  class="nav-item">
-          <a class="nav-link" data-toggle="tab" href="#PlaylistLib">Copy to campaign</a>
-        </li>
-      </ul>
-    </div>
-    <div class="tab-content p-1">
-      <div id="NewPlaylist" role="tabpanel" class="tab-pane active">
-        <div class="col-lg-12 p-0 pull-left mt-2">
-
-          <form [formGroup]="playlistform" (ngSubmit)="onSubmitPlaylist()" *ngIf="!IsAutoPlaylistHide">
-            <div class="pull-left" style="width:88%;">
-
-              <div class="input-container">
-                <input type="text" class="input-field" formControlName="plName"
-                 autocomplete="off"
-                placeholder="Playlist Name" />
-              
-              <i class="fa fa-ban icon" (click)="CancleManual()"></i>
-              </div>
-            </div>
-            <button class="btn btn-primary pull-right">
-              <i class="fa fa-floppy-o"></i>
-            </button>
-          </form>
-          <button class="btn btn-primary pull-left p-1" (click)="ManualPlaylist()" *ngIf="IsOptionButtonHide">
-            Add New Manual Playlist
-          </button>
-          <button class="btn btn-primary pull-right p-1" (click)="openModel(NewPlaylistModel)"
-            *ngIf="IsOptionButtonHide">
-            Add New Auto Playlist
-          </button>
-        </div>
-        <div class="col-lg-12 p-0 mt-2  pull-left">
-          <div class="table-responsive" style="height:748px;overflow-y: scroll;">
-            <table class="table table-sm table-bordered table-hover">
-              <thead class="thead-light">
-                <tr>
-
-                  <th scope="col" sortable="DisplayName" (sort)="onSort($event)">Name</th>
-                  <th scope="col"></th>
-                  <th scope="col"></th>
-
-                </tr>
-              </thead>
-              <tbody>
-                <tr class=" cursor-pointer" *ngFor="let playlistLst of PlaylistList;">
-                  <!--
-  (change)="SelectPlaylist(playlistLst.Id,$event)"
--->
-                  <td data-label="Name">
-                    <div class="custom-control custom-radio  mb-2 mr-sm-2">
-                      <input (click)="FillPlaylistSongs(playlistLst.Id,'No','Yes', playlistLst.tokenIds)" type="radio"
-                        class="custom-control-input cursor-pointer" id="{{playlistLst.Id}} {{playlistLst.DisplayName}}"
-                        [checked]="playlistLst.check" name="chkPlaylist">
-                      <label class="custom-control-label cursor-pointer"
-                        for="{{playlistLst.Id}} {{playlistLst.DisplayName}}">{{playlistLst.DisplayName}}</label>
-
-                    </div>
-                  </td>
-                  <td data-label="" class="cursor-pointer"
-                    (click)="onPlaylistClick(playlistLst.Id, playlistLst.DisplayName)">
-                    <i class="fa fa-pencil-square-o text-primary" aria-hidden="true"></i>
-                  </td>
-                  <td data-label="" class="cursor-pointer"
-                    (click)="onPlaylistSettingClick(playlistLst.Id,PlaylistSettingModal, playlistLst.IsMute,playlistLst.IsFixed,playlistLst.IsMixedContent, playlistLst.tokenIds,playlistLst.DisplayName,playlistLst.IsDuplicate)">
-                    <i class="fa fa-cog text-secondary" aria-hidden="true"></i>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+<!-- main start -->
+<div class="container-fluid">
+  <div class="row">
+    <!-- left start -->
+    <div class="col-md-4">
+      <!-- one start -->
+      <div class="card card-block card-stretch">
+        <div class="card-body iq-total-content">
+          <div class="col-lg-12 ml-0 pl-0">
+            <label for="cName" class="mb-2 mr-sm-2">Customer Name:</label>
+            <select
+              name="cName"
+              class="custom-select mb-3"
+              (change)="onChangeCustomer($event.target.value)"
+              id="cName"
+              [(ngModel)]="cmbCustomer"
+            >
+              <option selected value="0"></option>
+              <option *ngFor="let fLst of CustomerList" [value]="fLst.Id">
+                {{ fLst.DisplayName }}
+              </option>
+            </select>
           </div>
-        </div>
-      </div>
-      <div id="SpecialPlaylists" role="tabpanel" class="container tab-pane fade p-0 m-0">
-        <div class="col-lg-12 p-0 pull-left">
-          <div class="table-responsive" style="height:736px;overflow-y: scroll;">
-            <table class="table table-sm table-bordered table-hover">
-              <thead class="thead-light">
-                <tr class="d-flex">
-                  <th class="col">Special Playlists</th>
-                  <th scope="col"></th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="d-flex cursor-pointer" *ngFor="let splLst of SpecialPlaylistList;">
-                  <td class="col " (click)="FillPlaylistSongs(splLst.Id,'Yes','No','' )">{{splLst.DisplayName}}</td>
-                  <td style="color:#007bff;" (click)="AddFormat(splLst.Id, splLst.DisplayName,'1')"><a>Add to campaign</a>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+          <div class="col-lg-12 ml-0 pl-0">
+            <label for="cName" class="mb-2 mr-sm-2">Media Type:</label>
+            <select
+              name="cName"
+              class="custom-select mb-3"
+              (change)="onChangeCustomerMediaType($event.target.value)"
+              id="mtName"
+              [(ngModel)]="cmbCustomerMediaType"
+            >
+              <option selected value=""></option>
+              <option
+                *ngFor="let mLst of CustomerMediaTypeList"
+                [value]="mLst.Id"
+              >
+                {{ mLst.DisplayName }}
+              </option>
+            </select>
           </div>
-        </div>
-      </div>
-      <div id="PlaylistLib" role="tabpanel" class="container tab-pane fade p-0 m-0">
-        <div class="col-lg-12 p-0 pull-left">
-          <div class="row">
-            <div class="col-lg-8">
-              <select name="CopyFormatName" class="custom-select form-control mb-2 mr-sm-2"
-                (change)="onChangeCopyFormat($event.target.value)" id="CopyFormatName">
+          <div class="col-lg-12 p-0 m-0">
+            <div class="col-lg-9 p-0 m-0 pull-left">
+              <label for="FormatName" class="mb-2 mr-sm-2">Format Name:</label>
+              <select
+                name="FormatName"
+                class="custom-select mb-3"
+                (change)="onChangeFormat($event.target.value, '')"
+                id="FormatName"
+              >
                 <option selected value="0"></option>
-                <option *ngFor="let fLst of CopyFormatList" [value]="fLst.Id">{{fLst.DisplayName}}</option>
+                <option *ngFor="let fLst of FormatList" [value]="fLst.Id">
+                  {{ fLst.DisplayName }}
+                </option>
               </select>
             </div>
-            <div class="col-lg-4 m-0 p-0">
-              <button class="btn btn-primary" (click)="Copyformat()">
-                <i class="fa fa-floppy-o"></i>
+            <div class="col-lg-3 p-0 m-0 mt-5 mtbtn pull-left">
+              <button
+                class="btn btn-sm btn-danger mb-2 mr-1 pull-right"
+                (click)="openDeleteFormatModal(modalDeleteFormat)"
+              >
+                <i class="fa fa-trash" aria-hidden="true"></i>
               </button>
-              
-               </div>
+              <button
+                class="btn btn-sm btn-primary mb-2 mr-1 pull-right"
+                (click)="openFormatModal(modalFormat)"
+              >
+                <i class="fa fa-bars" aria-hidden="true"></i>
+              </button>
+
+              <!-- <button *ngIf="IsSubAdminLogin" class="btn btn-primary mb-2 mr-1 pull-right"
+              (click)="openFormatModal(modalFormat)">
+              <i class="fa fa-bars" aria-hidden="true"></i>
+            </button> -->
+            </div>
           </div>
-          <div class="table-responsive" style="height:736px;overflow-y: scroll;">
-            <table class="table table-sm table-bordered table-hover">
-              <thead class="thead-light">
-                <tr class="d-flex">
-                  <th class="col">Playlists</th>
-                  <!--<th scope="col"></th>-->
+        </div>
+      </div>
+      <!-- one end -->
+      <!-- two start -->
+      <div class="card">
+        <div class="card-body iq-total-content">
+          <div class="col-lg-12 p-0 m-0 pull-left">
+            <ul
+              class="nav nav-tabs m-1"
+              role="tablist"
+              style="background: #fff; color: #000"
+            >
+              <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#NewPlaylist"
+                  >Playlists</a
+                >
+              </li>
+              <li class="nav-item d-none">
+                <a class="nav-link" data-toggle="tab" href="#SpecialPlaylists"
+                  >Special Playlists</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#PlaylistLib"
+                  >Copy Format</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div class="tab-content p-1">
+            <div id="NewPlaylist" role="tabpanel" class="tab-pane active">
+              <form
+                [formGroup]="playlistform"
+                (ngSubmit)="onSubmitPlaylist()"
+                *ngIf="!IsAutoPlaylistHide"
+              >
+                <div class="col-lg-12 p-0">
+                  <div class="row">
+                    <div class="col-md-8">
+                      <div class="input-container">
+                        <input
+                          type="text"
+                          class="input-field form-control"
+                          formControlName="plName"
+                          autocomplete="off"
+                          placeholder="Playlist Name"
+                        />
+                      </div>
+                    </div>
+                    <div class="col-md-4 d-flex">
+                      <button class="btn btn-danger mr-2">
+                        <i class="fa fa-ban icon" (click)="CancleManual()"></i>
+                      </button>
+                      <button class="btn btn-primary">
+                        <i class="fa fa-floppy-o"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+              <button
+                class="btn btn-primary pull-left p-1 custombutton"
+                (click)="ManualPlaylist()"
+                *ngIf="IsOptionButtonHide"
+              >
+                Add New Manual Playlist
+              </button>
+              <button
+                class="btn btn-primary pull-right p-1 custombutton"
+                (click)="openModel(NewPlaylistModel)"
+                *ngIf="IsOptionButtonHide"
+              >
+                Add New Auto Playlist
+              </button>
+
+              <div class="col-lg-12 p-0 mt-2 pull-left">
+                <div
+                  class="table-responsive"
+                  style="height: 748px; overflow-y: scroll"
+                >
+                  <table
+                    class="table data-table table-striped table-bordered mydatatable"
+                  >
+                    <thead class="bg-primary">
+                      <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr
+                        class="cursor-pointer"
+                        *ngFor="let playlistLst of PlaylistList"
+                      >
+                        <!--
+        (change)="SelectPlaylist(playlistLst.Id,$event)"
+      -->
+                        <td data-label="Name">
+                          <div class="custom-control custom-radio mb-2 mr-sm-2">
+                            <input
+                              (click)="
+                                FillPlaylistSongs(
+                                  playlistLst.Id,
+                                  'No',
+                                  'Yes',
+                                  playlistLst.tokenIds
+                                )
+                              "
+                              type="radio"
+                              class="custom-control-input cursor-pointer"
+                              id="{{ playlistLst.Id }} {{
+                                playlistLst.DisplayName
+                              }}"
+                              [checked]="playlistLst.check"
+                              name="chkPlaylist"
+                            />
+                            <label
+                              class="custom-control-label cursor-pointer"
+                              for="{{ playlistLst.Id }} {{
+                                playlistLst.DisplayName
+                              }}"
+                              >{{ playlistLst.DisplayName }}</label
+                            >
+                          </div>
+                        </td>
+                        <td
+                          data-label=""
+                          class="cursor-pointer"
+                          (click)="
+                            onPlaylistClick(
+                              playlistLst.Id,
+                              playlistLst.DisplayName
+                            )
+                          "
+                        >
+                          <i
+                            class="fa fa-pencil-square-o"
+                            aria-hidden="true"
+                          ></i>
+                        </td>
+                        <td
+                          data-label=""
+                          class="cursor-pointer"
+                          (click)="
+                            onPlaylistSettingClick(
+                              playlistLst.Id,
+                              PlaylistSettingModal,
+                              playlistLst.IsMute,
+                              playlistLst.IsFixed,
+                              playlistLst.IsMixedContent,
+                              playlistLst.tokenIds,
+                              playlistLst.DisplayName,
+                              playlistLst.IsDuplicate
+                            )
+                          "
+                        >
+                          <i
+                            class="fa fa-cog text-secondary"
+                            aria-hidden="true"
+                          ></i>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div
+              id="SpecialPlaylists"
+              role="tabpanel"
+              class="container tab-pane fade p-0 m-0"
+            >
+              <div class="col-lg-12 p-0 pull-left">
+                <div
+                  class="table-responsive"
+                  style="height: 736px; overflow-y: scroll"
+                >
+                  <table
+                    class="table data-table table-striped table-bordered mydatatable"
+                  >
+                    <thead class="bg-primary">
+                      <tr class="d-flex">
+                        <th class="col">Special Playlists</th>
+                        <th scope="col"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr
+                        class="d-flex cursor-pointer"
+                        *ngFor="let splLst of SpecialPlaylistList"
+                      >
+                        <td
+                          class="col"
+                          (click)="
+                            FillPlaylistSongs(splLst.Id, 'Yes', 'No', '')
+                          "
+                        >
+                          {{ splLst.DisplayName }}
+                        </td>
+                        <td
+                          (click)="
+                            AddFormat(splLst.Id, splLst.DisplayName, '1')
+                          "
+                        >
+                          <a class="btn btn-sm btn-primary text-white"
+                            >Add to format</a
+                          >
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div
+              id="PlaylistLib"
+              role="tabpanel"
+              class="container tab-pane fade p-0 m-0"
+            >
+              <div class="col-lg-12 p-0 pull-left">
+                <div class="row">
+                  <div class="col-lg-8">
+                    <select
+                      name="CopyFormatName"
+                      class="custom-select mb-3"
+                      (change)="onChangeCopyFormat($event.target.value)"
+                      id="CopyFormatName"
+                    >
+                      <option selected value="0"></option>
+                      <option
+                        *ngFor="let fLst of CopyFormatList"
+                        [value]="fLst.Id"
+                      >
+                        {{ fLst.DisplayName }}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="col-lg-4 m-0 p-0">
+                    <a
+                      (click)="Copyformat()"
+                      class="btn btn-primary btn-sm mt-1"
+                      href="javascript:;"
+                      >Add to format</a
+                    >
+                  </div>
+                </div>
+                <div
+                  class="table-responsive"
+                  style="height: 736px; overflow-y: scroll"
+                >
+                  <table
+                    class="table data-table table-striped table-bordered mydatatable"
+                  >
+                    <thead class="bg-primary">
+                      <tr class="d-flex">
+                        <th class="col">Playlists</th>
+                        <th scope="col"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr
+                        class="d-flex cursor-pointer"
+                        *ngFor="let plLst of PlaylistLibrary"
+                      >
+                        <td
+                          class="col"
+                          (click)="FillPlaylistSongs(plLst.Id, 'No', 'No', '')"
+                        >
+                          {{ plLst.DisplayName }} {{ plLst.tokenid }}
+                        </td>
+                        <td
+                          (click)="AddFormat(plLst.Id, plLst.DisplayName, '0')"
+                        >
+                          <a class="btn btn-sm btn-primary text-white"
+                            >Add to format</a
+                          >
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- two end -->
+    </div>
+    <!-- left end -->
+    <!-- right start -->
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-body iq-total-content">
+          <div class="pull-right pr-2">
+            <button
+              type="button"
+              (click)="PublishModal(ForceUpdate)"
+              class="btn btn-primary m-1 mr-1"
+            >
+              Publish
+            </button>
+            <button
+              type="button"
+              (click)="PLShuffle(ForceUpdate)"
+              class="btn btn-primary m-1 mr-1"
+            >
+              <i class="fa fa-random" aria-hidden="true"></i>
+            </button>
+
+            <button
+              type="button"
+              (click)="moveUp(selectedRow)"
+              class="btn btn-primary m-1"
+            >
+              <i class="fa fa-arrow-up" aria-hidden="true"></i>
+            </button>
+            <button
+              type="button"
+              (click)="moveDown(selectedRow)"
+              class="btn btn-primary m-1"
+            >
+              <i class="fa fa-arrow-down" aria-hidden="true"></i>
+            </button>
+
+            <button
+              type="button"
+              (click)="UpdateSRNo(ForceUpdate)"
+              class="btn btn-primary m-1 d-none"
+            >
+              <i class="fa fa-floppy-o" aria-hidden="true"></i>
+            </button>
+
+            <button
+              type="button"
+              (click)="openTitleDeleteModal(TitleDeleteModal, 0)"
+              class="btn btn-danger m-1"
+            >
+              <i class="fa fa-trash" aria-hidden="true"></i>
+            </button>
+          </div>
+          <div class="pull-right pr-2">
+            <input
+              id="btnSearch"
+              type="text"
+              id="cName"
+              autocomplete="off"
+              [(ngModel)]="PlaylistSearchText"
+              placeholder="Search"
+              class="form-control m-1 mr-1"
+            />
+          </div>
+          <div
+            id="disPL"
+            class="table-responsive"
+            style="height: 300px; overflow-y: scroll"
+          >
+            <table
+              class="table data-table table-striped table-bordered mydatatable"
+              id="eventtable"
+            >
+              <thead class="bg-primary">
+                <tr class="">
+                  <th class="WidthTitlePL">Title</th>
+
+                  <th class="WidthArtistPL">Artist</th>
+                  <th class="WidthCategoryPL">Genre</th>
+                  <th class="WidthCategoryPL">Label</th>
+                  <th class="WidthLength">Length</th>
+
+                  <th
+                    *ngIf="isImgFind === 'Yes'"
+                    class="sticky-top"
+                    style="text-align: center; max-width: 12%; width: 12%"
+                  >
+                    Image Time
+                  </th>
+                  <th class="Link-Center_Width"></th>
                 </tr>
               </thead>
               <tbody>
-                <tr class="d-flex cursor-pointer" *ngFor="let plLst of PlaylistLibrary;">
-                  <td class="col " (click)="FillPlaylistSongs(plLst.Id,'No','No','')">{{plLst.DisplayName}} {{plLst.tokenid}}</td>
-                 <!--<td style="color:#007bff;" (click)="AddFormat(plLst.Id, plLst.DisplayName,'0')"><a>Add to format</a>
+                <tr
+                  class="cursor-pointer"
+                  *ngFor="
+                    let plSongLst of PlaylistSongsList
+                      | filter: PlaylistSearchText;
+                    let i = index
+                  "
+                  [ngClass]="{ selected: isRowSelectedPL(i) }"
+                  (click)="setMultipleClickedRowPL($event, i, plSongLst, false)"
+                >
+                  <td class="WidthTitlePL" (click)="plChange()">
+                    <a href="{{ plSongLst.TitleIdLink }}" target="_blank">
+                      {{ plSongLst.title }}
+                    </a>
+                  </td>
+
+                  <td class="WidthArtistPL" (click)="plChange()">
+                    {{ plSongLst.Artist }}
+                  </td>
+                  <td class="WidthCategoryPL" (click)="plChange()">
+                    {{ plSongLst.GenreName }}
+                  </td>
+                  <td class="WidthCategoryPL" (click)="plChange()">
+                    {{ plSongLst.Label }}
+                  </td>
+                  <td class="WidthLength" (click)="plChange()">
+                    <span *ngIf="plSongLst.MediaType != 'Image'">{{
+                      plSongLst.Length
+                    }}</span>
+                  </td>
+                  <td *ngIf="isImgFind === 'Yes'">
+                    <div
+                      *ngIf="plSongLst.MediaType == 'Image'"
+                      class="row m-0 p-0"
+                    >
+                      <div
+                        class="col-lg-5 m-0 p-0"
+                        style="
+                          overflow: hidden;
+                          text-overflow: ellipsis;
+                          white-space: nowrap;
+                        "
+                      >
+                        <input
+                          style="width: 47px; border: 1px solid #aeaeae5e"
+                          type="number"
+                          min="5"
+                          max="60"
+                          value="{{ plSongLst.ImageTimeInterval }}"
+                          (change)="
+                            OnChangeImgInterval(
+                              $event.target.value,
+                              plSongLst.id
+                            )
+                          "
+                        />
+                      </div>
+                      <div class="col-lg-7 p-0">
+                        <i
+                          aria-hidden="true"
+                          class="fa fa-floppy-o text-primary"
+                          (click)="
+                            SaveImageTimeInterval(plSongLst.id, 'Single')
+                          "
+                        ></i>
+                        <a
+                          href="javascript:;"
+                          *ngIf="plSongLst.ImgAllBtn == 'All'"
+                          style="float: right"
+                          (click)="SaveImageTimeInterval(plSongLst.id, 'All')"
+                          >All</a
+                        >
+                      </div>
+                    </div>
+                  </td>
+
+                  <td class="cursor-pointer Link-Center_Width">
+                    <span
+                      *ngIf="IsNormalPlaylist"
+                      (click)="
+                        openTitleDeleteModal(TitleDeleteModal, plSongLst.id)
+                      "
+                      ><i
+                        class="fa fa-trash"
+                        style="color: red"
+                        aria-hidden="true"
+                      ></i
+                    ></span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <!-- second start -->
+      <div class="card">
+        <div class="card-body iq-total-content">
+          <div
+            class="col-sm-12 row p-0 m-0"
+            *ngIf="cmbCustomerMediaType !== ''"
+          >
+            <div class="col-md-2 pr-0 colAudio">
+              <!--
+              <span class="pull-left text-white" style="width: 260px">Add songs in selected playlist</span>
+              -->
+              <div
+                *ngIf="
+                  cmbCustomerMediaType == 'Audio DirectLicence' ||
+                  cmbCustomerMediaType == 'Audio Copyright'
+                "
+                class="custom-control custom-radio custom-control-inline mb-2 mr-2"
+              >
+                <input
+                  type="radio"
+                  class="custom-control-input cursor-pointer"
+                  id="Audio"
+                  (change)="MediaRadioClick('Audio')"
+                  name="chkMediaType"
+                  [checked]="chkAudio"
+                />
+                <label class="custom-control-label cursor-pointer" for="Audio"
+                  >Audio</label
+                >
+              </div>
+              <div
+                *ngIf="
+                  cmbCustomerMediaType == 'Video' ||
+                  cmbCustomerMediaType == 'Signage'
+                "
+                class="custom-control custom-radio custom-control-inline mb-2 mr-2"
+              >
+                <input
+                  type="radio"
+                  class="custom-control-input cursor-pointer"
+                  id="Video"
+                  (change)="MediaRadioClick('Video')"
+                  name="chkMediaType"
+                  [checked]="chkVideo"
+                />
+                <label class="custom-control-label cursor-pointer" for="Video"
+                  >Video</label
+                >
+              </div>
+
+              <div
+                *ngIf="cmbCustomerMediaType == 'Signage'"
+                class="custom-control custom-radio custom-control-inline mb-2 mr-2"
+              >
+                <input
+                  type="radio"
+                  class="custom-control-input cursor-pointer"
+                  id="Image"
+                  (change)="MediaRadioClick('Image')"
+                  name="chkMediaType"
+                  [checked]="chkImage"
+                />
+                <label class="custom-control-label cursor-pointer" for="Image"
+                  >Image</label
+                >
+              </div>
+
+              <div class="col-sm-12 m-0 p-0">
+                <div
+                  *ngIf="
+                    cmbCustomerMediaType == 'Video' ||
+                    cmbCustomerMediaType == 'Audio Copyright'
+                  "
+                  class="custom-control custom-radio custom-control-inline mb-2 mr-2"
+                >
+                  <input
+                    type="radio"
+                    class="custom-control-input cursor-pointer"
+                    id="CL"
+                    (change)="MediaRadioClick('CL')"
+                    name="chkMediaFilter"
+                    [checked]="IsCL"
+                  />
+                  <label class="custom-control-label cursor-pointer" for="CL"
+                    >Copyright</label
+                  >
+                </div>
+
+                <div
+                  *ngIf="cmbCustomerMediaType == 'Audio DirectLicence'"
+                  class="custom-control custom-radio custom-control-inline mb-2 mr-2"
+                >
+                  <input
+                    type="radio"
+                    class="custom-control-input cursor-pointer"
+                    id="DL"
+                    (change)="MediaRadioClick('RF')"
+                    name="chkMediaFilter"
+                    [checked]="IsRF"
+                  />
+                  <label class="custom-control-label cursor-pointer" for="DL"
+                    >Direct Licence</label
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3 mt-2 m-0 p-0">
+              <div class="col-sm-10 m-0 p-0 float-left colInput">
+                <form (keydown)="keyDownFunction($event)">
+                  <input
+                    *ngIf="Search"
+                    type="text"
+                    [(ngModel)]="SearchText"
+                    value=""
+                    [ngModelOptions]="{ standalone: true }"
+                    placeholder="Search"
+                    class="form-control"
+                  />
+                </form>
+                <select
+                  *ngIf="!Search"
+                  name="cmbAlbum"
+                  class="custom-select"
+                  (change)="
+                    onChangeAlbum($event.target.value, CustomSearchModal)
+                  "
+                  id="cmbAlbum"
+                >
+                  <option selected value="0"></option>
+                  <option
+                    *ngFor="let aLst of AlbumList"
+                    [value]="aLst.Id"
+                    [selected]="aLst.check"
+                  >
+                    {{ aLst.DisplayName }}
+                  </option>
+                </select>
+                <label
+                  *ngIf="!Search && chkSearchRadio == 'album'"
+                  (click)="SearchRadioClick('album')"
+                  class="pull-right p-0 m-0"
+                  >Clear Search</label
+                >
+              </div>
+              <div class="col-sm-1 m-0 p-0 ml-1 float-left colBtn">
+                <button
+                  class="btn btn-secondary mr-1 mb-1"
+                  (click)="SearchContent()"
+                >
+                  <i class="fa fa-search"></i>
+                </button>
+              </div>
+            </div>
+            <div class="col-md-6 mt-1 ml-3 colFilter">
+              <div class="">
+                <div
+                  *ngIf="
+                    chkMediaRadio != 'Image' &&
+                    (auth.ContentType$ == 'MusicMedia' ||
+                      auth.ContentType$ == 'Both')
+                  "
+                  class="custom-control custom-radio custom-control-inline mb-2 mr-1"
+                >
+                  <input
+                    type="radio"
+                    class="custom-control-input cursor-pointer"
+                    id="title"
+                    (change)="SearchRadioClick('title')"
+                    name="chkSearch"
+                    [checked]="chkTitle"
+                  />
+                  <label
+                    class="custom-control-label cursor-pointer mr-1"
+                    for="title"
+                    >Title</label
+                  >
+                </div>
+                <div
+                  *ngIf="
+                    chkMediaRadio != 'Image' &&
+                    (auth.ContentType$ == 'MusicMedia' ||
+                      auth.ContentType$ == 'Both')
+                  "
+                  class="custom-control custom-radio custom-control-inline mb-2 mr-1"
+                >
+                  <input
+                    type="radio"
+                    class="custom-control-input cursor-pointer"
+                    id="Artist"
+                    (change)="SearchRadioClick('artist')"
+                    name="chkSearch"
+                  />
+                  <label
+                    class="custom-control-label cursor-pointer mr-1"
+                    for="Artist"
+                    >Artist</label
+                  >
+                </div>
+                <div
+                  *ngIf="
+                    chkMediaRadio != 'Image' &&
+                    DBType == 'Advikon' &&
+                    (auth.ContentType$ == 'MusicMedia' ||
+                      auth.ContentType$ == 'Both')
+                  "
+                  class="custom-control custom-radio custom-control-inline mb-2 mr-1"
+                >
+                  <input
+                    type="radio"
+                    class="custom-control-input cursor-pointer"
+                    id="Album"
+                    (change)="SearchRadioClick('album')"
+                    name="chkSearch"
+                  />
+                  <label
+                    class="custom-control-label cursor-pointer mr-1"
+                    for="Album"
+                    >Album</label
+                  >
+                </div>
+
+                <div
+                  class="custom-control custom-radio custom-control-inline mb-2 mr-1"
+                >
+                  <input
+                    type="radio"
+                    class="custom-control-input cursor-pointer"
+                    id="Genre"
+                    (change)="SearchRadioClick('Genre')"
+                    name="chkSearch"
+                    [checked]="chkGenre"
+                  />
+                  <label
+                    class="custom-control-label cursor-pointer mr-1"
+                    for="Genre"
+                    >{{ rdoName }}</label
+                  >
+                </div>
+
+                <div
+                  *ngIf="
+                    chkMediaRadio != 'Image' &&
+                    (auth.ContentType$ == 'MusicMedia' ||
+                      auth.ContentType$ == 'Both')
+                  "
+                  class="custom-control custom-radio custom-control-inline mb-2 mr-1"
+                >
+                  <input
+                    type="radio"
+                    class="custom-control-input cursor-pointer"
+                    id="Language"
+                    (change)="SearchRadioClick('Language')"
+                    name="chkSearch"
+                  />
+                  <label
+                    class="custom-control-label cursor-pointer"
+                    for="Language"
+                    >Language</label
+                  >
+                </div>
+                <div
+                  *ngIf="IsRF == false"
+                  class="custom-control custom-radio custom-control-inline mb-2 mr-1"
+                >
+                  <input
+                    type="radio"
+                    class="custom-control-input cursor-pointer"
+                    id="Folder"
+                    (change)="SearchRadioClick('Folder')"
+                    name="chkSearch"
+                  />
+                  <label
+                    class="custom-control-label cursor-pointer"
+                    for="Folder"
+                    >Folder</label
+                  >
+                </div>
+                <div
+                  *ngIf="
+                    chkMediaRadio != 'Image' &&
+                    (auth.ContentType$ == 'MusicMedia' ||
+                      auth.ContentType$ == 'Both')
+                  "
+                  class="custom-control custom-radio custom-control-inline mb-2 mr-1"
+                >
+                  <input
+                    type="radio"
+                    class="custom-control-input cursor-pointer"
+                    id="Label"
+                    (change)="SearchRadioClick('Label')"
+                    name="chkSearch"
+                  />
+                  <label class="custom-control-label cursor-pointer" for="Label"
+                    >Label</label
+                  >
+                </div>
+                <div
+                  *ngIf="
+                    chkMediaRadio != 'Image' &&
+                    (auth.ContentType$ == 'MusicMedia' ||
+                      auth.ContentType$ == 'Both')
+                  "
+                  class="custom-control custom-radio custom-control-inline mb-2 mr-1"
+                >
+                  <input
+                    type="radio"
+                    class="custom-control-input cursor-pointer"
+                    id="BPM"
+                    (change)="SearchRadioClick('BPM')"
+                    name="chkSearch"
+                  />
+                  <label class="custom-control-label cursor-pointer" for="BPM"
+                    >BPM</label
+                  >
+                </div>
+                <div
+                  *ngIf="
+                    chkMediaRadio != 'Image' &&
+                    IsRF == false &&
+                    (auth.ContentType$ == 'MusicMedia' ||
+                      auth.ContentType$ == 'Both')
+                  "
+                  class="custom-control custom-radio custom-control-inline mb-2 mr-1"
+                >
+                  <input
+                    type="radio"
+                    class="custom-control-input cursor-pointer"
+                    id="NewVibe"
+                    (change)="SearchRadioClick('NewVibe')"
+                    name="chkSearch"
+                  />
+                  <label
+                    class="custom-control-label cursor-pointer"
+                    for="NewVibe"
+                    >New Vibe</label
+                  >
+                </div>
+                <div
+                  *ngIf="
+                    chkMediaRadio != 'Image' &&
+                    (auth.ContentType$ == 'MusicMedia' ||
+                      auth.ContentType$ == 'Both')
+                  "
+                  class="custom-control custom-radio custom-control-inline mb-2 mr-1"
+                >
+                  <input
+                    type="radio"
+                    class="custom-control-input cursor-pointer"
+                    id="ReleaseMonth"
+                    (change)="SearchRadioClick('ReleaseDate')"
+                    name="chkSearch"
+                  />
+                  <label
+                    class="custom-control-label cursor-pointer"
+                    for="ReleaseMonth"
+                    >Release Date</label
+                  >
+                </div>
+                <div
+                  *ngIf="
+                    chkMediaRadio != 'Image' &&
+                    (auth.ContentType$ == 'MusicMedia' ||
+                      auth.ContentType$ == 'Both')
+                  "
+                  class="custom-control custom-radio custom-control-inline d-none mb-2 mr-1"
+                >
+                  <input
+                    type="radio"
+                    class="custom-control-input cursor-pointer"
+                    id="EngeryLevel"
+                    (change)="SearchRadioClick('EngeryLevel')"
+                    name="chkSearch"
+                  />
+                  <label
+                    class="custom-control-label cursor-pointer"
+                    for="EngeryLevel"
+                    >Energy Level</label
+                  >
+                </div>
+                <div
+                  *ngIf="
+                    chkMediaRadio != 'Image' &&
+                    (auth.ContentType$ == 'MusicMedia' ||
+                      auth.ContentType$ == 'Both')
+                  "
+                  class="custom-control custom-radio custom-control-inline mb-2 mr-1"
+                >
+                  <input
+                    type="radio"
+                    class="custom-control-input cursor-pointer"
+                    id="Year"
+                    (change)="SearchRadioClick('Year')"
+                    name="chkSearch"
+                  />
+                  <label class="custom-control-label cursor-pointer" for="Year"
+                    >Year</label
+                  >
+                </div>
+
+                <div
+                  *ngIf="!IsRF && chkMediaRadio != 'Image'"
+                  class="d-none custom-control custom-checkbox custom-control-inline mb-2 mr-1"
+                >
+                  <input
+                    type="checkbox"
+                    class="custom-control-input cursor-pointer"
+                    id="Explicit"
+                    [(ngModel)]="chkExplicit"
+                    name="chkSearch"
+                    (change)="OnChangeExplicit($event)"
+                  />
+                  <label
+                    class="custom-control-label cursor-pointer"
+                    for="Explicit"
+                    >Explicit Files</label
+                  >
+                </div>
+                <!-- *ngIf="IsCategoryShow" -->
+                <div
+                  class="custom-control custom-radio custom-control-inline mb-2 mr-1 d-none"
+                >
+                  <input
+                    type="radio"
+                    class="custom-control-input cursor-pointer"
+                    id="Category"
+                    (change)="SearchRadioClick('Category')"
+                    name="chkSearch"
+                  />
+                  <label
+                    class="custom-control-label cursor-pointer"
+                    for="Category"
+                    >Category</label
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="m-0 p-1 col-sm-1 mb-1" style="max-width: 6%">
+              <button
+                class="btn btn-primary mb-1 float-right"
+                (click)="AddSong(ForceUpdate)"
+              >
+                <i class="fa fa-upload"></i>
+              </button>
+            </div>
+          </div>
+
+          <div
+            id="dis"
+            class="table-responsive search-results"
+            infinite-scroll
+            [infiniteScrollDistance]="2"
+            [infiniteScrollUpDistance]="2"
+            [infiniteScrollThrottle]="50"
+            (scrolled)="onScrollDown()"
+            [scrollWindow]="false"
+          >
+            <table
+              datatable
+              [dtOptions]="dtOptions"
+              [dtTrigger]="dtTrigger"
+              class="table data-table table-striped table-bordered mydatatable"
+            >
+              <thead class="bg-primary">
+                <tr class="">
+                  <th></th>
+                  <th class="WidthTitlePL">Title</th>
+                  <th class="WidthArtistPL">Artist</th>
+                  <th class="WidthCategoryPL">Genre</th>
+                  <th class="WidthCategoryPL">{{ HeaderName }}</th>
+                  <th class="WidthCategoryPL">{{ HeaderName }}</th>
+                  <th class="WidthCategoryPL">{{ HeaderName }}</th>
+                  <th class="WidthCategoryPL">{{ HeaderName2 }}</th>
+                  <th class="WidthCategoryPL">{{ HeaderName2 }}</th>
+                  <th class="WidthCategoryPL">Year</th>
+                  <th class="sticky-top"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  class="cursor-pointer"
+                  *ngFor="let songLst of SongsList; let i = index"
+                  [ngClass]="{ selected: isRowSelected(i) }"
+                  (click)="setMultipleClickedRow($event, i, songLst, false)"
+                >
+                  <td></td>
+                  <td class="WidthTitlePL">
+                    <div
+                      *ngIf="
+                        songLst.MediaType == 'Image' ||
+                        songLst.MediaType == 'Video'
+                      "
+                      class="row m-0 p-0"
+                    >
+                      <div
+                        *ngIf="!enableEdit"
+                        class="col-lg-11 m-0 p-0"
+                        style="
+                          overflow: hidden;
+                          text-overflow: ellipsis;
+                          white-space: nowrap;
+                        "
+                      >
+                        <a href="{{ songLst.TitleIdLink }}" target="_blank">
+                          {{ songLst.title }}
+                        </a>
+                      </div>
+                      <div
+                        *ngIf="
+                          !enableEdit && LoginDfClientId == songLst.dfClientId
+                        "
+                        class="col-lg-1 p-0 mt-1"
+                      >
+                        <i
+                          class="fa fa-pencil-square fa-2x text-primary"
+                          aria-hidden="true"
+                          (click)="EditImage($event, i, songLst.title)"
+                        ></i>
+                      </div>
+
+                      <div
+                        class="col-lg-10 m-0 p-0"
+                        style="
+                          overflow: hidden;
+                          text-overflow: ellipsis;
+                          white-space: nowrap;
+                        "
+                        *ngIf="enableEdit && enableEditIndex == i"
+                      >
+                        <a
+                          *ngIf="!enableEdit"
+                          href="{{ songLst.TitleIdLink }}"
+                          target="_blank"
+                        >
+                          {{ songLst.title }}
+                        </a>
+                        <input
+                          class="form-control"
+                          [(ngModel)]="txtTitle"
+                          type="text"
+                          value="{{ songLst.title }}"
+                        />
+                      </div>
+                      <div
+                        class="col-lg-2 p-0 mt-1"
+                        *ngIf="enableEdit && enableEditIndex == i"
+                      >
+                        <i
+                          aria-hidden="true"
+                          class="fa fa-check-square fa-2x text-primary"
+                          (click)="UpdateTitleName(songLst.id)"
+                        ></i>
+                        <i
+                          aria-hidden="true"
+                          class="fa fa-window-close fa-2x text-danger"
+                          (click)="UpdateCancleTitleName()"
+                        ></i>
+                      </div>
+                    </div>
+                    <a
+                      *ngIf="
+                        songLst.MediaType != 'Image' &&
+                        songLst.MediaType != 'Video'
+                      "
+                      href="{{ songLst.TitleIdLink }}"
+                      target="_blank"
+                    >
+                      {{ songLst.title }}
+                    </a>
+                  </td>
+                  <!-- <td class="WidthLength">{{songLst.Length}}</td> -->
+                  <td class="WidthArtistPL">{{ songLst.Artist }}</td>
+                  <td class="WidthCategoryPL">{{ songLst.genreName }}</td>
+                  <td>{{ songLst.Label }}</td>
+                  <td class="WidthCategoryPL">{{ songLst.Album }}</td>
+                  <td>{{ songLst.FolderName }}</td>
+
+                  <td>{{ songLst.BPM }}</td>
+                  <td>{{ songLst.rDate }}</td>
+                  <td>{{ songLst.titleyear }}</td>
+                  <td>
+                    <i
+                      *ngIf="LoginDfClientId == songLst.dfClientId"
+                      (click)="
+                        openTitleDeleteModalOwn(OwnTitleDeleteModal, songLst.id)
+                      "
+                      class="fa fa-trash text-danger"
+                      aria-hidden="true"
+                    ></i>
+                  </td>
+                  <!--
+
+                  <td *ngIf="((chkMediaRadio=='Audio') && (IsRF==true)) ||
+                  ((chkMediaRadio=='Video')) " class="WidthCategoryPL">{{songLst.Label}}</td>
+                  <td *ngIf="((chkMediaRadio=='Audio') && (IsCL==true))" class="WidthCategoryPL">{{songLst.Album}}</td>
+                  <td *ngIf="((chkMediaRadio=='Image'))" class="WidthCategoryPL">{{songLst.FolderName}}</td>
+                  <td  *ngIf="((chkSearchRadio=='BPM'))"
+                  class="WidthCategoryPL">{{songLst.BPM}}</td>
+                  <td  *ngIf="((chkSearchRadio=='ReleaseDate'))"
+                  class="WidthCategoryPL">{{songLst.rDate}}</td>
+                  <td  *ngIf="((chkSearchRadio=='NewVibe'))"
+                  class="WidthCategoryPL">{{songLst.titleyear}}</td>
+                  <td *ngIf="(cmbCustomerMediaType=='Signage')">
+                    <i *ngIf="LoginDfClientId==songLst.dfClientId" (click)="openTitleDeleteModalOwn(OwnTitleDeleteModal,songLst.id)" class="fa fa-trash text-danger" aria-hidden="true"></i>
                   </td>-->
                 </tr>
               </tbody>
@@ -189,382 +1166,22 @@
           </div>
         </div>
       </div>
+      <!-- second end -->
     </div>
-    <!-- 
-
--->
-
-  </div>
-  <div class="col-lg-9 pull-right p-0">
-    
-    <div class="pull-right pr-2">
-      
-      <button type="button" (click)="PublishModal(ForceUpdate)" class="btn btn-primary m-1 mr-1">
-        Publish
-      </button>
-      <button type="button" (click)="PLShuffle(ForceUpdate)" class="btn btn-primary m-1 mr-1">
-        <i class="fa fa-random" aria-hidden="true"></i>
-      </button>
-
-      <button type="button" (click)="moveUp(selectedRow)" class="btn btn-primary m-1">
-        <i class="fa fa-arrow-up" aria-hidden="true"></i>
-      </button>
-      <button type="button" (click)="moveDown(selectedRow)" class="btn btn-primary m-1">
-        <i class="fa fa-arrow-down" aria-hidden="true"></i>
-      </button>
-
-      <button type="button" (click)="UpdateSRNo(ForceUpdate)" class="btn btn-primary m-1 d-none">
-        <i class="fa fa-floppy-o" aria-hidden="true"></i>
-      </button>
-      
-      
-      <button type="button" (click)="openTitleDeleteModal(TitleDeleteModal,0)" class="btn btn-danger m-1">
-        <i class="fa fa-trash" aria-hidden="true"></i>
-      </button>
-    </div>
-<div class="pull-right pr-2">
-      <input id="btnSearch" type="text"  id="cName"  autocomplete="off"  [(ngModel)]="PlaylistSearchText"
-      placeholder="Search" class="form-control m-1 mr-1" />
-    </div>
-    <div id="disPL" class="table-responsive" style="height:300px;overflow-y: scroll;">
-      <table class="table table-sm table-bordered table-hover table-fixed tbody" id="eventtable">
-        <thead class="sticky-top thead-light">
-          <tr class="">
-            <th class="sticky-top WidthTitlePL">Title</th>
-            
-            <th class="sticky-top WidthArtistPL">Artist </th>
-            <th class="sticky-top WidthCategoryPL">Genre </th>
-            <th class="sticky-top WidthCategoryPL">Label </th>
-            <th class="sticky-top WidthLength">Length </th>  
-           
-            <th *ngIf="isImgFind === 'Yes' " class="sticky-top" style="
-            text-align: center;
-            max-width: 12%;
-            width: 12%;
-        ">Image Time</th> 
-         <th class="sticky-top Link-Center_Width"></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="cursor-pointer" *ngFor="let plSongLst of PlaylistSongsList | filter:PlaylistSearchText; let i=index"
-            
-            [ngClass]="{'selected':isRowSelectedPL(i)}" 
-            (click)="setMultipleClickedRowPL($event,i,plSongLst,false)"
-            >
-            <td class="WidthTitlePL" (click)="plChange()">
-              <a href="{{plSongLst.TitleIdLink}}" target="_blank">
-                {{plSongLst.title}}
-              </a>
-            </td>
-           
-            <td class="WidthArtistPL" (click)="plChange()">{{plSongLst.Artist}}</td>
-            <td class="WidthCategoryPL" (click)="plChange()">
-              {{plSongLst.GenreName}}
-            </td>
-            <td class="WidthCategoryPL" (click)="plChange()">
-              {{plSongLst.Label}}
-            </td>
-            <td class="WidthLength" (click)="plChange()">
-              <span *ngIf="(plSongLst.MediaType!='Image') ">{{plSongLst.Length}}</span>
-              
-            </td>  
-            <td *ngIf="isImgFind === 'Yes'">
-              <div *ngIf="(plSongLst.MediaType=='Image') " class="row m-0 p-0">
-<div class="col-lg-5 m-0 p-0" style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"
- >
-  
- <input  style=" width: 47px;border: 1px solid #aeaeae5e;" type="number" min="5" max="60" value="{{plSongLst.ImageTimeInterval}}" 
- (change)="OnChangeImgInterval($event.target.value,plSongLst.id)" />
-</div>
-<div  class="col-lg-7 p-0">
-   <i aria-hidden="true" class="fa fa-floppy-o text-primary" 
-   (click)="SaveImageTimeInterval(plSongLst.id,'Single')"></i>
-   <a href="javascript:;" *ngIf="(plSongLst.ImgAllBtn=='All')" style="float: right;" (click)="SaveImageTimeInterval(plSongLst.id,'All')" >All</a>
+    <!-- right end -->
   </div>
 </div>
-            </td>
- 
-            <td class="cursor-pointer Link-Center_Width">
-              <span *ngIf="IsNormalPlaylist"
-              (click)="openTitleDeleteModal(TitleDeleteModal,plSongLst.id)"><i class="fa fa-trash" style="color:red;" aria-hidden="true"></i></span>
-              
-            </td>
-          </tr>
-        </tbody>
-      </table>
-
-    </div>
-  </div>
-  <div class="col-lg-9 pull-right p-0">
-
-    <div class="col-sm-12 row p-0 m-0"  *ngIf="(cmbCustomerMediaType !=='')">
-      <div class="col-sm-3 pr-0 colAudio">
-        <!--
-        <span class="pull-left text-white" style="width: 260px">Add songs in selected playlist</span>
-        -->
-        <div *ngIf="(cmbCustomerMediaType =='Audio DirectLicence') || (cmbCustomerMediaType =='Audio Copyright')" class="custom-control custom-radio custom-control-inline  mb-2 mr-2">
-          <input  type="radio" class="custom-control-input cursor-pointer" id="Audio" (change)="MediaRadioClick('Audio')"
-            name="chkMediaType" [checked]="chkAudio">
-          <label class="custom-control-label cursor-pointer" for="Audio">Audio</label>
-        </div>
-        <div  *ngIf="(cmbCustomerMediaType =='Video') || (cmbCustomerMediaType =='Signage')" 
-        class="custom-control custom-radio custom-control-inline  mb-2 mr-2">
-          <input type="radio" class="custom-control-input cursor-pointer" id="Video" (change)="MediaRadioClick('Video')"
-            name="chkMediaType" [checked]="chkVideo">
-          <label class="custom-control-label cursor-pointer" for="Video">Video</label>
-        </div>
-
-        <div *ngIf="(cmbCustomerMediaType =='Signage')" class="custom-control custom-radio custom-control-inline  mb-2 mr-2">
-          <input type="radio" class="custom-control-input cursor-pointer" id="Image" (change)="MediaRadioClick('Image')"
-            name="chkMediaType" [checked]="chkImage">
-          <label class="custom-control-label cursor-pointer" for="Image">Image</label>
-          
-        </div>
-
-
-        <div   class="col-sm-12 m-0 p-0">
-          <div *ngIf="((cmbCustomerMediaType =='Video') || (cmbCustomerMediaType =='Audio Copyright'))"
-          class="custom-control custom-radio custom-control-inline  mb-2 mr-2">
-            <input type="radio" class="custom-control-input cursor-pointer" id="CL" (change)="MediaRadioClick('CL')"
-              name="chkMediaFilter" [checked]=IsCL>
-            <label class="custom-control-label cursor-pointer" for="CL">Copyright</label>
-          </div> 
-
-          <div *ngIf="(cmbCustomerMediaType =='Audio DirectLicence')"
-           class="custom-control custom-radio custom-control-inline  mb-2 mr-2">
-            <input type="radio" class="custom-control-input cursor-pointer" id="DL" 
-            (change)="MediaRadioClick('RF')" 
-              name="chkMediaFilter" [checked]=IsRF>
-            <label class="custom-control-label cursor-pointer" for="DL">Direct Licence</label>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-3 mt-2 m-0 p-0">
-        <div class="col-sm-10 m-0 p-0 float-left colInput">
-          <form (keydown)="keyDownFunction($event)">
-            <input *ngIf="Search" type="text" [(ngModel)]="SearchText" value="" [ngModelOptions]="{standalone: true}"
-              placeholder="Search" class="form-control" />
-          </form>
-          <select *ngIf="!Search" name="cmbAlbum"   class="custom-select"
-            (change)="onChangeAlbum($event.target.value,CustomSearchModal)" id="cmbAlbum">
-            <option selected value="0"></option>
-            <option *ngFor="let aLst of AlbumList" [value]="aLst.Id" [selected]="aLst.check">{{aLst.DisplayName}}</option>
-            
-          </select>
-          <label *ngIf="((!Search) && (chkSearchRadio =='album'))" (click)="SearchRadioClick('album')"
-          class="pull-right p-0 m-0">Clear Search</label>
-        </div>
-        <div class="col-sm-1 m-0 p-0 ml-1 float-left colBtn">
-          <button class="btn btn-secondary mr-1 mb-1 " (click)="SearchContent()">
-            <i class="fa fa-search"></i>
-          </button>
-        </div>
-      </div>
-      <div class="col-sm-6 mt-1 pr-0 pl-2 colFilter">
-        <div class="">
-          <div *ngIf="((chkMediaRadio !='Image')  && ((auth.ContentType$ == 'MusicMedia') || (auth.ContentType$ == 'Both')))" class="custom-control custom-radio custom-control-inline  mb-2 mr-1">
-            <input type="radio" class="custom-control-input cursor-pointer" id="title"
-              (change)="SearchRadioClick('title')" name="chkSearch" [checked]=chkTitle>
-            <label class="custom-control-label cursor-pointer mr-1" for="title">Title</label>
-          </div>
-          <div *ngIf="((chkMediaRadio !='Image')  && ((auth.ContentType$ == 'MusicMedia') || (auth.ContentType$ == 'Both')))" class="custom-control custom-radio custom-control-inline  mb-2 mr-1">
-            <input type="radio" class="custom-control-input cursor-pointer" id="Artist"
-              (change)="SearchRadioClick('artist')" name="chkSearch">
-            <label class="custom-control-label cursor-pointer mr-1" for="Artist">Artist</label>
-          </div>
-          <div *ngIf="((chkMediaRadio !='Image')  && (DBType=='Advikon') && ((auth.ContentType$ == 'MusicMedia') || (auth.ContentType$ == 'Both')))" class="custom-control custom-radio custom-control-inline  mb-2 mr-1">
-            <input type="radio" class="custom-control-input cursor-pointer" id="Album"
-              (change)="SearchRadioClick('album')" name="chkSearch" >
-            <label class="custom-control-label cursor-pointer mr-1" for="Album">Album</label>
-          </div> 
-
-          <div class="custom-control custom-radio custom-control-inline  mb-2 mr-1">
-            <input type="radio" class="custom-control-input cursor-pointer" id="Genre"
-              (change)="SearchRadioClick('Genre')" name="chkSearch"  [checked]=chkGenre>
-            <label class="custom-control-label cursor-pointer mr-1" for="Genre">{{rdoName}}</label>
-          </div>
-
-          <div *ngIf="((chkMediaRadio !='Image') && ((auth.ContentType$ == 'MusicMedia') || (auth.ContentType$ == 'Both')))" class="custom-control custom-radio custom-control-inline  mb-2 mr-1">
-            <input type="radio" class="custom-control-input cursor-pointer" id="Language"
-              (change)="SearchRadioClick('Language')" name="chkSearch">
-            <label class="custom-control-label cursor-pointer" for="Language">Language</label>
-          </div>
-          <div *ngIf="IsRF==false" class="custom-control custom-radio custom-control-inline  mb-2 mr-1">
-            <input type="radio" class="custom-control-input cursor-pointer" id="Folder"
-              (change)="SearchRadioClick('Folder')" name="chkSearch">
-            <label class="custom-control-label cursor-pointer" for="Folder">Folder</label>
-          </div>
-          <div *ngIf="((chkMediaRadio !='Image')  && ((auth.ContentType$ == 'MusicMedia') || (auth.ContentType$ == 'Both')))" class="custom-control custom-radio custom-control-inline  mb-2 mr-1">
-            <input type="radio" class="custom-control-input cursor-pointer" id="Label"
-              (change)="SearchRadioClick('Label')" name="chkSearch">
-            <label class="custom-control-label cursor-pointer" for="Label">Label</label>
-          </div>
-          <div *ngIf="((chkMediaRadio !='Image')  && ((auth.ContentType$ == 'MusicMedia') || (auth.ContentType$ == 'Both')))" class="custom-control custom-radio custom-control-inline  mb-2 mr-1">
-            <input type="radio" class="custom-control-input cursor-pointer" id="BPM"
-              (change)="SearchRadioClick('BPM')" name="chkSearch">
-            <label class="custom-control-label cursor-pointer" for="BPM">BPM</label>
-          </div>
-          <div *ngIf="((chkMediaRadio !='Image')  && (IsRF==false) && ((auth.ContentType$ == 'MusicMedia') || (auth.ContentType$ == 'Both')))" class="custom-control custom-radio custom-control-inline  mb-2 mr-1">
-            <input type="radio" class="custom-control-input cursor-pointer" id="NewVibe"
-              (change)="SearchRadioClick('NewVibe')" name="chkSearch">
-            <label class="custom-control-label cursor-pointer" for="NewVibe">New Vibe</label>
-          </div>
-          <div *ngIf="((chkMediaRadio !='Image')  && ((auth.ContentType$ == 'MusicMedia') || (auth.ContentType$ == 'Both')))" class="custom-control custom-radio custom-control-inline  mb-2 mr-1">
-            <input type="radio" class="custom-control-input cursor-pointer" id="ReleaseMonth"
-              (change)="SearchRadioClick('ReleaseDate')" name="chkSearch">
-            <label class="custom-control-label cursor-pointer" for="ReleaseMonth">Release Date</label>
-          </div>
-          <div *ngIf="((chkMediaRadio !='Image')  && ((auth.ContentType$ == 'MusicMedia') || (auth.ContentType$ == 'Both')))" class="custom-control custom-radio custom-control-inline d-none mb-2 mr-1">
-            <input type="radio" class="custom-control-input cursor-pointer"  id="EngeryLevel"
-              (change)="SearchRadioClick('EngeryLevel')" name="chkSearch"  >
-            <label class="custom-control-label cursor-pointer" for="EngeryLevel">Energy Level</label>
-          </div>
-          <div *ngIf="((chkMediaRadio !='Image')  && ((auth.ContentType$ == 'MusicMedia') || (auth.ContentType$ == 'Both')))" class="custom-control custom-radio custom-control-inline  mb-2 mr-1">
-            <input type="radio" class="custom-control-input cursor-pointer" id="Year"
-              (change)="SearchRadioClick('Year')" name="chkSearch">
-            <label class="custom-control-label cursor-pointer" for="Year">Year</label>
-          </div>
-
-          <div *ngIf="((!IsRF) && (chkMediaRadio !='Image'))" class="d-none custom-control custom-checkbox  custom-control-inline  mb-2 mr-1">
-            <input type="checkbox" class="custom-control-input cursor-pointer" id="Explicit"
-              [(ngModel)]="chkExplicit"  name="chkSearch" (change)="OnChangeExplicit($event)">
-            <label class="custom-control-label cursor-pointer" for="Explicit">Explicit Files</label>
-          </div>
-<!-- *ngIf="IsCategoryShow" -->
-          <div  class="custom-control custom-radio custom-control-inline  mb-2 mr-1 d-none">
-            <input type="radio" class="custom-control-input cursor-pointer" id="Category"
-              (change)="SearchRadioClick('Category')" name="chkSearch">
-            <label class="custom-control-label cursor-pointer" for="Category">Category</label>
-          </div>
-
-        </div>
-      </div>
-      <div class="m-0 p-1 col-sm-1  mb-1" style="max-width: 6%;">
-        <button class="btn btn-primary mb-1  float-right" (click)="AddSong(ForceUpdate)">
-          <i class="fa fa-upload"></i>
-        </button>
-
-
-      </div>
-    </div>
-
-
-
-
-
-
-
-    <div id="dis" class="table-responsive search-results"
-    
-    infinite-scroll [infiniteScrollDistance]="2" [infiniteScrollUpDistance]="2"
-     [infiniteScrollThrottle]="50"
-      (scrolled)="onScrollDown()" [scrollWindow]="false">
-
-
-
-
-      <table datatable  [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-sm table-bordered table-hover table-fixed tbody">
-        <thead class="sticky-top thead-light">
-          <tr class="">
-            <th></th>
-            <th class="sticky-top WidthTitlePL">Title</th>
-            <th class="sticky-top WidthArtistPL">Artist </th>
-            <th class="sticky-top WidthCategoryPL">Genre </th>
-            <th  class="sticky-top WidthCategoryPL">{{HeaderName}} </th>
-            <th  class="sticky-top WidthCategoryPL">{{HeaderName}} </th>
-            <th  class="sticky-top WidthCategoryPL">{{HeaderName}} </th>
-            <th  class="sticky-top WidthCategoryPL">{{HeaderName2}} </th>
-            <th  class="sticky-top WidthCategoryPL">{{HeaderName2}} </th>
-            <th  class="sticky-top WidthCategoryPL">Year</th>
-            <th class="sticky-top"></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="cursor-pointer" *ngFor="let songLst of SongsList; let i=index"
-            [ngClass]="{'selected':isRowSelected(i)}" 
-            (click)="setMultipleClickedRow($event,i,songLst,false)" >
-            <td></td>
-            <td class="WidthTitlePL">
-               
-              <div *ngIf="((songLst.MediaType=='Image') || (songLst.MediaType=='Video'))" class="row m-0 p-0">
-<div *ngIf="!enableEdit" class="col-lg-11 m-0 p-0" style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">
-  <a  href="{{songLst.TitleIdLink}}" target="_blank">
-    {{songLst.title}}
-  </a>
-</div>
-<div *ngIf="((!enableEdit) && (LoginDfClientId==songLst.dfClientId))"  class="col-lg-1 p-0 mt-1">
-  <i class="fa fa-pencil-square fa-2x text-primary " aria-hidden="true" 
-    (click)="EditImage($event, i,songLst.title)"></i>
-</div>
-
-
-<div class="col-lg-10 m-0 p-0" style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"
- *ngIf="enableEdit && enableEditIndex == i">
-  <a *ngIf="!enableEdit" href="{{songLst.TitleIdLink}}" target="_blank">
-    {{songLst.title}}
-  </a>
-  <input  class="form-control" 
-  [(ngModel)]="txtTitle" type="text" value="{{songLst.title}}" />
-</div>
-<div  class="col-lg-2 p-0 mt-1" *ngIf="enableEdit && enableEditIndex == i">
-  
-    <i aria-hidden="true" class="fa fa-check-square fa-2x text-primary" 
-     (click)="UpdateTitleName(songLst.id)"></i>
-    <i aria-hidden="true" class="fa fa-window-close fa-2x text-danger" 
-     (click)="UpdateCancleTitleName()"></i>
- 
-</div>
-
-</div>
-<a *ngIf="((songLst.MediaType !='Image') && (songLst.MediaType !='Video'))" href="{{songLst.TitleIdLink}}" target="_blank">
-  {{songLst.title}}
-</a>
-            </td>
-            <!-- <td class="WidthLength">{{songLst.Length}}</td> -->
-            <td class="WidthArtistPL">{{songLst.Artist}}</td>
-            <td class="WidthCategoryPL">{{songLst.genreName}}</td>
-            <td>{{songLst.Label}}</td>
-            <td class="WidthCategoryPL">{{songLst.Album}}</td>
-            <td>{{songLst.FolderName}}</td>
-
-            <td>{{songLst.BPM}}</td>
-            <td>{{songLst.rDate}}</td>
-            <td>{{songLst.titleyear}}</td>
-            <td><i *ngIf="LoginDfClientId==songLst.dfClientId" (click)="openTitleDeleteModalOwn(OwnTitleDeleteModal,songLst.id)" class="fa fa-trash text-danger" aria-hidden="true"></i></td>
-<!--
-
-            <td *ngIf="((chkMediaRadio=='Audio') && (IsRF==true)) ||
-            ((chkMediaRadio=='Video')) " class="WidthCategoryPL">{{songLst.Label}}</td>
-            <td *ngIf="((chkMediaRadio=='Audio') && (IsCL==true))" class="WidthCategoryPL">{{songLst.Album}}</td>
-            <td *ngIf="((chkMediaRadio=='Image'))" class="WidthCategoryPL">{{songLst.FolderName}}</td>
-            <td  *ngIf="((chkSearchRadio=='BPM'))"
-            class="WidthCategoryPL">{{songLst.BPM}}</td>
-            <td  *ngIf="((chkSearchRadio=='ReleaseDate'))"
-            class="WidthCategoryPL">{{songLst.rDate}}</td>
-            <td  *ngIf="((chkSearchRadio=='NewVibe'))"
-            class="WidthCategoryPL">{{songLst.titleyear}}</td>
-            <td *ngIf="(cmbCustomerMediaType=='Signage')">
-              <i *ngIf="LoginDfClientId==songLst.dfClientId" (click)="openTitleDeleteModalOwn(OwnTitleDeleteModal,songLst.id)" class="fa fa-trash text-danger" aria-hidden="true"></i>
-            </td>-->
-
-          </tr>
-        </tbody>
-      </table>
-
-
-
-    </div>
-  </div>
-
-</div>
-
-
-
+<!-- main end -->
 
 <ng-template #PlaylistSettingModal let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <h5>Settings</h5>
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Settings</h5>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -572,94 +1189,153 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-5 p-0 m-0">
-          <label class="cursor-pointer  col-sm-7 p-0 m-0" for="chkMutePlaylist" style="vertical-align: sub;">No Sound</label>
+          <label
+            class="cursor-pointer col-sm-7 p-0 m-0"
+            for="chkMutePlaylist"
+            style="vertical-align: sub"
+            >No Sound</label
+          >
           <label class="switch">
-            <input type="checkbox" id="chkMutePlaylist" [checked]="chkMute" [(ngModel)]="chkMute"
-              name="chkMutePlaylist">
+            <input
+              type="checkbox"
+              id="chkMutePlaylist"
+              [checked]="chkMute"
+              [(ngModel)]="chkMute"
+              name="chkMutePlaylist"
+            />
             <span class="slider round"></span>
           </label>
         </div>
 
         <div class="col-sm-7 p-0 m-0">
-          <label class="cursor-pointer  col-sm-8 p-0 m-0" for="chkFixedPlaylist" style="vertical-align: sub;">Fixed</label>
+          <label
+            class="cursor-pointer col-sm-8 p-0 m-0"
+            for="chkFixedPlaylist"
+            style="vertical-align: sub"
+            >Fixed</label
+          >
           <label class="switch">
-            <input type="checkbox" id="chkFixedPlaylist" [checked]="chkFixed" [(ngModel)]="chkFixed"
-              name="chkFixedPlaylist">
+            <input
+              type="checkbox"
+              id="chkFixedPlaylist"
+              [checked]="chkFixed"
+              [(ngModel)]="chkFixed"
+              name="chkFixedPlaylist"
+            />
             <span class="slider round"></span>
           </label>
         </div>
-       
       </div>
       <div class="row">
         <div class="col-sm-5 p-0 m-0">
-          <label class="cursor-pointer  col-sm-7 p-0 m-0" for="chkMixedPlaylist" style="vertical-align: sub;">Mixed Content</label>
+          <label
+            class="cursor-pointer col-sm-7 p-0 m-0"
+            for="chkMixedPlaylist"
+            style="vertical-align: sub"
+            >Mixed Content</label
+          >
           <label class="switch">
-            <input type="checkbox" id="chkMixedPlaylist" [checked]="chkMixed" [(ngModel)]="chkMixed"
-              name="chkMixedPlaylist">
+            <input
+              type="checkbox"
+              id="chkMixedPlaylist"
+              [checked]="chkMixed"
+              [(ngModel)]="chkMixed"
+              name="chkMixedPlaylist"
+            />
             <span class="slider round"></span>
           </label>
         </div>
         <div class="col-sm-7 p-0 m-0">
-          <label class="cursor-pointer  col-sm-8 p-0 m-0" for="chkDuplicate" style="vertical-align: sub;">Allow duplicate content</label>
+          <label
+            class="cursor-pointer col-sm-8 p-0 m-0"
+            for="chkDuplicate"
+            style="vertical-align: sub"
+            >Allow duplicate content</label
+          >
           <label class="switch">
-            <input type="checkbox" id="chkDuplicate" [checked]="chkDuplicate" [(ngModel)]="chkDuplicate"
-              name="chkDuplicate">
+            <input
+              type="checkbox"
+              id="chkDuplicate"
+              [checked]="chkDuplicate"
+              [(ngModel)]="chkDuplicate"
+              name="chkDuplicate"
+            />
             <span class="slider round"></span>
           </label>
         </div>
       </div>
       <div class="row">
         <div class="col-sm-12 pr-0">
-          <button class="btn btn-danger col-sm-4  pull-right mr-0" (click)="onPlaylistDeleteClick(PlaylistDeleteModal)"
-            (click)="d('Cross click')">
+          <button
+            class="btn btn-danger col-sm-4 pull-right mr-0"
+            (click)="onPlaylistDeleteClick(PlaylistDeleteModal)"
+            (click)="d('Cross click')"
+          >
             <i class="fa fa-trash" aria-hidden="true"></i> Delete Playlist
           </button>
 
-          <button class="btn btn-primary col-sm-3  pull-right mr-2" (click)="SettingPlaylist(ForceUpdate)"
-            (click)="d('Cross click')">
+          <button
+            class="btn btn-primary col-sm-3 pull-right mr-2"
+            (click)="SettingPlaylist(ForceUpdate)"
+            (click)="d('Cross click')"
+          >
             <i class="fa fa-floppy-o" aria-hidden="true"></i> Save
           </button>
-
         </div>
       </div>
       <div class="row mt-4">
-        
         <div class="col-sm-6 p-0 m-0 mb-2">
-          <label class="cursor-pointer mr-2" style="vertical-align: sub;">
-            Delete songs with percentage</label>
-          </div>
+          <label class="cursor-pointer mr-2" style="vertical-align: sub">
+            Delete songs with percentage</label
+          >
+        </div>
         <div class="col-sm-2 p-0 m-0 mb-2">
-            <input type="number" min=0  class="form-control" [(ngModel)]="txtDelPer"/>
+          <input
+            type="number"
+            min="0"
+            class="form-control"
+            [(ngModel)]="txtDelPer"
+          />
         </div>
-        <div  class="col-sm-4 mb-2 pr-0">
-          <button *ngIf="txtDelPer=='0'" class="btn btn-danger col-sm-12 mr-0" disabled>
+        <div class="col-sm-4 mb-2 pr-0">
+          <button
+            *ngIf="txtDelPer == '0'"
+            class="btn btn-danger col-sm-12 mr-0"
+            disabled
+          >
             <i class="fa fa-trash" aria-hidden="true"></i> Delete
           </button>
-          <button *ngIf="txtDelPer!='0'" class="btn btn-danger col-sm-12 mr-0"
-          (click)="onDeletePercentageClick(DeletePercentageModal)" (click)="d('Cross click')">
+          <button
+            *ngIf="txtDelPer != '0'"
+            class="btn btn-danger col-sm-12 mr-0"
+            (click)="onDeletePercentageClick(DeletePercentageModal)"
+            (click)="d('Cross click')"
+          >
             <i class="fa fa-trash" aria-hidden="true"></i> Delete
           </button>
-      </div>
+        </div>
         <div class="col-sm-10 p-0 m-0 mb-2 d-none">
-          <label class="cursor-pointer mr-2"   style="vertical-align: sub;">
-            Delete songs with number</label></div>
-            <div class="col-sm-2 p-0 m-0 mb-2 d-none">
-            <input type="text"  class="form-control"/>
+          <label class="cursor-pointer mr-2" style="vertical-align: sub">
+            Delete songs with number</label
+          >
+        </div>
+        <div class="col-sm-2 p-0 m-0 mb-2 d-none">
+          <input type="text" class="form-control" />
         </div>
       </div>
-       
-
-
     </div>
   </div>
-
 </ng-template>
 
-
 <ng-template #PlaylistDeleteModal let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <h5>Delete Playlist</h5>
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Delete Playlist</h5>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -667,37 +1343,50 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-sm-12">
-          <p>{{txtCommonMsg}}</p>
+          <p>{{ txtCommonMsg }}</p>
         </div>
       </div>
       <div class="row">
-        <div class="col-sm-12" *ngIf="txtMsg!=''">
-          <p class="btn btn-danger">{{txtMsg}}</p>
+        <div class="col-sm-12" *ngIf="txtMsg != ''">
+          <p class="btn btn-danger">{{ txtMsg }}</p>
         </div>
         <div class="col-sm-12">
-          <button class="btn btn-primary col-sm-2  pull-right" (click)="d('Cross click')">
+          <button
+            class="btn btn-primary col-sm-2 pull-right"
+            (click)="d('Cross click')"
+          >
             <i class="fa fa-times fa-lg" aria-hidden="true"></i>
           </button>
-          <button *ngIf="txtMsg==''" class="btn btn-danger col-sm-2  pull-right mr-2" (click)="DeletePlaylist('No')">
+          <button
+            *ngIf="txtMsg == ''"
+            class="btn btn-danger col-sm-2 pull-right mr-2"
+            (click)="DeletePlaylist('No')"
+          >
             <i class="fa fa-check fa-lg" aria-hidden="true"></i>
           </button>
 
-          <button *ngIf="txtMsg!=''" class="btn btn-primary col-sm-4  pull-right mr-2"
-            (click)="ViewTokens(modalTokenInfo,'Playlist')">
+          <button
+            *ngIf="txtMsg != ''"
+            class="btn btn-primary col-sm-4 pull-right mr-2"
+            (click)="ViewTokens(modalTokenInfo, 'Playlist')"
+          >
             View Tokens
           </button>
         </div>
       </div>
-
     </div>
   </div>
-
 </ng-template>
 
 <ng-template #TitleDeleteModal let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <h5>Delete Title</h5>
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Delete Title</h5>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -710,73 +1399,92 @@
       </div>
       <div class="row">
         <div class="col-sm-12">
-          <button class="btn btn-primary col-sm-2  pull-right" (click)="d('Cross click')">
+          <button
+            class="btn btn-primary col-sm-2 pull-right"
+            (click)="d('Cross click')"
+          >
             <i class="fa fa-times fa-lg" aria-hidden="true"></i>
           </button>
-          <button class="btn btn-danger col-sm-2  pull-right mr-2" (click)="DeleteTitle(ForceUpdate)" (click)="d('Cross click')">
+          <button
+            class="btn btn-danger col-sm-2 pull-right mr-2"
+            (click)="DeleteTitle(ForceUpdate)"
+            (click)="d('Cross click')"
+          >
             <i class="fa fa-check fa-lg" aria-hidden="true"></i>
           </button>
-
         </div>
       </div>
-
     </div>
   </div>
-
 </ng-template>
 
-
-
 <ng-template #modalFormat let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <h5>New Campaign</h5>
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">New Format</h5>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
     <div class="container-fluid">
-
       <div class="row">
         <div class="col-sm-12">
-          <label for="State" class="mb-2 mr-sm-2">Campaign:</label>
-          <input type="text" [(ngModel)]="NewFormatName" class="form-control mb-2 mr-sm-2" id="fName">
+          <label for="State" class="mb-2 mr-sm-2">Format Name:</label>
+          <input
+            type="text"
+            [(ngModel)]="NewFormatName"
+            class="form-control mb-2 mr-sm-2"
+            id="fName"
+          />
         </div>
-
       </div>
       <div class="row">
         <div class="col-sm-12">
-          <button class="btn btn-primary col-sm-2  pull-right" type="button" (click)="onSubmitNewFormat()"
-            (click)="d('Cross click')">
-            <i class="fa fa-floppy-o fa-lg" aria-hidden="true"></i>
+          <button
+            class="btn btn-primary col-sm-2 pull-right"
+            type="button"
+            (click)="onSubmitNewFormat()"
+            (click)="d('Cross click')"
+          >
+            Save
           </button>
         </div>
       </div>
-
     </div>
   </div>
-
 </ng-template>
 
-
 <ng-template #NewPlaylistModel let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <h5>New Playlist</h5>
-    <button type="button" class="close" aria-label="Close" (click)="ModelClose()">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">New Playlist</h5>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="ModelClose()"
+    >
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
     <app-new-playlist-library></app-new-playlist-library>
   </div>
-
 </ng-template>
 
-
 <ng-template #modalDeleteFormat let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <h5>Delete Campaign</h5>
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Delete Format</h5>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -784,95 +1492,101 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-sm-12">
-          <p>{{txtCommonMsg}}</p>
+          <p>{{ txtCommonMsg }}</p>
         </div>
       </div>
       <div class="row">
-        <div class="col-sm-12" *ngIf="txtMsg!=''">
-          <p class="btn btn-danger">{{txtMsg}}</p>
+        <div class="col-sm-12" *ngIf="txtMsg != ''">
+          <p class="btn btn-danger">{{ txtMsg }}</p>
         </div>
         <div class="col-sm-12">
-          <button class="btn btn-primary col-sm-2  pull-right" (click)="d('Cross click')">
+          <button
+            class="btn btn-primary col-sm-2 pull-right"
+            (click)="d('Cross click')"
+          >
             <i class="fa fa-times fa-lg" aria-hidden="true"></i>
           </button>
-          <button *ngIf="txtMsg==''" class="btn btn-danger col-sm-2  pull-right mr-2" (click)="DeleteFormat('No')">
+          <button
+            *ngIf="txtMsg == ''"
+            class="btn btn-danger col-sm-2 pull-right mr-2"
+            (click)="DeleteFormat('No')"
+          >
             <i class="fa fa-check fa-lg" aria-hidden="true"></i>
           </button>
 
-          <button *ngIf="txtMsg!=''" class="btn btn-primary col-sm-4  pull-right mr-2"
-            (click)="ViewTokens(modalTokenInfo,'Format')">
+          <button
+            *ngIf="txtMsg != ''"
+            class="btn btn-primary col-sm-4 pull-right mr-2"
+            (click)="ViewTokens(modalTokenInfo, 'Format')"
+          >
             View Tokens
           </button>
-
-
         </div>
       </div>
-
     </div>
   </div>
-
 </ng-template>
 
-
-
-
 <ng-template #modalTokenInfo let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+  <div class="modal-header bg-primary">
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body p-0">
     <div class="container-fluid p-0">
-
       <div class="table-responsive">
-        <table class="table table-sm table-bordered">
-          <thead class="thead-light">
+        <table
+          class="table data-table table-striped table-bordered mydatatable"
+        >
+          <thead class="bg-primary">
             <tr>
               <th scope="col">Token Code</th>
               <th scope="col">Name</th>
-              <th scope="col">Location </th>
-              <th scope="col" style="Width:130px">City </th>
-              <th scope="col" style="Width:100px">Country </th>
+              <th scope="col">Location</th>
+              <th scope="col" style="width: 130px">City</th>
+              <th scope="col" style="width: 100px">Country</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let cLst of TokenList">
               <td data-label="Token Code">
-                {{cLst.tokenCode}}
+                {{ cLst.tokenCode }}
               </td>
               <td data-label="Name">
-                {{cLst.Name}}
+                {{ cLst.Name }}
               </td>
               <td data-label="Location">
-                {{cLst.location}}
+                {{ cLst.location }}
               </td>
               <td data-label="City">
-                {{cLst.city}}
+                {{ cLst.city }}
               </td>
               <td data-label="Country ">
-                {{cLst.countryName}}
+                {{ cLst.countryName }}
               </td>
-
-
-
             </tr>
           </tbody>
-
         </table>
-
       </div>
-
-
     </div>
   </div>
-
 </ng-template>
 
 <ng-template #DeletePercentageModal let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <h5>Delete</h5>
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Delete</h5>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -885,27 +1599,35 @@
       </div>
       <div class="row">
         <div class="col-sm-12">
-          <button class="btn btn-primary col-sm-2  pull-right" (click)="d('Cross click')">
+          <button
+            class="btn btn-primary col-sm-2 pull-right"
+            (click)="d('Cross click')"
+          >
             <i class="fa fa-times fa-lg" aria-hidden="true"></i>
           </button>
-          <button class="btn btn-danger col-sm-2  pull-right mr-2" (click)="DeleteTitlePercentage()" (click)="d('Cross click')">
+          <button
+            class="btn btn-danger col-sm-2 pull-right mr-2"
+            (click)="DeleteTitlePercentage()"
+            (click)="d('Cross click')"
+          >
             <i class="fa fa-check fa-lg" aria-hidden="true"></i>
           </button>
-
         </div>
       </div>
-
     </div>
   </div>
-
 </ng-template>
 
-
-
 <ng-template #CustomSearchModal let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <h5>Custom Search</h5>
-    <button type="button" class="close" aria-label="Close"  (click)="CloseCommonSearch()" (click)="d('Cross click')"> 
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Custom Search</h5>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="CloseCommonSearch()"
+      (click)="d('Cross click')"
+    >
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -913,102 +1635,129 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-sm-3">
-         <input type="text" value=""  [(ngModel)]="txtSearch1" (keypress)="numberOnly($event)" class="form-control"/>
+          <input
+            type="text"
+            value=""
+            [(ngModel)]="txtSearch1"
+            (keypress)="numberOnly($event)"
+            class="form-control"
+          />
         </div>
         <div class="col-sm-3">
-          <input type="text" value=""  [(ngModel)]="txtSearch2"  (keypress)="numberOnly($event)" class="form-control"/>
-         </div>
-         <div class="col-sm-3">
-          <button class="btn btn-primary"  (click)="CustomSearch()">
+          <input
+            type="text"
+            value=""
+            [(ngModel)]="txtSearch2"
+            (keypress)="numberOnly($event)"
+            class="form-control"
+          />
+        </div>
+        <div class="col-sm-3">
+          <button class="btn btn-primary" (click)="CustomSearch()">
             <i class="fa fa-search fa-lg" aria-hidden="true"></i>
           </button>
-         </div>
+        </div>
       </div>
-       
-
     </div>
   </div>
-
 </ng-template>
 
-
-
 <ng-template #ForceUpdate let-c="close" let-d="dismiss">
-  <div class="modal-header">
-      <h5>Publish</h5>
-      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-          <span aria-hidden="true">&times;</span>
-      </button>
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Publish</h5>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
   </div>
   <div class="modal-body">
-      <div class="container-fluid">
-          <div class="row">
-              <div class="col-sm-12 m-0 p-0"> 
-                  <p style="margin: 0 !important;">You want to update locations now?</p>
-              </div>
-              <div class="col-sm-12 m-0 p-0 mt-1">
-                <p style="font-size: smaller;margin: 0 !important;color: lightblue;">Note: Have in mind that changes will be implemented immediately with restart of the program.</p>
-              </div>
-          </div>
-          <div class="row">
-              <div class="col-sm-12">
-                  <button class="btn btn-primary col-sm-2  pull-right" (click)="d('Cross click')">
-                      <i class="fa fa-times fa-lg" aria-hidden="true"></i>
-                  </button>
-                  <button class="btn btn-danger col-sm-2  pull-right mr-2" (click)="ForceUpdateAll()"
-                      (click)="d('Cross click')">
-                      <i class="fa fa-check fa-lg" aria-hidden="true"></i>
-                  </button>
-
-                  
-              </div>
-              
-          </div>
-
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12 m-0 p-0">
+          <p style="margin: 0 !important">You want to update locations now?</p>
+        </div>
+        <div class="col-sm-12 m-0 p-0 mt-1">
+          <p style="font-size: smaller; margin: 0 !important; color: lightblue">
+            Note: Have in mind that changes will be implemented immediately with
+            restart of the program.
+          </p>
+        </div>
       </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <button
+            class="btn btn-primary col-sm-2 pull-right"
+            (click)="d('Cross click')"
+          >
+            <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+          </button>
+          <button
+            class="btn btn-danger col-sm-2 pull-right mr-2"
+            (click)="ForceUpdateAll()"
+            (click)="d('Cross click')"
+          >
+            <i class="fa fa-check fa-lg" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
-
 </ng-template>
 
 <ng-template #OwnTitleDeleteModal let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <h5>Delete Title</h5>
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Delete Title</h5>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
     <div class="container-fluid">
       <div class="row">
-        <div class="col-sm-12 m-0  p-0 mb-3">
-          <p>{{lblUpperMsg}}</p>
+        <div class="col-sm-12 m-0 p-0 mb-3">
+          <p>{{ lblUpperMsg }}</p>
         </div>
       </div>
       <div class="row" *ngIf="ViewPlaylists === 'Yes'">
         <div class="col-sm-12 m-0 p-0">
           <ul>
-            <li *ngFor="let tPL of TitlePlaylists;">{{tPL}}</li>
+            <li *ngFor="let tPL of TitlePlaylists">{{ tPL }}</li>
           </ul>
         </div>
       </div>
       <div class="row">
         <div class="col-sm-12 m-0 p-0">
-          <button *ngIf="ForceAction === 'Yes'" class="btn btn-primary col-sm-4  pull-left" (click)="ViewTitlePlaylists()">
+          <button
+            *ngIf="ForceAction === 'Yes'"
+            class="btn btn-primary col-sm-4 pull-left"
+            (click)="ViewTitlePlaylists()"
+          >
             View Playlists
           </button>
 
-          <button class="btn btn-primary col-sm-2  pull-right" (click)="d('Cross click')">
+          <button
+            class="btn btn-primary col-sm-2 pull-right"
+            (click)="d('Cross click')"
+          >
             <i class="fa fa-times fa-lg" aria-hidden="true"></i>
           </button>
-          <button class="btn btn-danger col-sm-2  pull-right mr-2" (click)="DeleteTitleOwn(ForceAction)">
+          <button
+            class="btn btn-danger col-sm-2 pull-right mr-2"
+            (click)="DeleteTitleOwn(ForceAction)"
+          >
             <i class="fa fa-check fa-lg" aria-hidden="true"></i>
           </button>
-
         </div>
-         
       </div>
-
     </div>
   </div>
-
 </ng-template>

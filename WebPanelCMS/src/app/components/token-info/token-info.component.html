@@ -1,232 +1,382 @@
-<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px',fullScreenBackdrop:true  }">
+<ngx-loading
+  [show]="loading"
+  [config]="{ backdropBorderRadius: '3px', fullScreenBackdrop: true }"
+>
 </ngx-loading>
 <div class="container-fluid m-0 p-0">
-    <form [formGroup]="TokenInfo"  class="p-0">
-
-        <div class="form-row">
-            <div class="form-group col-sm-4 pb-0 m-0">
-                <label for="token" class="mb-2 mr-sm-2">Player Location:</label>
-                <input type="text" formControlName="location" class="form-control mb-2 mr-sm-2" id="location">
-            </div>
-            <div class="form-group col-sm-4 pb-0 m-0">
-                <label for="name" class="mb-2 mr-sm-2">Company Name:</label>
-                <input type="text" formControlName="personName" class="form-control mb-2 mr-sm-2" id="name">
-            </div>
-            <div class="form-group col-sm-4 pb-0 m-0">
-                <label for="countryName" class="mb-2 mr-sm-2">Country Name:</label>
-                <select name="countryname" formControlName="country" class="custom-select"
-                    (change)="onChangeCountry($event.target.value)" id="countryName">
-                    <option selected value="0"></option>
-                    <option *ngFor="let cLst of CountryList" [value]="cLst.Id">{{cLst.DisplayName}}</option>
-                </select>
-
-            </div>
-            <div class="form-group col-sm-4 pb-0 m-0">
-                <div class="col-sm-11 p-0 pr-1 m-0 pull-left">
-                <label for="StateName" class="mb-2 mr-sm-2">State Name: </label>
-                <select name="sName" formControlName="state" class="custom-select"
-                    (change)="onChangeState($event.target.value)" id="StateName">
-                    <option selected value="0"></option>
-                    <option *ngFor="let stateLst of StateList" [value]="stateLst.Id">{{stateLst.DisplayName}}</option>
-                </select>
-            </div>
-            <div class="col-sm-1 pull-right p-0">
-                <label for="btnStateName" class="mb-2 mr-sm-2">&nbsp;</label>
-             <button id="btnStateName" class="btn btn-primary" 
-             (click)="openCommonModal(modalCommon,'State')" style="padding: 0.200rem 0.5rem;">
-            <i class="fa fa-bars" aria-hidden="true"></i>
-          </button>
-            </div>
-            </div>
-            <div class="form-group col-sm-4 pb-0 m-0">
-                <div class="col-sm-11 p-0 pr-1 m-0 pull-left">
-                    <label for="CityName" class="mb-2 mr-sm-2">City Name:</label>
-                    <select name="cityname" formControlName="city" class="custom-select" 
-                    (change)="onChangeCity($event.target.value)" id="CityName">
-                        <option selected value="0"></option>
-                        <option *ngFor="let cityLst of CityList" [value]="cityLst.Id">{{cityLst.DisplayName}}</option>
-                    </select>
-                    </div>
-                    <div class="col-sm-1 pull-right p-0">
-                        <label for="btnCityName" class="mb-2 mr-sm-2">&nbsp;</label>
-                     <button id="btnCityName" class="btn btn-primary"
-                      (click)="openCommonModal(modalCommon,'City')" style="padding: 0.200rem 0.5rem;">
-                    <i class="fa fa-bars" aria-hidden="true"></i>
-                  </button>
-                    </div>
-               
-            </div>
-            <div class="form-group col-sm-4 pb-0 m-0">
-                <div class="col-sm-6 float-left pl-0">
-                    <label for="street" class="mb-2 mr-sm-2">Street:</label>
-                    <input type="text" formControlName="street" class="form-control mb-2 mr-sm-2" id="street">
-                    </div>
-                    <div class="col-sm-6 float-left p-0">
-                        <label for="location">Contact Person Name:</label>
-                        <input type="text" formControlName="token" class="form-control mb-2 mr-sm-2" id="token">
-                    </div>
-            </div>
-
-
-
-
-            <div class="form-group col-sm-4 pb-0 m-0">
-               
-
-
-                <div class="col-sm-6 float-left pl-0">
-                    <label for="MediaType">Media Type:</label>
-                    <select name="lType" formControlName="chkMediaType" (change)="MediaTypeChange($event.target.value)"
-                    class="custom-select" id="MediaType">
-                    <option  value=""></option>
-                        <option  value="Audio">Audio</option>
-                        <option  value="Video">Video</option>
-                        <option value="Signage">Signage</option>
-                    </select>
-
-                   
-                </div>
-                <div class="col-sm-6 float-left p-0">
-                    <label for="LicenceType">Licence Type:</label>
-                    <select name="lType" formControlName="LicenceType" class="custom-select" id="LicenceType">
-                        <option [selected]="chkCopyright" *ngIf="((f.chkMediaType.value == 'Audio') || (f.chkMediaType.value == 'Video'))" value="Copyright">Copyright</option>
-                        <option [selected]="chkDL" *ngIf="f.chkMediaType.value == 'Audio'" value="DirectLicence">Direct Licence</option>
-                    </select>
-                   
-                </div>
-
-
-
-            </div>
-            <div class="form-group col-sm-4 pb-0 m-0">
-                <div class="col-sm-6 float-left pl-0">
-                    <label for="playerType">OS Type:</label>
-                    <select name="pType" formControlName="PlayerType" class="custom-select" id="playerType">
-                        <option  value="Android">Android</option>
-                        <option *ngIf="f.chkMediaType.value != 'Signage'"  value="Desktop">Windows</option>
-                    </select>
-                </div>
-
-                <div class="col-sm-6 float-left p-0">
-
-                    <label for="playerType">OS Version:</label>
-                    <select name="pType" formControlName="OsVersion" class="custom-select" id="playerType">
-                        <option  value=""></option>
-                        <option *ngIf="f.PlayerType.value == 'Android'"  value="OS4.1">Android 4.1</option>
-                        <option *ngIf="f.PlayerType.value == 'Android'"  value="OS4.2">Android 4.2</option>
-                        <option *ngIf="f.PlayerType.value == 'Android'"  value="OS4.4">Android 4.4</option>
-                        <option *ngIf="f.PlayerType.value == 'Android'"  value="OS6Pro">Android 6 Pro</option>
-                        <option *ngIf="f.PlayerType.value == 'Android'"  value="OS7Above">Android 7 or Above</option>
-                        <option *ngIf="f.PlayerType.value == 'Desktop'"  value="Win10">Windows 10</option>
-                    </select>
-                </div>
-
-            </div>
-            <div class="form-group col-sm-4 pb-0 m-0">
-                <div class="col-sm-6 float-left pl-0">
-                    <label for="dtExpiry" class="mb-2 mr-sm-2">Expiry Date:</label>
-                    <input id="dtExpiry" formControlName="ExpiryDate" class="form-control mb-2 mr-sm-2"
-                        [owlDateTimeTrigger]="dtExpiry" [owlDateTime]="dtExpiry" readonly>
-                    <owl-date-time [pickerType]="'calendar'" #dtExpiry></owl-date-time>
-                    
-                </div>
-                <div class="col-sm-6 float-left p-0">
-                <label for="GroupId">Group:</label>
-                
-                <select name="GroupId" formControlName="GroupId" class="custom-select" 
-                    (change)="onChangeGroup($event.target.value)" id="GroupId">
-                        <option selected value="0"></option>
-                        <option *ngFor="let grpLst of GroupList" [value]="grpLst.Id">{{grpLst.DisplayName}}</option>
-                    </select>
-            </div>
-            <div class="d-none col-sm-1 pull-right p-0">
-                <label for="btnGroup" class="mb-2 mr-sm-2">&nbsp;</label>
-             <button id="btnGroup" class="btn btn-primary" 
-             (click)="openCommonModal(modalCommon,'Group')" style="padding: 0.200rem 0.5rem;">
-            <i class="fa fa-bars" aria-hidden="true"></i>
-          </button>
-            </div>
-
-
+  <form [formGroup]="TokenInfo" class="p-0">
+    <div class="form-row">
+      <div class="form-group col-sm-3 pb-0 m-0">
+        <label for="token" class="mb-2 mr-sm-2">Player Location:</label>
+        <input
+          type="text"
+          formControlName="location"
+          class="form-control mb-2 mr-sm-2"
+          id="location"
+        />
+      </div>
+      <div class="form-group col-sm-3 pb-0 m-0">
+        <label for="name" class="mb-2 mr-sm-2">Company Name:</label>
+        <input
+          type="text"
+          formControlName="personName"
+          class="form-control mb-2 mr-sm-2"
+          id="name"
+        />
+      </div>
+      <div class="form-group col-sm-3 pb-0 m-0">
+        <label for="countryName" class="mb-2 mr-sm-2">Country Name:</label>
+        <select
+          name="countryname"
+          formControlName="country"
+          class="custom-select"
+          (change)="onChangeCountry($event.target.value)"
+          id="countryName"
+        >
+          <option selected value="0"></option>
+          <option *ngFor="let cLst of CountryList" [value]="cLst.Id">
+            {{ cLst.DisplayName }}
+          </option>
+        </select>
+      </div>
+      <div class="form-group col-sm-3 pb-0 m-0">
+        <div class="col-sm-10 p-0 pr-1 m-0 pull-left">
+          <label for="StateName" class="mb-2 mr-sm-2">State Name: </label>
+          <select
+            name="sName"
+            formControlName="state"
+            class="custom-select"
+            (change)="onChangeState($event.target.value)"
+            id="StateName"
+          >
+            <option selected value="0"></option>
+            <option *ngFor="let stateLst of StateList" [value]="stateLst.Id">
+              {{ stateLst.DisplayName }}
+            </option>
+          </select>
         </div>
-            <div class="form-group col-sm-4 pb-0 m-0">
+        <div class="col-sm-2 pull-right p-0">
+          <label for="btnStateName" class="mb-2 mr-sm-2">&nbsp;</label>
+          <button
+            id="btnStateName"
+            class="btn btn-primary btn-sm mt-2"
+            (click)="openCommonModal(modalCommon, 'State')"
+            style="padding: 0.2rem 0.5rem"
+          >
+            <i class="fa fa-bars" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+      <div class="form-group col-sm-3 pb-0 m-0">
+        <div class="col-sm-10 p-0 pr-1 m-0 pull-left">
+          <label for="CityName" class="mb-2 mr-sm-2">City Name:</label>
+          <select
+            name="cityname"
+            formControlName="city"
+            class="custom-select"
+            (change)="onChangeCity($event.target.value)"
+            id="CityName"
+          >
+            <option selected value="0"></option>
+            <option *ngFor="let cityLst of CityList" [value]="cityLst.Id">
+              {{ cityLst.DisplayName }}
+            </option>
+          </select>
+        </div>
+        <div class="col-sm-2 pull-right p-0">
+          <label for="btnCityName" class="mb-2 mr-sm-2">&nbsp;</label>
+          <button
+            id="btnCityName"
+            class="btn btn-primary btn-sm mt-2"
+            (click)="openCommonModal(modalCommon, 'City')"
+            style="padding: 0.2rem 0.5rem"
+          >
+            <i class="fa fa-bars" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+      <div class="form-group col-sm-3 pb-0 m-0">
+        <label for="street" class="mb-2 mr-sm-2">Street:</label>
+        <input
+          type="text"
+          formControlName="street"
+          class="form-control mb-2 mr-sm-2"
+          id="street"
+        />
+      </div>
+      <div class="form-group col-sm-3 pb-0 m-0">
+        <label for="location">Contact Person Name:</label>
+        <input
+          type="text"
+          formControlName="token"
+          class="form-control mb-2 mr-sm-2"
+          id="token"
+        />
+      </div>
 
-                <div class="col-sm-6 float-left pl-0">
-                     
-                    <label for="ScheduleType">Schedule Type:</label>
-                    <select name="ScheduleType" (change)="onChangeSchedule($event.target.value)"
-                        formControlName="ScheduleType" class="custom-select" id="ScheduleType">
-                        <option selected value="Normal">Normal Schedule</option>
-                        <option selected value="OneToOnePlaylist">One to One Playlist</option>
-                        <option selected value="PercentageSchedule">% Schedule</option>
-                    </select>
-                </div>
+      <div class="form-group col-sm-3 pb-0 m-0">
+        <label for="MediaType">Media Type:</label>
+        <select
+          name="lType"
+          formControlName="chkMediaType"
+          (change)="MediaTypeChange($event.target.value)"
+          class="custom-select"
+          id="MediaType"
+        >
+          <option value=""></option>
+          <option value="Audio">Audio</option>
+          <option value="Video">Video</option>
+          <option value="Signage">Signage</option>
+        </select>
+      </div>
+      <div class="form-group col-sm-3 pb-0 m-0">
+        <label for="LicenceType">Licence Type:</label>
+        <select
+          name="lType"
+          formControlName="LicenceType"
+          class="custom-select"
+          id="LicenceType"
+        >
+          <option
+            [selected]="chkCopyright"
+            *ngIf="
+              f.chkMediaType.value == 'Audio' || f.chkMediaType.value == 'Video'
+            "
+            value="Copyright"
+          >
+            Copyright
+          </option>
+          <option
+            [selected]="chkDL"
+            *ngIf="f.chkMediaType.value == 'Audio'"
+            value="DirectLicence"
+          >
+            Direct Licence
+          </option>
+        </select>
+      </div>
+      <div class="form-group col-sm-3 pb-0 m-0">
+        <label for="playerType">OS Type:</label>
+        <select
+          name="pType"
+          formControlName="PlayerType"
+          class="custom-select"
+          id="playerType"
+        >
+          <option value="Android">Android</option>
+          <option *ngIf="f.chkMediaType.value != 'Signage'" value="Desktop">
+            Windows
+          </option>
+        </select>
+      </div>
+      <div class="form-group col-sm-3 pb-0 m-0">
+        <label for="playerType">OS Version:</label>
+        <select
+          name="pType"
+          formControlName="OsVersion"
+          class="custom-select"
+          id="playerType"
+        >
+          <option value=""></option>
+          <option *ngIf="f.PlayerType.value == 'Android'" value="OS4.1">
+            Android 4.1
+          </option>
+          <option *ngIf="f.PlayerType.value == 'Android'" value="OS4.2">
+            Android 4.2
+          </option>
+          <option *ngIf="f.PlayerType.value == 'Android'" value="OS4.4">
+            Android 4.4
+          </option>
+          <option *ngIf="f.PlayerType.value == 'Android'" value="OS6Pro">
+            Android 6 Pro
+          </option>
+          <option *ngIf="f.PlayerType.value == 'Android'" value="OS7Above">
+            Android 7 or Above
+          </option>
+          <option *ngIf="f.PlayerType.value == 'Desktop'" value="Win10">
+            Windows 10
+          </option>
+        </select>
+      </div>
+      <div class="form-group col-sm-3 pb-0 m-0">
+        <label for="dtExpiry" class="mb-2 mr-sm-2">Expiry Date:</label>
+        <input
+          id="dtExpiry"
+          formControlName="ExpiryDate"
+          class="form-control mb-2 mr-sm-2"
+          [owlDateTimeTrigger]="dtExpiry"
+          [owlDateTime]="dtExpiry"
+          readonly
+        />
+        <owl-date-time [pickerType]="'calendar'" #dtExpiry></owl-date-time>
+      </div>
+      <div class="form-group col-sm-3 pb-0 m-0">
+        <label for="GroupId">Group:</label>
+        <select
+          name="GroupId"
+          formControlName="GroupId"
+          class="custom-select"
+          (change)="onChangeGroup($event.target.value)"
+          id="GroupId"
+        >
+          <option selected value="0"></option>
+          <option *ngFor="let grpLst of GroupList" [value]="grpLst.Id">
+            {{ grpLst.DisplayName }}
+          </option>
+        </select>
+        <div class="d-none col-sm-1 pull-right p-0">
+          <label for="btnGroup" class="mb-2 mr-sm-2">&nbsp;</label>
+          <button
+            id="btnGroup"
+            class="btn btn-primary"
+            (click)="openCommonModal(modalCommon, 'Group')"
+            style="padding: 0.2rem 0.5rem"
+          >
+            <i class="fa fa-bars" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
 
+      <div class="form-group col-sm-3 pb-0 m-0">
+        <label for="ScheduleType">Schedule Type:</label>
+        <select
+          name="ScheduleType"
+          (change)="onChangeSchedule($event.target.value)"
+          formControlName="ScheduleType"
+          class="custom-select"
+          id="ScheduleType"
+        >
+          <option selected value="Normal">Normal Schedule</option>
+          <option selected value="OneToOnePlaylist">One to One Playlist</option>
+          <option selected value="PercentageSchedule">% Schedule</option>
+        </select>
+      </div>
+      <div class="form-group col-sm-3 pb-0 m-0">
+        <label for="dType">Device Type:</label>
+        <select
+          name="pType"
+          formControlName="DeviceType"
+          class="custom-select"
+          id="dType"
+        >
+          <option
+            selected
+            *ngIf="f.chkMediaType.value == 'Audio'"
+            value=""
+          ></option>
+          <option
+            selected
+            *ngIf="f.chkMediaType.value == 'Video'"
+            value="Screen"
+          >
+            Screen
+          </option>
+          <option
+            [selected]="chkScreen"
+            *ngIf="f.chkMediaType.value == 'Signage'"
+            value="Screen"
+          >
+            Screen
+          </option>
+          <option
+            [selected]="chkSanitizer"
+            *ngIf="f.chkMediaType.value == 'Signage'"
+            value="Sanitizer"
+          >
+            Sanitizer
+          </option>
 
-                <div class="col-sm-6 float-left m-0 p-0">
-                    <label for="dType">Device Type:</label>
-                    <select name="pType" formControlName="DeviceType" class="custom-select" id="dType">
-                        <option selected  *ngIf="f.chkMediaType.value == 'Audio'" value=""></option>
-                        <option selected  *ngIf="f.chkMediaType.value == 'Video'" value="Screen">Screen</option>
-                        <option [selected]="chkScreen"  *ngIf="f.chkMediaType.value == 'Signage'" value="Screen">Screen</option>
-                        <option [selected]="chkSanitizer"  *ngIf="f.chkMediaType.value == 'Signage'" value="Sanitizer">Sanitizer</option>
-
-
-                        <!-- 
+          <!--
                             <option  *ngIf="f.chkMediaType.value == 'Audio'" value=""></option>
                         <option *ngIf="((f.chkMediaType.value == 'Video') || (f.chkMediaType.value == 'Signage'))" value="Screen">Screen</option>
                         <option *ngIf="f.chkMediaType.value == 'Signage'" value="Sanitizer">Sanitizer</option>
-                        
+
 
                             <option *ngIf="f.CommunicationType.value == 'Keyboard'" value="Jukebox">Jukebox</option>
                         <option *ngIf="f.CommunicationType.value == 'Keyboard'" value="Lights">Lights</option>
                         <option *ngIf="f.CommunicationType.value == 'Keyboard'" value="RFID">RFID sensors</option> -->
-                    </select>
-                    
-                </div>
-            </div>
-            <div class="form-group col-sm-4 pb-0 m-0">
-               
-                <div class="col-sm-6 float-left pl-0">
-                    <label for="ComType">Communication Type:</label>
-                    <select name="pType" formControlName="CommunicationType" class="custom-select" id="ComType">
-                        <option [selected]="chkBlankComType" 
-                        *ngIf="((f.chkMediaType.value == 'Signage') && (f.DeviceType.value == 'Screen'))"  value=""></option>
-                        <option  [selected]="chkKeyboardScreen"  
-                        *ngIf="((f.chkMediaType.value == 'Signage') && (f.DeviceType.value == 'Screen'))" 
-                        value="Keyboard">Keyboard Events</option>
+        </select>
+      </div>
 
-                        <option  [selected]="chkTTL"  
-                        *ngIf="((f.chkMediaType.value == 'Signage') && (f.DeviceType.value == 'Sanitizer'))" value="TTL">TTL</option>
-                        <option  [selected]="chkKeyboard"  
-                        *ngIf="((f.chkMediaType.value == 'Signage') && (f.DeviceType.value == 'Sanitizer'))"
-                         value="Keyboard">Keyboard Events</option>
+      <div class="form-group col-sm-3 pb-0 m-0">
+        <label for="ComType">Communication Type:</label>
+        <select
+          name="pType"
+          formControlName="CommunicationType"
+          class="custom-select"
+          id="ComType"
+        >
+          <option
+            [selected]="chkBlankComType"
+            *ngIf="
+              f.chkMediaType.value == 'Signage' &&
+              f.DeviceType.value == 'Screen'
+            "
+            value=""
+          ></option>
+          <option
+            [selected]="chkKeyboardScreen"
+            *ngIf="
+              f.chkMediaType.value == 'Signage' &&
+              f.DeviceType.value == 'Screen'
+            "
+            value="Keyboard"
+          >
+            Keyboard Events
+          </option>
 
-                    </select>
-                    
+          <option
+            [selected]="chkTTL"
+            *ngIf="
+              f.chkMediaType.value == 'Signage' &&
+              f.DeviceType.value == 'Sanitizer'
+            "
+            value="TTL"
+          >
+            TTL
+          </option>
+          <option
+            [selected]="chkKeyboard"
+            *ngIf="
+              f.chkMediaType.value == 'Signage' &&
+              f.DeviceType.value == 'Sanitizer'
+            "
+            value="Keyboard"
+          >
+            Keyboard Events
+          </option>
+        </select>
+      </div>
+      <div class="form-group col-sm-3 pb-0 m-0">
+        <label for="deviceid">Device Id(UUID):</label>
+        <input
+          type="text"
+          formControlName="DeviceId"
+          class="form-control mb-2 mr-sm-2"
+          id="deviceid"
+          readonly
+        />
 
-                </div>
-
-               <div class="col-sm-6 float-left m-0 p-0">
-                <label for="deviceid">Device Id(UUID):</label>
-                <input type="text" formControlName="DeviceId" class="form-control mb-2 mr-sm-2" id="deviceid" readonly>
-
-                    <!-- <label for="Rotation">Rotation:</label>
+        <!-- <label for="Rotation">Rotation:</label>
                     <select name="lType" formControlName="Rotation" class="custom-select" id="Rotation">
                         <option selected value="0">Landscape</option>
                         <option selected value="10">Portrait 0</option>
                         <option selected value="90">Portrait 90</option>
                     </select> -->
-                </div>
+      </div>
 
-            </div>
-            <div class="form-group col-sm-4 pb-0 m-0">
-                 <label for="tokenno">Token No:</label>
-                <input type="text" formControlName="TokenNoBkp" class="form-control mb-2 mr-sm-2" id="tokenno" readonly>
+      <div class="form-group col-sm-3 pb-0 m-0">
+        <label for="tokenno">Token No:</label>
+        <input
+          type="text"
+          formControlName="TokenNoBkp"
+          class="form-control mb-2 mr-sm-2"
+          id="tokenno"
+          readonly
+        />
+      </div>
 
-            </div>
-
-            <!--<div class="d-none form-group col-sm-3 pb-0 m-0" style="max-width: 21%;">
+      <!--<div class="d-none form-group col-sm-3 pb-0 m-0" style="max-width: 21%;">
                 <label for="type">Type:</label>
                 <div class="" id="type" style="background-image: none;">
                     <div class="custom-control custom-radio custom-control-inline mr-4 ">
@@ -240,497 +390,689 @@
                         <label class="custom-control-label cursor-pointer" for="chkStream">Stream</label>
                     </div>
                 </div>
-                 
+
 
             </div>-->
 
+      <div class="form-group col-sm-3 pb-0 m-0">
+        <label for="uRights">User Rights:</label>
+        <select
+          name="uRights"
+          formControlName="chkuserRights"
+          class="custom-select"
+          id="uRights"
+        >
+          <option selected value="0"></option>
+          <option selected value="Lock">Lock</option>
+          <option selected value="UnLock">Un-Lock</option>
+        </select>
+      </div>
+      <div class="form-group col-sm-3 pb-0 m-0">
+        <label for="uchkType">Type:</label>
+        <select
+          name="uchkType"
+          formControlName="chkType"
+          class="custom-select"
+          id="uchkType"
+        >
+          <option selected value="SF">Store&amp;Forward</option>
+          <option *ngIf="f.PlayerType.value == 'Desktop'" value="Local">
+            Local Managenent
+          </option>
+          <option selected value="Stream">Stream</option>
+        </select>
+      </div>
 
-            <div class="form-group col-sm-4 pb-0 m-0">
-               
- <div class="col-sm-6 float-left pl-0">
-                    <label for="uRights">User Rights:</label>
-                    <select name="uRights" 
-                        formControlName="chkuserRights" class="custom-select" id="uRights">
-                        <option selected value="0"></option>
-                        <option selected value="Lock">Lock</option>
-                        <option selected value="UnLock">Un-Lock</option>
-                    </select>
-                </div>
-                <div class="col-sm-6 float-left p-0">
-                    <label for="uchkType">Type:</label>
-                    <select name="uchkType" 
-                        formControlName="chkType" class="custom-select" id="uchkType">
-                        <option selected value="SF">Store&amp;Forward</option>
-                        <option *ngIf="f.PlayerType.value == 'Desktop'" value="Local">Local Managenent</option>
-                         <option selected value="Stream">Stream</option>  
-                    </select>
-                </div>
-            </div>
-            
-            <div *ngIf="((f.chkMediaType.value == 'Signage') && (f.DeviceType.value == 'Sanitizer'))" class="form-group col-sm-4 pb-0 m-0">
-                <div class="col-sm-6 float-left pl-0">
-                    <label for="TotalShot">Total Shots: </label>
-                    <input type="text" formControlName="TotalShot" min="0" max="60000" autocomplete="false" class="form-control mb-2 mr-sm-2" id="TotalShot">
-
-                    </div>
-
-                    <div class="col-sm-6 float-left p-0">
-                        <label for="Dispenser">Dispenser Alert:</label>
-                       <ng-multiselect-dropdown id="Dispenser" [placeholder]="' '" 
-                        [settings]="dropdownSettings" [data]="dropdownList"
-                         formControlName="DispenserAlert" >
-          
-                        </ng-multiselect-dropdown>
-                    </div>
-                     
-
-                
-            </div>
-
-            <div class="form-group col-sm-4 pb-0 m-0">
-                    <div  *ngIf="((f.chkMediaType.value == 'Signage') && (f.DeviceType.value == 'Sanitizer'))" class="col-sm-6 float-left pl-0">
-                        
-                        <label for="AlertMail">Dispenser Alert Email:</label>
-                    <input type="text" formControlName="AlertMail" autocomplete="false" class="form-control mb-2 mr-sm-2" id="AlertMail">
-
-                    </div>
-                   
-                    <div class="col-sm-6 float-left m-0 p-0">
-                        <label for="uRights1">&nbsp;</label>
-                    <div *ngIf="((f.chkMediaType.value != 'Signage') || (f.DeviceType.value != 'Sanitizer'))" id="uRights1" class="custom-control custom-checkbox  mb-2 mr-sm-0">
-                        <input type="checkbox" class="custom-control-input" id="chkIndicatorID" formControlName="chkIndicator"
-                            [checked]="chkIndicatorBox" name="chkToken">
-                        <label class="custom-control-label" for="chkIndicatorID">Show Online Indicator</label>
-                    </div>
-                    <div *ngIf="((f.chkMediaType.value == 'Signage') && (f.DeviceType.value == 'Sanitizer'))" id="uRights1" class="custom-control custom-checkbox  mb-2 mr-sm-0">
-                        <input type="checkbox" class="custom-control-input" id="chkToastMsg" formControlName="IsShowShotToast"
-                            [checked]="chkShotMsg" name="chkToast">
-                        <label class="custom-control-label" for="chkToastMsg">Show Shots Message</label>
-                    </div>
-                    
-    </div>
-
-                
-            </div>
-            <div class="form-group col-sm-8 pb-0 m-0">
-                
-            </div>
-
-            <div   class="form-group col-sm-4 pb-0 m-0">
-                <div class="col-sm-6 float-left m-0 p-0">
-                <div *ngIf="((f.chkMediaType.value == 'Signage') && (f.DeviceType.value == 'Sanitizer'))" id="uRights1" class="custom-control custom-checkbox mt-1 mb-2 mr-sm-0">
-                    <input type="checkbox" class="custom-control-input" id="chkIndicatorID1"
-                     formControlName="chkIndicator"
-                        [checked]="chkIndicatorBox" name="chkToken2">
-                    <label class="custom-control-label" for="chkIndicatorID1">Show Online Indicator</label>
-                </div>
-                
-</div>
-                <div class="col-sm-6 float-right p-0">
-                    <div id="btns">
-    
-                    <button type="button" type="button" (click)="openResetModal(ResetModal)"
-                        class="btn btn-danger pull-right">Reset token</button></div>
-                    <button class="btn btn-primary mr-2 pull-right" type="button"  (click)="onSubmitTokenInfo()">
-                        <i class="fa fa-floppy-o fa-lg" aria-hidden="true"></i>
-                    </button>
-                </div>
-            </div>
+      <div
+        *ngIf="
+          f.chkMediaType.value == 'Signage' && f.DeviceType.value == 'Sanitizer'
+        "
+        class="form-group col-sm-3 pb-0 m-0"
+      >
+        <div class="col-sm-6 float-left pl-0">
+          <label for="TotalShot">Total Shots: </label>
+          <input
+            type="text"
+            formControlName="TotalShot"
+            min="0"
+            max="60000"
+            autocomplete="false"
+            class="form-control mb-2 mr-sm-2"
+            id="TotalShot"
+          />
         </div>
 
-    </form>
-    <div class="mt-2 col-md-12 p-0" style="background: #fff;color: #000;">
-        <ul class="nav nav-tabs">
-            <li class=" active"><a data-toggle="tab" href="#home" class="nav-link active ">Playlist Schedule</a>
-            </li>
-            <li><a data-toggle="tab" href="#menu3" class="nav-link">Sanitizer Announcement </a></li>
-            <li><a data-toggle="tab" href="#menu5" class="nav-link">Keyboard Events </a></li>
-            <li><a data-toggle="tab" href="#menu6" class="nav-link">Emergency Alert </a></li>
-            <li><a data-toggle="tab" href="#menu1" class="nav-link">Advertisement </a></li>
-            <li><a data-toggle="tab" href="#menu4" class="nav-link">Instant Phone Playlist</a></li>
-            <li><a data-toggle="tab" href="#menu2" class="nav-link">Prayer Timing </a></li>
-        </ul>
-        <div class="tab-content">
-            <div id="home" class="tab-pane  in active">
-                <table class="mt-2  table table-hover table table-sm  table-bordered">
-                    <thead class="thead-light">
-                        <tr>
-                            <th scope="col">Campaign</th>
-                            <th scope="col">Playlist Name</th>
-                            <th *ngIf="ScheduleType!=='PercentageSchedule'" scope="col">Start Time</th>
-                            <th *ngIf="ScheduleType!=='PercentageSchedule'"  scope="col">End Time</th>
-                            <th *ngIf="ScheduleType!=='PercentageSchedule'"  scope="col">Week Day</th>
-                            <th *ngIf="ScheduleType==='PercentageSchedule'"  scope="col">PercentageValue</th>
-                            <th    scope="col" class="Link-Center_Width"></th>
-                            <th    scope="col" class="Link-Center_Width"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let schLst of ModifySchList;">
-                            <td data-label="Campaign">
-                                {{schLst.formatName}}
-                            </td>
-                            <td data-label="Playlist Name">
-                                {{schLst.playlistName}}
-                            </td>
-                            <td *ngIf="ScheduleType!=='PercentageSchedule'"  data-label="Start Time">
-                                {{schLst.StartTime}}
-                            </td>
-                            <td *ngIf="ScheduleType!=='PercentageSchedule'"  data-label="End Time">
-                                {{schLst.EndTime}}
-                            </td>
-                            <td  *ngIf="ScheduleType!=='PercentageSchedule'" data-label="Week Day">
-                                {{schLst.WeekDay}}
-                            </td>
-                            <th *ngIf="ScheduleType==='PercentageSchedule'"  scope="col">{{schLst.PercentageValue}}</th>
+        <div class="col-sm-6 float-left p-0">
+          <label for="Dispenser">Dispenser Alert:</label>
+          <ng-multiselect-dropdown
+            id="Dispenser"
+            [placeholder]="' '"
+            [settings]="dropdownSettings"
+            [data]="dropdownList"
+            formControlName="DispenserAlert"
+          >
+          </ng-multiselect-dropdown>
+        </div>
+      </div>
 
-                            <td    data-label="" class="text-primary m-0 p-0"
-                                (click)="openModal(SchContent, schLst.playlistName, schLst.id ,schLst.StartTime,schLst.EndTime,schLst.PercentageValue )">
-                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                            </td>
-                            <td    data-label="" class="text-danger m-0 p-0"
-                                (click)="openDeleteModal(SchDeleteModal, schLst.id)">
-                                <i class="fa fa-trash" aria-hidden="true"></i>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div id="menu1" class="tab-pane fade">
-                <table class="mt-2 table table-hover table table-sm  table-bordered">
-                    <thead class="thead-light">
-                        <tr>
-                            <th class="col">Advt Name</th>
-                            <th class="col">Type</th>
-                            <th class="col">Start Date</th>
-                            <th class="col">Playing Mode</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr  *ngFor="let adLst of adList;">
-                            <td class="col">{{adLst.adName}}</td>
-                            <td class="col">{{adLst.atype}}</td>
-                            <td class="col">{{adLst.startDate}}</td>
-                            <td class="col">{{adLst.playingMode}}</td>
-                        </tr>
-
-                    </tbody>
-                </table>
-            </div>
-            <div id="menu2" class="tab-pane fade">
-                <table class="mt-2  table table-hover table table-sm  table-bordered">
-                    <thead class="thead-light">
-                        <tr class="d-flex">
-                            <th class="col">Start Date</th>
-                            <th class="col">Time 1</th>
-                            <th class="col">Time 2</th>
-                            <th class="col">Time 3</th>
-                            <th class="col">Time 4</th>
-                            <th class="col">Time 5</th>
-                            <th class="col">Time 6</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="d-flex" *ngFor="let prayerLst of prayerList;">
-                            <td class="col">{{prayerLst.StartDate}}</td>
-                            <td class="col">{{prayerLst.Time1}}</td>
-                            <td class="col">{{prayerLst.Time2}}</td>
-                            <td class="col">{{prayerLst.Time3}}</td>
-                            <td class="col">{{prayerLst.Time4}}</td>
-                            <td class="col">{{prayerLst.Time5}}</td>
-                            <td class="col">{{prayerLst.Time5}}</td>
-                        </tr>
-
-                    </tbody>
-                </table>
-            </div>
-            <div id="menu3" class="tab-pane fade">
-                <div class="table-responsive">
-                    <table class="table table-sm table-bordered table-hover table-fixed tbody">
-                      <thead class="sticky-top thead-light">
-                        <tr>
-                          
-                          <th class="sticky-top WidthTitleTH">Title</th>
-                          <th class="sticky-top WidthArtistTH">Artist </th>
-                          <th class="sticky-top WidthCategoryTH">Genre </th>
-                          <th class="sticky-top Link-Center_Width"></th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr *ngFor="let plSongLst of PlaylistSongsList">
-                        
-                          <td data-label="Title" class="WidthTitleTH">
-                            <a href="{{plSongLst.url}}" target="_blank">
-                              {{plSongLst.title}} 
-                            </a>
-                          </td>
-                          <td data-label="Artist" class="WidthArtistTH">{{plSongLst.Artist}}</td>
-                          <td data-label="Genre" class="WidthCategoryTH">
-                            {{plSongLst.Genre}}
-                          </td>
-                          <td data-label="" class="cursor-pointer Link-Center_Width"
-                          (click)="openTitleDeleteModal(TitleDeleteModal,plSongLst.id)">
-                          <i class="fa fa-trash" style="color:red;" aria-hidden="true"></i>
-                        </td>
-                          
-                
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-            </div>
-            <div id="menu4" class="tab-pane fade">
-                <div class="table-responsive">
-                    <table class="table table-sm table-bordered table-hover table-fixed tbody">
-                      <thead class="sticky-top thead-light">
-                        <tr>
-                          
-                          <th class="sticky-top WidthTitleTH">Campaign</th>
-                          <th class="sticky-top WidthArtistTH">Playlist Name</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr *ngFor="let apkLst of APKPlaylist">
-                        
-                          <td data-label="Campaign" class="WidthTitleTH">
-                             
-                              {{apkLst.formatName}} 
-                            
-                          </td>
-                          <td data-label="Playlist Name" class="WidthArtistTH">{{apkLst.playlistName}}</td>
-                
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-            </div>
-            <div id="menu5" class="tab-pane fade">
-                <div class="table-responsive">
-                    <table class="table table-sm table-bordered table-hover table-fixed tbody">
-                      <thead class="sticky-top thead-light">
-                        <tr>
-                          
-                          <th class="sticky-top WidthTitleTH">Campaign</th>
-                          <th class="sticky-top WidthArtistTH">Playlist Name</th>
-                          <th class="sticky-top Link-Center_Width"></th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr *ngFor="let KeyLst of KeyboardPlaylist">
-                        
-                          <td data-label="Campaign" class="WidthTitleTH">
-                              {{KeyLst.fName}} 
-                          </td>
-                          <td data-label="Playlist Name" class="WidthArtistTH">{{KeyLst.pName}}</td>
-                          <td data-label="" class="cursor-pointer Link-Center_Width"
-                          (click)="openDeleteKeyboardModal(DeleteKeyboardModal,KeyLst.id)">
-                          <i class="fa fa-trash" style="color:red;" aria-hidden="true"></i>
-                        </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-            </div>
-            <div id="menu6" class="tab-pane fade">
-                <div class="table-responsive">
-                    <table class="table table-sm table-bordered table-hover table-fixed tbody">
-                      <thead class="sticky-top thead-light">
-                        <tr>
-                          
-                          <th class="sticky-top WidthTitleTH">Title</th>
-                          <th class="sticky-top WidthArtistTH">Artist </th>
-                          <th class="sticky-top WidthCategoryTH">Genre </th>
-                          <th class="sticky-top Link-Center_Width"></th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr *ngFor="let emgLst of EmergencyList">
-                        
-                          <td data-label="Title" class="WidthTitleTH">
-                            <a href="{{emgLst.url}}" target="_blank">
-                              {{emgLst.title}} 
-                            </a>
-                          </td>
-                          <td data-label="Artist" class="WidthArtistTH">{{emgLst.Artist}}</td>
-                          <td data-label="Genre" class="WidthCategoryTH">
-                            {{emgLst.Genre}}
-                          </td>
-                          <td data-label="" class="cursor-pointer Link-Center_Width"
-                          (click)="openEmergencyDeleteModal(EmergencyDeleteModal,emgLst.id)">
-                          <i class="fa fa-trash" style="color:red;" aria-hidden="true"></i>
-                        </td>
-                          
-                
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-            </div>
-
-
-
-
-
+      <div class="form-group col-sm-3 pb-0 m-0">
+        <div
+          *ngIf="
+            f.chkMediaType.value == 'Signage' &&
+            f.DeviceType.value == 'Sanitizer'
+          "
+          class="col-sm-6 float-left pl-0"
+        >
+          <label for="AlertMail">Dispenser Alert Email:</label>
+          <input
+            type="text"
+            formControlName="AlertMail"
+            autocomplete="false"
+            class="form-control mb-2 mr-sm-2"
+            id="AlertMail"
+          />
         </div>
 
-    </div>
-</div>
+        <div class="col float-left m-0 p-0">
+          <label for="uRights1">&nbsp;</label>
+          <div
+            *ngIf="
+              f.chkMediaType.value != 'Signage' ||
+              f.DeviceType.value != 'Sanitizer'
+            "
+            id="uRights1"
+            class="custom-control custom-checkbox mb-2 mr-sm-0"
+          >
+            <input
+              type="checkbox"
+              class="custom-control-input"
+              id="chkIndicatorID"
+              formControlName="chkIndicator"
+              [checked]="chkIndicatorBox"
+              name="chkToken"
+            />
+            <label class="custom-control-label" for="chkIndicatorID"
+              >Show Online Indicator</label
+            >
+          </div>
+          <div
+            *ngIf="
+              f.chkMediaType.value == 'Signage' &&
+              f.DeviceType.value == 'Sanitizer'
+            "
+            id="uRights1"
+            class="custom-control custom-checkbox mb-2 mr-sm-0"
+          >
+            <input
+              type="checkbox"
+              class="custom-control-input"
+              id="chkToastMsg"
+              formControlName="IsShowShotToast"
+              [checked]="chkShotMsg"
+              name="chkToast"
+            />
+            <label class="custom-control-label" for="chkToastMsg"
+              >Show Shots Message</label
+            >
+          </div>
+        </div>
+      </div>
 
+      <div class="form-group col pb-0 m-0">
+        <div
+          *ngIf="
+            f.chkMediaType.value == 'Signage' &&
+            f.DeviceType.value == 'Sanitizer'
+          "
+          id="uRights1"
+          class="custom-control custom-checkbox mt-1 mb-2 mr-sm-0"
+        >
+          <input
+            type="checkbox"
+            class="custom-control-input"
+            id="chkIndicatorID1"
+            formControlName="chkIndicator"
+            [checked]="chkIndicatorBox"
+            name="chkToken2"
+          />
+          <label class="custom-control-label" for="chkIndicatorID1"
+            >Show Online Indicator</label
+          >
+        </div>
+        <div class="col float-right p-0 mt-3">
+          <div id="btns">
+            <button
+              type="button"
+              type="button"
+              (click)="openResetModal(ResetModal)"
+              class="btn btn-danger pull-right"
+            >
+              Reset token
+            </button>
+          </div>
+          <button
+            class="btn btn-success mr-2 pull-right"
+            type="button"
+            (click)="onSubmitTokenInfo()"
+          >
+            Save
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+  <div class="mt-2 col-md-12 p-0 mt-4" style="background: #fff; color: #000">
+    <ul class="nav nav-tabs">
+      <li class="active">
+        <a data-toggle="tab" href="#home" class="nav-link active"
+          >Playlist Schedule</a
+        >
+      </li>
+      <li>
+        <a data-toggle="tab" href="#menu3" class="nav-link"
+          >Sanitizer Announcement
+        </a>
+      </li>
+      <li>
+        <a data-toggle="tab" href="#menu5" class="nav-link">Keyboard Events </a>
+      </li>
+      <li>
+        <a data-toggle="tab" href="#menu6" class="nav-link">Emergency Alert </a>
+      </li>
+      <li>
+        <a data-toggle="tab" href="#menu1" class="nav-link">Advertisement </a>
+      </li>
+      <li>
+        <a data-toggle="tab" href="#menu4" class="nav-link"
+          >Instant Phone Playlist</a
+        >
+      </li>
+      <li>
+        <a data-toggle="tab" href="#menu2" class="nav-link">Prayer Timing </a>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div id="home" class="tab-pane in active">
+        <table
+          class="table data-table table-striped table-bordered mydatatable"
+        >
+          <thead class="bg-primary">
+            <tr>
+              <th scope="col">Format Name</th>
+              <th scope="col">Playlist Name</th>
+              <th *ngIf="ScheduleType !== 'PercentageSchedule'" scope="col">
+                Start Time
+              </th>
+              <th *ngIf="ScheduleType !== 'PercentageSchedule'" scope="col">
+                End Time
+              </th>
+              <th *ngIf="ScheduleType !== 'PercentageSchedule'" scope="col">
+                Week Day
+              </th>
+              <th *ngIf="ScheduleType === 'PercentageSchedule'" scope="col">
+                PercentageValue
+              </th>
+              <th scope="col" class="Link-Center_Width"></th>
+              <th scope="col" class="Link-Center_Width"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let schLst of ModifySchList">
+              <td data-label="Format Name">
+                {{ schLst.formatName }}
+              </td>
+              <td data-label="Playlist Name">
+                {{ schLst.playlistName }}
+              </td>
+              <td
+                *ngIf="ScheduleType !== 'PercentageSchedule'"
+                data-label="Start Time"
+              >
+                {{ schLst.StartTime }}
+              </td>
+              <td
+                *ngIf="ScheduleType !== 'PercentageSchedule'"
+                data-label="End Time"
+              >
+                {{ schLst.EndTime }}
+              </td>
+              <td
+                *ngIf="ScheduleType !== 'PercentageSchedule'"
+                data-label="Week Day"
+              >
+                {{ schLst.WeekDay }}
+              </td>
+              <th *ngIf="ScheduleType === 'PercentageSchedule'" scope="col">
+                {{ schLst.PercentageValue }}
+              </th>
+
+              <td
+                data-label=""
+                class="m-0 p-0"
+                (click)="
+                  openModal(
+                    SchContent,
+                    schLst.playlistName,
+                    schLst.id,
+                    schLst.StartTime,
+                    schLst.EndTime,
+                    schLst.PercentageValue
+                  )
+                "
+              >
+                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+              </td>
+              <td
+                data-label=""
+                class="text-danger m-0 p-0"
+                (click)="openDeleteModal(SchDeleteModal, schLst.id)"
+              >
+                <i class="fa fa-trash" aria-hidden="true"></i>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div id="menu1" class="tab-pane fade">
+        <table
+          class="table data-table table-striped table-bordered mydatatable"
+        >
+          <thead class="bg-primary">
+            <tr>
+              <th class="col">Advt Name</th>
+              <th class="col">Type</th>
+              <th class="col">Start Date</th>
+              <th class="col">Playing Mode</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let adLst of adList">
+              <td class="col">{{ adLst.adName }}</td>
+              <td class="col">{{ adLst.atype }}</td>
+              <td class="col">{{ adLst.startDate }}</td>
+              <td class="col">{{ adLst.playingMode }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div id="menu2" class="tab-pane fade">
+        <table
+          class="table data-table table-striped table-bordered mydatatable"
+        >
+          <thead class="bg-primary">
+            <tr class="d-flex">
+              <th class="col">Start Date</th>
+              <th class="col">Time 1</th>
+              <th class="col">Time 2</th>
+              <th class="col">Time 3</th>
+              <th class="col">Time 4</th>
+              <th class="col">Time 5</th>
+              <th class="col">Time 6</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="d-flex" *ngFor="let prayerLst of prayerList">
+              <td class="col">{{ prayerLst.StartDate }}</td>
+              <td class="col">{{ prayerLst.Time1 }}</td>
+              <td class="col">{{ prayerLst.Time2 }}</td>
+              <td class="col">{{ prayerLst.Time3 }}</td>
+              <td class="col">{{ prayerLst.Time4 }}</td>
+              <td class="col">{{ prayerLst.Time5 }}</td>
+              <td class="col">{{ prayerLst.Time5 }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div id="menu3" class="tab-pane fade">
+        <div class="table-responsive">
+          <table
+            class="table data-table table-striped table-bordered mydatatable"
+          >
+            <thead class="bg-primary">
+              <tr>
+                <th class="sticky-top WidthTitleTH">Title</th>
+                <th class="sticky-top WidthArtistTH">Artist</th>
+                <th class="sticky-top WidthCategoryTH">Genre</th>
+                <th class="sticky-top Link-Center_Width"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let plSongLst of PlaylistSongsList">
+                <td data-label="Title" class="WidthTitleTH">
+                  <a href="{{ plSongLst.url }}" target="_blank">
+                    {{ plSongLst.title }}
+                  </a>
+                </td>
+                <td data-label="Artist" class="WidthArtistTH">
+                  {{ plSongLst.Artist }}
+                </td>
+                <td data-label="Genre" class="WidthCategoryTH">
+                  {{ plSongLst.Genre }}
+                </td>
+                <td
+                  data-label=""
+                  class="cursor-pointer Link-Center_Width"
+                  (click)="openTitleDeleteModal(TitleDeleteModal, plSongLst.id)"
+                >
+                  <i
+                    class="fa fa-trash"
+                    style="color: red"
+                    aria-hidden="true"
+                  ></i>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div id="menu4" class="tab-pane fade">
+        <div class="table-responsive">
+          <table
+            class="table data-table table-striped table-bordered mydatatable"
+          >
+            <thead class="sticky-top bg-primary">
+              <tr>
+                <th class="sticky-top WidthTitleTH">Format Name</th>
+                <th class="sticky-top WidthArtistTH">Playlist Name</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let apkLst of APKPlaylist">
+                <td data-label="Format Name" class="WidthTitleTH">
+                  {{ apkLst.formatName }}
+                </td>
+                <td data-label="Playlist Name" class="WidthArtistTH">
+                  {{ apkLst.playlistName }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div id="menu5" class="tab-pane fade">
+        <div class="table-responsive">
+          <table
+            class="table data-table table-striped table-bordered mydatatable"
+          >
+            <thead class="sticky-top bg-primary">
+              <tr>
+                <th class="sticky-top WidthTitleTH">Format Name</th>
+                <th class="sticky-top WidthArtistTH">Playlist Name</th>
+                <th class="sticky-top Link-Center_Width"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let KeyLst of KeyboardPlaylist">
+                <td data-label="Format Name" class="WidthTitleTH">
+                  {{ KeyLst.fName }}
+                </td>
+                <td data-label="Playlist Name" class="WidthArtistTH">
+                  {{ KeyLst.pName }}
+                </td>
+                <td
+                  data-label=""
+                  class="cursor-pointer Link-Center_Width"
+                  (click)="
+                    openDeleteKeyboardModal(DeleteKeyboardModal, KeyLst.id)
+                  "
+                >
+                  <i
+                    class="fa fa-trash"
+                    style="color: red"
+                    aria-hidden="true"
+                  ></i>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div id="menu6" class="tab-pane fade">
+        <div class="table-responsive">
+          <table
+            class="table data-table table-striped table-bordered mydatatable"
+          >
+            <thead class="sticky-top bg-primary">
+              <tr>
+                <th class="sticky-top WidthTitleTH">Title</th>
+                <th class="sticky-top WidthArtistTH">Artist</th>
+                <th class="sticky-top WidthCategoryTH">Genre</th>
+                <th class="sticky-top Link-Center_Width"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let emgLst of EmergencyList">
+                <td data-label="Title" class="WidthTitleTH">
+                  <a href="{{ emgLst.url }}" target="_blank">
+                    {{ emgLst.title }}
+                  </a>
+                </td>
+                <td data-label="Artist" class="WidthArtistTH">
+                  {{ emgLst.Artist }}
+                </td>
+                <td data-label="Genre" class="WidthCategoryTH">
+                  {{ emgLst.Genre }}
+                </td>
+                <td
+                  data-label=""
+                  class="cursor-pointer Link-Center_Width"
+                  (click)="
+                    openEmergencyDeleteModal(EmergencyDeleteModal, emgLst.id)
+                  "
+                >
+                  <i
+                    class="fa fa-trash"
+                    style="color: red"
+                    aria-hidden="true"
+                  ></i>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <ng-template #SchContent let-c="close" let-d="dismiss">
-    <div class="modal-header">
-        <h5>Modify Playlist Time</h5>
-        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body">
-        <div class="container-fluid">
-            <form [formGroup]="TokenInfoModifyPlaylist">
-                <div class="row">
-                    <div class="col-sm-12">
-                        <label for="mPlaylistName" class="mb-2 mr-sm-2">Playlist Name:</label>
-                        <input type="text" formControlName="ModifyPlaylistName" class="form-control mb-2 mr-sm-2"
-                            id="mPlaylistName" readonly>
-                    </div>
-                    <div class="col-sm-12" *ngIf="ScheduleType!=='PercentageSchedule'">
-                        <div class="col-sm-6 pull-left" style="padding: 0 0 0 0;">
-                            <label class="mb-2 mr-sm-2" for="sTime">Start time: </label>
-                            <ngb-timepicker formControlName="ModifyStartTime" ></ngb-timepicker>
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Modify Playlist Time</h5>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container-fluid">
+      <form [formGroup]="TokenInfoModifyPlaylist">
+        <div class="row">
+          <div class="col-sm-12">
+            <label for="mPlaylistName" class="mb-2 mr-sm-2"
+              >Playlist Name:</label
+            >
+            <input
+              type="text"
+              formControlName="ModifyPlaylistName"
+              class="form-control mb-2 mr-sm-2"
+              id="mPlaylistName"
+              readonly
+            />
+          </div>
+          <div class="col-sm-12" *ngIf="ScheduleType !== 'PercentageSchedule'">
+            <div class="col-sm-6 pull-left" style="padding: 0 0 0 0">
+              <label class="mb-2 mr-sm-2" for="sTime">Start time: </label>
+              <ngb-timepicker
+                formControlName="ModifyStartTime"
+              ></ngb-timepicker>
 
-                            <!--<input id="sTime" class="form-control mb-2 mr-sm-2" formControlName="ModifyStartTime"
+              <!--<input id="sTime" class="form-control mb-2 mr-sm-2" formControlName="ModifyStartTime"
                                 [owlDateTimeTrigger]="dt1" [owlDateTime]="dt1" readonly>
                             <owl-date-time [pickerType]="'timer'" #dt1></owl-date-time>
                             -->
-
-                        </div>
-                        <div class="col-sm-6 pull-right" style="padding: 0 0 0 5px;">
-                            <label class="mb-2 mr-sm-2" for="sTime">End time: </label>
-                            <ngb-timepicker formControlName="ModifyEndTime" ></ngb-timepicker>
-                            <!--
+            </div>
+            <div class="col-sm-6 pull-right" style="padding: 0 0 0 5px">
+              <label class="mb-2 mr-sm-2" for="sTime">End time: </label>
+              <ngb-timepicker formControlName="ModifyEndTime"></ngb-timepicker>
+              <!--
                             <input id="eTime" class="form-control mb-2 mr-sm-2" formControlName="ModifyEndTime"
                                 [owlDateTimeTrigger]="dt2" [owlDateTime]="dt2" readonly>
                             <owl-date-time [pickerType]="'timer'" #dt2></owl-date-time>
                             -->
-                        </div>
-                    </div>
-                    <div class="col-sm-12" *ngIf="ScheduleType==='PercentageSchedule'">
-                        <div class="col-sm-6 pull-left" style="padding: 0 0 0 0;">
-                        <label class="mb-2 mr-sm-2" for="week">Percentage:</label>
-                        <input type="number" min="1" max="100" formControlName="PercentageValue" class="form-control"/>
-                    </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <button class="btn btn-primary col-sm-2  pull-right" (click)="onSubmitTokenInfoModifyPlaylist(ForceUpdate)"
-                            (click)="d('Cross click')">
-                            <i class="fa fa-floppy-o fa-lg" aria-hidden="true"></i>
-                        </button>
-                    </div>
-                </div>
-            </form>
+            </div>
+          </div>
+          <div class="col-sm-12" *ngIf="ScheduleType === 'PercentageSchedule'">
+            <div class="col-sm-6 pull-left" style="padding: 0 0 0 0">
+              <label class="mb-2 mr-sm-2" for="week">Percentage:</label>
+              <input
+                type="number"
+                min="1"
+                max="100"
+                formControlName="PercentageValue"
+                class="form-control"
+              />
+            </div>
+          </div>
         </div>
+        <div class="row">
+          <div class="col-sm-12">
+            <button
+              class="btn btn-primary col-sm-2 pull-right"
+              (click)="onSubmitTokenInfoModifyPlaylist(ForceUpdate)"
+              (click)="d('Cross click')"
+            >
+              Save
+            </button>
+          </div>
+        </div>
+      </form>
     </div>
-
+  </div>
 </ng-template>
 
 <ng-template #ResetModal let-c="close" let-d="dismiss">
-    <div class="modal-header">
-        <h5>Reset Token</h5>
-        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-12">
-                    <p>Are you sure to reset the token?</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-12">
-                    <button class="btn btn-primary col-sm-2  pull-right" (click)="d('Cross click')">
-                        <i class="fa fa-times fa-lg" aria-hidden="true"></i>
-                    </button>
-                    <button class="btn btn-danger col-sm-2  pull-right mr-2" (click)="ResetToken()"
-                        (click)="d('Cross click')">
-                        <i class="fa fa-check fa-lg" aria-hidden="true"></i>
-                    </button>
-
-                </div>
-            </div>
-
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Reset Token</h5>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12">
+          <p>Are you sure to reset the token?</p>
         </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <button
+            class="btn btn-primary col-sm-2 pull-right"
+            (click)="d('Cross click')"
+          >
+            <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+          </button>
+          <button
+            class="btn btn-danger col-sm-2 pull-right mr-2"
+            (click)="ResetToken()"
+            (click)="d('Cross click')"
+          >
+            <i class="fa fa-check fa-lg" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
     </div>
-
+  </div>
 </ng-template>
 
-
-
 <ng-template #modalState let-c="close" let-d="dismiss">
-    <div class="modal-header">
-        <h5>State</h5>
-        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body">
-        <div class="container-fluid">
-
-            <div class="row">
-                <div class="col-sm-12">
-                    <label for="State" class="mb-2 mr-sm-2">State Name:</label>
-                    <input type="text" [(ngModel)]="StateName" class="form-control mb-2 mr-sm-2" id="State">
-                </div>
-
-            </div>
-            <div class="row">
-                <div class="col-sm-12">
-                    <button class="btn btn-primary col-sm-2  pull-right" type="button" 
-                    (click)="onSubmitState()"
-                        (click)="d('Cross click')">
-                        <i class="fa fa-floppy-o fa-lg" aria-hidden="true"></i>
-                    </button>
-                </div>
-            </div>
-
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">State</h5>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12">
+          <label for="State" class="mb-2 mr-sm-2">State Name:</label>
+          <input
+            type="text"
+            [(ngModel)]="StateName"
+            class="form-control mb-2 mr-sm-2"
+            id="State"
+          />
         </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <button
+            class="btn btn-primary col-sm-2 pull-right"
+            type="button"
+            (click)="onSubmitState()"
+            (click)="d('Cross click')"
+          >
+            Save
+          </button>
+        </div>
+      </div>
     </div>
-
+  </div>
 </ng-template>
 
 <ng-template #SchDeleteModal let-c="close" let-d="dismiss">
-    <div class="modal-header">
-        <h5>Delete Schedule Playlist</h5>
-        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-12">
-                    <p>Are you sure to delete?</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-12">
-                    <button class="btn btn-primary col-sm-2  pull-right" (click)="d('Cross click')">
-                        <i class="fa fa-times fa-lg" aria-hidden="true"></i>
-                    </button>
-                    <button class="btn btn-danger col-sm-2  pull-right mr-2" (click)="DeleteSchPlaylist()"
-                        (click)="d('Cross click')">
-                        <i class="fa fa-check fa-lg" aria-hidden="true"></i>
-                    </button>
-
-                </div>
-            </div>
-
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Delete Schedule Playlist</h5>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12">
+          <p>Are you sure to delete?</p>
         </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <button
+            class="btn btn-primary col-sm-2 pull-right"
+            (click)="d('Cross click')"
+          >
+            <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+          </button>
+          <button
+            class="btn btn-danger col-sm-2 pull-right mr-2"
+            (click)="DeleteSchPlaylist()"
+            (click)="d('Cross click')"
+          >
+            <i class="fa fa-check fa-lg" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
     </div>
-
+  </div>
 </ng-template>
 
 <!-- <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
@@ -752,7 +1094,7 @@
             <div class="col-sm-4">
                 <div class="col-sm-6 pull-left" style="padding: 0 0 0 0px;">
                     <label for="countryName" class="mb-2 mr-sm-2">Country Name:</label>
-                    <select name="countryname" formControlName="country" class="custom-select" 
+                    <select name="countryname" formControlName="country" class="custom-select"
                     (change)="onChangeCountry($event.target.value)" id="countryName">
                         <option selected value="0"></option>
                         <option *ngFor="let cLst of CountryList" [value]="cLst.Id" >{{cLst.DisplayName}}</option>
@@ -908,7 +1250,7 @@
                 <table class="mt-2  table table-hover table table-sm  table-bordered">
                     <thead class="thead-light">
                         <tr class="d-flex">
-                            <th class="col">Campaign</th>
+                            <th class="col">Format Name</th>
                             <th class="col">Playlist Name</th>
                             <th class="col">Start Time</th>
                             <th class="col">End Time</th>
@@ -997,7 +1339,7 @@
 <ng-template #SchContent let-c="close" let-d="dismiss">
     <div class="modal-header">
         <h5>Modify Playlist Time</h5>
-        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <button type="button" class="close text-white" aria-label="Close" (click)="d('Cross click')">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
@@ -1042,7 +1384,7 @@
 <ng-template #ResetModal let-c="close" let-d="dismiss">
         <div class="modal-header">
             <h5>Reset Token</h5>
-            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <button type="button" class="close text-white" aria-label="Close" (click)="d('Cross click')">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
@@ -1063,169 +1405,216 @@
                                 (click)="d('Cross click')">
                                 <i class="fa fa-check fa-lg" aria-hidden="true"></i>
                             </button>
-                           
+
                         </div>
                     </div>
-                 
+
             </div>
         </div>
-    
+
     </ng-template> -->
-    <ng-template #modalCommon let-c="close" let-d="dismiss">
-        <div class="modal-header">
-            <h5>{{HeaderText}}</h5>
-          <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-            <span aria-hidden="true">&times;</span>
+<ng-template #modalCommon let-c="close" let-d="dismiss">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">{{ HeaderText }}</h5>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12">
+          <label for="State" class="mb-2 mr-sm-2">Name:</label>
+          <input
+            type="text"
+            [(ngModel)]="NewName"
+            class="form-control mb-2 mr-sm-2"
+            id="fName"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <button
+            class="btn btn-primary col-sm-2 pull-right"
+            type="button"
+            (click)="onSubmitModal()"
+            (click)="d('Cross click')"
+          >
+            Save
           </button>
         </div>
-        <div class="modal-body">
-          <div class="container-fluid">
-      
-            <div class="row">
-              <div class="col-sm-12">
-                <label for="State" class="mb-2 mr-sm-2">Name:</label>
-                <input type="text" [(ngModel)]="NewName" class="form-control mb-2 mr-sm-2" id="fName">
-              </div>
-      
-            </div>
-            <div class="row">
-              <div class="col-sm-12">
-                <button class="btn btn-primary col-sm-2  pull-right" type="button" (click)="onSubmitModal()"
-                  (click)="d('Cross click')">
-                  <i class="fa fa-floppy-o fa-lg" aria-hidden="true"></i>
-                </button>
-              </div>
-            </div>
-      
-          </div>
-        </div>
-      
-      </ng-template>
+      </div>
+    </div>
+  </div>
+</ng-template>
 
-      <ng-template #TitleDeleteModal let-c="close" let-d="dismiss">
-        <div class="modal-header">
-          <h5>Delete Title</h5>
-          <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-            <span aria-hidden="true">&times;</span>
+<ng-template #TitleDeleteModal let-c="close" let-d="dismiss">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Delete Title</h5>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12">
+          <p>Are you sure to delete?</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <button
+            class="btn btn-primary col-sm-2 pull-right"
+            (click)="d('Cross click')"
+          >
+            <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+          </button>
+          <button
+            class="btn btn-danger col-sm-2 pull-right mr-2"
+            (click)="DeleteTitle()"
+            (click)="d('Cross click')"
+          >
+            <i class="fa fa-check fa-lg" aria-hidden="true"></i>
           </button>
         </div>
-        <div class="modal-body">
-          <div class="container-fluid">
-            <div class="row">
-              <div class="col-sm-12">
-                <p>Are you sure to delete?</p>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-sm-12">
-                <button class="btn btn-primary col-sm-2  pull-right" (click)="d('Cross click')">
-                  <i class="fa fa-times fa-lg" aria-hidden="true"></i>
-                </button>
-                <button class="btn btn-danger col-sm-2  pull-right mr-2" (click)="DeleteTitle()" (click)="d('Cross click')">
-                  <i class="fa fa-check fa-lg" aria-hidden="true"></i>
-                </button>
-      
-              </div>
-            </div>
-      
-          </div>
-        </div>
-      
-      </ng-template>
+      </div>
+    </div>
+  </div>
+</ng-template>
 
-      <ng-template #DeleteKeyboardModal let-c="close" let-d="dismiss">
-        <div class="modal-header">
-          <h5>Delete</h5>
-          <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-            <span aria-hidden="true">&times;</span>
+<ng-template #DeleteKeyboardModal let-c="close" let-d="dismiss">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Delete</h5>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12">
+          <p>Are you sure to delete?</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <button
+            class="btn btn-primary col-sm-2 pull-right"
+            (click)="d('Cross click')"
+          >
+            <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+          </button>
+          <button
+            class="btn btn-danger col-sm-2 pull-right mr-2"
+            (click)="DeleteKeyboardAnnouncement()"
+            (click)="d('Cross click')"
+          >
+            <i class="fa fa-check fa-lg" aria-hidden="true"></i>
           </button>
         </div>
-        <div class="modal-body">
-          <div class="container-fluid">
-            <div class="row">
-              <div class="col-sm-12">
-                <p>Are you sure to delete?</p>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-sm-12">
-                <button class="btn btn-primary col-sm-2  pull-right" (click)="d('Cross click')">
-                  <i class="fa fa-times fa-lg" aria-hidden="true"></i>
-                </button>
-                <button class="btn btn-danger col-sm-2  pull-right mr-2" (click)="DeleteKeyboardAnnouncement()" (click)="d('Cross click')">
-                  <i class="fa fa-check fa-lg" aria-hidden="true"></i>
-                </button>
-      
-              </div>
-            </div>
-      
-          </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<ng-template #EmergencyDeleteModal let-c="close" let-d="dismiss">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Delete Title</h5>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12">
+          <p>Are you sure to delete?</p>
         </div>
-      
-      </ng-template>
-      <ng-template #EmergencyDeleteModal let-c="close" let-d="dismiss">
-        <div class="modal-header">
-          <h5>Delete Title</h5>
-          <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-            <span aria-hidden="true">&times;</span>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <button
+            class="btn btn-primary col-sm-2 pull-right"
+            (click)="d('Cross click')"
+          >
+            <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+          </button>
+          <button
+            class="btn btn-danger col-sm-2 pull-right mr-2"
+            (click)="DeleteEmergency()"
+            (click)="d('Cross click')"
+          >
+            <i class="fa fa-check fa-lg" aria-hidden="true"></i>
           </button>
         </div>
-        <div class="modal-body">
-          <div class="container-fluid">
-            <div class="row">
-              <div class="col-sm-12">
-                <p>Are you sure to delete?</p>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-sm-12">
-                <button class="btn btn-primary col-sm-2  pull-right" (click)="d('Cross click')">
-                  <i class="fa fa-times fa-lg" aria-hidden="true"></i>
-                </button>
-                <button class="btn btn-danger col-sm-2  pull-right mr-2" (click)="DeleteEmergency()" (click)="d('Cross click')">
-                  <i class="fa fa-check fa-lg" aria-hidden="true"></i>
-                </button>
-      
-              </div>
-            </div>
-      
-          </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #ForceUpdate let-c="close" let-d="dismiss">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Publish</h5>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12 m-0 p-0">
+          <p style="margin: 0 !important">You want to update locations now?</p>
         </div>
-      
-      </ng-template>
-
-
-      <ng-template #ForceUpdate let-c="close" let-d="dismiss">
-        <div class="modal-header">
-            <h5>Publish</h5>
-            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-                <span aria-hidden="true">&times;</span>
-            </button>
+        <div class="col-sm-12 m-0 p-0 mt-1">
+          <p style="font-size: smaller; margin: 0 !important; color: lightblue">
+            Note: Have in mind that changes will be implemented immediately with
+            restart of the program.
+          </p>
         </div>
-        <div class="modal-body">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-sm-12 m-0 p-0">
-                        <p style="margin: 0 !important;">You want to update locations now?</p>
-                    </div>
-                    <div class="col-sm-12 m-0 p-0 mt-1">
-                      <p style="font-size: smaller;margin: 0 !important;color: lightblue;">Note: Have in mind that changes will be implemented immediately with restart of the program.</p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <button class="btn btn-primary col-sm-2  pull-right" (click)="d('Cross click')">
-                            <i class="fa fa-times fa-lg" aria-hidden="true"></i>
-                        </button>
-                        <button class="btn btn-danger col-sm-2  pull-right mr-2" (click)="ForceUpdateAll()"
-                            (click)="d('Cross click')">
-                            <i class="fa fa-check fa-lg" aria-hidden="true"></i>
-                        </button>
-
-                    </div>
-                </div>
-
-            </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <button
+            class="btn btn-primary col-sm-2 pull-right"
+            (click)="d('Cross click')"
+          >
+            <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+          </button>
+          <button
+            class="btn btn-danger col-sm-2 pull-right mr-2"
+            (click)="ForceUpdateAll()"
+            (click)="d('Cross click')"
+          >
+            <i class="fa fa-check fa-lg" aria-hidden="true"></i>
+          </button>
         </div>
-
-    </ng-template>
+      </div>
+    </div>
+  </div>
+</ng-template>

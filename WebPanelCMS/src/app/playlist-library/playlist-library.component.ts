@@ -11,8 +11,6 @@ import { SerLicenseHolderService } from '../license-holder/ser-license-holder.se
 // import {ClientSideRowModelModule} from '@ag-grid-community/client-side-row-model';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
-import { NgbdSortableHeader_CopyData,SortEvent } from '../directive/copydata_sortable.directive';
-
 @Component({
   selector: 'app-playlist-library',
   templateUrl: './playlist-library.component.html',
@@ -29,13 +27,10 @@ export class PlaylistLibraryComponent implements OnInit {
     // ModuleRegistry.register(ClientSideRowModelModule);
 
   }
-  @ViewChildren(NgbdSortableHeader_CopyData) headers: QueryList<NgbdSortableHeader_CopyData>;
-  compare = (v1: string | number, v2: string | number) => v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
   get f() { return this.playlistform.controls; };
 
   PlaylistSongsList = [];
   PlaylistList = [];
-  MainPlaylistList = [];
   SpecialPlaylistList = [];
   PlaylistLibrary = [];
   PlaylistSelected = [];
@@ -178,7 +173,7 @@ export class PlaylistLibraryComponent implements OnInit {
 
     this.PlaylistSongsList = [];
     this.PlaylistList = [];
-    this.MainPlaylistList=[];
+
     this.SongsList = [];
 
     this.FillClientList();
@@ -292,7 +287,6 @@ this.DataTableSettings();
   onChangeCustomer(id) {
     this.PageNo = 1;
     this.PlaylistList = [];
-    this.MainPlaylistList=[];
     this.PlaylistSongsList = [];
     this.cmbCustomerMediaType = '';
     this.FormatList = [];
@@ -309,7 +303,6 @@ this.DataTableSettings();
   onChangeCustomerMediaType(id) {
     this.PageNo = 1;
     this.PlaylistList = [];
-    this.MainPlaylistList=[];
     this.PlaylistSongsList = [];
     this.formatid = '0';
     this.FormatList = [];
@@ -424,7 +417,7 @@ this.DataTableSettings();
 
   ManualPlaylist() {
     if (this.formatid == '0') {
-      this.toastr.info('Please select a campaign name');
+      this.toastr.info('Please select a format name');
       return;
     }
     this.IsAutoPlaylistHide = false;
@@ -482,7 +475,7 @@ this.DataTableSettings();
       return;
     }
     if (this.playlistform.value.formatid == '0') {
-      this.toastr.info('Please select a campaign name');
+      this.toastr.info('Please select a format name');
       return;
     }
 
@@ -508,12 +501,6 @@ this.DataTableSettings();
           this.SaveModifyInfo(0, 'New playlist is create with name ' + this.playlistform.value.plName);
           this.onChangeFormat(this.formatid, this.txtDeletedFormatName);
           this.PlaylistSongsList = [];
-        }
-        else if (obj.Responce == '2') {
-          this.toastr.info('Playlist name already exists', 'Success!');
-          this.loading = false;
-          this.IsAutoPlaylistHide = true;
-          this.IsOptionButtonHide = true;
         }
         else {
           this.toastr.error('Apologies for the inconvenience.The error is recorded.', '');
@@ -1119,7 +1106,6 @@ this.DataTableSettings();
       formatid: [this.formatid]
     });
     this.PlaylistList = [];
-    this.MainPlaylistList=[];
     this.PlaylistSongsList = [];
     if (this.formatid == "") {
       return;
@@ -1139,25 +1125,18 @@ this.DataTableSettings();
   FillPlaylist(id) {
 
     this.PlaylistList = [];
-    this.MainPlaylistList=[];
     this.loading = true;
     this.pService.Playlist(id).pipe()
       .subscribe(data => {
         const returnData = JSON.stringify(data);
         this.PlaylistList = JSON.parse(returnData);
-        this.MainPlaylistList= JSON.parse(returnData);
         this.loading = false;
-        const obj:SortEvent   ={
-          column:'DisplayName',
-          direction: 'asc'
-         }
-         setTimeout(() => { 
-          this.onSort(obj);
-        }, 500);
-         
         if (this.PlaylistList.length > 0) {
           if (this.NewName !== "") {
+            
+
             const NewPlList = this.PlaylistList.filter(order => order.DisplayName === this.NewName);
+             
             this.PlaylistList.forEach((student) => {
               if (student.Id === NewPlList[0].Id) {
                 student.check = true;
@@ -1166,6 +1145,7 @@ this.DataTableSettings();
                 student.check = false;
               }
             });
+
             this.NewName = "";
             this.SelectPlaylist(NewPlList[0].Id, "", NewPlList[0].tokenIds);
           }
@@ -1173,7 +1153,6 @@ this.DataTableSettings();
             this.SelectPlaylist(this.PlaylistList[0].Id, "", this.PlaylistList[0].tokenIds);
           }
         }
-      
       },
         error => {
           this.toastr.error("Apologies for the inconvenience.The error is recorded.", '');
@@ -1182,11 +1161,11 @@ this.DataTableSettings();
   }
   AddFormat(id, plName, isBestOff) {
     if (this.formatid == "") {
-      this.toastr.info("Please select a campaign name");
+      this.toastr.info("Please select a format name");
       return;
     }
     if (this.formatid == "0") {
-      this.toastr.info("Please select a campaign name");
+      this.toastr.info("Please select a format name");
       return;
     }
 
@@ -1419,7 +1398,7 @@ if (this.cmbCustomerMediaType === ''){
   onSubmitNewFormat() {
 
     if (this.NewFormatName == "") {
-      this.toastr.info("Campaign name cannot be blank", '');
+      this.toastr.info("Format name cannot be blank", '');
       return;
     }
 
@@ -1432,21 +1411,20 @@ if (this.cmbCustomerMediaType === ''){
 
           this.loading = false;
           if (this.txtDeletedFormatName == "") {
-            this.SaveModifyInfo(0, "New campaign is create with name " + this.NewFormatName);
+            this.SaveModifyInfo(0, "New format is create with name " + this.NewFormatName);
           }
           else {
-            this.SaveModifyInfo(0, "Campaign is modify. Now New name is " + this.NewFormatName);
+            this.SaveModifyInfo(0, "Format is modify. Now New name is " + this.NewFormatName);
 
           }
           this.formatid = "0";
           this.txtDeletedFormatName = "";
           this.PlaylistList = [];
-          this.MainPlaylistList=[];
           this.PlaylistSongsList = [];
           this.FillFormat();
         }
         else if (obj.Responce == "-2") {
-          this.toastr.info("This campaign name already exists", '');
+          this.toastr.info("This format name already exists", '');
         }
         else {
           this.toastr.error("Apologies for the inconvenience.The error is recorded.", '');
@@ -1665,7 +1643,7 @@ if (this.cmbCustomerMediaType === ''){
   }
   openModel(content) {
     if (this.formatid == "0") {
-      this.toastr.info("Please select a campaign name");
+      this.toastr.info("Please select a format name");
       return;
     }
     localStorage.setItem("FormatID", this.formatid);
@@ -1680,7 +1658,7 @@ if (this.cmbCustomerMediaType === ''){
   }
   openDeleteFormatModal(content) {
     if (this.formatid == "0") {
-      this.toastr.info("Please select a campaign name");
+      this.toastr.info("Please select a format name");
       return;
     }
     this.txtCommonMsg = "Are you sure to delete?";
@@ -1699,18 +1677,17 @@ if (this.cmbCustomerMediaType === ''){
         if (obj.Responce == "1") {
           this.toastr.info("Deleted", 'Success!');
           this.loading = false;
-          this.SaveModifyInfo(0, "Campaign is deleted. CampaignName: " + this.txtDeletedFormatName + " and unique id :" + this.formatid);
+          this.SaveModifyInfo(0, "Format is deleted. FormatName: " + this.txtDeletedFormatName + " and unique id :" + this.formatid);
           this.formatid = "0";
           this.DeleteFormatid = "0";
           this.txtMsg = "";
           this.FillFormat();
           this.PlaylistList = [];
-          this.MainPlaylistList=[];
           this.PlaylistSongsList = [];
           this.modalService.dismissAll('Cross click');
         }
         else if (obj.Responce == "2") {
-          this.txtMsg = "This campaign cannot be deleted, as it is assigned to tokens";
+          this.txtMsg = "This format cannot be deleted, as it is assigned to tokens";
           this.txtCommonMsg = "";
           this.loading = false;
         }
@@ -1795,14 +1772,14 @@ if (this.cmbCustomerMediaType === ''){
 
   Copyformat() {
     if (this.formatid == "0") {
-      this.toastr.info("Please select a campaign name. Where you want to copy");
+      this.toastr.info("Please select a format name. Where you want to copy");
       return;
     }
     if (this.CopyFormatId == "0") {
-      this.toastr.info("Please select a campaign name. Which you want to copy");
+      this.toastr.info("Please select a format name. Which you want to copy");
       return;
     }
-    this.loading = true;
+
 
     this.pService.CopyFormat(this.formatid, this.CopyFormatId, this.cmbCustomer).pipe()
       .subscribe(data => {
@@ -1811,11 +1788,10 @@ if (this.cmbCustomerMediaType === ''){
         if (obj.Responce == "1") {
           this.toastr.info("Saved", 'Success!');
           this.loading = false;
-          this.SaveModifyInfo(0, "Campaign copied");
+          this.SaveModifyInfo(0, "Format copied");
           this.formatid = "0";
           this.CopyFormatId = "0";
           this.PlaylistList = [];
-          this.MainPlaylistList=[];
           this.PlaylistSongsList = [];
           this.PlaylistLibrary = [];
           this.FillFormat();
@@ -2553,32 +2529,8 @@ if (this.cmbCustomerMediaType=='Signage'){
     });
   }
 
-  onSort({column, direction}: SortEvent) {
-    
-    // resetting other headers
-    this.headers.forEach(header => {
-      if (header.sortable !== column) {
-        header.direction = '';
-      }
-    });
- 
-  if (direction === '' || column === '') {
-    this.PlaylistList = this.MainPlaylistList;
-  } else {
-    this.PlaylistList = [...this.MainPlaylistList].sort((a, b) => {
-      const res = this.compare(a[column], b[column]);
-      return direction === 'asc' ? res : -res;
-    });
-  }
- 
-    // sorting countries
-   
 
 
-  }
-
-
- 
 }
 
 ///https://stackoverflow.com/questions/34523276/how-enable-multiple-row-selection-in-angular-js-table/34523640
