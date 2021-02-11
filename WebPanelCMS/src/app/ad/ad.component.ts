@@ -836,8 +836,6 @@ export class AdComponent implements OnInit {
 
 
   FillState() {
-    this.StateSelected=[];
-
     this.loading = true;
     var qry = "select stateid as id, statename as displayname  from tbstate where countryid in( " + this.CountrySelected + " ) order by statename";
     this.aService.FillCombo(qry).pipe()
@@ -853,7 +851,6 @@ export class AdComponent implements OnInit {
   }
 
   FillCity() {
-    this.CitySelected = [];
     this.loading = true;
     var qry = "select cityid as id, cityname as displayname  from tbcity where stateid in( " + this.StateSelected + " ) order by cityname";
     this.aService.FillCombo(qry).pipe()

@@ -244,7 +244,7 @@ SaveAnnouncement(UpdateModel){
       return;
     }
     if (this.cmbFormat == 0) {
-      this.toastr.error("Please select a campaign", '');
+      this.toastr.error("Please select a format", '');
       return;
     }
     if (this.cmbPlaylist == 0) {

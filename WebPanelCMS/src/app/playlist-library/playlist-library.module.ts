@@ -16,7 +16,6 @@ import {
 } from 'ng-pick-datetime';
 import {  MomentDateTimeAdapter } from 'ng-pick-datetime/date-time/adapter/moment-adapter/moment-date-time-adapter.class';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
-import { NgbdSortableHeader_playlist } from './playlist_sortable.directive';
 export const MY_CUSTOM_FORMATS = {
   parseInput: 'LL LT',
   fullPickerInput: 'LL LT',
@@ -28,7 +27,7 @@ export const MY_CUSTOM_FORMATS = {
 };
 
 @NgModule({
-  declarations: [PlaylistLibraryComponent,NgbdSortableHeader_playlist],
+  declarations: [PlaylistLibraryComponent],
   exports:[PlaylistLibraryComponent],
   imports: [
     RouterModule.forChild(PlaylistLibraryRoutes),
