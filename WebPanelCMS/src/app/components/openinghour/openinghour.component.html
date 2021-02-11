@@ -1,259 +1,187 @@
-<ngx-loading
-  [show]="loading"
-  [config]="{ backdropBorderRadius: '3px', fullScreenBackdrop: true }"
->
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px',fullScreenBackdrop:true  }">
 </ngx-loading>
 
 <div class="row">
-  <div class="col-lg-12">
-    <ul
-      ngbNav
-      #tOpenRebot="ngbNav"
-      [(activeId)]="OpeningRebootActive"
-      class="nav-tabs"
-    >
-      <li [ngbNavItem]="1" class="pr-2">
-        <a ngbNavLink>Opening Hours</a>
-        <ng-template ngbNavContent>
-          <div class="row">
-            <div class="col-lg-12">
-              <form [formGroup]="frmOpeningHour">
+    <div class="col-lg-12">
+      <ul ngbNav #tOpenRebot="ngbNav"  [(activeId)]="OpeningRebootActive" class="nav-tabs">
+        <li [ngbNavItem]="1" class="pr-2">
+          <a ngbNavLink>Opening Hours</a>
+          <ng-template ngbNavContent>
+            <div class="row">
+              <div class="col-lg-12">
+         <form [formGroup]="frmOpeningHour">
                 <div class="form-row">
-                  <div class="form-group col-sm-6 pb-0 m-0">
-                    <div class="col-sm-5 p-0 m-0 pull-left">
-                      <label class="mb-2 mr-sm-2" for="sTime"
-                        >Start time:
-                      </label>
-                      <ngb-timepicker
-                        formControlName="startTime"
-                      ></ngb-timepicker>
+                 
+                       
+                      <div class="form-group col-sm-3 pb-0 m-0">
+                        <div class="col-sm-5 p-0  m-0 pull-left">
+                          <label class="mb-2 mr-sm-2" for="sTime">Start time: </label>
+                          <ngb-timepicker formControlName="startTime" ></ngb-timepicker>
                     </div>
                     <div class="col-lg-5 p-0 m-0 pull-right">
                       <label class="mb-2 mr-sm-2" for="sTime">End time: </label>
-                      <ngb-timepicker
-                        formControlName="EndTime"
-                      ></ngb-timepicker>
-                    </div>
-                  </div>
-                  <div class="d-none form-group col-sm-3 pb-0 m-0">
-                    <label class="mb-2 mr-sm-2" for="week">Week Day:</label>
-                  </div>
-
-                  <div class="form-group col-sm-1 pb-0 m-0">
-                    <div class="col-lg-5 p-0 mt-5">
-                      <button
-                        id="btnGroup2"
-                        class="btn btn-primary mr-2"
-                        (click)="UpdateTokenOpeningHours()"
-                        style="padding: 0.2rem 0.5rem"
-                      >
-                        <i class="fa fa-floppy-o fa-lg" aria-hidden="true"></i>
-                      </button>
-                    </div>
-                  </div>
-                  <div class="form-group col-sm-5 pb-0 m-0 mt-4">
-                    <div class="p-0 pr-1 m-0 pull-right">
-                      <div class="iq-search-bar device-search">
-                        <div class="searchbox1">
-                          <input
-                            type="text"
-                            id="txtSearch"
-                            placeholder="Search"
-                            class="text search-input"
-                            [(ngModel)]="openSearchText"
-                            [ngModelOptions]="{ standalone: true }"
-                          />
-                          <a class="search-link" href="#"
-                            ><i class="fa fa-search"></i
-                          ></a>
-                        </div>
+                      <ngb-timepicker formControlName="EndTime" ></ngb-timepicker>
                       </div>
-                    </div>
-                  </div>
                 </div>
-              </form>
-              <div class="col-lg-12 m-0 p-0 mt-3">
+                <div class="d-none form-group col-sm-3 pb-0 m-0">
+                  <label class="mb-2 mr-sm-2" for="week">Week Day:</label>
+                   
+                </div>
+         
+        
+                <div class="form-group col-sm-1 pb-0 m-0">
+                  <div class="col-lg-5 p-0 mt-5">
+                  <button id="btnGroup2" class="btn btn-primary mr-2" (click)="UpdateTokenOpeningHours()"
+                   style="padding: 0.200rem 0.5rem;">
+                  <i class="fa fa-floppy-o fa-lg" aria-hidden="true"></i>
+                  
+                </button></div>
+                
+                    </div>
+                <div class="form-group col-sm-8 pb-0 m-0">
+                  <div class="col-sm-3 p-0 pr-1 m-0 pull-right">
+                    <label for="txtSearch" class="mb-2 mr-sm-2">&nbsp;</label>
+                    <input type="text" id="txtSearch" placeholder="Search" class="form-control" [(ngModel)]="openSearchText" [ngModelOptions]="{standalone: true}"/>
+              </div>
+          </div>
+           
+                      </div>
+                    </form>
+                <div class="col-lg-12 m-0 p-0 mt-3">
                 <div class="table-responsive">
-                  <table
-                    class="table data-table table-striped table-bordered mydatatable"
-                  >
-                    <thead class="bg-primary">
-                      <tr>
-                        <th scope="col" style="width: 60px"></th>
-                        <th scope="col" sortable="city" (sort)="onSort($event)">
-                          City
-                        </th>
-                        <th
-                          scope="col"
-                          sortable="location"
-                          (sort)="onSort($event)"
-                        >
-                          Location
-                        </th>
-                        <th
-                          scope="col"
-                          sortable="tokenCode"
-                          (sort)="onSort($event)"
-                        >
-                          Token No
-                        </th>
-                        <th scope="col" style="width: 100px">Start Time</th>
-                        <th scope="col" style="width: 100px">End Time</th>
-                        <!--
+        
+                  <table class="table table-sm table-bordered">
+                      <thead class="thead-light">
+                          <tr>
+                              <th scope="col" style="Width:60px">
+                              </th>
+                              <th scope="col" sortable="city" (sort)="onSort($event)">City </th>
+                              <th scope="col" sortable="location" (sort)="onSort($event)">Location </th>
+                              <th scope="col" sortable="tokenCode" (sort)="onSort($event)">Token No</th>
+                              <th scope="col" style="width: 100px;">Start Time</th>
+                              <th scope="col"  style="width: 100px;">End Time</th>
+                              <!--
                               <th scope="col">Week</th>
                               -->
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr
-                        *ngFor="
-                          let tLst of OpeningHoursList | filter: openSearchText;
-                          let i = index
-                        "
-                      >
-                        <td data-label="" class="">
-                          <div class="custom-control custom-checkbox">
-                            <input
-                              (change)="
-                                SelectOpeningHourToken(tLst.tokenid, $event)
-                              "
-                              type="checkbox"
-                              class="custom-control-input"
-                              id="{{ tLst.tokenid }}{{ i }}"
-                              [checked]="tLst.check"
-                              name="chkgrpTokenList"
-                            />
-                            <label
-                              class="custom-control-label cursor-pointer"
-                              for="{{ tLst.tokenid }}{{ i }}"
-                            ></label>
-                          </div>
-                        </td>
-                        <td data-label="City">{{ tLst.city }}</td>
-                        <td data-label="Location">{{ tLst.location }}</td>
-                        <td data-label="Token No">{{ tLst.tokenCode }}</td>
-
-                        <td data-label="Start Time">{{ tLst.StartTime }}</td>
-                        <td data-label="End Time">{{ tLst.EndTime }}</td>
-
-                        <!--             <td *ngIf="((tLst.StartTime === '00:00') && (tLst.EndTime === '00:00'))" data-label="Start Time">&nbsp;</td>
+                             
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr
+                              *ngFor="let tLst of OpeningHoursList| filter:openSearchText ;let i = index">
+                              <td data-label="" class="">
+                                  <div class="custom-control custom-checkbox">
+                                      <input (change)="SelectOpeningHourToken(tLst.tokenid,$event)" type="checkbox"
+                                          class="custom-control-input" id="{{tLst.tokenid}}{{i}}"
+                                          [checked]="tLst.check" name="chkgrpTokenList">
+                                      <label class="custom-control-label cursor-pointer"
+                                          for="{{tLst.tokenid}}{{i}}"></label>
+                                  </div>
+                              </td>
+                              <td data-label="City">{{tLst.city}}</td>
+                              <td data-label="Location">{{tLst.location}}</td>
+                              <td data-label="Token No">{{tLst.tokenCode}}</td>
+        
+                              <td  data-label="Start Time">{{tLst.StartTime}}</td>
+                              <td data-label="End Time">{{tLst.EndTime}}</td>
+        
+                 <!--             <td *ngIf="((tLst.StartTime === '00:00') && (tLst.EndTime === '00:00'))" data-label="Start Time">&nbsp;</td>
                               <td *ngIf="((tLst.StartTime === '00:00') && (tLst.EndTime === '00:00'))"  data-label="End Time">&nbsp;</td>
-
+        
                               <td data-label="Week">{{tLst.WeekName}}</td>
         -->
-                      </tr>
-                    </tbody>
+                            </tr>
+                      </tbody>
                   </table>
-                </div>
+        
               </div>
+              </div>
+                 
+              </div>
+        
+              
+        
             </div>
-          </div>
-        </ng-template>
-      </li>
-      <li [ngbNavItem]="2" class="pr-2">
-        <a ngbNavLink>Reboot Time</a>
-        <ng-template ngbNavContent>
-          <div class="row">
-            <div class="col-lg-12">
-              <form [formGroup]="frmRebootTime">
+          </ng-template>
+        </li>
+        <li [ngbNavItem]="2" class="pr-2">
+          <a ngbNavLink>Reboot Time</a>
+          <ng-template ngbNavContent>
+            <div class="row">
+              <div class="col-lg-12">
+         <form [formGroup]="frmRebootTime">
                 <div class="form-row">
-                  <div class="form-group col-sm-6 pb-0 m-0">
-                    <div class="col-sm-5 p-0 m-0 pull-left">
-                      <label class="mb-2 mr-sm-2" for="sTime"
-                        >Reboot time:
-                      </label>
-                      <ngb-timepicker
-                        formControlName="startTime"
-                      ></ngb-timepicker>
+                 
+                       
+                      <div class="form-group col-sm-3 pb-0 m-0">
+                        <div class="col-sm-5 p-0  m-0 pull-left">
+                          <label class="mb-2 mr-sm-2" for="sTime">Reboot time: </label>
+                          <ngb-timepicker formControlName="startTime" ></ngb-timepicker>
                     </div>
                     <div class="col-sm-5 p-0 mt-5 pull-left ml-3">
-                      <button
-                        id="btnGroup2"
-                        class="btn btn-primary"
-                        (click)="UpdateTokenRebootTime()"
-                        style="padding: 0.2rem 0.5rem"
-                      >
-                        <i class="fa fa-floppy-o fa-lg" aria-hidden="true"></i>
-                      </button>
+                      <button id="btnGroup2" class="btn btn-primary" (click)="UpdateTokenRebootTime()"
+                   style="padding: 0.200rem 0.5rem;">
+                  <i class="fa fa-floppy-o fa-lg" aria-hidden="true"></i>
+                  
+                </button>
                     </div>
-                  </div>
-
-                  <div class="form-group col-sm-6 pb-0 m-0 mt-4">
-                    <div class="p-0 pr-1 m-0 pull-right">
-                      <div class="iq-search-bar device-search">
-                        <div class="searchbox1">
-                          <input
-                            type="text"
-                            id="txtSearch"
-                            placeholder="Search"
-                            class="text search-input"
-                            [(ngModel)]="RebootSearchText"
-                            [ngModelOptions]="{ standalone: true }"
-                          />
-                          <a class="search-link" href="#"
-                            ><i class="fa fa-search"></i
-                          ></a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
                 </div>
-              </form>
-              <div class="col-lg-12 m-0 p-0 mt-3">
-                <div class="table-responsive">
-                  <table
-                    class="table data-table table-striped table-bordered mydatatable"
-                  >
-                    <thead class="bg-primary">
-                      <tr>
-                        <th scope="col" style="width: 60px"></th>
-                        <th scope="col">City</th>
-                        <th scope="col">Location</th>
-                        <th scope="col">Token No</th>
-                        <th scope="col" style="width: 120px">Reboot Time</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr
-                        *ngFor="
-                          let tLst of RebootTimePlayerList
-                            | filter: RebootSearchText;
-                          let i = index
-                        "
-                      >
-                        <td data-label="" class="">
-                          <div class="custom-control custom-checkbox">
-                            <input
-                              (change)="
-                                SelectRebootTimeToken(tLst.tokenid, $event)
-                              "
-                              type="checkbox"
-                              class="custom-control-input"
-                              id="{{ tLst.tokenid }}{{ i }}"
-                              [checked]="tLst.check"
-                              name="chkgrpTokenList"
-                            />
-                            <label
-                              class="custom-control-label cursor-pointer"
-                              for="{{ tLst.tokenid }}{{ i }}"
-                            ></label>
-                          </div>
-                        </td>
-                        <td data-label="City">{{ tLst.city }}</td>
-                        <td data-label="Location">{{ tLst.location }}</td>
-                        <td data-label="Token No">{{ tLst.tokenCode }}</td>
-
-                        <td data-label="Reboot Time">{{ tLst.RebootTime }}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
+        
+                <div class="form-group col-sm-9 pb-0 m-0">
+                  <div class="col-sm-3 p-0 pr-1 m-0 pull-right">
+                    <label for="txtSearch" class="mb-2 mr-sm-2">&nbsp;</label>
+                    <input type="text" id="txtSearch" placeholder="Search" class="form-control" [(ngModel)]="RebootSearchText" [ngModelOptions]="{standalone: true}"/>
               </div>
-            </div>
           </div>
-        </ng-template>
-      </li>
-    </ul>
-    <div [ngbNavOutlet]="tOpenRebot" class="mt-2"></div>
+           
+                      </div>
+                    </form>
+                <div class="col-lg-12 m-0 p-0 mt-3">
+                <div class="table-responsive">
+        
+                  <table class="table table-sm table-bordered">
+                      <thead class="thead-light">
+                          <tr>
+                              <th scope="col" style="Width:60px">
+                              </th>
+                              <th scope="col">City </th>
+                              <th scope="col">Location </th>
+                              <th scope="col">Token No</th>
+                              <th scope="col" style="width: 120px;">Reboot Time</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr
+                              *ngFor="let tLst of RebootTimePlayerList | filter:RebootSearchText ;let i = index">
+                              <td data-label="" class="">
+                                  <div class="custom-control custom-checkbox">
+                                      <input (change)="SelectRebootTimeToken(tLst.tokenid,$event)" type="checkbox"
+                                          class="custom-control-input" id="{{tLst.tokenid}}{{i}}"
+                                          [checked]="tLst.check" name="chkgrpTokenList">
+                                      <label class="custom-control-label cursor-pointer"
+                                          for="{{tLst.tokenid}}{{i}}"></label>
+                                  </div>
+                              </td>
+                              <td data-label="City">{{tLst.city}}</td>
+                              <td data-label="Location">{{tLst.location}}</td>
+                              <td data-label="Token No">{{tLst.tokenCode}}</td>
+        
+                              <td  data-label="Reboot Time">{{tLst.RebootTime}}</td>
+                            </tr>
+                      </tbody>
+                  </table>
+        
+              </div>
+              </div>
+                 
+              </div>
+        
+              
+        
+            </div>
+          </ng-template>
+        </li>
+      </ul>
+      <div [ngbNavOutlet]="tOpenRebot" class="mt-2"></div>
+      </div>
   </div>
-</div>

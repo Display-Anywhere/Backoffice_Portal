@@ -101,7 +101,7 @@ this.FillClientList();
   FillFolder(cid) {
     this.loading = true;
     var qry = "select folderId as Id, foldername as DisplayName  from tbFolder ";
-    qry = qry + " where dfclientId="+cid+" ";
+    qry = qry + " where isnull(IsPromoFolder,0)=0 and  dfclientId="+cid+" ";
     qry = qry + " order by foldername ";
     this.serviceLicense.FillCombo(qry).pipe()
       .subscribe(data => {
@@ -148,7 +148,7 @@ this.FillClientList();
       return;
     }
 
-    this.serviceLicense.SaveFolder(this.cmbFolder, this.NewFolderName, this.CustomerId).pipe()
+    this.serviceLicense.SaveFolder(this.cmbFolder, this.NewFolderName, this.CustomerId,false).pipe()
       .subscribe(data => {
         var returnData = JSON.stringify(data);
         var obj = JSON.parse(returnData);

@@ -1,306 +1,239 @@
 <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }">
 </ngx-loading>
+ 
 
-<div class="col-lg-12" style="padding: 0 0 0 0">
-  <ngb-tabset #t="ngbTabset">
-    <ngb-tab id="tab-selectbyid1" title="Search">
-      <ng-template ngbTabContent>
-        <div class="container-fluid form-row">
-          <div class="form-group col-sm-3">
-            <label for="SearchAdvtDate" class="mb-2 mr-sm-2">Date:</label>
-            <input
-              id="SearchAdvtDate"
-              class="form-control mb-2 mr-sm-2"
-              [owlDateTimeTrigger]="dtSearch"
-              [(ngModel)]="SearchPDate"
-              [owlDateTime]="dtSearch"
-              readonly
-            />
-            <owl-date-time [pickerType]="'calendar'" #dtSearch></owl-date-time>
-          </div>
-          <div class="form-group col-sm-3">
-            <label for="SearchCName" class="mb-2 mr-sm-2">Customer Name:</label>
-            <select
-              name="SearchCustomerName"
-              class="custom-select mb-3"
-              [(ngModel)]="cmbSearchCustomer"
-              (change)="onChangeCustomer($event.target.value)"
-              id="SearchCName"
-            >
-              <option selected value="0"></option>
-              <option *ngFor="let cLst of SearchCustomerList" [value]="cLst.Id">
-                {{ cLst.DisplayName }}
-              </option>
-            </select>
-          </div>
-          <div class="form-group col-sm-3">
-            <label for="SearchToken" class="mb-2 mr-sm-2">Token:</label>
-            <select
-              name="SearchToken"
-              class="custom-select mb-3"
-              [(ngModel)]="cmbSearchToken"
-              id="SearchToken"
-            >
-              <option selected value="0"></option>
-              <option
-                *ngFor="let tsLst of SearchTokenList"
-                [value]="tsLst.tokenid"
-              >
-                {{ tsLst.tokenCode }} - {{ tsLst.location }}
-              </option>
-            </select>
-          </div>
-          <div class="mt-5 ml-2">
-            <button
-              class="btn btn-secondary mb-2"
-              type="button"
-              (click)="SearchPrayer()"
-            >
-              <i class="fa fa-search"></i>
-            </button>
-          </div>
-        </div>
-        <div class="form-inline" style="padding-top: 10px"></div>
-        <div class="table-responsive">
-          <table
-            class="table data-table table-striped table-bordered mydatatable"
-          >
-            <thead class="bg-primary">
-              <tr class="d-flex">
-                <th class="col">Start Time</th>
-                <th class="col">End Time</th>
-                <th class="col-sm-1 Link-Center_Width"></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr class="d-flex" *ngFor="let prayerLst of PrayerList">
-                <td class="col">
-                  {{ prayerLst.sTime }}
-                </td>
-                <td class="col">
-                  {{ prayerLst.eTime }}
-                </td>
-                <td
-                  class="col-sm-1 cursor-pointer Link-Center_Width"
-                  (click)="
-                    openPrayerDeleteModal(PrayerDeleteModal, prayerLst.id)
-                  "
-                >
-                  <i
-                    class="fa fa-trash"
-                    style="color: red"
-                    aria-hidden="true"
-                  ></i>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </ng-template>
-    </ngb-tab>
-    <ngb-tab id="tab-selectbyid2" title="AddNew">
-      <ng-template ngbTabContent>
-        <div class="container-fluid">
-          <form [formGroup]="Prayerform" (ngSubmit)="onSubmitPrayer()">
-            <div class="form-row">
-              <div class="form-group col-sm-4">
-                <label for="SearchCName" class="mb-2 mr-sm-2"
-                  >Customer Name:</label
-                >
-                <select
-                  name="SearchCustomerName"
-                  class="custom-select mb-3"
-                  (change)="SelectCustomer($event.target.value, $event)"
-                  id="SearchCName"
-                >
-                  <option selected value="0"></option>
-                  <option
-                    *ngFor="let cLst of SearchCustomerList"
-                    [value]="cLst.Id"
-                  >
-                    {{ cLst.DisplayName }}
-                  </option>
-                </select>
-              </div>
-              <div class="form-group col-sm-2">
-                <label for="dt1" class="mb-2 mr-sm-2">Start Date:</label>
-                <input
-                  id="dt1"
-                  formControlName="sDate"
-                  [ngClass]="{ 'is-invalid': submitted && f.sDate.errors }"
-                  class="form-control mb-2 mr-sm-2"
-                  [owlDateTimeTrigger]="dt1"
-                  [owlDateTime]="dt1"
-                  readonly
-                />
-                <owl-date-time [pickerType]="'calendar'" #dt1></owl-date-time>
-                <div
-                  *ngIf="submitted && f.sDate.errors"
-                  class="invalid-feedback"
-                ></div>
-              </div>
-              <div class="form-group col-sm-2">
-                <label for="dt2" class="mb-2 mr-sm-2">End Date:</label>
-                <input
-                  id="dt2"
-                  formControlName="eDate"
-                  [ngClass]="{ 'is-invalid': submitted && f.eDate.errors }"
-                  class="form-control mb-2 mr-sm-2"
-                  [owlDateTimeTrigger]="dt2"
-                  [owlDateTime]="dt2"
-                  readonly
-                />
-                <owl-date-time [pickerType]="'calendar'" #dt2></owl-date-time>
-                <div
-                  *ngIf="submitted && f.eDate.errors"
-                  class="invalid-feedback"
-                ></div>
-              </div>
-              <div class="form-group col-sm-2">
-                <label class="mb-2 mr-sm-2" for="sTime">Start time: </label>
-                <ngb-timepicker formControlName="startTime"></ngb-timepicker>
-                <!--
+<div class="col-lg-12" style="padding: 0 0 0 0;">
+
+    <ngb-tabset #t="ngbTabset">
+        <ngb-tab id="tab-selectbyid1" title="Search">
+            <ng-template ngbTabContent>
+                <div class="container-fluid form-row">
+                    <div class="form-group col-sm-3">
+                            <label for="SearchAdvtDate" class="mb-2 mr-sm-2">Date:</label>
+                            <input id="SearchAdvtDate" class="form-control mb-2 mr-sm-2" [owlDateTimeTrigger]="dtSearch"
+                                [(ngModel)]="SearchPDate" [owlDateTime]="dtSearch" readonly>
+                            <owl-date-time [pickerType]="'calendar'" #dtSearch></owl-date-time>
+                    </div>
+                    <div class="form-group col-sm-3">
+                            <label for="SearchCName" class="mb-2 mr-sm-2">Customer Name:</label>
+                            <select name="SearchCustomerName" class="custom-select form-control mb-2 mr-sm-2"
+                                [(ngModel)]="cmbSearchCustomer" (change)="onChangeCustomer($event.target.value)" id="SearchCName">
+                                <option selected value="0"></option>
+                                <option *ngFor="let cLst of SearchCustomerList" [value]="cLst.Id">{{cLst.DisplayName}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-sm-3">
+                                <label for="SearchToken" class="mb-2 mr-sm-2">Token:</label>
+                                <select name="SearchToken" class="custom-select form-control mb-2 mr-sm-2"
+                                    [(ngModel)]="cmbSearchToken" id="SearchToken">
+                                    <option selected value="0"></option>
+                                    <option *ngFor="let tsLst of SearchTokenList" [value]="tsLst.tokenid">{{tsLst.tokenCode}} -
+                                        {{tsLst.location}}</option>
+                                </select>
+                            </div>
+                            <div class="mt-5 ml-2">
+                            <button class="btn btn-secondary mb-2" type="button" (click)="SearchPrayer()">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                    </div>
+                <div class="form-inline" style="padding-top: 10px;">
+                </div>
+                <div class="table-responsive">
+    
+                    <table class="table table-sm table-bordered">
+                        <thead class="thead-light">
+                            <tr class="d-flex">
+                                <th class="col">Start Time</th>
+                                <th class="col">End Time</th>
+                                <th class="col-sm-1 Link-Center_Width"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="d-flex" *ngFor="let prayerLst of PrayerList;">
+                                <td class="col">
+                                    {{prayerLst.sTime}}
+                                </td>
+                                <td class="col">
+                                    {{prayerLst.eTime}}
+                                </td>
+                                <td class="col-sm-1 cursor-pointer Link-Center_Width"
+                                (click)="openPrayerDeleteModal(PrayerDeleteModal,prayerLst.id)">
+                                <i class="fa fa-trash" style="color:red;" aria-hidden="true"></i>
+                            </td>
+    
+    
+    
+                            </tr>
+    
+    
+                        </tbody>
+                    </table>
+                </div>
+            </ng-template>
+        </ngb-tab>
+        <ngb-tab id="tab-selectbyid2" title="AddNew">
+            <ng-template ngbTabContent>
+                <div class="container-fluid">
+                    <form [formGroup]="Prayerform" (ngSubmit)="onSubmitPrayer()">
+<div class="form-row">
+      
+    <div class="form-group col-sm-4">
+        <label for="SearchCName" class="mb-2 mr-sm-2">Customer Name:</label>
+        <select name="SearchCustomerName" class="custom-select form-control mb-2 mr-sm-2"
+           (change)="SelectCustomer($event.target.value,$event)" id="SearchCName">
+            <option selected value="0"></option>
+            <option *ngFor="let cLst of SearchCustomerList" [value]="cLst.Id">{{cLst.DisplayName}}</option>
+        </select>
+
+    </div>
+<div class="form-group col-sm-2">
+        <label for="dt1" class="mb-2 mr-sm-2">Start Date:</label>
+        <input id="dt1" formControlName="sDate"
+            [ngClass]="{ 'is-invalid': submitted && f.sDate.errors }"
+            class="form-control mb-2 mr-sm-2" [owlDateTimeTrigger]="dt1" [owlDateTime]="dt1"
+            readonly>
+        <owl-date-time [pickerType]="'calendar'" #dt1></owl-date-time>
+        <div *ngIf="submitted && f.sDate.errors" class="invalid-feedback"></div>
+</div>
+<div class="form-group col-sm-2">
+        <label for="dt2" class="mb-2 mr-sm-2">End Date:</label>
+        <input id="dt2" formControlName="eDate"
+            [ngClass]="{ 'is-invalid': submitted && f.eDate.errors }"
+            class="form-control mb-2 mr-sm-2" [owlDateTimeTrigger]="dt2" [owlDateTime]="dt2"
+            readonly>
+        <owl-date-time [pickerType]="'calendar'" #dt2></owl-date-time>
+        <div *ngIf="submitted && f.eDate.errors" class="invalid-feedback"></div>
+    </div>
+    <div class="form-group col-sm-2">
+            <label class="mb-2 mr-sm-2" for="sTime">Start time: </label>
+            <ngb-timepicker formControlName="startTime" ></ngb-timepicker>
+            <!--
             <input id="sTime" class="form-control mb-2 mr-sm-2"
                 [ngClass]="{ 'is-invalid': submitted && f.startTime.errors }"
                 formControlName="startTime" [owlDateTimeTrigger]="dtStartTime"
                 [owlDateTime]="dtStartTime" readonly>
             <owl-date-time [pickerType]="'timer'" #dtStartTime></owl-date-time>
 -->
-                <div
-                  *ngIf="submitted && f.startTime.errors"
-                  class="invalid-feedback"
-                ></div>
-              </div>
-              <div class="form-group col-sm-1">
+            <div *ngIf="submitted && f.startTime.errors" class="invalid-feedback"></div>
+        </div>
+        <div class="form-group col-sm-1">
                 <label for="Duration" class="mb-2 mr-sm-2">Duration:</label>
-                <input
-                  type="number"
-                  formControlName="duration"
-                  id="Duration"
-                  min="1"
-                  max="100"
-                  [ngClass]="{ 'is-invalid': submitted && f.duration.errors }"
-                  autocomplete="false"
-                  class="form-control mb-2 mr-sm-2"
-                />
-                <div
-                  *ngIf="submitted && f.duration.errors"
-                  class="invalid-feedback"
-                ></div>
-              </div>
-              <div class="form-group col-sm-1">
+                <input type="number" formControlName="duration" id="Duration" min="1" max="100"
+                    [ngClass]="{ 'is-invalid': submitted && f.duration.errors }" autocomplete="false"
+                    class="form-control mb-2 mr-sm-2" />
+                <div *ngIf="submitted && f.duration.errors" class="invalid-feedback"></div>
+
+            </div>
+            <div class="form-group col-sm-1">
                 <label for="btn" class="mb-2 mr-sm-2">&nbsp;</label>
                 <div class="ml-auto" id="btn">
-                  <button class="btn btn-primary">Save</button>
-                </div>
-              </div>
+                    
+                    <button class="btn btn-primary" >
+                            <i class="fa fa-floppy-o fa-lg" aria-hidden="true"></i>
+                        </button>
+        </div>
             </div>
+                   
+                           
+         
+           
+</div> 
 
-            <div class="row">
-              <div class="col-sm-12">
-                <div class="table-responsive" style="height: 690px">
-                  <table
-                    class="table data-table table-striped table-bordered mydatatable"
-                  >
-                    <thead class="bg-primary">
-                      <tr class="d-flex">
-                        <th scope="col" style="width: 60px">
-                          <div class="custom-control custom-checkbox">
-                            <input
-                              (change)="allToken($event)"
-                              type="checkbox"
-                              class="custom-control-input"
-                              name="allToken"
-                              id="AllToken"
-                            />
-                            <label
-                              class="custom-control-label cursor-pointer pt-0 text-white"
-                              for="AllToken"
-                              >All</label
-                            >
-                          </div>
-                        </th>
-                        <th class="col">Token</th>
-                        <th class="col">Location</th>
-                        <th class="col">City</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr class="d-flex" *ngFor="let tLst of TokenList">
-                        <td class="" style="width: 60px">
-                          <div class="custom-control custom-checkbox">
-                            <input
-                              (change)="SelectToken(tLst.tokenid, $event)"
-                              type="checkbox"
-                              class="custom-control-input"
-                              id="{{ tLst.tokenid }}"
-                              [checked]="tLst.check"
-                              name="chkToken"
-                            />
-                            <label
-                              class="custom-control-label cursor-pointer"
-                              for="{{ tLst.tokenid }}"
-                            ></label>
-                          </div>
-                        </td>
-                        <td class="col">
-                          {{ tLst.tokenCode }}
-                        </td>
-                        <td class="col">
-                          {{ tLst.location }}
-                        </td>
-                        <td class="col">
-                          {{ tLst.city }}
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
+
+
+
+             
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="table-responsive" style="height:690px">
+                                <table class="table table-sm table-bordered">
+                                    <thead class="thead-light">
+                                        <tr class="d-flex">
+                                            <th scope="col" style="Width:60px">
+                                                <div class="custom-control custom-checkbox">
+                                                    <input (change)="allToken($event)" type="checkbox"
+                                                        class="custom-control-input" name="allToken" id="AllToken">
+                                                    <label class="custom-control-label cursor-pointer pt-0"
+                                                        for="AllToken">All</label>
+                                                </div>
+                                            </th>
+                                            <th class="col">Token</th>
+                                            <th class="col">Location</th>
+                                            <th class="col">City</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="d-flex" *ngFor="let tLst of TokenList;">
+                                            <td class=""  style="Width:60px">
+                                                <div class="custom-control custom-checkbox">
+                                                    <input (change)="SelectToken(tLst.tokenid,$event)" 
+                                                    type="checkbox" class="custom-control-input" id="{{tLst.tokenid}}"
+                                                [checked]="tLst.check" name="chkToken"  >
+                                                    <label class="custom-control-label cursor-pointer"
+                                                        for="{{tLst.tokenid}}"></label>
+                                                    
+                                                </div>
+                                            </td>
+                                            <td class="col">
+                                                {{tLst.tokenCode}}
+                                            </td>
+                                            <td class="col">
+                                                {{tLst.location}}
+                                            </td>
+                                            <td class="col">
+                                                {{tLst.city}}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
-          </form>
-        </div>
-      </ng-template>
-    </ngb-tab>
-  </ngb-tabset>
+            </ng-template>
+        </ngb-tab>
+    </ngb-tabset>
 
-  <ng-template #PrayerDeleteModal let-c="close" let-d="dismiss">
-    <div class="modal-header bg-primary">
-      <h5 class="text-white">Delete Prayer</h5>
-      <button
-        type="button"
-        class="close text-white"
-        aria-label="Close"
-        (click)="d('Cross click')"
-      >
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-sm-12">
-            <p>Are you sure to delete?</p>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-sm-12">
-            <button
-              class="btn btn-primary col-sm-2 pull-right"
-              (click)="d('Cross click')"
-            >
-              <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+
+
+
+
+
+
+ 
+
+    
+
+    <ng-template #PrayerDeleteModal let-c="close" let-d="dismiss">
+        <div class="modal-header">
+            <h5>Delete Prayer</h5>
+            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                <span aria-hidden="true">&times;</span>
             </button>
-            <button
-              class="btn btn-danger col-sm-2 pull-right mr-2"
-              (click)="DeleteParyer()"
-              (click)="d('Cross click')"
-            >
-              <i class="fa fa-check fa-lg" aria-hidden="true"></i>
-            </button>
-          </div>
         </div>
-      </div>
-    </div>
-  </ng-template>
-</div>
+        <div class="modal-body">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <p>Are you sure to delete?</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <button class="btn btn-primary col-sm-2  pull-right" (click)="d('Cross click')">
+                            <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+                        </button>
+                        <button class="btn btn-danger col-sm-2  pull-right mr-2" (click)="DeleteParyer()"
+                            (click)="d('Cross click')">
+                            <i class="fa fa-check fa-lg" aria-hidden="true"></i>
+                        </button>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </ng-template>

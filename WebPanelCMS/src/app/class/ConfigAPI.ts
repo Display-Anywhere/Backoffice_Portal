@@ -1,6 +1,16 @@
 export class ConfigAPI {
-     private Host = 'http://live.advikon.com/api/';
+ //  private Host: string = "http://localhost:60328/api/";
+   private Host: string = "https://api.advikon.com/api/";
+   // private Host: string = "https://api.nusign.eu:4477/api/";
 
+    // private Host = 'http://live.advikon.com/api/';
+
+   // private Host: string = "http://85.195.82.94/api/"; PAGE 1364=> 194 no. and 191 no. sekh farid g
+   // private Host: string = "http://live.advikon.com/api/";
+   // https://www.youtube.com/watch?v=aYcdMr2Vwn0
+   // https://www.youtube.com/watch?v=vLIIhzLGmxA
+
+   // private Host: string = "http://134.119.178.26/api/";
    FillQueryCombo: string = this.Host + 'FillQueryCombo';
    FillTokenInfo: string = this.Host + 'FillTokenInfo';
    FillTokenContent: string = this.Host + 'FillTokenContent';
@@ -118,6 +128,7 @@ export class ConfigAPI {
    FindToken: string = this.Host + 'FindToken';
    UpdateExpiryDate_Template_Creator: string = this.Host + 'UpdateExpiryDate_Template_Creator';
    SaveRebootTime: string = this.Host + 'SaveRebootTime';
+   GetClientFolder: string = this.Host + 'GetClientFolder';
 }
 
 // localStorage.setItem('UserId', obj.UserId);
