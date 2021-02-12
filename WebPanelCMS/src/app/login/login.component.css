@@ -6,8 +6,8 @@ input:-webkit-autofill:active {
 }
 .logo {
   width: 25%;
-  border-radius: 50%;
-  border: 1px solid #ddd;
+  /* border-radius: 50%;
+  border: 1px solid #ddd; */
   margin-bottom: 1em;
 }
 .mt-2e {
