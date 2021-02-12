@@ -1,283 +1,548 @@
 <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }">
 </ngx-loading>
- 
 
 <div class="container-fluid">
-   <div class="row m-1">
-  <div class="col-sm-1 m-0 p-0">
-    <label>Customer Name</label>
-    </div>
-    <div class="col-sm-3 m-0 p-0">
-    <select name="CustomerName" class="custom-select form-control mb-1"
-      (change)="onChangeCustomer($event.target.value)" id="cmbCustomer">
-      <option selected value="0"></option>
-      <option *ngFor="let cLst of CustomerList" [value]="cLst.Id">{{cLst.DisplayName}}</option>
-    </select>
-  </div></div>
-<div class="row m-1">
-  <div class="col-sm-1 m-0 p-0">
-    <label>Player No</label>
-  </div>
-  <div class="col-sm-3 m-0 p-0">
-    <select name="PlayerName" class="custom-select form-control mb-1"
-      (change)="onChangePlayer($event.target.value)" id="cmbPlayer">
-      <option selected value="0"></option>
-      <option *ngFor="let cLst of PlayerList" [value]="cLst.tokenid">{{cLst.tInfo}}</option>
-    </select>
-  </div>
-  </div>
-  <div class="row m-1">
-  <div class="col-lg-12 p-0">
-    <ul class="nav nav-tabs" role="tablist" style="background: #fff;color: #000;">
-      <li class="nav-item">
-        <a class="nav-link active" data-toggle="tab" href="#DownloadedSongs">Downloaded Songs</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" data-toggle="tab" href="#SongsLibrary">Songs Library</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" data-toggle="tab" href="#SchedulePlaylists">Schedule Playlists</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" data-toggle="tab" href="#Advertisement">Advertisements</a>
-      </li>
-    </ul>
-  </div> </div>
-    <div class="tab-content">
-      <div id="DownloadedSongs" role="tabpanel" class="tab-pane active m-0 p-0">
-        <div class="row m-1">
-          <div class="col-sm-1 m-0 p-0">
-            <label>Playlist Name</label>
-          </div>
-          <div class="col-sm-3 m-0 p-0">
-<select name="PlaylistName" class="custom-select form-control mb-2"
-            (change)="onChangePlaylist($event.target.value)" id="cmbPlaylist">
-            <option selected value="0"></option>
-            <option *ngFor="let cLst of ActivePlaylist" [value]="cLst.Id">{{cLst.DisplayName}}</option>
-          </select>
-          </div>
-        </div>
-
-
-
-        <div class="table-responsive" style="height:720px;overflow-y: scroll;">
-          <table class="table table-sm table-bordered table-hover">
-            <thead class="sticky-top thead-light">
-              <tr class="">
-                <th scope="col" class="sticky-top" class="sticky-top">Title</th>
-                <!-- <th scope="col" class="sticky-top" class="sticky-top">Length </th> -->
-                <th scope="col" class="sticky-top" class="sticky-top">Artist </th>
-                <th scope="col" class="sticky-top" class="sticky-top">Genre </th>
-                <th scope="col" class="sticky-top" class="sticky-top" style="width: 40px"></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr class="cursor-pointer" *ngFor="let songLst of DownloadedSongsList;">
-
-                <td data-label="Title">
-                  <a href="{{songLst.TitleIdLink}}" target="_blank">
-                    {{songLst.title}}
-                  </a>
-
-                </td>
-                <!-- <td data-label="Length">{{songLst.Length}}</td> -->
-                <td data-label="Artist">{{songLst.Artist}}</td>
-                <td data-label="category">{{songLst.GenreName}}</td>
-                <td data-label="" class="cursor-pointer">
-                  <i class="fa fa-youtube-play fa-2x text-primary"
-                    (click)="onClickInstant(songLst.id,songLst.ArtistId,songLst.AlbumId,songLst.MediaType,songLst.title,songLst.Artist,'Song')"
-                    aria-hidden="true"></i>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-
-      </div>
-      <div id="SongsLibrary" role="tabpanel" class="tab-pane">
-        
-          <div class="row m-1">
-              
-              <div class="col-sm-2 p-0">
-                <div  *ngIf="((ContentType$ =='ACR') || (ContentType$ =='ADL'))" class="custom-control custom-radio custom-control-inline  mb-2 mr-sm-2">
-                  <input type="radio" class="custom-control-input cursor-pointer" id="Audio"
-                    (change)="MediaRadioClick('Audio')" name="chkMediaType" [checked]="chkAudio">
-                  <label class="custom-control-label cursor-pointer" for="Audio">Audio</label>
-                </div>
-                <div *ngIf="((ContentType$ =='Video') || (ContentType$ =='Signage'))" class="custom-control custom-radio custom-control-inline mb-2 ">
-                  <input type="radio" class="custom-control-input cursor-pointer" id="Video"
-                    (change)="MediaRadioClick('Video')" name="chkMediaType" [checked]="chkVideo">
-                  <label class="custom-control-label cursor-pointer mr-1 " for="Video">Video</label>
-                </div>
-                <div 
-                 class="d-none custom-control custom-radio custom-control-inline  mb-2 mr-sm-2">
-                  <input type="radio" class="custom-control-input cursor-pointer" id="Image"
-                    (change)="MediaRadioClick('Image')" name="chkMediaType">
-                  <label class="custom-control-label cursor-pointer" for="Image">Image</label>
-                </div>
-
-                
-              </div>
-<div   class="col-sm-2 p-0">
-                  <div  *ngIf="((ContentType$ =='ACR') || (ContentType$ =='Video'))"  class="custom-control custom-radio custom-control-inline  mb-2 mr-sm-2">
-                    <input type="radio" class="custom-control-input cursor-pointer" id="CL"
-                      (change)="MediaRadioClick('CL')" name="chkMediaFilter" [checked]=IsCL>
-                    <label class="custom-control-label cursor-pointer" for="CL">Copyright</label>
-                  </div>
-
-                  <div *ngIf="(ContentType$=='ADL')"  class="custom-control custom-radio custom-control-inline  mb-2 mr-sm-2">
-                    <input type="radio" class="custom-control-input cursor-pointer" id="DL"
-                      (change)="MediaRadioClick('RF')" name="chkMediaFilter" [checked]=IsRF>
-                    <label class="custom-control-label cursor-pointer" for="DL">Direct Licence</label>
-                  </div>
-                </div>
-
-              <div class="col-sm-2 p-0 colRadio">
-                <div *ngIf="(ContentType$ !=='Signage')" class="custom-control custom-radio custom-control-inline  mb-2 mr-sm-2">
-                  <input type="radio" class="custom-control-input cursor-pointer" id="title"
-                    (change)="SearchRadioClick('title')" name="chkSearch"  
-                      [checked]=chkTitle>
-                  <label class="custom-control-label cursor-pointer mr-1" for="title">Title</label>
-                </div>
-                <div *ngIf="(ContentType$ !=='Signage')" class="custom-control custom-radio custom-control-inline  mb-2 mr-sm-2">
-                  <input type="radio" class="custom-control-input cursor-pointer" id="Artist"
-                    (change)="SearchRadioClick('artist')" name="chkSearch">
-                  <label class="custom-control-label cursor-pointer mr-1" for="Artist">Artist</label>
-                </div>
-                <div class="d-none custom-control custom-radio custom-control-inline  mb-2 mr-sm-2">
-                  <input type="radio" class="custom-control-input cursor-pointer" id="Album"
-                    (change)="SearchRadioClick('album')" name="chkSearch">
-                  <label class="custom-control-label cursor-pointer mr-1" for="Album">Album</label>
-                </div>
-
-                <div class="custom-control custom-radio custom-control-inline  mb-2 mr-sm-2">
-                  <input type="radio" class="custom-control-input cursor-pointer" id="Genre"
-                    (change)="SearchRadioClick('Genre')" name="chkSearch" [checked]=chkGenre>
-                  <label class="custom-control-label cursor-pointer mr-1" for="Genre">Genre</label>
-                </div>
-
-                <!-- <div class="custom-control custom-radio custom-control-inline  mb-2 mr-sm-2">
-                  <input type="radio" class="custom-control-input cursor-pointer" id="Category"
-                    (change)="SearchRadioClick('Category')" name="chkSearch">
-                  <label class="custom-control-label cursor-pointer mr-1" for="Category">Category</label>
-                </div> -->
-
-              </div>
-
-              <div class="col-sm-5 pr-1 pl-0 colFilter mb-1">
-                <form (keydown)="keyDownFunction($event)">
-                  <input *ngIf="Search" type="text" [(ngModel)]="SearchText" value=""
-                    [ngModelOptions]="{standalone: true}" placeholder="Search" class="form-control" />
-                </form>
-                <select *ngIf="!Search" name="cmbAlbum" [(ngModel)]="cmbAlbum" class="custom-select"
-                  (change)="onChangeAlbum($event.target.value)" id="cmbAlbum">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <!-- cardheader start -->
+        <div class="card-header">
+          <div class="col-12 p-0">
+            <div class="form-row">
+              <div class="form-group col-sm-3 m-0">
+                <label>Customer Name</label>
+                <select
+                  name="CustomerName"
+                  class="custom-select mb-3"
+                  (change)="onChangeCustomer($event.target.value)"
+                  id="cmbCustomer"
+                >
                   <option selected value="0"></option>
-                  <option *ngFor="let aLst of AlbumList" [value]="aLst.Id">{{aLst.DisplayName}}</option>
+                  <option *ngFor="let cLst of CustomerList" [value]="cLst.Id">
+                    {{ cLst.DisplayName }}
+                  </option>
                 </select>
-
               </div>
-              <div class="col-sm-1 p-0 colbtn">
-                <button class="btn btn-secondary pull-right" (click)="SearchContent()">
-                  <i class="fa fa-search"></i>
-                </button>
+              <div class="form-group col-sm-3 m-0">
+                <label>Player No</label>
+                <select
+                  name="PlayerName"
+                  class="custom-select mb-3"
+                  (change)="onChangePlayer($event.target.value)"
+                  id="cmbPlayer"
+                >
+                  <option selected value="0"></option>
+                  <option
+                    *ngFor="let cLst of PlayerList"
+                    [value]="cLst.tokenid"
+                  >
+                    {{ cLst.tInfo }}
+                  </option>
+                </select>
               </div>
             </div>
-          
-
-<div class="col-lg-12  p-0">
-
-          <div class="table-responsive" style="max-height:720px;overflow-y: scroll;">
-            <table class="table table-sm table-bordered table-hover">
-              <thead class="sticky-top thead-light">
-                <tr class=" ">
-
-                  <th scope="col" class="sticky-top">Title</th>
-                  <!-- <th scope="col" class="sticky-top">Length </th> -->
-                  <th scope="col" class="sticky-top">Artist </th>
-                  <th scope="col" class="sticky-top">Genre </th>
-                  <th scope="col" class="sticky-top" style="Width:40px"></th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="cursor-pointer" *ngFor="let songLst of SongsList;">
-
-                  <td data-label="Title">
-                    <a href="{{songLst.TitleIdLink}}" target="_blank">
-                      {{songLst.title}}
-                    </a>
-                  </td>
-                  <!-- <td data-label="Length">{{songLst.Length}}</td> -->
-                  <td data-label="Artist">{{songLst.Artist}}</td>
-                  <td data-label="Genre">{{songLst.genreName}}</td>
-                  <td data-label="">
-                    <i class="fa fa-youtube-play fa-2x text-primary"
-                      (click)="onClickInstant(songLst.id,songLst.ArtistId,songLst.AlbumId,songLst.MediaType,songLst.title,songLst.Artist,'Song')"
-                      aria-hidden="true"></i>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
           </div>
         </div>
-      </div>
-      <div id="SchedulePlaylists" role="tabpanel" class="tab-pane  m-0 p-0">
-        <div class="table-responsive">
-          <table class="table table-sm table-bordered table-hover">
-            <thead class="thead-light">
-              <tr>
-                <th scope="col">Playlist Name</th>
+        <!-- cardheader end -->
+        <!-- cardbody start -->
+        <div class="card-body">
+          <!-- tab start -->
+          <div class="col-lg-12 p-0">
+            <ul
+              class="nav nav-pills"
+              role="tablist"
+              style="background: #fff; color: #000"
+            >
+              <li class="nav-item">
+                <a
+                  class="nav-link active"
+                  data-toggle="tab"
+                  href="#DownloadedSongs"
+                  >Downloaded Songs</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#SongsLibrary"
+                  >Songs Library</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#SchedulePlaylists"
+                  >Schedule Playlists</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#Advertisement"
+                  >Advertisements</a
+                >
+              </li>
+            </ul>
+          </div>
+          <!-- tab end -->
+          <!-- tab-content start -->
+          <div class="tab-content mt-3">
+            <div
+              id="DownloadedSongs"
+              role="tabpanel"
+              class="tab-pane active m-0 p-0"
+            >
+              <div class="row m-1 mt-4 mb-4">
+                <div class="col-sm-2 m-0 p-0">
+                  <label>Playlist Name</label>
+                </div>
+                <div class="col-sm-4 m-0 p-0">
+                  <select
+                    name="PlaylistName"
+                    class="custom-select mb-3"
+                    (change)="onChangePlaylist($event.target.value)"
+                    id="cmbPlaylist"
+                  >
+                    <option selected value="0"></option>
+                    <option
+                      *ngFor="let cLst of ActivePlaylist"
+                      [value]="cLst.Id"
+                    >
+                      {{ cLst.DisplayName }}
+                    </option>
+                  </select>
+                </div>
+              </div>
 
-                <th scope="col" style="Width:40px"></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let aPlaylist of ActivePlaylist;">
+              <div
+                class="table-responsive"
+                style="height: 720px; overflow-y: scroll"
+              >
+                <table
+                  class="table data-table table-striped table-bordered mydatatable"
+                >
+                  <thead class="sticky-top bg-primary">
+                    <tr class="">
+                      <th scope="col" class="sticky-top" class="sticky-top">
+                        Title
+                      </th>
+                      <!-- <th scope="col" class="sticky-top" class="sticky-top">Length </th> -->
+                      <th scope="col" class="sticky-top" class="sticky-top">
+                        Artist
+                      </th>
+                      <th scope="col" class="sticky-top" class="sticky-top">
+                        Genre
+                      </th>
+                      <th
+                        scope="col"
+                        class="sticky-top"
+                        class="sticky-top"
+                        style="width: 40px"
+                      ></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr
+                      class="cursor-pointer"
+                      *ngFor="let songLst of DownloadedSongsList"
+                    >
+                      <td data-label="Title">
+                        <a href="{{ songLst.TitleIdLink }}" target="_blank">
+                          {{ songLst.title }}
+                        </a>
+                      </td>
+                      <!-- <td data-label="Length">{{songLst.Length}}</td> -->
+                      <td data-label="Artist">{{ songLst.Artist }}</td>
+                      <td data-label="category">{{ songLst.GenreName }}</td>
+                      <td data-label="" class="cursor-pointer">
+                        <i
+                          class="fa fa-youtube-play fa-2x text-danger"
+                          (click)="
+                            onClickInstant(
+                              songLst.id,
+                              songLst.ArtistId,
+                              songLst.AlbumId,
+                              songLst.MediaType,
+                              songLst.title,
+                              songLst.Artist,
+                              'Song'
+                            )
+                          "
+                          aria-hidden="true"
+                        ></i>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div id="SongsLibrary" role="tabpanel" class="tab-pane">
+              <!-- library header start -->
+              <div class="col-12 p-0">
+                <div class="row m-1">
+                  <div class="col-md-9">
+                    <div class="row">
+                      <div class="col-sm-2 p-0">
+                        <div
+                          *ngIf="ContentType$ == 'ACR' || ContentType$ == 'ADL'"
+                          class="custom-control custom-radio custom-control-inline mb-2 mr-sm-2"
+                        >
+                          <input
+                            type="radio"
+                            class="custom-control-input cursor-pointer"
+                            id="Audio"
+                            (change)="MediaRadioClick('Audio')"
+                            name="chkMediaType"
+                            [checked]="chkAudio"
+                          />
+                          <label
+                            class="custom-control-label cursor-pointer"
+                            for="Audio"
+                            >Audio</label
+                          >
+                        </div>
+                        <div
+                          *ngIf="
+                            ContentType$ == 'Video' || ContentType$ == 'Signage'
+                          "
+                          class="custom-control custom-radio custom-control-inline mb-2"
+                        >
+                          <input
+                            type="radio"
+                            class="custom-control-input cursor-pointer"
+                            id="Video"
+                            (change)="MediaRadioClick('Video')"
+                            name="chkMediaType"
+                            [checked]="chkVideo"
+                          />
+                          <label
+                            class="custom-control-label cursor-pointer mr-1"
+                            for="Video"
+                            >Video</label
+                          >
+                        </div>
+                        <div
+                          class="d-none custom-control custom-radio custom-control-inline mb-2 mr-sm-2"
+                        >
+                          <input
+                            type="radio"
+                            class="custom-control-input cursor-pointer"
+                            id="Image"
+                            (change)="MediaRadioClick('Image')"
+                            name="chkMediaType"
+                          />
+                          <label
+                            class="custom-control-label cursor-pointer"
+                            for="Image"
+                            >Image</label
+                          >
+                        </div>
+                      </div>
+                      <div class="col-sm-2 p-0">
+                        <div
+                          *ngIf="
+                            ContentType$ == 'ACR' || ContentType$ == 'Video'
+                          "
+                          class="custom-control custom-radio custom-control-inline mb-2 mr-sm-2"
+                        >
+                          <input
+                            type="radio"
+                            class="custom-control-input cursor-pointer"
+                            id="CL"
+                            (change)="MediaRadioClick('CL')"
+                            name="chkMediaFilter"
+                            [checked]="IsCL"
+                          />
+                          <label
+                            class="custom-control-label cursor-pointer"
+                            for="CL"
+                            >Copyright</label
+                          >
+                        </div>
 
-                <td data-label="Playlist Name">
-                  {{aPlaylist.DisplayName}}
-                </td>
-                <td data-label="">
-                  <i class="fa fa-youtube-play fa-2x text-primary"
-                    (click)="onClickInstant(aPlaylist.Id,'','','','','','Playlist')" aria-hidden="true"></i>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+                        <div
+                          *ngIf="ContentType$ == 'ADL'"
+                          class="custom-control custom-radio custom-control-inline mb-2 mr-sm-2"
+                        >
+                          <input
+                            type="radio"
+                            class="custom-control-input cursor-pointer"
+                            id="DL"
+                            (change)="MediaRadioClick('RF')"
+                            name="chkMediaFilter"
+                            [checked]="IsRF"
+                          />
+                          <label
+                            class="custom-control-label cursor-pointer"
+                            for="DL"
+                            >Direct Licence</label
+                          >
+                        </div>
+                      </div>
+
+                      <div class="col-sm-8 colRadio">
+                        <div
+                          *ngIf="ContentType$ !== 'Signage'"
+                          class="col-sm-3 custom-control custom-radio custom-control-inline mb-2 mr-sm-2"
+                        >
+                          <input
+                            type="radio"
+                            class="custom-control-input cursor-pointer"
+                            id="title"
+                            (change)="SearchRadioClick('title')"
+                            name="chkSearch"
+                            [checked]="chkTitle"
+                          />
+                          <label
+                            class="custom-control-label cursor-pointer mr-1"
+                            for="title"
+                            >Title</label
+                          >
+                        </div>
+                        <div
+                          *ngIf="ContentType$ !== 'Signage'"
+                          class="col-sm-3 custom-control custom-radio custom-control-inline mb-2 mr-sm-2"
+                        >
+                          <input
+                            type="radio"
+                            class="custom-control-input cursor-pointer"
+                            id="Artist"
+                            (change)="SearchRadioClick('artist')"
+                            name="chkSearch"
+                          />
+                          <label
+                            class="custom-control-label cursor-pointer"
+                            for="Artist"
+                            >Artist</label
+                          >
+                        </div>
+                        <div
+                          class="col-sm-3 d-none custom-control custom-radio custom-control-inline mb-2 mr-sm-2"
+                        >
+                          <input
+                            type="radio"
+                            class="custom-control-input cursor-pointer"
+                            id="Album"
+                            (change)="SearchRadioClick('album')"
+                            name="chkSearch"
+                          />
+                          <label
+                            class="custom-control-label cursor-pointer"
+                            for="Album"
+                            >Album</label
+                          >
+                        </div>
+
+                        <div
+                          class="col-sm-3 custom-control custom-radio custom-control-inline mb-2 mr-sm-2"
+                        >
+                          <input
+                            type="radio"
+                            class="custom-control-input cursor-pointer"
+                            id="Genre"
+                            (change)="SearchRadioClick('Genre')"
+                            name="chkSearch"
+                            [checked]="chkGenre"
+                          />
+                          <label
+                            class="custom-control-label cursor-pointer"
+                            for="Genre"
+                            >Genre</label
+                          >
+                        </div>
+
+                        <!-- <div class="custom-control custom-radio custom-control-inline  mb-2 mr-sm-2">
+                        <input type="radio" class="custom-control-input cursor-pointer" id="Category"
+                          (change)="SearchRadioClick('Category')" name="chkSearch">
+                        <label class="custom-control-label cursor-pointer mr-1" for="Category">Category</label>
+                      </div> -->
+                      </div>
+                    </div>
+                  </div>
+                  <!-- header1 end -->
+                  <div class="col-md-3 p-0">
+                    <div class="row">
+                      <div class="col-sm-10 pr-1 pl-0 colFilter mb-1">
+                        <form (keydown)="keyDownFunction($event)">
+                          <input
+                            *ngIf="Search"
+                            type="text"
+                            [(ngModel)]="SearchText"
+                            value=""
+                            [ngModelOptions]="{ standalone: true }"
+                            placeholder="Search"
+                            class="form-control"
+                          />
+                        </form>
+                        <select
+                          *ngIf="!Search"
+                          name="cmbAlbum"
+                          [(ngModel)]="cmbAlbum"
+                          class="custom-select mb-3"
+                          (change)="onChangeAlbum($event.target.value)"
+                          id="cmbAlbum"
+                        >
+                          <option selected value="0"></option>
+                          <option
+                            *ngFor="let aLst of AlbumList"
+                            [value]="aLst.Id"
+                          >
+                            {{ aLst.DisplayName }}
+                          </option>
+                        </select>
+                      </div>
+                      <div class="col-sm-2 colbtn">
+                        <button
+                          class="btn btn-secondary pull-right"
+                          (click)="SearchContent()"
+                        >
+                          <i class="fa fa-search"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- header2 end -->
+                </div>
+              </div>
+              <!-- library header end -->
+
+              <div class="col-lg-12 p-0">
+                <div
+                  class="table-responsive"
+                  style="max-height: 720px; overflow-y: scroll"
+                >
+                  <table
+                    class="table data-table table-striped table-bordered mydatatable"
+                  >
+                    <thead class="sticky-top bg-primary">
+                      <tr class=" ">
+                        <th scope="col" class="sticky-top">Title</th>
+                        <!-- <th scope="col" class="sticky-top">Length </th> -->
+                        <th scope="col" class="sticky-top">Artist</th>
+                        <th scope="col" class="sticky-top">Genre</th>
+                        <th
+                          scope="col"
+                          class="sticky-top"
+                          style="width: 40px"
+                        ></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr
+                        class="cursor-pointer"
+                        *ngFor="let songLst of SongsList"
+                      >
+                        <td data-label="Title">
+                          <a href="{{ songLst.TitleIdLink }}" target="_blank">
+                            {{ songLst.title }}
+                          </a>
+                        </td>
+                        <!-- <td data-label="Length">{{songLst.Length}}</td> -->
+                        <td data-label="Artist">{{ songLst.Artist }}</td>
+                        <td data-label="Genre">{{ songLst.genreName }}</td>
+                        <td data-label="">
+                          <i
+                            class="fa fa-youtube-play fa-2x text-danger"
+                            (click)="
+                              onClickInstant(
+                                songLst.id,
+                                songLst.ArtistId,
+                                songLst.AlbumId,
+                                songLst.MediaType,
+                                songLst.title,
+                                songLst.Artist,
+                                'Song'
+                              )
+                            "
+                            aria-hidden="true"
+                          ></i>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div
+              id="SchedulePlaylists"
+              role="tabpanel"
+              class="tab-pane m-0 p-0"
+            >
+              <div class="table-responsive">
+                <table
+                  class="table data-table table-striped table-bordered mydatatable"
+                >
+                  <thead class="bg-primary">
+                    <tr>
+                      <th scope="col">Playlist Name</th>
+
+                      <th scope="col" style="width: 40px"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let aPlaylist of ActivePlaylist">
+                      <td data-label="Playlist Name">
+                        {{ aPlaylist.DisplayName }}
+                      </td>
+                      <td data-label="">
+                        <i
+                          class="fa fa-youtube-play fa-2x text-danger"
+                          (click)="
+                            onClickInstant(
+                              aPlaylist.Id,
+                              '',
+                              '',
+                              '',
+                              '',
+                              '',
+                              'Playlist'
+                            )
+                          "
+                          aria-hidden="true"
+                        ></i>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div id="Advertisement" role="tabpanel" class="tab-pane m-0 p-0">
+              <div class="table-responsive">
+                <table
+                  class="table data-table table-striped table-bordered mydatatable"
+                >
+                  <thead class="bg-primary">
+                    <tr>
+                      <th scope="col">Advt Name</th>
+                      <th scope="col">Type</th>
+                      <th scope="col">Start Date</th>
+                      <th scope="col">Playing Mode</th>
+                      <th scope="col" class="" style="width: 30px"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let adLst of AdsList">
+                      <td data-label="Advt Name">
+                        <a href="{{ adLst.adsLink }}" target="_blank">
+                          {{ adLst.adName }}
+                        </a>
+                      </td>
+                      <td data-label="Type">{{ adLst.atype }}</td>
+                      <td data-label="Start Date">{{ adLst.startDate }}</td>
+                      <td data-label="Playing Mode">{{ adLst.playingMode }}</td>
+                      <td data-label="">
+                        <i
+                          class="fa fa-youtube-play fa-2x text-danger"
+                          (click)="
+                            onClickInstant(adLst.id, '', '', '', '', '', 'Ads')
+                          "
+                          aria-hidden="true"
+                        ></i>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <!-- tab-content end -->
         </div>
-      </div>
-      <div id="Advertisement" role="tabpanel" class="tab-pane  m-0 p-0">
-        <div class="table-responsive">
-          <table class="table table-sm table-bordered">
-            <thead class="thead-light">
-              <tr>
-                <th scope="col">Advt Name</th>
-                <th scope="col">Type</th>
-                <th scope="col">Start Date</th>
-                <th scope="col">Playing Mode</th>
-                <th scope="col" class="" style="width: 30px"></th>
-
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let adLst of AdsList">
-                <td data-label="Advt Name"><a href="{{adLst.adsLink}}" target="_blank">
-                    {{adLst.adName}}
-                  </a></td>
-                <td data-label="Type">{{adLst.atype}}</td>
-                <td data-label="Start Date">{{adLst.startDate}}</td>
-                <td data-label="Playing Mode">{{adLst.playingMode}}</td>
-                <td data-label="">
-                  <i class="fa fa-youtube-play fa-2x text-primary"
-                    (click)="onClickInstant(adLst.id,'','','','','','Ads')" aria-hidden="true"></i>
-                </td>
-
-            </tbody>
-          </table>
-
-
-        </div>
+        <!-- cardbody end -->
       </div>
     </div>
- 
+  </div>
 </div>

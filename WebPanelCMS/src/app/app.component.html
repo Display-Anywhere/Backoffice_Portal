@@ -224,18 +224,20 @@
 </div>
 
 <!-- modal start -->
-<ng-template #content let-c="close" let-d="dismiss">
-  <div class="modal-header">
+<ng-template class="tokenmodal" #content let-c="close" let-d="dismiss">
+  <div class="modal-header bg-primary">
     <div class="col-lg-6 m-0 p-0" style="float: left">
-      <h5>{{ ClientName }} ({{ SearchTokenId }})</h5>
+      <h5 class="text-white">{{ ClientName }} ({{ SearchTokenId }})</h5>
     </div>
     <div class="col-lg-5 m-0 p-0" style="float: right">
-      <h6 style="text-align: right">Last Status: {{ LastStatus }}</h6>
+      <h6 class="text-white" style="text-align: right">
+        Last Status: {{ LastStatus }}
+      </h6>
     </div>
 
     <button
       type="button"
-      class="close"
+      class="close text-white"
       aria-label="Close"
       (click)="tokenInfoClose()"
     >

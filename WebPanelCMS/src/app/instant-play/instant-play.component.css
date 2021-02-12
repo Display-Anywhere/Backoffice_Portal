@@ -1,6 +1,4 @@
-
-
-
+/*
 table {
     border: 1px solid #ccc;
     border-collapse: collapse;
@@ -22,12 +20,12 @@ table {
     }
 
     table th,
-    
+
 
     table th {
         font-size: .85em;
         letter-spacing: .1em;
-       
+
     }
 
 @media screen and (max-width: 600px) {
@@ -71,18 +69,15 @@ table {
         }
         table tr:hover {
             background-color: #f8f8f8 !important;
-            
+
         }
 
             table td::before {
-                /*
-* aria-label has no advantage, it won't be read inside a table
-content: attr(aria-label);
-*/
+
                 content: attr(data-label);
                 float: left;
                 font-weight: bold;
-               
+
             }
 
             table td:last-child {
@@ -99,4 +94,4 @@ content: attr(aria-label);
     .colbtn {
         max-width: 3%;
       }
-  }
+  } */

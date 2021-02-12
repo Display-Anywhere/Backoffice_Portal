@@ -75,7 +75,10 @@ export class AppComponent implements OnInit {
           }
 
           localStorage.setItem('tokenid', this.SearchTokenId);
-          this.modalService.open(modalName, { size: 'lg' });
+          this.modalService.open(modalName, {
+            size: 'lg',
+            windowClass: 'tokenmodal',
+          });
 
           this.loading = false;
         },
