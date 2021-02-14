@@ -92,7 +92,7 @@
                 <label for="stateName1" class="mb-2 mr-sm-2">State Name:</label>
                 <div class="col-12">
                   <div class="row">
-                    <div class="col-9 p-0">
+                    <div class="col-11 col-md-9 p-0">
                       <select
                         name="stateName1"
                         formControlName="stateName"
@@ -116,7 +116,7 @@
                         class="invalid-feedback"
                       ></div>
                     </div>
-                    <div class="col-3 p-0">
+                    <div class="col-1 col-md-3 p-0">
                       <button
                         id="btnstateName"
                         class="btn btn-primary mb-2 btn-sm ml-1 mt-1"
@@ -132,7 +132,7 @@
                 <label for="cmbCustomer" class="mb-2 mr-sm-2">City Name:</label>
                 <div class="col-12">
                   <div class="row">
-                    <div class="col-9 p-0">
+                    <div class="col-11 col-md-9 p-0">
                       <select
                         name="cityName"
                         formControlName="cityName"
@@ -156,7 +156,7 @@
                         class="invalid-feedback"
                       ></div>
                     </div>
-                    <div class="col-3 p-0">
+                    <div class="col-1 col-md-3 p-0">
                       <button
                         id="btnstateName"
                         class="btn btn-primary mb-2 btn-sm ml-1 mt-1"
@@ -547,13 +547,13 @@
       <div class="row">
         <div class="col-sm-12">
           <button
-            class="btn btn-primary col-sm-2 pull-right"
+            class="btn btn-primary col-2 pull-right"
             (click)="d('Cross click')"
           >
             <i class="fa fa-times fa-lg" aria-hidden="true"></i>
           </button>
           <button
-            class="btn btn-danger col-sm-2 pull-right mr-2"
+            class="btn btn-danger col-2 pull-right mr-2"
             (click)="DeleteCustomer()"
             (click)="d('Cross click')"
           >
@@ -635,13 +635,13 @@
       <div class="row">
         <div class="col-sm-12">
           <button
-            class="btn btn-primary col-sm-2 pull-right"
+            class="btn btn-primary col-2 pull-right"
             (click)="d('Cross click')"
           >
             <i class="fa fa-times fa-lg" aria-hidden="true"></i>
           </button>
           <button
-            class="btn btn-danger col-sm-2 pull-right mr-2"
+            class="btn btn-danger col-2 pull-right mr-2"
             (click)="onSubmitReg(CustomerDeleteModal, 'Second')"
             (click)="d('Cross click')"
           >

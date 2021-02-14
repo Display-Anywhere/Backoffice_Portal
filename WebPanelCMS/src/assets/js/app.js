@@ -691,3 +691,16 @@ Index Of Script
   });
 
 })(jQuery);
+
+// sidebar
+  //          $('.js-scroll-trigger').click(function() {
+  //   $('.navbar-collapse').collapse('hide');
+  // });
+
+  jQuery(document).on('click', '.js-scroll-trigger', function() {
+    jQuery(this).toggleClass('open');
+});
+
+jQuery(document).on('click', ".js-scroll-trigger", function() {
+    jQuery("body").toggleClass("sidebar-main");
+});

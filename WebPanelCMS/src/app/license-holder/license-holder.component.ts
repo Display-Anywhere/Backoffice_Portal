@@ -1,5 +1,24 @@
-import {Component,  OnInit,  ViewContainerRef,  Input,  Output, OnDestroy, AfterViewInit,  ElementRef,ViewChild,QueryList, ViewChildren } from '@angular/core';
-import {  NgbModalConfig,NgbModal,NgbNavChangeEvent,NgbTimepickerConfig,NgbTimeStruct,NgbNavModule} from '@ng-bootstrap/ng-bootstrap';
+import {
+  Component,
+  OnInit,
+  ViewContainerRef,
+  Input,
+  Output,
+  OnDestroy,
+  AfterViewInit,
+  ElementRef,
+  ViewChild,
+  QueryList,
+  ViewChildren,
+} from '@angular/core';
+import {
+  NgbModalConfig,
+  NgbModal,
+  NgbNavChangeEvent,
+  NgbTimepickerConfig,
+  NgbTimeStruct,
+  NgbNavModule,
+} from '@ng-bootstrap/ng-bootstrap';
 import { SerLicenseHolderService } from '../license-holder/ser-license-holder.service';
 import { ToastrService } from 'ngx-toastr';
 import { Subject, Observable, Subscription } from 'rxjs';
@@ -8,19 +27,19 @@ import { ConfigAPI } from '../class/ConfigAPI';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../auth/auth.service';
 import { DataTableDirective } from 'angular-datatables';
- 
+
 import { TokenInfoServiceService } from '../components/token-info/token-info-service.service';
 import { PlaylistLibService } from '../playlist-library/playlist-lib.service';
-import { NgbdSortableHeaderOpening,SortEvent } from './opensortable.directive';
- 
+import { NgbdSortableHeaderOpening, SortEvent } from './opensortable.directive';
+
 @Component({
   selector: 'app-license-holder',
   templateUrl: './license-holder.component.html',
   styleUrls: ['./license-holder.component.css'],
   providers: [NgbModalConfig, NgbModal],
 })
-export class LicenseHolderComponent implements AfterViewInit, OnInit, OnDestroy  {
-  
+export class LicenseHolderComponent
+  implements AfterViewInit, OnInit, OnDestroy {
   Adform: FormGroup;
   TokenList = [];
   CustomerList: any[];
@@ -49,8 +68,7 @@ export class LicenseHolderComponent implements AfterViewInit, OnInit, OnDestroy 
   MainTokenList = [];
   InfoTokenList = [];
   active = 2;
-  
-   
+
   txtDelPer;
   cmbPlaylist = '0';
   tokenid;
@@ -59,12 +77,12 @@ export class LicenseHolderComponent implements AfterViewInit, OnInit, OnDestroy 
 
   dropdownList = [];
   selectedItems = [];
-  
-  CountryList= [];
+
+  CountryList = [];
   StateList = [];
-  CityList= [];
+  CityList = [];
   cmbCustomerId = '0';
-  FilterValue_For_Reload="All";
+  FilterValue_For_Reload = 'All';
   @ViewChild(DataTableDirective)
   dtElement: DataTableDirective;
   dtOptions: any = {};
@@ -87,19 +105,19 @@ export class LicenseHolderComponent implements AfterViewInit, OnInit, OnDestroy 
     config.keyboard = false;
     configTime.seconds = false;
     configTime.spinners = false;
-    this.auth.isTokenInfoClose$.subscribe( value => {
-      if (value===true){
+    this.auth.isTokenInfoClose$.subscribe((value) => {
+      if (value === true) {
         this.onChangeCustomer(this.cmbCustomerId);
       }
-  });
+    });
   }
   public onNavChange(changeEvent: NgbNavChangeEvent) {
     if (changeEvent.nextId === 1) {
       changeEvent.preventDefault();
     }
   }
- async ngOnInit() {
-  this.auth.isTokenInfoClose$.next(false);
+  async ngOnInit() {
+    this.auth.isTokenInfoClose$.next(false);
     this.Adform = this.formBuilder.group({
       FilePathNew: [''],
     });
@@ -127,7 +145,6 @@ export class LicenseHolderComponent implements AfterViewInit, OnInit, OnDestroy 
       itemsShowLimit: 3,
     };
     this.DataTableSettings();
-    
   }
   DataTableSettings() {
     this.dtOptions = {
@@ -135,72 +152,92 @@ export class LicenseHolderComponent implements AfterViewInit, OnInit, OnDestroy 
       pageLength: 50,
       processing: false,
       dom: 'rtp',
-      order:[[ 1, "asc" ]],
-      columnDefs: [ {
-        'caseInsensitive': false
-      },
-      {
-        'targets': [9,10,11], // column index (start from 0)
-        'orderable': false,
-      },{
-        "targets": [12,13,14],
-        "visible": false
-    },{
-        'width':'100px', 'targets': 0,
-      },{
-        'width':'130px', 'targets': 1,
-      },{
-        'width':'280px', 'targets': 2,
-      },{
-        'width':'100px', 'targets': 3,
-      }
-      ,{
-        'width':'280px', 'targets': 5,
-      }
-      ,{
-        'width':'100px', 'targets': 6,
-      },{
-        'width':'150px', 'targets': 7,
-      },{
-        'width':'50px', 'targets': 8,
-      },{
-        'width':'75px', 'targets': 9,
-      },{
-        'width':'30px', 'targets': 10,
-      },{
-        'width':'30px', 'targets': 11,
-      }],
+      order: [[1, 'asc']],
+      columnDefs: [
+        {
+          caseInsensitive: false,
+        },
+        {
+          targets: [9, 10, 11], // column index (start from 0)
+          orderable: false,
+        },
+        {
+          targets: [12, 13, 14],
+          visible: false,
+        },
+        {
+          width: '100px',
+          targets: 0,
+        },
+        {
+          width: '130px',
+          targets: 1,
+        },
+        {
+          width: '280px',
+          targets: 2,
+        },
+        {
+          width: '100px',
+          targets: 3,
+        },
+        {
+          width: '280px',
+          targets: 5,
+        },
+        {
+          width: '100px',
+          targets: 6,
+        },
+        {
+          width: '150px',
+          targets: 7,
+        },
+        {
+          width: '50px',
+          targets: 8,
+        },
+        {
+          width: '75px',
+          targets: 9,
+        },
+        {
+          width: '30px',
+          targets: 10,
+        },
+        {
+          width: '30px',
+          targets: 11,
+        },
+      ],
       retrieve: true,
     };
   }
- 
 
   ngAfterViewInit(): void {
     this.dtTrigger.next();
   }
   filterById(): void {
     this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-      dtInstance.search(this.searchText,false).draw();
+      dtInstance.search(this.searchText, false).draw();
     });
   }
- 
+
   ngOnDestroy(): void {
     // Do not forget to unsubscribe the event
 
     this.dtTrigger.unsubscribe();
-     
   }
   rerender(): void {
     this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
       dtInstance.clear();
-      // Destroy the table first      
+      // Destroy the table first
       dtInstance.destroy();
-      // Call the dtTrigger to rerender again       
+      // Call the dtTrigger to rerender again
       this.dtTrigger.next();
-    
     });
   }
-  
+
   FillClientList() {
     this.loading = true;
     var str = '';
@@ -222,7 +259,7 @@ export class LicenseHolderComponent implements AfterViewInit, OnInit, OnDestroy 
           var returnData = JSON.stringify(data);
           this.CustomerList = JSON.parse(returnData);
           this.loading = false;
-          if ((this.auth.IsAdminLogin$.value == false)) {
+          if (this.auth.IsAdminLogin$.value == false) {
             this.cmbCustomerId = localStorage.getItem('dfClientId');
             this.onChangeCustomer(this.cmbCustomerId);
           }
@@ -236,11 +273,11 @@ export class LicenseHolderComponent implements AfterViewInit, OnInit, OnDestroy 
         }
       );
   }
-  Token_Id_App="0";
+  Token_Id_App = '0';
   open(content, tid) {
-    this.Token_Id_App=tid;
+    this.Token_Id_App = tid;
     localStorage.setItem('tokenid', tid);
-    this.modalService.open(content, { size: 'lg' });
+    this.modalService.open(content, { size: 'lg', windowClass: 'tokenmodal' });
   }
   onChangeCustomer(deviceValue) {
     this.SongsList = [];
@@ -254,11 +291,11 @@ export class LicenseHolderComponent implements AfterViewInit, OnInit, OnDestroy 
       return;
     }
     this.DataTableSettings();
-   // this.rerender();
-    
+    // this.rerender();
+
     this.loading = true;
-    if (this.cid != deviceValue){
-    this.FilterValue_For_Reload="All"
+    if (this.cid != deviceValue) {
+      this.FilterValue_For_Reload = 'All';
     }
     this.cid = deviceValue;
 
@@ -267,15 +304,13 @@ export class LicenseHolderComponent implements AfterViewInit, OnInit, OnDestroy 
       .pipe()
       .subscribe(
         (data) => {
-          
-          this.FillData(data)
-          setTimeout(() => { 
-            
-           }, 1000);    this.rerender();
-/*
-          setTimeout(() => { 
+          this.FillData(data);
+          setTimeout(() => {}, 1000);
+          this.rerender();
+          /*
+          setTimeout(() => {
             this.FilterTokenList(this.FilterValue_For_Reload)
-           }, 1000);    
+           }, 1000);
            */
         },
         (error) => {
@@ -287,7 +322,7 @@ export class LicenseHolderComponent implements AfterViewInit, OnInit, OnDestroy 
         }
       );
   }
-  FillData(data){
+  FillData(data) {
     var returnData = JSON.stringify(data);
     this.TokenList = JSON.parse(returnData);
     this.MainTokenList = JSON.parse(returnData);
@@ -302,29 +337,37 @@ export class LicenseHolderComponent implements AfterViewInit, OnInit, OnDestroy 
     }
     this.loading = false;
     if (this.FilterValue_For_Reload == 'Regsiter') {
-      this.TokenList= this.TokenList.filter(order =>order.token==='used')
+      this.TokenList = this.TokenList.filter((order) => order.token === 'used');
     }
     if (this.FilterValue_For_Reload == 'Audio') {
-      this.TokenList= this.TokenList.filter(order =>order.MediaType==='Audio')
+      this.TokenList = this.TokenList.filter(
+        (order) => order.MediaType === 'Audio'
+      );
     }
     if (this.FilterValue_For_Reload == 'Video') {
-      this.TokenList= this.TokenList.filter(order =>order.MediaType==='Video')
+      this.TokenList = this.TokenList.filter(
+        (order) => order.MediaType === 'Video'
+      );
     }
     if (this.FilterValue_For_Reload == 'Signage') {
-      this.TokenList= this.TokenList.filter(order =>order.MediaType==='Signage')
+      this.TokenList = this.TokenList.filter(
+        (order) => order.MediaType === 'Signage'
+      );
     }
     if (this.FilterValue_For_Reload == 'UnRegsiter') {
-      this.TokenList= this.TokenList.filter(order =>order.TokenStatus==='UnRegsiter')
+      this.TokenList = this.TokenList.filter(
+        (order) => order.TokenStatus === 'UnRegsiter'
+      );
     }
     if (this.FilterValue_For_Reload == 'Sanitizer') {
-      this.TokenList= this.TokenList.filter(order =>order.DeviceType==='Sanitizer')
+      this.TokenList = this.TokenList.filter(
+        (order) => order.DeviceType === 'Sanitizer'
+      );
     }
   }
   async tokenInfoClose() {
-   await this.onChangeCustomer(this.cid);
+    await this.onChangeCustomer(this.cid);
     this.modalService.dismissAll();
-    
-    
   }
 
   FullImageUrl;
@@ -772,8 +815,8 @@ export class LicenseHolderComponent implements AfterViewInit, OnInit, OnDestroy 
   }
   FilterTokenList(FilterValue) {
     //this.TokenList=[];
-    this.searchText='';
-    this.FilterValue_For_Reload = FilterValue
+    this.searchText = '';
+    this.FilterValue_For_Reload = FilterValue;
     this.onChangeCustomer(this.cid);
     /*
     if (FilterValue == 'All') {
@@ -785,13 +828,13 @@ export class LicenseHolderComponent implements AfterViewInit, OnInit, OnDestroy 
       this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
         dtInstance.search('used').draw();
       });
-      
+
     }
     if (FilterValue == 'Audio') {
       this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
         dtInstance.search('Audio').draw();
       });
-     
+
     }
     if (FilterValue == 'Video') {
       this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
@@ -814,22 +857,18 @@ export class LicenseHolderComponent implements AfterViewInit, OnInit, OnDestroy 
       });
     }
   */
-    
   }
   OpenGroupsModal(gModal) {
     if (this.cid === '0') {
       this.toastr.info('Please select a customer name');
       return;
     }
-   localStorage.setItem('tcid',this.cid);
-    this.FilterValue_For_Reload="All";
-    
-   
+    localStorage.setItem('tcid', this.cid);
+    this.FilterValue_For_Reload = 'All';
 
     this.modalService.open(gModal, { size: 'lg' });
   }
-  
-  
+
   onDeletePercentageClick(mContent) {
     this.modalService.open(mContent);
   }
@@ -893,13 +932,13 @@ export class LicenseHolderComponent implements AfterViewInit, OnInit, OnDestroy 
         }
       );
   }
- 
-  OpenUpdateInfo(InfoModal){
+
+  OpenUpdateInfo(InfoModal) {
     if (this.cid == '0') {
       this.toastr.info('Please select a customer name');
       return;
     }
-    this.FilterValue_For_Reload="All";    
+    this.FilterValue_For_Reload = 'All';
     this.uExcel = false;
     this.modalService.open(InfoModal, {
       centered: true,
@@ -907,25 +946,27 @@ export class LicenseHolderComponent implements AfterViewInit, OnInit, OnDestroy 
     });
   }
 
-
-  UpdateInfo(){
-    let Info={};
-const BodyData =[];
-    this.InfoTokenList.forEach(item => {
+  UpdateInfo() {
+    let Info = {};
+    const BodyData = [];
+    this.InfoTokenList.forEach((item) => {
       Info = {};
-      Info['tokenid']= item.tokenid;
-      Info['CountryId']= item.CountryId;
-      Info['State']= item.State;
-      Info['city']= item.city;
-      Info['location']= item.location;
-      Info['Street']= item.Street;
-      Info['LicenceType']= item.LicenceType;
-      Info['MediaType']= item.MediaType;
-      Info['playerType']= item.playerType;
+      Info['tokenid'] = item.tokenid;
+      Info['CountryId'] = item.CountryId;
+      Info['State'] = item.State;
+      Info['city'] = item.city;
+      Info['location'] = item.location;
+      Info['Street'] = item.Street;
+      Info['LicenceType'] = item.LicenceType;
+      Info['MediaType'] = item.MediaType;
+      Info['playerType'] = item.playerType;
       BodyData.push(Info);
     });
     this.loading = true;
-    this.serviceLicense.UpdateTokenInfo(BodyData).pipe().subscribe(
+    this.serviceLicense
+      .UpdateTokenInfo(BodyData)
+      .pipe()
+      .subscribe(
         (data) => {
           var returnData = JSON.stringify(data);
           var obj = JSON.parse(returnData);
@@ -934,8 +975,7 @@ const BodyData =[];
             this.loading = false;
             this.onChangeCustomer(this.cid);
             this.modalService.dismissAll();
-          }
-          else{
+          } else {
             this.loading = false;
           }
         },
@@ -958,82 +998,73 @@ const BodyData =[];
     var ExportItem = {};
     for (var j = 0; j < this.MainTokenList.length; j++) {
       ExportItem = {};
-       
-        ExportItem['TokenId'] = this.MainTokenList[j].tokenid;
-        ExportItem['TokenCode'] = this.MainTokenList[j].TokenNoBkp;
-        ExportItem['Country'] = this.MainTokenList[j].CountryFullName;
-        ExportItem['State'] = this.MainTokenList[j].State;
-        ExportItem['City'] = this.MainTokenList[j].city;
-        ExportItem['Street'] = this.MainTokenList[j].Street;
-        ExportItem['Location'] = this.MainTokenList[j].location;
 
-        if (this.MainTokenList[j].playerType==='Windows'){
-          ExportItem['IsWindowsPlayer'] = '1';
-        }
-        else{
-          ExportItem['IsWindowsPlayer'] = '0';
-        }
-        if (this.MainTokenList[j].playerType==='Android'){
-          ExportItem['IsAndroidPlayer'] = '1';
-        }
-        else{
-          ExportItem['IsAndroidPlayer'] = '0';
-        }
-        
-        
-        if (this.MainTokenList[j].MediaType==='Audio'){
-          ExportItem['IsAudioPlayer'] = '1';
-        }
-        else{
-          ExportItem['IsAudioPlayer'] = '0';
-        }
+      ExportItem['TokenId'] = this.MainTokenList[j].tokenid;
+      ExportItem['TokenCode'] = this.MainTokenList[j].TokenNoBkp;
+      ExportItem['Country'] = this.MainTokenList[j].CountryFullName;
+      ExportItem['State'] = this.MainTokenList[j].State;
+      ExportItem['City'] = this.MainTokenList[j].city;
+      ExportItem['Street'] = this.MainTokenList[j].Street;
+      ExportItem['Location'] = this.MainTokenList[j].location;
 
-        if (this.MainTokenList[j].MediaType==='Video'){
-          ExportItem['IsVideoPlayer'] = '1';
-        }
-        else{
-          ExportItem['IsVideoPlayer'] = '0';
-        }
+      if (this.MainTokenList[j].playerType === 'Windows') {
+        ExportItem['IsWindowsPlayer'] = '1';
+      } else {
+        ExportItem['IsWindowsPlayer'] = '0';
+      }
+      if (this.MainTokenList[j].playerType === 'Android') {
+        ExportItem['IsAndroidPlayer'] = '1';
+      } else {
+        ExportItem['IsAndroidPlayer'] = '0';
+      }
 
-        if (this.MainTokenList[j].MediaType==='Signage'){
-          ExportItem['IsSignagePlayer'] = '1';
-        }
-        else{
-          ExportItem['IsSignagePlayer'] = '0';
-        }
+      if (this.MainTokenList[j].MediaType === 'Audio') {
+        ExportItem['IsAudioPlayer'] = '1';
+      } else {
+        ExportItem['IsAudioPlayer'] = '0';
+      }
 
-        if (this.MainTokenList[j].LicenceType==='Copyright'){
-          ExportItem['IsCopyright'] = '1';
-        }
-        else{
-          ExportItem['IsCopyright'] = '0';
-        }
-        if (this.MainTokenList[j].LicenceType==='DirectLicence'){
-          ExportItem['IsDirectLicence'] = '1';
-        }
-        else{
-          ExportItem['IsDirectLicence'] = '0';
-        }
- 
-        if (this.MainTokenList[j].DeviceType==='Screen'){
-          ExportItem['IsScreen'] = '1';
-        }
-        else{
-          ExportItem['IsScreen'] = '0';
-        }
+      if (this.MainTokenList[j].MediaType === 'Video') {
+        ExportItem['IsVideoPlayer'] = '1';
+      } else {
+        ExportItem['IsVideoPlayer'] = '0';
+      }
 
-        if ((this.MainTokenList[j].MediaType==='Signage') && (this.MainTokenList[j].DeviceType==='Sanitizer')){
-          ExportItem['IsSanitizer'] = '1';
-        }
-        else{
-          ExportItem['IsSanitizer'] = '0';
-        }
- 
+      if (this.MainTokenList[j].MediaType === 'Signage') {
+        ExportItem['IsSignagePlayer'] = '1';
+      } else {
+        ExportItem['IsSignagePlayer'] = '0';
+      }
 
-        ExportItem['DispenserAlertEmail'] = this.MainTokenList[j].AlertEmail;
+      if (this.MainTokenList[j].LicenceType === 'Copyright') {
+        ExportItem['IsCopyright'] = '1';
+      } else {
+        ExportItem['IsCopyright'] = '0';
+      }
+      if (this.MainTokenList[j].LicenceType === 'DirectLicence') {
+        ExportItem['IsDirectLicence'] = '1';
+      } else {
+        ExportItem['IsDirectLicence'] = '0';
+      }
 
-        ExportList.push(ExportItem);
-      
+      if (this.MainTokenList[j].DeviceType === 'Screen') {
+        ExportItem['IsScreen'] = '1';
+      } else {
+        ExportItem['IsScreen'] = '0';
+      }
+
+      if (
+        this.MainTokenList[j].MediaType === 'Signage' &&
+        this.MainTokenList[j].DeviceType === 'Sanitizer'
+      ) {
+        ExportItem['IsSanitizer'] = '1';
+      } else {
+        ExportItem['IsSanitizer'] = '0';
+      }
+
+      ExportItem['DispenserAlertEmail'] = this.MainTokenList[j].AlertEmail;
+
+      ExportList.push(ExportItem);
     }
     this.excelService.exportAsExcelFile(ExportList, 'BulkPlayerInfo');
   }
@@ -1072,7 +1103,6 @@ const BodyData =[];
           this.modalService.dismissAll();
           this.loading = false;
           this.tokenInfoClose();
-        
         }
         if (obj.Responce == '0') {
           this.toastr.error(obj.message);
@@ -1082,7 +1112,6 @@ const BodyData =[];
         this.Adform.get('FilePathNew').setValue('');
       },
       (err) => {
-        
         this.error = err;
         this.loading = false;
       }
@@ -1093,13 +1122,8 @@ const BodyData =[];
       this.toastr.info('Please select a customer name');
       return;
     }
-    localStorage.setItem('tcid',this.cid);
-    this.FilterValue_For_Reload="All";
+    localStorage.setItem('tcid', this.cid);
+    this.FilterValue_For_Reload = 'All';
     this.modalService.open(gModal, { size: 'lg' });
   }
-
 }
-
-
-
-  

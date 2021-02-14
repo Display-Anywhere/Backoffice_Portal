@@ -502,11 +502,11 @@
 </div>
 
 <ng-template #content let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <h5>Token Information ({{ Token_Id_App }})</h5>
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Token Information ({{ Token_Id_App }})</h5>
     <button
       type="button"
-      class="close"
+      class="close text-white"
       aria-label="Close"
       (click)="tokenInfoClose()"
     >
@@ -596,10 +596,10 @@
 </ng-template>
 
 <ng-template #modalFullImage let-c="close" let-d="dismiss">
-  <div class="modal-header">
+  <div class="modal-header bg-primary">
     <button
       type="button"
-      class="close"
+      class="close text-white"
       aria-label="Close"
       (click)="SetSignage(modalSignage)"
       (click)="d('Cross click')"
@@ -627,11 +627,11 @@
 </ng-template>
 
 <ng-template #LogoDeleteModal let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <h5>Delete Logo</h5>
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Delete Logo</h5>
     <button
       type="button"
-      class="close"
+      class="close text-white"
       aria-label="Close"
       (click)="d('Cross click')"
     >
@@ -863,11 +863,11 @@
 </ng-template>
 
 <ng-template #DeletePlaylistSongsModal let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <h5>Delete songs with percentage</h5>
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Delete songs with percentage</h5>
     <button
       type="button"
-      class="close"
+      class="close text-white"
       aria-label="Close"
       (click)="d('Cross click')"
     >
@@ -938,11 +938,11 @@
 </ng-template>
 
 <ng-template #DeletePercentageModal let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <h5>Delete</h5>
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Delete</h5>
     <button
       type="button"
-      class="close"
+      class="close text-white"
       aria-label="Close"
       (click)="d('Cross click')"
     >

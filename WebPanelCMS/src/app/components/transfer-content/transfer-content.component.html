@@ -138,27 +138,20 @@
           </option>
         </select>
       </div>
-      <div class="form-group col-sm-1 m-0">
-        <div class="">
-          <button
-            class="btn btn-primary mt-5 mb-2 mr-1 btn-sm"
-            (click)="openGenreModal(modalGenre)"
-          >
-            <i class="fa fa-bars" aria-hidden="true"></i>
-          </button>
-        </div>
-      </div>
-
-      <div class="form-group col-sm-1 m-0">
-        <div class="">
-          <button
-            class="btn btn-primary mt-5 mb-2 btn-sm ml-n5"
-            type="button"
-            (click)="SaveContent()"
-          >
-            Save
-          </button>
-        </div>
+      <div class="form-group col-sm-2 m-0">
+        <button
+          class="btn btn-primary mt-5 mb-2 mr-1 btn-sm"
+          (click)="openGenreModal(modalGenre)"
+        >
+          <i class="fa fa-bars" aria-hidden="true"></i>
+        </button>
+        <button
+          class="btn btn-primary mt-5 mb-2 btn-sm"
+          type="button"
+          (click)="SaveContent()"
+        >
+          Save
+        </button>
       </div>
     </div>
   </div>

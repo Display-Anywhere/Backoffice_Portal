@@ -229,7 +229,7 @@
                         <table
                           class="table data-table table-striped table-bordered mydatatable"
                         >
-                          <thead class="sticky-top bg-primary">
+                          <thead class="bg-primary">
                             <tr>
                               <th
                                 scope="col"
@@ -318,7 +318,7 @@
                         <div class="col-lg-12">
                           <button
                             type="button"
-                            class="btn btn-success btn-s mr-2"
+                            class="btn btn-success btn-s mr-2 mb-2"
                             (click)="Upload()"
                             [disabled]="!uploader.getNotUploadedItems().length"
                           >
@@ -326,7 +326,7 @@
                           </button>
                           <button
                             type="button"
-                            class="btn btn-warning btn-s mr-2"
+                            class="btn btn-warning btn-s mr-2 mb-2"
                             (click)="uploader.cancelAll()"
                             [disabled]="!uploader.isUploading"
                           >
@@ -415,7 +415,7 @@
                     >
                     <select
                       name="CustomerName"
-                      class="custom-select col-sm-3 mr-sm-3"
+                      class="custom-select mb-2 col-sm-3 mr-sm-3"
                       [(ngModel)]="TemplateCustomerId"
                       (change)="onChangeTemplateCustomer($event.target.value)"
                       id="cmbCustomer"

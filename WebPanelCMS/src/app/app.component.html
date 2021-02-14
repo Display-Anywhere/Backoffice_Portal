@@ -64,6 +64,7 @@
           >
             <div class="clear d-none"></div>
             <li
+              class="js-scroll-trigger"
               *ngIf="authService.IsAdminLogin$ | async"
               routerLinkActive="active"
             >
@@ -72,6 +73,7 @@
               </a>
             </li>
             <li
+              class="js-scroll-trigger"
               *ngIf="authService.chkDashboard$ | async"
               routerLinkActive="active"
             >
@@ -81,6 +83,7 @@
               </a>
             </li>
             <li
+              class="js-scroll-trigger"
               *ngIf="authService.chkPlayerDetail$ | async"
               routerLinkActive="active"
             >
@@ -90,6 +93,7 @@
               </a>
             </li>
             <li
+              class="js-scroll-trigger"
               *ngIf="authService.chkPlaylistLibrary$ | async"
               routerLinkActive="active"
             >
@@ -98,6 +102,7 @@
               </a>
             </li>
             <li
+              class="js-scroll-trigger"
               *ngIf="authService.chkScheduling$ | async"
               routerLinkActive="active"
             >
@@ -107,6 +112,7 @@
               </a>
             </li>
             <li
+              class="js-scroll-trigger"
               *ngIf="authService.chkAdvertisement$ | async"
               routerLinkActive="active"
             >
@@ -115,6 +121,7 @@
               </a>
             </li>
             <li
+              class="js-scroll-trigger"
               *ngIf="authService.chkCopyData$ | async"
               routerLinkActive="active"
             >
@@ -122,12 +129,13 @@
                 <i class="fa fa-clone iq-arrow-left"></i><span>Copy Data</span>
               </a>
             </li>
-            <li routerLinkActive="active">
+            <li class="js-scroll-trigger" routerLinkActive="active">
               <a routerLink="/Links">
                 <i class="fa fa-tasks iq-arrow-left"></i><span>Links</span>
               </a>
             </li>
             <li
+              class="js-scroll-trigger"
               *ngIf="
                 (authService.chkInstantPlay$ | async) &&
                 (authService.ClientContentType$ == 'MusicMedia' ||
@@ -140,12 +148,17 @@
                 ><span>Instant Play</span>
               </a>
             </li>
-            <li *ngIf="authService.UserId$ == '0'" routerLinkActive="active">
+            <li
+              class="js-scroll-trigger"
+              *ngIf="authService.UserId$ == '0'"
+              routerLinkActive="active"
+            >
               <a routerLink="/Users">
                 <i class="fa fa-users iq-arrow-left"></i><span>Users</span>
               </a>
             </li>
             <li
+              class="js-scroll-trigger"
               *ngIf="authService.chkUpload$ | async"
               routerLinkActive="active"
             >
@@ -155,6 +168,7 @@
               </a>
             </li>
             <li
+              class="js-scroll-trigger"
               *ngIf="
                 (authService.chkStreaming$ | async) &&
                 (authService.ClientContentType$ == 'MusicMedia' ||
@@ -167,17 +181,17 @@
                 ><span>Streaming</span>
               </a>
             </li>
-            <li routerLinkActive="active">
+            <li class="js-scroll-trigger" routerLinkActive="active">
               <a routerLink="/AdminLogs">
                 <i class="fa fa-ravelry iq-arrow-left"></i><span>Logs</span>
               </a>
             </li>
-            <li routerLinkActive="active">
+            <li class="js-scroll-trigger" routerLinkActive="active">
               <a routerLink="/Reports">
                 <i class="fa fa-table iq-arrow-left"></i><span>Reports</span>
               </a>
             </li>
-            <li class="d-none d-xl-block">
+            <li class="js-scroll-trigger" class="d-none d-xl-block">
               <div class="input-group mt-1">
                 <input
                   type="text"
@@ -194,14 +208,18 @@
               </div>
             </li>
             <!-- library  -->
-            <li *ngIf="authService.UserId$ == '-1'" routerLinkActive="active">
+            <li
+              class="js-scroll-trigger"
+              *ngIf="authService.UserId$ == '-1'"
+              routerLinkActive="active"
+            >
               <a routerLink="/DJPlaylistLibrary">
                 <i class="fa fa-suitcase" aria-hidden="true"></i>
                 Library
               </a>
             </li>
             <!-- library -->
-            <li routerLinkActive="active">
+            <li class="js-scroll-trigger" routerLinkActive="active">
               <a class="cursor" (click)="logout()">
                 <i class="fa fa-sign-out iq-arrow-left"></i><span>Logout</span>
               </a>

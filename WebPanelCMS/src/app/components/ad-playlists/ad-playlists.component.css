@@ -89,3 +89,8 @@ table {
                 border-bottom: 0;
             }
 } */
+@media (min-width: 767px) and (max-width: 768px) {
+  label {
+    font-size: 0.87em;
+  }
+}

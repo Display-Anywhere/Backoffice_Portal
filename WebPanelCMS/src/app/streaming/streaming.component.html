@@ -41,7 +41,7 @@
                   <div class="row m-0 p-0">
                     <div class="col-lg-12 pl-0">
                       <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-sm-4">
                           <label for="cmbCustomer" class="col-md-5"
                             >Stream Owner:</label
                           >
@@ -62,8 +62,8 @@
                           </select>
                         </div>
 
-                        <div class="col-md-4 mt-3">
-                          <div class="row">
+                        <div class="col-sm-4 mt-1">
+                          <div class="d-sm-flex">
                             <label for="sName" class="col-md-5"
                               >Stream Name:</label
                             >
@@ -75,8 +75,8 @@
                             />
                           </div>
                         </div>
-                        <div class="col-md-4 mt-3">
-                          <div class="row">
+                        <div class="col-sm-4">
+                          <div class="d-sm-flex">
                             <label for="sLink" class="col-md-5 mt-sm-1"
                               >Stream Link:</label
                             >
@@ -230,7 +230,7 @@
                         <div class="col-lg-12">
                           <button
                             type="button"
-                            class="btn btn-success btn-s mr-2"
+                            class="btn btn-success btn-s mr-2 mb-2"
                             (click)="Upload()"
                             [disabled]="!uploader.getNotUploadedItems().length"
                           >
@@ -238,7 +238,7 @@
                           </button>
                           <button
                             type="button"
-                            class="btn btn-warning btn-s mr-2"
+                            class="btn btn-warning btn-s mr-2 mb-2"
                             (click)="uploader.cancelAll()"
                             [disabled]="!uploader.isUploading"
                           >
@@ -506,7 +506,7 @@
                                         id="AllStream"
                                       />
                                       <label
-                                        class="custom-control-label cursor-pointer pt-1"
+                                        class="custom-control-label cursor-pointer pt-1 text-white"
                                         for="AllStream"
                                         >All</label
                                       >
@@ -607,7 +607,7 @@
                                         id="AllToken"
                                       />
                                       <label
-                                        class="custom-control-label cursor-pointer pt-1"
+                                        class="custom-control-label cursor-pointer pt-1 text-white"
                                         for="AllToken"
                                         >All</label
                                       >
@@ -729,7 +729,7 @@
                   </div>
                   <div class="row m-0 p-0 mt-4">
                     <div
-                      class="col-sm-3 col-6 mb-2"
+                      class="col-sm-4 col-lg-3 col-12 mb-2"
                       *ngFor="let songLst of MiddleImgList"
                     >
                       <div class="card border">
