@@ -44,14 +44,14 @@
           >
             <thead class="sticky-top bg-primary">
               <tr>
-                <th class="sticky-top WidthTitleTH">Format Name</th>
+                <th class="sticky-top WidthTitleTH">Campaign Name</th>
                 <th class="sticky-top WidthArtistTH">Playlist Name</th>
                 <th class="sticky-top Link-Center_Width"></th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let plSongLst of SavedList">
-                <td data-label="Format" class="WidthTitleTH">
+                <td data-label="Campaign" class="WidthTitleTH">
                   {{ plSongLst.fName }}
                 </td>
                 <td data-label="Artist" class="WidthArtistTH">
@@ -108,7 +108,7 @@
               </ng-multiselect-dropdown>
             </div>
             <div class="form-group col-sm-2 m-0">
-              <label for="fName" class="mb-2 mr-sm-2">Format:</label>
+              <label for="fName" class="mb-2 mr-sm-2">Campaign Name:</label>
               <select
                 name="fName"
                 class="custom-select mb-3"

@@ -598,7 +598,7 @@
         >
           <thead class="bg-primary">
             <tr>
-              <th scope="col">Format Name</th>
+              <th scope="col">Campaign Name</th>
               <th scope="col">Playlist Name</th>
               <th *ngIf="ScheduleType !== 'PercentageSchedule'" scope="col">
                 Start Time
@@ -618,7 +618,7 @@
           </thead>
           <tbody>
             <tr *ngFor="let schLst of ModifySchList">
-              <td data-label="Format Name">
+              <td data-label="Campaign Name">
                 {{ schLst.formatName }}
               </td>
               <td data-label="Playlist Name">
@@ -772,13 +772,13 @@
           >
             <thead class="sticky-top bg-primary">
               <tr>
-                <th class="sticky-top WidthTitleTH">Format Name</th>
+                <th class="sticky-top WidthTitleTH">Campaign Name</th>
                 <th class="sticky-top WidthArtistTH">Playlist Name</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let apkLst of APKPlaylist">
-                <td data-label="Format Name" class="WidthTitleTH">
+                <td data-label="Campaign Name" class="WidthTitleTH">
                   {{ apkLst.formatName }}
                 </td>
                 <td data-label="Playlist Name" class="WidthArtistTH">
@@ -796,14 +796,14 @@
           >
             <thead class="sticky-top bg-primary">
               <tr>
-                <th class="sticky-top WidthTitleTH">Format Name</th>
+                <th class="sticky-top WidthTitleTH">Campaign Name</th>
                 <th class="sticky-top WidthArtistTH">Playlist Name</th>
                 <th class="sticky-top Link-Center_Width"></th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let KeyLst of KeyboardPlaylist">
-                <td data-label="Format Name" class="WidthTitleTH">
+                <td data-label="Campaign Name" class="WidthTitleTH">
                   {{ KeyLst.fName }}
                 </td>
                 <td data-label="Playlist Name" class="WidthArtistTH">
