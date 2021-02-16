@@ -28,6 +28,8 @@ export class UploadComponent implements OnInit {
   iframeUrl:SafeResourceUrl;
    
   NewFolderName: string = "";
+  IsPromoFolder=false;
+  resIsPromoFolder=false;
   InputAccept="";
   MediaType="";
   UploaderResponce:any[];
@@ -48,11 +50,8 @@ export class UploadComponent implements OnInit {
       this.cmbGenre = "0";
       this.GenreName="";
       this.FolderName="";
-      this.cmbFolder="0";
-      
       // this.uploader.clearQueue(); ------
       //  this.uploader.onProgressAll(0); -----
-      
      };
 
 
@@ -120,10 +119,7 @@ export class UploadComponent implements OnInit {
   }
   FillFolder(cid) {
     this.loading = true;
-    var qry = "select folderId as Id, foldername as DisplayName  from tbFolder ";
-    qry = qry + " where dfclientId="+cid+" ";
-    qry = qry + " order by foldername ";
-    this.serviceLicense.FillCombo(qry).pipe()
+    this.serviceLicense.GetClientFolder(cid).pipe()
       .subscribe(data => {
         var returnData = JSON.stringify(data);
         this.FolderList = JSON.parse(returnData);
@@ -183,7 +179,12 @@ var Item_TitleId="";
               this.AddSong(Item_TitleId)
           }
           if (this.IsAnnouncement==='0'){
-            this.toastr.info("Content Uploaded");
+            if (this.resIsPromoFolder==true){
+              this.ReplaceFolderContent()
+            }
+            else{
+              this.toastr.info("Content Uploaded");
+            }
           }
         }
         if (returnRes=="2"){
@@ -308,6 +309,7 @@ var Item_TitleId="";
       this.toastr.info("Please select a customer name");
       return;
     }
+    this.IsPromoFolder=this.resIsPromoFolder;
     this.NewFolderName = this.FolderName;
     this.modalService.open(mdl);
   }
@@ -317,7 +319,7 @@ var Item_TitleId="";
       return;
     }
 
-    this.serviceLicense.SaveFolder(this.cmbFolder, this.NewFolderName, this.CustomerId).pipe()
+    this.serviceLicense.SaveFolder(this.cmbFolder, this.NewFolderName, this.CustomerId,this.IsPromoFolder).pipe()
       .subscribe(data => {
         var returnData = JSON.stringify(data);
         var obj = JSON.parse(returnData);
@@ -334,6 +336,7 @@ var Item_TitleId="";
           }
           this.cmbFolder = "0";
           this.FolderName="";
+          this.resIsPromoFolder=false;
           this.FillFolder(this.CustomerId);
           this.modalService.dismissAll();
         }
@@ -365,6 +368,7 @@ var Item_TitleId="";
   }
   onChangeFolder(id){
     this.FolderName="";
+    this.resIsPromoFolder=false;
     var ArrayItem = {};
     var fName = "";
     ArrayItem["Id"] = id;
@@ -373,6 +377,7 @@ var Item_TitleId="";
     this.GetJSONFolderRecord(ArrayItem);
     if (this.NewfList.length > 0) {
       this.FolderName = this.NewfList[0].DisplayName;
+      this.resIsPromoFolder=this.NewfList[0].check;
     }
   }
   openFolderDeleteModal(mdl){
@@ -397,6 +402,7 @@ this.serviceLicense.DeleteFolder(this.cmbFolder).pipe()
           this.loading = false;
           this.cmbFolder = '0';
           this.FolderName = '';
+          this.resIsPromoFolder=false;
           this.FillFolder(this.CustomerId);
           this.modalService.dismissAll();
         }
@@ -430,4 +436,27 @@ this.serviceLicense.DeleteFolder(this.cmbFolder).pipe()
     }
   }
   
+  ReplaceFolderContent(){
+    this.loading = true;
+    this.serviceLicense.ReplaceFolderContent(this.CustomerId, this.cmbFolder).pipe()
+      .subscribe(data => {
+        var returnData = JSON.stringify(data);
+        var obj = JSON.parse(returnData);
+        this.loading = false;
+        if (obj.Responce == "1") {
+          this.toastr.info("Content Uploaded", '');
+          this.CustomerId="0"
+          this.cmbFolder="0"
+          this.resIsPromoFolder=false;
+        }
+        else {
+          this.toastr.error("Apologies for the inconvenience.The error is recorded.", '');
+          this.loading = false;
+        }
+      },
+        error => {
+          this.toastr.error("Apologies for the inconvenience.The error is recorded.", '');
+          this.loading = false;
+        })
+  } 
 }

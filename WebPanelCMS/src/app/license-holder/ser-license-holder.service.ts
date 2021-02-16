@@ -64,9 +64,9 @@ export class SerLicenseHolderService {
     return this.http.post(this.cApi.SaveGenre, params, { headers: headers })
       .pipe((data => { return data; }))
   }
-  SaveFolder(id, fname, dfClientId) {
+  SaveFolder(id, fname, dfClientId,IsPromoFolder) {
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    var params = JSON.stringify({ id: id, fname: fname, dfClientId: dfClientId });
+    var params = JSON.stringify({ id: id, fname: fname, dfClientId: dfClientId,IsPromoFolder:IsPromoFolder });
     return this.http.post(this.cApi.SaveFolder, params, { headers: headers })
       .pipe((data => { return data; }))
   }
@@ -180,6 +180,18 @@ FillCustomerWithKey(qry) {
   let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
   var params = JSON.stringify({ Query: qry });
   return this.http.post(this.cApi.FillCustomerWithKey, params, { headers: headers })
+    .pipe((data => { return data; }))
+}
+GetClientFolder(cid: string) {
+  let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+  var params = JSON.stringify({ ClientId: cid });
+  return this.http.post(this.cApi.GetClientFolder, params, { headers: headers })
+    .pipe((data => { return data; }))
+}
+ReplaceFolderContent(cid,folderId) {
+  let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+  var params = JSON.stringify({ ClientId: cid , FolderId: folderId });
+  return this.http.post(this.cApi.ReplaceFolderContent, params, { headers: headers })
     .pipe((data => { return data; }))
 }
 }

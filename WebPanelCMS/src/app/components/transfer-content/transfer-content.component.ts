@@ -76,14 +76,14 @@ export class TransferContentComponent implements OnInit {
     var qry="";
     if (list=="Search"){
       qry = "select tbFolder.folderId as Id, tbFolder.foldername as DisplayName  from tbFolder ";
-      qry = qry + " where tbFolder.dfclientid=" + id + " ";
+      qry = qry + " where isnull(IsPromoFolder,0)=0 and  tbFolder.dfclientid=" + id + " ";
       qry = qry + " group by tbFolder.folderId,tbFolder.foldername ";
       qry = qry + " order by tbFolder.foldername ";
     }
     if (list=="Main"){
      qry = "select tbFolder.folderId as Id, tbFolder.foldername as DisplayName  from tbFolder ";
     qry = qry + " left join Titles tit on tit.folderId= tbFolder.folderId ";
-    qry = qry + " where tbFolder.dfclientid=" + id + " ";
+    qry = qry + " where isnull(IsPromoFolder,0)=0 and  tbFolder.dfclientid=" + id + " ";
     if (this.auth.ContentType$ == "Signage") {
       qry = qry + " and tit.GenreId in(303,297, 325,324) ";
     }
@@ -226,7 +226,7 @@ export class TransferContentComponent implements OnInit {
       return;
     }
 
-    this.serviceLicense.SaveFolder(this.cmbSearchFolder, this.NewFolderName, this.cmbSearchCustomer).pipe()
+    this.serviceLicense.SaveFolder(this.cmbSearchFolder, this.NewFolderName, this.cmbSearchCustomer,false).pipe()
       .subscribe(data => {
         var returnData = JSON.stringify(data);
         var obj = JSON.parse(returnData);

@@ -1,5 +1,7 @@
 export class ConfigAPI {
-  private Host: string = "https://api.advikon.com/api/";
+  //private Host: string = "https://api.advikon.com/api/";
+  //private Host: string = "http://localhost:60328/api/"
+    private Host = 'http://live.advikon.com/api/';
 
    FillQueryCombo: string = this.Host + 'FillQueryCombo';
    FillTokenInfo: string = this.Host + 'FillTokenInfo';
@@ -118,6 +120,9 @@ export class ConfigAPI {
    FindToken: string = this.Host + 'FindToken';
    UpdateExpiryDate_Template_Creator: string = this.Host + 'UpdateExpiryDate_Template_Creator';
    SaveRebootTime: string = this.Host + 'SaveRebootTime';
+   GetClientFolder: string = this.Host + 'GetClientFolder';
+   ReplaceFolderContent: string = this.Host + 'ReplaceFolderContent';
+
 }
 
 // localStorage.setItem('UserId', obj.UserId);
