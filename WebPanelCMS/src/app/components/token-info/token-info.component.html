@@ -6,7 +6,7 @@
 <div class="container-fluid m-0 p-0">
   <form [formGroup]="TokenInfo" class="p-0">
     <div class="form-row">
-      <div class="form-group col-sm-3 pb-0 m-0">
+      <div class="form-group col-sm-3 pb-1 m-0">
         <label for="token" class="mb-2 mr-sm-2">Player Location:</label>
         <input
           type="text"
@@ -15,7 +15,7 @@
           id="location"
         />
       </div>
-      <div class="form-group col-sm-3 pb-0 m-0">
+      <div class="form-group col-sm-3 pb-1 m-0">
         <label for="name" class="mb-2 mr-sm-2">Company Name:</label>
         <input
           type="text"
@@ -24,7 +24,7 @@
           id="name"
         />
       </div>
-      <div class="form-group col-sm-3 pb-0 m-0">
+      <div class="form-group col-sm-3 pb-1 m-0">
         <label for="countryName" class="mb-2 mr-sm-2">Country Name:</label>
         <select
           name="countryname"
@@ -39,7 +39,7 @@
           </option>
         </select>
       </div>
-      <div class="form-group col-sm-3 pb-0 m-0">
+      <div class="form-group col-sm-3 pb-1 m-0">
         <div class="col-sm-10 p-0 pr-1 m-0 pull-left">
           <label for="StateName" class="mb-2 mr-sm-2">State Name: </label>
           <select
@@ -67,7 +67,7 @@
           </button>
         </div>
       </div>
-      <div class="form-group col-sm-3 pb-0 m-0">
+      <div class="form-group col-sm-3 pb-1 m-0">
         <div class="col-sm-10 p-0 pr-1 m-0 pull-left">
           <label for="CityName" class="mb-2 mr-sm-2">City Name:</label>
           <select
@@ -95,7 +95,7 @@
           </button>
         </div>
       </div>
-      <div class="form-group col-sm-3 pb-0 m-0">
+      <div class="form-group col-sm-3 pb-1 m-0">
         <label for="street" class="mb-2 mr-sm-2">Street:</label>
         <input
           type="text"
@@ -104,7 +104,7 @@
           id="street"
         />
       </div>
-      <div class="form-group col-sm-3 pb-0 m-0">
+      <div class="form-group col-sm-3 pb-1 m-0">
         <label for="location">Contact Person Name:</label>
         <input
           type="text"
@@ -113,8 +113,19 @@
           id="token"
         />
       </div>
-
-      <div class="form-group col-sm-3 pb-0 m-0">
+      <div class="form-group col-sm-3 pb-1 m-0">
+        <label for="dtExpiry" class="mb-2 mr-sm-2">Expiry Date:</label>
+        <input
+          id="dtExpiry"
+          formControlName="ExpiryDate"
+          class="form-control mb-2 mr-sm-2"
+          [owlDateTimeTrigger]="dtExpiry"
+          [owlDateTime]="dtExpiry"
+          readonly
+        />
+        <owl-date-time [pickerType]="'calendar'" #dtExpiry></owl-date-time>
+      </div>
+      <div class="form-group col-sm-3 pb-1 m-0">
         <label for="MediaType">Media Type:</label>
         <select
           name="lType"
@@ -129,7 +140,7 @@
           <option value="Signage">Signage</option>
         </select>
       </div>
-      <div class="form-group col-sm-3 pb-0 m-0">
+      <div class="form-group col-sm-3 pb-1 m-0">
         <label for="LicenceType">Licence Type:</label>
         <select
           name="lType"
@@ -155,7 +166,7 @@
           </option>
         </select>
       </div>
-      <div class="form-group col-sm-3 pb-0 m-0">
+      <div class="form-group col-sm-3 pb-1 m-0">
         <label for="playerType">OS Type:</label>
         <select
           name="pType"
@@ -169,7 +180,7 @@
           </option>
         </select>
       </div>
-      <div class="form-group col-sm-3 pb-0 m-0">
+      <div class="form-group col-sm-3 pb-1 m-0">
         <label for="playerType">OS Version:</label>
         <select
           name="pType"
@@ -198,19 +209,8 @@
           </option>
         </select>
       </div>
-      <div class="form-group col-sm-3 pb-0 m-0">
-        <label for="dtExpiry" class="mb-2 mr-sm-2">Expiry Date:</label>
-        <input
-          id="dtExpiry"
-          formControlName="ExpiryDate"
-          class="form-control mb-2 mr-sm-2"
-          [owlDateTimeTrigger]="dtExpiry"
-          [owlDateTime]="dtExpiry"
-          readonly
-        />
-        <owl-date-time [pickerType]="'calendar'" #dtExpiry></owl-date-time>
-      </div>
-      <div class="form-group col-sm-3 pb-0 m-0">
+     
+      <div class="form-group col-sm-3 pb-1 m-0">
         <label for="GroupId">Group:</label>
         <select
           name="GroupId"
@@ -237,7 +237,7 @@
         </div>
       </div>
 
-      <div class="form-group col-sm-3 pb-0 m-0">
+      <div class="form-group col-sm-3 pb-1 m-0">
         <label for="ScheduleType">Schedule Type:</label>
         <select
           name="ScheduleType"
@@ -251,7 +251,7 @@
           <option selected value="PercentageSchedule">% Schedule</option>
         </select>
       </div>
-      <div class="form-group col-sm-3 pb-0 m-0">
+      <div class="form-group col-sm-3 pb-1 m-0">
         <label for="dType">Device Type:</label>
         <select
           name="pType"
@@ -298,7 +298,7 @@
         </select>
       </div>
 
-      <div class="form-group col-sm-3 pb-0 m-0">
+      <div class="form-group col-sm-3 pb-1 m-0">
         <label for="ComType">Communication Type:</label>
         <select
           name="pType"
@@ -347,7 +347,7 @@
           </option>
         </select>
       </div>
-      <div class="form-group col-sm-3 pb-0 m-0">
+      <div class="form-group col-sm-3 pb-1 m-0">
         <label for="deviceid">Device Id(UUID):</label>
         <input
           type="text"
@@ -365,7 +365,7 @@
                     </select> -->
       </div>
 
-      <div class="form-group col-sm-3 pb-0 m-0">
+      <div class="form-group col-sm-3 pb-1 m-0">
         <label for="tokenno">Token No:</label>
         <input
           type="text"
@@ -394,7 +394,7 @@
 
             </div>-->
 
-      <div class="form-group col-sm-3 pb-0 m-0">
+      <div class="form-group col-sm-3 pb-1 m-0">
         <label for="uRights">User Rights:</label>
         <select
           name="uRights"
@@ -407,7 +407,7 @@
           <option selected value="UnLock">Un-Lock</option>
         </select>
       </div>
-      <div class="form-group col-sm-3 pb-0 m-0">
+      <div class="form-group col-sm-3 pb-1 m-0">
         <label for="uchkType">Type:</label>
         <select
           name="uchkType"
@@ -455,7 +455,7 @@
         </div>
       </div>
 
-      <div class="form-group col-sm-3 pb-0 m-0">
+      <div class="form-group col-sm-3 pb-1 m-0">
         <div
           *ngIf="
             f.chkMediaType.value == 'Signage' &&
@@ -518,7 +518,7 @@
         </div>
       </div>
 
-      <div class="form-group col pb-0 m-0">
+      <div class="form-group col-sm-3 pb-1 m-0">
         <div
           *ngIf="
             f.chkMediaType.value == 'Signage' &&
@@ -598,7 +598,7 @@
         >
           <thead class="bg-primary">
             <tr>
-              <th scope="col">Format Name</th>
+              <th scope="col">Campaign Name</th>
               <th scope="col">Playlist Name</th>
               <th *ngIf="ScheduleType !== 'PercentageSchedule'" scope="col">
                 Start Time
@@ -618,7 +618,7 @@
           </thead>
           <tbody>
             <tr *ngFor="let schLst of ModifySchList">
-              <td data-label="Format Name">
+              <td data-label="Campaign Name">
                 {{ schLst.formatName }}
               </td>
               <td data-label="Playlist Name">
@@ -678,7 +678,7 @@
           class="table data-table table-striped table-bordered mydatatable"
         >
           <thead class="bg-primary">
-            <tr>
+            <tr class="d-flex">
               <th class="col">Advt Name</th>
               <th class="col">Type</th>
               <th class="col">Start Date</th>
@@ -686,7 +686,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let adLst of adList">
+            <tr class="d-flex" *ngFor="let adLst of adList">
               <td class="col">{{ adLst.adName }}</td>
               <td class="col">{{ adLst.atype }}</td>
               <td class="col">{{ adLst.startDate }}</td>
@@ -772,13 +772,13 @@
           >
             <thead class="sticky-top bg-primary">
               <tr>
-                <th class="sticky-top WidthTitleTH">Format Name</th>
+                <th class="sticky-top WidthTitleTH">Campaign Name</th>
                 <th class="sticky-top WidthArtistTH">Playlist Name</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let apkLst of APKPlaylist">
-                <td data-label="Format Name" class="WidthTitleTH">
+                <td data-label="Campaign Name" class="WidthTitleTH">
                   {{ apkLst.formatName }}
                 </td>
                 <td data-label="Playlist Name" class="WidthArtistTH">
@@ -796,14 +796,14 @@
           >
             <thead class="sticky-top bg-primary">
               <tr>
-                <th class="sticky-top WidthTitleTH">Format Name</th>
+                <th class="sticky-top WidthTitleTH">Campaign Name</th>
                 <th class="sticky-top WidthArtistTH">Playlist Name</th>
                 <th class="sticky-top Link-Center_Width"></th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let KeyLst of KeyboardPlaylist">
-                <td data-label="Format Name" class="WidthTitleTH">
+                <td data-label="Campaign Name" class="WidthTitleTH">
                   {{ KeyLst.fName }}
                 </td>
                 <td data-label="Playlist Name" class="WidthArtistTH">

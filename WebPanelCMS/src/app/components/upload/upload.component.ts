@@ -449,6 +449,12 @@ this.serviceLicense.DeleteFolder(this.cmbFolder).pipe()
           this.cmbFolder="0"
           this.resIsPromoFolder=false;
         }
+       else if (obj.Responce == "2") {
+          this.toastr.info("Content Uploaded", '');
+          this.CustomerId="0"
+          this.cmbFolder="0"
+          this.resIsPromoFolder=false;
+        }
         else {
           this.toastr.error("Apologies for the inconvenience.The error is recorded.", '');
           this.loading = false;

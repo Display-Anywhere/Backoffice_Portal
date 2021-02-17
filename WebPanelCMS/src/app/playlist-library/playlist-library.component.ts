@@ -1155,6 +1155,10 @@ this.DataTableSettings();
           this.onSort(obj);
         }, 500);
          
+
+        setTimeout(() => { 
+          
+        
         if (this.PlaylistList.length > 0) {
           if (this.NewName !== "") {
             const NewPlList = this.PlaylistList.filter(order => order.DisplayName === this.NewName);
@@ -1173,7 +1177,7 @@ this.DataTableSettings();
             this.SelectPlaylist(this.PlaylistList[0].Id, "", this.PlaylistList[0].tokenIds);
           }
         }
-      
+      }, 700);
       },
         error => {
           this.toastr.error("Apologies for the inconvenience.The error is recorded.", '');
