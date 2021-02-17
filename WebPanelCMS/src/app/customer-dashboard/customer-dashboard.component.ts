@@ -1,8 +1,11 @@
-import { Component, OnInit, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, ViewContainerRef,ViewChildren, QueryList } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { DashboardService } from '../customer-dashboard/dashboard.service';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from '../auth/auth.service';
+import { Subject } from 'rxjs';
+import { NgbdSortableHeader_CopyData,SortEvent } from '../directive/copydata_sortable.directive';
+
 @Component({
   selector: 'app-customer-dashboard',
   templateUrl: './customer-dashboard.component.html',
@@ -10,6 +13,7 @@ import { AuthService } from '../auth/auth.service';
 })
 export class CustomerDashboardComponent implements OnInit {
   TokenList = [];
+  MainTokenList = [];
   page: number = 1;
   pageSize: number = 20;
   loading: boolean;
@@ -22,6 +26,8 @@ export class CustomerDashboardComponent implements OnInit {
   //IsAdminLogin: boolean = false;
   CustomerList = [];
   cmbCustomerId = "";
+  @ViewChildren(NgbdSortableHeader_CopyData) headers: QueryList<NgbdSortableHeader_CopyData>;
+  compare = (v1: string | number, v2: string | number) => v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
 
   constructor(public toastr: ToastrService, vcr: ViewContainerRef, private dService: DashboardService,
     config: NgbModalConfig, private modalService: NgbModal, private auth: AuthService) {
@@ -122,6 +128,7 @@ export class CustomerDashboardComponent implements OnInit {
     this.OnlinePlayers = 0;
     this.OfflinePlayer = 0;
     this.TokenList =[];
+    this.MainTokenList =[];
     this.loading = true;
     this.dService.GetCustomerTokenDetailSummary(type, this.cmbCustomerId).pipe()
       .subscribe(data => {
@@ -133,6 +140,7 @@ export class CustomerDashboardComponent implements OnInit {
           this.OnlinePlayers = obj.OnlinePlayers;
           this.OfflinePlayer = obj.OfflinePlayer;
           this.TokenList = obj.lstToken;
+          this.MainTokenList = obj.lstToken;
           this.loading = false;
           this.GetCustomerTokenDetailFilter('Total');
         }
@@ -153,4 +161,22 @@ export class CustomerDashboardComponent implements OnInit {
     this.modalService.open(content, { size: 'lg' });
 
   }
+  onSort({column, direction}: SortEvent) {
+    
+    // resetting other headers
+    this.headers.forEach(header => {
+      if (header.sortable !== column) {
+        header.direction = '';
+      }
+    });
+ 
+  if (direction === '' || column === '') {
+    this.TokenList = this.MainTokenList;
+  } else {
+    this.TokenList = [...this.MainTokenList].sort((a, b) => {
+      const res = this.compare(a[column], b[column]);
+      return direction === 'asc' ? res : -res;
+    });
+  }
+}
 }
