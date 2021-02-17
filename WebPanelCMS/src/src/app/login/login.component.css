@@ -1,0 +1,25 @@
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px #fafbfe inset !important;
+}
+.logo {
+  width: 25%;
+  /* border-radius: 50%;
+  border: 1px solid #ddd; */
+  margin-bottom: 1em;
+}
+.mt-2e {
+  margin-top: -1em;
+}
+.login-content {
+  position: inherit;
+  height: 100vh;
+  z-index: 99;
+}
+@media (max-width: 768px) {
+  .logincontent {
+    margin-top: 1em;
+  }
+}

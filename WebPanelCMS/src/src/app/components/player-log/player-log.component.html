@@ -1,0 +1,315 @@
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }">
+</ngx-loading>
+<div class="container-fluid p-0 m-0">
+  <ngb-tabset>
+    <ngb-tab>
+      <ng-template ngbTabTitle
+        ><span (click)="SearchPlayedSong()"
+          >Played Schedule Logs</span
+        ></ng-template
+      >
+      <ng-template ngbTabContent>
+        <div class="row">
+          <div class="col-sm-12 mt-2">
+            <div class="d-flex">
+              <div>
+                <div class="form-group m-0 p-0 mr-2">
+                  <input
+                    id="SearchSongDate"
+                    class="form-control mb-2"
+                    [owlDateTimeTrigger]="dtSongDate"
+                    [(ngModel)]="SearchSongDate"
+                    [owlDateTime]="dtSongDate"
+                    readonly
+                  />
+                  <owl-date-time
+                    [pickerType]="'calendar'"
+                    (afterPickerClosed)="SearchPlayedSong()"
+                    #dtSongDate
+                  ></owl-date-time>
+                </div>
+              </div>
+              <div class="ml-auto">
+                <div>
+                  <input
+                    type="text"
+                    id="cName"
+                    [(ngModel)]="searchSongText"
+                    autocomplete="off"
+                    placeholder="&#61442;  Search any text"
+                    class="form-control mb-2 mr-sm-2"
+                  />
+                  <button
+                    class="btn btn-secondary mb-2 pull-right"
+                    type="button"
+                    (click)="SearchPlayedSong()"
+                  >
+                    <i class="fa fa-search"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12 row">
+                <div class="col-sm-3 pull-left"></div>
+                <div class="col-sm-5"></div>
+                <div class="col-sm-3 text-left">
+                  <div class="form-group"></div>
+                </div>
+                <div class="form-group ml-3"></div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="table-responsive">
+                <table
+                  class="table data-table table-striped table-bordered mydatatable"
+                >
+                  <thead>
+                    <tr>
+                      <th scope="col">Date Time</th>
+                      <th scope="col">Title</th>
+                      <th scope="col">Artist</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr
+                      *ngFor="
+                        let sgLst of PlayedSongList
+                          | filter: searchSongText
+                          | slice
+                            : (page - 1) * pageSize
+                            : (page - 1) * pageSize + pageSize
+                      "
+                    >
+                      <td data-label="Date Time">{{ sgLst.PlayedDateTime }}</td>
+                      <td data-label="Title ">{{ sgLst.Name }}</td>
+                      <td data-label="Artist">{{ sgLst.ArtistName }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <ngb-pagination
+                  [collectionSize]="PlayedSongList.length"
+                  [(page)]="page"
+                  [pageSize]="pageSize"
+                  [maxSize]="10"
+                  [rotate]="true"
+                  [ellipses]="false"
+                  [boundaryLinks]="true"
+                  aria-label="Default pagination"
+                ></ngb-pagination>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </ngb-tab>
+
+    <ngb-tab>
+      <ng-template ngbTabTitle
+        ><span (click)="SearchPlayedAds()">Played Ads Logs</span></ng-template
+      >
+      <ng-template ngbTabContent>
+        <div class="row">
+          <div class="col-sm-12 mt-2">
+            <div class="d-flex">
+              <div>
+                <div class="form-group m-0 p-0 mr-2">
+                  <input
+                    id="SearchAdsDate"
+                    class="form-control mb-2 mr-sm-2"
+                    [owlDateTimeTrigger]="dtAdsDate"
+                    [(ngModel)]="SearchAdsDate"
+                    [owlDateTime]="dtAdsDate"
+                    readonly
+                  />
+                  <owl-date-time
+                    [pickerType]="'calendar'"
+                    (afterPickerClosed)="SearchPlayedAds()"
+                    #dtAdsDate
+                  ></owl-date-time>
+                </div>
+              </div>
+              <div class="ml-auto">
+                <div>
+                  <input
+                    type="text"
+                    id="adsName"
+                    [(ngModel)]="searchAdsText"
+                    autocomplete="off"
+                    placeholder="&#61442;  Search any text"
+                    class="form-control mb-2 mr-sm-2"
+                  />
+                  <button
+                    class="btn btn-secondary mb-2 pull-right"
+                    type="button"
+                    (click)="SearchPlayedAds()"
+                  >
+                    <i class="fa fa-search"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12 row">
+                <div class="col-sm-3"></div>
+                <div class="col-sm-5"></div>
+                <div class="col-sm-3">
+                  <div class="form-group ml-1"></div>
+                </div>
+                <div class="form-group ml-3"></div>
+              </div>
+
+              <div class="col-lg-12 m-0 p-0">
+                <div class="form-group m-0 p-0 pull-right"></div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="table-responsive">
+                <table
+                  class="table data-table table-striped table-bordered mydatatable"
+                >
+                  <thead>
+                    <tr>
+                      <th scope="col">Date Time</th>
+                      <th scope="col">Name</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr
+                      *ngFor="
+                        let adLst of PlayedAdsList
+                          | filter: searchAdsText
+                          | slice
+                            : (pageAds - 1) * pageSizeAds
+                            : (pageAds - 1) * pageSizeAds + pageSizeAds
+                      "
+                    >
+                      <td data-label="Date Time">{{ adLst.PlayedDateTime }}</td>
+                      <td data-label="Name">{{ adLst.Name }}</td>
+
+                      <!--  | slice: (pageAds-1) * pageAdsSize : (pageAds-1) * pageAdsSize + pageAdsSize -->
+                    </tr>
+                  </tbody>
+                </table>
+                <ngb-pagination
+                  [collectionSize]="PlayedAdsList.length"
+                  [(page)]="pageAds"
+                  [pageSize]="pageSizeAds"
+                  aria-label="Default pagination"
+                ></ngb-pagination>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </ngb-tab>
+
+    <ngb-tab>
+      <ng-template ngbTabTitle
+        ><span (click)="SearchPlayedSanitiser()"
+          >Played Sanitiser Logs</span
+        ></ng-template
+      >
+      <ng-template ngbTabContent>
+        <div class="row">
+          <div class="col-sm-12 mt-2">
+            <div class="d-flex">
+              <div>
+                <div class="form-group m-0 p-0 mr-2">
+                  <input
+                    id="SearchSanitiserDate"
+                    class="form-control mb-2"
+                    [owlDateTimeTrigger]="dtSanitiserDate"
+                    [(ngModel)]="SearchSanitiserDate"
+                    [owlDateTime]="dtSanitiserDate"
+                    readonly
+                  />
+                  <owl-date-time
+                    [pickerType]="'calendar'"
+                    (afterPickerClosed)="SearchPlayedSanitiser()"
+                    #dtSanitiserDate
+                  ></owl-date-time>
+                </div>
+              </div>
+              <div class="ml-auto">
+                <div>
+                  <input
+                    type="text"
+                    id="cName"
+                    [(ngModel)]="searchSanitiserText"
+                    autocomplete="off"
+                    placeholder="&#61442;  Search any text"
+                    class="form-control mb-2 mr-sm-2"
+                  />
+                  <button
+                    class="btn btn-secondary mb-2 pull-right"
+                    type="button"
+                    (click)="SearchPlayedSanitiser()"
+                  >
+                    <i class="fa fa-search"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12 row">
+                <div class="col-sm-3 pull-left"></div>
+                <div class="col-sm-5"></div>
+                <div class="col-sm-3 text-left">
+                  <div class="form-group"></div>
+                </div>
+                <div class="form-group ml-3"></div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="table-responsive">
+                <table
+                  class="table data-table table-striped table-bordered mydatatable"
+                >
+                  <thead>
+                    <tr>
+                      <th scope="col">Date Time</th>
+                      <th scope="col">Announcement</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr
+                      *ngFor="
+                        let sgLst of PlayedSanitiserList
+                          | filter: searchSanitiserText
+                          | slice
+                            : (pageSanitiser - 1) * pageSizeSanitiser
+                            : (pageSanitiser - 1) * pageSizeSanitiser +
+                                pageSizeSanitiser
+                      "
+                    >
+                      <td data-label="Date Time">{{ sgLst.PlayedDateTime }}</td>
+                      <td data-label="Title">{{ sgLst.Name }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <ngb-pagination
+                  [collectionSize]="PlayedSanitiserList.length"
+                  [(page)]="pageSanitiser"
+                  [pageSize]="pageSizeSanitiser"
+                  [maxSize]="10"
+                  [rotate]="true"
+                  [ellipses]="false"
+                  [boundaryLinks]="true"
+                  aria-label="Default pagination"
+                ></ngb-pagination>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </ngb-tab>
+    <ngb-tab>
+      <ng-template ngbTabTitle><span>Played Keyboard Logs</span></ng-template>
+      <ng-template ngbTabContent> </ng-template>
+    </ngb-tab>
+  </ngb-tabset>
+</div>

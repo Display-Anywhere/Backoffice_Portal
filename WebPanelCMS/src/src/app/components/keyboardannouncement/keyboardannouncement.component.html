@@ -1,0 +1,241 @@
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }">
+</ngx-loading>
+
+<div class="col-lg-12 p-0">
+  <ngb-tabset #t="ngbTabset">
+    <ngb-tab id="tab-selectbyid1" title="Search">
+      <ng-template ngbTabContent>
+        <div class="col-sm-12">
+          <div class="form-row">
+            <div class="form-group col-sm-3 m-0">
+              <label for="cName" class="mb-2 mr-sm-2">Customer Name:</label>
+              <select
+                name="cName"
+                class="custom-select mb-3"
+                (change)="onChangeCustomer($event.target.value)"
+                [(ngModel)]="cmbCustomer"
+                id="cName"
+              >
+                <option selected value="0"></option>
+                <option *ngFor="let cLst of CustomerList" [value]="cLst.Id">
+                  {{ cLst.DisplayName }}
+                </option>
+              </select>
+            </div>
+            <div class="form-group col-sm-3 m-0">
+              <label for="SearchTName" class="mb-2 mr-sm-2">Token :</label>
+              <select
+                class="custom-select mb-3"
+                (change)="onChangeToken($event.target.value)"
+                id="SearchTName"
+                [(ngModel)]="cmbToken"
+              >
+                <option selected value="0"></option>
+                <option *ngFor="let fLst of TokenList" [value]="fLst.tokenid">
+                  {{ fLst.tokenCode }} - {{ fLst.location }}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table
+            class="table data-table table-striped table-bordered mydatatable"
+          >
+            <thead class="sticky-top bg-primary">
+              <tr>
+                <th class="sticky-top WidthTitleTH">Campaign Name</th>
+                <th class="sticky-top WidthArtistTH">Playlist Name</th>
+                <th class="sticky-top Link-Center_Width"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let plSongLst of SavedList">
+                <td data-label="Campaign" class="WidthTitleTH">
+                  {{ plSongLst.fName }}
+                </td>
+                <td data-label="Artist" class="WidthArtistTH">
+                  {{ plSongLst.pName }}
+                </td>
+                <td
+                  data-label=""
+                  class="cursor-pointer Link-Center_Width"
+                  (click)="openTitleDeleteModal(TitleDeleteModal, plSongLst.id)"
+                >
+                  <i
+                    class="fa fa-trash"
+                    style="color: red"
+                    aria-hidden="true"
+                  ></i>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </ng-template>
+    </ngb-tab>
+    <ngb-tab id="tab-selectbyid2" title="AddNew">
+      <ng-template ngbTabContent>
+        <div class="col-sm-12">
+          <div class="form-row">
+            <div class="form-group col-sm-3 m-0">
+              <label for="SearchcName" class="mb-2 mr-sm-2"
+                >Customer Name:</label
+              >
+              <select
+                name="SearchcName"
+                class="custom-select mb-3"
+                [(ngModel)]="cmbSearchCustomer"
+                (change)="onChangeSearchCustomer($event.target.value)"
+                id="SearchcName"
+              >
+                <option selected value="0"></option>
+                <option *ngFor="let cLst of CustomerList" [value]="cLst.Id">
+                  {{ cLst.DisplayName }}
+                </option>
+              </select>
+            </div>
+
+            <div class="form-group col-sm-4 m-0">
+              <label for="SearchTName" class="mb-2 mr-sm-2">Token :</label>
+              <ng-multiselect-dropdown
+                id="Dispenser"
+                [placeholder]="' '"
+                [settings]="dropdownSettings"
+                [data]="SearchTokenList"
+                [(ngModel)]="cmbSearchToken"
+              >
+              </ng-multiselect-dropdown>
+            </div>
+            <div class="form-group col-sm-2 m-0">
+              <label for="fName" class="mb-2 mr-sm-2">Campaign Name:</label>
+              <select
+                name="fName"
+                class="custom-select mb-3"
+                [(ngModel)]="cmbFormat"
+                (change)="onChangeFormat($event.target.value)"
+                id="fName"
+              >
+                <option selected value="0"></option>
+                <option *ngFor="let fLst of FormatList" [value]="fLst.Id">
+                  {{ fLst.DisplayName }}
+                </option>
+              </select>
+            </div>
+            <div class="form-group col-sm-2 m-0">
+              <label for="pName" class="mb-2 mr-sm-2">Playlist:</label>
+              <select
+                name="pName"
+                class="custom-select mb-3"
+                [(ngModel)]="cmbPlaylist"
+                id="pName"
+              >
+                <option selected value="0"></option>
+                <option *ngFor="let pLst of PlaylistList" [value]="pLst.Id">
+                  {{ pLst.DisplayName }}
+                </option>
+              </select>
+            </div>
+            <div class="form-group col-sm-1 m-0">
+              <div class="">
+                <button
+                  class="btn btn-primary mt-5 mb-2"
+                  type="button"
+                  (click)="SaveAnnouncement(ForceUpdate)"
+                >
+                  Save
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </ngb-tab>
+  </ngb-tabset>
+</div>
+
+<ng-template #TitleDeleteModal let-c="close" let-d="dismiss">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Delete</h5>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12">
+          <p>Are you sure to delete?</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <button
+            class="btn btn-primary col-sm-2 pull-right"
+            (click)="d('Cross click')"
+          >
+            <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+          </button>
+          <button
+            class="btn btn-danger col-sm-2 pull-right mr-2"
+            (click)="DeleteKeyboardAnnouncement()"
+            (click)="d('Cross click')"
+          >
+            <i class="fa fa-check fa-lg" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #ForceUpdate let-c="close" let-d="dismiss">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Publish</h5>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12 m-0 p-0">
+          <p style="margin: 0 !important">You want to update locations now?</p>
+        </div>
+        <div class="col-sm-12 m-0 p-0 mt-1">
+          <p style="font-size: smaller; margin: 0 !important; color: lightblue">
+            Note: Have in mind that changes will be implemented immediately with
+            restart of the program.
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <button
+            class="btn btn-primary col-sm-2 pull-right"
+            (click)="d('Cross click')"
+          >
+            <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+          </button>
+          <button
+            class="btn btn-danger col-sm-2 pull-right mr-2"
+            (click)="ForceUpdateAll()"
+            (click)="d('Cross click')"
+          >
+            <i class="fa fa-check fa-lg" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
