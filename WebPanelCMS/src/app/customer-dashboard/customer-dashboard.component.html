@@ -144,9 +144,9 @@
           >
             <thead class="bg-primary text-white">
               <tr>
-                <th scope="col">City</th>
-                <th scope="col">Location</th>
-                <th scope="col" style="width: 130px">Token Code</th>
+                <th scope="col" sortable="city" (sort)="onSort($event)"  style="width: 500px">City</th>
+                <th scope="col"  sortable="location" (sort)="onSort($event)"  style="width: 500px">Location</th>
+                <th scope="col"  sortable="tokenCode" (sort)="onSort($event)" style="width: 130px">Token Code</th>
                 <th scope="col">Last Status</th>
                 <!--<th scope="col">Playlist</th>-->
                 <th

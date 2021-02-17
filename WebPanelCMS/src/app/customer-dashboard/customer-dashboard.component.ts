@@ -4,8 +4,7 @@ import { DashboardService } from '../customer-dashboard/dashboard.service';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from '../auth/auth.service';
 import { Subject } from 'rxjs';
-import { NgbdSortableHeader_CopyData,SortEvent } from '../directive/copydata_sortable.directive';
-
+import { NgbdSortableHeader_Dashboard,SortEvent } from './dashboard_sortable.directive';
 @Component({
   selector: 'app-customer-dashboard',
   templateUrl: './customer-dashboard.component.html',
@@ -26,7 +25,7 @@ export class CustomerDashboardComponent implements OnInit {
   //IsAdminLogin: boolean = false;
   CustomerList = [];
   cmbCustomerId = "";
-  @ViewChildren(NgbdSortableHeader_CopyData) headers: QueryList<NgbdSortableHeader_CopyData>;
+  @ViewChildren(NgbdSortableHeader_Dashboard) headers: QueryList<NgbdSortableHeader_Dashboard>;
   compare = (v1: string | number, v2: string | number) => v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
 
   constructor(public toastr: ToastrService, vcr: ViewContainerRef, private dService: DashboardService,
@@ -142,6 +141,13 @@ export class CustomerDashboardComponent implements OnInit {
           this.TokenList = obj.lstToken;
           this.MainTokenList = obj.lstToken;
           this.loading = false;
+          const objSort:SortEvent   ={
+            column:'city',
+            direction: 'asc'
+           }
+           setTimeout(() => { 
+            this.onSort(objSort);
+          }, 500);
           this.GetCustomerTokenDetailFilter('Total');
         }
         else {

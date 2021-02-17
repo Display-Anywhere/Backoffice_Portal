@@ -11,7 +11,7 @@ import { SerLicenseHolderService } from '../license-holder/ser-license-holder.se
 // import {ClientSideRowModelModule} from '@ag-grid-community/client-side-row-model';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
-import { NgbdSortableHeader_CopyData,SortEvent } from '../directive/copydata_sortable.directive';
+import { NgbdSortableHeader_playlist,SortEvent }   from './playlist_sortable.directive';
 
 @Component({
   selector: 'app-playlist-library',
@@ -29,7 +29,7 @@ export class PlaylistLibraryComponent implements OnInit {
     // ModuleRegistry.register(ClientSideRowModelModule);
 
   }
-  @ViewChildren(NgbdSortableHeader_CopyData) headers: QueryList<NgbdSortableHeader_CopyData>;
+  @ViewChildren(NgbdSortableHeader_playlist) headers: QueryList<NgbdSortableHeader_playlist>;
   compare = (v1: string | number, v2: string | number) => v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
   get f() { return this.playlistform.controls; };
 

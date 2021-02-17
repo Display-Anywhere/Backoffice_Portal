@@ -10,9 +10,9 @@ import {ReactiveFormsModule,FormsModule  } from '@angular/forms';
 
 
 import { ComponentsModule } from '../components/components.module';
-
+import { NgbdSortableHeader_Dashboard } from './dashboard_sortable.directive';
 @NgModule({
-  declarations: [CustomerDashboardComponent],
+  declarations: [CustomerDashboardComponent,NgbdSortableHeader_Dashboard],
   exports:[CustomerDashboardComponent],
   imports: [
     RouterModule.forChild(CustomerDashboardRoutes),

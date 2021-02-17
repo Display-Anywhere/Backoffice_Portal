@@ -103,7 +103,7 @@
                           *ngFor="let fLst of SearchTokenList"
                           [value]="fLst.tokenid"
                         >
-                          {{ fLst.tokenCode }} - {{ fLst.location }}
+                          {{ fLst.tokenCode }} - {{ fLst.location }} - {{ fLst.city }}
                         </option>
                       </select>
                     </div>
@@ -241,7 +241,7 @@
                           scope="col"
                           sortable="location"
                           (sort)="onSort($event)"
-                          style="width: 170px"
+                          style="width: 200px"
                         >
                           Location
                         </th>
