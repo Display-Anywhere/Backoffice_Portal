@@ -129,7 +129,7 @@ export class TokenInfoComponent implements OnInit {
       ExpiryDate: [''],
       PlayerType: ['Android'],
       LicenceType: [''],
-      chkMediaType: ['', Validators.required],
+      chkMediaType: [''],
       chkuserRights: ['', Validators.required],
       chkType: ['', Validators.required],
       TokenNoBkp: [''],
@@ -164,7 +164,6 @@ export class TokenInfoComponent implements OnInit {
   }
 
   onSubmitTokenInfo = function () {
-    
     if (this.TokenInfo.invalid) {
       return;
     }
@@ -182,6 +181,10 @@ if (frm['chkMediaType']==='Audio'){
 if (frm['chkMediaType']==='Video'){
   frm['DeviceType']="Screen";
   frm['LicenceType']="Copyright";
+}
+if (frm['chkMediaType']===''){
+  frm['DeviceType']="";
+  frm['LicenceType']="";
 }
  
 this.submitted = true;this.loading = true;
@@ -352,8 +355,8 @@ this.submitted = true;this.loading = true;
     this.Country_Id = CountryID;
     this.CityList=[];
     const frm= this.TokenInfo.value;
-    frm['city']="";
-    frm['state']="";
+    frm['city']="0";
+    frm['state']="0";
     frm['street']="";
     this.FillState(CountryID);
   }
@@ -475,7 +478,7 @@ this.submitted = true;this.loading = true;
             ExpiryDate: [d],
             PlayerType: [PlayerType],
             LicenceType: [objTokenData[0].LicenceType],
-            chkMediaType: [objTokenData[0].chkMediaType, Validators.required],
+            chkMediaType: [objTokenData[0].chkMediaType],
             chkuserRights: [objTokenData[0].chkuserRights, Validators.required],
             chkType: [objTokenData[0].chkType, Validators.required],
             TokenNoBkp: [objTokenData[0].TokenNoBkp],
