@@ -4,7 +4,50 @@
   background-color: #dee2e6;
   color: #000;
   font-weight: bold;
-}/*
+}
+
+.WidthTitleTH{
+  width:29.5%
+}
+.WidthArtistTH{
+  width:20%
+}
+.WidthCategoryTH{
+  width:16%
+}
+
+.WidthTitlePL{
+  max-width: 100px !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.WidthArtistPL{
+  max-width: 100px !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.WidthCategoryPL{
+  max-width: 50px !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.WidthAlbumPL{
+  max-width: 200px !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.WidthReleasePL {
+  max-width: 120px !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 120px !important;
+}
+/*
 @media screen and (max-width: 900px) and (min-width: 600px), (min-width: 1100px) {
   .colAudio {
     max-width: 23%;
