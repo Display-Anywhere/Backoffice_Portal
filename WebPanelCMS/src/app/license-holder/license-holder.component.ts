@@ -166,23 +166,27 @@ export class LicenseHolderComponent
           visible: false,
         },
         {
-          width: '100px',
+          width: '60px',
           targets: 0,
         },
         {
-          width: '130px',
+          width: '115px',
           targets: 1,
         },
         {
-          width: '280px',
+          width: '170px',
           targets: 2,
         },
         {
-          width: '100px',
+          width: '90px',
           targets: 3,
         },
         {
-          width: '280px',
+          width: '170px',
+          targets: 4,
+        },
+        {
+          width: '230px',
           targets: 5,
         },
         {
@@ -190,7 +194,7 @@ export class LicenseHolderComponent
           targets: 6,
         },
         {
-          width: '150px',
+          width: '90px',
           targets: 7,
         },
         {
@@ -198,15 +202,15 @@ export class LicenseHolderComponent
           targets: 8,
         },
         {
-          width: '75px',
+          width: '50px',
           targets: 9,
         },
         {
-          width: '30px',
+          width: '20px',
           targets: 10,
         },
         {
-          width: '30px',
+          width: '20px',
           targets: 11,
         },
       ],

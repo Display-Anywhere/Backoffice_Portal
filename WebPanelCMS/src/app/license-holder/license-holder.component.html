@@ -270,7 +270,7 @@
                       Time Zone
                     </th>
                     <th scope="col" style="width: 150px !important">
-                      Available Space
+                      Avail. Space
                     </th>
                     <th scope="col" style="width: 50px !important">V.</th>
                     <th scope="col" style="width: 75px !important">Status</th>
@@ -348,7 +348,7 @@
                       <input
                         *ngIf="cLst.PublishUpdate == 'True'"
                         type="button"
-                        class="btn btn-sm btn-danger rounded-pill p-1 m-0"
+                        class="btn btn-sm btn-danger p-1 m-0"
                         (click)="ForceUpdate(cLst.tokenid, i)"
                         value="Update &nbsp;"
                       />
@@ -356,7 +356,7 @@
                       <input
                         *ngIf="cLst.PublishUpdate == 'False'"
                         type="button"
-                        class="btn btn-sm btn-success rounded-pill p-1 m-0"
+                        class="btn btn-sm btn-success  p-1 m-0"
                         (click)="ForceUpdate(cLst.tokenid, i)"
                         value="Updated"
                       />

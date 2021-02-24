@@ -23,7 +23,7 @@ import { NgxLoadingModule } from 'ngx-loading';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    ToastrModule.forRoot({positionClass: 'toast-top-center'}),
+    ToastrModule.forRoot({timeOut: 900,positionClass: 'toast-top-center'}),
     NgbModule,
     AppRoutingModule ,
     ComponentsModule,

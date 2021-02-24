@@ -9,7 +9,7 @@
   <div class="col-sm-12">
     <div class="card">
       <!-- card-header start -->
-      <div class="card-header d-flex justify-content-between">
+      <div class="card-header d-flex justify-content-between mb-0 pb-0">
         <div class="col-12 p-0">
           <form
             [formGroup]="Regform"
@@ -376,7 +376,7 @@
       </div>
       <!-- card-header end -->
       <!-- card-body start -->
-      <div class="card-body">
+      <div class="card-body mt-0 pt-0">
         <div class="table-responsive">
           <div id="datatable_wrapper" class="dataTables_wrapper no-footer">
             <div id="datatable_filter" class="dataTables_filter">
@@ -403,11 +403,11 @@
                 <tr>
                   <th scope="col"></th>
                   <th scope="col" style="width: 150px !important">
-                    Country Name
+                    Country
                   </th>
-                  <th scope="col" style="width: 150px !important">
+                  <!--<th scope="col" style="width: 150px !important">
                     Customer Code
-                  </th>
+                  </th> -->
                   <th scope="col" style="width: 120px !important">
                     Customer Name
                   </th>
@@ -431,9 +431,9 @@
                   <td data-label="Country">
                     {{ cLst.countryName }}
                   </td>
-                  <td data-label="Customer Code">
+                  <!--<td data-label="Customer Code">
                     {{ cLst.customerCode }}
-                  </td>
+                  </td>-->
                   <td data-label="Name">
                     {{ cLst.customerName }}
                   </td>
