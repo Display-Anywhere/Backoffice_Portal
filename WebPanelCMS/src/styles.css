@@ -315,7 +315,11 @@ td {
   border: 0;
 }
 .search-results {
-  height: 200px !important;
+  height: 350px !important;
+  overflow-y: scroll;
+}
+.search-results2 {
+  height: 458px !important;
   overflow-y: scroll;
 }
 /* .iq-top-navbar.p-0 {

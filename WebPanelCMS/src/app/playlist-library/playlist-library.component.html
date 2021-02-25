@@ -5,13 +5,13 @@
 </ngx-loading>
 
 <!-- main start -->
-<div class="container-fluid">
+<div class="container-fluid p-0 m-0">
   <div class="row">
     <!-- left start -->
-    <div class="col-md-4">
+    <div class="col-md-4 pr-sm-0">
       <!-- one start -->
-      <div class="card card-block card-stretch">
-        <div class="card-body iq-total-content">
+      <div class="card card-block card-stretch mb-0">
+        <div class="card-body iq-total-content pb-sm-0">
           <div class="col-lg-12 ml-0 pl-0">
             <label for="cName" class="mb-2 mr-sm-2">Customer Name:</label>
             <select
@@ -52,7 +52,7 @@
               >
               <select
                 name="FormatName"
-                class="custom-select mb-3"
+                class="custom-select mb-0"
                 (change)="onChangeFormat($event.target.value, '')"
                 id="FormatName"
               >
@@ -86,8 +86,8 @@
       </div>
       <!-- one end -->
       <!-- two start -->
-      <div class="card">
-        <div class="card-body iq-total-content">
+      <div class="card mb-2">
+        <div class="card-body iq-total-content pt-0">
           <div class="col-lg-12 p-0 m-0 pull-left">
             <ul
               class="nav nav-tabs m-1"
@@ -143,14 +143,14 @@
                 </div>
               </form>
               <button
-                class="btn btn-primary pull-left p-1 custombutton"
+                class="btn btn-primary pull-left p-2 custombutton"
                 (click)="ManualPlaylist()"
                 *ngIf="IsOptionButtonHide"
               >
                 Add New Manual Playlist
               </button>
               <button
-                class="btn btn-primary pull-right p-1 custombutton"
+                class="btn btn-primary pull-right p-2 custombutton"
                 (click)="openModel(NewPlaylistModel)"
                 *ngIf="IsOptionButtonHide"
               >
@@ -158,9 +158,7 @@
               </button>
 
               <div class="col-lg-12 p-0 mt-2 pull-left">
-                <div
-                  class="table-responsive search-results"
-                >
+                <div class="table-responsive search-results2">
                   <table
                     class="table data-table table-striped table-bordered mydatatable"
                   >
@@ -261,9 +259,7 @@
               class="container tab-pane fade p-0 m-0"
             >
               <div class="col-lg-12 p-0 pull-left">
-                <div
-                  class="table-responsive search-results"
-                >
+                <div class="table-responsive search-results">
                   <table
                     class="table data-table table-striped table-bordered mydatatable"
                   >
@@ -333,9 +329,7 @@
                     >
                   </div>
                 </div>
-                <div
-                  class="table-responsive search-results"
-                >
+                <div class="table-responsive search-results">
                   <table
                     class="table data-table table-striped table-bordered mydatatable"
                   >
@@ -378,7 +372,7 @@
     <!-- left end -->
     <!-- right start -->
     <div class="col-md-8">
-      <div class="card">
+      <div class="card mb-0">
         <div class="card-body iq-total-content">
           <div class="pull-right pr-2">
             <button
@@ -438,10 +432,7 @@
               class="form-control m-1 mr-1"
             />
           </div>
-          <div
-            id="disPL"
-            class="table-responsive search-results"
-          >
+          <div id="disPL" class="table-responsive search-results">
             <table
               class="table data-table table-striped table-bordered mydatatable"
               id="eventtable"
@@ -562,7 +553,7 @@
         </div>
       </div>
       <!-- second start -->
-      <div class="card">
+      <div class="card mb-sm-2">
         <div class="card-body iq-total-content">
           <div
             class="col-sm-12 row p-0 m-0"

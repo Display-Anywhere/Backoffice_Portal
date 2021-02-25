@@ -505,7 +505,7 @@
       <!-- show online indicator end -->
       <!-- Show Shots Message -->
       <div
-        class="form-group col-sm-3 pb-1 m-0"
+        class="form-group col-sm-3 pb-1 m-0 mt-sm-3"
         *ngIf="
           f.chkMediaType.value == 'Signage' && f.DeviceType.value == 'Sanitizer'
         "
@@ -518,7 +518,7 @@
           [checked]="chkShotMsg"
           name="chkToast"
         />
-        <label class="custom-control-label ml-4" for="chkToastMsg"
+        <label class="custom-control-label ml-4 mt-sm-3" for="chkToastMsg"
           >Show Shots Message</label
         >
       </div>
@@ -526,27 +526,23 @@
       <!-- Show Shots Message end -->
       <!-- radio buttons end -->
 
-      <div class="form-group col-sm-3 pb-1 m-0">
-        <div
-          *ngIf="
-            f.chkMediaType.value == 'Signage' &&
-            f.DeviceType.value == 'Sanitizer'
-          "
-          id="uRights1"
-          class="custom-control custom-checkbox mt-1 mb-2 mr-sm-0"
+      <div
+        class="form-group col-sm-3 pb-1 m-0"
+        *ngIf="
+          f.chkMediaType.value == 'Signage' && f.DeviceType.value == 'Sanitizer'
+        "
+      >
+        <input
+          type="checkbox"
+          class="custom-control-input"
+          id="chkIndicatorID1"
+          formControlName="chkIndicator"
+          [checked]="chkIndicatorBox"
+          name="chkToken2"
+        />
+        <label class="custom-control-label ml-4 mt-sm-3" for="chkIndicatorID1"
+          >Show Online Indicator</label
         >
-          <input
-            type="checkbox"
-            class="custom-control-input"
-            id="chkIndicatorID1"
-            formControlName="chkIndicator"
-            [checked]="chkIndicatorBox"
-            name="chkToken2"
-          />
-          <label class="custom-control-label ml-4" for="chkIndicatorID1"
-            >Show Online Indicator</label
-          >
-        </div>
       </div>
       <!-- button start -->
       <div class="col-12 float-right p-0 mt-3 pr-1">
