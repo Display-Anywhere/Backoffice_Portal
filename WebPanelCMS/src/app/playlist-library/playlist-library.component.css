@@ -1,40 +1,38 @@
-
-
 .selected {
   background-color: #dee2e6;
   color: #000;
   font-weight: bold;
 }
 
-.WidthTitleTH{
-  width:29.5%
+.WidthTitleTH {
+  width: 29.5%;
 }
-.WidthArtistTH{
-  width:20%
+.WidthArtistTH {
+  width: 20%;
 }
-.WidthCategoryTH{
-  width:16%
+.WidthCategoryTH {
+  width: 16%;
 }
 
-.WidthTitlePL{
+.WidthTitlePL {
   max-width: 100px !important;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
-.WidthArtistPL{
+.WidthArtistPL {
   max-width: 100px !important;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
-.WidthCategoryPL{
+.WidthCategoryPL {
   max-width: 50px !important;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.WidthAlbumPL{
+.WidthAlbumPL {
   max-width: 200px !important;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -190,4 +188,7 @@ th {
 }
 table.dataTable thead th {
   color: #fff !important;
+}
+.smalltext {
+  font-size: 0.8em;
 }

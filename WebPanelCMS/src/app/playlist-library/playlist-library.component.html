@@ -47,7 +47,9 @@
           </div>
           <div class="col-lg-12 p-0 m-0">
             <div class="col-lg-9 p-0 m-0 pull-left">
-              <label for="FormatName" class="mb-2 mr-sm-2">Campaign Name:</label>
+              <label for="FormatName" class="mb-2 mr-sm-2"
+                >Campaign Name:</label
+              >
               <select
                 name="FormatName"
                 class="custom-select mb-3"
@@ -157,15 +159,20 @@
 
               <div class="col-lg-12 p-0 mt-2 pull-left">
                 <div
-                  class="table-responsive"
-                  style="height: 748px; overflow-y: scroll"
+                  class="table-responsive search-results"
                 >
                   <table
                     class="table data-table table-striped table-bordered mydatatable"
                   >
                     <thead class="bg-primary">
                       <tr>
-                        <th scope="col"  sortable="DisplayName" (sort)="onSort($event)">Name</th>
+                        <th
+                          scope="col"
+                          sortable="DisplayName"
+                          (sort)="onSort($event)"
+                        >
+                          Name
+                        </th>
                         <th scope="col"></th>
                         <th scope="col"></th>
                       </tr>
@@ -255,8 +262,7 @@
             >
               <div class="col-lg-12 p-0 pull-left">
                 <div
-                  class="table-responsive"
-                  style="height: 736px; overflow-y: scroll"
+                  class="table-responsive search-results"
                 >
                   <table
                     class="table data-table table-striped table-bordered mydatatable"
@@ -328,8 +334,7 @@
                   </div>
                 </div>
                 <div
-                  class="table-responsive"
-                  style="height: 736px; overflow-y: scroll"
+                  class="table-responsive search-results"
                 >
                   <table
                     class="table data-table table-striped table-bordered mydatatable"
@@ -337,7 +342,6 @@
                     <thead class="bg-primary">
                       <tr class="d-flex">
                         <th class="col">Playlists</th>
-                         
                       </tr>
                     </thead>
                     <tbody>
@@ -351,7 +355,7 @@
                         >
                           {{ plLst.DisplayName }} {{ plLst.tokenid }}
                         </td>
-                       <!--
+                        <!--
 
                         <td
                           (click)="AddFormat(plLst.Id, plLst.DisplayName, '0')"
@@ -436,8 +440,7 @@
           </div>
           <div
             id="disPL"
-            class="table-responsive"
-            style="height: 300px; overflow-y: scroll"
+            class="table-responsive search-results"
           >
             <table
               class="table data-table table-striped table-bordered mydatatable"
@@ -1030,7 +1033,7 @@
                   <th class="WidthAlbumPL">{{ HeaderName }}</th>
                   <th class="WidthCategoryPL">{{ HeaderName }}</th>
                   <th class="WidthCategoryPL">{{ HeaderName2 }}</th>
-                  <th  class="WidthReleasePL">{{ HeaderName2 }}</th>
+                  <th class="WidthReleasePL">{{ HeaderName2 }}</th>
                   <th class="WidthCategoryPL">Year</th>
                   <th class="sticky-top"></th>
                 </tr>
@@ -1267,9 +1270,9 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-sm-12 pr-0">
+        <div class="col-sm-12 pr-0 mt-3">
           <button
-            class="btn btn-danger col-sm-4 pull-right mr-0"
+            class="btn btn-danger col-sm-5 pull-right mr-0"
             (click)="onPlaylistDeleteClick(PlaylistDeleteModal)"
             (click)="d('Cross click')"
           >
@@ -1277,7 +1280,7 @@
           </button>
 
           <button
-            class="btn btn-primary col-sm-3 pull-right mr-2"
+            class="btn btn-primary col-sm-5 pull-right mr-2"
             (click)="SettingPlaylist(ForceUpdate)"
             (click)="d('Cross click')"
           >
@@ -1494,7 +1497,7 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-sm-12">
-          <p>{{ txtCommonMsg }}</p>
+          <p class="smalltext">{{ txtCommonMsg }}</p>
         </div>
       </div>
       <div class="row">

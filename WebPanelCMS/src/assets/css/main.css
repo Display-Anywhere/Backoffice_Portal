@@ -29985,6 +29985,15 @@ table.dataTable th {
   clear: both;
   height: 0;
 }
+/* main menu */
+.iq-menu {
+  display: flex;
+  justify-content: space-around;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+/* main menu */
 @media screen and (max-width: 767px) {
   .dataTables_wrapper .dataTables_info,
   .dataTables_wrapper .dataTables_paginate {
@@ -30066,7 +30075,7 @@ table.dataTable th {
 .mobile-search {
   padding: 0.5em;
 }
-@media (min-width: 1120px) and (max-width: 1699px) {
+@media (min-width: 1120px) and (max-width: 6000px) {
   .iq-top-navbar {
     width: 100% !important;
   }
@@ -30084,5 +30093,112 @@ table.dataTable th {
 @media (min-width: 1521px) and (max-width: 1585px) {
   .iq-sidebar-menu .iq-menu li {
     padding: 10px 7px;
+  }
+}
+/* macbook */
+@media (min-width: 1586px) {
+  .iq-sidebar-menu {
+    position: fixed;
+    background: #fff !important;
+    width: 100%;
+  }
+}
+@media (min-width: 2000px) {
+  .iq-sidebar-menu .iq-menu li a {
+    font-size: 20px !important;
+  }
+}
+@media (min-width: 2300px) {
+  .iq-sidebar-menu .iq-menu li a {
+    font-size: 25px !important;
+  }
+  .iq-sidebar-menu .iq-menu li a i {
+    font-size: 15px;
+    margin-bottom: 12px;
+  }
+  .search-input {
+    margin-top: 1em !important;
+  }
+  .wrapper {
+    margin-top: 7em !important;
+  }
+}
+
+/* table */
+@media (max-width: 767px) {
+  /* thead th:not(:first-child) {
+    display: none;
+  }
+
+  td,
+  th {
+    display: block;
+  }
+
+  td[data-th]:before {
+    content: attr(data-th);
+  }
+  table.dataTable tbody td,
+  table.dataTable tbody th {
+    padding: 8px 69px !important;
+  }
+  table.dataTable tbody td {
+    padding: 8px 69px !important;
+  } */
+  table {
+    border: 0;
+  }
+
+  table caption {
+    font-size: 1.3em;
+  }
+
+  table thead {
+    border: none;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+  }
+  table tr {
+    border-bottom: 3px solid #ddd;
+    display: block;
+    margin-bottom: 0.625em;
+  }
+  table td {
+    border-bottom: 1px solid #ddd;
+    display: block;
+    font-size: 0.8em;
+    text-align: right;
+    height: 50px;
+  }
+  .custom-control-label {
+    position: relative;
+    margin-bottom: 0;
+    vertical-align: top;
+    margin-left: 10px;
+  }
+  table tr:hover {
+    background-color: #f8f8f8 !important;
+  }
+  table td::before {
+    content: attr(data-label);
+    float: left;
+    font-weight: bold;
+  }
+  table td:last-child {
+    border-bottom: 0;
+  }
+  table.dataTable tbody td {
+    padding: 8px 53px !important;
+  }
+  table tbody td {
+    padding: 8px 53px !important;
+  }
+  td.sorting_1 {
+    display: none;
   }
 }
