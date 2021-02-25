@@ -1,8 +1,9 @@
-table.dataTable tbody th, table.dataTable tbody td {
+/* table.dataTable tbody th, table.dataTable tbody td {
   padding: 4px 0px !important;
-}
-.table-bordered, .table-bordered td, .table-bordered th {
-  
+} */
+.table-bordered,
+.table-bordered td,
+.table-bordered th {
 }
 /* .form-control::placeholder {
   font-family: FontAwesome;

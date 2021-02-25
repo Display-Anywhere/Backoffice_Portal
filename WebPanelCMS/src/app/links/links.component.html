@@ -1,378 +1,417 @@
 <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }">
 </ngx-loading>
 
-<div class="container-fluid">
-  <div class="card p-4">
-    <div class="row mt-2" *ngIf="IsAdvikon == true">
-      <div class="col-sm-4 col-lg-3 mb-1">
-        <div class="card bg-primary p-2 pt-3">
-          <div class="text-center">
-            <div class="form-group">
-              <label class="mb-1 mr-sm-2 text-white"
-                >Audio S&amp;F (Windows)<br />{{ WindowSFLink }}</label
-              >
+<div class="container-fluid p-0">
+  <div class="col-12 p-0">
+    <div class="row">
+      <div class="card p-2 mb-0">
+        <div class="row mt-2" *ngIf="IsAdvikon == true">
+          <div class="col-sm-4 col-lg-3 mb-1 custom_space">
+            <div class="card bg-primary p-2 pt-3 mb-2">
+              <div class="text-center">
+                <div class="form-group">
+                  <label class="mb-1 mr-sm-2 text-white"
+                    >Audio S&amp;F (Windows)<br />{{ WindowSFLink }}</label
+                  >
+                </div>
+                <div class="form-group text-white">
+                  <a
+                    href="{{ WindowSFLink }}"
+                    target="_blank"
+                    style="color: #fff"
+                  >
+                    <button class="btn btn-outline-light text-white">
+                      <i class="fa fa-cloud-download" aria-hidden="true"></i>
+                    </button>
+                  </a>
+                </div>
+              </div>
             </div>
-            <div class="form-group text-white">
-              <a href="{{ WindowSFLink }}" target="_blank" style="color: #fff">
-                <button class="btn btn-outline-light text-white">
-                  <i class="fa fa-cloud-download" aria-hidden="true"></i>
-                </button>
-              </a>
+          </div>
+          <div class="col-sm-4 col-lg-3 mb-1 custom_space">
+            <div class="card bg-primary p-2 pt-3 mb-2 text-center">
+              <div class="form-group">
+                <label class="mb-1 mr-sm-2 text-white"
+                  >Video S&amp;F (Windows)<br />{{ WindowVideoLink }}</label
+                >
+              </div>
+              <div class="form-group">
+                <a
+                  href="{{ WindowVideoLink }}"
+                  target="_blank"
+                  style="color: #fff"
+                >
+                  <button class="btn btn-outline-light text-white">
+                    <i
+                      class="fa fa-cloud-download"
+                      aria-hidden="true"
+                    ></i></button
+                ></a>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4 col-lg-3 mb-1 custom_space">
+            <div class="card bg-primary p-2 pt-3 mb-2">
+              <div class="text-center">
+                <div class="form-group">
+                  <label class="mb-1 mr-sm-2 text-white"
+                    >Team Viewer(Windows)<br />https://bit.ly/3cbYvrI</label
+                  >
+                </div>
+                <div class="form-group">
+                  <a
+                    href="https://bit.ly/3cbYvrI"
+                    target="_blank"
+                    style="color: #fff"
+                  >
+                    <button class="btn btn-outline-light text-white">
+                      <i class="fa fa-cloud-download" aria-hidden="true"></i>
+                    </button>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-4 col-lg-3 custom_space d-none">
+            <div class="card bg-primary p-2 pt-3 mb-2 text-center">
+              <div class="form-group">
+                <label class="mb-1 mr-sm-2 text-white"
+                  >Copyright Local Player (Windows)<br />{{
+                    CopyrightLink
+                  }}</label
+                >
+              </div>
+              <div class="form-group">
+                <a
+                  href="{{ CopyrightLink }}"
+                  target="_blank"
+                  style="color: #fff"
+                >
+                  <button class="btn btn-outline-light text-white">
+                    <i class="fa fa-cloud-download" aria-hidden="true"></i>
+                  </button>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-4 col-lg-3 mb-1 custom_space d-none">
+            <div class="card bg-primary p-2 pt-3 mb-2 text-center">
+              <div class="form-group">
+                <label class="mb-1 mr-sm-2 text-white"
+                  >Copyleft Local Player (Windows)<br />
+                  {{ CopyleftLink }}</label
+                >
+              </div>
+              <div class="form-group">
+                <a
+                  href="{{ CopyleftLink }}"
+                  target="_blank"
+                  style="color: #fff"
+                >
+                  <button class="btn btn-outline-light text-white">
+                    <i
+                      class="fa fa-cloud-download text-white"
+                      aria-hidden="true"
+                    ></i>
+                  </button>
+                </a>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="col-sm-4 col-lg-3 mb-1">
-        <div class="card bg-primary p-2 pt-3 text-center">
-          <div class="form-group">
-            <label class="mb-1 mr-sm-2 text-white"
-              >Video S&amp;F (Windows)<br />{{ WindowVideoLink }}</label
-            >
-          </div>
-          <div class="form-group">
-            <a href="{{ WindowVideoLink }}" target="_blank" style="color: #fff">
-              <button class="btn btn-outline-light text-white">
-                <i class="fa fa-cloud-download" aria-hidden="true"></i></button
-            ></a>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-4 col-lg-3 mb-1">
-        <div class="card bg-primary p-2 pt-3">
-          <div class="text-center">
-            <div class="form-group">
-              <label class="mb-1 mr-sm-2 text-white"
-                >Team Viewer(Windows)<br />https://bit.ly/3cbYvrI</label
-              >
+        <div class="row mt-2" *ngIf="IsAdvikon == true"></div>
+        <div class="row mt-2">
+          <div class="col-sm-4 col-lg-3 mb-3 custom_space">
+            <div class="card bg-primary p-2 pt-3 mb-2 text-center">
+              <div class="form-group">
+                <label class="mb-1 mr-sm-2 text-white"
+                  >Audio S&amp;F LS (Android all version) <br />
+                  {{ AudioLink0 }}</label
+                >
+              </div>
+              <div class="form-group">
+                <a href="{{ AudioLink0 }}" target="_blank" style="color: #fff">
+                  <button class="btn btn-outline-light text-white">
+                    <i class="fa fa-cloud-download" aria-hidden="true"></i>
+                  </button>
+                </a>
+              </div>
             </div>
-            <div class="form-group">
-              <a
-                href="https://bit.ly/3cbYvrI"
-                target="_blank"
-                style="color: #fff"
-              >
-                <button class="btn btn-outline-light text-white">
-                  <i class="fa fa-cloud-download" aria-hidden="true"></i>
-                </button>
-              </a>
+          </div>
+          <div class="col-sm-4 col-lg-3 mb-3 custom_space">
+            <div class="card bg-primary p-2 pt-3 mb-2 text-center">
+              <div class="form-group">
+                <label class="mb-1 mr-sm-2 text-white"
+                  >Audio S&amp;F PT (Android all version) <br />
+                  {{ AudioLink90 }}</label
+                >
+              </div>
+              <div class="form-group">
+                <a href="{{ AudioLink90 }}" target="_blank" style="color: #fff">
+                  <button class="btn btn-outline-light text-white">
+                    <i class="fa fa-cloud-download" aria-hidden="true"></i>
+                  </button>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4 col-lg-3 mb-3 d-none custom_space">
+            <div class="card bg-primary p-2 pt-3 mb-2 text-center">
+              <div class="form-group">
+                <label class="mb-1 mr-sm-2 text-white"
+                  >Audio S&amp;F Sanitizer (Android) <br />
+                  {{ AudioLinkSanitizer0 }}</label
+                >
+              </div>
+              <div class="form-group">
+                <a
+                  href="{{ AudioLinkSanitizer0 }}"
+                  target="_blank"
+                  style="color: #fff"
+                >
+                  <button class="btn btn-outline-light text-white">
+                    <i class="fa fa-cloud-download" aria-hidden="true"></i>
+                  </button>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4 col-lg-3 mb-3 custom_space">
+            <div class="card bg-primary p-2 pt-3 mb-2 text-center">
+              <div class="form-group">
+                <label class="mb-1 mr-sm-2 text-white"
+                  >Video/Signage LS (Android OS7 or Above) <br />{{
+                    VideoLink0
+                  }}</label
+                >
+              </div>
+              <div class="form-group">
+                <a href="{{ VideoLink0 }}" target="_blank" style="color: #fff">
+                  <button class="btn btn-outline-light text-white">
+                    <i class="fa fa-cloud-download" aria-hidden="true"></i>
+                  </button>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4 col-lg-3 mb-3 custom_space">
+            <div class="card bg-primary p-2 pt-3 mb-2 text-center">
+              <div class="form-group">
+                <label class="mb-1 mr-sm-2 text-white"
+                  >Video/Signage PT (Android OS7 or Above) <br />{{
+                    VideoLink90
+                  }}</label
+                >
+              </div>
+              <div class="form-group">
+                <a href="{{ VideoLink90 }}" target="_blank" style="color: #fff">
+                  <button class="btn btn-outline-light text-white">
+                    <i class="fa fa-cloud-download" aria-hidden="true"></i>
+                  </button>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4 col-lg-3 mb-3 d-none custom_space">
+            <div class="card bg-primary p-2 pt-3 mb-2 text-center">
+              <div class="form-group">
+                <label class="mb-1 mr-sm-2 text-white"
+                  >Signage Landscape (Android) <br />{{ SignageVideo0 }}</label
+                >
+              </div>
+              <div class="form-group">
+                <a
+                  href="{{ SignageVideo0 }}"
+                  target="_blank"
+                  style="color: #fff"
+                >
+                  <button class="btn btn-outline-light text-white">
+                    <i class="fa fa-cloud-download" aria-hidden="true"></i>
+                  </button>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4 col-lg-3 mb-3 custom_space">
+            <div class="card bg-primary p-2 pt-3 mb-2 text-center">
+              <div class="form-group">
+                <label class="mb-1 mr-sm-2 text-white"
+                  >Signage Sanitizer (Android) <br />{{ Sanitizer0 }}</label
+                >
+              </div>
+              <div class="form-group">
+                <a href="{{ Sanitizer0 }}" target="_blank" style="color: #fff">
+                  <button class="btn btn-outline-light text-white">
+                    <i class="fa fa-cloud-download" aria-hidden="true"></i>
+                  </button>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4 col-lg-3 mb-3 custom_space">
+            <div class="card bg-primary p-2 pt-3 mb-2 text-center">
+              <div class="form-group">
+                <label class="mb-1 mr-sm-2 text-white"
+                  >Signage Keyboard (Android) <br />{{ Keyboard }}</label
+                >
+              </div>
+              <div class="form-group">
+                <a href="{{ Keyboard }}" target="_blank" style="color: #fff">
+                  <button class="btn btn-outline-light text-white">
+                    <i class="fa fa-cloud-download" aria-hidden="true"></i>
+                  </button>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4 col-lg-3 mb-3 custom_space">
+            <div class="card bg-primary p-2 pt-3 mb-2 text-center">
+              <div class="form-group">
+                <label class="mb-1 mr-sm-2 text-white"
+                  >Instant Play (Android)<br />
+                  {{ InstantPlay }}</label
+                >
+              </div>
+              <div class="form-group">
+                <a href="{{ InstantPlay }}" target="_blank" style="color: #fff">
+                  <button class="btn btn-outline-light text-white">
+                    <i class="fa fa-cloud-download" aria-hidden="true"></i>
+                  </button>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4 col-lg-3 mb-3 custom_space">
+            <div class="card bg-primary p-2 pt-3 mb-2 text-center">
+              <div class="form-group">
+                <label class="mb-1 mr-sm-2 text-white"
+                  >Video/Signage (Android OS4 or 6Pro)<br />
+                  {{ SanitizerLower }}</label
+                >
+              </div>
+              <div class="form-group">
+                <a
+                  href="{{ SanitizerLower }}"
+                  target="_blank"
+                  style="color: #fff"
+                >
+                  <button class="btn btn-outline-light text-white">
+                    <i class="fa fa-cloud-download" aria-hidden="true"></i>
+                  </button>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4 col-lg-3 mb-3 custom_space">
+            <div class="card bg-primary p-2 pt-3 mb-2 text-center">
+              <div class="form-group">
+                <label class="mb-1 mr-sm-2 text-white"
+                  >Streaming app (Android)<br />
+                  {{ StreamLink }}</label
+                >
+              </div>
+              <div class="form-group">
+                <a href="{{ StreamLink }}" target="_blank" style="color: #fff">
+                  <button class="btn btn-outline-light text-white">
+                    <i class="fa fa-cloud-download" aria-hidden="true"></i>
+                  </button>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4 col-lg-3 mb-3 custom_space">
+            <div class="card bg-primary p-2 pt-3 mb-2 text-center">
+              <div class="form-group">
+                <label class="mb-1 mr-sm-2 text-white"
+                  >Team Viewer (Android)<br />
+                  https://bit.ly/3dccC1k</label
+                >
+              </div>
+              <div class="form-group">
+                <a
+                  href="https://bit.ly/3dccC1k"
+                  target="_blank"
+                  style="color: #fff"
+                >
+                  <button class="btn btn-outline-light text-white">
+                    <i class="fa fa-cloud-download" aria-hidden="true"></i>
+                  </button>
+                </a>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="col-sm-4 col-lg-3 d-none">
-        <div class="card bg-primary p-2 pt-3 text-center">
-          <div class="form-group">
-            <label class="mb-1 mr-sm-2 text-white"
-              >Copyright Local Player (Windows)<br />{{ CopyrightLink }}</label
-            >
-          </div>
-          <div class="form-group">
-            <a href="{{ CopyrightLink }}" target="_blank" style="color: #fff">
-              <button class="btn btn-outline-light text-white">
-                <i class="fa fa-cloud-download" aria-hidden="true"></i>
-              </button>
-            </a>
-          </div>
-        </div>
-      </div>
+      <!-- Customer login content start -->
+      <!-- <div class="card p-4">
 
-      <div class="col-sm-4 col-lg-3 mb-1 d-none">
-        <div class="card bg-primary p-2 pt-3 text-center">
-          <div class="form-group">
-            <label class="mb-1 mr-sm-2 text-white"
-              >Copyleft Local Player (Windows)<br />
-              {{ CopyleftLink }}</label
-            >
-          </div>
-          <div class="form-group">
-            <a href="{{ CopyleftLink }}" target="_blank" style="color: #fff">
-              <button class="btn btn-outline-light text-white">
-                <i
-                  class="fa fa-cloud-download text-white"
-                  aria-hidden="true"
-                ></i>
-              </button>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row mt-2" *ngIf="IsAdvikon == true"></div>
-    <div class="row mt-2">
-      <div class="col-sm-4 col-lg-3 mb-3">
-        <div class="card bg-primary p-2 pt-3 text-center">
-          <div class="form-group">
-            <label class="mb-1 mr-sm-2 text-white"
-              >Audio S&amp;F LS (Android all version) <br />
-              {{ AudioLink0 }}</label
-            >
-          </div>
-          <div class="form-group">
-            <a href="{{ AudioLink0 }}" target="_blank" style="color: #fff">
-              <button class="btn btn-outline-light text-white">
-                <i class="fa fa-cloud-download" aria-hidden="true"></i>
-              </button>
-            </a>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-4 col-lg-3 mb-3">
-        <div class="card bg-primary p-2 pt-3 text-center">
-          <div class="form-group">
-            <label class="mb-1 mr-sm-2 text-white"
-              >Audio S&amp;F PT (Android all version) <br />
-              {{ AudioLink90 }}</label
-            >
-          </div>
-          <div class="form-group">
-            <a href="{{ AudioLink90 }}" target="_blank" style="color: #fff">
-              <button class="btn btn-outline-light text-white">
-                <i class="fa fa-cloud-download" aria-hidden="true"></i>
-              </button>
-            </a>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-4 col-lg-3 mb-3 d-none">
-        <div class="card bg-primary p-2 pt-3 text-center">
-          <div class="form-group">
-            <label class="mb-1 mr-sm-2 text-white"
-              >Audio S&amp;F Sanitizer (Android) <br />
-              {{ AudioLinkSanitizer0 }}</label
-            >
-          </div>
-          <div class="form-group">
-            <a
-              href="{{ AudioLinkSanitizer0 }}"
-              target="_blank"
-              style="color: #fff"
-            >
-              <button class="btn btn-outline-light text-white">
-                <i class="fa fa-cloud-download" aria-hidden="true"></i>
-              </button>
-            </a>
+      </div> -->
+      <div class="col-12 p-0">
+        <div class="card">
+          <div class="col-md-4">
+            <div class="card-header p-0 mb-4">
+              <div *ngIf="auth.IsAdminLogin$ | async">
+                <h4 class="m-2">Customer Login Details:</h4>
+              </div>
+            </div>
+            <div class="col-lg-12 p-0" *ngIf="auth.IsAdminLogin$ | async">
+              <div class="form-inline p-1">
+                <label
+                  for="cmbCustomer"
+                  class="col text-left pl-0"
+                  style="justify-content: left"
+                  >Customer Name:</label
+                >
+                <select
+                  name="CustomerName"
+                  class="custom-select col pl-0"
+                  (change)="onChangeCustomer($event.target.value)"
+                  id="cmbCustomer"
+                >
+                  <option selected value="0"></option>
+                  <option *ngFor="let cLst of CustomerList" [value]="cLst.Id">
+                    {{ cLst.DisplayName }}
+                  </option>
+                </select>
+              </div>
+              <div class="form-inline p-1">
+                <label
+                  for="lname"
+                  class="col text-left pl-0"
+                  style="justify-content: left"
+                  >Login Name:</label
+                >
+                <input
+                  type="text"
+                  class="form-control col"
+                  [(ngModel)]="lName"
+                  readonly
+                  id="lname"
+                  name="lname"
+                />
+              </div>
+              <div class="form-inline p-1">
+                <label
+                  for="pwd"
+                  class="col text-left pl-0"
+                  style="justify-content: left"
+                  >Password:</label
+                >
+                <input
+                  type="text"
+                  class="form-control col"
+                  [(ngModel)]="lPwd"
+                  readonly
+                  id="pwd"
+                  name="pwd"
+                />
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="col-sm-4 col-lg-3 mb-3">
-        <div class="card bg-primary p-2 pt-3 text-center">
-          <div class="form-group">
-            <label class="mb-1 mr-sm-2 text-white"
-              >Video/Signage LS (Android OS7 or Above) <br />{{
-                VideoLink0
-              }}</label
-            >
-          </div>
-          <div class="form-group">
-            <a href="{{ VideoLink0 }}" target="_blank" style="color: #fff">
-              <button class="btn btn-outline-light text-white">
-                <i class="fa fa-cloud-download" aria-hidden="true"></i>
-              </button>
-            </a>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-4 col-lg-3 mb-3">
-        <div class="card bg-primary p-2 pt-3 text-center">
-          <div class="form-group">
-            <label class="mb-1 mr-sm-2 text-white"
-              >Video/Signage PT (Android OS7 or Above) <br />{{
-                VideoLink90
-              }}</label
-            >
-          </div>
-          <div class="form-group">
-            <a href="{{ VideoLink90 }}" target="_blank" style="color: #fff">
-              <button class="btn btn-outline-light text-white">
-                <i class="fa fa-cloud-download" aria-hidden="true"></i>
-              </button>
-            </a>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-4 col-lg-3 mb-3 d-none">
-        <div class="card bg-primary p-2 pt-3 text-center">
-          <div class="form-group">
-            <label class="mb-1 mr-sm-2 text-white"
-              >Signage Landscape (Android) <br />{{ SignageVideo0 }}</label
-            >
-          </div>
-          <div class="form-group">
-            <a href="{{ SignageVideo0 }}" target="_blank" style="color: #fff">
-              <button class="btn btn-outline-light text-white">
-                <i class="fa fa-cloud-download" aria-hidden="true"></i>
-              </button>
-            </a>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-4 col-lg-3 mb-3">
-        <div class="card bg-primary p-2 pt-3 text-center">
-          <div class="form-group">
-            <label class="mb-1 mr-sm-2 text-white"
-              >Signage Sanitizer (Android) <br />{{ Sanitizer0 }}</label
-            >
-          </div>
-          <div class="form-group">
-            <a href="{{ Sanitizer0 }}" target="_blank" style="color: #fff">
-              <button class="btn btn-outline-light text-white">
-                <i class="fa fa-cloud-download" aria-hidden="true"></i>
-              </button>
-            </a>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-4 col-lg-3 mb-3">
-        <div class="card bg-primary p-2 pt-3 text-center">
-          <div class="form-group">
-            <label class="mb-1 mr-sm-2 text-white"
-              >Signage Keyboard (Android) <br />{{ Keyboard }}</label
-            >
-          </div>
-          <div class="form-group">
-            <a href="{{ Keyboard }}" target="_blank" style="color: #fff">
-              <button class="btn btn-outline-light text-white">
-                <i class="fa fa-cloud-download" aria-hidden="true"></i>
-              </button>
-            </a>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-4 col-lg-3 mb-3">
-        <div class="card bg-primary p-2 pt-3 text-center">
-          <div class="form-group">
-            <label class="mb-1 mr-sm-2 text-white"
-              >Instant Play (Android)<br />
-              {{ InstantPlay }}</label
-            >
-          </div>
-          <div class="form-group">
-            <a href="{{ InstantPlay }}" target="_blank" style="color: #fff">
-              <button class="btn btn-outline-light text-white">
-                <i class="fa fa-cloud-download" aria-hidden="true"></i>
-              </button>
-            </a>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-4 col-lg-3 mb-3">
-        <div class="card bg-primary p-2 pt-3 text-center">
-          <div class="form-group">
-            <label class="mb-1 mr-sm-2 text-white"
-              >Video/Signage (Android OS4 or 6Pro)<br />
-              {{ SanitizerLower }}</label
-            >
-          </div>
-          <div class="form-group">
-            <a href="{{ SanitizerLower }}" target="_blank" style="color: #fff">
-              <button class="btn btn-outline-light text-white">
-                <i class="fa fa-cloud-download" aria-hidden="true"></i>
-              </button>
-            </a>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-4 col-lg-3 mb-3">
-        <div class="card bg-primary p-2 pt-3 text-center">
-          <div class="form-group">
-            <label class="mb-1 mr-sm-2 text-white"
-              >Streaming app (Android)<br />
-              {{ StreamLink }}</label
-            >
-          </div>
-          <div class="form-group">
-            <a href="{{ StreamLink }}" target="_blank" style="color: #fff">
-              <button class="btn btn-outline-light text-white">
-                <i class="fa fa-cloud-download" aria-hidden="true"></i>
-              </button>
-            </a>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-4 col-lg-3 mb-3">
-        <div class="card bg-primary p-2 pt-3 text-center">
-          <div class="form-group">
-            <label class="mb-1 mr-sm-2 text-white"
-              >Team Viewer (Android)<br />
-              https://bit.ly/3dccC1k</label
-            >
-          </div>
-          <div class="form-group">
-            <a
-              href="https://bit.ly/3dccC1k"
-              target="_blank"
-              style="color: #fff"
-            >
-              <button class="btn btn-outline-light text-white">
-                <i class="fa fa-cloud-download" aria-hidden="true"></i>
-              </button>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row mt-2"></div>
-  </div>
-
-  <!-- Customer login content start -->
-  <div class="card p-4">
-    <div class="card-header p-0 mb-4">
-      <div *ngIf="auth.IsAdminLogin$ | async">
-        <h4 class="m-2">Customer Login Details:</h4>
-      </div>
-    </div>
-    <div class="col-lg-12 p-0" *ngIf="auth.IsAdminLogin$ | async">
-      <div class="form-inline p-1">
-        <label
-          for="cmbCustomer"
-          class="col-lg-2 text-left pl-0"
-          style="justify-content: left"
-          >Customer Name:</label
-        >
-        <select
-          name="CustomerName"
-          class="custom-select col-lg-3"
-          (change)="onChangeCustomer($event.target.value)"
-          id="cmbCustomer"
-        >
-          <option selected value="0"></option>
-          <option *ngFor="let cLst of CustomerList" [value]="cLst.Id">
-            {{ cLst.DisplayName }}
-          </option>
-        </select>
-      </div>
-      <div class="form-inline p-1">
-        <label
-          for="lname"
-          class="col-lg-2 text-left pl-0"
-          style="justify-content: left"
-          >Login Name:</label
-        >
-        <input
-          type="text"
-          class="form-control col-lg-3"
-          [(ngModel)]="lName"
-          readonly
-          id="lname"
-          name="lname"
-        />
-      </div>
-      <div class="form-inline p-1">
-        <label
-          for="pwd"
-          class="col-lg-2 text-left pl-0"
-          style="justify-content: left"
-          >Password:</label
-        >
-        <input
-          type="text"
-          class="form-control col-lg-3"
-          [(ngModel)]="lPwd"
-          readonly
-          id="pwd"
-          name="pwd"
-        />
       </div>
     </div>
   </div>

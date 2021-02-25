@@ -3,8 +3,8 @@
   [config]="{ backdropBorderRadius: '3px', fullScreenBackdrop: true }"
 >
 </ngx-loading>
-<div class="container-fluid">
-  <div class="col-12">
+<div class="container-fluid p-0">
+  <div class="col-12 p-0">
     <div class="row">
       <div class="col-12">
         <div class="card">
@@ -382,8 +382,18 @@
                       <div class="row">
                         <div class="col-sm-12">
                           <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" [(ngModel)]="IsPromoFolder" id="customCheck" name="example1">
-                            <label class="custom-control-label" for="customCheck">Is promo folder</label>
+                            <input
+                              type="checkbox"
+                              class="custom-control-input"
+                              [(ngModel)]="IsPromoFolder"
+                              id="customCheck"
+                              name="example1"
+                            />
+                            <label
+                              class="custom-control-label"
+                              for="customCheck"
+                              >Is promo folder</label
+                            >
                           </div>
                         </div>
                       </div>
