@@ -123,3 +123,8 @@ table th {
   display: flex !important;
   justify-content: flex-end;
 }
+th {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

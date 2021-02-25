@@ -402,9 +402,7 @@
               <thead class="bg-primary text-white">
                 <tr>
                   <th scope="col"></th>
-                  <th scope="col" style="width: 150px !important">
-                    Country
-                  </th>
+                  <th scope="col" style="width: 150px !important">Country</th>
                   <!--<th scope="col" style="width: 150px !important">
                     Customer Code
                   </th> -->
@@ -448,7 +446,7 @@
                   </td>
                   <td
                     data-label=""
-                    class="col-sm-1 cursor-pointer Link-Center_Width"
+                    class="cursor-pointer"
                     (click)="EditCustomer(cLst.id)"
                   >
                     <i
@@ -458,7 +456,7 @@
                   </td>
                   <td
                     data-label=""
-                    class="col-sm-1 cursor-pointer Link-Center_Width"
+                    class="cursor-pointer"
                     (click)="
                       openCustomerDeleteModal(CustomerDeleteModal, cLst.id)
                     "
@@ -471,12 +469,12 @@
                   </td>
                   <td
                     data-label=""
-                    class="col-sm-1 cursor-pointer text-primary"
+                    class="cursor-pointer text-primary"
                     (click)="SendMail(cLst.id)"
                   >
                     Send email
                   </td>
-                  <td data-label="" class="col-sm-1">
+                  <td data-label="">
                     <span
                       *ngIf="cLst.Key === ''"
                       class="cursor-pointer text-primary"

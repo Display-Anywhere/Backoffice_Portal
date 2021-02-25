@@ -315,7 +315,7 @@ td {
   border: 0;
 }
 .search-results {
-  height: 668px !important;
+  height: 200px !important;
   overflow-y: scroll;
 }
 /* .iq-top-navbar.p-0 {

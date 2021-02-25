@@ -209,7 +209,7 @@
           </option>
         </select>
       </div>
-     
+
       <div class="form-group col-sm-3 pb-1 m-0">
         <label for="GroupId">Group:</label>
         <select
@@ -423,100 +423,108 @@
         </select>
       </div>
 
+      <!-- total shots -->
       <div
+        class="form-group col-sm-3 pb-1 m-0"
         *ngIf="
           f.chkMediaType.value == 'Signage' && f.DeviceType.value == 'Sanitizer'
         "
-        class="form-group col-sm-3 pb-0 m-0"
       >
-        <div class="col-sm-6 float-left pl-0">
-          <label for="TotalShot">Total Shots: </label>
-          <input
-            type="text"
-            formControlName="TotalShot"
-            min="0"
-            max="60000"
-            autocomplete="false"
-            class="form-control mb-2 mr-sm-2"
-            id="TotalShot"
-          />
-        </div>
-
-        <div class="col-sm-6 float-left p-0">
-          <label for="Dispenser">Dispenser Alert:</label>
-          <ng-multiselect-dropdown
-            id="Dispenser"
-            [placeholder]="' '"
-            [settings]="dropdownSettings"
-            [data]="dropdownList"
-            formControlName="DispenserAlert"
-          >
-          </ng-multiselect-dropdown>
-        </div>
+        <label for="location">Total Shots:</label
+        ><input
+          type="text"
+          formControlName="TotalShot"
+          min="0"
+          max="60000"
+          autocomplete="false"
+          class="form-control mb-2 mr-sm-2"
+          id="TotalShot"
+        />
       </div>
 
-      <div class="form-group col-sm-3 pb-1 m-0">
-        <div
-          *ngIf="
-            f.chkMediaType.value == 'Signage' &&
-            f.DeviceType.value == 'Sanitizer'
-          "
-          class="col-sm-6 float-left pl-0"
+      <!-- total shots end -->
+      <!-- dispenser alert -->
+      <div
+        class="form-group col-sm-3 pb-1 m-0"
+        *ngIf="
+          f.chkMediaType.value == 'Signage' && f.DeviceType.value == 'Sanitizer'
+        "
+      >
+        <label for="location">Dispenser Alert:</label>
+        <ng-multiselect-dropdown
+          id="Dispenser"
+          [placeholder]="' '"
+          [settings]="dropdownSettings"
+          [data]="dropdownList"
+          formControlName="DispenserAlert"
         >
-          <label for="AlertMail">Dispenser Alert Email:</label>
-          <input
-            type="text"
-            formControlName="AlertMail"
-            autocomplete="false"
-            class="form-control mb-2 mr-sm-2"
-            id="AlertMail"
-          />
-        </div>
-
-        <div class="col float-left m-0 p-0">
-          <label for="uRights1">&nbsp;</label>
-          <div
-            *ngIf="
-              f.chkMediaType.value != 'Signage' ||
-              f.DeviceType.value != 'Sanitizer'
-            "
-            id="uRights1"
-            class="custom-control custom-checkbox mb-2 mr-sm-0"
-          >
-            <input
-              type="checkbox"
-              class="custom-control-input"
-              id="chkIndicatorID"
-              formControlName="chkIndicator"
-              [checked]="chkIndicatorBox"
-              name="chkToken"
-            />
-            <label class="custom-control-label" for="chkIndicatorID"
-              >Show Online Indicator</label
-            >
-          </div>
-          <div
-            *ngIf="
-              f.chkMediaType.value == 'Signage' &&
-              f.DeviceType.value == 'Sanitizer'
-            "
-            id="uRights1"
-            class="custom-control custom-checkbox mb-2 mr-sm-0"
-          >
-            <input
-              type="checkbox"
-              class="custom-control-input"
-              id="chkToastMsg"
-              formControlName="IsShowShotToast"
-              [checked]="chkShotMsg"
-              name="chkToast"
-            />
-            <label class="custom-control-label" for="chkToastMsg"
-              >Show Shots Message</label
-            >
-          </div>
-        </div>
+        </ng-multiselect-dropdown>
       </div>
+
+      <!-- dispenser alert end -->
+
+      <!-- dispensery alert email -->
+      <div
+        class="form-group col-sm-3 pb-1 m-0"
+        *ngIf="
+          f.chkMediaType.value == 'Signage' && f.DeviceType.value == 'Sanitizer'
+        "
+      >
+        <label for="location">Dispenser Alert Email:</label>
+        <input
+          type="text"
+          formControlName="AlertMail"
+          autocomplete="false"
+          class="form-control mb-2 mr-sm-2"
+          id="AlertMail"
+        />
+      </div>
+
+      <!-- dispensery alert email end -->
+      <!-- radio buttons show indicator -->
+      <!-- show online indicator -->
+      <div
+        class="form-group col-sm-3 pb-1 m-0"
+        *ngIf="
+          f.chkMediaType.value != 'Signage' || f.DeviceType.value != 'Sanitizer'
+        "
+      >
+        <input
+          type="checkbox"
+          class="custom-control-input"
+          id="chkIndicatorID"
+          formControlName="chkIndicator"
+          [checked]="chkIndicatorBox"
+          name="chkToken"
+        />
+        <label class="custom-control-label ml-4" for="chkIndicatorID"
+          >Show Online Indicator</label
+        >
+      </div>
+
+      <!-- show online indicator end -->
+      <!-- Show Shots Message -->
+      <div
+        class="form-group col-sm-3 pb-1 m-0"
+        *ngIf="
+          f.chkMediaType.value == 'Signage' && f.DeviceType.value == 'Sanitizer'
+        "
+      >
+        <input
+          type="checkbox"
+          class="custom-control-input"
+          id="chkToastMsg"
+          formControlName="IsShowShotToast"
+          [checked]="chkShotMsg"
+          name="chkToast"
+        />
+        <label class="custom-control-label ml-4" for="chkToastMsg"
+          >Show Shots Message</label
+        >
+      </div>
+
+      <!-- Show Shots Message end -->
+      <!-- radio buttons end -->
 
       <div class="form-group col-sm-3 pb-1 m-0">
         <div
@@ -535,30 +543,32 @@
             [checked]="chkIndicatorBox"
             name="chkToken2"
           />
-          <label class="custom-control-label" for="chkIndicatorID1"
+          <label class="custom-control-label ml-4" for="chkIndicatorID1"
             >Show Online Indicator</label
           >
         </div>
-        <div class="col float-right p-0 mt-3">
-          <div id="btns">
-            <button
-              type="button"
-              type="button"
-              (click)="openResetModal(ResetModal)"
-              class="btn btn-danger pull-right"
-            >
-              Reset token
-            </button>
-          </div>
+      </div>
+      <!-- button start -->
+      <div class="col-12 float-right p-0 mt-3 pr-1">
+        <div id="btns">
           <button
-            class="btn btn-success mr-2 pull-right"
             type="button"
-            (click)="onSubmitTokenInfo()"
+            type="button"
+            (click)="openResetModal(ResetModal)"
+            class="btn btn-danger pull-right"
           >
-            Save
+            Reset token
           </button>
         </div>
+        <button
+          class="btn btn-success mr-2 pull-right"
+          type="button"
+          (click)="onSubmitTokenInfo()"
+        >
+          Save
+        </button>
       </div>
+      <!-- buttons end -->
     </div>
   </form>
   <div class="mt-2 col-md-12 p-0 mt-4" style="background: #fff; color: #000">

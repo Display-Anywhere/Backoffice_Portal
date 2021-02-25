@@ -6,27 +6,27 @@
 
   <div class="col-lg-3  pull-left p-0">
     <div class="col-lg-12 ml-0 pl-0">
-      
+
         <label for="cName" class="mb-2 mr-sm-2">Customer Name:</label>
         <select name="cName" class="custom-select form-control mb-2 mr-sm-2"
           (change)="onChangeCustomer($event.target.value)" id="cName"  [(ngModel)]="cmbCustomer">
           <option selected value="0"></option>
           <option *ngFor="let fLst of CustomerList" [value]="fLst.Id">{{fLst.DisplayName}}</option>
         </select>
-       
+
     </div>
     <div class="col-lg-12 ml-0 pl-0">
-      
+
       <label for="cName" class="mb-2 mr-sm-2">Media Type:</label>
       <select name="cName" class="custom-select form-control mb-2 mr-sm-2"
       (change)="onChangeCustomerMediaType($event.target.value)"  id="mtName"  [(ngModel)]="cmbCustomerMediaType">
         <option selected value=""></option>
         <option *ngFor="let mLst of CustomerMediaTypeList" [value]="mLst.Id">{{mLst.DisplayName}}</option>
       </select>
-     
+
   </div>
     <div class="col-lg-12 p-0 m-0">
-     
+
       <div class="col-lg-9 p-0 m-0 pull-left">
         <label for="FormatName" class="mb-2 mr-sm-2">Format Name:</label>
         <select name="FormatName" class="custom-select form-control mb-2 mr-sm-2"
@@ -75,7 +75,7 @@
                 <input type="text" class="input-field" formControlName="plName"
                  autocomplete="off"
                 placeholder="Playlist Name" />
-              
+
               <i class="fa fa-ban icon" (click)="CancleManual()"></i>
               </div>
             </div>
@@ -186,7 +186,7 @@
         </div>
       </div>
     </div>
-    <!-- 
+    <!--
 
 -->
 
@@ -207,8 +207,8 @@
       <button type="button" (click)="UpdateSRNo(ForceUpdate)" class="btn btn-primary m-1">
         <i class="fa fa-floppy-o" aria-hidden="true"></i>
       </button>
-      
-      
+
+
       <button type="button" (click)="openTitleDeleteModal(TitleDeleteModal,0)" class="btn btn-danger m-1">
         <i class="fa fa-trash" aria-hidden="true"></i>
       </button>
@@ -228,8 +228,8 @@
         </thead>
         <tbody>
           <tr class="cursor-pointer" *ngFor="let plSongLst of PlaylistSongsList; let i=index"
-            
-            [ngClass]="{'selected':isRowSelectedPL(i)}" 
+
+            [ngClass]="{'selected':isRowSelectedPL(i)}"
             (click)="setMultipleClickedRowPL($event,i,plSongLst,false)"
             >
             <td class="WidthTitlePL" (click)="plChange()">
@@ -277,7 +277,7 @@
           <input type="radio" class="custom-control-input cursor-pointer" id="Image" (change)="MediaRadioClick('Image')"
             name="chkMediaType" [checked]="chkImage">
           <label class="custom-control-label cursor-pointer" for="Image">Image</label>
-          
+
         </div>
 
 
@@ -286,11 +286,11 @@
             <input type="radio" class="custom-control-input cursor-pointer" id="CL" (change)="MediaRadioClick('CL')"
               name="chkMediaFilter" [checked]=IsCL>
             <label class="custom-control-label cursor-pointer" for="CL">Copyright</label>
-          </div> 
+          </div>
 
           <div *ngIf="(chkMediaRadio=='Audio')" class="custom-control custom-radio custom-control-inline  mb-2 mr-2">
-            <input type="radio" class="custom-control-input cursor-pointer" id="DL" 
-            (change)="MediaRadioClick('RF')" 
+            <input type="radio" class="custom-control-input cursor-pointer" id="DL"
+            (change)="MediaRadioClick('RF')"
               name="chkMediaFilter" [checked]=IsRF>
             <label class="custom-control-label cursor-pointer" for="DL">Direct Licence</label>
           </div>
@@ -306,7 +306,7 @@
             (change)="onChangeAlbum($event.target.value,CustomSearchModal)" id="cmbAlbum">
             <option selected value="0"></option>
             <option *ngFor="let aLst of AlbumList" [value]="aLst.Id" [selected]="aLst.check">{{aLst.DisplayName}}</option>
-            
+
           </select>
           <label *ngIf="((!Search) && (chkSearchRadio =='album'))" (click)="SearchRadioClick('album')"
           class="pull-right p-0 m-0">Clear Search</label>
@@ -333,7 +333,7 @@
             <input type="radio" class="custom-control-input cursor-pointer" id="Album"
               (change)="SearchRadioClick('album')" name="chkSearch" >
             <label class="custom-control-label cursor-pointer mr-1" for="Album">Album</label>
-          </div> 
+          </div>
 
           <div class="custom-control custom-radio custom-control-inline  mb-2 mr-1">
             <input type="radio" class="custom-control-input cursor-pointer" id="Genre"
@@ -412,7 +412,7 @@
 
 
     <div id="dis" class="table-responsive search-results"
-    
+
     infinite-scroll [infiniteScrollDistance]="2" [infiniteScrollUpDistance]="2"
      [infiniteScrollThrottle]="50"
       (scrolled)="onScrollDown()" [scrollWindow]="false">
@@ -438,7 +438,7 @@
         </thead>
         <tbody>
           <tr class="cursor-pointer" *ngFor="let songLst of SongsList; let i=index"
-            [ngClass]="{'selected':isRowSelected(i)}" 
+            [ngClass]="{'selected':isRowSelected(i)}"
             (click)="setMultipleClickedRow($event,i,songLst,false)" >
             <!-- <td class="cursor-pointer">
               style="
@@ -451,7 +451,7 @@
               </div>
             </td>-->
             <td class="WidthTitlePL">
-              
+
               <div *ngIf="(songLst.MediaType=='Image')" class="row m-0 p-0">
 <div *ngIf="!enableEdit" class="col-lg-11 m-0 p-0" style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">
   <a  href="{{songLst.TitleIdLink}}" target="_blank">
@@ -459,7 +459,7 @@
   </a>
 </div>
 <div *ngIf="((!enableEdit) && (LoginDfClientId==songLst.dfClientId))"  class="col-lg-1 p-0 mt-1">
-  <i class="fa fa-pencil-square fa-2x text-primary " aria-hidden="true" 
+  <i class="fa fa-pencil-square fa-2x text-primary " aria-hidden="true"
     (click)="EditImage($event, i,songLst.title)"></i>
 </div>
 
@@ -474,16 +474,16 @@
   <a *ngIf="!enableEdit" href="{{songLst.TitleIdLink}}" target="_blank">
     {{songLst.title}}
   </a>
-  <input  class="form-control" 
+  <input  class="form-control"
   [(ngModel)]="txtTitle" type="text" value="{{songLst.title}}" />
 </div>
 <div  class="col-lg-2 p-0 mt-1" *ngIf="enableEdit && enableEditIndex == i">
-  
-    <i aria-hidden="true" class="fa fa-check-square fa-2x text-primary" 
+
+    <i aria-hidden="true" class="fa fa-check-square fa-2x text-primary"
      (click)="UpdateTitleName(songLst.id)"></i>
-    <i aria-hidden="true" class="fa fa-window-close fa-2x text-danger" 
+    <i aria-hidden="true" class="fa fa-window-close fa-2x text-danger"
      (click)="UpdateCancleTitleName()"></i>
- 
+
 </div>
 
 </div>
@@ -519,9 +519,9 @@
 
 
 <ng-template #PlaylistSettingModal let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <h5>Settings</h5>
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Settings</h5>
+    <button type="button" class="close text-white" aria-label="Close" (click)="d('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -569,7 +569,7 @@
         </div>
       </div>
       <div class="row mt-4">
-        
+
         <div class="col-sm-6 p-0 m-0 mb-2">
           <label class="cursor-pointer mr-2" style="vertical-align: sub;">
             Delete songs with percentage</label>
@@ -593,7 +593,7 @@
             <input type="text"  class="form-control"/>
         </div>
       </div>
-       
+
 
 
     </div>
@@ -603,9 +603,9 @@
 
 
 <ng-template #PlaylistDeleteModal let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <h5>Delete Playlist</h5>
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Delete Playlist</h5>
+    <button type="button" class="close text-white" aria-label="Close" (click)="d('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -641,9 +641,9 @@
 </ng-template>
 
 <ng-template #TitleDeleteModal let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <h5>Delete Title</h5>
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Delete Title</h5>
+    <button type="button" class="close text-white" aria-label="Close" (click)="d('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -674,9 +674,9 @@
 
 
 <ng-template #modalFormat let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <h5>New Format</h5>
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">New Format</h5>
+    <button type="button" class="close text-white" aria-label="Close" (click)="d('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -706,9 +706,9 @@
 
 
 <ng-template #NewPlaylistModel let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <h5>New Playlist</h5>
-    <button type="button" class="close" aria-label="Close" (click)="ModelClose()">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">New Playlist</h5>
+    <button type="button" class="close text-white" aria-label="Close" (click)="ModelClose()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -720,9 +720,9 @@
 
 
 <ng-template #modalDeleteFormat let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <h5>Delete Format</h5>
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Delete Format</h5>
+    <button type="button" class="close text-white" aria-label="Close" (click)="d('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -763,8 +763,8 @@
 
 
 <ng-template #modalTokenInfo let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+  <div class="modal-header bg-primary">
+    <button type="button" class="close text-white" aria-label="Close" (click)="d('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -816,9 +816,9 @@
 </ng-template>
 
 <ng-template #DeletePercentageModal let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <h5>Delete</h5>
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Delete</h5>
+    <button type="button" class="close text-white" aria-label="Close" (click)="d('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -849,9 +849,9 @@
 
 
 <ng-template #CustomSearchModal let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <h5>Custom Search</h5>
-    <button type="button" class="close" aria-label="Close"  (click)="CloseCommonSearch()" (click)="d('Cross click')"> 
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Custom Search</h5>
+    <button type="button" class="close text-white" aria-label="Close"  (click)="CloseCommonSearch()" (click)="d('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -870,7 +870,7 @@
           </button>
          </div>
       </div>
-       
+
 
     </div>
   </div>
@@ -880,16 +880,16 @@
 
 
 <ng-template #ForceUpdate let-c="close" let-d="dismiss">
-  <div class="modal-header">
-      <h5>Publish</h5>
-      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+  <div class="modal-header bg-primary">
+      <h5 class="text-white">Publish</h5>
+      <button type="button" class="close text-white" aria-label="Close" (click)="d('Cross click')">
           <span aria-hidden="true">&times;</span>
       </button>
   </div>
   <div class="modal-body">
       <div class="container-fluid">
           <div class="row">
-              <div class="col-sm-12 m-0 p-0"> 
+              <div class="col-sm-12 m-0 p-0">
                   <p style="margin: 0 !important;">You want to update locations now?</p>
               </div>
               <div class="col-sm-12 m-0 p-0 mt-1">
@@ -906,9 +906,9 @@
                       <i class="fa fa-check fa-lg" aria-hidden="true"></i>
                   </button>
 
-                  
+
               </div>
-              
+
           </div>
 
       </div>
