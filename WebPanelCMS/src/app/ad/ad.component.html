@@ -51,7 +51,7 @@
         </div>
         <!-- card header end -->
         <!-- card-body start -->
-        <div class="card-body">
+        <div class="card-body pt-0">
           <div class="tab-content">
             <div
               id="NormalAds"
@@ -405,11 +405,11 @@
                                     accept="{{ this.InputAccept }}"
                                   />
                                   <!--
-                                                <input #myInput type="file" formControlName="FilePath" name="chooseFile2"
-                                                    id="chooseFile1" ngFileSelect [options]="options"
-                                                    (uploadOutput)="onUploadOutput($event)" [uploadInput]="uploadInput"
-                                                    (change)="onChange($event.target.value)" accept="{{ this.InputAccept }}">
-                                                 -->
+                                      <input #myInput type="file" formControlName="FilePath" name="chooseFile2"
+                                          id="chooseFile1" ngFileSelect [options]="options"
+                                          (uploadOutput)="onUploadOutput($event)" [uploadInput]="uploadInput"
+                                          (change)="onChange($event.target.value)" accept="{{ this.InputAccept }}">
+                                       -->
                                 </div>
                                 <input
                                   *ngIf="IsEditClick == 'Yes'"
@@ -480,10 +480,7 @@
 
                           <div class="row mt-0">
                             <div class="col-sm-2 col-sm-2-spl p-1">
-                              <div
-                                class="table-responsive"
-                                style="height: 340px"
-                              >
+                              <div class="table-responsive custom_table">
                                 <table
                                   class="table data-table table-striped table-bordered mydatatable"
                                 >
@@ -529,10 +526,7 @@
                               </div>
                             </div>
                             <div class="col-sm-2 col-sm-2-spl p-1">
-                              <div
-                                class="table-responsive"
-                                style="height: 340px"
-                              >
+                              <div class="table-responsive custom_table">
                                 <table
                                   class="table data-table table-striped table-bordered mydatatable"
                                 >
@@ -582,10 +576,7 @@
                             </div>
 
                             <div class="col-sm-2 col-sm-2-spl p-1">
-                              <div
-                                class="table-responsive"
-                                style="height: 340px"
-                              >
+                              <div class="table-responsive custom_table">
                                 <table
                                   class="table data-table table-striped table-bordered mydatatable"
                                 >
@@ -627,10 +618,7 @@
                             </div>
 
                             <div class="col-sm-2 col-sm-2-spl p-1">
-                              <div
-                                class="table-responsive"
-                                style="height: 340px"
-                              >
+                              <div class="table-responsive custom_table">
                                 <table
                                   class="table data-table table-striped table-bordered mydatatable"
                                 >
@@ -671,10 +659,7 @@
                               </div>
                             </div>
                             <div class="col-sm-2 col-sm-2-spl p-1">
-                              <div
-                                class="table-responsive"
-                                style="height: 340px"
-                              >
+                              <div class="table-responsive custom_table">
                                 <table
                                   class="table data-table table-striped table-bordered mydatatable"
                                 >
@@ -716,16 +701,17 @@
                             </div>
 
                             <div class="col-sm-2 p-1">
-                              <div
-                                class="table-responsive"
-                                style="height: 340px"
-                              >
+                              <div class="table-responsive custom_table">
                                 <table
                                   class="table data-table table-striped table-bordered mydatatable"
                                 >
                                   <thead class="bg-primary">
                                     <tr>
-                                      <th scope="col" style="width: 60px">
+                                      <th
+                                        class="pb-2"
+                                        scope="col"
+                                        style="width: 60px"
+                                      >
                                         <div
                                           class="custom-control custom-checkbox"
                                         >

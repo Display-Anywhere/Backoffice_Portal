@@ -9,19 +9,17 @@
   <div class="col-sm-12">
     <div class="card">
       <!-- card-header start -->
-      <div class="card-header d-flex justify-content-between mb-0 pb-0">
+      <div class="card-header d-flex justify-content-between mb-2 pb-2">
         <div class="col-12 p-0">
           <form
             [formGroup]="Regform"
             (ngSubmit)="onSubmitReg(CustomerTokenDeleteModal, 'First')"
           >
             <!-- for-row start -->
-            <div class="form-row">
-              <div class="form-group col-sm-2 m-0">
+            <div class="row">
+              <div class="col-sm-3 col-lg-2 m-0">
                 <div class="col-2 pull-left" style="padding: 0 0 0 0px">
-                  <label for="customerNameCode" class="mb-2 mr-sm-2"
-                    >&nbsp;</label
-                  >
+                  <label for="customerNameCode" class="mr-sm-2">&nbsp;</label>
                   <input
                     type="text"
                     id="customerNameCode"
@@ -39,7 +37,7 @@
                   />
                 </div>
                 <div class="col-10 pull-left" style="padding: 0 0 0 0px">
-                  <label for="customerName" class="mb-2 custom-label"
+                  <label for="customerName" class="custom-label"
                     >Customer Name:</label
                   >
                   <input
@@ -50,7 +48,7 @@
                       'is-invalid': submitted && f.customerName.errors
                     }"
                     autocomplete="off"
-                    class="form-control mb-2 mr-sm-2 p-0"
+                    class="form-control mr-sm-2 p-0 ipad-class"
                     [(ngModel)]="cName"
                     style="
                       border-top-left-radius: 0rem !important;
@@ -64,10 +62,8 @@
                   ></div>
                 </div>
               </div>
-              <div class="form-group col-sm-2 m-0">
-                <label for="cmbCustomer" class="mb-2 mr-sm-2"
-                  >Country Name:</label
-                >
+              <div class="col-sm-3 col-lg-2 m-0">
+                <label for="cmbCustomer" class="mr-sm-2">Country Name:</label>
                 <select
                   class="custom-select"
                   name="countryName"
@@ -88,8 +84,8 @@
                   class="invalid-feedback"
                 ></div>
               </div>
-              <div class="form-group col-sm-2 m-0">
-                <label for="stateName1" class="mb-2 mr-sm-2">State Name:</label>
+              <div class="col-sm-3 col-lg-2 m-0">
+                <label for="stateName1" class="mr-sm-2">State Name:</label>
                 <div class="col-12">
                   <div class="row">
                     <div class="col-11 col-md-9 p-0">
@@ -119,7 +115,7 @@
                     <div class="col-1 col-md-3 p-0">
                       <button
                         id="btnstateName"
-                        class="btn btn-primary mb-2 btn-sm ml-1 mt-1"
+                        class="btn btn-primary btn-sm ml-1 mt-1"
                         (click)="openCommonModal(modalCommon, 'State')"
                       >
                         <i class="fa fa-bars" aria-hidden="true"></i>
@@ -128,8 +124,8 @@
                   </div>
                 </div>
               </div>
-              <div class="form-group col-sm-2 m-0">
-                <label for="cmbCustomer" class="mb-2 mr-sm-2">City Name:</label>
+              <div class="col-sm-3 col-lg-2 m-0">
+                <label for="cmbCustomer" class="mr-sm-2">City Name:</label>
                 <div class="col-12">
                   <div class="row">
                     <div class="col-11 col-md-9 p-0">
@@ -159,7 +155,7 @@
                     <div class="col-1 col-md-3 p-0">
                       <button
                         id="btnstateName"
-                        class="btn btn-primary mb-2 btn-sm ml-1 mt-1"
+                        class="btn btn-primary btn-sm ml-1 mt-1"
                         (click)="openCommonModal(modalCommon, 'City')"
                       >
                         <i class="fa fa-bars" aria-hidden="true"></i>
@@ -168,10 +164,8 @@
                   </div>
                 </div>
               </div>
-              <div class="form-group col-sm-2 m-0">
-                <label for="cmbCustomer" class="mb-2 mr-sm-2"
-                  >Customer Code:</label
-                >
+              <div class="col-sm-3 col-lg-2 m-0">
+                <label for="cmbCustomer" class="mr-sm-2">Customer Code:</label>
                 <input
                   type="text"
                   id="cCode"
@@ -179,14 +173,12 @@
                   formControlName="cCode"
                   autocomplete="false"
                   [(ngModel)]="Code"
-                  class="form-control mb-2 mr-sm-2"
+                  class="form-control mr-sm-2"
                   readonly
                 />
               </div>
-              <div class="form-group col-sm-2 m-0">
-                <label for="cmbCustomer" class="mb-2 mr-sm-2"
-                  >Customer Email:</label
-                >
+              <div class="col-sm-3 col-lg-2 m-0">
+                <label for="cmbCustomer" class="mr-sm-2">Customer Email:</label>
                 <input
                   type="text"
                   formControlName="customerEmail"
@@ -195,7 +187,7 @@
                     'is-invalid': submitted && f.customerEmail.errors
                   }"
                   autocomplete="false"
-                  class="form-control mb-2 mr-sm-2"
+                  class="form-control mr-sm-2"
                 />
                 <div
                   *ngIf="submitted && f.customerEmail.errors"
@@ -205,14 +197,8 @@
                   <div *ngIf="f.customerEmail.errors.email"></div>
                 </div>
               </div>
-            </div>
-            <!-- for-row end -->
-            <!-- for-row start -->
-            <div class="form-row">
-              <div class="form-group col-sm-2 m-0">
-                <label for="cmbCustomer" class="mb-2 mr-sm-2"
-                  >Total Token's:</label
-                >
+              <div class="col-sm-3 col-lg-2 m-0">
+                <label for="cmbCustomer" class="mr-sm-2">Total Token's:</label>
                 <input
                   type="number"
                   formControlName="totalToken"
@@ -223,22 +209,20 @@
                   [ngClass]="{ 'is-invalid': submitted && f.totalToken.errors }"
                   autocomplete="false"
                   (change)="onChangeToken()"
-                  class="form-control mb-2 mr-sm-2"
+                  class="form-control mr-sm-2"
                 />
                 <div
                   *ngIf="submitted && f.totalToken.errors"
                   class="invalid-feedback"
                 ></div>
               </div>
-              <div class="form-group col-sm-2 m-0">
-                <label for="cmbCustomer" class="mb-2 mr-sm-2"
-                  >Expiry Date:</label
-                >
+              <div class="col-sm-3 col-lg-2 m-0">
+                <label for="cmbCustomer" class="mr-sm-2">Expiry Date:</label>
                 <input
                   id="dt1"
                   formControlName="expiryDate"
                   [ngClass]="{ 'is-invalid': submitted && f.expiryDate.errors }"
-                  class="form-control mb-2 mr-sm-2"
+                  class="form-control mr-sm-2"
                   [owlDateTimeTrigger]="dt1"
                   [owlDateTime]="dt1"
                   readonly
@@ -249,70 +233,58 @@
                   class="invalid-feedback"
                 ></div>
               </div>
-              <div class="form-group col-sm-2 m-0">
-                <label for="cmbCustomer" class="mb-2 mr-sm-2"
-                  >Support Email:</label
-                >
+              <div class="col-sm-3 col-lg-2 m-0">
+                <label for="cmbCustomer" class="mr-sm-2">Support Email:</label>
                 <input
                   type="text"
                   id="supportEmail"
                   formControlName="supportEmail"
                   autocomplete="false"
-                  class="form-control mb-2 mr-sm-2"
+                  class="form-control mr-sm-2"
                 />
               </div>
-              <div class="form-group col-sm-2 m-0">
-                <label for="cmbCustomer" class="mb-2 mr-sm-2"
-                  >Support Ph. No:</label
-                >
+              <div class="col-sm-3 col-lg-2 m-0">
+                <label for="cmbCustomer" class="mr-sm-2">Support Ph. No:</label>
                 <input
                   type="text"
                   id="supportPhNo"
                   formControlName="supportPhNo"
                   autocomplete="false"
-                  class="form-control mb-2 mr-sm-2"
+                  class="form-control mr-sm-2"
                 />
               </div>
-              <div class="form-group col-sm-2 m-0">
-                <label for="cmbCustomer" class="mb-2 mr-sm-2">Street:</label>
+              <div class="col-sm-3 col-lg-2 m-0">
+                <label for="cmbCustomer" class="mr-sm-2">Street:</label>
                 <input
                   type="text"
                   id="Street"
                   formControlName="Street"
                   autocomplete="false"
-                  class="form-control mb-2 mr-sm-2"
+                  class="form-control mr-sm-2"
                 />
               </div>
-              <div class="form-group col-sm-2 m-0">
-                <label for="cmbCustomer" class="mb-2 mr-sm-2"
-                  >Person Name:</label
-                >
+              <div class="col-sm-3 col-lg-2 m-0">
+                <label for="cmbCustomer" class="mr-sm-2">Person Name:</label>
                 <input
                   type="text"
                   id="pName"
                   formControlName="personName"
                   autocomplete="false"
-                  class="form-control mb-2 mr-sm-2"
+                  class="form-control mr-sm-2"
                 />
               </div>
-            </div>
-            <!-- for-row end -->
-            <!-- for-row start -->
-            <div class="form-row">
-              <div class="form-group col-sm-2 m-0">
-                <label for="cmbCustomer" class="mb-2 mr-sm-2">Api Key:</label>
+              <div class="col-sm-3 col-lg-2 m-0">
+                <label for="cmbCustomer" class="mr-sm-2">Api Key:</label>
                 <input
                   type="text"
                   id="aKey"
                   formControlName="ApiKey"
                   autocomplete="false"
-                  class="form-control mb-2 mr-sm-2"
+                  class="form-control mr-sm-2"
                 />
               </div>
-              <div class="form-group col-sm-2 m-0">
-                <label for="cmbCustomer" class="mb-2 mr-sm-2"
-                  >Content Type:</label
-                >
+              <div class="col-sm-3 col-lg-2 m-0">
+                <label for="cmbCustomer" class="mr-sm-2">Content Type:</label>
                 <select
                   name="ContentType"
                   formControlName="ContentType"
@@ -324,10 +296,8 @@
                   <option value="Both">Both</option>
                 </select>
               </div>
-              <div class="form-group col-sm-2 m-0">
-                <label for="cmbCustomer" class="mb-2 mr-sm-2"
-                  >Customer Type:</label
-                >
+              <div class="col-sm-3 col-lg-2 m-0">
+                <label for="cmbCustomer" class="mr-sm-2">Customer Type:</label>
                 <select
                   name="MainCustomer"
                   class="custom-select"
@@ -338,10 +308,8 @@
                   <option value="SubCustomer">Sub Customer</option>
                 </select>
               </div>
-              <div class="form-group col-sm-2 m-0">
-                <label for="cmbCustomer" class="mb-2 mr-sm-2"
-                  >Main Customer:</label
-                >
+              <div class="col-sm-3 col-lg-2 m-0">
+                <label for="cmbCustomer" class="mr-sm-2">Main Customer:</label>
                 <select
                   name="MainCustomer"
                   formControlName="MainCustomer"
@@ -357,7 +325,7 @@
                   </option>
                 </select>
               </div>
-              <div class="form-group col-sm-4 mt-4 text-right">
+              <div class="col pull-right mt-4 text-right">
                 <button type="submit" class="btn btn-primary mr-3">
                   Save <i class="fa fa-floppy-o" aria-hidden="true"></i>
                 </button>
@@ -579,11 +547,11 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-sm-12">
-          <label for="State" class="mb-2 mr-sm-2">Name:</label>
+          <label for="State" class="mr-sm-2">Name:</label>
           <input
             type="text"
             [(ngModel)]="NewName"
-            class="form-control mb-2 mr-sm-2"
+            class="form-control mr-sm-2"
             id="fName"
           />
         </div>

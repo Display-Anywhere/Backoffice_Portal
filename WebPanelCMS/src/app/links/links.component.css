@@ -9,3 +9,12 @@ label.mb-1.mr-sm-2.text-white {
   padding: 0 !important;
   padding-right: 6px !important;
 }
+.custom_style {
+  font-size: 1em;
+  border-bottom: 1px solid;
+  padding-bottom: 0.3em;
+  margin-bottom: 0.3em;
+}
+.h-30p {
+  height: 30px;
+}

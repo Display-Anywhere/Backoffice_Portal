@@ -59,7 +59,7 @@
                       >
                       <select
                         name="CustomerName"
-                        class="custom-select col-sm-2"
+                        class="custom-select col-sm-3"
                         [(ngModel)]="CustomerId"
                         (change)="onChangeCustomer($event.target.value)"
                         id="cmbCustomer"
@@ -73,14 +73,12 @@
                         </option>
                       </select>
 
-                      <label
-                        for="cmbGenre"
-                        class="mt-1 mb-2 ml-sm-2 pr-1 pl-sm-5"
+                      <label for="cmbGenre" class="mt-1 mb-2 ml-sm-2 pr-1"
                         >Orientation:</label
                       >
                       <select
                         name="cmbGenre"
-                        class="custom-select col-sm-2"
+                        class="custom-select col-sm-3"
                         [(ngModel)]="cmbGenre"
                         (change)="onChangeGenre($event.target.value)"
                         id="cmbGenre"
@@ -106,7 +104,7 @@
                         [placeholder]="' '"
                         [settings]="dropdownSettings"
                         [data]="SearchTokenList"
-                        class="mt-2 mb-2 mr-sm-2 col-sm-2"
+                        class="mt-2 mb-2 mr-sm-2 col-sm-3"
                         [(ngModel)]="cmbSearchToken"
                       >
                       </ng-multiselect-dropdown>
@@ -318,7 +316,7 @@
                         <div class="col-lg-12">
                           <button
                             type="button"
-                            class="btn btn-success btn-s mr-2 mb-2"
+                            class="btn btn-primary btn-s mr-2 mb-2"
                             (click)="Upload()"
                             [disabled]="!uploader.getNotUploadedItems().length"
                           >
@@ -334,7 +332,7 @@
                           </button>
                           <button
                             type="button"
-                            class="btn btn-danger btn-s"
+                            class="btn btn-danger btn-s mr-2 mb-2"
                             (click)="uploader.clearQueue()"
                             [disabled]="!uploader.queue.length"
                           >

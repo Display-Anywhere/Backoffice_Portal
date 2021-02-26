@@ -69,12 +69,12 @@
                 <div class="col-sm-12">
                   <div class="form-row">
                     <div class="form-group col-sm-3 m-0">
-                      <label for="SearchcName" class="mb-2 mr-sm-2"
+                      <label for="SearchcName" class="mr-sm-2"
                         >Customer Name:</label
                       >
                       <select
                         name="SearchcName"
-                        class="custom-select mb-3"
+                        class="custom-select"
                         [(ngModel)]="cmbSearchCustomer"
                         (change)="onChangeSearchCustomer($event.target.value)"
                         id="SearchcName"
@@ -89,11 +89,9 @@
                       </select>
                     </div>
                     <div class="form-group col-sm-3 m-0">
-                      <label for="SearchTName" class="mb-2 mr-sm-2"
-                        >Token :</label
-                      >
+                      <label for="SearchTName" class="mr-sm-2">Token :</label>
                       <select
-                        class="custom-select mb-3"
+                        class="custom-select"
                         [(ngModel)]="cmbSearchToken"
                         (change)="onChangeToken($event.target.value)"
                         id="SearchTName"
@@ -148,12 +146,10 @@
                 <div class="col-sm-12 mt-2">
                   <div class="form-row">
                     <div class="form-group col-sm-3 m-0">
-                      <label for="cName" class="mb-2 mr-sm-2"
-                        >Customer Name:</label
-                      >
+                      <label for="cName" class="mr-sm-2">Customer Name:</label>
                       <select
                         name="cName"
-                        class="custom-select mb-3"
+                        class="custom-select"
                         [(ngModel)]="cmbCustomer"
                         (change)="onChangeCustomer($event.target.value)"
                         id="cName"
@@ -342,15 +338,13 @@
               style="padding: 0 0 0 0; margin: 0 0 0 0"
             >
               <div class="col-lg-12 p-0">
-                <div class="col-sm-12 mt-2">
+                <div class="col-sm-12">
                   <div class="form-row">
                     <div class="form-group col-sm-5 col-lg-3 m-0">
-                      <label for="cTName" class="mb-2 mr-sm-2"
-                        >Customer Name:</label
-                      >
+                      <label for="cTName" class="mr-sm-2">Customer Name:</label>
                       <select
                         name="cTName"
-                        class="custom-select mb-3"
+                        class="custom-select"
                         [(ngModel)]="cmbFromCustomer"
                         (change)="onChangeFromCustomer($event.target.value)"
                         id="cTName"
@@ -365,12 +359,12 @@
                       </select>
                     </div>
                     <div class="form-group col-sm-5 col-lg-3 m-0">
-                      <label for="cName" class="mb-2 mr-sm-2"
+                      <label for="cName" class="mr-sm-2"
                         >Transfer Customer Name:</label
                       >
                       <select
                         name="cName"
-                        class="custom-select mb-3"
+                        class="custom-select"
                         [(ngModel)]="cmbTransferCustomer"
                         id="cName"
                       >
@@ -396,9 +390,9 @@
                     </div>
                   </div>
                 </div>
-                <!-- <div class="form-row mb-1">
+                <div class="form-row mt-sm-n5">
                   <div class="form-group col-sm-8 m-0 pt-2 pb-2"></div>
-                  <div class="form-group col-lg-4">
+                  <div class="form-group col-lg-4 mb-2">
                     <div class="col-sm-6 m-0 float-right">
                       <div class="iq-search-bar device-search">
                         <div class="searchbox1">
@@ -416,7 +410,7 @@
                       </div>
                     </div>
                   </div>
-                </div> -->
+                </div>
                 <div class="table-responsive">
                   <table
                     class="table data-table table-striped table-bordered mydatatable"

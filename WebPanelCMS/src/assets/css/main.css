@@ -30125,7 +30125,7 @@ table.dataTable th {
 }
 
 /* table */
-@media (max-width: 767px) {
+@media (max-width: 600px) {
   /* thead th:not(:first-child) {
     display: none;
   }

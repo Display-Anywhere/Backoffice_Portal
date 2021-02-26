@@ -23,10 +23,10 @@
             </li>
           </ul>
         </div>
-        <div class="card-body">
+        <div class="card-body pt-0">
           <div class="tab-content">
             <div id="Search" role="tabpanel" class="tab-pane active m-0 p-0">
-              <div class="col-sm-12 p-0 mb-3">
+              <div class="col-sm-12 p-0 mb-0">
                 <div class="form-row">
                   <div class="form-group col-sm-3 m-0">
                     <label for="SearchcName" class="mb-2 mr-sm-2"
@@ -34,7 +34,7 @@
                     >
                     <select
                       name="SearchcName"
-                      class="custom-select mb-3"
+                      class="custom-select mb-0"
                       [(ngModel)]="cmbSearchCustomer"
                       (change)="onChangeSearchCustomer($event.target.value)"
                       id="SearchcName"
@@ -51,7 +51,7 @@
                   <div class="form-group col-sm-3 m-0">
                     <label for="mName" class="mb-2 mr-sm-2">Media Type:</label>
                     <select
-                      class="custom-select mb-3"
+                      class="custom-select mb-0"
                       [(ngModel)]="cmbSearchMediaType"
                       [ngModelOptions]="{ standalone: true }"
                       (change)="onChangeSearchMediaType($event.target.value)"
@@ -71,7 +71,7 @@
                       >Campaign Name:</label
                     >
                     <select
-                      class="custom-select mb-3"
+                      class="custom-select mb-0"
                       [(ngModel)]="cmbSearchFormat"
                       (change)="onChangeFormat($event.target.value, 'Search')"
                       id="SearchfName"
@@ -90,7 +90,7 @@
                       >Playlist Name:</label
                     >
                     <select
-                      class="custom-select mb-3"
+                      class="custom-select mb-0"
                       [(ngModel)]="cmbSearchPlaylist"
                       (change)="onChangeSearchPlaylist()"
                       id="SearchpName"
@@ -200,7 +200,7 @@
               class="col-lg-12 tab-pane fade"
               style="padding: 0 0 0 0; margin: 0 0 0 0"
             >
-              <div class="container-fluid">
+              <div class="container-fluid p-0">
                 <form [formGroup]="SFform">
                   <div class="form-row">
                     <div class="form-group col-sm-4 m-0">
@@ -208,7 +208,7 @@
                         >Customer Name:</label
                       >
                       <select
-                        class="custom-select mb-3"
+                        class="custom-select mb-0"
                         formControlName="CustomerId"
                         (change)="onChangeCustomer($event.target.value)"
                         id="cName"
@@ -248,7 +248,7 @@
                           >Media Type:</label
                         >
                         <select
-                          class="custom-select mb-3"
+                          class="custom-select mb-0"
                           [(ngModel)]="cmbMediaType"
                           [ngModelOptions]="{ standalone: true }"
                           (change)="onChangeMediaType($event.target.value)"
@@ -270,7 +270,7 @@
                         >Campaign Name:</label
                       >
                       <select
-                        class="custom-select mb-3"
+                        class="custom-select mb-0"
                         [ngClass]="{
                           'is-invalid': submitted && f.FormatId.errors
                         }"
@@ -293,13 +293,13 @@
                     </div>
                   </div>
 
-                  <div class="form-row mb-2">
+                  <div class="form-row mb-0">
                     <div class="form-group col-sm-4 m-0">
                       <label for="pName" class="mb-2 mr-sm-2"
                         >Playlist Name:</label
                       >
                       <select
-                        class="custom-select mb-3"
+                        class="custom-select mb-0"
                         [ngClass]="{
                           'is-invalid': submitted && f.PlaylistId.errors
                         }"
@@ -396,7 +396,7 @@
                     </div>
                     <div class="form-group col-sm-1 m-0"></div>
                   </div>
-                  <div class="table-responsive">
+                  <div class="table-responsive custom_scroll">
                     <table
                       class="table data-table table-striped table-bordered mydatatable"
                     >
@@ -479,22 +479,22 @@
                     </table>
                     <button
                       *ngIf="this.CustomSchedulePlaylist.length != 0"
-                      class="btn btn-success pull-right"
+                      class="btn btn-primary pull-right"
                       type="button"
                       (click)="onSubmitSF(ForceUpdate)"
                     >
                       Save
                     </button>
                   </div>
-                  <div class="form-row mb-1">
+                  <!-- <div class="form-row mb-1">
                     <div
                       class="form-group col-sm-12 m-0 pt-2 border border-right-0 border-left-0 border-bottom-0 mt-4"
                     >
                       <h3>Filter Records</h3>
                     </div>
-                  </div>
+                  </div> -->
 
-                  <div class="form-row mb-3 mt-n3">
+                  <div class="form-row mb-0 mt-n3">
                     <div class="form-group col-sm-3 m-0">
                       <div class="iq-search-bar device-search">
                         <div class="searchbox1">
@@ -581,7 +581,7 @@
                     </div>
                   </div>
 
-                  <div class="table-responsive">
+                  <div class="table-responsive1">
                     <table
                       class="table data-table table-striped table-bordered mydatatable"
                     >
@@ -746,7 +746,7 @@
         <div class="row">
           <div class="col-sm-12">
             <button
-              class="btn btn-success col-sm-2 pull-right"
+              class="btn btn-primary col-sm-2 pull-right"
               (click)="onSubmitTokenInfoModifyPlaylist(ForceUpdate)"
               (click)="d('Cross click')"
             >
@@ -835,7 +835,7 @@
           <p style="margin: 0 !important">You want to update locations now?</p>
         </div>
         <div class="col-sm-12 m-0 p-0 mt-1">
-          <p style="font-size: smaller; margin: 0 !important; color: lightblue">
+          <p style="font-size: smaller; margin: 0 !important">
             Note: Have in mind that changes will be implemented immediately with
             restart of the program.
           </p>

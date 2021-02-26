@@ -42,3 +42,10 @@
 table {
   table-layout: fixed;
 }
+
+/* ipad customer input */
+@media (min-width: 766px) and (max-width: 768px) {
+  .ipad-class {
+    margin-top: -1.3em;
+  }
+}

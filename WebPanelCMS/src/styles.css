@@ -322,6 +322,33 @@ td {
   height: 458px !important;
   overflow-y: scroll;
 }
-/* .iq-top-navbar.p-0 {
-  background: #f6f6f6 !important;
-} */
+.custom_scroll {
+  height: 160px !important;
+  overflow-y: scroll;
+}
+/* table mobile view start */
+@media (min-width: 360px) {
+  table.dataTable tbody td {
+    padding: 8px 53px !important;
+  }
+  table tbody td {
+    padding: 8px 58px !important;
+  }
+}
+@media (min-width: 411px) {
+  table.dataTable tbody td {
+    padding: 8px 77px !important;
+  }
+  table tbody td {
+    padding: 8px 77px !important;
+  }
+}
+@media (min-width: 768px) {
+  table.dataTable tbody td {
+    padding: 8px 10px !important;
+  }
+  table tbody td {
+    padding: 8px 10px !important;
+  }
+}
+/* table mobile view end */
