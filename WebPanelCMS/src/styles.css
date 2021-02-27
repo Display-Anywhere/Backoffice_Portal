@@ -329,10 +329,10 @@ td {
 /* table mobile view start */
 @media (min-width: 360px) {
   table.dataTable tbody td {
-    padding: 8px 53px !important;
+    padding: 8px 64px !important;
   }
   table tbody td {
-    padding: 8px 58px !important;
+    padding: 8px 64px !important;
   }
 }
 @media (min-width: 411px) {

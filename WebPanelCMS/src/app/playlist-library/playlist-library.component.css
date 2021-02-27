@@ -192,3 +192,10 @@ table.dataTable thead th {
 .smalltext {
   font-size: 0.8em;
 }
+/* table mobile view start */
+@media (min-width: 360px) {
+  .custum_mobiletable td {
+    padding: 8px 0 !important;
+  }
+}
+/* table mobile view end */

@@ -54,7 +54,7 @@
                 <div class="container-fluid m-0 p-0">
                   <div class="row m-0 p-0">
                     <div class="form-inline col-lg-12 p-0">
-                      <label for="cmbCustomer" class="mt-1 mb-2 ml-sm-2 pr-1"
+                      <label for="cmbCustomer" class="mt-1 mb-2 pr-1"
                         >Customer Name:</label
                       >
                       <select
@@ -73,12 +73,12 @@
                         </option>
                       </select>
 
-                      <label for="cmbGenre" class="mt-1 mb-2 ml-sm-2 pr-1"
+                      <label for="cmbGenre" class="mt-1 mb-2 pr-1"
                         >Orientation:</label
                       >
                       <select
                         name="cmbGenre"
-                        class="custom-select col-sm-3"
+                        class="custom-select col"
                         [(ngModel)]="cmbGenre"
                         (change)="onChangeGenre($event.target.value)"
                         id="cmbGenre"
@@ -95,7 +95,7 @@
                       <label
                         *ngIf="IsAnnouncement === '1'"
                         for="cmbFolder"
-                        class="mt-1 mb-2 ml-sm-2 pr-1"
+                        class="mt-1 mb-2 pr-1"
                         >Token:</label
                       >
                       <ng-multiselect-dropdown
@@ -104,7 +104,7 @@
                         [placeholder]="' '"
                         [settings]="dropdownSettings"
                         [data]="SearchTokenList"
-                        class="mt-2 mb-2 mr-sm-2 col-sm-3"
+                        class="mt-2 mb-2 mr-sm-2 col"
                         [(ngModel)]="cmbSearchToken"
                       >
                       </ng-multiselect-dropdown>
@@ -112,13 +112,13 @@
                       <label
                         *ngIf="IsAnnouncement === '0'"
                         for="cmbFolder"
-                        class="mt-1 mb-2 mr-sm-2 pr-1 pl-sm-5"
+                        class="mt-1 mb-2 mr-sm-2 pr-1"
                         >Folder Name:</label
                       >
                       <select
                         *ngIf="IsAnnouncement === '0'"
                         name="cmbFolder"
-                        class="custom-select mb-3 col-sm-2"
+                        class="custom-select mb-3 col"
                         [(ngModel)]="cmbFolder"
                         (change)="onChangeFolder($event.target.value)"
                         id="cmbFolder"
