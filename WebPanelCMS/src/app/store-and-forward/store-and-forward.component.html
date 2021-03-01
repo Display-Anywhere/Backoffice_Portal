@@ -477,14 +477,7 @@
                         </tr>
                       </thead>
                     </table>
-                    <button
-                      *ngIf="this.CustomSchedulePlaylist.length != 0"
-                      class="btn btn-primary pull-right"
-                      type="button"
-                      (click)="onSubmitSF(ForceUpdate)"
-                    >
-                      Save
-                    </button>
+                    
                   </div>
                   <!-- <div class="form-row mb-1">
                     <div
@@ -493,9 +486,9 @@
                       <h3>Filter Records</h3>
                     </div>
                   </div> -->
-
-                  <div class="form-row mb-0 mt-n3">
-                    <div class="form-group col-sm-3 m-0">
+                  
+                  <div class="form-row mb-0 mt-0">
+                    <div class="form-group col-sm-2 m-0">
                       <div class="iq-search-bar device-search">
                         <div class="searchbox1">
                           <label class="mb-2 mr-sm-2" for="Search"
@@ -579,6 +572,17 @@
                       >
                       </ng-multiselect-dropdown>
                     </div>
+                    <div class="form-group col-sm-1 m-0">
+                   <button  class="btn btn-primary" *ngIf="this.CustomSchedulePlaylist.length != 0"
+                  type="button" style="
+                  margin-top: 1.8rem !important;
+                  float: right;
+              "
+                  (click)="onSubmitSF(ForceUpdate)"
+                >
+                  Save
+                </button>
+</div>
                   </div>
 
                   <div class="table-responsive1">

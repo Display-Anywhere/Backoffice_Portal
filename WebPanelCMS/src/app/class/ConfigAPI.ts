@@ -1,6 +1,6 @@
 export class ConfigAPI {
   private Host = 'http://live.advikon.com/api/';
-     FillQueryCombo: string = this.Host + 'FillQueryCombo';
+   FillQueryCombo: string = this.Host + 'FillQueryCombo';
    FillTokenInfo: string = this.Host + 'FillTokenInfo';
    FillTokenContent: string = this.Host + 'FillTokenContent';
    SaveTokenInformation: string = this.Host + 'SaveTokenInformation';

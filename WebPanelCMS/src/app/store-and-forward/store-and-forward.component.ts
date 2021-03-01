@@ -139,7 +139,7 @@ export class StoreAndForwardComponent implements OnInit {
       textField: 'itemName',
       selectAllText: 'Week',
       unSelectAllText: 'Week',
-      itemsShowLimit: 5,
+      itemsShowLimit: 4,
     };
 
     this.FillClient();
