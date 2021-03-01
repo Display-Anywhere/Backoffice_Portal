@@ -319,7 +319,15 @@ td {
   overflow-y: scroll;
 }
 .search-results2 {
-  height: 458px !important;
+  height: 529px !important;
+  overflow-y: scroll;
+}
+.search-results_Sig {
+  height: 520px !important;
+  overflow-y: scroll;
+}
+.search-results_blank {
+  height: 460px !important;
   overflow-y: scroll;
 }
 .custom_scroll {
