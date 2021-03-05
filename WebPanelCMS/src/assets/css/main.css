@@ -15261,11 +15261,11 @@ body.swal2-toast-column .swal2-toast .swal2-validation-message {
 }
 ::-webkit-scrollbar {
   width: 8px;
-  border-radius: 20px;
+  border-radius: 0px;
 }
 ::-moz-scrollbar {
   width: 8px;
-  border-radius: 20px;
+  border-radius: 0px;
 }
 ::-webkit-scrollbar-track {
   background: #f1f1f1;
@@ -15273,29 +15273,29 @@ body.swal2-toast-column .swal2-toast .swal2-validation-message {
 }
 ::-webkit-scrollbar-thumb {
   background: #6c757d;
-  border-radius: 20px;
+  border-radius: 0px;
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #01041b;
-  border-radius: 20px;
+  border-radius: 0px;
 }
 ::-moz-scrollbar-thumb {
   background: #6c757d;
-  border-radius: 20px;
+  border-radius: 0px;
 }
 ::-moz-scrollbar-thumb:hover {
   background: #01041b;
-  border-radius: 20px;
+  border-radius: 0px;
 }
 ::-webkit-scrollbar {
-  width: 4px;
+  width: 8px;
   height: 8px;
-  border-radius: 5px;
+  border-radius: 0px;
 }
 ::-moz-scrollbar {
-  width: 4px;
+  width: 8px;
   height: 8px;
-  border-radius: 5px;
+  border-radius: 0px;
 }
 .scrollbar-thumb,
 .scrollbar-track-y {

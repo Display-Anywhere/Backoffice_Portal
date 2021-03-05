@@ -12,6 +12,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;600;700;800;900&amp;display=swap");
 @import url("https://maxst.icons8.com/vue-static/landings/line-awesome/font-awesome-line-awesome/css/all.min.css");
 @import url("https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css");
+.custom-control-input{
+  height: 0rem !important;
+}
 .fullscreen_bg {
   position: fixed;
   top: 0;

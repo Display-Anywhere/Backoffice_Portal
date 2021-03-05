@@ -437,23 +437,23 @@
               class="table data-table table-striped table-bordered mydatatable"
               id="eventtable"
             >
-              <thead class="bg-primary">
-                <tr class="">
-                  <th class="WidthTitlePL">Title</th>
+              <thead class="">
+                <tr>
+                  <th class="WidthTitlePL bg-primary sticky-top">Title</th>
 
-                  <th class="WidthArtistPL">Artist</th>
-                  <th class="WidthCategoryPL">Genre</th>
-                  <th class="WidthCategoryPL">Label</th>
-                  <th class="WidthLength">Length</th>
+                  <th class="WidthArtistPL bg-primary sticky-top">Artist</th>
+                  <th class="WidthCategoryPL bg-primary sticky-top">Genre</th>
+                  <th class="WidthCategoryPL bg-primary sticky-top">Label</th>
+                  <th class="WidthLength bg-primary sticky-top">Length</th>
 
                   <th
                     *ngIf="isImgFind === 'Yes'"
-                    class="sticky-top"
+                    class=" bg-primary sticky-top"
                     style="text-align: center; max-width: 12%; width: 12%"
                   >
                     Image Time
                   </th>
-                  <th class="Link-Center_Width"></th>
+                  <th class="Link-Center_Width bg-primary sticky-top"></th>
                 </tr>
               </thead>
               <tbody>
@@ -1014,19 +1014,19 @@
               [dtTrigger]="dtTrigger"
               class="table data-table table-striped table-bordered mydatatable"
             >
-              <thead class="bg-primary">
+              <thead>
                 <tr class="">
                   <th></th>
-                  <th class="WidthTitlePL">Title</th>
-                  <th class="WidthArtistPL">Artist</th>
-                  <th class="WidthCategoryPL">Genre</th>
-                  <th class="WidthCategoryPL">{{ HeaderName }}</th>
-                  <th class="WidthAlbumPL">{{ HeaderName }}</th>
-                  <th class="WidthCategoryPL">{{ HeaderName }}</th>
-                  <th class="WidthCategoryPL">{{ HeaderName2 }}</th>
-                  <th class="WidthReleasePL">{{ HeaderName2 }}</th>
-                  <th class="WidthCategoryPL">Year</th>
-                  <th class="sticky-top"></th>
+                  <th class="WidthTitlePL bg-primary sticky-top">Title</th>
+                  <th class="WidthArtistPL bg-primary sticky-top">Artist</th>
+                  <th class="WidthCategoryPL bg-primary sticky-top">Genre</th>
+                  <th class="WidthCategoryPL bg-primary sticky-top">{{ HeaderName }}</th>
+                  <th class="WidthAlbumPL bg-primary sticky-top">{{ HeaderName }}</th>
+                  <th class="WidthCategoryPL bg-primary sticky-top">{{ HeaderName }}</th>
+                  <th class="WidthCategoryPL bg-primary sticky-top">{{ HeaderName2 }}</th>
+                  <th class="WidthReleasePL bg-primary sticky-top">{{ HeaderName2 }}</th>
+                  <th class="WidthCategoryPL bg-primary sticky-top">Year</th>
+                  <th class=" bg-primary sticky-top"></th>
                 </tr>
               </thead>
               <tbody>
