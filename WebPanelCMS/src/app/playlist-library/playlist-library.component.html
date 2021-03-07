@@ -158,7 +158,16 @@
               </button>
 
               <div class="col-lg-12 p-0 mt-2 pull-left">
-                <div class="table-responsive" [ngClass]="(cmbCustomerMediaType == 'Signage') ? 'search-results_Sig':(cmbCustomerMediaType == '')?'search-results_blank':'search-results2'">
+                <div
+                  class="table-responsive"
+                  [ngClass]="
+                    cmbCustomerMediaType == 'Signage'
+                      ? 'search-results_Sig'
+                      : cmbCustomerMediaType == ''
+                      ? 'search-results_blank'
+                      : 'search-results2'
+                  "
+                >
                   <table
                     class="table data-table table-striped table-bordered mydatatable custum_mobiletable"
                   >
@@ -371,7 +380,7 @@
     </div>
     <!-- left end -->
     <!-- right start -->
-    <div class="col-md-8">
+    <div class="col-md-8 p-0">
       <div class="card mb-0">
         <div class="card-body iq-total-content">
           <div class="pull-right pr-2">
@@ -448,7 +457,7 @@
 
                   <th
                     *ngIf="isImgFind === 'Yes'"
-                    class=" bg-primary sticky-top"
+                    class="bg-primary sticky-top"
                     style="text-align: center; max-width: 12%; width: 12%"
                   >
                     Image Time
@@ -482,7 +491,11 @@
                   <td class="WidthCategoryPL" (click)="plChange()">
                     {{ plSongLst.Label }}
                   </td>
-                  <td class="WidthLength" (click)="plChange()">
+                  <td
+                    class="WidthLength"
+                    (click)="plChange()"
+                    style="width: 190px"
+                  >
                     <span *ngIf="plSongLst.MediaType != 'Image'">{{
                       plSongLst.Length
                     }}</span>
@@ -659,7 +672,7 @@
               </div>
             </div>
             <div class="col-md-3 mt-2 m-0 p-0">
-              <div class="col-sm-10 m-0 p-0 float-left colInput">
+              <div class="col-sm-10 m-0 p-sm-0 float-left colInput">
                 <form (keydown)="keyDownFunction($event)">
                   <input
                     *ngIf="Search"
@@ -698,14 +711,14 @@
               </div>
               <div class="col-sm-1 m-0 p-0 ml-1 float-left colBtn">
                 <button
-                  class="btn btn-secondary mr-1 mb-1"
+                  class="btn btn-secondary mr-1 mb-1 d-none d-md-block"
                   (click)="SearchContent()"
                 >
                   <i class="fa fa-search"></i>
                 </button>
               </div>
             </div>
-            <div class="col-md-6 mt-1 ml-3 colFilter">
+            <div class="col-md-5 mt-1 ml-3 colFilter p-0 px-sm-3">
               <div class="">
                 <div
                   *ngIf="
@@ -988,7 +1001,7 @@
                 </div>
               </div>
             </div>
-            <div class="m-0 p-1 col-sm-1 mb-1" style="max-width: 6%">
+            <div class="m-0 p-1 col-sm-1 mb-1">
               <button
                 class="btn btn-primary mb-1 float-right"
                 (click)="AddSong(ForceUpdate)"
@@ -1020,13 +1033,23 @@
                   <th class="WidthTitlePL bg-primary sticky-top">Title</th>
                   <th class="WidthArtistPL bg-primary sticky-top">Artist</th>
                   <th class="WidthCategoryPL bg-primary sticky-top">Genre</th>
-                  <th class="WidthCategoryPL bg-primary sticky-top">{{ HeaderName }}</th>
-                  <th class="WidthAlbumPL bg-primary sticky-top">{{ HeaderName }}</th>
-                  <th class="WidthCategoryPL bg-primary sticky-top">{{ HeaderName }}</th>
-                  <th class="WidthCategoryPL bg-primary sticky-top">{{ HeaderName2 }}</th>
-                  <th class="WidthReleasePL bg-primary sticky-top">{{ HeaderName2 }}</th>
+                  <th class="WidthCategoryPL bg-primary sticky-top">
+                    {{ HeaderName }}
+                  </th>
+                  <th class="WidthAlbumPL bg-primary sticky-top">
+                    {{ HeaderName }}
+                  </th>
+                  <th class="WidthCategoryPL bg-primary sticky-top">
+                    {{ HeaderName }}
+                  </th>
+                  <th class="WidthCategoryPL bg-primary sticky-top">
+                    {{ HeaderName2 }}
+                  </th>
+                  <th class="WidthReleasePL bg-primary sticky-top">
+                    {{ HeaderName2 }}
+                  </th>
                   <th class="WidthCategoryPL bg-primary sticky-top">Year</th>
-                  <th class=" bg-primary sticky-top"></th>
+                  <th class="bg-primary sticky-top"></th>
                 </tr>
               </thead>
               <tbody>

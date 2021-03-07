@@ -4,11 +4,11 @@
 >
 </ngx-loading>
 <div class="row m-0 p-0">
-  <div class="form-inline col-lg-12">
+  <div class="form-inline col-lg-12 p-0">
     <label for="SearchAdvtDate" class="mt-1 mb-2 mr-sm-2 pr-1">Date:</label>
     <input
       id="SearchAdvtDate"
-      class="mt-2 form-control mb-2 mr-sm-2 col-sm-1"
+      class="mt-2 form-control mb-2 mr-sm-2 col-sm-1 col-12"
       [owlDateTimeTrigger]="dtDate"
       [(ngModel)]="SearchCDate"
       [owlDateTime]="dtDate"
@@ -26,7 +26,7 @@
     >
     <select
       name="CustomerName"
-      class="mt-2 custom-select mb-3 col"
+      class="mt-2 custom-select mb-3 col-sm-2 col-12"
       [(ngModel)]="CustomerId"
       (change)="onChangeCustomer($event.target.value)"
       id="cmbCustomer"
@@ -40,7 +40,7 @@
     <label for="cmbGenre" class="mt-1 mb-2 mr-sm-2 pr-1">Orientation:</label>
     <select
       name="cmbGenre"
-      class="mt-2 custom-select mb-3 col"
+      class="mt-2 custom-select mb-3 col-sm-2 col-12"
       [(ngModel)]="cmbGenre"
       (change)="onChangeGenre($event.target.value)"
       id="cmbGenre"
@@ -54,7 +54,7 @@
     <label for="cmbFolder" class="mt-1 mb-2 mr-sm-2 pr-1">Folder Name:</label>
     <select
       name="cmbFolder"
-      class="mt-2 custom-select mb-3 col"
+      class="mt-2 custom-select mb-3 col-sm-2 col-12"
       [(ngModel)]="cmbFolder"
       (change)="onChangeFolder($event.target.value)"
       id="cmbFolder"
@@ -66,14 +66,14 @@
     </select>
 
     <button
-      class="btn btn-primary mb-2 ml-1"
+      class="btn btn-primary btn-sm mb-2 ml-1"
       (click)="openGenreModal(modalGenre)"
     >
       <i class="fa fa-bars" aria-hidden="true"></i>
     </button>
 
     <button
-      class="btn btn-primary mb-2 mr-1 mt-sm-0 ml-1"
+      class="btn btn-primary btn-sm mb-2 mr-1 mt-sm-0 ml-1"
       (click)="DownloadTemplate()"
     >
       Download

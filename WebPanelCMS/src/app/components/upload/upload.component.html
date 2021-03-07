@@ -59,7 +59,7 @@
                       >
                       <select
                         name="CustomerName"
-                        class="custom-select col-sm-3"
+                        class="custom-select col-sm-2 col-12"
                         [(ngModel)]="CustomerId"
                         (change)="onChangeCustomer($event.target.value)"
                         id="cmbCustomer"
@@ -78,7 +78,7 @@
                       >
                       <select
                         name="cmbGenre"
-                        class="custom-select col"
+                        class="custom-select col-sm-2 col-12"
                         [(ngModel)]="cmbGenre"
                         (change)="onChangeGenre($event.target.value)"
                         id="cmbGenre"
@@ -104,7 +104,7 @@
                         [placeholder]="' '"
                         [settings]="dropdownSettings"
                         [data]="SearchTokenList"
-                        class="mt-2 mb-2 mr-sm-2 col"
+                        class="mt-2 mb-2 mr-sm-2 col-sm-2 col-12"
                         [(ngModel)]="cmbSearchToken"
                       >
                       </ng-multiselect-dropdown>
@@ -118,7 +118,7 @@
                       <select
                         *ngIf="IsAnnouncement === '0'"
                         name="cmbFolder"
-                        class="custom-select mb-3 col"
+                        class="custom-select mb-3 col-sm-2 col-12"
                         [(ngModel)]="cmbFolder"
                         (change)="onChangeFolder($event.target.value)"
                         id="cmbFolder"
