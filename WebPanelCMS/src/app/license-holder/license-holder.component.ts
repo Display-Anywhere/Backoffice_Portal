@@ -50,7 +50,7 @@ export class LicenseHolderComponent
   page: number = 1;
   pageSize: number = 20;
 
-  searchText;
+  searchText="";
   cid = '0';
   LogoId = 0;
   SongsList = [];
@@ -107,7 +107,7 @@ export class LicenseHolderComponent
     configTime.spinners = false;
     this.auth.isTokenInfoClose$.subscribe((value) => {
       if (value === true) {
-        this.onChangeCustomer(this.cmbCustomerId);
+        this.FillCustomerTokenList(this.cmbCustomerId);
       }
     });
   }
@@ -285,7 +285,7 @@ export class LicenseHolderComponent
   }
   onChangeCustomer(deviceValue) {
     this.SongsList = [];
-
+    this.searchText="";
     if (deviceValue == '0') {
       this.TokenList = [];
       this.LogoId = 0;
@@ -294,6 +294,9 @@ export class LicenseHolderComponent
 
       return;
     }
+    this.FillCustomerTokenList(deviceValue);
+  }
+  FillCustomerTokenList(deviceValue){
     this.DataTableSettings();
     // this.rerender();
 
@@ -311,6 +314,9 @@ export class LicenseHolderComponent
           this.FillData(data);
           setTimeout(() => {}, 1000);
           this.rerender();
+          if (this.searchText!=""){
+            setTimeout(() => {this.filterById();}, 1000);
+          }
           /*
           setTimeout(() => {
             this.FilterTokenList(this.FilterValue_For_Reload)
@@ -340,6 +346,7 @@ export class LicenseHolderComponent
       }
     }
     this.loading = false;
+   
     if (this.FilterValue_For_Reload == 'Regsiter') {
       this.TokenList = this.TokenList.filter((order) => order.token === 'used');
     }
@@ -370,7 +377,7 @@ export class LicenseHolderComponent
     }
   }
   async tokenInfoClose() {
-    await this.onChangeCustomer(this.cid);
+    await this.FillCustomerTokenList(this.cid);
     this.modalService.dismissAll();
   }
 

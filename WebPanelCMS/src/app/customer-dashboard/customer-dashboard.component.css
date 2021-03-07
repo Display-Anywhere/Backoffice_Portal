@@ -1,6 +1,12 @@
 .bg-success {
   background-color: #28a745 !important;
 }
+.iq-search-bar .searchbox{
+  width: 300px;
+}
+.card{
+  margin-bottom: 10px;
+}
 /* table {
   border: 1px solid #ccc;
   border-collapse: collapse;

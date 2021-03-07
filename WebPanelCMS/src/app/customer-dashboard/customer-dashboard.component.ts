@@ -25,6 +25,7 @@ export class CustomerDashboardComponent implements OnInit {
   //IsAdminLogin: boolean = false;
   CustomerList = [];
   cmbCustomerId = "";
+  
   @ViewChildren(NgbdSortableHeader_Dashboard) headers: QueryList<NgbdSortableHeader_Dashboard>;
   compare = (v1: string | number, v2: string | number) => v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
 
@@ -86,11 +87,14 @@ export class CustomerDashboardComponent implements OnInit {
   }
   GetCustomerTokenDetailFilter(filter) {
     if (filter == "Total") {
+      this.TokenList=[];
+      this.TokenList= this.MainTokenList;
       this.searchText = "";
       this.PlayerFillType = filter + " Players";
     }
     else {
-      this.searchText = filter;
+      this.TokenList=[];
+      this.TokenList= this.MainTokenList.filter(order=> order.pStatus===filter)
       if (filter == "Away") {
         this.PlayerFillType = "Offline Players";
       }

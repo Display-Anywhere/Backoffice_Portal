@@ -27,6 +27,10 @@
       {{ PlayerFillType }}
       <i class="fa fa-refresh" aria-hidden="true"></i>
     </button>
+    
+    
+    
+
   </div>
 </div>
 <hr />
@@ -126,9 +130,30 @@
   <!-- end -->
 </div>
 
-<div class="row col-sm-12 m-0 p-0 mt-2">
+<div class="row col-sm-12 m-0 p-0 mt-0">
+  <div  class="col-sm-12 p-0 m-0">
+    <div class="iq-search-bar device-search">
+      <div class="searchbox">
+        <input
+          id="txtSearchExt"
+          ngbNavLink
+          type="text"
+          [(ngModel)]="searchText"
+          class="text search-input"
+          placeholder="Search"
+           
+        />
+        <a class="search-link" href="#"
+          ><i class="fa fa-search"></i
+        ></a>
+
+        <ng-template ngbNavContent> </ng-template>
+      </div>
+    </div>
+  </div>
   <div class="card col-sm-12 p-0 m-0">
     <div class="card-body p-0 m-0">
+    
       <div class="col-sm-12 p-0 m-0">
         <div class="table-responsive">
           <table
