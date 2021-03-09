@@ -1,3 +1,11 @@
+.refreshIcon{
+  background-color: #4788ff;
+    color: #fff;
+    padding: 9px;
+    top: 0px;
+    right: 9px;
+    border-radius: 6px;
+}
 .bg-success {
   background-color: #28a745 !important;
 }

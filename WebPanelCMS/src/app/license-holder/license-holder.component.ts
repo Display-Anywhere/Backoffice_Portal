@@ -380,7 +380,9 @@ export class LicenseHolderComponent
     await this.FillCustomerTokenList(this.cid);
     this.modalService.dismissAll();
   }
-
+async RefreshTokenList(){
+  await this.FillCustomerTokenList(this.cid);
+}
   FullImageUrl;
   OpenFullImageModal(ObjModal, url) {
     this.FullImageUrl = url;

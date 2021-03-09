@@ -35,10 +35,15 @@ input:-webkit-autofill:active {
   position: absolute;
   bottom: 0px;
 }*/
+.emailtext{
 
+}
 @media (max-width: 768px) {
   .logincontent {
     margin-top: 1em;
+  }
+  .emailtext{
+    font-size: 13px;
   }
 }
 
@@ -47,5 +52,8 @@ input:-webkit-autofill:active {
     position: fixed;
     text-align: center;
     bottom: 0;
+  }
+  .emailtext{
+    
   }
 }
