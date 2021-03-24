@@ -37,7 +37,7 @@
 <div class="row">
   <!-- start -->
   <div class="col-12 col-lg-4" (click)="GetCustomerTokenDetailFilter('Total')">
-    <div class="card radius-15 bg-voilet">
+    <div class="card radius-15 bg-voilet" [ngClass]="PlayerFillType == 'Total Players'? 'boxActive':'boxUnactive'">
       <div class="card-body">
         <div class="d-flex align-items-center">
           <div>
@@ -68,7 +68,7 @@
   <div class="col-12 col-lg-4">
     <div
       class="card radius-15 bg-success"
-      (click)="GetCustomerTokenDetailFilter('Online')"
+      (click)="GetCustomerTokenDetailFilter('Online')" [ngClass]="PlayerFillType == 'Online Players'? 'boxActive':'boxUnactive'"
     >
       <div class="card-body">
         <div class="d-flex align-items-center">
@@ -100,7 +100,7 @@
   <div class="col-12 col-lg-4">
     <div
       class="card radius-15 bg-danger"
-      (click)="GetCustomerTokenDetailFilter('Away')"
+      (click)="GetCustomerTokenDetailFilter('Away')"  [ngClass]="PlayerFillType == 'Offline Players'? 'boxActive':'boxUnactive'"
     >
       <div class="card-body">
         <div class="d-flex align-items-center">

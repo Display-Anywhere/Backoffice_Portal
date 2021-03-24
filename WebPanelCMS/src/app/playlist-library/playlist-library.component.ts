@@ -143,6 +143,7 @@ export class PlaylistLibraryComponent implements OnInit {
   dtOptions: any = {};
   dtTrigger: Subject<any> = new Subject();
   searchText = '';
+  cmbVolume="90"
   ngOnInit() {
     localStorage.setItem('IsAnnouncement', '0');
     $('#dis').attr('unselectable', 'on');
@@ -1791,7 +1792,7 @@ export class PlaylistLibraryComponent implements OnInit {
     Mixed,
     tids,
     spName,
-    Duplicate
+    Duplicate, volume
   ) {
     this.pid = id;
     this.txtDelPer = '0';
@@ -1805,6 +1806,7 @@ export class PlaylistLibraryComponent implements OnInit {
     this.SettingPname = pName[0].trim() + '  (' + pLastName;
 
     this.chkDuplicate = Duplicate;
+    this.cmbVolume= volume;
     this.modalService.open(mContent);
   }
   SettingPlaylist(UpdateModel) {
@@ -1815,7 +1817,7 @@ export class PlaylistLibraryComponent implements OnInit {
         this.chkMute,
         this.chkFixed,
         this.chkMixed,
-        this.chkDuplicate
+        this.chkDuplicate, this.cmbVolume
       )
       .pipe()
       .subscribe(

@@ -182,6 +182,7 @@ input:checked + .slider:before {
 } */
 .custombutton {
   font-size: 0.95em;
+  width: 49%;
 }
 th {
   color: #fff !important;
@@ -197,5 +198,8 @@ table.dataTable thead th {
   .custum_mobiletable td {
     padding: 8px 0 !important;
   }
+}
+.custom-control-label{
+  font-size: 15px;
 }
 /* table mobile view end */

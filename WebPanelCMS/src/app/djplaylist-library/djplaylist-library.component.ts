@@ -921,7 +921,7 @@ export class DJplaylistLibraryComponent implements OnInit {
 
   SettingPlaylist() {
     this.loading = true;
-    this.pService.SettingPlaylist(this.pid, this.chkMute, this.chkFixed,false,false).pipe()
+    this.pService.SettingPlaylist(this.pid, this.chkMute, this.chkFixed,false,false,'90').pipe()
       .subscribe(data => {
         var returnData = JSON.stringify(data);
         var obj = JSON.parse(returnData);

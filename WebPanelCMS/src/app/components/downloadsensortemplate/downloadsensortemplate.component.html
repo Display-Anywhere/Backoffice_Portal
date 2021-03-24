@@ -40,7 +40,7 @@
     <label for="cmbGenre" class="mt-1 mb-2 mr-sm-2 pr-1">Orientation:</label>
     <select
       name="cmbGenre"
-      class="mt-2 custom-select mb-3 col-sm-2 col-12"
+      class="mt-2 custom-select mb-3 col-sm-1 col-12"
       [(ngModel)]="cmbGenre"
       (change)="onChangeGenre($event.target.value)"
       id="cmbGenre"
@@ -51,26 +51,16 @@
       </option>
     </select>
 
-    <label for="cmbFolder" class="mt-1 mb-2 mr-sm-2 pr-1">Folder Name:</label>
-    <select
-      name="cmbFolder"
-      class="mt-2 custom-select mb-3 col-sm-2 col-12"
-      [(ngModel)]="cmbFolder"
-      (change)="onChangeFolder($event.target.value)"
-      id="cmbFolder"
-    >
-      <option selected value="0"></option>
-      <option *ngFor="let fLst of FolderList" [value]="fLst.Id">
-        {{ fLst.DisplayName }}
-      </option>
-    </select>
-
-    <button
-      class="btn btn-primary btn-sm mb-2 ml-1"
-      (click)="openGenreModal(modalGenre)"
-    >
-      <i class="fa fa-bars" aria-hidden="true"></i>
-    </button>
+    <label for="cmbFolder" class="mt-1 mb-2 mr-sm-2 pr-1">Token:</label>
+    <ng-multiselect-dropdown
+                        id="Dispenser"
+                        [placeholder]="' '"
+                        [settings]="dropdownSettings"
+                        [data]="SearchTokenList"
+                        class="mt-2 mb-2 mr-sm-2 col-sm-4 col-12"
+                        [(ngModel)]="cmbSearchToken"
+                      >
+                      </ng-multiselect-dropdown>
 
     <button
       class="btn btn-primary btn-sm mb-2 mr-1 mt-sm-0 ml-1"
@@ -88,21 +78,6 @@
         <thead class="bg-primary">
           <tr>
             <th scope="col" style="width: 60px">
-              <div class="custom-control custom-checkbox">
-                <input
-                  (change)="allTemplates($event)"
-                  type="checkbox"
-                  class="custom-control-input"
-                  name="AllActiveToken"
-                  id="AllActiveToken"
-                  [(ngModel)]="chkAll"
-                />
-                <label
-                  class="custom-control-label cursor-pointer pt-1 text-white"
-                  for="AllActiveToken"
-                  >All</label
-                >
-              </div>
             </th>
             <th scope="col">Template Name</th>
             <th scope="col">Orientation</th>
@@ -112,12 +87,12 @@
         <tbody>
           <tr *ngFor="let tLst of TemplateList; let i = index">
             <td data-label="" class="">
-              <div class="custom-control custom-checkbox">
+              <div class="custom-control custom-radio">
                 <input
                   (change)="
                     SelectTemplates(tLst.videoUrl, tLst.name, tLst.id, $event)
                   "
-                  type="checkbox"
+                  type="radio"
                   class="custom-control-input"
                   id="{{ tLst.id }}{{ i }}"
                   [checked]="tLst.check"
@@ -144,43 +119,4 @@
     </div>
   </div>
 </div>
-
-<ng-template #modalGenre let-c="close" let-d="dismiss">
-  <div class="modal-header bg-primary">
-    <h5 class="text-white">Folder</h5>
-    <button
-      type="button"
-      class="close text-white"
-      aria-label="Close"
-      (click)="d('Cross click')"
-    >
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-sm-12">
-          <label for="State" class="mb-2 mr-sm-2">Folder Name:</label>
-          <input
-            type="text"
-            [(ngModel)]="NewFolderName"
-            class="form-control mb-2 mr-sm-2"
-            id="fName"
-          />
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-12">
-          <button
-            class="btn btn-primary col-sm-2 pull-right"
-            type="button"
-            (click)="onSubmitNewGenre()"
-          >
-            <i class="fa fa-floppy-o fa-lg" aria-hidden="true"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-</ng-template>
+ 

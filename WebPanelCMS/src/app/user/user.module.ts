@@ -9,10 +9,11 @@ import {ReactiveFormsModule,FormsModule  } from '@angular/forms';
 import { ComponentsModule } from '../components/components.module';
 import { UserComponent } from './user.component';
 import { UserRoutes } from './user.routes';
+import { NgbdSortableHeader_User } from './user_sortable.directive';
 
 
 @NgModule({
-  declarations: [UserComponent],
+  declarations: [UserComponent,NgbdSortableHeader_User],
   exports:[UserComponent],
   imports: [
     RouterModule.forChild(UserRoutes),

@@ -100,12 +100,19 @@ export class UploadComponent implements OnInit {
       .subscribe(data => {
         var returnData = JSON.stringify(data);
         this.SearchTokenList = JSON.parse(returnData);
+          if (this.IsAnnouncement=="1"){
+            this.SearchTokenList= this.SearchTokenList.filter(order => order.DeviceType==='Sanitizer')
+            this.SearchTokenList.forEach(element => {
+              element['commonName']= element['tokenCode'] + '-'+ element['location']+ '-' + element['city']
+            });
+          }
+
         this.loading = false;
         this.dropdownSettings = {
           singleSelection: false,
           text: "",
           idField: 'tokenid',
-          textField: 'tokenCode',
+          textField: 'commonName',
           selectAllText: 'All',
           unSelectAllText: 'All',
           itemsShowLimit: 2

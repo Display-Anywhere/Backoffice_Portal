@@ -9,9 +9,9 @@
       <div class="col-12">
         <div class="card">
           <!-- card-header -->
-          <div class="card-header">
+          <div class="card-header" *ngIf="IsAnnouncement === '0'">
             <div
-              *ngIf="IsAnnouncement === '0'"
+              
               class="col-lg-12"
               style="padding: 0 0 0 0"
             >
@@ -43,7 +43,7 @@
           </div>
           <!-- card-header end -->
           <!-- card-body start -->
-          <div class="card-body">
+          <div class="card-body pt-0">
             <div class="tab-content">
               <div
                 id="NormalUpload"
@@ -104,7 +104,7 @@
                         [placeholder]="' '"
                         [settings]="dropdownSettings"
                         [data]="SearchTokenList"
-                        class="mt-2 mb-2 mr-sm-2 col-sm-2 col-12"
+                        class="mt-2 mb-2 mr-sm-2 col-sm-3 col-12"
                         [(ngModel)]="cmbSearchToken"
                       >
                       </ng-multiselect-dropdown>

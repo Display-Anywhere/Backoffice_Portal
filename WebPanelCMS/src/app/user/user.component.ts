@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, ViewContainerRef,ViewChildren,QueryList, } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { IPlayService } from '../instant-play/i-play.service';
@@ -6,6 +6,7 @@ import * as $ from 'jquery';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../auth/auth.service';
 import { PlaylistLibService } from '../playlist-library/playlist-lib.service';
+import { NgbdSortableHeader_User, SortEvent } from './user_sortable.directive';
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
@@ -15,6 +16,7 @@ export class UserComponent implements OnInit {
   uid;
   public loading = false;
   TokenList = [];
+  MainTokenList = [];
   UserList = [];
   Userform: FormGroup;
   submitted = false;
@@ -25,6 +27,10 @@ export class UserComponent implements OnInit {
   did;
   FormatList = [];
   PlaylistList = [];
+  cmbCustomer;
+  @ViewChildren(NgbdSortableHeader_User) headers: QueryList<NgbdSortableHeader_User>;
+  compare = (v1: string | number, v2: string | number) =>
+    v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
 
   constructor(private formBuilder: FormBuilder, public toastr: ToastrService, vcr: ViewContainerRef,
     config: NgbModalConfig, private modalService: NgbModal, private ipService: IPlayService,
@@ -65,6 +71,8 @@ export class UserComponent implements OnInit {
       chkUpload: [false],
       chkCopyData: [false],
       chkStreaming: [false],
+      chkOfflineAlert: [false],
+      OfflineIntervalHour:["30"],
     });
 
   }
@@ -127,6 +135,7 @@ export class UserComponent implements OnInit {
   }
   Refresh() {
     this.TokenList = [];
+    this.MainTokenList = [];
     this.TokenSelected = [];
     this.f.UserName1.setValue("");
     this.f.Password1.setValue("");
@@ -169,7 +178,16 @@ export class UserComponent implements OnInit {
         var returnData = JSON.stringify(data);
 
         this.TokenList = JSON.parse(returnData);
+        this.MainTokenList= this.TokenList;
         this.loading = false;
+        const obj:SortEvent   ={
+          column:'city',
+          direction: 'asc'
+         }
+         setTimeout(() => { 
+          this.onSort(obj);
+        }, 500);
+
         this.FillUserList(id);
         this.FillFormat();
       },
@@ -200,6 +218,7 @@ export class UserComponent implements OnInit {
         var obj = JSON.parse(returnData);
         
         this.TokenList = obj.lstTokenInfo;
+        this.MainTokenList = this.TokenList;
         this.TokenSelected = obj.lstToken;
         this.f.UserName1.setValue(obj.UserName1);
         this.f.Password1.setValue(obj.Password1);
@@ -215,6 +234,9 @@ export class UserComponent implements OnInit {
         this.f.chkUpload.setValue(obj.chkUpload);
         this.f.chkCopyData.setValue(obj.chkCopyData);
         this.f.chkStreaming.setValue(obj.chkStreaming);
+
+        this.f.chkOfflineAlert.setValue(obj.chkOfflineAlert);
+        this.f.OfflineIntervalHour.setValue(obj.OfflineIntervalHour);
 
         this.f.cmbFormat.setValue(obj.cmbFormat);
         this.FillPlaylist(obj.cmbFormat)
@@ -266,16 +288,27 @@ export class UserComponent implements OnInit {
 
   FillFormat() {
     this.loading = true;
-    var qry = "";
+    var qry = '';
 
     if (this.auth.IsAdminLogin$.value == true) {
       qry = "FillFormat 0,'" + localStorage.getItem('DBType') + "'";
+    } else {
     }
-    else {
-      qry = "select max(sf.Formatid) as id , sf.formatname as displayname from tbSpecialFormat sf left join tbSpecialPlaylistSchedule_Token st on st.formatid= sf.formatid";
-      qry = qry + " left join tbSpecialPlaylistSchedule sp on sp.pschid= st.pschid  where ";
-      qry = qry + " (dbtype='" + localStorage.getItem('DBType') + "' or dbtype='Both') and  (st.dfclientid=" + localStorage.getItem('dfClientId') + " OR sf.dfclientid=" + localStorage.getItem('dfClientId') + ") group by  sf.formatname";
-    }
+    qry = '';
+    qry =
+      'select max(sf.Formatid) as id , sf.formatname as displayname from tbSpecialFormat sf left join tbSpecialPlaylistSchedule_Token st on st.formatid= sf.formatid';
+    qry =
+      qry +
+      ' left join tbSpecialPlaylistSchedule sp on sp.pschid= st.pschid  where ';
+    qry =
+      qry +
+      " (dbtype='" +
+      localStorage.getItem('DBType') +
+      "' or dbtype='Both') and  (st.dfclientid=" +
+      this.cmbCustomer +
+      ' OR sf.dfclientid=' +
+      this.cmbCustomer +
+      ") group by  sf.formatname " ;
 
     this.ipService.FillCombo(qry).pipe()
       .subscribe(data => {
@@ -307,5 +340,24 @@ export class UserComponent implements OnInit {
           this.toastr.error("Apologies for the inconvenience.The error is recorded.", '');
           this.loading = false;
         })
+  }
+  onSort({ column, direction }: SortEvent) {
+    // resetting other headers
+    this.headers.forEach((header) => {
+      if (header.sortable !== column) {
+        header.direction = '';
+      }
+    });
+
+    if (direction === '' || column === '') {
+      this.TokenList = this.MainTokenList;
+    } else {
+      this.TokenList = [...this.MainTokenList].sort((a, b) => {
+        const res = this.compare(a[column], b[column]);
+        return direction === 'asc' ? res : -res;
+      });
+    }
+
+    // sorting countries
   }
 }

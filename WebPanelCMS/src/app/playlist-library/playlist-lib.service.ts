@@ -93,9 +93,9 @@ export class PlaylistLibService {
     return this.http.post(this.cApi.SaveFormat, params, { headers })
       .pipe((data => data));
   }
-  SettingPlaylist(pid, chkMute, chkFixed, Mixed,Duplicate) {
+  SettingPlaylist(pid, chkMute, chkFixed, Mixed,Duplicate, volume) {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    const params = JSON.stringify({ playlistid: pid, chkMute, chkFixed, chkMixed: Mixed, chkDuplicate: Duplicate });
+    const params = JSON.stringify({ playlistid: pid, chkMute, chkFixed, chkMixed: Mixed, chkDuplicate: Duplicate, volume: volume });
     return this.http.post(this.cApi.SettingPlaylist, params, { headers })
       .pipe((data => data));
   }

@@ -381,6 +381,7 @@ this.PlaylistSongsList =[];
       .subscribe(data => {
         var returnData = JSON.stringify(data);
         this.TokenList = JSON.parse(returnData);
+          this.TokenList= this.TokenList.filter(order => order.DeviceType==='Sanitizer')
         this.loading = false;
       },
         error => {

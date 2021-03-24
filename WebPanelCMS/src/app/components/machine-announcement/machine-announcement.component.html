@@ -33,7 +33,7 @@
               >
                 <option selected value="0"></option>
                 <option *ngFor="let fLst of TokenList" [value]="fLst.tokenid">
-                  {{ fLst.tokenCode }} - {{ fLst.location }}
+                  {{ fLst.tokenCode }} - {{ fLst.location }} - {{ fLst.city }}
                 </option>
               </select>
             </div>
@@ -288,6 +288,12 @@
       <a ngbNavLink>Upload</a>
       <ng-template ngbNavContent>
         <app-upload></app-upload>
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="4" title="Download Templates">
+      <a ngbNavLink>Download Templates</a>
+      <ng-template ngbNavContent>
+       <app-downloadsensortemplate></app-downloadsensortemplate>
       </ng-template>
     </li>
   </ul>

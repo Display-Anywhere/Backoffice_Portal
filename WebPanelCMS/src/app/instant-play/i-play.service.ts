@@ -101,4 +101,27 @@ export class IPlayService {
     return this.http.post(this.cApi.SaveUpdateUser,params,{headers:headers})
      .pipe((data=>{return data;}))
   } 
+
+
+
+  SaveUpdateOfflineAlert(id,email,interval,lstToken,dfClientid){
+    let headers = new HttpHeaders({ 'Content-Type':'application/json' });
+    var params = JSON.stringify({ id: id,email:email,interval:interval,Responce:'0',lstToken:lstToken,dfClientid:dfClientid });
+    return this.http.post(this.cApi.SaveUpdateOfflineAlert,params,{headers:headers})
+     .pipe((data=>{return data;}))
+  } 
+
+  FillOfflineAlertList(id){
+    let headers = new HttpHeaders({ 'Content-Type':'application/json' });
+    var params = JSON.stringify({ clientId: id });
+    return this.http.post(this.cApi.FillOfflineAlertList,params,{headers:headers})
+     .pipe((data=>{return data;}))
+  }
+  EditOfflineUser(uid){
+    let headers = new HttpHeaders({ 'Content-Type':'application/json' });
+    var params = JSON.stringify({ UserId: uid });
+    return this.http.post(this.cApi.EditOfflineUser,params,{headers:headers})
+     .pipe((data=>{return data;}))
+  }
+
 } 

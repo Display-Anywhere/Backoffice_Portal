@@ -8,7 +8,7 @@
 <div class="container-fluid p-0 m-0">
   <div class="row">
     <!-- left start -->
-    <div class="col-md-4 pr-sm-0">
+    <div class="col-md-4 pr-sm-2">
       <!-- one start -->
       <div class="card card-block card-stretch mb-0">
         <div class="card-body iq-total-content pb-sm-0">
@@ -87,7 +87,7 @@
       <!-- one end -->
       <!-- two start -->
       <div class="card mb-2">
-        <div class="card-body iq-total-content pt-0">
+        <div class="card-body iq-total-content pt-0 p-0">
           <div class="col-lg-12 p-0 m-0 pull-left">
             <ul
               class="nav nav-tabs m-1"
@@ -247,7 +247,8 @@
                               playlistLst.IsMixedContent,
                               playlistLst.tokenIds,
                               playlistLst.DisplayName,
-                              playlistLst.IsDuplicate
+                              playlistLst.IsDuplicate,
+                              playlistLst.volume
                             )
                           "
                         >
@@ -381,8 +382,8 @@
     <!-- left end -->
     <!-- right start -->
     <div class="col-md-8 p-0">
-      <div class="card mb-0">
-        <div class="card-body iq-total-content">
+      <div class="card mb-2">
+        <div class="card-body iq-total-content p-0">
           <div class="pull-right pr-2">
             <button
               type="button"
@@ -567,21 +568,17 @@
       </div>
       <!-- second start -->
       <div class="card mb-sm-2">
-        <div class="card-body iq-total-content">
+        <div class="card-body iq-total-content p-0">
           <div
             class="col-sm-12 row p-0 m-0"
             *ngIf="cmbCustomerMediaType !== ''"
           >
-            <div class="col-md-2 pr-0 colAudio">
+            <div class="col-md-2 pr-0 colAudio" *ngIf="cmbCustomerMediaType == 'Signage'">
               <!--
               <span class="pull-left text-white" style="width: 260px">Add songs in selected playlist</span>
               -->
               <div
-                *ngIf="
-                  cmbCustomerMediaType == 'Audio DirectLicence' ||
-                  cmbCustomerMediaType == 'Audio Copyright'
-                "
-                class="custom-control custom-radio custom-control-inline mb-2 mr-2"
+                class="d-none custom-control custom-radio custom-control-inline mb-2 mr-2"
               >
                 <input
                   type="radio"
@@ -595,11 +592,7 @@
                   >Audio</label
                 >
               </div>
-              <div
-                *ngIf="
-                  cmbCustomerMediaType == 'Video' ||
-                  cmbCustomerMediaType == 'Signage'
-                "
+              <div *ngIf="cmbCustomerMediaType == 'Signage'"
                 class="custom-control custom-radio custom-control-inline mb-2 mr-2"
               >
                 <input
@@ -634,11 +627,7 @@
 
               <div class="col-sm-12 m-0 p-0">
                 <div
-                  *ngIf="
-                    cmbCustomerMediaType == 'Video' ||
-                    cmbCustomerMediaType == 'Audio Copyright'
-                  "
-                  class="custom-control custom-radio custom-control-inline mb-2 mr-2"
+                  class="d-none custom-control custom-radio custom-control-inline mb-2 mr-2"
                 >
                   <input
                     type="radio"
@@ -654,8 +643,8 @@
                 </div>
 
                 <div
-                  *ngIf="cmbCustomerMediaType == 'Audio DirectLicence'"
-                  class="custom-control custom-radio custom-control-inline mb-2 mr-2"
+                   
+                  class="d-none custom-control custom-radio custom-control-inline mb-2 mr-2"
                 >
                   <input
                     type="radio"
@@ -718,7 +707,7 @@
                 </button>
               </div>
             </div>
-            <div class="col-md-5 mt-1 ml-3 colFilter p-0 px-sm-3">
+            <div class=" mt-1 ml-3 colFilter p-0" [ngClass]="cmbCustomerMediaType == 'Signage'? 'col-md-6':'col-md-8'">
               <div class="">
                 <div
                   *ngIf="
@@ -770,7 +759,7 @@
                     (auth.ContentType$ == 'MusicMedia' ||
                       auth.ContentType$ == 'Both')
                   "
-                  class="custom-control custom-radio custom-control-inline mb-2 mr-1"
+                  class=" d-none custom-control custom-radio custom-control-inline mb-2 mr-1"
                 >
                   <input
                     type="radio"
@@ -810,7 +799,7 @@
                     (auth.ContentType$ == 'MusicMedia' ||
                       auth.ContentType$ == 'Both')
                   "
-                  class="custom-control custom-radio custom-control-inline mb-2 mr-1"
+                  class=" d-none custom-control custom-radio custom-control-inline mb-2 mr-1"
                 >
                   <input
                     type="radio"
@@ -880,6 +869,29 @@
                     >BPM</label
                   >
                 </div>
+
+<div
+                  *ngIf="
+                    chkMediaRadio != 'Image' &&
+                    (auth.ContentType$ == 'MusicMedia' ||
+                      auth.ContentType$ == 'Both')
+                  "
+                  class="custom-control custom-radio custom-control-inline mb-2 mr-1"
+                >
+                  <input
+                    type="radio"
+                    class="custom-control-input cursor-pointer"
+                    id="Year"
+                    (change)="SearchRadioClick('Year')"
+                    name="chkSearch"
+                  />
+                  <label class="custom-control-label cursor-pointer" for="Year"
+                    >Year</label
+                  >
+                </div>
+
+
+
                 <div
                   *ngIf="
                     chkMediaRadio != 'Image' &&
@@ -944,25 +956,7 @@
                     >Energy Level</label
                   >
                 </div>
-                <div
-                  *ngIf="
-                    chkMediaRadio != 'Image' &&
-                    (auth.ContentType$ == 'MusicMedia' ||
-                      auth.ContentType$ == 'Both')
-                  "
-                  class="custom-control custom-radio custom-control-inline mb-2 mr-1"
-                >
-                  <input
-                    type="radio"
-                    class="custom-control-input cursor-pointer"
-                    id="Year"
-                    (change)="SearchRadioClick('Year')"
-                    name="chkSearch"
-                  />
-                  <label class="custom-control-label cursor-pointer" for="Year"
-                    >Year</label
-                  >
-                </div>
+                
 
                 <div
                   *ngIf="!IsRF && chkMediaRadio != 'Image'"
@@ -1001,9 +995,9 @@
                 </div>
               </div>
             </div>
-            <div class="m-0 p-1 col-sm-1 mb-1">
+            <div class="m-0 p-1 col-sm-1 mb-1" style="max-width: 5% !important;">
               <button
-                class="btn btn-primary mb-1 float-right"
+                class="btn btn-primary float-right"
                 (click)="AddSong(ForceUpdate)"
               >
                 <i class="fa fa-upload"></i>
@@ -1281,6 +1275,16 @@
             />
             <span class="slider round"></span>
           </label>
+        </div>
+        <div class="col-sm-12 p-0 m-0 mt-2">
+          <label for="cmbVolume" class="mr-sm-2 p-0 pt-2">Volume Level</label>
+          <select name="cmbVolume" class="custom-select mt-1 col-sm-8 col-12" id="cmbVolume" [(ngModel)]="cmbVolume">
+            <option selected value="90">90</option>
+            <option  value="80">80</option>
+            <option  value="70">70</option>
+            <option  value="60">60</option>
+            <option  value="50">50</option>
+          </select>
         </div>
       </div>
       <div class="row">

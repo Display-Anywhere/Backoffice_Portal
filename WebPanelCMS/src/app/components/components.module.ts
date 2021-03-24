@@ -35,6 +35,8 @@ import { CopysanitizerannouncementComponent } from './copysanitizerannouncement/
 import { ManagegroupsComponent } from './managegroups/managegroups.component';
 import { NgbdSortableHeader } from './sortable.directive';
 import { OpeninghourComponent } from './openinghour/openinghour.component';
+import { OfflineAlertComponent } from './offline-alert/offline-alert.component';
+import { DownloadsensortemplateComponent } from './downloadsensortemplate/downloadsensortemplate.component';
 //import { OwlMomentDateTimeModule } from 'ng-pick-datetime/date-time/adapter/moment-adapter/moment-date-time.module';
 export const MY_CUSTOM_FORMATS = {
   parseInput: 'LL LT',
@@ -68,7 +70,9 @@ PercentageScheduleComponent,
 CopysanitizerannouncementComponent,
 ManagegroupsComponent,
 NgbdSortableHeader,
-OpeninghourComponent
+OpeninghourComponent,
+OfflineAlertComponent,
+DownloadsensortemplateComponent
 ],
  
   exports: [
@@ -93,7 +97,9 @@ CopyContentComponent,
 PercentageScheduleComponent,
 CopysanitizerannouncementComponent,
 ManagegroupsComponent,
-OpeninghourComponent
+OpeninghourComponent,
+OfflineAlertComponent,
+DownloadsensortemplateComponent
   ],
     imports: [
     CommonModule,

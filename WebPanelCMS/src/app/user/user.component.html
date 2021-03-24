@@ -2,506 +2,565 @@
 </ngx-loading>
 
 <div class="container-fluid p-0">
-  <div class="col-12 p-0">
-    <div class="row">
-      <div class="col-12">
-        <div class="card">
-          <div class="card-header">
-            <div class="form-inline">
-              <label for="cmbCustomer" class="mt-2 mb-2 mr-sm-2 pr-1"
-                >Customer Name:</label
-              >
-              <select
-                name="CustomerName"
-                class="mt-2 custom-select col-12 col-md-3 col-lg-3"
-                (change)="onChangeCustomer($event.target.value)"
-                id="cmbCustomer"
-              >
-                <option selected value="0"></option>
-                <option *ngFor="let cLst of CustomerList" [value]="cLst.Id">
-                  {{ cLst.DisplayName }}
-                </option>
-              </select>
-            </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="col-lg-12 p-0">
+            <ul class="nav nav-pills" role="tablist" style="background: #fff; color: #000">
+              <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#Users"
+                  >Users</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" (click)="t.select('tab-selectbyid1')" data-toggle="tab" href="#OfflineAlert" 
+                  >Offline Alert</a
+                >
+              </li>
+          </ul>
           </div>
-          <div class="card-body">
-            <ngb-tabset #t="ngbTabset">
-              <ngb-tab id="tab-selectbyid1" title="Search">
-                <ng-template ngbTabContent>
-                  <div class="row m-0 p-0">
-                    <div class="table-responsive">
-                      <table
-                        class="table data-table table-striped table-bordered mydatatable"
-                      >
-                        <thead class="bg-primary">
-                          <tr>
-                            <th scope="col">User</th>
-                            <th scope="col">Password</th>
-                            <th scope="col" style="width: 30px"></th>
-                            <th scope="col" style="width: 30px"></th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr *ngFor="let uLst of UserList">
-                            <td>
-                              {{ uLst.UserName1 }}
-                            </td>
-                            <td>
-                              {{ uLst.Password1 }}
-                            </td>
-                            <td>
-                              <i
-                                class="fa fa-pencil-square-o text-primary"
-                                (click)="onClickEditUser(uLst.id)"
-                                (click)="t.select('tab-selectbyid2')"
-                                aria-hidden="true"
-                              ></i>
-                            </td>
-
-                            <td>
-                              <i
-                                class="fa fa-trash text-danger"
-                                aria-hidden="true"
-                                (click)="
-                                  openDeleteDeleteModal(
-                                    UserDeleteModal,
-                                    uLst.id
-                                  )
-                                "
-                              ></i>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </ng-template>
-              </ngb-tab>
-              <ngb-tab id="tab-selectbyid2" title="AddNew">
-                <ng-template ngbTabContent>
-                  <div class="row m-0 p-0">
-                    <div class="col-lg-12">
-                      <form
-                        [formGroup]="Userform"
-                        autocomplete="off"
-                        (ngSubmit)="onSubmitUser()"
-                      >
-                        <input
-                          type="text"
-                          name="Newusername"
-                          placeholder="username"
-                          autocomplete="false"
-                          autocomplete="off"
-                          autocomplete="new-user"
-                          style="display: none"
-                        />
-                        <input
-                          type="password"
-                          name="Newpassword"
-                          placeholder="password"
-                          style="display: none"
-                        />
-                        <div class="form-row">
-                          <div class="form-group col-sm-2 m-0">
-                            <label for="UserName1" class="mt-2 mb-2 mr-sm-2"
-                              >User Name:</label
-                            >
-                            <input
-                              type="text"
-                              formControlName="UserName1"
-                              id="UserName1"
-                              [ngClass]="{
-                                'is-invalid': submitted && f.UserName1.errors
-                              }"
-                              autocomplete="false"
-                              autocomplete="off"
-                              autocomplete="new-password"
-                              class="form-control mr-sm-2"
-                            />
-                            <div
-                              *ngIf="submitted && f.UserName1.errors"
-                              class="invalid-feedback"
-                            ></div>
-                          </div>
-                          <div class="form-group col-sm-2 m-0">
-                            <label for="Password1" class="mt-2 mb-2 mr-sm-2"
-                              >Password:</label
-                            >
-                            <input
-                              type="password"
-                              formControlName="Password1"
-                              id="Password1"
-                              [ngClass]="{
-                                'is-invalid': submitted && f.Password1.errors
-                              }"
-                              autocomplete="false"
-                              autocomplete="off"
-                              autocomplete="new-password"
-                              class="form-control mr-sm-2"
-                            />
-                            <div
-                              *ngIf="submitted && f.Password1.errors"
-                              class="invalid-feedback"
-                            ></div>
-                          </div>
-
-                          <div class="form-group col-sm-6 m-0">
-                            <label for="chkBox" class="mt-2 mb-2 ml-1 mr-sm-2"
-                              >User Rights:</label
-                            >
-                            <div id="chkBox" class="form-inline mt-2 mr-sm-2">
-                              <div
-                                class="custom-control custom-checkbox mb-2 mr-2 ml-1"
-                              >
-                                <input
-                                  type="checkbox"
-                                  class="custom-control-input ml-1 cursor-pointer"
-                                  id="PlayerDetail"
-                                  name="chkPlayerDetail"
-                                  formControlName="chkPlayerDetail"
-                                  [ngClass]="{
-                                    'is-invalid':
-                                      submitted && f.chkPlayerDetail.errors
-                                  }"
-                                />
-                                <label
-                                  class="custom-control-label cursor-pointer"
-                                  for="PlayerDetail"
-                                  >Player Detail</label
-                                >
+        </div>
+        <div class="card-body pt-0">
+          <div class="tab-content">
+            <div id="Users" role="tabpanel" class="col-lg-12 tab-pane active m-0 p-0">
+              <div class="form-inline">
+                <label for="cmbCustomer" class="mt-2 mb-2 mr-sm-2 pr-1"
+                  >Customer Name:</label
+                >
+                <select
+                  name="CustomerName"
+                  class="mt-2 custom-select col-12 col-md-3 col-lg-3"
+                  (change)="onChangeCustomer($event.target.value)"
+                  id="cmbCustomer" [(ngModel)]="cmbCustomer"
+                >
+                  <option selected value="0"></option>
+                  <option *ngFor="let cLst of CustomerList" [value]="cLst.Id">
+                    {{ cLst.DisplayName }}
+                  </option>
+                </select>
+              </div>
+              <ngb-tabset #t="ngbTabset">
+                <ngb-tab id="tab-selectbyid1" title="Search">
+                            <ng-template ngbTabContent>
+                              <div class="row m-0 p-0">
+                                <div class="table-responsive">
+                                  <table
+                                    class="table data-table table-striped table-bordered mydatatable"
+                                  >
+                                    <thead class="bg-primary">
+                                      <tr>
+                                        <th scope="col">User</th>
+                                        <th scope="col">Password</th>
+                                        <th scope="col" style="width: 30px"></th>
+                                        <th scope="col" style="width: 30px"></th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr *ngFor="let uLst of UserList">
+                                        <td>
+                                          {{ uLst.UserName1 }}
+                                        </td>
+                                        <td>
+                                          {{ uLst.Password1 }}
+                                        </td>
+                                        <td>
+                                          <i
+                                            class="fa fa-pencil-square-o text-primary"
+                                            (click)="onClickEditUser(uLst.id)"
+                                            (click)="t.select('tab-selectbyid2')"
+                                            aria-hidden="true"
+                                          ></i>
+                                        </td>
+            
+                                        <td>
+                                          <i
+                                            class="fa fa-trash text-danger"
+                                            aria-hidden="true"
+                                            (click)="
+                                              openDeleteDeleteModal(
+                                                UserDeleteModal,
+                                                uLst.id
+                                              )
+                                            "
+                                          ></i>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </div>
                               </div>
-                              <div
-                                class="custom-control custom-checkbox ml-1 mb-2 mr-2"
-                              >
-                                <input
-                                  type="checkbox"
-                                  class="custom-control-input cursor-pointer"
-                                  id="PlaylistLibrary"
-                                  name="chkPlaylistLibrary"
-                                  formControlName="chkPlaylistLibrary"
-                                  [ngClass]="{
-                                    'is-invalid':
-                                      submitted && f.chkPlaylistLibrary.errors
-                                  }"
-                                />
-                                <label
-                                  class="custom-control-label cursor-pointer"
-                                  for="PlaylistLibrary"
-                                  >Playlist Library</label
-                                >
-                              </div>
-                              <div
-                                class="custom-control custom-checkbox ml-1 mb-2 mr-2"
-                              >
-                                <input
-                                  type="checkbox"
-                                  class="custom-control-input ml-1 cursor-pointer"
-                                  id="Scheduling"
-                                  name="chkScheduling"
-                                  formControlName="chkScheduling"
-                                  [ngClass]="{
-                                    'is-invalid':
-                                      submitted && f.chkScheduling.errors
-                                  }"
-                                />
-                                <label
-                                  class="custom-control-label cursor-pointer"
-                                  for="Scheduling"
-                                  >Scheduling</label
-                                >
-                              </div>
-                              <div
-                                class="custom-control custom-checkbox mb-2 mr-2 ml-1"
-                              >
-                                <input
-                                  type="checkbox"
-                                  class="custom-control-input ml-1 cursor-pointer"
-                                  id="Advertisement"
-                                  name="chkAdvertisement"
-                                  formControlName="chkAdvertisement"
-                                  [ngClass]="{
-                                    'is-invalid':
-                                      submitted && f.chkAdvertisement.errors
-                                  }"
-                                />
-                                <label
-                                  class="custom-control-label cursor-pointer"
-                                  for="Advertisement"
-                                  >Advertisement/Announcements</label
-                                >
-                              </div>
-                              <div
-                                class="custom-control custom-checkbox ml-1 mb-2 mr-2"
-                              >
-                                <input
-                                  type="checkbox"
-                                  class="custom-control-input ml-1 cursor-pointer"
-                                  id="CopyData"
-                                  name="chkCopyData"
-                                  formControlName="chkCopyData"
-                                  [ngClass]="{
-                                    'is-invalid':
-                                      submitted && f.chkCopyData.errors
-                                  }"
-                                />
-                                <label
-                                  class="custom-control-label cursor-pointer"
-                                  for="CopyData"
-                                  >Copy/Transfer Data</label
-                                >
-                              </div>
-                              <div
-                                class="custom-control custom-checkbox ml-1 mb-2 mr-2"
-                              >
-                                <input
-                                  type="checkbox"
-                                  class="custom-control-input ml-1 cursor-pointer"
-                                  id="InstantPlay"
-                                  name="chkInstantPlay"
-                                  formControlName="chkInstantPlay"
-                                  [ngClass]="{
-                                    'is-invalid':
-                                      submitted && f.chkInstantPlay.errors
-                                  }"
-                                />
-                                <label
-                                  class="custom-control-label cursor-pointer"
-                                  for="InstantPlay"
-                                  >Instant Play</label
-                                >
-                              </div>
-                              <div
-                                class="custom-control custom-checkbox ml-1 mb-2 mr-2"
-                              >
-                                <input
-                                  type="checkbox"
-                                  class="custom-control-input ml-1 cursor-pointer"
-                                  id="UploadSong"
-                                  name="chkUpload"
-                                  formControlName="chkUpload"
-                                  [ngClass]="{
-                                    'is-invalid':
-                                      submitted && f.chkUpload.errors
-                                  }"
-                                />
-                                <label
-                                  class="custom-control-label cursor-pointer"
-                                  for="UploadSong"
-                                  >Upload/Download Content</label
-                                >
-                              </div>
-                              <div
-                                class="custom-control custom-checkbox ml-1 mb-2 mr-2"
-                              >
-                                <input
-                                  type="checkbox"
-                                  class="custom-control-input ml-1 cursor-pointer"
-                                  id="Streaming"
-                                  name="chkStreaming"
-                                  formControlName="chkStreaming"
-                                  [ngClass]="{
-                                    'is-invalid':
-                                      submitted && f.chkStreaming.errors
-                                  }"
-                                />
-                                <label
-                                  class="custom-control-label cursor-pointer"
-                                  for="Streaming"
-                                  >Streaming</label
-                                >
-                              </div>
-                              <div
-                                class="custom-control custom-checkbox ml-1 mb-2 mr-2"
-                              >
-                                <input
-                                  type="checkbox"
-                                  class="custom-control-input ml-1 cursor-pointer"
-                                  id="DeleteSong"
-                                  name="chkDeleteSong"
-                                  formControlName="chkDeleteSong"
-                                  [ngClass]="{
-                                    'is-invalid':
-                                      submitted && f.chkDeleteSong.errors
-                                  }"
-                                />
-                                <label
-                                  class="custom-control-label cursor-pointer"
-                                  for="DeleteSong"
-                                  >Delete Content</label
-                                >
-                              </div>
-                            </div>
-                          </div>
-
-                          <div class="form-group col-sm-2 mt-5">
-                            <button
-                              class="ml-2 btn btn-primary pull-right"
-                              (click)="Refresh()"
-                              type="button"
-                            >
-                              <i
-                                class="fa fa-refresh fa-lg"
-                                aria-hidden="true"
-                              ></i>
-                            </button>
-                            <button
-                              class="btn btn-primary pull-right"
-                              id="btnD"
-                            >
-                              <i
-                                class="fa fa-floppy-o fa-lg"
-                                aria-hidden="true"
-                              ></i>
-                            </button>
-                          </div>
-                        </div>
-                        <div class="form-row mt-3">
-                          <div class="form-group col-sm-3 m-0 mt-2">
-                            <div
-                              id="dvAPK"
-                              class="custom-control custom-checkbox ml-1 mb-2 mr-2"
-                            >
-                              <input
-                                type="checkbox"
-                                class="custom-control-input ml-1 cursor-pointer"
-                                id="InstantAPK"
-                                name="chkInstantAPK"
-                                formControlName="chkInstantApk"
-                              />
-                              <label
-                                class="custom-control-label cursor-pointer"
-                                for="InstantAPK"
-                                >Instant mobile playlist</label
-                              >
-                            </div>
-                            <div
-                              *ngIf="f.chkInstantApk.value == true"
-                              class="custom-control custom-checkbox ml-1 mb-2 mr-2"
-                            >
-                              <input
-                                type="checkbox"
-                                class="custom-control-input ml-1 cursor-pointer"
-                                id="UserAdmin"
-                                name="chkUserAdmin7"
-                                formControlName="chkUserAdmin"
-                              />
-                              <label
-                                class="custom-control-label cursor-pointer"
-                                for="UserAdmin"
-                                >Instant mobile admin</label
-                              >
-                            </div>
-                          </div>
-
-                          <div
-                            *ngIf="f.chkInstantApk.value == true"
-                            class="form-group col-sm-3"
-                          >
-                            <label for="FormatName" class="mt-2 mb-2 mr-sm-2"
-                              >Campaign Name:</label
-                            >
-                            <select
-                              name="FormatName"
-                              class="custom-select mb-3"
-                              (change)="onChangeFormat($event.target.value, '')"
-                              id="FormatName"
-                              formControlName="cmbFormat"
-                            >
-                              <option selected value="0"></option>
-                              <option
-                                *ngFor="let fLst of FormatList"
-                                [value]="fLst.Id"
-                              >
-                                {{ fLst.DisplayName }}
-                              </option>
-                            </select>
-                          </div>
-                          <div
-                            *ngIf="f.chkInstantApk.value == true"
-                            class="form-group col-sm-3"
-                          >
-                            <label for="SearchpName" class="mt-2 mb-2 mr-sm-2"
-                              >Playlist Name:</label
-                            >
-                            <select
-                              class="custom-select mb-3"
-                              formControlName="cmbPlaylist"
-                              id="SearchpName"
-                            >
-                              <option selected value="0"></option>
-                              <option
-                                *ngFor="let pLst of PlaylistList"
-                                [value]="pLst.Id"
-                              >
-                                {{ pLst.DisplayName }}
-                              </option>
-                            </select>
-                          </div>
-                        </div>
-
-                        <div class="row">
-                          <!--
-                              <div class="form-group col-sm-2 ml-auto">
-                                      <div class="mt-2 ml-auto">
-                                        <input type="text" class="float-right" id="cName" [(ngModel)]="searchText" [ngModelOptions]="{standalone: true}"  autocomplete="off"
-                                          placeholder="&#61442;  Search any text" class="form-control mb-2 mr-sm-2" />
+                            </ng-template>
+                          </ngb-tab>          
+                          <ngb-tab id="tab-selectbyid2" title="AddNew">
+                            <ng-template ngbTabContent>
+                              <div class="row m-0 p-0">
+                                <div class="col-lg-12">
+                                  <form
+                                    [formGroup]="Userform"
+                                    autocomplete="off"
+                                    (ngSubmit)="onSubmitUser()"
+                                  >
+                                    <input
+                                      type="text"
+                                      name="Newusername"
+                                      placeholder="username"
+                                      autocomplete="false"
+                                      autocomplete="off"
+                                      autocomplete="new-user"
+                                      style="display: none"
+                                    />
+                                    <input
+                                      type="password"
+                                      name="Newpassword"
+                                      placeholder="password"
+                                      style="display: none"
+                                    />
+                                    <div class="form-row">
+                                      <div class="form-group col-sm-2 m-0">
+                                        <label for="UserName1" class="mt-2 mb-2 mr-sm-2"
+                                          >User Name:</label
+                                        >
+                                        <input
+                                          type="text"
+                                          formControlName="UserName1"
+                                          id="UserName1"
+                                          [ngClass]="{
+                                            'is-invalid': submitted && f.UserName1.errors
+                                          }"
+                                          autocomplete="false"
+                                          autocomplete="off"
+                                          autocomplete="new-password"
+                                          class="form-control mr-sm-2"
+                                        />
+                                        <div
+                                          *ngIf="submitted && f.UserName1.errors"
+                                          class="invalid-feedback"
+                                        ></div>
                                       </div>
-                                    </div>-->
-
-                          <div class="table-responsive" style="height: 650px">
-                            <table
-                              class="table data-table table-striped table-bordered mydatatable"
-                            >
-                              <thead class="bg-primary">
-                                <tr>
-                                  <th scope="col">Player</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <tr
-                                  *ngFor="
-                                    let tLst of TokenList | filter: searchText
-                                  "
-                                >
-                                  <td>
-                                    <div
-                                      class="custom-control custom-checkbox mb-2 mr-sm-2"
-                                    >
-                                      <input
-                                        (change)="
-                                          SelectToken(tLst.tokenid, $event)
-                                        "
-                                        type="checkbox"
-                                        class="custom-control-input"
-                                        id="{{ tLst.tokenid }}"
-                                        [checked]="tLst.check"
-                                        name="chkToken"
-                                      />
-                                      <label
-                                        class="custom-control-label"
-                                        for="{{ tLst.tokenid }}"
-                                        style="justify-content: left"
-                                        >{{ tLst.tInfo }}</label
-                                      >
+                                      <div class="form-group col-sm-2 m-0">
+                                        <label for="Password1" class="mt-2 mb-2 mr-sm-2"
+                                          >Password:</label
+                                        >
+                                        <input
+                                          type="password"
+                                          formControlName="Password1"
+                                          id="Password1"
+                                          [ngClass]="{
+                                            'is-invalid': submitted && f.Password1.errors
+                                          }"
+                                          autocomplete="false"
+                                          autocomplete="off"
+                                          autocomplete="new-password"
+                                          class="form-control mr-sm-2"
+                                        />
+                                        <div
+                                          *ngIf="submitted && f.Password1.errors"
+                                          class="invalid-feedback"
+                                        ></div>
+                                      </div>
+            <div class="form-group col-sm-2 mt-5">
+                                        
+                                        <button
+                                          class="btn btn-primary"
+                                          id="btnD"
+                                        >
+                                          <i
+                                            class="fa fa-floppy-o fa-lg"
+                                            aria-hidden="true"
+                                          ></i>
+                                        </button>
+                                        <button
+                                          class="ml-2 btn btn-primary"
+                                          (click)="Refresh()"
+                                          type="button"
+                                        >
+                                          <i
+                                            class="fa fa-refresh fa-lg"
+                                            aria-hidden="true"
+                                          ></i>
+                                        </button>
+                                      </div>
+            
+                                      <div class="form-group col-sm-12 m-0">
+                                        <label for="chkBox" class="mt-2 mb-2 ml-1 mr-sm-2"
+                                          >User Rights:</label
+                                        >
+                                        <div id="chkBox" class="form-inline mt-2 mr-sm-2">
+                                          <div
+                                            class="custom-control custom-checkbox mb-2 mr-2 ml-1"
+                                          >
+                                            <input
+                                              type="checkbox"
+                                              class="custom-control-input ml-1 cursor-pointer"
+                                              id="PlayerDetail"
+                                              name="chkPlayerDetail"
+                                              formControlName="chkPlayerDetail"
+                                              [ngClass]="{
+                                                'is-invalid':
+                                                  submitted && f.chkPlayerDetail.errors
+                                              }"
+                                            />
+                                            <label
+                                              class="custom-control-label cursor-pointer"
+                                              for="PlayerDetail"
+                                              >Player Detail</label
+                                            >
+                                          </div>
+                                          <div
+                                            class="custom-control custom-checkbox ml-1 mb-2 mr-2"
+                                          >
+                                            <input
+                                              type="checkbox"
+                                              class="custom-control-input cursor-pointer"
+                                              id="PlaylistLibrary"
+                                              name="chkPlaylistLibrary"
+                                              formControlName="chkPlaylistLibrary"
+                                              [ngClass]="{
+                                                'is-invalid':
+                                                  submitted && f.chkPlaylistLibrary.errors
+                                              }"
+                                            />
+                                            <label
+                                              class="custom-control-label cursor-pointer"
+                                              for="PlaylistLibrary"
+                                              >Playlist Library</label
+                                            >
+                                          </div>
+                                          <div
+                                            class="custom-control custom-checkbox ml-1 mb-2 mr-2"
+                                          >
+                                            <input
+                                              type="checkbox"
+                                              class="custom-control-input ml-1 cursor-pointer"
+                                              id="Scheduling"
+                                              name="chkScheduling"
+                                              formControlName="chkScheduling"
+                                              [ngClass]="{
+                                                'is-invalid':
+                                                  submitted && f.chkScheduling.errors
+                                              }"
+                                            />
+                                            <label
+                                              class="custom-control-label cursor-pointer"
+                                              for="Scheduling"
+                                              >Scheduling</label
+                                            >
+                                          </div>
+                                          <div
+                                            class="custom-control custom-checkbox mb-2 mr-2 ml-1"
+                                          >
+                                            <input
+                                              type="checkbox"
+                                              class="custom-control-input ml-1 cursor-pointer"
+                                              id="Advertisement"
+                                              name="chkAdvertisement"
+                                              formControlName="chkAdvertisement"
+                                              [ngClass]="{
+                                                'is-invalid':
+                                                  submitted && f.chkAdvertisement.errors
+                                              }"
+                                            />
+                                            <label
+                                              class="custom-control-label cursor-pointer"
+                                              for="Advertisement"
+                                              >Advertisement/Announcements</label
+                                            >
+                                          </div>
+                                          <div
+                                            class="custom-control custom-checkbox ml-1 mb-2 mr-2"
+                                          >
+                                            <input
+                                              type="checkbox"
+                                              class="custom-control-input ml-1 cursor-pointer"
+                                              id="CopyData"
+                                              name="chkCopyData"
+                                              formControlName="chkCopyData"
+                                              [ngClass]="{
+                                                'is-invalid':
+                                                  submitted && f.chkCopyData.errors
+                                              }"
+                                            />
+                                            <label
+                                              class="custom-control-label cursor-pointer"
+                                              for="CopyData"
+                                              >Copy/Transfer Data</label
+                                            >
+                                          </div>
+                                          <div
+                                            class="custom-control custom-checkbox ml-1 mb-2 mr-2"
+                                          >
+                                            <input
+                                              type="checkbox"
+                                              class="custom-control-input ml-1 cursor-pointer"
+                                              id="InstantPlay"
+                                              name="chkInstantPlay"
+                                              formControlName="chkInstantPlay"
+                                              [ngClass]="{
+                                                'is-invalid':
+                                                  submitted && f.chkInstantPlay.errors
+                                              }"
+                                            />
+                                            <label
+                                              class="custom-control-label cursor-pointer"
+                                              for="InstantPlay"
+                                              >Instant Play</label
+                                            >
+                                          </div>
+                                          <div
+                                            class="custom-control custom-checkbox ml-1 mb-2 mr-2"
+                                          >
+                                            <input
+                                              type="checkbox"
+                                              class="custom-control-input ml-1 cursor-pointer"
+                                              id="UploadSong"
+                                              name="chkUpload"
+                                              formControlName="chkUpload"
+                                              [ngClass]="{
+                                                'is-invalid':
+                                                  submitted && f.chkUpload.errors
+                                              }"
+                                            />
+                                            <label
+                                              class="custom-control-label cursor-pointer"
+                                              for="UploadSong"
+                                              >Upload/Download Content</label
+                                            >
+                                          </div>
+                                          <div
+                                            class="custom-control custom-checkbox ml-1 mb-2 mr-2"
+                                          >
+                                            <input
+                                              type="checkbox"
+                                              class="custom-control-input ml-1 cursor-pointer"
+                                              id="Streaming"
+                                              name="chkStreaming"
+                                              formControlName="chkStreaming"
+                                              [ngClass]="{
+                                                'is-invalid':
+                                                  submitted && f.chkStreaming.errors
+                                              }"
+                                            />
+                                            <label
+                                              class="custom-control-label cursor-pointer"
+                                              for="Streaming"
+                                              >Streaming</label
+                                            >
+                                          </div>
+                                          <div
+                                            class="custom-control custom-checkbox ml-1 mb-2 mr-2"
+                                          >
+                                            <input
+                                              type="checkbox"
+                                              class="custom-control-input ml-1 cursor-pointer"
+                                              id="DeleteSong"
+                                              name="chkDeleteSong"
+                                              formControlName="chkDeleteSong"
+                                              [ngClass]="{
+                                                'is-invalid':
+                                                  submitted && f.chkDeleteSong.errors
+                                              }"
+                                            />
+                                            <label
+                                              class="custom-control-label cursor-pointer"
+                                              for="DeleteSong"
+                                              >Delete Content</label
+                                            >
+                                          </div>
+                                        </div>
+                                      </div>
+            
+                                      
+                                     
+                                      <div class="d-none form-group col-sm-2 m-0">
+                                        <div
+                                          id="dvAPK"
+                                          class="custom-control custom-checkbox ml-1 mb-2 mr-2"
+                                        >
+                                          <input
+                                            type="checkbox"
+                                            class="custom-control-input ml-1 cursor-pointer"
+                                            id="OfflineAlert"
+                                            name="chkOfflineAlert"
+                                            formControlName="chkOfflineAlert"
+                                          />
+                                          <label
+                                            class="custom-control-label cursor-pointer"
+                                            for="OfflineAlert"
+                                            >Offline email notification</label
+                                          >
+                                        </div>
+                                      </div>
+            
+                                      <label for="UserName1" *ngIf="f.chkOfflineAlert.value == true" class="mt-2 mb-2 mr-sm-2"
+                                      >Offline Interval<span style="font-size: 14px;">(minutes)</span></label>
+                                    <input type="number" *ngIf="f.chkOfflineAlert.value == true" formControlName="OfflineIntervalHour" id="UserName1" min="30" max="120" class="form-control mr-sm-2 w-25" />
+                                      
+            
                                     </div>
-                                  </td>
-                                </tr>
-                              </tbody>
-                            </table>
-                          </div>
-                        </div>
-                      </form>
-                    </div>
-                  </div>
-                </ng-template>
-              </ngb-tab>
-            </ngb-tabset>
+                                    <div class="form-row">
+                                      <div class="form-group col-sm-3 m-0">
+                                        <label for="dvAPK" class="mt-2 mb-2 ml-1 mr-sm-2"
+                                          >Instant Play:</label
+                                        >
+                                        <div id="dvAPK"
+                                          class="custom-control custom-checkbox ml-1 mb-2 mr-2"
+                                        >
+                                          <input
+                                            type="checkbox"
+                                            class="custom-control-input ml-1 cursor-pointer"
+                                            id="InstantAPK"
+                                            name="chkInstantAPK"
+                                            formControlName="chkInstantApk"
+                                          />
+                                          <label
+                                            class="custom-control-label cursor-pointer"
+                                            for="InstantAPK"
+                                            >Instant mobile playlist</label
+                                          >
+                                        
+                                        <div
+                                          *ngIf="f.chkInstantApk.value == true"
+                                          
+                                        >
+                                          <input
+                                            type="checkbox"
+                                            class="custom-control-input ml-1 cursor-pointer"
+                                            id="UserAdmin"
+                                            name="chkUserAdmin7"
+                                            formControlName="chkUserAdmin"
+                                          />
+                                          <label
+                                            class="custom-control-label cursor-pointer"
+                                            for="UserAdmin"
+                                            >Instant mobile admin</label
+                                          >
+                                        </div>
+                                      </div></div>
+            
+                                      <div
+                                        *ngIf="f.chkInstantApk.value == true"
+                                        class="form-group col-sm-3"
+                                      >
+                                        <label for="FormatName" class="mt-2 mb-2 mr-sm-2"
+                                          >Campaign Name:</label
+                                        >
+                                        <select
+                                          name="FormatName"
+                                          class="custom-select mb-3"
+                                          (change)="onChangeFormat($event.target.value, '')"
+                                          id="FormatName"
+                                          formControlName="cmbFormat"
+                                        >
+                                          <option selected value="0"></option>
+                                          <option
+                                            *ngFor="let fLst of FormatList"
+                                            [value]="fLst.Id"
+                                          >
+                                            {{ fLst.DisplayName }}
+                                          </option>
+                                        </select>
+                                      </div>
+                                      <div
+                                        *ngIf="f.chkInstantApk.value == true"
+                                        class="form-group col-sm-3"
+                                      >
+                                        <label for="SearchpName" class="mt-2 mb-2 mr-sm-2"
+                                          >Playlist Name:</label
+                                        >
+                                        <select
+                                          class="custom-select mb-3"
+                                          formControlName="cmbPlaylist"
+                                          id="SearchpName"
+                                        >
+                                          <option selected value="0"></option>
+                                          <option
+                                            *ngFor="let pLst of PlaylistList"
+                                            [value]="pLst.Id"
+                                          >
+                                            {{ pLst.DisplayName }}
+                                          </option>
+                                        </select>
+                                      </div>
+                                    </div>
+            
+                                    <div class="row">
+                                       
+                                          <div class="form-group col-sm-2 mb-0">
+                                                  <div class="mt-2">
+                                                    <input type="text" id="cName" [(ngModel)]="searchText" [ngModelOptions]="{standalone: true}"  autocomplete="off"
+                                                      placeholder="Search" class="form-control mb-2 mr-sm-2" />
+                                                  </div>
+                                                </div> 
+            
+                                      <div class="table-responsive ml-3" style="height: 650px">
+                                        <table
+                                          class="table data-table table-striped table-bordered mydatatable"
+                                        >
+                                          <thead>
+                                            <tr>
+                                              <th scope="col" class="bg-primary sticky-top" style="width: 50px;"></th>
+                                              <th scope="col" class="bg-primary sticky-top" sortable="city" (sort)="onSort($event)">City</th>
+                                              <th scope="col" class="bg-primary sticky-top" sortable="location" (sort)="onSort($event)">Location</th>
+                                              <th scope="col" class="bg-primary sticky-top" sortable="tokenCode" (sort)="onSort($event)">Token</th>
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                            <tr
+                                              *ngFor="
+                                                let tLst of TokenList | filter: searchText
+                                              "
+                                            >
+                                              <td>
+                                                <div
+                                                  class="custom-control custom-checkbox mb-2 mr-sm-2"
+                                                >
+                                                  <input
+                                                    (change)="
+                                                      SelectToken(tLst.tokenid, $event)
+                                                    "
+                                                    type="checkbox"
+                                                    class="custom-control-input"
+                                                    id="{{ tLst.tokenid }}"
+                                                    [checked]="tLst.check"
+                                                    name="chkToken"
+                                                  />
+                                                  <label
+                                                    class="custom-control-label"
+                                                    for="{{ tLst.tokenid }}"
+                                                    style="justify-content: left"
+                                                    >&nbsp;</label
+                                                  >
+                                                </div>
+                                              </td>
+                                              <td>{{ tLst.city }}</td>
+                                              <td>{{ tLst.location }}</td>
+                                              <td>{{ tLst.tokenCode }}</td>
+                                            </tr>
+                                          </tbody>
+                                        </table>
+                                      </div>
+                                    </div>
+                                  </form>
+                                </div>
+                              </div>
+                            </ng-template>
+                          </ngb-tab>
+            
+            
+                        </ngb-tabset>
+
+            </div>
+            <div id="OfflineAlert" role="tabpanel" class="col-lg-12 tab-pane m-0 p-0">
+              <app-offline-alert></app-offline-alert>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
+
 
 <ng-template #UserDeleteModal let-c="close" let-d="dismiss">
   <div class="modal-header bg-primary">
