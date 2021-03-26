@@ -1315,6 +1315,7 @@ export class StoreAndForwardComponent implements OnInit {
         wId: ObjWeekId,
         wName: ObjWeekName,
         PercentageValue: obj['PercentageValue'],
+        volume :obj['volume']
       },
     ];
     this.SFform.controls['PlaylistId'].setValue('0');

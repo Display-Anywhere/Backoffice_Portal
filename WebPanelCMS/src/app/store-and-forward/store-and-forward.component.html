@@ -352,7 +352,7 @@
                                 <input id="eTime" class="form-control mb-2 mr-sm-2" formControlName="EndTime"
                                     [owlDateTimeTrigger]="dt2" [owlDateTime]="dt2">
                                 <owl-date-time [pickerType]="'timer'" #dt2></owl-date-time>                            -->
-                                <div class="form-group col-sm-2 m-0">
+                                <div *ngIf="((cmbMediaType ==='Audio Copyright') || (cmbMediaType ==='Audio DirectLicence'))" class="form-group col-sm-2 m-0">
                                   <label for="pName" class="mb-2 mr-sm-2"
                                     >Volume:</label
                                   >
@@ -430,6 +430,7 @@
                           >
                             End Time
                           </th>
+                          <th *ngIf="((cmbMediaType ==='Audio Copyright') || (cmbMediaType ==='Audio DirectLicence'))">Volume</th>
                           <th
                             *ngIf="
                               f.ScheduleType.value !== 'PercentageSchedule'
@@ -467,6 +468,7 @@
                           >
                             {{ lstP.eTime }}
                           </td>
+                          <td *ngIf="((cmbMediaType ==='Audio Copyright') || (cmbMediaType ==='Audio DirectLicence'))">{{ lstP.volume }}</td>
                           <td
                             *ngIf="
                               f.ScheduleType.value !== 'PercentageSchedule'
