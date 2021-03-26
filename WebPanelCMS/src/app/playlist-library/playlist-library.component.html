@@ -1276,7 +1276,7 @@
             <span class="slider round"></span>
           </label>
         </div>
-        <div class="col-sm-12 p-0 m-0 mt-2">
+        <div class="d-none col-sm-12 p-0 m-0 mt-2">
           <label for="cmbVolume" class="mr-sm-2 p-0 pt-2">Volume Level</label>
           <select name="cmbVolume" class="custom-select mt-1 col-sm-8 col-12" id="cmbVolume" [(ngModel)]="cmbVolume">
             <option selected value="90">90</option>
@@ -1289,21 +1289,27 @@
       </div>
       <div class="row">
         <div class="col-sm-12 pr-0 mt-3">
+          <button class="btn btn-primary col-sm-4 pull-right mr-0"
+           (click)="VolumeLevelSetting(modalTokenInfo)"
+           (click)="d('Cross click')">
+          Volume Level
+        </button>
           <button
-            class="btn btn-danger col-sm-5 pull-right mr-0"
+            class="btn btn-danger col-sm-5 pull-right mr-1 ml-1"
             (click)="onPlaylistDeleteClick(PlaylistDeleteModal)"
             (click)="d('Cross click')"
           >
-            <i class="fa fa-trash" aria-hidden="true"></i> Delete Playlist
+            Delete Playlist
           </button>
 
           <button
-            class="btn btn-primary col-sm-5 pull-right mr-2"
+            class="btn btn-primary col-sm-2 pull-right mr-0"
             (click)="SettingPlaylist(ForceUpdate)"
             (click)="d('Cross click')"
           >
-            <i class="fa fa-floppy-o" aria-hidden="true"></i> Save
+ Save
           </button>
+          
         </div>
       </div>
       <div class="row mt-4">
@@ -1346,6 +1352,7 @@
           <input type="text" class="form-control" />
         </div>
       </div>
+      
     </div>
   </div>
 </ng-template>
@@ -1552,6 +1559,7 @@
 
 <ng-template #modalTokenInfo let-c="close" let-d="dismiss">
   <div class="modal-header bg-primary">
+    <h5 *ngIf="IsVolumeLevelModal===true" class="text-white">Token Volume Level Setting</h5>
     <button
       type="button"
       class="close text-white"
@@ -1563,35 +1571,72 @@
   </div>
   <div class="modal-body p-0">
     <div class="container-fluid p-0">
+
+<div *ngIf="IsVolumeLevelModal===true" class="row ml-0 mr-0 mb-1">
+  <div class="col-sm-10">
+    <label for="cmbVolume" class="mr-sm-2 p-0 pt-2">Volume Level</label>
+    <select name="cmbVolume" class="custom-select mt-1 col-sm-8 col-12" id="cmbVolume" [(ngModel)]="cmbVolume">
+      <option selected value="90">90</option>
+      <option  value="80">80</option>
+      <option  value="70">70</option>
+      <option  value="60">60</option>
+      <option  value="50">50</option>
+    </select>
+  </div>
+  <div class="col-sm-2">
+    <button
+            class="btn btn-primary pull-right mr-0"
+            (click)="SavePlaylistTokenVolume(ForceUpdate)"
+            (click)="d('Cross click')"
+          >
+ Save
+          </button>
+  </div>
+</div>
+
+
       <div class="table-responsive">
         <table
           class="table data-table table-striped table-bordered mydatatable"
         >
           <thead class="bg-primary">
             <tr>
+              <th *ngIf="IsVolumeLevelModal===true"></th>
               <th scope="col">Token Code</th>
-              <th scope="col">Name</th>
-              <th scope="col">Location</th>
               <th scope="col" style="width: 130px">City</th>
-              <th scope="col" style="width: 100px">Country</th>
+              <th scope="col">Location</th>
+              <th *ngIf="IsVolumeLevelModal===true" scope="col" style="width: 100px">Volume</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let cLst of TokenList">
+            <tr *ngFor="let cLst of TokenList; let i = index">
+              <td *ngIf="IsVolumeLevelModal===true">
+                <div class="custom-control custom-checkbox">
+                  <input
+                    (change)="SelectToken(cLst.tokenid, $event)"
+                    type="checkbox"
+                    class="custom-control-input"
+                    id="{{ cLst.tokenid }}{{ i }}"
+                    [checked]="cLst.check"
+                    name="chkgrpTokenList"
+                  />
+                  <label
+                    class="custom-control-label cursor-pointer"
+                    for="{{ cLst.tokenid }}{{ i }}"
+                  ></label>
+                </div>
+              </td>
               <td data-label="Token Code">
                 {{ cLst.tokenCode }}
-              </td>
-              <td data-label="Name">
-                {{ cLst.Name }}
-              </td>
-              <td data-label="Location">
-                {{ cLst.location }}
               </td>
               <td data-label="City">
                 {{ cLst.city }}
               </td>
-              <td data-label="Country ">
-                {{ cLst.countryName }}
+              <td data-label="Location">
+                {{ cLst.location }}
+              </td>
+              <td *ngIf="IsVolumeLevelModal===true" data-label="Location">
+                {{ cLst.Volume }}
               </td>
             </tr>
           </tbody>

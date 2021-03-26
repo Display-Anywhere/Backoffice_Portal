@@ -172,4 +172,10 @@ export class PlaylistLibService {
     return this.http.post(this.cApi.DeleteTitleOwn, params, { headers })
       .pipe((data => data));
   }
+  SavePlaylistTokenVolume(pid, volume,tokenIds) {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const params = JSON.stringify({ pid: pid, volume: volume,tokenIds: tokenIds });
+    return this.http.post(this.cApi.SavePlaylistTokenVolume, params, { headers })
+      .pipe((data => data));
+  }
 }

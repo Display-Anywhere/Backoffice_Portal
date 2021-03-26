@@ -144,6 +144,8 @@ export class PlaylistLibraryComponent implements OnInit {
   dtTrigger: Subject<any> = new Subject();
   searchText = '';
   cmbVolume="90"
+  IsVolumeLevelModal=false;
+  TokenSelected = [];
   ngOnInit() {
     localStorage.setItem('IsAnnouncement', '0');
     $('#dis').attr('unselectable', 'on');
@@ -2103,6 +2105,7 @@ export class PlaylistLibraryComponent implements OnInit {
       );
   }
   ViewTokens(modal, modalname) {
+    this.IsVolumeLevelModal=false
     this.modalService.open(modal, { size: 'lg' });
     if (modalname == 'Format') {
       this.FillTokenInfo(this.formatid, 0);
@@ -3101,6 +3104,65 @@ export class PlaylistLibraryComponent implements OnInit {
 
     // sorting countries
   }
+  VolumeLevelSetting(modalTokenInfo){
+    
+    if (this.ForceUpdateTokenid[0] === '') {
+      this.toastr.info('No tokens are available with selected playlist');
+      return;
+    }
+    this.IsVolumeLevelModal=true
+    this.FillTokenInfo(0, this.pid);
+    this.modalService.open(modalTokenInfo, { size: 'lg' });
+  }
+  SelectToken(fileid, event) {
+    if (event.target.checked) {
+      this.TokenSelected.push(fileid);
+    } else {
+      const index: number = this.TokenSelected.indexOf(fileid);
+      if (index !== -1) {
+        this.TokenSelected.splice(index, 1);
+      }
+    }
+  }
+  SavePlaylistTokenVolume(UpdateModel){
+    if (this.TokenSelected.length === 0) {
+      this.toastr.info('Please select atleast one location');
+      return;
+    }
+    this.loading = true;
+    this.pService
+      .SavePlaylistTokenVolume(this.pid,this.cmbVolume,this.TokenSelected)
+      .pipe()
+      .subscribe(
+        (data) => {
+          var returnData = JSON.stringify(data);
+          var obj = JSON.parse(returnData);
+          if (obj.Responce == '1') {
+            this.toastr.info('Saved', 'Success!');
+            this.TokenSelected=[];
+            this.loading = false;
+            this.NewName = this.SettingPname;
+            if (this.ForceUpdateTokenid != '') {
+              this.modalService.open(UpdateModel, { centered: true });
+            }
+          } else {
+            this.toastr.error(
+              'Apologies for the inconvenience.The error is recorded.',
+              ''
+            );
+          }
+          this.loading = false;
+        },
+        (error) => {
+          this.toastr.error(
+            'Apologies for the inconvenience.The error is recorded.',
+            ''
+          );
+          this.loading = false;
+        }
+      );
+  }
 }
+
 
 ///https://stackoverflow.com/questions/34523276/how-enable-multiple-row-selection-in-angular-js-table/34523640
