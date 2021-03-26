@@ -777,7 +777,18 @@
   </div>
   <div class="modal-body">
     <div class="row">
-      <div class="col-lg-12">
+      <div class="col-lg-6">
+        <input
+        id="txtSearchExt"
+        type="text"
+        [(ngModel)]="searchTextPublish"
+        class="text search-input"
+        placeholder="Search"
+        class="form-control mb-2 mr-sm-2 w-75"
+      />
+      </div>
+      <div class="col-lg-6">
+        
         <input
           type="button"
           class="btn btn-primary pull-right mb-2"
@@ -793,7 +804,7 @@
             <thead class="bg-primary text-white">
               <tr>
                 <th scope="col" style="width: 60px">
-                  <div class="custom-control custom-checkbox">
+                  <div *ngIf="searchTextPublish===''" class="custom-control custom-checkbox">
                     <input
                       (change)="allActiveToken($event)"
                       type="checkbox"
@@ -809,13 +820,13 @@
                     >
                   </div>
                 </th>
-                <th scope="col">City</th>
-                <th scope="col">Location</th>
-                <th scope="col">Token No</th>
+                <th scope="col" sortable="city" (sort)="onSort($event)">City</th>
+                <th scope="col" sortable="location" (sort)="onSort($event)">Location</th>
+                <th scope="col" sortable="tokenCode" (sort)="onSort($event)">Token No</th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let tLst of ActiveTokenList; let i = index">
+              <tr *ngFor="let tLst of ActiveTokenList | filter:searchTextPublish; let i = index ">
                 <td data-label="" class="">
                   <div class="custom-control custom-checkbox">
                     <input

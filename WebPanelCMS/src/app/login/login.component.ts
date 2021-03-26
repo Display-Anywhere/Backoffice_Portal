@@ -19,9 +19,9 @@ export class LoginComponent implements OnInit {
   constructor(public toastr: ToastrService, private router: Router, private formBuilder: FormBuilder, private ulService: UloginService, private visitorsService: VisitorsService, public authService: AuthService) { }
   ngOnInit() {
     this.authService.logout();
-    localStorage.setItem('DBType', 'Advikon');
-    this.emailText='jan@advikon.eu'
-   //this.emailText='j.rooijakkers@screensolutions.nl'
+    localStorage.setItem('DBType', 'Nusign');
+    //this.emailText='jan@advikon.eu'
+   this.emailText='j.rooijakkers@screensolutions.nl'
     localStorage.setItem('IsAnnouncement','0')
     this.loginform = this.formBuilder.group({
       email: ['', Validators.required],

@@ -99,6 +99,7 @@ export class StoreAndForwardComponent implements OnInit {
       lstPlaylist: [this.CustomSchedulePlaylist],
       ScheduleType: ['Normal', Validators.required],
       PercentageValue: ['0'],
+      volume: ['90'],
     });
     this.time = {
       hour: this.dt.getHours(),

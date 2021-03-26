@@ -40,6 +40,8 @@ import { NgbdSortableHeaderOpening, SortEvent } from './opensortable.directive';
 })
 export class LicenseHolderComponent
   implements AfterViewInit, OnInit, OnDestroy {
+    @ViewChildren(NgbdSortableHeaderOpening) headers: QueryList<NgbdSortableHeaderOpening>;
+    compare = (v1: string | number, v2: string | number) => v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
   Adform: FormGroup;
   TokenList = [];
   CustomerList: any[];
@@ -65,6 +67,7 @@ export class LicenseHolderComponent
   TokenSelected = [];
   chkAll: boolean = false;
   ActiveTokenList = [];
+  MainActiveTokenList=[]
   MainTokenList = [];
   InfoTokenList = [];
   active = 2;
@@ -77,7 +80,7 @@ export class LicenseHolderComponent
 
   dropdownList = [];
   selectedItems = [];
-
+  searchTextPublish="";
   CountryList = [];
   StateList = [];
   CityList = [];
@@ -762,7 +765,15 @@ async RefreshTokenList(){
         (data) => {
           var returnData = JSON.stringify(data);
           this.ActiveTokenList = JSON.parse(returnData);
+          this.MainActiveTokenList = this.ActiveTokenList
           this.loading = false;
+          const obj:SortEvent   ={
+            column:'city',
+            direction: 'asc'
+           }
+           setTimeout(() => { 
+            this.onSort(obj);
+          }, 500);
           if (this.ActiveTokenList.length != 0) {
             this.modalService.open(modalContant, { size: 'lg' });
           } else {
@@ -1138,5 +1149,25 @@ async RefreshTokenList(){
     localStorage.setItem('tcid', this.cid);
     this.FilterValue_For_Reload = 'All';
     this.modalService.open(gModal, { size: 'lg' });
+  }
+  onSort({column, direction}: SortEvent) {
+    
+    // resetting other headers
+    this.headers.forEach(header => {
+      if (header.sortable !== column) {
+        header.direction = '';
+        
+      }
+    });
+
+    // sorting countries
+    if (direction === '' || column === '') {
+      this.ActiveTokenList = this.MainActiveTokenList;
+    } else {
+      this.ActiveTokenList = [...this.MainActiveTokenList].sort((a, b) => {
+        const res = this.compare(a[column], b[column]);
+        return direction === 'asc' ? res : -res;
+      });
+    }
   }
 }
