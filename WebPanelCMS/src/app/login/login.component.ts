@@ -20,8 +20,12 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.authService.logout();
     localStorage.setItem('DBType', 'Advikon');
-    this.emailText='jan@advikon.eu'
-   //this.emailText='j.rooijakkers@screensolutions.nl'
+    if (localStorage.getItem('DBType')==="Advikon"){
+      this.emailText='jan@advikon.eu'
+    }
+    else{
+      this.emailText='j.rooijakkers@screensolutions.nl'
+    }
     localStorage.setItem('IsAnnouncement','0')
     this.loginform = this.formBuilder.group({
       email: ['', Validators.required],
