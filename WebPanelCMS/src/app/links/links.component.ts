@@ -2,6 +2,7 @@ import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { SerLicenseHolderService } from '../license-holder/ser-license-holder.service';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../auth/auth.service';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 
 
@@ -18,7 +19,7 @@ export class LinksComponent implements OnInit {
   public loading = false;
   
   IsAdvikon:boolean= true;
-
+  iframeUrl=false;
 VideoLink0="";
 VideoLink90="";
 AudioLink0="";
@@ -36,7 +37,7 @@ Keyboard="";
 SignageVideo0="";
 SignageVideo90="";
   constructor(private serviceLicense: SerLicenseHolderService,
-     public toastr: ToastrService, vcr: ViewContainerRef, public auth:AuthService) {
+     public toastr: ToastrService, vcr: ViewContainerRef, public auth:AuthService,private sanitizer: DomSanitizer) {
   }
 
   ngOnInit() {
@@ -112,5 +113,11 @@ this.VideoLink0="https://bit.ly/31yZLD4";
           this.toastr.error("Apologies for the inconvenience.The error is recorded.", '');
           this.loading = false;
         })
+  }
+  OpenManual(){
+    this.iframeUrl =true
+  }
+  HideManual(){
+    this.iframeUrl =false
   }
 }

@@ -47,6 +47,7 @@ export class PlaylistLibraryComponent implements OnInit {
   }
   @ViewChildren(NgbdSortableHeader_playlist)
   headers: QueryList<NgbdSortableHeader_playlist>;
+  headers_library: QueryList<NgbdSortableHeader_playlist>;
   compare = (v1: string | number, v2: string | number) =>
     v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
   get f() {
@@ -60,6 +61,7 @@ export class PlaylistLibraryComponent implements OnInit {
   PlaylistLibrary = [];
   PlaylistSelected = [];
   SongsList = [];
+  MainSongsList = [];
   playlistform: FormGroup;
   SongsSelected = [];
   submittedPlaylistform = false;
@@ -108,6 +110,7 @@ export class PlaylistLibraryComponent implements OnInit {
   chkAudio: boolean = false;
   chkMixed: boolean = false;
   chkImage: boolean = false;
+  chkUrl: boolean = false;
   PlaylistSongContentType: string = '';
   NewName = '';
   HeaderName2 = '';
@@ -138,14 +141,13 @@ export class PlaylistLibraryComponent implements OnInit {
   ImageTimeInterval = [];
   chkDuplicate = false;
   isImgFind = 'No';
-  @ViewChild(DataTableDirective)
-  dtElement: DataTableDirective;
-  dtOptions: any = {};
-  dtTrigger: Subject<any> = new Subject();
+  
+   
   searchText = '';
   cmbVolume="90"
   IsVolumeLevelModal=false;
   TokenSelected = [];
+  IscmbCustomerMediaTypeChange=true
   ngOnInit() {
     localStorage.setItem('IsAnnouncement', '0');
     $('#dis').attr('unselectable', 'on');
@@ -200,10 +202,10 @@ export class PlaylistLibraryComponent implements OnInit {
     this.PlaylistList = [];
     this.MainPlaylistList = [];
     this.SongsList = [];
-
+    this.MainSongsList = [];
     this.FillClientList();
     this.chkTitle = true;
-    this.DataTableSettings();
+    
   }
 
   FillClientList() {
@@ -262,6 +264,7 @@ export class PlaylistLibraryComponent implements OnInit {
             this.chkAudio = false;
             this.chkVideo = false;
             this.chkImage = false;
+            this.chkUrl=false;
 
             this.IsCL = false;
             this.IsRF = false;
@@ -274,6 +277,7 @@ export class PlaylistLibraryComponent implements OnInit {
               this.chkAudio = true;
               this.chkVideo = false;
               this.chkImage = false;
+              this.chkUrl=false;
               this.HeaderName = 'Album';
               this.chkMediaRadio = 'Audio';
               this.IsCL = true;
@@ -284,6 +288,7 @@ export class PlaylistLibraryComponent implements OnInit {
               this.chkAudio = false;
               this.chkVideo = true;
               this.chkImage = false;
+              this.chkUrl=false;
               this.HeaderName = 'Label';
               this.chkMediaRadio = 'Video';
               this.IsCL = true;
@@ -310,6 +315,7 @@ export class PlaylistLibraryComponent implements OnInit {
               this.chkMediaRadio == 'Video'
             ) {
               this.SongsList = [];
+              this.MainSongsList = [];
               this.chkSearchRadio = 'Genre';
               this.SearchText = '';
               this.Search = false;
@@ -335,6 +341,7 @@ export class PlaylistLibraryComponent implements OnInit {
     this.CopyFormatList = [];
     this.CopyFormatListClone = [];
     this.SongsList = [];
+    this.MainSongsList = [];
     this.formatid = '0';
 
     this.PlaylistLibrary = [];
@@ -343,6 +350,7 @@ export class PlaylistLibraryComponent implements OnInit {
     //this.LoginDfClientId = this.cmbCustomer;
   }
   onChangeCustomerMediaType(id) {
+    this.IscmbCustomerMediaTypeChange=true
     this.PageNo = 1;
     this.PlaylistList = [];
     this.MainPlaylistList = [];
@@ -365,6 +373,7 @@ export class PlaylistLibraryComponent implements OnInit {
     this.chkAudio = false;
     this.chkVideo = false;
     this.chkImage = false;
+    this.chkUrl=false;
     this.IsCL = false;
     this.IsRF = false;
     localStorage.setItem('IsRf', '0');
@@ -373,6 +382,7 @@ export class PlaylistLibraryComponent implements OnInit {
       this.chkAudio = true;
       this.chkVideo = false;
       this.chkImage = false;
+      this.chkUrl=false;
       this.HeaderName = 'Album';
       this.chkMediaRadio = 'Audio';
       this.IsCL = true;
@@ -384,6 +394,7 @@ export class PlaylistLibraryComponent implements OnInit {
       this.chkAudio = true;
       this.chkVideo = false;
       this.chkImage = false;
+      this.chkUrl=false;
       this.HeaderName = 'Album';
       this.chkMediaRadio = 'Audio';
       this.IsCL = false;
@@ -395,6 +406,7 @@ export class PlaylistLibraryComponent implements OnInit {
       this.chkAudio = false;
       this.chkVideo = true;
       this.chkImage = false;
+      this.chkUrl=false;
       this.HeaderName = 'Label';
       this.chkMediaRadio = 'Video';
       this.IsCL = true;
@@ -406,6 +418,7 @@ export class PlaylistLibraryComponent implements OnInit {
       this.chkAudio = false;
       this.chkVideo = true;
       this.chkImage = false;
+      this.chkUrl=false;
       this.HeaderName = 'Label';
       this.chkMediaRadio = 'Video';
       this.IsCL = true;
@@ -433,6 +446,7 @@ export class PlaylistLibraryComponent implements OnInit {
       this.chkMediaRadio == 'Video'
     ) {
       this.SongsList = [];
+      this.MainSongsList = [];
       this.chkSearchRadio = 'Genre';
       this.SearchText = '';
       this.Search = false;
@@ -656,12 +670,14 @@ export class PlaylistLibraryComponent implements OnInit {
 
     if (this.chkSearchRadio == 'ReleaseDate') {
       this.SongsList = [];
+      this.MainSongsList = [];
       this.FillReleaseDate();
       this.Search = false;
       this.HeaderName2 = 'Release Date';
     }
     if (this.chkSearchRadio == 'BPM') {
       this.SongsList = [];
+      this.MainSongsList = [];
       this.FillBPM();
       this.Search = false;
       this.HeaderName2 = 'BPM';
@@ -669,11 +685,13 @@ export class PlaylistLibraryComponent implements OnInit {
     if (this.chkSearchRadio == 'EngeryLevel') {
       this.chkEnergy = true;
       this.SongsList = [];
+      this.MainSongsList = [];
       this.FillEngeryLevel();
       this.Search = false;
     }
     if (this.chkSearchRadio == 'NewVibe') {
       this.SongsList = [];
+      this.MainSongsList = [];
       this.FillSearch();
       this.Search = true;
       this.HeaderName2 = 'Release Date';
@@ -681,21 +699,25 @@ export class PlaylistLibraryComponent implements OnInit {
     if (this.chkSearchRadio == 'Genre') {
       this.chkGenre = true;
       this.SongsList = [];
+      this.MainSongsList = [];
       this.FillGenre();
       this.Search = false;
     }
     if (this.chkSearchRadio == 'Category') {
       this.SongsList = [];
+      this.MainSongsList = [];
       this.FillCategory();
       this.Search = false;
     }
     if (this.chkSearchRadio == 'Language') {
       this.SongsList = [];
+      this.MainSongsList = [];
       this.FillLanguage();
       this.Search = false;
     }
     if (this.chkSearchRadio == 'Year') {
       this.SongsList = [];
+      this.MainSongsList = [];
       this.FillYear();
       this.Search = false;
     }
@@ -705,11 +727,13 @@ export class PlaylistLibraryComponent implements OnInit {
     }
     if (this.chkSearchRadio == 'Folder') {
       this.SongsList = [];
+      this.MainSongsList = [];
       this.FillFolder();
       this.Search = false;
     }
     if (this.chkSearchRadio == 'Label') {
       this.SongsList = [];
+      this.MainSongsList = [];
       this.FillLabel();
       this.Search = false;
     }
@@ -722,6 +746,7 @@ export class PlaylistLibraryComponent implements OnInit {
       this.chkSearchRadio == 'album'
     ) {
       this.SongsList = [];
+      this.MainSongsList = [];
       this.FillSongList();
     }
   }
@@ -736,12 +761,14 @@ export class PlaylistLibraryComponent implements OnInit {
       this.chkAudio = false;
       this.chkVideo = false;
       this.chkImage = false;
+      this.chkUrl=false;
       this.IsRF = false;
       this.IsCL = false;
 
       this.chkAudio = true;
       this.chkVideo = false;
       this.chkImage = false;
+      this.chkUrl=false;
       this.IsCL = true;
       this.IsRF = false;
       localStorage.setItem('IsRf', '0');
@@ -750,7 +777,7 @@ export class PlaylistLibraryComponent implements OnInit {
       this.chkAudio = false;
       this.chkVideo = false;
       this.chkImage = false;
-
+      this.chkUrl=false;
       this.chkAudio = false;
       this.chkVideo = true;
       this.chkImage = false;
@@ -759,10 +786,22 @@ export class PlaylistLibraryComponent implements OnInit {
       this.chkAudio = false;
       this.chkVideo = false;
       this.chkImage = false;
+      this.chkUrl=false;
 
       this.chkAudio = false;
       this.chkVideo = false;
       this.chkImage = true;
+    }
+    if (e == 'Url') {
+      this.chkAudio = false;
+      this.chkVideo = false;
+      this.chkImage = false;
+      this.chkUrl=false;
+      
+      this.chkAudio = false;
+      this.chkVideo = false;
+      this.chkImage = false;
+      this.chkUrl= true;
     }
 
     if (e == 'Image') {
@@ -804,7 +843,7 @@ export class PlaylistLibraryComponent implements OnInit {
     }
 
     this.SongsList = [];
-
+    this.MainSongsList = [];
     if (this.OldValue == 'Image') {
       this.chkSearchRadio = 'title';
     }
@@ -987,6 +1026,9 @@ export class PlaylistLibraryComponent implements OnInit {
 
     if (this.chkMediaRadio == 'Image') {
       qry = qry + ' and tbGenre.GenreId in(325,324) ';
+    }
+    else if (this.chkMediaRadio == 'Url') {
+      qry = qry + ' and tbGenre.GenreId in(489) ';
     } else {
       if (this.auth.ContentType$ == 'Signage') {
         qry = qry + ' and tbGenre.GenreId in(297,303) ';
@@ -1197,8 +1239,8 @@ export class PlaylistLibraryComponent implements OnInit {
         return;
       }
     }
-    this.DataTableSettings();
-    this.rerender();
+    
+    
     this.loading = true;
     this.pService
       .CommanSearch(
@@ -1215,9 +1257,10 @@ export class PlaylistLibraryComponent implements OnInit {
           var returnData = JSON.stringify(data);
           var obj = JSON.parse(returnData);
           this.SongsList = obj;
+          this.MainSongsList =obj
           this.loading = false;
 
-          this.rerender();
+          
         },
         (error) => {
           this.toastr.error(
@@ -1231,6 +1274,7 @@ export class PlaylistLibraryComponent implements OnInit {
   FillSongList() {
     if (this.auth.ContentType$ == 'Signage' && this.chkMediaRadio == 'Video') {
       this.SongsList = [];
+      this.MainSongsList = [];
       this.chkSearchRadio = 'Genre';
       this.chkGenre = true;
       this.SearchText = '';
@@ -1238,8 +1282,8 @@ export class PlaylistLibraryComponent implements OnInit {
       this.SearchRadioClick(this.chkSearchRadio);
       this.FillSpecialPlaylistList();
     } else {
-      this.DataTableSettings();
-      this.rerender();
+      
+      
       this.selectedRowsIndexes = [];
       this.loading = true;
       this.pService
@@ -1250,8 +1294,9 @@ export class PlaylistLibraryComponent implements OnInit {
             var returnData = JSON.stringify(data);
             var obj = JSON.parse(returnData);
             this.SongsList = obj;
+            this.MainSongsList = obj
             this.loading = false;
-            this.rerender();
+            
             this.FillSpecialPlaylistList();
           },
           (error) => {
@@ -2355,13 +2400,13 @@ export class PlaylistLibraryComponent implements OnInit {
   }
 
   onScrollDown() {
-    return;
+    
     this.PageNo += 1;
     this.appendItems();
   }
   appendItems() {
-    //this.DataTableSettings();
-    //this.rerender();
+    
+    
     this.loading = true;
     this.pService
       .CommanSearch(
@@ -2380,38 +2425,10 @@ export class PlaylistLibraryComponent implements OnInit {
           var returnData = JSON.stringify(data);
           var obj = JSON.parse(returnData);
           for (var i = 0; i < obj.length; i++) {
-            var title = obj[i].title;
-
-            var Artist = obj[i].Artist;
-            var genreName = obj[i].genreName;
-            var Label = obj[i].Label;
-            var Album = obj[i].Album;
-            var FolderName = obj[i].FolderName;
-            var BPM = obj[i].BPM;
-            var rDate = obj[i].rDate;
-            var titleyear = obj[i].titleyear;
-            var id = obj[i].id;
-            this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-              dtInstance.row
-                .add([
-                  '',
-                  title,
-                  Artist,
-                  genreName,
-                  Label,
-                  Album,
-                  FolderName,
-                  BPM,
-                  rDate,
-                  titleyear,
-                  id,
-                ])
-                .draw(false);
-            });
+            this.SongsList.push(obj[i])
           }
-
           //this.SongsList =obj;
-          //  this.rerender();
+          this.MainSongsList =this.SongsList;
 
           this.loading = false;
           //
@@ -2774,316 +2791,17 @@ export class PlaylistLibraryComponent implements OnInit {
     this.ViewPlaylists = 'Yes';
   }
 
-  DataTableSettings() {
-    this.dtOptions = {
-      pagingType: 'numbers',
-      pageLength: 50000,
-      processing: false,
-      dom: 'rt',
-
-      columnDefs: [
-        {
-          caseInsensitive: false,
-        },
-        {
-          targets: [0, 5, 6, 7],
-          orderable: false,
-        },
-        {
-          targets: [0, 4, 5, 6, 7, 8, 9, 10],
-          visible: false,
-        },
-        {
-          width: '350px',
-          targets: 1,
-        },
-        {
-          width: '300px',
-          targets: 2,
-        },
-        {
-          width: '220px',
-          targets: 3,
-        },
-      ],
-      retrieve: true,
-    };
-
-    if (
-      (this.chkMediaRadio == 'Audio' && this.IsRF == true) ||
-      this.chkMediaRadio == 'Video'
-    ) {
-      this.dtOptions = {
-        pagingType: 'numbers',
-        pageLength: 50000,
-        processing: false,
-        dom: 'rt',
-
-        columnDefs: [
-          {
-            caseInsensitive: false,
-          },
-          {
-            targets: [0],
-            orderable: false,
-          },
-          {
-            targets: [0, 5, 6, 7, 8, 9, 10],
-            visible: false,
-          },
-          {
-            width: '350px',
-            targets: 1,
-          },
-          {
-            width: '300px',
-            targets: 2,
-          },
-          {
-            width: '220px',
-            targets: 3,
-          },
-        ],
-        retrieve: true,
-      };
-    }
-    if (this.chkMediaRadio == 'Audio' && this.IsCL == true) {
-      this.dtOptions = {
-        pagingType: 'numbers',
-        pageLength: 50000,
-        processing: false,
-        dom: 'rt',
-
-        columnDefs: [
-          {
-            caseInsensitive: false,
-          },
-          {
-            targets: [0, 5, 6, 7],
-            orderable: false,
-          },
-          {
-            targets: [0, 4, 6, 7, 8, 9, 10],
-            visible: false,
-          },
-          {
-            width: '350px',
-            targets: 1,
-          },
-          {
-            width: '300px',
-            targets: 2,
-          },
-          {
-            width: '220px',
-            targets: 3,
-          },
-        ],
-        retrieve: true,
-      };
-    }
-    if (this.chkMediaRadio == 'Image') {
-      this.dtOptions = {
-        pagingType: 'numbers',
-        pageLength: 50000,
-        processing: false,
-        dom: 'rt',
-
-        columnDefs: [
-          {
-            caseInsensitive: false,
-          },
-          {
-            targets: [0, 5, 6, 7],
-            orderable: false,
-          },
-          {
-            targets: [0, 4, 5, 7, 8, 9, 10],
-            visible: false,
-          },
-          {
-            width: '350px',
-            targets: 1,
-          },
-          {
-            width: '300px',
-            targets: 2,
-          },
-          {
-            width: '220px',
-            targets: 3,
-          },
-        ],
-        retrieve: true,
-      };
-    }
-    if (this.chkSearchRadio == 'BPM') {
-      this.dtOptions = {
-        pagingType: 'numbers',
-        pageLength: 50000,
-        processing: false,
-        dom: 'rt',
-
-        columnDefs: [
-          {
-            caseInsensitive: false,
-          },
-          {
-            targets: [0, 5, 6, 7],
-            orderable: false,
-          },
-          {
-            targets: [0, 4, 5, 6, 8, 9, 10],
-            visible: false,
-          },
-          {
-            width: '350px',
-            targets: 1,
-          },
-          {
-            width: '300px',
-            targets: 2,
-          },
-          {
-            width: '220px',
-            targets: 3,
-          },
-        ],
-        retrieve: true,
-      };
-    }
-    if (this.chkSearchRadio == 'ReleaseDate') {
-      this.dtOptions = {
-        pagingType: 'numbers',
-        pageLength: 50000,
-        processing: false,
-        dom: 'rt',
-
-        columnDefs: [
-          {
-            caseInsensitive: false,
-          },
-          {
-            targets: [0, 5, 6, 7],
-            orderable: false,
-          },
-          {
-            targets: [0, 4, 5, 6, 7, 9, 10],
-            visible: false,
-          },
-          {
-            width: '350px',
-            targets: 1,
-          },
-          {
-            width: '300px',
-            targets: 2,
-          },
-          {
-            width: '220px',
-            targets: 3,
-          },
-        ],
-        retrieve: true,
-      };
-    }
-    if (this.chkSearchRadio == 'NewVibe') {
-      this.dtOptions = {
-        pagingType: 'numbers',
-        pageLength: 50000,
-        processing: false,
-        dom: 'rt',
-
-        columnDefs: [
-          {
-            caseInsensitive: false,
-          },
-          {
-            targets: [0, 5, 6, 7],
-            orderable: false,
-          },
-          {
-            targets: [0, 4, 5, 6, 7, 8, 10],
-            visible: false,
-          },
-          {
-            width: '350px',
-            targets: 1,
-          },
-          {
-            width: '300px',
-            targets: 2,
-          },
-          {
-            width: '220px',
-            targets: 3,
-          },
-        ],
-        retrieve: true,
-      };
-    }
-    if (this.cmbCustomerMediaType == 'Signage') {
-      this.dtOptions = {
-        pagingType: 'numbers',
-        pageLength: 50000,
-        processing: false,
-        dom: 'rt',
-
-        columnDefs: [
-          {
-            caseInsensitive: false,
-          },
-          {
-            targets: [0, 5, 6, 7],
-            orderable: false,
-          },
-          {
-            targets: [0, 4, 5, 6, 7, 8, 9],
-            visible: false,
-          },
-          {
-            width: '50px',
-            targets: 10,
-          },
-          {
-            width: '350px',
-            targets: 1,
-          },
-          {
-            width: '300px',
-            targets: 2,
-          },
-          {
-            width: '220px',
-            targets: 3,
-          },
-        ],
-        retrieve: true,
-      };
-    }
-  }
+  
   ngAfterViewInit(): void {
-    this.dtTrigger.next();
+     
   }
-  filterById(): void {
-    this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-      dtInstance.search(this.searchText, false).draw();
-    });
-  }
+  
   ngOnDestroy(): void {
     // Do not forget to unsubscribe the event
 
-    this.dtTrigger.unsubscribe();
+    
   }
-  rerender(): void {
-    this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-      dtInstance.clear();
-      // Destroy the table first
-      dtInstance.destroy();
-      // Call the dtTrigger to rerender again
-      this.dtTrigger.next();
-    });
-  }
+  
 
   onSort({ column, direction }: SortEvent) {
     // resetting other headers
@@ -3162,7 +2880,34 @@ export class PlaylistLibraryComponent implements OnInit {
         }
       );
   }
+  onClickSpecialPlaylists(){
+    this.IscmbCustomerMediaTypeChange = false
+  }
+
+
+  onSort_Libray({ column, direction }: SortEvent) {
+    // resetting other headers
+    this.headers.forEach((header) => {
+      if (header.sortable !== column) {
+        header.direction = '';
+      }
+    });
+
+    if (direction === '' || column === '') {
+      this.SongsList = this.MainSongsList;
+    } else {
+      this.SongsList = [...this.MainSongsList].sort((a, b) => {
+        const res = this.compare(a[column], b[column]);
+        return direction === 'asc' ? res : -res;
+      });
+    }
+
+    // sorting countries
+  }
 }
 
 
 ///https://stackoverflow.com/questions/34523276/how-enable-multiple-row-selection-in-angular-js-table/34523640
+//datatable
+//[dtOptions]="dtOptions"
+//[dtTrigger]="dtTrigger"

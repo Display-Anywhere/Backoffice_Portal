@@ -126,6 +126,10 @@ export class ConfigAPI {
    EditOfflineUser: string = this.Host + 'EditOfflineUser';
    FillOfflineAlertList: string = this.Host + 'FillOfflineAlertList';
    SavePlaylistTokenVolume: string = this.Host + 'SavePlaylistTokenVolume';
+   DeleteOfflineAlert: string = this.Host + 'DeleteOfflineAlert';
+   SaveTemplateUrl: string = this.Host + 'SaveTemplateUrl';
+   GetTemplateUrl: string = this.Host + 'GetTemplateUrl';
+   DeleteTemplateUrl: string = this.Host + 'DeleteTemplateUrl';
 }
 
 // localStorage.setItem('UserId', obj.UserId);

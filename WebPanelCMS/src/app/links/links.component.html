@@ -3,8 +3,8 @@
 
 <div class="container-fluid p-0">
   <div class="col-12 p-0">
-    <div class="row">
-      <div class="card p-2 mb-0">
+    <div class="row"   *ngIf="!iframeUrl">
+          <div class="card p-2 mb-0">
         <div class="row mt-2" *ngIf="IsAdvikon == true">
           <div class="col-sm-4 col-lg-3 mb-1 custom_space">
             <div class="card bg-primary p-2 pt-3 mb-2">
@@ -342,15 +342,35 @@
               </div>
             </div>
           </div>
+          <div class="col-sm-4 col-lg-3 mb-3 custom_space">
+            <div class="card bg-primary p-2 pt-3 mb-2 text-center">
+              <div class="form-group">
+                <label class="mb-1 mr-sm-2 text-white"
+                  >Open Manual<br />
+                 </label
+                >
+              </div>
+              <div class="form-group">
+                <a
+                  href="javascript:;"
+                  style="color: #fff" (click)="OpenManual()"
+                >
+                  <button class="btn btn-outline-light text-white" >
+                    <i class="fa fa-external-link" aria-hidden="true"></i>
+                  </button>
+                </a>
+              </div>
+            </div>
+          </div>
           <!-- Customer login content start -->
-          <div class="col-lg-6 mb-3 custom_space">
+          <div class="col-sm-4 col-lg-3 mb-3 custom_space" *ngIf="auth.IsAdminLogin$ | async">
             <div class="card bg-primary p-2">
-              <div *ngIf="auth.IsAdminLogin$ | async">
+              <div>
                 <h4 class="text-white text-left custom_style">
                   Customer Login Details:
                 </h4>
               </div>
-              <div class="col-lg-12 p-0" *ngIf="auth.IsAdminLogin$ | async">
+              <div class="col-lg-12 p-0">
                 <div class="form-inline p-1">
                   <label
                     for="cmbCustomer"
@@ -478,5 +498,15 @@
         </div>
       </div> -->
     </div>
+    <div class="row" *ngIf="iframeUrl">
+      <button class="btn btn-primary" (click)="HideManual()" >
+        Back
+      </button>
+    </div>
+    <div class="row" *ngIf="iframeUrl">
+
+      <iframe src="https://manual.advikon.com/" class="w-100" frameborder="0" style="height: 45rem;">
+      </iframe>
+      </div>
   </div>
 </div>

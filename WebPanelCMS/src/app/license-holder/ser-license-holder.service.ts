@@ -194,4 +194,21 @@ ReplaceFolderContent(cid,folderId) {
   return this.http.post(this.cApi.ReplaceFolderContent, params, { headers: headers })
     .pipe((data => { return data; }))
 }
+SaveTemplateUrl(json) {
+  const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+  return this.http.post(this.cApi.SaveTemplateUrl, json, { headers })
+    .pipe((data => data));
+}
+GetTemplateUrl(cid) {
+  const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+  var params = JSON.stringify({ id: cid});
+  return this.http.post(this.cApi.GetTemplateUrl, params, { headers })
+    .pipe((data => data));
+}
+DeleteTemplateUrl(id) {
+  const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+  var params = JSON.stringify({ id: id});
+  return this.http.post(this.cApi.DeleteTemplateUrl, params, { headers })
+    .pipe((data => data));
+}
 }

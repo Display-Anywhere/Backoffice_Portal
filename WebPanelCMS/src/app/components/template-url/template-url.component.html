@@ -1,0 +1,167 @@
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }">
+</ngx-loading>
+<div class="col-lg-12 p-0">
+    <ngb-tabset #t="ngbTabset">
+        <ngb-tab id="tab-selectbyid1" title="Search">
+            <ng-template ngbTabContent>
+                <div class="container-fluid">
+                    <div class="form-group col-sm-4 m-0">
+                        <label for="SearchCName" class="mb-2 mr-sm-2"
+                          >Customer Name:</label
+                        >
+                        <select
+                          name="SearchCustomerName"
+                          class="custom-select mb-3"
+                          [(ngModel)]="cmbSearchCustomer"
+                          (change)="onChangeSearchCustomer($event.target.value)"
+                          id="SearchCName"
+                        >
+                          <option selected value="0"></option>
+                          <option
+                            *ngFor="let cLst of SearchCustomerList"
+                            [value]="cLst.Id"
+                          >
+                            {{ cLst.DisplayName }}
+                          </option>
+                        </select>
+                      </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table data-table table-striped table-bordered mydatatable">
+                        <thead class="bg-primary">
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Duration (Minutes)</th>
+                                <th scope="col">Refersh Time (Minutes)</th>
+                                <th scope="col" class="Link-Center_Width"></th>
+                                <th scope="col" class="Link-Center_Width"></th>
+                              </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor=" let adLst of UrlList| slice: (page - 1) * pageSize: (page - 1) * pageSize + pageSize">
+                                <td data-label="Advt Name">
+                                    <a href="{{ adLst.urlLink }}" target="_blank">
+                                      {{ adLst.urlName }}
+                                    </a>
+                                  </td>
+                                  <td  data-label="Duration">{{adLst.duration}}</td>
+                                  <td  data-label="Refersh Time">{{adLst.refersh}}</td>
+                                  <td data-label="" class="cursor-pointer Link-Center_Width">
+                                <a href="javascript:;" (click)="EditUrl(adLst)" (click)="t.select('tab-selectbyid2')">
+                                  <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                </a>
+                              </td>
+                              <td data-label="" class="cursor-pointer Link-Center_Width" (click)="openUrlDeleteModal(UrlDeleteModal, adLst.id)">
+                                  <i class="fa fa-trash" style="color: red" aria-hidden="true"></i>
+                              </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <ngb-pagination
+                    [collectionSize]="UrlList.length"
+                    [(page)]="page"
+                    [pageSize]="pageSize"
+                    aria-label="Default pagination"
+                  ></ngb-pagination>
+                </div>
+            </ng-template>
+        </ngb-tab>
+        <ngb-tab id="tab-selectbyid2" title="AddNew">
+            <ng-template ngbTabContent>
+                <div class="container-fluid">
+                    <form [formGroup]="frmUrl">
+                        <div class="form-row">
+                            <div class="form-group col-sm-3 m-0">
+                            <label for="cName" class="mb-2 mr-sm-2">Customer:</label>
+                              <select name="cName" class="custom-select  mb-2 mr-sm-2" formControlName="cmbCustomer" (change)="onChangeCustomer($event.target.value)">
+                          <option selected value="0"></option>
+                          <option *ngFor="let cLst of CustomerList" [value]="cLst.Id">
+                            {{ cLst.DisplayName }}
+                          </option>
+                        </select>
+                            </div>
+                            <div class="form-group col-sm-2 m-0">
+                                <label for="cName" class="mb-2 mr-sm-2">Folder Name:</label>
+                                  <select name="cName" class="custom-select  mb-2 mr-sm-2" formControlName="cmbFolder">
+                              <option selected value="0"></option>
+                              <option *ngFor="let fLst of FolderList" [value]="fLst.Id">
+                              {{ fLst.DisplayName }}
+                            </option>
+                            </select>
+                                </div>
+                            <div class="form-group col-sm-3 m-0">
+                                <label for="cName" class="mb-2 mr-sm-2"
+                                >Name:</label
+                              >
+                              <input type="text" formControlName="urlName" id="cName" autocomplete="off" class="form-control mb-2 mr-sm-2"/>
+                            </div>
+                            <div class="form-group col-sm-2 m-0">
+                              <label for="cName" class="mb-2 mr-sm-2"
+                              >Duration (Minutes):</label
+                            >
+                            <input type="number" min="2" formControlName="duration" id="cName" autocomplete="off" class="form-control mb-2 mr-sm-2"/>
+                          </div>
+                          <div class="form-group col-sm-2 m-0">
+                            <label for="cName" class="mb-2 mr-sm-2"
+                            >Refersh Time (Minutes):</label
+                          >
+                          <input type="number" min="20" formControlName="refersh" id="cName" autocomplete="off" class="form-control mb-2 mr-sm-2"/>
+                        </div>
+                            <div class="form-group col-sm-8 m-0">
+                                <label for="cName" class="mb-2 mr-sm-2"
+                                  >Template Url:</label
+                                >
+                                <input type="text" id="cName" formControlName="urlLink" autocomplete="off" class="form-control mb-2 mr-sm-2"/>
+                              </div>
+                              <div class="form-group col-sm-1 m-0">
+                                <button (click)="SaveUrl()" class="btn btn-primary" type="button" style="margin-top: 32px">
+                                  Save
+                                </button>
+                              </div>
+                        </div>
+                    </form>
+                </div>
+            </ng-template>
+        </ngb-tab>
+    </ngb-tabset>
+</div>
+
+<ng-template #UrlDeleteModal let-c="close" let-d="dismiss">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Delete Ads</h5>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12">
+          <p>Are you sure to delete?</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <button
+            class="btn btn-primary col-sm-2 pull-right"
+            (click)="d('Cross click')"
+          >
+            <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+          </button>
+          <button
+            class="btn btn-danger col-sm-2 pull-right mr-2"
+            (click)="DeleteUrl()"
+            (click)="d('Cross click')"
+          >
+            <i class="fa fa-check fa-lg" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

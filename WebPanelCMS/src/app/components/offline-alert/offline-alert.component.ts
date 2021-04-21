@@ -133,7 +133,7 @@ export class OfflineAlertComponent implements OnInit {
   }
   DeleteUser() {
     this.loading = true;
-    this.ipService.DeleteUser(this.uid).pipe()
+    this.ipService.DeleteOfflineAlert(this.uid).pipe()
       .subscribe(data => {
         var returnData = JSON.stringify(data);
         var obj = JSON.parse(returnData);

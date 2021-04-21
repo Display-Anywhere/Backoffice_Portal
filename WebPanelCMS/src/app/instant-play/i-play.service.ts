@@ -123,5 +123,10 @@ export class IPlayService {
     return this.http.post(this.cApi.EditOfflineUser,params,{headers:headers})
      .pipe((data=>{return data;}))
   }
-
+  DeleteOfflineAlert(uid){
+    let headers = new HttpHeaders({ 'Content-Type':'application/json' });
+    var params = JSON.stringify({ UserId: uid });
+    return this.http.post(this.cApi.DeleteOfflineAlert,params,{headers:headers})
+     .pipe((data=>{return data;}))
+  }
 } 

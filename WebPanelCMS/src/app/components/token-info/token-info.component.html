@@ -136,7 +136,7 @@
         >
           <option value=""></option>
           <option value="Audio">Audio</option>
-          <option value="Video">Video</option>
+          <option value="Video">Video Clips</option>
           <option value="Signage">Signage</option>
         </select>
       </div>
@@ -237,7 +237,7 @@
         </div>
       </div>
 
-      <div class="form-group col-sm-3 pb-1 m-0">
+      <div class="d-none form-group col-sm-3 pb-1 m-0">
         <label for="ScheduleType">Schedule Type:</label>
         <select
           name="ScheduleType"
@@ -484,7 +484,7 @@
       <!-- radio buttons show indicator -->
       <!-- show online indicator -->
       <div
-        class="form-group col-sm-3 pb-1 m-0"
+        class="form-group col-sm-3 pb-1 m-0 mt-sm-3"
         *ngIf="
           f.chkMediaType.value != 'Signage' || f.DeviceType.value != 'Sanitizer'
         "
@@ -497,7 +497,7 @@
           [checked]="chkIndicatorBox"
           name="chkToken"
         />
-        <label class="custom-control-label ml-4" for="chkIndicatorID"
+        <label class="custom-control-label ml-4 mt-sm-3" for="chkIndicatorID"
           >Show Online Indicator</label
         >
       </div>

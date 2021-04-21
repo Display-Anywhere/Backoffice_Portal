@@ -237,11 +237,11 @@ export class StoreAndForwardComponent implements OnInit {
     var tokenItem = {};
     if (event.target.checked) {
       tokenItem['tokenId'] = fileid;
-      tokenItem['schType'] = scheduleType;
+      tokenItem['schType'] = this.f.ScheduleType.value;
       this.TokenSelected.push(tokenItem);
     } else {
       tokenItem['tokenId'] = fileid;
-      tokenItem['schType'] = scheduleType;
+      tokenItem['schType'] = this.f.ScheduleType.value;
       this.removeDuplicateRecord(tokenItem);
       //      const index: number = this.TokenSelected.indexOf(fileid);
       //      if (index !== -1) {
@@ -482,15 +482,15 @@ export class StoreAndForwardComponent implements OnInit {
             mtype = this.cmbMediaType;
           }
           if (ptype === '') {
+            //order.ScheduleType === objfrm['ScheduleType'] &&
             objList = obj.filter(
               (order) =>
-                order.ScheduleType === objfrm['ScheduleType'] &&
                 order.MediaType === mtype
             );
           } else {
+            //order.ScheduleType === objfrm['ScheduleType'] &&
             objList = obj.filter(
               (order) =>
-                order.ScheduleType === objfrm['ScheduleType'] &&
                 order.MediaType === mtype &&
                 order.LicenceType === ptype
             );
@@ -520,7 +520,7 @@ export class StoreAndForwardComponent implements OnInit {
       tokenItem = {};
       item.check = checked;
       tokenItem['tokenId'] = item.tokenid;
-      tokenItem['schType'] = item.ScheduleType;
+      tokenItem['schType'] = this.f.ScheduleType.value;
       this.TokenSelected.push(tokenItem);
     });
     if (checked == false) {
@@ -1350,7 +1350,7 @@ export class StoreAndForwardComponent implements OnInit {
     if (this.cmbMediaType != '') {
       this.CustomSchedulePlaylist = [];
       this.TotalPercentageValue = 0;
-      this.FillTokenInfo(this.cid);
+      //this.FillTokenInfo(this.cid);
     }
   }
 }
