@@ -422,6 +422,7 @@ export class StoreAndForwardComponent implements OnInit {
     this.ScheduleList = [];
     this.PlaylistList = [];
     this.FormatList = [];
+    this.CustomSchedulePlaylist=[];
     this.SFform.get('FormatId').setValue('0');
     this.SFform.get('PlaylistId').setValue('0');
     var qry =

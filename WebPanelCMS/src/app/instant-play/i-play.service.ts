@@ -104,9 +104,9 @@ export class IPlayService {
 
 
 
-  SaveUpdateOfflineAlert(id,email,interval,lstToken,dfClientid){
+  SaveUpdateOfflineAlert(id,email,interval,lstToken,dfClientid, weekDay){
     let headers = new HttpHeaders({ 'Content-Type':'application/json' });
-    var params = JSON.stringify({ id: id,email:email,interval:interval,Responce:'0',lstToken:lstToken,dfClientid:dfClientid });
+    var params = JSON.stringify({ id: id,email:email,interval:interval,Responce:'0',lstToken:lstToken,dfClientid:dfClientid,weekDay:weekDay });
     return this.http.post(this.cApi.SaveUpdateOfflineAlert,params,{headers:headers})
      .pipe((data=>{return data;}))
   } 

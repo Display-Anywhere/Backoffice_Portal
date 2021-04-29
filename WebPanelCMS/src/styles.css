@@ -363,3 +363,6 @@ td {
   }
 }
 /* table mobile view end */
+.dt-buttons{
+  float: right !important;
+}

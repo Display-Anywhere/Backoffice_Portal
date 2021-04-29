@@ -41,11 +41,13 @@ export class TemplateUrlComponent implements OnInit {
     id: [0],
     cmbCustomer: [0, Validators.required],
     cmbFolder: [0],
+    cmbGenre:[0],
     urlName: ["", Validators.required],
-    duration: [2],
+    duration: [20],
     refersh: [20],
     urlLink: ['', Validators.required],
-    dbType:[localStorage.getItem('DBType')]
+    dbType:[localStorage.getItem('DBType')],
+    IsAnnouncement:[false]
   });
  }
   async FillClientList() {
@@ -115,11 +117,13 @@ export class TemplateUrlComponent implements OnInit {
       id: [data.id],
       cmbCustomer: [data.cmbCustomer],
       cmbFolder: [data.cmbFolder],
+      cmbGenre: [data.cmbGenre],
       urlName: [data.urlName],
       duration: [data.duration],
       refersh: [data.refersh],
       urlLink: [data.urlLink],
-      dbType:[localStorage.getItem('DBType')]
+      dbType:[localStorage.getItem('DBType')],
+      IsAnnouncement:[data.IsAnnouncement]
     });
     
   }
@@ -154,5 +158,23 @@ export class TemplateUrlComponent implements OnInit {
           this.toastr.error("Apologies for the inconvenience.The error is recorded.", '');
           this.loading = false;
         })
+  }
+  OpenViewContent(modalName, url,oType){
+    localStorage.setItem("ViewContent",url)
+    localStorage.setItem("oType",oType)
+    if (oType=="297"){
+      this.modalService.open(modalName, {
+        size: 'xl',
+      }); 
+    }
+    if (oType=="303"){
+      this.modalService.open(modalName, {
+        size: '500px',
+      }); 
+    }
+    
+  }
+  CloseModal(){
+    this.modalService.dismissAll();
   }
 }

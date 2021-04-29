@@ -486,7 +486,7 @@
                   (click)="setMultipleClickedRowPL($event, i, plSongLst, false)"
                 >
                   <td class="WidthTitlePL" (click)="plChange()">
-                    <a href="{{ plSongLst.TitleIdLink }}" target="_blank">
+                    <a href="javascript:;" (click)="OpenViewContent(viewcontent, plSongLst.TitleIdLink,plSongLst.genreId,plSongLst.MediaType)">
                       {{ plSongLst.title }}
                     </a>
                   </td>
@@ -1097,7 +1097,8 @@
                           white-space: nowrap;
                         "
                       >
-                        <a href="{{ songLst.TitleIdLink }}" target="_blank">
+                        <a href="javascript:;"
+                        (click)="OpenViewContent(viewcontent, songLst.TitleIdLink,songLst.genreId,songLst.MediaType)">
                           {{ songLst.title }}
                         </a>
                       </div>
@@ -1125,8 +1126,8 @@
                       >
                         <a
                           *ngIf="!enableEdit"
-                          href="{{ songLst.TitleIdLink }}"
-                          target="_blank"
+                          href="javascript:;"
+                          (click)="OpenViewContent(viewcontent, songLst.TitleIdLink,songLst.genreId,songLst.MediaType)"
                         >
                           {{ songLst.title }}
                         </a>
@@ -1158,8 +1159,8 @@
                         songLst.MediaType != 'Image' &&
                         songLst.MediaType != 'Video'
                       "
-                      href="{{ songLst.TitleIdLink }}"
-                      target="_blank"
+                      href="javascript:;"
+                          (click)="OpenViewContent(viewcontent, songLst.TitleIdLink,songLst.genreId,songLst.MediaType)"
                     >
                       {{ songLst.title }}
                     </a>
@@ -1856,4 +1857,19 @@
       </div>
     </div>
   </div>
+</ng-template>
+<ng-template class="tokenmodal" #viewcontent let-c="close" let-d="dismiss">
+  
+  <button
+    type="button"
+    class="close text-right"
+    aria-label="Close"
+    (click)="d('Cross click')"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+ 
+<div class="modal-body p-0">
+  <app-view-content></app-view-content>
+</div>
 </ng-template>

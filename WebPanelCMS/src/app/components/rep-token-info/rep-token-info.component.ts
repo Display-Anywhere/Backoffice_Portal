@@ -103,7 +103,6 @@ export class RepTokenInfoComponent implements AfterViewInit, OnInit, OnDestroy {
       pageLength: 50,
       processing: true,
       dom: 'Brtp',
-
       retrieve: true,
       buttons: [
         {

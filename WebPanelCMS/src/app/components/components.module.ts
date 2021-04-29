@@ -38,6 +38,7 @@ import { OpeninghourComponent } from './openinghour/openinghour.component';
 import { OfflineAlertComponent } from './offline-alert/offline-alert.component';
 import { DownloadsensortemplateComponent } from './downloadsensortemplate/downloadsensortemplate.component';
 import { TemplateUrlComponent } from './template-url/template-url.component';
+import { ViewContentComponent } from './view-content/view-content.component';
 //import { OwlMomentDateTimeModule } from 'ng-pick-datetime/date-time/adapter/moment-adapter/moment-date-time.module';
 export const MY_CUSTOM_FORMATS = {
   parseInput: 'LL LT',
@@ -74,7 +75,8 @@ NgbdSortableHeader,
 OpeninghourComponent,
 OfflineAlertComponent,
 DownloadsensortemplateComponent,
-TemplateUrlComponent
+TemplateUrlComponent,
+ViewContentComponent
 ],
  
   exports: [
@@ -101,7 +103,8 @@ CopysanitizerannouncementComponent,
 ManagegroupsComponent,
 OpeninghourComponent,
 OfflineAlertComponent,
-DownloadsensortemplateComponent
+DownloadsensortemplateComponent,
+ViewContentComponent
   ],
     imports: [
     CommonModule,

@@ -82,7 +82,7 @@
             <tbody>
               <tr *ngFor="let plSongLst of PlaylistSongsList">
                 <td data-label="Title" class="WidthTitleTH">
-                  <a href="{{ plSongLst.url }}" target="_blank">
+                  <a href="javascript:;" (click)="OpenViewContent(viewcontent,plSongLst.url,plSongLst.genreId,plSongLst.MediaType)">
                     {{ plSongLst.title }}
                   </a>
                 </td>
@@ -109,8 +109,8 @@
         </div>
       </ng-template>
     </li>
-    <li [ngbNavItem]="2" style="display: none">
-      <a ngbNavLink (click)="ActiveTab('AddNew')">Add New</a>
+    <li [ngbNavItem]="2">
+      <a ngbNavLink (click)="ActiveTab('AddNew')">Assign Template Url</a>
       <ng-template ngbNavContent>
         <div class="col-sm-12">
           <div class="form-row">
@@ -142,9 +142,9 @@
                 id="cName"
               >
                 <option selected value="0"></option>
-                <option *ngFor="let cLst of GenreList" [value]="cLst.Id">
-                  {{ cLst.DisplayName }}
-                </option>
+                <option selected value="297">Landscape </option>
+                <option selected value="303">Portrait</option>
+
               </select>
             </div>
             <div class="form-group col-sm-3 m-0">
@@ -241,9 +241,7 @@
                     >
                   </div>
                 </th>
-                <th class="WidthTitle">Title</th>
-                <th class="WidthArtist">Artist</th>
-                <th class="WidthCategory">Genre</th>
+                <th class="WidthTitle">Name</th>
               </tr>
             </thead>
             <tbody>
@@ -268,16 +266,11 @@
                   </div>
                 </td>
                 <td class="WidthTitle" data-label="Title">
-                  <a href="{{ songLst.TitleIdLink }}" target="_blank">
+                  <a href="javascript:;" (click)="OpenViewContent(viewcontent, songLst.TitleIdLink,songLst.genreId,songLst.MediaType)">
                     {{ songLst.title }}
                   </a>
                 </td>
-                <td data-label="Artist" class="WidthArtist">
-                  {{ songLst.Artist }}
-                </td>
-                <td data-label="Genre" class="WidthCategory">
-                  {{ songLst.genreName }}
-                </td>
+                 
               </tr>
             </tbody>
           </table>
@@ -290,12 +283,12 @@
         <app-upload></app-upload>
       </ng-template>
     </li>
-    <li [ngbNavItem]="4" title="Download Templates">
+    <!--<li [ngbNavItem]="4" title="Download Templates">
       <a ngbNavLink>Download Templates</a>
       <ng-template ngbNavContent>
        <app-downloadsensortemplate></app-downloadsensortemplate>
       </ng-template>
-    </li>
+    </li>-->
   </ul>
   <div [ngbNavOutlet]="t" class="mt-2"></div>
 </div>
@@ -384,4 +377,19 @@
       </div>
     </div>
   </div>
+</ng-template>
+<ng-template class="tokenmodal" #viewcontent let-c="close" let-d="dismiss">
+  
+  <button
+    type="button"
+    class="close text-right"
+    aria-label="Close"
+    (click)="d('Cross click')"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+ 
+<div class="modal-body p-0">
+  <app-view-content></app-view-content>
+</div>
 </ng-template>

@@ -30,6 +30,7 @@ export class OfflineAlertComponent implements OnInit {
   cmbCustomer;
   nEmail="";
   _id="0";
+  cmbDay="0"
   timeInterval=30
   constructor(private formBuilder: FormBuilder, public toastr: ToastrService, vcr: ViewContainerRef,
     config: NgbModalConfig, private modalService: NgbModal, private ipService: IPlayService,
@@ -174,6 +175,10 @@ export class OfflineAlertComponent implements OnInit {
       this.toastr.error("Email cannot be blank");
       return;
     }
+    if (this.cmbDay=="0") {
+      this.toastr.error("Week day cannot be blank");
+      return;
+    }
     if (this.timeInterval==0) {
       this.toastr.error("Interval cannot be zero");
       return;
@@ -185,7 +190,7 @@ export class OfflineAlertComponent implements OnInit {
 
     this.loading = true;
 
-    this.ipService.SaveUpdateOfflineAlert(this._id,this.nEmail,this.timeInterval,this.TokenSelected,this.cmbCustomer).pipe()
+    this.ipService.SaveUpdateOfflineAlert(this._id,this.nEmail,this.timeInterval,this.TokenSelected,this.cmbCustomer, this.cmbDay).pipe()
       .subscribe(data => {
         var returnData = JSON.stringify(data);
         var obj = JSON.parse(returnData);

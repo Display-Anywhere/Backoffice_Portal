@@ -33,6 +33,7 @@ export class MachineAnnouncementComponent implements OnInit {
   chkWithPrevious = false;
   ForceUpdateTokenid=[];
   active = 1;
+   
   constructor(public toastr: ToastrService,  private cf: ConfigAPI,
      config: NgbModalConfig, private modalService: NgbModal, public auth:AuthService, 
      private mService:MachineService, private pService: PlaylistLibService,private serviceLicense: SerLicenseHolderService) {
@@ -72,22 +73,30 @@ export class MachineAnnouncementComponent implements OnInit {
           this.loading = false;
         })
   }
-  onChangeSearchCustomer(id) {
+  async onChangeSearchCustomer(id) {
     this.cmbSearchToken=[];
     this.SearchTokenList=[];
     this.SongsList=[];
     this.cmbGenre=0;
+    await this.FillTokenInfo(id);
+  }
+ 
+  FillTokenInfo(id){
     this.loading = true;
     this.mService.FillTokenInfo(id).pipe()
       .subscribe(data => {
         var returnData = JSON.stringify(data);
         this.SearchTokenList = JSON.parse(returnData);
+        this.SearchTokenList= this.SearchTokenList.filter(order => order.DeviceType==='Sanitizer')
+            this.SearchTokenList.forEach(element => {
+              element['commonName']= element['tokenCode'] + '-'+ element['location']+ '-' + element['city']
+            });
         this.loading = false;
         this.dropdownSettings = {
           singleSelection: false,
           text: "",
           idField: 'tokenid',
-          textField: 'tokenCode',
+          textField: 'commonName',
           selectAllText: 'All',
           unSelectAllText: 'All',
           itemsShowLimit: 2
@@ -102,7 +111,7 @@ export class MachineAnnouncementComponent implements OnInit {
   FillGenre() {
     this.loading = true;
     var qry = "select tbGenre.GenreId as Id, genre as DisplayName  from tbGenre ";
-    qry = qry + " where genreid in(303,297,325,324)  ";
+    qry = qry + " where genreid in(303,297)  ";
     qry = qry + " order by genre ";
     this.mService.FillCombo(qry).pipe()
       .subscribe(data => {
@@ -128,21 +137,16 @@ export class MachineAnnouncementComponent implements OnInit {
           this.loading = false;
         })
   }
-  onChangeGenre(id){
+  async onChangeGenre(id){
     this.chkAll=false;
-this.FillSearch(id);
+
+   await this.FillSearch(id);
   }
   FillSearch(id) {
     this.SongsSelected=[];
     
     var chkSearchRadio = "Genre";
-    var chkMediaRadio='Video';
-    if ((id=="297") || (id=="303")){
-      chkMediaRadio='Video';
-    }
-    else{
-      chkMediaRadio='Image';
-    }
+    var chkMediaRadio='Url';
     this.loading = true;
     this.mService.CommanSearch(chkSearchRadio, id, chkMediaRadio, false,"1",this.cmbSearchCustomer).pipe()
       .subscribe(data => {
@@ -436,4 +440,24 @@ this.PlaylistSongsList =[];
       this.Clear();     
     }
   }
+  OpenViewContent(modalName, url,oType,MediaType){
+    if (MediaType!="Url"){
+      window.open(url, '_blank'); 
+      return
+    }
+    
+        localStorage.setItem("ViewContent",url)
+        localStorage.setItem("oType",oType)
+        if (oType=="297"){
+          this.modalService.open(modalName, {
+            size: 'xl',
+          }); 
+        }
+        if (oType=="303"){
+          this.modalService.open(modalName, {
+            size: '500px',
+          }); 
+        }
+        
+      }
 }

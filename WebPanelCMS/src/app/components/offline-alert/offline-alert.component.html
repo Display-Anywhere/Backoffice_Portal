@@ -30,6 +30,7 @@
                         <thead class="bg-primary">
                           <tr>
                             <th scope="col">Email</th>
+                            <th scope="col">Time Interval <span style="font-size: 14px;">(Weekday)</span></th>
                             <th scope="col">Time Interval <span style="font-size: 14px;">(minutes)</span></th>
                             <th scope="col" style="width: 30px"></th>
                             <th scope="col" style="width: 30px"></th>
@@ -39,6 +40,9 @@
                           <tr *ngFor="let uLst of AlertList">
                             <td>
                               {{ uLst.UserName1 }}
+                            </td>
+                            <td>
+                              {{ uLst.cmbPlaylist }}
                             </td>
                             <td>
                               {{ uLst.Password1 }}
@@ -92,7 +96,23 @@
                                   </div>
                                   <div class="form-group col-sm-2 m-0">
                                     <label for="Interval" class="mt-2 mb-2 mr-sm-2"
-                                      >Offline Interval<span style="font-size: 14px;">(minutes)</span></label
+                                      >Offline Interval <span style="font-size: 14px;">(Week day)</span></label
+                                    >
+                                    <select  name="cName" class="custom-select mb-3" [(ngModel)]="cmbDay" [ngModelOptions]="{standalone: true}" id="cName" >
+                <option selected value="0"></option>
+                <option  value="1">Monday </option>
+                <option  value="2">Tuesday</option>
+                <option  value="3">Wednesday</option>
+                <option  value="4">Thursday</option>
+                <option  value="5">Friday</option>
+                <option  value="6">Saturday</option>
+                <option  value="7">Sunday</option>
+              </select>
+                                     
+                                  </div>
+                                  <div class="form-group col-sm-2 m-0">
+                                    <label for="Interval" class="mt-2 mb-2 mr-sm-2"
+                                      >Offline Interval <span style="font-size: 14px;">(minutes)</span></label
                                     >
                                     <input
                                       type="number" min="30" max="120"

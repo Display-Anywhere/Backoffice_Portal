@@ -1028,7 +1028,7 @@ export class PlaylistLibraryComponent implements OnInit {
       qry = qry + ' and tbGenre.GenreId in(325,324) ';
     }
     else if (this.chkMediaRadio == 'Url') {
-      qry = qry + ' and tbGenre.GenreId in(489) ';
+      qry = qry + ' and tbGenre.GenreId in(297,303) ';
     } else {
       if (this.auth.ContentType$ == 'Signage') {
         qry = qry + ' and tbGenre.GenreId in(297,303) ';
@@ -2903,6 +2903,26 @@ export class PlaylistLibraryComponent implements OnInit {
     }
 
     // sorting countries
+  }
+  OpenViewContent(modalName, url,oType,MediaType){
+if (MediaType!="Url"){
+  window.open(url, '_blank'); 
+  return
+}
+
+    localStorage.setItem("ViewContent",url)
+    localStorage.setItem("oType",oType)
+    if (oType=="297"){
+      this.modalService.open(modalName, {
+        size: 'xl',
+      }); 
+    }
+    if (oType=="303"){
+      this.modalService.open(modalName, {
+        size: '500px',
+      }); 
+    }
+    
   }
 }
 
