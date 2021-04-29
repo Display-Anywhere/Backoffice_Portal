@@ -294,7 +294,6 @@ export class LicenseHolderComponent
       this.LogoId = 0;
       this.cid = '0';
       this.MainTokenList = [];
-
       return;
     }
     this.FillCustomerTokenList(deviceValue);

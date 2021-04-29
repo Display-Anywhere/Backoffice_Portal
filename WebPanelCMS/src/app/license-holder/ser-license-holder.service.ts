@@ -211,4 +211,5 @@ DeleteTemplateUrl(id) {
   return this.http.post(this.cApi.DeleteTemplateUrl, params, { headers })
     .pipe((data => data));
 }
+
 }

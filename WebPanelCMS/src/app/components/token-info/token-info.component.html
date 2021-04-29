@@ -135,9 +135,9 @@
           id="MediaType"
         >
           <option value=""></option>
-          <option value="Audio">Audio</option>
-          <option value="Video">Video Clips</option>
-          <option value="Signage">Signage</option>
+          <option *ngIf="((ClientContentType=='Both')||(ClientContentType=='MusicMedia'))" value="Audio">Audio</option>
+          <option *ngIf="((ClientContentType=='Both')||(ClientContentType=='MusicMedia'))" value="Video">Video Clips</option>
+          <option *ngIf="((ClientContentType=='Both')||(ClientContentType=='Signage'))" value="Signage">Signage</option>
         </select>
       </div>
       <div class="form-group col-sm-3 pb-1 m-0">

@@ -130,6 +130,7 @@ export class ConfigAPI {
    SaveTemplateUrl: string = this.Host + 'SaveTemplateUrl';
    GetTemplateUrl: string = this.Host + 'GetTemplateUrl';
    DeleteTemplateUrl: string = this.Host + 'DeleteTemplateUrl';
+
 }
 
 // localStorage.setItem('UserId', obj.UserId);

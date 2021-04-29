@@ -69,6 +69,7 @@ export class TokenInfoComponent implements OnInit {
   EmergencyList = [];
   EmgAlertId;
   ScheduleType="";
+  ClientContentType="";
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
@@ -465,7 +466,7 @@ this.submitted = true;this.loading = true;
             PlayerType = objTokenData[0].PlayerType;
           }
           this.selectedItems = objTokenData[0].DispenserAlert;
-
+          this.ClientContentType = objTokenData[0].ClientContentType;
           this.TokenInfo = this.formBuilder.group({
             Tokenid: [this.tid],
             token: [objTokenData[0].token],
