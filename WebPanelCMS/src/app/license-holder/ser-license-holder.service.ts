@@ -64,9 +64,9 @@ export class SerLicenseHolderService {
     return this.http.post(this.cApi.SaveGenre, params, { headers: headers })
       .pipe((data => { return data; }))
   }
-  SaveFolder(id, fname, dfClientId,IsPromoFolder) {
+  SaveFolder(id, fname, dfClientId,IsPromoFolder,IsAutoDelete,dtpDeleteDate) {
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    var params = JSON.stringify({ id: id, fname: fname, dfClientId: dfClientId,IsPromoFolder:IsPromoFolder });
+    var params = JSON.stringify({ id: id, fname: fname, dfClientId: dfClientId,IsPromoFolder:IsPromoFolder,IsAutoDelete:IsAutoDelete,dtpDeleteDate:dtpDeleteDate });
     return this.http.post(this.cApi.SaveFolder, params, { headers: headers })
       .pipe((data => { return data; }))
   }

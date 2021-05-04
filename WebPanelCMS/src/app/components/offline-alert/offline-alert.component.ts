@@ -30,7 +30,8 @@ export class OfflineAlertComponent implements OnInit {
   cmbCustomer;
   nEmail="";
   _id="0";
-  cmbDay="0"
+  dtpFromDate;
+  dtpToDate;
   timeInterval=30
   constructor(private formBuilder: FormBuilder, public toastr: ToastrService, vcr: ViewContainerRef,
     config: NgbModalConfig, private modalService: NgbModal, private ipService: IPlayService,
@@ -40,6 +41,10 @@ export class OfflineAlertComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    var cd = new Date();
+    this.dtpFromDate = cd;
+    this.dtpToDate = cd;
+
     this.did = localStorage.getItem('dfClientId');
 
     this.FillClientList();
@@ -119,6 +124,10 @@ export class OfflineAlertComponent implements OnInit {
         this.MainTokenList = this.TokenList;
         this.TokenSelected = obj.lstToken;
         this.nEmail= obj.email;
+        var sd = new Date(obj.fromdate);
+        var ed = new Date(obj.todate);
+        this.dtpFromDate= sd;
+        this.dtpToDate= ed;
         this.timeInterval=  obj.interval;
         this._id=  obj.id;
         this.loading = false;
@@ -175,10 +184,7 @@ export class OfflineAlertComponent implements OnInit {
       this.toastr.error("Email cannot be blank");
       return;
     }
-    if (this.cmbDay=="0") {
-      this.toastr.error("Week day cannot be blank");
-      return;
-    }
+     
     if (this.timeInterval==0) {
       this.toastr.error("Interval cannot be zero");
       return;
@@ -187,10 +193,12 @@ export class OfflineAlertComponent implements OnInit {
       this.toastr.error("Please select a player");
       return;
     }
+    var FromDate = new Date(this.dtpFromDate);
+    var ToDate = new Date(this.dtpToDate);
 
     this.loading = true;
-
-    this.ipService.SaveUpdateOfflineAlert(this._id,this.nEmail,this.timeInterval,this.TokenSelected,this.cmbCustomer, this.cmbDay).pipe()
+    
+    this.ipService.SaveUpdateOfflineAlert(this._id,this.nEmail,this.timeInterval,this.TokenSelected,this.cmbCustomer, FromDate.toDateString(),ToDate.toDateString()).pipe()
       .subscribe(data => {
         var returnData = JSON.stringify(data);
         var obj = JSON.parse(returnData);

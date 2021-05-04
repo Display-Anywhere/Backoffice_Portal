@@ -467,7 +467,8 @@ this.submitted = true;this.loading = true;
           }
           this.selectedItems = objTokenData[0].DispenserAlert;
           this.ClientContentType = objTokenData[0].ClientContentType;
-          this.TokenInfo = this.formBuilder.group({
+
+          setTimeout(() => {  this.TokenInfo = this.formBuilder.group({
             Tokenid: [this.tid],
             token: [objTokenData[0].token],
             personName: [objTokenData[0].personName],
@@ -496,7 +497,8 @@ this.submitted = true;this.loading = true;
             AlertMail: [objTokenData[0].AlertMail],
             IsShowShotToast: [objTokenData[0].IsShowShotToast],
             OsVersion:[objTokenData[0].OsVersion]
-          });
+          }); }, 500);       
+         
           this.chkIndicatorBox = objTokenData[0].Indicator;
           this.chkShotMsg = objTokenData[0].IsShowShotToast;
           this.ClientId = objTokenData[0].ClientId;

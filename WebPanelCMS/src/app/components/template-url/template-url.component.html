@@ -31,6 +31,7 @@
                         <thead class="bg-primary">
                             <tr>
                                 <th scope="col">Name</th>
+                                <th scope="col">Orientation</th>
                                 <th scope="col">Duration (Seconds)</th>
                                 <th scope="col">Refersh Time (Seconds)</th>
                                 <th scope="col" class="Link-Center_Width"></th>
@@ -43,6 +44,10 @@
                                     <a href="javascript:;" (click)="OpenViewContent(viewcontent, adLst.urlLink,adLst.cmbGenre)">
                                       {{ adLst.urlName }}
                                     </a>
+                                  </td>
+                                  <td  data-label="Orientation">
+                                  <span *ngIf="adLst.cmbGenre==='297'">Landscape</span>  
+                                  <span *ngIf="adLst.cmbGenre==='303'">Portrait</span>  
                                   </td>
                                   <td  data-label="Duration">{{adLst.duration}}</td>
                                   <td  data-label="Refersh Time">{{adLst.refersh}}</td>
@@ -180,7 +185,7 @@
   </div>
 </ng-template>
 
-<ng-template class="tokenmodal" #viewcontent let-c="close" let-d="dismiss">
+<ng-template class="pt_main" #viewcontent let-c="close" let-d="dismiss">
   
     <button
       type="button"

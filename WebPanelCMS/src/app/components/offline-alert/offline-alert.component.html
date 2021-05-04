@@ -30,7 +30,8 @@
                         <thead class="bg-primary">
                           <tr>
                             <th scope="col">Email</th>
-                            <th scope="col">Time Interval <span style="font-size: 14px;">(Weekday)</span></th>
+                            <th scope="col">From Date</th>
+                            <th scope="col">To Date</th>
                             <th scope="col">Time Interval <span style="font-size: 14px;">(minutes)</span></th>
                             <th scope="col" style="width: 30px"></th>
                             <th scope="col" style="width: 30px"></th>
@@ -39,13 +40,16 @@
                         <tbody>
                           <tr *ngFor="let uLst of AlertList">
                             <td>
-                              {{ uLst.UserName1 }}
+                              {{ uLst.email }}
                             </td>
                             <td>
-                              {{ uLst.cmbPlaylist }}
+                              {{ uLst.fromdate }}
                             </td>
                             <td>
-                              {{ uLst.Password1 }}
+                              {{ uLst.todate }}
+                            </td>
+                            <td>
+                              {{ uLst.interval }}
                             </td>
                             <td>
                               <i
@@ -95,20 +99,14 @@
                                     />
                                   </div>
                                   <div class="form-group col-sm-2 m-0">
-                                    <label for="Interval" class="mt-2 mb-2 mr-sm-2"
-                                      >Offline Interval <span style="font-size: 14px;">(Week day)</span></label
-                                    >
-                                    <select  name="cName" class="custom-select mb-3" [(ngModel)]="cmbDay" [ngModelOptions]="{standalone: true}" id="cName" >
-                <option selected value="0"></option>
-                <option  value="1">Monday </option>
-                <option  value="2">Tuesday</option>
-                <option  value="3">Wednesday</option>
-                <option  value="4">Thursday</option>
-                <option  value="5">Friday</option>
-                <option  value="6">Saturday</option>
-                <option  value="7">Sunday</option>
-              </select>
-                                     
+                                    <label for="Interval" class="mt-2 mb-2 mr-sm-2">From Date</label>
+                                    <input id="SearchFromDate" class="form-control mb-2 mr-sm-2" [owlDateTimeTrigger]="dtFromDate" [(ngModel)]="dtpFromDate" [owlDateTime]="dtFromDate" />
+                                    <owl-date-time [pickerType]="'calendar'" #dtFromDate></owl-date-time>
+                                  </div>
+                                  <div class="form-group col-sm-2 m-0">
+                                    <label for="Interval" class="mt-2 mb-2 mr-sm-2">To Date</label>
+                                    <input id="SearchFromDate" class="form-control mb-2 mr-sm-2" [owlDateTimeTrigger]="dtToDate" [(ngModel)]="dtpToDate" [owlDateTime]="dtToDate" />
+                                    <owl-date-time [pickerType]="'calendar'" #dtToDate></owl-date-time>
                                   </div>
                                   <div class="form-group col-sm-2 m-0">
                                     <label for="Interval" class="mt-2 mb-2 mr-sm-2"

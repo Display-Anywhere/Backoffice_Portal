@@ -37,6 +37,9 @@ export class UploadComponent implements OnInit {
   cmbSearchToken; 
   dropdownSettings = {};
   SongsSelected=[];
+  IsAutoDelete=false;
+  resIsAutoDelete=false;
+  dtpDeleteDate;
   public uploader: FileUploader = new FileUploader({
     url: this.cf.UploadImage,
     itemAlias: 'photo',
@@ -163,6 +166,8 @@ export class UploadComponent implements OnInit {
   }
   
   ngOnInit() {
+    var cd = new Date();
+    this.dtpDeleteDate = cd;
     this.IsAnnouncement= localStorage.getItem('IsAnnouncement');
     this.UploaderResponce=[];
     this.uploader.onAfterAddingFile = (file) => { file.withCredentials = false; };
@@ -317,6 +322,7 @@ var Item_TitleId="";
       return;
     }
     this.IsPromoFolder=this.resIsPromoFolder;
+    this.IsAutoDelete=this.resIsAutoDelete;
     this.NewFolderName = this.FolderName;
     this.modalService.open(mdl);
   }
@@ -325,8 +331,8 @@ var Item_TitleId="";
       this.toastr.info("Folder name cannot be blank", '');
       return;
     }
-
-    this.serviceLicense.SaveFolder(this.cmbFolder, this.NewFolderName, this.CustomerId,this.IsPromoFolder).pipe()
+    var deleteDate = new Date(this.dtpDeleteDate);
+    this.serviceLicense.SaveFolder(this.cmbFolder, this.NewFolderName, this.CustomerId,this.IsPromoFolder, this.IsAutoDelete,deleteDate).pipe()
       .subscribe(data => {
         var returnData = JSON.stringify(data);
         var obj = JSON.parse(returnData);
@@ -344,6 +350,7 @@ var Item_TitleId="";
           this.cmbFolder = "0";
           this.FolderName="";
           this.resIsPromoFolder=false;
+          this.resIsAutoDelete=false;
           this.FillFolder(this.CustomerId);
           this.modalService.dismissAll();
         }
@@ -376,6 +383,9 @@ var Item_TitleId="";
   onChangeFolder(id){
     this.FolderName="";
     this.resIsPromoFolder=false;
+    this.resIsAutoDelete=false;
+    var sd1= new Date()
+      this.dtpDeleteDate=sd1;
     var ArrayItem = {};
     var fName = "";
     ArrayItem["Id"] = id;
@@ -385,6 +395,10 @@ var Item_TitleId="";
     if (this.NewfList.length > 0) {
       this.FolderName = this.NewfList[0].DisplayName;
       this.resIsPromoFolder=this.NewfList[0].check;
+      this.resIsAutoDelete=this.NewfList[0].IsAutoDelete;
+      var sd= new Date(this.NewfList[0].DeleteDate)
+      this.dtpDeleteDate=sd;
+
     }
   }
   openFolderDeleteModal(mdl){
@@ -410,6 +424,7 @@ this.serviceLicense.DeleteFolder(this.cmbFolder).pipe()
           this.cmbFolder = '0';
           this.FolderName = '';
           this.resIsPromoFolder=false;
+          this.resIsAutoDelete=false;
           this.FillFolder(this.CustomerId);
           this.modalService.dismissAll();
         }
@@ -455,12 +470,14 @@ this.serviceLicense.DeleteFolder(this.cmbFolder).pipe()
           this.CustomerId="0"
           this.cmbFolder="0"
           this.resIsPromoFolder=false;
+          this.resIsAutoDelete=false;
         }
        else if (obj.Responce == "2") {
           this.toastr.info("Content Uploaded", '');
           this.CustomerId="0"
           this.cmbFolder="0"
           this.resIsPromoFolder=false;
+          this.resIsAutoDelete=false;
         }
         else {
           this.toastr.error("Apologies for the inconvenience.The error is recorded.", '');

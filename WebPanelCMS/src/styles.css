@@ -366,3 +366,15 @@ td {
 .dt-buttons{
   float: right !important;
 }
+
+.modal-smg {
+  max-width: 370px !important;
+  width: 370px !important;
+}
+.modal-lgx {
+  max-width: 993px !important;
+  width: 993px !important;
+}
+.owl-dt-calendar-table{
+  height: 100% !important;
+}

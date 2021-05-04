@@ -230,7 +230,7 @@ export class CopyContentComponent implements OnInit {
       return;
     }
 
-    this.serviceLicense.SaveFolder(this.cmbSearchFolder, this.NewFolderName, this.cmbSearchCustomer,false).pipe()
+    this.serviceLicense.SaveFolder(this.cmbSearchFolder, this.NewFolderName, this.cmbSearchCustomer,false,false,'01-01-1900').pipe()
       .subscribe(data => {
         var returnData = JSON.stringify(data);
         var obj = JSON.parse(returnData);

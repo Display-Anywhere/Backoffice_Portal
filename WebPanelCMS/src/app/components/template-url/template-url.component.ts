@@ -95,7 +95,7 @@ export class TemplateUrlComponent implements OnInit {
       var obj = JSON.parse(returnData);
       if (obj.Responce == "1") {
         this.toastr.info("Saved", 'Success!');
-        this.frmUrl.reset()
+        this.initUrlForm();
         this.UrlList=[];
         this.FillClientList();
         this.cmbSearchCustomer=0;
@@ -160,16 +160,18 @@ export class TemplateUrlComponent implements OnInit {
         })
   }
   OpenViewContent(modalName, url,oType){
+
+
     localStorage.setItem("ViewContent",url)
     localStorage.setItem("oType",oType)
     if (oType=="297"){
       this.modalService.open(modalName, {
-        size: 'xl',
+        size: 'lgx',
       }); 
     }
     if (oType=="303"){
-      this.modalService.open(modalName, {
-        size: '500px',
+      this.modalService.open(modalName,{
+        size: 'smg'
       }); 
     }
     

@@ -148,6 +148,8 @@ export class PlaylistLibraryComponent implements OnInit {
   IsVolumeLevelModal=false;
   TokenSelected = [];
   IscmbCustomerMediaTypeChange=true
+  OtherKey="";
+  OtherUrl="";
   ngOnInit() {
     localStorage.setItem('IsAnnouncement', '0');
     $('#dis').attr('unselectable', 'on');
@@ -221,8 +223,8 @@ export class PlaylistLibraryComponent implements OnInit {
       ',' +
       localStorage.getItem('DBType');
 
-    this.pService
-      .FillCombo(str)
+    this.serviceLicense
+      .FillCustomerWithKey(str)
       .pipe()
       .subscribe(
         (data) => {
@@ -348,6 +350,11 @@ export class PlaylistLibraryComponent implements OnInit {
     //this.GetCustomerContentType();
     this.GetCustomerMediaType(id);
     //this.LoginDfClientId = this.cmbCustomer;
+
+    const obj= this.CustomerList.filter(fId => fId.Id === id)
+    const url='https://content.nusign.eu/api/login?key='+ obj[0].apikey;
+    this.OtherUrl= url+'&redirectUri=https://content.nusign.eu/my-templates/';
+    this.OtherKey=obj[0].apikey;
   }
   onChangeCustomerMediaType(id) {
     this.IscmbCustomerMediaTypeChange=true
@@ -2914,15 +2921,28 @@ if (MediaType!="Url"){
     localStorage.setItem("oType",oType)
     if (oType=="297"){
       this.modalService.open(modalName, {
-        size: 'xl',
+        size: 'lgx',
       }); 
     }
     if (oType=="303"){
-      this.modalService.open(modalName, {
-        size: '500px',
+      this.modalService.open(modalName,{
+        size: 'smg'
       }); 
     }
     
+  }
+  OpenEditTemplates(){
+    if (this.cmbCustomer == '0') {
+      this.toastr.info('Please select a customer name');
+      return;
+    }
+    if (this.OtherKey===""){
+      this.toastr.info('Customer is not registered');
+      return;
+    }
+    else{
+    window.open(this.OtherUrl,"_blank")
+    }
   }
 }
 

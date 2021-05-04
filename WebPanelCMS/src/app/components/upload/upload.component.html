@@ -400,6 +400,30 @@
                           </div>
                         </div>
                       </div>
+                      <div class="row mt-3">
+                        <div class="col-sm-12">
+                          <div class="custom-control custom-checkbox">
+                            <input
+                              type="checkbox"
+                              class="custom-control-input"
+                              [(ngModel)]="IsAutoDelete"
+                              id="chkAutoDelete"
+                              name="example2"
+                            />
+                            <label
+                              class="custom-control-label"
+                              for="chkAutoDelete"
+                              >Set auto delete content</label
+                            >
+                          </div>
+                        </div>
+                        <div class="col-sm-8" *ngIf="IsAutoDelete === true">
+                          <label for="Interval" class="mt-2 mb-2 mr-sm-2">Delete Date</label>
+                          <input id="SearchFromDate" class="form-control mb-2 mr-sm-2" [owlDateTimeTrigger]="dtDeleteDate" [(ngModel)]="dtpDeleteDate" [owlDateTime]="dtDeleteDate" />
+                          <owl-date-time [pickerType]="'calendar'" #dtDeleteDate></owl-date-time>
+
+                        </div>
+                      </div>
                       <div class="row">
                         <div class="col-sm-12">
                           <button
@@ -452,7 +476,6 @@
                     <a
                       class="btn btn-primary mb-2 mr-1 mt-1 text-white"
                       (click)="OpenTemplateEditor()"
-                      target="_blank"
                     >
                       Open Template Editor
                     </a>

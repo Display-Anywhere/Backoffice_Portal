@@ -1,5 +1,6 @@
 <div class="row p-0 m-0">
     <div class="col-lg-12">
-        <iframe class="LS_PT" [src]="urlSafe"></iframe>
+        <iframe *ngIf="oType==='303'" class="PT" [src]="urlSafe"></iframe>
+        <iframe *ngIf="oType==='297'" class="LS" [src]="urlSafe"></iframe>
         </div>
 </div>

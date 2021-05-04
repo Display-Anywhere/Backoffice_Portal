@@ -450,12 +450,12 @@ this.PlaylistSongsList =[];
         localStorage.setItem("oType",oType)
         if (oType=="297"){
           this.modalService.open(modalName, {
-            size: 'xl',
+            size: 'lgx',
           }); 
         }
         if (oType=="303"){
-          this.modalService.open(modalName, {
-            size: '500px',
+          this.modalService.open(modalName,{
+            size: 'smg'
           }); 
         }
         

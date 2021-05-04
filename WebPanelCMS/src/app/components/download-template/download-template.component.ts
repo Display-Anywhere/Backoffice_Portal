@@ -148,7 +148,7 @@ this.FillClientList();
       return;
     }
 
-    this.serviceLicense.SaveFolder(this.cmbFolder, this.NewFolderName, this.CustomerId,false).pipe()
+    this.serviceLicense.SaveFolder(this.cmbFolder, this.NewFolderName, this.CustomerId,false,false,'01-01-1900').pipe()
       .subscribe(data => {
         var returnData = JSON.stringify(data);
         var obj = JSON.parse(returnData);
