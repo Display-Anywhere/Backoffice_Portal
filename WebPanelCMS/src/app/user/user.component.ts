@@ -7,10 +7,13 @@ import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../auth/auth.service';
 import { PlaylistLibService } from '../playlist-library/playlist-lib.service';
 import { NgbdSortableHeader_User, SortEvent } from './user_sortable.directive';
+import { SerLicenseHolderService } from '../license-holder/ser-license-holder.service';
+import { DecimalPipe } from '@angular/common';
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
-  styleUrls: ['./user.component.css']
+  styleUrls: ['./user.component.css'],
+  providers: [DecimalPipe],
 })
 export class UserComponent implements OnInit {
   uid;
@@ -28,13 +31,15 @@ export class UserComponent implements OnInit {
   FormatList = [];
   PlaylistList = [];
   cmbCustomer;
+  chkUserAll: boolean = false;
+  SearchList=[]
   @ViewChildren(NgbdSortableHeader_User) headers: QueryList<NgbdSortableHeader_User>;
   compare = (v1: string | number, v2: string | number) =>
     v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
 
   constructor(private formBuilder: FormBuilder, public toastr: ToastrService, vcr: ViewContainerRef,
     config: NgbModalConfig, private modalService: NgbModal, private ipService: IPlayService,
-    public auth: AuthService, private pService: PlaylistLibService) {
+    public auth: AuthService, private pService: PlaylistLibService,private serviceLicense: SerLicenseHolderService,private pipe: DecimalPipe) {
     config.backdrop = 'static';
     config.keyboard = false;
   }
@@ -86,6 +91,11 @@ export class UserComponent implements OnInit {
         var returnData = JSON.stringify(data);
         this.CustomerList = JSON.parse(returnData);
         this.loading = false;
+        if ((this.auth.IsAdminLogin$.value == false)) {
+           
+          this.cmbCustomer=localStorage.getItem('dfClientId')
+          this.onChangeCustomer(localStorage.getItem('dfClientId'))
+        } 
         // this.FillPlayer(localStorage.getItem('dfClientId'));
       },
         error => {
@@ -112,7 +122,7 @@ export class UserComponent implements OnInit {
 
     this.Userform.get('dfClientid').setValue(this.did);
     this.loading = true;
-
+    this.Userform.get('lstToken').setValue(this.TokenSelected);
     this.ipService.SaveUpdateUser(this.Userform.value).pipe()
       .subscribe(data => {
         var returnData = JSON.stringify(data);
@@ -134,6 +144,10 @@ export class UserComponent implements OnInit {
         })
   }
   Refresh() {
+    this.chkUserAll= false;
+    this.SearchList=[];
+    this.searchText="";
+    this.TokenSelected=[];
     this.TokenList = [];
     this.MainTokenList = [];
     this.TokenSelected = [];
@@ -282,6 +296,10 @@ export class UserComponent implements OnInit {
   }
 
   onChangeCustomer(deviceValue) {
+    this.chkUserAll= false;
+    this.SearchList=[];
+    this.searchText="";
+    this.TokenSelected=[];
     this.did = deviceValue;
     this.FillPlayer(deviceValue);
   }
@@ -360,4 +378,31 @@ export class UserComponent implements OnInit {
 
     // sorting countries
   }
+
+  
+  allActiveToken(event) {
+    const checked = event.target.checked;
+    this.TokenSelected = [];
+    if (this.searchText==''){
+    this.TokenList.forEach((item) => {
+      item.check = checked;
+      this.TokenSelected.push(item.tokenid);
+    });
+  }
+  else{
+    this.SearchList.forEach((item) => {
+      item.check = checked;
+      this.TokenSelected.push(item.tokenid);
+    });
+  }
+    if (checked == false) {
+      this.TokenSelected = [];
+    }
+  }
+  onChangeEvent(){
+    this.SearchList = this.TokenList.filter(country => this.serviceLicense.matches(country, this.searchText, this.pipe));
+    const total = this.SearchList.length;
+    console.log(this.SearchList)
+  }
+
 }

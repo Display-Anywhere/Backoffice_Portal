@@ -785,6 +785,7 @@
         class="text search-input"
         placeholder="Search"
         class="form-control mb-2 mr-sm-2 w-75"
+        (input)="onChangeEvent()"
       />
       </div>
       <div class="col-lg-6">
@@ -804,7 +805,7 @@
             <thead class="bg-primary text-white">
               <tr>
                 <th scope="col" style="width: 60px">
-                  <div *ngIf="searchTextPublish===''" class="custom-control custom-checkbox">
+                  <div class="custom-control custom-checkbox">
                     <input
                       (change)="allActiveToken($event)"
                       type="checkbox"
@@ -826,7 +827,9 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let tLst of ActiveTokenList | filter:searchTextPublish; let i = index ">
+              <tr *ngFor="let tLst of ActiveTokenList | filter:searchTextPublish | slice
+              : (page - 1) * pageSize
+              : (page - 1) * pageSize + pageSize; let i = index ">
                 <td data-label="" class="">
                   <div class="custom-control custom-checkbox">
                     <input
@@ -849,6 +852,13 @@
               </tr>
             </tbody>
           </table>
+          <ngb-pagination
+                          [collectionSize]="ActiveTokenListlength"
+                          [(page)]="page"
+                          [pageSize]="pageSize"
+                          aria-label="Default pagination"
+                          (click)="GetCheckedToken()"
+                        ></ngb-pagination>
         </div>
       </div>
     </div>

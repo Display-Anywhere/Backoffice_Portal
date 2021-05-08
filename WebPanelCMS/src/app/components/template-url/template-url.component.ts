@@ -22,7 +22,7 @@ export class TemplateUrlComponent implements OnInit {
   pageSize: number = 20;
   aid;
   FolderList=[]
-  cmbSearchCustomer=0;
+  cmbSearchCustomer="0";
   constructor(private formBuilder: FormBuilder, public toastr: ToastrService, vcr: ViewContainerRef
     , config: NgbModalConfig, private modalService: NgbModal, private aService: AdsService,
     public auth:AuthService, configTime: NgbTimepickerConfig,private serviceLicense: SerLicenseHolderService) {
@@ -61,6 +61,14 @@ export class TemplateUrlComponent implements OnInit {
         this.SearchCustomerList = JSON.parse(returnData);
         this.CustomerList = JSON.parse(returnData);
         this.loading = false;
+        if (this.auth.IsAdminLogin$.value == false) {
+          this.frmUrl.get('cmbCustomer').setValue(localStorage.getItem('dfClientId'));
+          this.onChangeCustomer(localStorage.getItem('dfClientId'));
+
+          this.cmbSearchCustomer=localStorage.getItem('dfClientId')
+          this.onChangeSearchCustomer(localStorage.getItem('dfClientId'))
+
+        }
       },
         error => {
           this.toastr.error("Apologies for the inconvenience.The error is recorded.", '');
@@ -98,7 +106,7 @@ export class TemplateUrlComponent implements OnInit {
         this.initUrlForm();
         this.UrlList=[];
         this.FillClientList();
-        this.cmbSearchCustomer=0;
+        this.cmbSearchCustomer="0";
         this.loading = false;
       }
       else {

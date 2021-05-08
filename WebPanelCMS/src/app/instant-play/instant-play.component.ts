@@ -34,7 +34,7 @@ export class InstantPlayComponent implements OnInit {
   tid;
   chkExplicit=false;
   ContentType$="";
-  
+  cmbCustomer="0"
   constructor(public toastr: ToastrService, vcr: ViewContainerRef, private ipService: IPlayService,
     public auth:AuthService, private pService: PlaylistLibService) {
 
@@ -68,7 +68,11 @@ export class InstantPlayComponent implements OnInit {
         var returnData = JSON.stringify(data);
         this.CustomerList = JSON.parse(returnData);
         this.loading = false;
-        
+        if ((this.auth.IsAdminLogin$.value == false)) {
+           
+          this.cmbCustomer=localStorage.getItem('dfClientId')
+          this.onChangeCustomer(localStorage.getItem('dfClientId'))
+        } 
         // this.FillPlayer(localStorage.getItem('dfClientId'));
       },
         error => {

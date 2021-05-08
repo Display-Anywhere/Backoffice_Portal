@@ -7,6 +7,8 @@ import { ToastrService } from 'ngx-toastr';
 import { PlaylistLibService } from 'src/app/playlist-library/playlist-lib.service';
 import { IPlayService } from 'src/app/instant-play/i-play.service';
 import { AuthService } from 'src/app/auth/auth.service';
+import { DecimalPipe } from '@angular/common';
+import { SerLicenseHolderService } from 'src/app/license-holder/ser-license-holder.service';
 
 @Component({
   selector: 'app-offline-alert',
@@ -33,9 +35,11 @@ export class OfflineAlertComponent implements OnInit {
   dtpFromDate;
   dtpToDate;
   timeInterval=30
+  SearchList=[];
+  chkOfflineAll=false
   constructor(private formBuilder: FormBuilder, public toastr: ToastrService, vcr: ViewContainerRef,
     config: NgbModalConfig, private modalService: NgbModal, private ipService: IPlayService,
-    public auth: AuthService, private pService: PlaylistLibService) {
+    public auth: AuthService, private pService: PlaylistLibService,private serviceLicense: SerLicenseHolderService,private pipe: DecimalPipe) {
     config.backdrop = 'static';
     config.keyboard = false;
   }
@@ -59,6 +63,11 @@ export class OfflineAlertComponent implements OnInit {
         var returnData = JSON.stringify(data);
         this.OfflineCustomerList = JSON.parse(returnData);
         this.loading = false;
+        if ((this.auth.IsAdminLogin$.value == false)) {
+           
+          this.cmbCustomer=localStorage.getItem('dfClientId')
+          this.onCustomerChange(localStorage.getItem('dfClientId'))
+        } 
       },
         error => {
           this.toastr.error("Apologies for the inconvenience.The error is recorded.", '');
@@ -165,10 +174,19 @@ export class OfflineAlertComponent implements OnInit {
   }
 
   onCustomerChange(deviceValue) {
+    this.chkOfflineAll=false
+    this.SearchList=[];
+    this.searchText="";
+    this.TokenSelected=[];
     this.did = deviceValue;
     this.FillPlayer(deviceValue);
   }
   Refresh(){
+    this.chkOfflineAll=false
+    this.SearchList=[];
+    this.searchText="";
+    this.TokenSelected=[];
+
     this.TokenList = [];
     this.MainTokenList = [];
     this.TokenSelected = [];
@@ -237,4 +255,31 @@ export class OfflineAlertComponent implements OnInit {
       });
     }
   }
+
+  
+  allActiveToken(event) {
+    const checked = event.target.checked;
+    this.TokenSelected = [];
+    if (this.searchText==''){
+    this.TokenList.forEach((item) => {
+      item.check = checked;
+      this.TokenSelected.push(item.tokenid);
+    });
+  }
+  else{
+    this.SearchList.forEach((item) => {
+      item.check = checked;
+      this.TokenSelected.push(item.tokenid);
+    });
+  }
+    if (checked == false) {
+      this.TokenSelected = [];
+    }
+  }
+  onChangeEvent(){
+    this.SearchList = this.TokenList.filter(country => this.serviceLicense.matches(country, this.searchText, this.pipe));
+    const total = this.SearchList.length;
+    console.log(this.SearchList)
+  }
+
 }

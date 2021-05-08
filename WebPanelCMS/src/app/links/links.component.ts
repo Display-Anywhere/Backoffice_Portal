@@ -36,6 +36,7 @@ InstantPlay="";
 Keyboard="";
 SignageVideo0="";
 SignageVideo90="";
+viewsonic="";
   constructor(private serviceLicense: SerLicenseHolderService,
      public toastr: ToastrService, vcr: ViewContainerRef, public auth:AuthService,private sanitizer: DomSanitizer) {
   }
@@ -60,6 +61,7 @@ SignageVideo90="";
   this.InstantPlay="https://bit.ly/3liIsOD";
   this.Keyboard="https://bit.ly/2QvvOxA";
 this.VideoLink0="https://bit.ly/31yZLD4";
+  this.viewsonic="https://bit.ly/3tkqrCi"
     }
     else{
     //================================== Nusign ==========================
@@ -77,6 +79,7 @@ this.VideoLink0="https://bit.ly/31yZLD4";
     this.InstantPlay="https://bit.ly/3hyrc5K";
     this.Keyboard="https://bit.ly/2ElBHuN";
     this.VideoLink0="https://bit.ly/2EwMhio";
+    this.viewsonic="https://bit.ly/3eiur1O"
     }
     if (this.auth.IsAdminLogin$.value==true) {
       this.FillClientList();

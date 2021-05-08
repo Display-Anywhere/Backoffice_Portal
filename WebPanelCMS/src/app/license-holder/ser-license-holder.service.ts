@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, PipeTransform } from '@angular/core';
 import { ConfigAPI } from '../class/ConfigAPI';
 import { HttpClient, HttpHeaders, HttpEvent, HttpErrorResponse, HttpEventType } from '@angular/common/http';
 import { throwError } from 'rxjs';
@@ -211,5 +211,11 @@ DeleteTemplateUrl(id) {
   return this.http.post(this.cApi.DeleteTemplateUrl, params, { headers })
     .pipe((data => data));
 }
-
+matches(country, term: string, pipe: PipeTransform) {
+  return country.MediaType.toLowerCase().includes(term.toLowerCase())
+    || country.city.toLowerCase().includes(term.toLowerCase())
+    || country.Name.toLowerCase().includes(term.toLowerCase())
+    || country.location.toLowerCase().includes(term.toLowerCase())
+    || pipe.transform(country.tokenid).includes(term);
+}
 }

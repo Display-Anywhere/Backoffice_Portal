@@ -39,7 +39,7 @@ export class StoreAndForwardComponent implements OnInit {
   pageSizeSearch: number = 20;
   dt = new Date('Mon Mar 09 2020 00:00:00');
   dt2 = new Date('Mon Mar 09 2020 23:59:00');
-  cmbSearchCustomer = 0;
+  cmbSearchCustomer = "0";
   cmbSearchFormat = 0;
   cmbSearchPlaylist = 0;
   frmTokenInfoModifyPlaylist: FormGroup;
@@ -279,6 +279,8 @@ export class StoreAndForwardComponent implements OnInit {
               localStorage.getItem('dfClientId')
             );
             this.onChangeCustomer(localStorage.getItem('dfClientId'));
+            this.cmbSearchCustomer=localStorage.getItem('dfClientId')
+          this.onChangeSearchCustomer(localStorage.getItem('dfClientId'))
           }
         },
         (error) => {
@@ -532,7 +534,7 @@ export class StoreAndForwardComponent implements OnInit {
     this.SearchContent();
   }
   SearchContent() {
-    if (this.cmbSearchCustomer == 0) {
+    if (this.cmbSearchCustomer == "0") {
       this.toastrSF.error('Select a customer', '');
       return;
     }

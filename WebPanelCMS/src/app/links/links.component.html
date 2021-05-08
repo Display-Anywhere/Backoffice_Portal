@@ -304,7 +304,27 @@
               </div>
             </div>
           </div>
-          
+          <div class="col-sm-4 col-lg-3 mb-3 custom_space">
+            <div class="card bg-primary p-2 pt-3 mb-2 text-center">
+              <div class="form-group">
+                <label class="mb-1 mr-sm-2 text-white"
+                  >Video/Signage (ViewSonic)<br />
+                  {{ viewsonic }}</label
+                >
+              </div>
+              <div class="form-group">
+                <a
+                  href="{{ viewsonic }}"
+                  target="_blank"
+                  style="color: #fff"
+                >
+                  <button class="btn btn-outline-light text-white">
+                    <i class="fa fa-cloud-download" aria-hidden="true"></i>
+                  </button>
+                </a>
+              </div>
+            </div>
+          </div>
           <div class="col-sm-4 col-lg-3 mb-3 custom_space">
             <div class="card bg-primary p-2 pt-3 mb-2 text-center">
               <div class="form-group">
@@ -364,7 +384,7 @@
             </div>
           </div>
           <!-- Customer login content start -->
-          <div class="col-sm-4 col-lg-3 mb-3 custom_space" *ngIf="auth.IsAdminLogin$ | async">
+          <div class="col-sm-4 col-lg-6 mb-3 custom_space" *ngIf="auth.IsAdminLogin$ | async">
             <div class="card bg-primary p-2">
               <div>
                 <h4 class="text-white text-left custom_style">

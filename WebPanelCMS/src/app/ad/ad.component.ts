@@ -72,7 +72,7 @@ export class AdComponent implements OnInit {
   TokenSelected = [];
   AdsList = [];
   SearchADate;
-  cmbSearchCustomer = 0;
+  cmbSearchCustomer = "0";
   time: NgbTimeStruct = {hour: 0, minute: 0, second: 0};
 
   ngOnInit() {
@@ -330,7 +330,9 @@ export class AdComponent implements OnInit {
         var returnData = JSON.stringify(data);
         this.SearchCustomerList = JSON.parse(returnData);
         this.loading = false;
-        
+        if (this.auth.IsAdminLogin$.value == false) {
+          this.cmbSearchCustomer=localStorage.getItem('dfClientId')
+        }
         this.FillCategory();
       },
         error => {
@@ -346,7 +348,7 @@ export class AdComponent implements OnInit {
     
     var sTime1 = new Date(this.SearchADate);
     
-    if (this.cmbSearchCustomer == 0) {
+    if (this.cmbSearchCustomer == "0") {
       return;
     }
     this.loading = true;

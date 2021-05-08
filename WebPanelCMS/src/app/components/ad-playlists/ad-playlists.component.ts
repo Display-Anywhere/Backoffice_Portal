@@ -32,7 +32,7 @@ export class AdPlaylistsComponent implements OnInit {
   pageSizeSearch: number = 20;
   dt = new Date();
   dt2 = new Date();
-  cmbSearchCustomer = 0;
+  cmbSearchCustomer = "0";
   cmbSearchToken = 0;
   cmbSearchPlaylist = 0;
   TokenInfoModifyPlaylist: FormGroup;
@@ -108,6 +108,8 @@ export class AdPlaylistsComponent implements OnInit {
         if ((this.auth.IsAdminLogin$.value == false)) {
           this.Plform.get('CustomerId').setValue(localStorage.getItem('dfClientId'));
           this.onChangeCustomer(localStorage.getItem('dfClientId'));
+          this.cmbSearchCustomer=localStorage.getItem('dfClientId')
+          this.onChangeSearchCustomer(localStorage.getItem('dfClientId'))
         } 
       },
         error => {
@@ -202,7 +204,7 @@ export class AdPlaylistsComponent implements OnInit {
     this.SearchContent();
   }
   SearchContent() {
-    if (this.cmbSearchCustomer == 0) {
+    if (this.cmbSearchCustomer == "0") {
       this.toastr.error("Select a customer", '');
       return;
     }

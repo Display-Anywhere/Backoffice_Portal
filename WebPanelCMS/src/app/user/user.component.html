@@ -264,7 +264,7 @@
                                             <label
                                               class="custom-control-label cursor-pointer"
                                               for="Advertisement"
-                                              >Advertisement/Announcements</label
+                                              >Demands/Announcements</label
                                             >
                                           </div>
                                           <div
@@ -489,7 +489,7 @@
                                           <div class="form-group col-sm-2 mb-0">
                                                   <div class="mt-2">
                                                     <input type="text" id="cName" [(ngModel)]="searchText" [ngModelOptions]="{standalone: true}"  autocomplete="off"
-                                                      placeholder="Search" class="form-control mb-2 mr-sm-2" />
+                                                      placeholder="Search" (input)="onChangeEvent()" class="form-control mb-2 mr-sm-2" />
                                                   </div>
                                                 </div> 
             
@@ -499,7 +499,23 @@
                                         >
                                           <thead>
                                             <tr>
-                                              <th scope="col" class="bg-primary sticky-top" style="width: 50px;"></th>
+                                              <th scope="col" class="bg-primary sticky-top" style="width: 50px;">
+                                                <div class="custom-control custom-checkbox">
+                                                  <input
+                                                    (change)="allActiveToken($event)"
+                                                    type="checkbox"
+                                                    class="custom-control-input"
+                                                    name="AllActiveToken"
+                                                    id="AllActiveToken"
+                                                    [(ngModel)]="chkUserAll" [ngModelOptions]="{standalone: true}"
+                                                  />
+                                                  <label
+                                                    class="custom-control-label cursor-pointer pt-1 text-white"
+                                                    for="AllActiveToken"
+                                                    >All</label
+                                                  >
+                                                </div>
+                                              </th>
                                               <th scope="col" class="bg-primary sticky-top" sortable="city" (sort)="onSort($event)">City</th>
                                               <th scope="col" class="bg-primary sticky-top" sortable="location" (sort)="onSort($event)">Location</th>
                                               <th scope="col" class="bg-primary sticky-top" sortable="tokenCode" (sort)="onSort($event)">Token</th>

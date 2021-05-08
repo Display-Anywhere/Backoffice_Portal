@@ -63,6 +63,9 @@ export class KeyboardannouncementComponent implements OnInit {
         if ((this.auth.IsAdminLogin$.value == false)) {
           this.cmbSearchCustomer = localStorage.getItem('dfClientId');
           this.onChangeSearchCustomer(this.cmbSearchCustomer);
+
+          this.cmbCustomer=localStorage.getItem('dfClientId')
+          this.onChangeCustomer(localStorage.getItem('dfClientId'))
         } 
       },
         error => {

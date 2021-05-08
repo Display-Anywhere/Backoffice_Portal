@@ -9,7 +9,7 @@ import {
   ElementRef,
   ViewChild,
   QueryList,
-  ViewChildren,
+  ViewChildren,PipeTransform
 } from '@angular/core';
 import {
   NgbModalConfig,
@@ -31,12 +31,13 @@ import { DataTableDirective } from 'angular-datatables';
 import { TokenInfoServiceService } from '../components/token-info/token-info-service.service';
 import { PlaylistLibService } from '../playlist-library/playlist-lib.service';
 import { NgbdSortableHeaderOpening, SortEvent } from './opensortable.directive';
+import { DecimalPipe } from '@angular/common';
 
 @Component({
   selector: 'app-license-holder',
   templateUrl: './license-holder.component.html',
   styleUrls: ['./license-holder.component.css'],
-  providers: [NgbModalConfig, NgbModal],
+  providers: [NgbModalConfig, NgbModal,DecimalPipe],
 })
 export class LicenseHolderComponent
   implements AfterViewInit, OnInit, OnDestroy {
@@ -68,6 +69,8 @@ export class LicenseHolderComponent
   chkAll: boolean = false;
   ActiveTokenList = [];
   MainActiveTokenList=[]
+  ActiveTokenListlength=0;
+  PublishSearchList=[]
   MainTokenList = [];
   InfoTokenList = [];
   active = 2;
@@ -100,7 +103,7 @@ export class LicenseHolderComponent
     public toastr: ToastrService,
     public auth: AuthService,
     private tService: TokenInfoServiceService,
-    private pService: PlaylistLibService,
+    private pService: PlaylistLibService,private pipe: DecimalPipe,
     vcr: ViewContainerRef,
     configTime: NgbTimepickerConfig
   ) {
@@ -731,10 +734,18 @@ async RefreshTokenList(){
   allActiveToken(event) {
     const checked = event.target.checked;
     this.TokenSelected = [];
+    if (this.searchTextPublish==''){
     this.ActiveTokenList.forEach((item) => {
       item.check = checked;
       this.TokenSelected.push(item.tokenid);
     });
+  }
+  else{
+    this.PublishSearchList.forEach((item) => {
+      item.check = checked;
+      this.TokenSelected.push(item.tokenid);
+    });
+  }
     if (checked == false) {
       this.TokenSelected = [];
     }
@@ -750,8 +761,20 @@ async RefreshTokenList(){
       }
     }
   }
-
+  GetCheckedToken(){
+    this.ActiveTokenList.forEach(item => {
+      let obj = this.TokenSelected.indexOf(item["tokenid"])
+      if (obj != -1){
+        item["check"]=true
+      }
+    });
+   
+  }
   ForceUpdateModal(modalContant) {
+    this.TokenSelected=[];
+    this.PublishSearchList=[]
+    this.searchTextPublish=''
+
     if (this.cid == '0') {
       this.toastr.info('Please select a customer name');
       return;
@@ -765,6 +788,7 @@ async RefreshTokenList(){
           var returnData = JSON.stringify(data);
           this.ActiveTokenList = JSON.parse(returnData);
           this.MainActiveTokenList = this.ActiveTokenList
+          this.ActiveTokenListlength= this.ActiveTokenList.length;
           this.loading = false;
           const obj:SortEvent   ={
             column:'city',
@@ -793,7 +817,6 @@ async RefreshTokenList(){
       this.toastr.info('Please select a token');
       return;
     }
-
     this.loading = true;
     this.serviceLicense
       .ForceUpdate(this.TokenSelected)
@@ -807,6 +830,8 @@ async RefreshTokenList(){
             this.loading = false;
             this.chkAll = false;
             this.TokenSelected = [];
+            this.PublishSearchList=[]
+            this.searchTextPublish=''
             this.modalService.dismissAll();
           } else {
             this.toastr.error(
@@ -1169,4 +1194,10 @@ async RefreshTokenList(){
       });
     }
   }
+  onChangeEvent(){
+    this.PublishSearchList = this.ActiveTokenList.filter(country => this.serviceLicense.matches(country, this.searchTextPublish, this.pipe));
+    const total = this.PublishSearchList.length;
+    this.ActiveTokenListlength =total
+  }
+  
 }
