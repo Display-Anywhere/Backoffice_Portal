@@ -141,7 +141,7 @@
           [(ngModel)]="searchText"
           class="text search-input"
           placeholder="Search"
-           
+          (input)="onChangeEvent()"
         />
         <a class="search-link" href="#"
           ><i class="fa fa-search"></i
@@ -253,7 +253,7 @@
     <div class="card-footer pt-3 pl-0 pb-0 pr-0">
       <div class="col-12 custom-pagination">
         <ngb-pagination
-          [collectionSize]="TokenList.length"
+          [collectionSize]="ActiveTokenListlength"
           [(page)]="page"
           [pageSize]="pageSize"
           aria-label="Default pagination"

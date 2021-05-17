@@ -446,18 +446,26 @@ export class PlaylistLibraryComponent implements OnInit {
       formatid: ['0'],
     });
 
-    this.OneTimeFillFormat();
+    
 
-    if (
-      this.cmbCustomerMediaType == 'Signage' &&
-      this.chkMediaRadio == 'Video'
-    ) {
+    if (this.chkMediaRadio == 'Video') {
       this.SongsList = [];
       this.MainSongsList = [];
       this.chkSearchRadio = 'Genre';
       this.SearchText = '';
       this.Search = false;
     }
+
+    if (this.cmbCustomerMediaType == 'Signage') {
+      this.SongsList = [];
+      this.MainSongsList = [];
+      this.chkSearchRadio = 'title';
+      this.SearchText = '';
+      this.Search = true;
+      this.chkGenre=false;
+      this.chkTitle=true;
+    }
+    this.OneTimeFillFormat();
   }
 
   GetCustomerMediaType(cid) {
@@ -664,6 +672,7 @@ export class PlaylistLibraryComponent implements OnInit {
     }
   }
   SearchRadioClick(e) {
+    
     this.AlbumList = [];
     this.selectedRowsIndexes = [];
     this.chkSearchRadio = e;
@@ -858,7 +867,7 @@ export class PlaylistLibraryComponent implements OnInit {
     this.OldValue = this.chkMediaRadio;
 
     if (this.chkMediaRadio == 'Image' && this.chkSearchRadio != 'Folder') {
-      this.chkSearchRadio = 'Genre';
+      this.chkSearchRadio = 'title';
     }
     if (
       this.IsRF == true &&
@@ -1223,6 +1232,7 @@ export class PlaylistLibraryComponent implements OnInit {
       );
   }
   onChangeAlbum(id, mContent) {
+    this.selectedRowsIndexes=[];
     if (id == '-7777') {
       this.txtSearch1 = '';
       this.txtSearch2 = '';
@@ -1279,17 +1289,17 @@ export class PlaylistLibraryComponent implements OnInit {
       );
   }
   FillSongList() {
-    if (this.auth.ContentType$ == 'Signage' && this.chkMediaRadio == 'Video') {
+   /* if (this.auth.ContentType$ == 'Signage' && this.chkMediaRadio == 'Video') {
       this.SongsList = [];
       this.MainSongsList = [];
-      this.chkSearchRadio = 'Genre';
-      this.chkGenre = true;
+      this.chkSearchRadio = 'title';
+      this.chkGenre = false;
       this.SearchText = '';
-      this.Search = false;
+      this.Search = true;
       this.SearchRadioClick(this.chkSearchRadio);
       this.FillSpecialPlaylistList();
     } else {
-      
+     */ 
       
       this.selectedRowsIndexes = [];
       this.loading = true;
@@ -1314,7 +1324,7 @@ export class PlaylistLibraryComponent implements OnInit {
             this.loading = false;
           }
         );
-    }
+    //}
   }
   FillFormat() {
     this.loading = true;

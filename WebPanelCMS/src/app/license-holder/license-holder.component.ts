@@ -1172,7 +1172,7 @@ async RefreshTokenList(){
     }
     localStorage.setItem('tcid', this.cid);
     this.FilterValue_For_Reload = 'All';
-    this.modalService.open(gModal, { size: 'lg' });
+    this.modalService.open(gModal, { size: 'lgx' });
   }
   onSort({column, direction}: SortEvent) {
     

@@ -25,25 +25,24 @@
           <div class="card-body">
             <div class="border col-sm-12 p-0">
               <div class="table-responsive">
-                <table
+                <table datatable
+                [dtOptions]="dtOptions"
+                [dtTrigger]="dtTrigger"
                   class="table data-table table-striped table-bordered mydatatable"
                 >
                   <thead class="bg-primary">
                     <tr>
-                      <th scope="col">Client Name</th>
-                      <th scope="col">IP Address</th>
-                      <th scope="col">Description</th>
-                      <th scope="col">DateTime</th>
+                      <th class="text-white" scope="col">Client Name</th>
+                      <th class="text-white" scope="col">IP Address</th>
+                      <th class="text-white" scope="col">Description</th>
+                      <th class="text-white" scope="col">DateTime</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr
                       *ngFor="
-                        let cLst of LogList
-                          | slice
-                            : (page - 1) * pageSize
-                            : (page - 1) * pageSize + pageSize
-                      "
+                        let cLst of LogList"
+                          
                     >
                       <td data-label="Client Name">
                         {{ cLst.clientname }}
@@ -60,12 +59,7 @@
                     </tr>
                   </tbody>
                 </table>
-                <ngb-pagination
-                  [collectionSize]="LogList.length"
-                  [(page)]="page"
-                  [pageSize]="pageSize"
-                  aria-label="Default pagination"
-                ></ngb-pagination>
+               
               </div>
             </div>
           </div>

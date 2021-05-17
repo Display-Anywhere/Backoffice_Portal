@@ -38,7 +38,7 @@
               </select>
             </div>
 
-            <div class="d-none form-group col-sm-4 m-0">
+            <div *ngIf="cmbToken!='0'" class="form-group col-sm-4 m-0">
               <label for="bt" class="mb-1 mr-sm-2">&nbsp;</label>
               <div class="pr-2" id="bt">
                 <button
@@ -59,7 +59,7 @@
                 <button
                   type="button"
                   (click)="UpdateSRNo()"
-                  class="btn btn-primary m-1"
+                  class="d-none btn btn-primary m-1"
                 >
                   <i class="fa fa-floppy-o" aria-hidden="true"></i>
                 </button>
@@ -80,7 +80,8 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let plSongLst of PlaylistSongsList">
+              <tr *ngFor="let plSongLst of PlaylistSongsList;let i = index"
+              [ngClass]="{ selected: isRowSelectedPL(i) }" (click)="setMultipleClickedRowPL($event, i, plSongLst, false)">
                 <td data-label="Title" class="WidthTitleTH">
                   <a href="javascript:;" (click)="OpenViewContent(viewcontent,plSongLst.url,plSongLst.genreId,plSongLst.MediaType)">
                     {{ plSongLst.title }}
@@ -161,7 +162,7 @@
 
             <div class="form-group col-sm-3 m-0">
               <div
-                class="d-none custom-control custom-checkbox mt-5 pull-left mr-3 pt-1"
+                class="custom-control custom-checkbox mt-5 pull-left mr-3 pt-1"
               >
                 <input
                   type="checkbox"
@@ -250,10 +251,10 @@
                 *ngFor="let songLst of SongsList; let i = index"
               >
                 <td data-label="" class="" style="width: 1%">
-                  <div class="custom-control custom-radio">
+                  <div class="custom-control custom-checkbox">
                     <input
                       (change)="SelectTitle(songLst.id, $event)"
-                      type="radio"
+                      type="checkbox"
                       [checked]="songLst.check"
                       class="custom-control-input"
                       id="{{ songLst.id }}{{ i }}"
@@ -283,7 +284,13 @@
         <app-upload></app-upload>
       </ng-template>
     </li>
-    <!--<li [ngbNavItem]="4" title="Download Templates">
+    <li [ngbNavItem]="4" title="Assign Video Clips">
+      <a ngbNavLink>Assign Video/Image</a>
+      <ng-template ngbNavContent>
+        <app-assignvideoclips></app-assignvideoclips>
+      </ng-template>
+    </li>
+    <!--<li [ngbNavItem]="5" title="Download Templates">
       <a ngbNavLink>Download Templates</a>
       <ng-template ngbNavContent>
        <app-downloadsensortemplate></app-downloadsensortemplate>

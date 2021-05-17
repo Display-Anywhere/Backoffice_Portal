@@ -1,3 +1,4 @@
+import { DecimalPipe } from '@angular/common';
 import { Component, OnInit,QueryList, ViewChildren } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {  NgbModalConfig,NgbModal,NgbNavChangeEvent,NgbTimepickerConfig,NgbTimeStruct,NgbNavModule} from '@ng-bootstrap/ng-bootstrap';
@@ -8,7 +9,8 @@ import {NgbdSortableHeader, SortEvent} from '../../components/sortable.directive
 @Component({
   selector: 'app-openinghour',
   templateUrl: './openinghour.component.html',
-  styleUrls: ['./openinghour.component.css']
+  styleUrls: ['./openinghour.component.css'],
+  providers: [DecimalPipe],
 })
 export class OpeninghourComponent implements OnInit {
   @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
@@ -17,6 +19,7 @@ export class OpeninghourComponent implements OnInit {
   OpeningHoursList = [];
   MainOpeningHoursList=[];
   RebootTimePlayerList = [];
+  MainRebootTimePlayerList = [];
   openSearchText;
   RebootSearchText;
   OpeningHourTokenSelected = [];
@@ -29,8 +32,20 @@ export class OpeninghourComponent implements OnInit {
   selectedItems=[];
   loading = false;
   compare = (v1: string | number, v2: string | number) => v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
+  page: number = 1;
+  pageSize: number = 20;
+  ActiveTokenListlength=0;
+  PublishSearchList=[]
+  chkAll: boolean = false;
 
-  constructor(public toastr: ToastrService,private formBuilder: FormBuilder,private serviceLicense: SerLicenseHolderService,
+  page_Reboot: number = 1;
+  pageSize_Reboot: number = 20;
+  ActiveTokenListlength_Reboot=0;
+  PublishSearchList_Reboot=[]
+  chkAll_Reboot: boolean = false;
+
+  constructor(public toastr: ToastrService,private formBuilder: FormBuilder,
+    private serviceLicense: SerLicenseHolderService,private pipe: DecimalPipe 
     ) { }
 
   ngOnInit(): void {
@@ -38,7 +53,7 @@ export class OpeninghourComponent implements OnInit {
     this.OpeningHoursList = [];
     this.MainOpeningHoursList =[];
     this.RebootTimePlayerList =[];
-
+this.MainRebootTimePlayerList = [];
     this.SetFormOpeningHour();
    
     this.FillTokenOpeningHours();
@@ -94,8 +109,10 @@ export class OpeninghourComponent implements OnInit {
           if (obj.Responce === '1') {
             this.toastr.info('Saved', 'Success!');
           }
+          this.chkAll = false;
           this.selectedItems = [];
           this.OpeningHourTokenSelected = [];
+          this.PublishSearchList=[]
           this.frmOpeningHour.get('startTime').setValue(sTime);
           this.frmOpeningHour.get('EndTime').setValue(eTime);
           this.frmOpeningHour.get('wList').setValue(this.selectedItems);
@@ -148,6 +165,9 @@ if ((sTime.hour==0) && (sTime.minute==0)){
             this.toastr.info('Saved', 'Success!');
           }
           this.RebotTimeTokenSelected = [];
+          this.chkAll_Reboot=false;
+          this.ActiveTokenListlength=0;
+          this.PublishSearchList_Reboot=[]
           this.frmRebootTime.get('startTime').setValue(sTime);
           this.FillTokenRebotTime();
         },
@@ -196,6 +216,8 @@ if ((sTime.hour==0) && (sTime.minute==0)){
         (data) => {
           var returnData = JSON.stringify(data);
           this.RebootTimePlayerList = JSON.parse(returnData);
+          this.MainRebootTimePlayerList= JSON.parse(returnData);
+          this.ActiveTokenListlength_Reboot = this.RebootTimePlayerList.length
           this.loading = false;
         },
         (error) => {
@@ -218,6 +240,7 @@ if ((sTime.hour==0) && (sTime.minute==0)){
           var returnData = JSON.stringify(data);
           this.OpeningHoursList = JSON.parse(returnData);
           this.MainOpeningHoursList= JSON.parse(returnData);
+          this.ActiveTokenListlength= this.OpeningHoursList.length;
           this.loading = false;
           const obj:SortEvent   ={
             column:'city',
@@ -253,6 +276,93 @@ if ((sTime.hour==0) && (sTime.minute==0)){
         const res = this.compare(a[column], b[column]);
         return direction === 'asc' ? res : -res;
       });
+    }
+  }
+  onChangeEvent(){
+    this.PublishSearchList = this.OpeningHoursList.filter(country => this.serviceLicense.matches(country, this.openSearchText, this.pipe));
+    const total = this.PublishSearchList.length;
+    this.ActiveTokenListlength =total
+  }
+  GetCheckedToken(){
+    this.OpeningHoursList.forEach(item => {
+      let obj = this.OpeningHourTokenSelected.indexOf(item["tokenid"])
+      if (obj != -1){
+        item["check"]=true
+      }
+    });
+   
+  }
+  allActiveToken(event) {
+    const checked = event.target.checked;
+    this.OpeningHourTokenSelected = [];
+    if (this.openSearchText==''){
+    this.OpeningHoursList.forEach((item) => {
+      item.check = checked;
+      this.OpeningHourTokenSelected.push(item.tokenid);
+    });
+  }
+  else{
+    this.PublishSearchList.forEach((item) => {
+      item.check = checked;
+      this.OpeningHourTokenSelected.push(item.tokenid);
+    });
+  }
+    if (checked == false) {
+      this.OpeningHourTokenSelected = [];
+    }
+  }
+
+  onSort_Reboot({column, direction}: SortEvent) {
+    
+    // resetting other headers
+    this.headers.forEach(header => {
+      if (header.sortable !== column) {
+        header.direction = '';
+      }
+    });
+
+    // sorting countries
+    if (direction === '' || column === '') {
+      this.RebootTimePlayerList = this.MainRebootTimePlayerList;
+    } else {
+      this.RebootTimePlayerList = [...this.MainRebootTimePlayerList].sort((a, b) => {
+        const res = this.compare(a[column], b[column]);
+        return direction === 'asc' ? res : -res;
+      });
+    }
+  }
+
+  onChangeEvent_Reboot(){
+    this.PublishSearchList_Reboot = this.RebootTimePlayerList.filter(country => this.serviceLicense.matches(country, this.RebootSearchText, this.pipe));
+    const total = this.PublishSearchList_Reboot.length;
+    this.ActiveTokenListlength_Reboot =total
+  }
+  GetCheckedToken_Reboot(){
+    this.RebootTimePlayerList.forEach(item => {
+      let obj = this.RebotTimeTokenSelected.indexOf(item["tokenid"])
+      if (obj != -1){
+        item["check"]=true
+      }
+    });
+   
+  }
+  allActiveToken_Reboot(event) {
+    const checked = event.target.checked;
+    this.RebotTimeTokenSelected = [];
+    if (this.RebootSearchText==''){
+    this.RebootTimePlayerList.forEach((item) => {
+      item.check = checked;
+      this.RebotTimeTokenSelected.push(item.tokenid);
+    });
+  }
+  else{
+    this.PublishSearchList_Reboot.forEach((item) => {
+      item.check = checked;
+      this.RebotTimeTokenSelected.push(item.tokenid);
+    });
+  }
+    if (checked == false) {
+      this.RebotTimeTokenSelected = [];
     }
   }
 

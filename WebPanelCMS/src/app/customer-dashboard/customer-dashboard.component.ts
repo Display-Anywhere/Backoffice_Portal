@@ -5,10 +5,13 @@ import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from '../auth/auth.service';
 import { Subject } from 'rxjs';
 import { NgbdSortableHeader_Dashboard,SortEvent } from './dashboard_sortable.directive';
+import { SerLicenseHolderService } from '../license-holder/ser-license-holder.service';
+import { DecimalPipe } from '@angular/common';
 @Component({
   selector: 'app-customer-dashboard',
   templateUrl: './customer-dashboard.component.html',
-  styleUrls: ['./customer-dashboard.component.css']
+  styleUrls: ['./customer-dashboard.component.css'],
+  providers: [DecimalPipe],
 })
 export class CustomerDashboardComponent implements OnInit {
   TokenList = [];
@@ -25,12 +28,15 @@ export class CustomerDashboardComponent implements OnInit {
   //IsAdminLogin: boolean = false;
   CustomerList = [];
   cmbCustomerId = "";
-  
+  ActiveTokenListlength=0;
+  PublishSearchList=[]
+
   @ViewChildren(NgbdSortableHeader_Dashboard) headers: QueryList<NgbdSortableHeader_Dashboard>;
   compare = (v1: string | number, v2: string | number) => v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
 
   constructor(public toastr: ToastrService, vcr: ViewContainerRef, private dService: DashboardService,
-    config: NgbModalConfig, private modalService: NgbModal, private auth: AuthService) {
+    config: NgbModalConfig, private modalService: NgbModal, private auth: AuthService,
+    private pipe: DecimalPipe) {
     config.backdrop = 'static';
     config.keyboard = false;
     console.log("Dashboard");
@@ -89,12 +95,14 @@ export class CustomerDashboardComponent implements OnInit {
     if (filter == "Total") {
       this.TokenList=[];
       this.TokenList= this.MainTokenList;
+      this.ActiveTokenListlength =this.TokenList.length;
       this.searchText = "";
       this.PlayerFillType = filter + " Players";
     }
     else {
       this.TokenList=[];
       this.TokenList= this.MainTokenList.filter(order=> order.pStatus===filter)
+      this.ActiveTokenListlength =this.TokenList.length;
       if (filter == "Away") {
         this.PlayerFillType = "Offline Players";
       }
@@ -144,6 +152,7 @@ export class CustomerDashboardComponent implements OnInit {
           this.OfflinePlayer = obj.OfflinePlayer;
           this.TokenList = obj.lstToken;
           this.MainTokenList = obj.lstToken;
+          this.ActiveTokenListlength =this.TokenList.length;
           this.loading = false;
           const objSort:SortEvent   ={
             column:'city',
@@ -189,4 +198,11 @@ export class CustomerDashboardComponent implements OnInit {
     });
   }
 }
+onChangeEvent(){
+  this.PublishSearchList = this.TokenList.filter(country => this.dService.matches(country, this.searchText, this.pipe));
+  const total = this.PublishSearchList.length;
+  this.ActiveTokenListlength =total
+  console.log(total)
+}
+
 }

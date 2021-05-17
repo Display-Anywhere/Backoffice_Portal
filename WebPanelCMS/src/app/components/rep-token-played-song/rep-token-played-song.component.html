@@ -27,7 +27,7 @@
         >
           <option selected value="0"></option>
           <option *ngFor="let tLst of TokenList" [value]="tLst.tokenid">
-            {{ tLst.tokenid }}-{{ tLst.Name }}
+            {{ tLst.tokenid }}-{{tLst.location}}-{{ tLst.city }}
           </option>
         </select>
       </div>

@@ -9,7 +9,7 @@ import {ReactiveFormsModule,FormsModule  } from '@angular/forms';
 import { ComponentsModule } from '../components/components.module';
 import { AdminLogsComponent } from './admin-logs.component';
 import { AdminLogsRoutes } from './admin-logs.routes';
-
+import { DataTablesModule } from 'angular-datatables';
 @NgModule({
   declarations: [AdminLogsComponent],
   exports:[AdminLogsComponent],
@@ -22,6 +22,7 @@ import { AdminLogsRoutes } from './admin-logs.routes';
     ComponentsModule,
     ReactiveFormsModule,
     FormsModule,
+    DataTablesModule
   ]
 })
 export class AdminLogsModule { }

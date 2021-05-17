@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModalConfig, NgbModal, NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
-import { MachineService } from './machine.service';
 import { ConfigAPI } from 'src/app/class/ConfigAPI';
 import { AuthService } from 'src/app/auth/auth.service';
 import { PlaylistLibService } from 'src/app/playlist-library/playlist-lib.service';
 import { SerLicenseHolderService } from 'src/app/license-holder/ser-license-holder.service';
+import { MachineService } from '../machine-announcement/machine.service';
 @Component({
-  selector: 'app-machine-announcement',
-  templateUrl: './machine-announcement.component.html',
-  styleUrls: ['./machine-announcement.component.css']
+  selector: 'app-assignvideoclips',
+  templateUrl: './assignvideoclips.component.html',
+  styleUrls: ['./assignvideoclips.component.css']
 })
-export class MachineAnnouncementComponent implements OnInit {
+export class AssignvideoclipsComponent implements OnInit {
   public loading = false;
   cmbSearchCustomer= '0';
   cmbSearchToken; 
@@ -27,13 +27,13 @@ export class MachineAnnouncementComponent implements OnInit {
   plArray = [];
   selectedRow;
   dropdownSettings = {};
-  cmbToken='0';
+  cmbToken;
   cmbCustomer;
   chkAll:boolean=false;
   chkWithPrevious = false;
   ForceUpdateTokenid=[];
   active = 1;
-  selectedRowPL = [];
+   
   constructor(public toastr: ToastrService,  private cf: ConfigAPI,
      config: NgbModalConfig, private modalService: NgbModal, public auth:AuthService, 
      private mService:MachineService, private pService: PlaylistLibService,private serviceLicense: SerLicenseHolderService) {
@@ -114,7 +114,7 @@ export class MachineAnnouncementComponent implements OnInit {
   FillGenre() {
     this.loading = true;
     var qry = "select tbGenre.GenreId as Id, genre as DisplayName  from tbGenre ";
-    qry = qry + " where genreid in(303,297)  ";
+    qry = qry + " where genreid in(303,297,325,324)  ";
     qry = qry + " order by genre ";
     this.mService.FillCombo(qry).pipe()
       .subscribe(data => {
@@ -149,7 +149,10 @@ export class MachineAnnouncementComponent implements OnInit {
     this.SongsSelected=[];
     
     var chkSearchRadio = "Genre";
-    var chkMediaRadio='Url';
+    var chkMediaRadio='Video';
+    if ((id=="324") || (id=="325")){
+      chkMediaRadio='Image';
+    }
     this.loading = true;
     this.mService.CommanSearch(chkSearchRadio, id, chkMediaRadio, false,"1",this.cmbSearchCustomer).pipe()
       .subscribe(data => {
@@ -331,11 +334,8 @@ this.PlaylistSongsList =[];
 
       this.ArrayLoop();
       this.selectedRow--;
-      this.selectedRowPL = [];
-      this.selectPL(this.selectedRow);
     }
-    this.UpdateSRNo();
-  };
+  }
   moveDown = function (num) {
     if (num < this.PlaylistSongsList.length - 1) {
       var tmp = this.PlaylistSongsList[num + 1];
@@ -348,19 +348,14 @@ this.PlaylistSongsList =[];
       this.plArray[num] = tmpPL;
       this.ArrayLoop();
       this.selectedRow++;
-      this.selectedRowPL = [];
-      this.selectPL(this.selectedRow);
     }
-    this.UpdateSRNo();
-  };
+  }
   ArrayLoop() {
     this.plArray = [];
-    var srno = 1;
+    var srno = 0;
     for (let prop in this.PlaylistSongsList) {
       this.plArray.push({
-        index: srno,
-        titleid: this.PlaylistSongsList[prop].id,
-        id: this.PlaylistSongsList[prop].sId,
+        "index": srno, "titleid": this.PlaylistSongsList[prop].id
       });
       srno++;
     }
@@ -369,7 +364,7 @@ this.PlaylistSongsList =[];
   UpdateSRNo() {
 
     this.loading = true;
-    this.mService.UpdateMachineAnnouncementSRNo(this.cmbToken, this.plArray).pipe()
+    this.mService.UpdateMachineAnnouncementSRNo(this.cmbSearchToken, this.plArray).pipe()
       .subscribe(data => {
         var returnData = JSON.stringify(data);
         var obj = JSON.parse(returnData);
@@ -386,53 +381,6 @@ this.PlaylistSongsList =[];
           this.toastr.error("Apologies for the inconvenience.The error is recorded.", '');
           this.loading = false;
         })
-  }
-  setMultipleClickedRowPL = function (event, index, songLst, lock) {
-    if (event.ctrlKey) {
-      this.changeSelectionStatusPL(index);
-    } else if (event.shiftKey) {
-      this.selectWithShiftPL(index);
-    } else {
-      this.selectedRowPL = [index];
-    }
-    this.selectedRow = index;
-    return;
-  };
-
-  changeSelectionStatusPL(rowIndex) {
-    if (this.isRowSelectedPL(rowIndex)) {
-      this.unselectPL(rowIndex);
-    } else {
-      this.selectPL(rowIndex);
-    }
-  }
-  selectWithShiftPL(rowIndex) {
-    var lastSelectedRowIndexInSelectedRowsList = this.selectedRowPL.length - 1;
-    var lastSelectedRowIndex = this.selectedRowPL[
-      lastSelectedRowIndexInSelectedRowsList
-    ];
-    var selectFromIndex = Math.min(rowIndex, lastSelectedRowIndex);
-    var selectToIndex = Math.max(rowIndex, lastSelectedRowIndex);
-    this.selectRowsPL(selectFromIndex, selectToIndex);
-  }
-  selectRowsPL(selectFromIndex, selectToIndex) {
-    for (
-      var rowToSelect = selectFromIndex;
-      rowToSelect <= selectToIndex;
-      rowToSelect++
-    ) {
-      this.selectPL(rowToSelect);
-    }
-  }
-  unselectPL(rowIndex) {
-    var rowIndexInSelectedRowsList = this.selectedRowPL.indexOf(rowIndex);
-    var unselectOnlyOneRow = 1;
-    this.selectedRowPL.splice(rowIndexInSelectedRowsList, unselectOnlyOneRow);
-  }
-  selectPL(rowIndex) {
-    if (!this.isRowSelectedPL(rowIndex)) {
-      this.selectedRowPL.push(rowIndex);
-    }
   }
 
   onChangeCustomer(id) {
@@ -494,11 +442,6 @@ this.PlaylistSongsList =[];
         })
   }
   ActiveTab(tName){
-    if ((tName==='Search')){
-      this.cmbCustomer= "0";
-      this.cmbToken="0"
-      this.PlaylistSongsList =[]
-    }
     if ((tName==='Search') || (tName==='AddNew')){
       this.Clear();     
     }
@@ -522,8 +465,5 @@ this.PlaylistSongsList =[];
           }); 
         }
         
-      }
-      isRowSelectedPL(rowIndex) {
-        return this.selectedRowPL.indexOf(rowIndex) > -1;
       }
 }

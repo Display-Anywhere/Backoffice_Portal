@@ -748,11 +748,7 @@
             <div class=" mt-1 ml-3 colFilter p-0" [ngClass]="cmbCustomerMediaType == 'Signage'? 'col-md-5':'col-md-8'">
               <div class="">
                 <div
-                  *ngIf="
-                    chkMediaRadio != 'Image' &&
-                    (auth.ContentType$ == 'MusicMedia' ||
-                      auth.ContentType$ == 'Both')
-                  "
+                 
                   class="custom-control custom-radio custom-control-inline mb-2 mr-1"
                 >
                   <input

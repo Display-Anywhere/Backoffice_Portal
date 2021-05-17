@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, PipeTransform } from '@angular/core';
 import {ConfigAPI} from '../class/ConfigAPI';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
@@ -21,5 +21,10 @@ export class DashboardService {
     var params = JSON.stringify({ Query: qry });
     return this.http.post(this.cApi.FillQueryCombo,params,{headers:headers})
      .pipe((data=>{return data;}))
+  }
+  matches(country, term: string, pipe: PipeTransform) {
+    return  country.city.toLowerCase().includes(term.toLowerCase())
+      || country.location.toLowerCase().includes(term.toLowerCase())
+      || pipe.transform(country.tokenid).includes(term);
   }
 }

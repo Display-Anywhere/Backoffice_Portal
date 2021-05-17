@@ -62,6 +62,7 @@
                             class="text search-input"
                             [(ngModel)]="openSearchText"
                             [ngModelOptions]="{ standalone: true }"
+                            (input)="onChangeEvent()"
                           />
                           <a class="search-link" href="#"
                             ><i class="fa fa-search"></i
@@ -79,7 +80,23 @@
                   >
                     <thead class="bg-primary">
                       <tr>
-                        <th scope="col" style="width: 60px"></th>
+                        <th scope="col" style="width: 60px">
+                          <div class="custom-control custom-checkbox">
+                            <input
+                              (change)="allActiveToken($event)"
+                              type="checkbox"
+                              class="custom-control-input"
+                              name="AllActiveToken"
+                              id="AllActiveToken"
+                              [(ngModel)]="chkAll"
+                            />
+                            <label
+                              class="custom-control-label cursor-pointer pt-1 text-white"
+                              for="AllActiveToken"
+                              >All</label
+                            >
+                          </div>
+                        </th>
                         <th scope="col" sortable="city" (sort)="onSort($event)">
                           City
                         </th>
@@ -107,10 +124,9 @@
                     <tbody>
                       <tr
                         *ngFor="
-                          let tLst of OpeningHoursList | filter: openSearchText;
-                          let i = index
-                        "
-                      >
+                          let tLst of OpeningHoursList | filter: openSearchText | slice
+                          : (page - 1) * pageSize
+                          : (page - 1) * pageSize + pageSize; let i = index ">
                         <td data-label="" class="">
                           <div class="custom-control custom-checkbox">
                             <input
@@ -144,6 +160,13 @@
                       </tr>
                     </tbody>
                   </table>
+                  <ngb-pagination
+                  [collectionSize]="ActiveTokenListlength"
+                  [(page)]="page"
+                  [pageSize]="pageSize"
+                  aria-label="Default pagination"
+                  (click)="GetCheckedToken()"
+                ></ngb-pagination>
                 </div>
               </div>
             </div>
@@ -189,6 +212,7 @@
                             class="text search-input"
                             [(ngModel)]="RebootSearchText"
                             [ngModelOptions]="{ standalone: true }"
+                            (input)="onChangeEvent_Reboot()"
                           />
                           <a class="search-link" href="#"
                             ><i class="fa fa-search"></i
@@ -206,10 +230,39 @@
                   >
                     <thead class="bg-primary">
                       <tr>
-                        <th scope="col" style="width: 60px"></th>
-                        <th scope="col">City</th>
-                        <th scope="col">Location</th>
-                        <th scope="col">Token No</th>
+                        <th scope="col" style="width: 60px">
+                          <div class="custom-control custom-checkbox">
+                            <input
+                              (change)="allActiveToken_Reboot($event)"
+                              type="checkbox"
+                              class="custom-control-input"
+                              name="AllActiveTokenR"
+                              id="AllActiveTokenR"
+                              [(ngModel)]="chkAll_Reboot"
+                            />
+                            <label
+                              class="custom-control-label cursor-pointer pt-1 text-white"
+                              for="AllActiveTokenR"
+                              >All</label
+                            >
+                          </div></th>
+                          <th scope="col" sortable="city" (sort)="onSort_Reboot($event)">
+                            City
+                          </th>
+                          <th
+                            scope="col"
+                            sortable="location"
+                            (sort)="onSort_Reboot($event)"
+                          >
+                            Location
+                          </th>
+                          <th
+                            scope="col"
+                            sortable="tokenCode"
+                            (sort)="onSort_Reboot($event)"
+                          >
+                            Token No
+                          </th>
                         <th scope="col" style="width: 120px">Reboot Time</th>
                       </tr>
                     </thead>
@@ -217,7 +270,9 @@
                       <tr
                         *ngFor="
                           let tLst of RebootTimePlayerList
-                            | filter: RebootSearchText;
+                            | filter: RebootSearchText | slice
+                            : (page_Reboot - 1) * pageSize_Reboot
+                            : (page_Reboot - 1) * pageSize_Reboot + pageSize_Reboot
                           let i = index
                         "
                       >
@@ -247,6 +302,13 @@
                       </tr>
                     </tbody>
                   </table>
+                  <ngb-pagination
+                  [collectionSize]="ActiveTokenListlength_Reboot"
+                  [(page)]="page_Reboot"
+                  [pageSize]="pageSize_Reboot"
+                  aria-label="Default pagination"
+                  (click)="GetCheckedToken_Reboot()"
+                ></ngb-pagination>
                 </div>
               </div>
             </div>
