@@ -13,6 +13,13 @@ export class SrDownloadTemplateService {
     return this.http.post(this.cApi.GetTemplates,params,{headers:headers})
      .pipe((data=>{return data;}))
   }
+  DownloadTemplates_new(dfClientId,GenreId,FolderId,tList){
+    let headers = new HttpHeaders({ 'Content-Type':'application/json' });
+    var params = JSON.stringify({ dfClientId:dfClientId,GenreId:GenreId,FolderId:FolderId,
+      tList:tList,dbType: localStorage.getItem('DBType') });
+    return this.http.post(this.cApi.DownloadTemplates_new,params,{headers:headers})
+     .pipe((data=>{return data;}))
+  }
   DownloadTemplates(dfClientId,GenreId,FolderId,tList){
     let headers = new HttpHeaders({ 'Content-Type':'application/json' });
     var params = JSON.stringify({ dfClientId:dfClientId,GenreId:GenreId,FolderId:FolderId,

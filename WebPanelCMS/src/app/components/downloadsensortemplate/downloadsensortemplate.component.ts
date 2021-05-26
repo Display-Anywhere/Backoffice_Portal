@@ -330,4 +330,26 @@ if (this.TemplateSelected.length==0){
   FilterRecord = (orientation): void => {
     this.TemplateList = this.MainTemplateList.filter(order => order.orientation === orientation);
   }
+  OpenViewContent(modalName, url,oType){
+
+
+    localStorage.setItem("ViewContent",url)
+    
+    if (oType!="portrait"){
+      localStorage.setItem("oType","297")
+      this.modalService.open(modalName, {
+        size: 'lgx',
+      }); 
+    }
+    if (oType=="portrait"){
+      localStorage.setItem("oType","303")
+      this.modalService.open(modalName,{
+        size: 'smg'
+      }); 
+    }
+    
+  }
+  CloseModal(){
+    this.modalService.dismissAll();
+  }
 }

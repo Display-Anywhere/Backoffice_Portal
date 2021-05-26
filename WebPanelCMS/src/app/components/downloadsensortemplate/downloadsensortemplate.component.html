@@ -51,13 +51,13 @@
       </option>
     </select>
 
-    <label for="cmbFolder" class="mt-1 mb-2 mr-sm-2 pr-1">Token:</label>
+    <label for="cmbFolder" class="d-none mt-1 mb-2 mr-sm-2 pr-1">Token:</label>
     <ng-multiselect-dropdown
                         id="Dispenser"
                         [placeholder]="' '"
                         [settings]="dropdownSettings"
                         [data]="SearchTokenList"
-                        class="mt-2 mb-2 mr-sm-2 col-sm-4 col-12"
+                        class="d-none mt-2 mb-2 mr-sm-2 col-sm-4 col-12"
                         [(ngModel)]="cmbSearchToken"
                       >
                       </ng-multiselect-dropdown>
@@ -81,18 +81,19 @@
             </th>
             <th scope="col">Template Name</th>
             <th scope="col">Orientation</th>
-            <th scope="col">Duration</th>
+            <th scope="col">Duration (Seconds)</th>
+            <th scope="col">Refersh Time (Minutes)</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let tLst of TemplateList; let i = index">
             <td data-label="" class="">
-              <div class="custom-control custom-radio">
+              <div class="custom-control custom-checkbox">
                 <input
                   (change)="
                     SelectTemplates(tLst.videoUrl, tLst.name, tLst.id, $event)
                   "
-                  type="radio"
+                  type="checkbox"
                   class="custom-control-input"
                   id="{{ tLst.id }}{{ i }}"
                   [checked]="tLst.check"
@@ -105,7 +106,7 @@
               </div>
             </td>
             <td data-label="Template Name">
-              <a href="{{ tLst.videoUrl }}" target="_blank">
+              <a href="javascript:;" (click)="OpenViewContent(viewcontent, tLst.url,tLst.orientation)">
                 {{ tLst.name }}
               </a>
             </td>
@@ -113,10 +114,27 @@
             <td data-label="Created at">
               {{ tLst.duration }}
             </td>
+            <td data-label="Created at">
+              {{ tLst.duration*2 }}
+            </td>
           </tr>
         </tbody>
       </table>
     </div>
   </div>
 </div>
+<ng-template class="pt_main" #viewcontent let-c="close" let-d="dismiss">
+  
+  <button
+    type="button"
+    class="close text-right"
+    aria-label="Close"
+    (click)="CloseModal()"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
  
+<div class="modal-body p-0">
+  <app-view-content></app-view-content>
+</div>
+</ng-template>

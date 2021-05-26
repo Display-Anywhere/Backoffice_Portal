@@ -10,6 +10,10 @@ import {
 import { TokenInfoServiceService } from './components/token-info/token-info-service.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+
+import {Idle, DEFAULT_INTERRUPTSOURCES} from '@ng-idle/core';
+import {Keepalive} from '@ng-idle/keepalive';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -20,15 +24,48 @@ export class AppComponent implements OnInit {
   loading = false;
   ClientName = '';
   LastStatus = '';
+  idleState = 'Not started.';
+  timedOut = false;
+  lastPing?: Date = null;
+  iframeUrl=false
   constructor(
     public authService: AuthService,
     private modalService: NgbModal,
     private tService: TokenInfoServiceService,
     public toastr: ToastrService,
     public auth: AuthService,
-    private router: Router
-  ) {}
+    private router: Router,private idle: Idle, private keepalive: Keepalive
+  ) {
+    // sets an idle timeout of 5 seconds, for testing purposes.
+    idle.setIdle(3600);
+    // sets a timeout period of 5 seconds. after 10 seconds of inactivity, the user will be considered timed out.
+    idle.setTimeout(3600);
+    // sets the default interrupts, in this case, things like clicks, scrolls, touches to the document
+    idle.setInterrupts(DEFAULT_INTERRUPTSOURCES);
 
+    idle.onIdleEnd.subscribe(() => this.idleState = 'No longer idle.');
+    idle.onTimeout.subscribe(() => {
+      this.idleState = 'Timed out!';
+      this.timedOut = true;
+      this.logout();
+    });
+    idle.onIdleStart.subscribe(() => this.idleState = 'You\'ve gone idle!');
+    idle.onTimeoutWarning.subscribe((countdown) => this.idleState = 'You will time out in ' + countdown + ' seconds!');
+
+    // sets the ping interval to 15 seconds
+    keepalive.interval(1800);
+
+    keepalive.onPing.subscribe(() => this.lastPing = new Date());
+
+    this.reset();
+  }
+
+  
+  reset() {
+    this.idle.watch();
+    this.idleState = 'Started.';
+    this.timedOut = false;
+  }
   title = 'WebPanelCMS';
   public isCollapsed = true;
   ngOnInit() {
@@ -91,5 +128,8 @@ export class AppComponent implements OnInit {
   logout() {
     this.authService.logout();
     this.router.navigate(['']);
+  }
+  OpenManual(){
+    this.iframeUrl =true
   }
 }

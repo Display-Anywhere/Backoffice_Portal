@@ -55,8 +55,8 @@ const routes: Routes = [
     canActivate:[AuthGuard]
    },
    { 
-    path: 'AdminLogs', 
-    loadChildren: () => import('./admin-logs/admin-logs.module').then(m => m.AdminLogsModule),
+    path: 'manual', 
+    loadChildren: () => import('./manual/manual.module').then(m => m.ManualModule),
     canActivate:[AuthGuard]
    },
    { 

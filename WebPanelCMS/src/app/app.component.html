@@ -186,13 +186,13 @@
               </a>
             </li>
             <li class="js-scroll-trigger" routerLinkActive="active">
-              <a routerLink="/AdminLogs">
-                <i class="fa fa-ravelry iq-arrow-left"></i><span>Logs</span>
+              <a routerLink="/manual">
+                <i class="fa fa-ravelry iq-arrow-left"></i><span>Manual</span>
               </a>
             </li>
             <li class="js-scroll-trigger" routerLinkActive="active">
               <a routerLink="/Reports">
-                <i class="fa fa-table iq-arrow-left"></i><span>Reports</span>
+                <i class="fa fa-table iq-arrow-left"></i><span>Stats</span>
               </a>
             </li>
             <li class="js-scroll-trigger" class="d-none d-xl-block">
@@ -225,7 +225,8 @@
             <!-- library -->
             <li class="js-scroll-trigger" routerLinkActive="active">
               <a class="cursor" (click)="logout()">
-                <i class="fa fa-sign-out iq-arrow-left"></i><span>Logout</span>
+                <i class="fa fa-sign-out iq-arrow-left"></i><span>Logout
+               </span>
               </a>
             </li>
           </ul>
@@ -239,6 +240,7 @@
     <div class="mt-3">
       <div class="container-fluid p-0">
         <router-outlet></router-outlet>
+        
       </div>
     </div>
   </div>

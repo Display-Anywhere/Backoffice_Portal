@@ -1,7 +1,7 @@
 import { Component, OnInit,ViewContainerRef,ViewChild } from '@angular/core';
-import { SerAdminLogService } from '../admin-logs/ser-admin-log.service';
+import { SerAdminLogService } from './ser-admin-log.service';
 import { ToastrService } from 'ngx-toastr';
-import { AuthService } from '../auth/auth.service';
+import { AuthService } from '../../auth/auth.service';
 import { DataTableDirective } from 'angular-datatables';
 import * as pdfMake from 'pdfmake/build/pdfmake.js';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts.js';

@@ -172,12 +172,12 @@ export class TemplateUrlComponent implements OnInit {
 
     localStorage.setItem("ViewContent",url)
     localStorage.setItem("oType",oType)
-    if (oType=="297"){
+    if (oType=="496"){
       this.modalService.open(modalName, {
         size: 'lgx',
       }); 
     }
-    if (oType=="303"){
+    if (oType=="495"){
       this.modalService.open(modalName,{
         size: 'smg'
       }); 

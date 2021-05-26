@@ -856,6 +856,7 @@ this.submitted = true;this.loading = true;
       .subscribe(
         (data) => {
           var returnData = JSON.stringify(data);
+          console.log(returnData)
           this.PlaylistSongsList = JSON.parse(returnData);
           this.loading = false;
         },

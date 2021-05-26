@@ -27,6 +27,7 @@ export class DownloadTemplateComponent implements OnInit {
   TemplateSelected=[];
   chkAll:boolean=false;
   SearchCDate;
+  chkIsAnnouncement=false
     constructor(private dService: SrDownloadTemplateService,  public toastr: ToastrService,
     private serviceLicense: SerLicenseHolderService, public auth:AuthService,private modalService: NgbModal) { }
  
@@ -63,7 +64,7 @@ this.FillClientList();
     var i = this.auth.IsAdminLogin$.value ? 1 : 0;
     var qry = "select tbGenre.GenreId as Id, genre as DisplayName  from tbGenre ";
     qry = qry + " where 1=1 ";
-    qry = qry + " and genreid in(303,297) ";
+    qry = qry + " and genreid in(495,496) ";
     /*
     if ((this.auth.ContentType$=="Signage")){
       qry = qry + " and genreid in(303,297) ";
@@ -181,6 +182,7 @@ this.FillClientList();
 
 
   FillTemplates() {
+    this.TemplateList=[];
 if (this.CustomerId=='0'){
   return;
 }
@@ -193,6 +195,9 @@ if (this.cmbGenre=='0'){
       .subscribe(data => {
         var returnData = JSON.stringify(data);
         this.TemplateList= JSON.parse(returnData);
+        this.TemplateList.forEach(item => {
+          item["Refersh"]= item["duration"]*3
+        });
         this.TemplateList.sort(this.GetSortOrder("createdAt",false));
         this.loading = false;
       },
@@ -220,8 +225,11 @@ if (this.cmbGenre=='0'){
       TemplateItem = {};
       item.check = checked;
       TemplateItem["TemplateName"] = item.name;
-      TemplateItem["Url"] = item.videoUrl;
+      TemplateItem["Url"] = item.url;
       TemplateItem["id"] = item.id;
+      TemplateItem["duration"] = item.duration;
+      TemplateItem["Refersh"] = item.Refersh;
+      TemplateItem["IsAnnouncement"] = this.chkIsAnnouncement;
       this.TemplateSelected.push(TemplateItem);
     });
     if (checked==false){
@@ -229,13 +237,16 @@ if (this.cmbGenre=='0'){
     }
   }
 
-  SelectTemplates(url,name,id, event) {
+  SelectTemplates(url,name,id,duration,Refersh, event) {
     var TemplateItem = {};
     if (event.target.checked) {
       
       TemplateItem["TemplateName"] = name;
       TemplateItem["Url"] = url;
       TemplateItem["id"] = id;
+      TemplateItem["duration"] = duration;
+      TemplateItem["Refersh"] = Refersh;
+      TemplateItem["IsAnnouncement"] = this.chkIsAnnouncement;
       this.TemplateSelected.push(TemplateItem)
     }
     else {
@@ -262,8 +273,13 @@ if (this.TemplateSelected.length==0){
   return;
 }
 
+this.TemplateSelected.forEach(item=>{
+  item["IsAnnouncement"] = this.chkIsAnnouncement;
+});
+
     this.loading = true;
-    this.dService.DownloadTemplates(this.CustomerId,this.cmbGenre,this.cmbFolder,this.TemplateSelected).pipe()
+
+    this.dService.DownloadTemplates_new(this.CustomerId,this.cmbGenre,this.cmbFolder,this.TemplateSelected).pipe()
       .subscribe(data => {
         var returnData = JSON.stringify(data);
         var obj = JSON.parse(returnData);
@@ -286,10 +302,10 @@ if (this.TemplateSelected.length==0){
   }
   onChangeGenre(id){
     var orientation="";
-    if (id=="303"){
+    if (id=="495"){
       orientation="portrait";
     }
-    if (id=="297"){
+    if (id=="496"){
       orientation="landscape";
     }
     this.FillTemplates();
@@ -299,6 +315,28 @@ if (this.TemplateSelected.length==0){
   
   FilterRecord = (orientation): void => {
     this.TemplateList = this.MainTemplateList.filter(order => order.orientation === orientation);
+  }
+  OpenViewContent(modalName, url,oType){
+
+
+    localStorage.setItem("ViewContent",url)
+    
+    if (oType!="portrait"){
+      localStorage.setItem("oType","496")
+      this.modalService.open(modalName, {
+        size: 'lgx',
+      }); 
+    }
+    if (oType=="portrait"){
+      localStorage.setItem("oType","495")
+      this.modalService.open(modalName,{
+        size: 'smg'
+      }); 
+    }
+    
+  }
+  CloseModal(){
+    this.modalService.dismissAll();
   }
 }
 //http://jsfiddle.net/194rbn3s/5/

@@ -378,3 +378,8 @@ td {
 .owl-dt-calendar-table{
   height: 100% !important;
 }
+.modal-lgSx{
+  max-width: 1500px !important;
+    width: 1450px !important;
+    height: 713px;
+}

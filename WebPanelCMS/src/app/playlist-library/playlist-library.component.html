@@ -39,7 +39,8 @@
           </button>
           </div>
         </div>
-          <div class="col-lg-12 ml-0 pl-0">
+        <div class="row m-0 p-0">
+          <div [ngClass]="cmbCustomerMediaType == 'Signage'? 'col-md-8':'col-md-12'" class="ml-0 pl-0">
             <label for="cName" class="mb-2 mr-sm-2">Media Type:</label>
             <select
               name="cName"
@@ -57,6 +58,16 @@
               </option>
             </select>
           </div>
+          <div [ngClass]="cmbCustomerMediaType == 'Signage'? 'col-md-4':'d-none'" class="ml-0 pl-0">
+            <label for="cName" class="mb-2 mr-sm-2">&nbsp;</label>
+            <button
+            class="btn btn-primary w-100 custombutton"
+            (click)="OpenSensorSettings(SensorSettings)">
+            Sensor Settings
+          </button>
+          </div>
+          </div>
+
           <div class="col-lg-12 p-0 m-0">
             <div class="col-lg-9 p-0 m-0 pull-left">
               <label for="FormatName" class="mb-2 mr-sm-2"
@@ -473,7 +484,7 @@
 
                   <th class="WidthArtistPL bg-primary sticky-top" style="z-index: 1;">Artist</th>
                   <th class="WidthCategoryPL bg-primary sticky-top" style="z-index: 1;">Genre</th>
-                  <th class="WidthCategoryPL bg-primary sticky-top" style="z-index: 1;">Label</th>
+                  <!--<th class="WidthCategoryPL bg-primary sticky-top" style="z-index: 1;">Label</th>-->
                   <th class="WidthLength bg-primary sticky-top" style="z-index: 1;">Length</th>
 
                   <th
@@ -509,9 +520,9 @@
                   <td class="WidthCategoryPL" (click)="plChange()">
                     {{ plSongLst.GenreName }}
                   </td>
-                  <td class="WidthCategoryPL" (click)="plChange()">
+                  <!--<td class="WidthCategoryPL" (click)="plChange()">
                     {{ plSongLst.Label }}
-                  </td>
+                  </td>-->
                   <td
                     class="WidthLength"
                     (click)="plChange()"
@@ -865,7 +876,7 @@
                     >Folder</label
                   >
                 </div>
-                <div
+                <!--<div
                   *ngIf="
                     chkMediaRadio != 'Image' &&
                     (auth.ContentType$ == 'MusicMedia' ||
@@ -883,7 +894,7 @@
                   <label class="custom-control-label cursor-pointer" for="Label"
                     >Label</label
                   >
-                </div>
+                </div>-->
                 <div
                   *ngIf="
                     chkMediaRadio != 'Image' &&
@@ -967,6 +978,26 @@
                     class="custom-control-label cursor-pointer"
                     for="ReleaseMonth"
                     >Release Date</label
+                  >
+                </div>
+                <div
+                  *ngIf="
+                  ((cmbCustomerMediaType == 'Audio Copyright') ||
+                    (cmbCustomerMediaType == 'Audio DirectLicence'))
+                  "
+                  class="custom-control custom-radio custom-control-inline mb-2 mr-1"
+                >
+                  <input
+                    type="radio"
+                    class="custom-control-input cursor-pointer"
+                    id="bRate"
+                    (change)="SearchRadioClick('BitRate')"
+                    name="chkSearch"
+                  />
+                  <label
+                    class="custom-control-label cursor-pointer"
+                    for="bRate"
+                    >Bit Rate</label
                   >
                 </div>
                 <div
@@ -1062,10 +1093,10 @@
                   (sort)="onSort_Libray($event)">Artist</th>
                   <th class="WidthCategoryPL bg-primary sticky-top"  sortable="genreName"
                   (sort)="onSort_Libray($event)">Genre</th>
-                  <th *ngIf="((chkMediaRadio=='Audio') && (IsRF==true)) ||
+                  <!--<th *ngIf="((chkMediaRadio=='Audio') && (IsRF==true)) ||
                   ((chkMediaRadio=='Video')) " class="WidthCategoryPL bg-primary sticky-top">
                     {{ HeaderName }}
-                  </th>
+                  </th>-->
                   
                   <th *ngIf="((chkMediaRadio=='Image'))" class="WidthCategoryPL bg-primary sticky-top">
                     {{ HeaderName }}
@@ -1197,8 +1228,8 @@
                     ></i>
                   </td>-->
 
-                  <td *ngIf="((chkMediaRadio=='Audio') && (IsRF==true)) ||
-                  ((chkMediaRadio=='Video')) " class="WidthCategoryPL">{{songLst.Label}}</td>
+                  <!--<td *ngIf="((chkMediaRadio=='Audio') && (IsRF==true)) ||
+                  ((chkMediaRadio=='Video')) " class="WidthCategoryPL">{{songLst.Label}}</td>-->
                   
                   <td *ngIf="((chkMediaRadio=='Image'))" class="WidthCategoryPL">{{songLst.FolderName}}</td>
                   <td  *ngIf="((chkSearchRadio=='BPM'))"
@@ -1879,5 +1910,24 @@
  
 <div class="modal-body p-0">
   <app-view-content></app-view-content>
+</div>
+</ng-template>
+
+
+<ng-template class="tokenmodal" #SensorSettings let-c="close" let-d="dismiss">
+  
+  <button
+    type="button"
+    class="close text-right"
+    aria-label="Close"
+    
+    (click)="CloseSensorSettings()"
+    (click)="d('Cross click')"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+ 
+<div class="modal-body p-0" style="height: 600px;">
+  <app-machine-announcement></app-machine-announcement>
 </div>
 </ng-template>

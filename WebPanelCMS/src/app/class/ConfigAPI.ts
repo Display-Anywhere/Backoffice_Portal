@@ -105,6 +105,7 @@ export class ConfigAPI {
    DeleteFireAlert: string = this.Host + 'DeleteFireAlert';
    GetTemplates: string = this.Host + 'GetTemplates';
    DownloadTemplates: string = this.Host + 'DownloadTemplates';
+   DownloadTemplates_new: string = this.Host + 'DownloadTemplates_new';
    SaveImageTimeInterval: string = this.Host + 'SaveImageTimeInterval';
    DeleteFolder: string = this.Host + 'DeleteFolder';
    UpdateTokenGroups: string = this.Host + 'UpdateTokenGroups';

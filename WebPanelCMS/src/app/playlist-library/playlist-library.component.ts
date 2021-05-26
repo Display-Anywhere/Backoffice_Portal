@@ -451,9 +451,13 @@ export class PlaylistLibraryComponent implements OnInit {
     if (this.chkMediaRadio == 'Video') {
       this.SongsList = [];
       this.MainSongsList = [];
-      this.chkSearchRadio = 'Genre';
+      this.chkSearchRadio = 'title';
       this.SearchText = '';
       this.Search = false;
+      this.SearchText = '';
+      this.Search = true;
+      this.chkGenre=false;
+      this.chkTitle=true;
     }
 
     if (this.cmbCustomerMediaType == 'Signage') {
@@ -753,6 +757,12 @@ export class PlaylistLibraryComponent implements OnInit {
       this.FillLabel();
       this.Search = false;
     }
+    if (this.chkSearchRadio == 'BitRate') {
+      this.SongsList = [];
+      this.MainSongsList = [];
+      this.FillBitRate();
+      this.Search = false;
+    }
     if (this.chkSearchRadio == 'title') {
       this.chkTitle = true;
     }
@@ -1024,6 +1034,47 @@ export class PlaylistLibraryComponent implements OnInit {
         }
       );
   }
+  FillBitRate() {
+    this.loading = true;
+    var qry = 'select  bitrate as DisplayName, bitrate as Id from titles ';
+    qry = qry + " where bitrate is not null and bitrate !='' ";
+    qry = qry + " and mediatype='" + this.chkMediaRadio + "' ";
+    qry =
+      qry +
+      " and (titles.dbtype='" +
+      localStorage.getItem('DBType') +
+      "' or titles.dbtype='Both') ";
+    if (this.chkMediaRadio != 'Image') {
+      qry = qry + ' and IsRoyaltyFree = ' + localStorage.getItem('IsRf') + ' ';
+    }
+    if (this.auth.ContentType$ == 'Signage') {
+      qry = qry + ' and titles.GenreId in(303,297, 325,324) ';
+    }
+    if (
+      this.chkMediaRadio == 'Image' &&
+      this.auth.ContentType$ == 'MusicMedia'
+    ) {
+      qry = qry + ' and tbGenre.GenreId=326 ';
+    }
+    qry = qry + ' group by bitrate order by bitrate ';
+    this.pService
+      .FillCombo(qry)
+      .pipe()
+      .subscribe(
+        (data) => {
+          var returnData = JSON.stringify(data);
+          this.AlbumList = JSON.parse(returnData);
+          this.loading = false;
+        },
+        (error) => {
+          this.toastr.error(
+            'Apologies for the inconvenience.The error is recorded.',
+            ''
+          );
+          this.loading = false;
+        }
+      );
+  }
   FillGenre() {
     this.loading = true;
     var qry =
@@ -1044,7 +1095,7 @@ export class PlaylistLibraryComponent implements OnInit {
       qry = qry + ' and tbGenre.GenreId in(325,324) ';
     }
     else if (this.chkMediaRadio == 'Url') {
-      qry = qry + ' and tbGenre.GenreId in(297,303) ';
+      qry = qry + ' and tbGenre.GenreId in(495,496) ';
     } else {
       if (this.auth.ContentType$ == 'Signage') {
         qry = qry + ' and tbGenre.GenreId in(297,303) ';
@@ -1098,14 +1149,16 @@ export class PlaylistLibraryComponent implements OnInit {
         qry + ' and tit.IsRoyaltyFree = ' + localStorage.getItem('IsRf') + ' ';
     }
     if (this.chkMediaRadio == 'Image') {
-      qry = qry + ' and tit.GenreId in(303,297, 325,324) ';
+      qry = qry + ' and tit.GenreId in(325,324) ';
     }
-    if (this.auth.ContentType$ == 'Signage') {
-      qry = qry + ' and tit.GenreId in(303,297, 325,324) ';
+    if ((this.cmbCustomerMediaType == 'Signage') && (this.chkMediaRadio == 'Video')) {
+      qry = qry + ' and tit.GenreId in(303,297) ';
+    }
+    if (this.chkMediaRadio == 'Url') {
+      qry = qry + ' and tit.GenreId in(496,495) ';
     }
     qry = qry + ' group by tbFolder.folderId,tbFolder.foldername ';
     qry = qry + ' order by tbFolder.foldername ';
-
     this.pService
       .FillCombo(qry)
       .pipe()
@@ -1239,7 +1292,11 @@ export class PlaylistLibraryComponent implements OnInit {
       this.modalService.open(mContent);
       return;
     }
-
+if (id=="0"){
+  this.SongsList = [];
+  this.MainSongsList = []
+  return
+}
     this.SearchText = id;
     if (id == '318') {
       this.chkExplicit = true;
@@ -2649,6 +2706,7 @@ export class PlaylistLibraryComponent implements OnInit {
           // this.CopyFormatList = JSON.parse(returnData);
           // this.CopyFormatListClone = JSON.parse(returnData);
           this.loading = false;
+          console.log(this.chkSearchRadio)
           this.SearchRadioClick(this.chkSearchRadio);
         },
         (error) => {
@@ -2929,12 +2987,12 @@ if (MediaType!="Url"){
 
     localStorage.setItem("ViewContent",url)
     localStorage.setItem("oType",oType)
-    if (oType=="297"){
+    if (oType=="496"){
       this.modalService.open(modalName, {
         size: 'lgx',
       }); 
     }
-    if (oType=="303"){
+    if (oType=="495"){
       this.modalService.open(modalName,{
         size: 'smg'
       }); 
@@ -2954,6 +3012,15 @@ if (MediaType!="Url"){
     window.open(this.OtherUrl,"_blank")
     }
   }
+
+  OpenSensorSettings(modalName){
+          this.modalService.open(modalName, {
+            size: 'lgSx',
+          }); 
+      }
+      CloseSensorSettings(){
+        localStorage.setItem('IsAnnouncement', '0');
+      }
 }
 
 

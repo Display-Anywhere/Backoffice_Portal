@@ -287,11 +287,17 @@ var Item_TitleId="";
   }
 
   FillGenre() {
+    
     this.loading = true;
     var i = this.auth.IsAdminLogin$.value ? 1 : 0;
     var qry = "select tbGenre.GenreId as Id, genre as DisplayName  from tbGenre ";
     qry = qry + " where 1=1 ";
+    if (localStorage.getItem('IsAnnouncement')=="0"){
     qry = qry + " and genreid in(303,297,324,325,326) ";
+    }
+    else{
+      qry = qry + " and genreid in(303,324) ";
+    }
     /*
     if ((this.auth.ContentType$=="Signage")){
       qry = qry + " and genreid in(303,297,324,325) ";

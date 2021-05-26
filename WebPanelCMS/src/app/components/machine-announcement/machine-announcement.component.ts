@@ -114,7 +114,7 @@ export class MachineAnnouncementComponent implements OnInit {
   FillGenre() {
     this.loading = true;
     var qry = "select tbGenre.GenreId as Id, genre as DisplayName  from tbGenre ";
-    qry = qry + " where genreid in(303,297)  ";
+    qry = qry + " where genreid in(303,495,324)  ";
     qry = qry + " order by genre ";
     this.mService.FillCombo(qry).pipe()
       .subscribe(data => {
@@ -149,7 +149,15 @@ export class MachineAnnouncementComponent implements OnInit {
     this.SongsSelected=[];
     
     var chkSearchRadio = "Genre";
+
     var chkMediaRadio='Url';
+
+    if (id=="324"){
+      chkMediaRadio='Image';
+    }
+    if (id=="303"){
+      chkMediaRadio='Video';
+    }
     this.loading = true;
     this.mService.CommanSearch(chkSearchRadio, id, chkMediaRadio, false,"1",this.cmbSearchCustomer).pipe()
       .subscribe(data => {
@@ -511,12 +519,12 @@ this.PlaylistSongsList =[];
     
         localStorage.setItem("ViewContent",url)
         localStorage.setItem("oType",oType)
-        if (oType=="297"){
+        if (oType=="496"){
           this.modalService.open(modalName, {
             size: 'lgx',
           }); 
         }
-        if (oType=="303"){
+        if (oType=="495"){
           this.modalService.open(modalName,{
             size: 'smg'
           }); 

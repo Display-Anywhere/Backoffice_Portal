@@ -80,6 +80,7 @@ export class AuthService {
   }
   logout() {
     // logic
+    localStorage.clear();
     localStorage.setItem('loggedIn', 'false');
     this.isLoggedIn$.next(false);
   }

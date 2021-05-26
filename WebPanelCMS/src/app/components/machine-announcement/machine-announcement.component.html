@@ -75,7 +75,7 @@
               <tr>
                 <th class="WidthTitleTH">Title</th>
                 <th class="WidthArtistTH">Artist</th>
-                <th class="WidthCategoryTH">Genre</th>
+                <th class="WidthCategoryTH">Orientation</th>
                 <th class="Link-Center_Width"></th>
               </tr>
             </thead>
@@ -111,7 +111,7 @@
       </ng-template>
     </li>
     <li [ngbNavItem]="2">
-      <a ngbNavLink (click)="ActiveTab('AddNew')">Assign Template Url</a>
+      <a ngbNavLink (click)="ActiveTab('AddNew')">Assign Content</a>
       <ng-template ngbNavContent>
         <div class="col-sm-12">
           <div class="form-row">
@@ -142,9 +142,10 @@
                 (change)="onChangeGenre($event.target.value)"
                 id="cName"
               >
-                <option selected value="0"></option>
-                <option selected value="297">Landscape </option>
-                <option selected value="303">Portrait</option>
+              <option selected value="0"></option>
+              <option *ngFor="let gLst of GenreList" [value]="gLst.Id">
+                  {{ gLst.DisplayName }}
+                </option>
 
               </select>
             </div>
@@ -284,13 +285,13 @@
         <app-upload></app-upload>
       </ng-template>
     </li>
-    <li [ngbNavItem]="4" title="Assign Video Clips">
+    <!--<li [ngbNavItem]="4" title="Assign Video Clips">
       <a ngbNavLink>Assign Video/Image</a>
       <ng-template ngbNavContent>
         <app-assignvideoclips></app-assignvideoclips>
       </ng-template>
     </li>
-    <!--<li [ngbNavItem]="5" title="Download Templates">
+    <li [ngbNavItem]="5" title="Download Templates">
       <a ngbNavLink>Download Templates</a>
       <ng-template ngbNavContent>
        <app-downloadsensortemplate></app-downloadsensortemplate>

@@ -40,6 +40,9 @@ import { DownloadsensortemplateComponent } from './downloadsensortemplate/downlo
 import { TemplateUrlComponent } from './template-url/template-url.component';
 import { ViewContentComponent } from './view-content/view-content.component';
 import { AssignvideoclipsComponent } from './assignvideoclips/assignvideoclips.component';
+import { AdminLogsComponent } from './admin-logs/admin-logs.component';
+
+
 //import { OwlMomentDateTimeModule } from 'ng-pick-datetime/date-time/adapter/moment-adapter/moment-date-time.module';
 export const MY_CUSTOM_FORMATS = {
   parseInput: 'LL LT',
@@ -78,7 +81,8 @@ OfflineAlertComponent,
 DownloadsensortemplateComponent,
 TemplateUrlComponent,
 ViewContentComponent,
-AssignvideoclipsComponent
+AssignvideoclipsComponent,
+AdminLogsComponent
 ],
  
   exports: [
@@ -106,7 +110,8 @@ ManagegroupsComponent,
 OpeninghourComponent,
 OfflineAlertComponent,
 DownloadsensortemplateComponent,
-ViewContentComponent
+ViewContentComponent,
+AdminLogsComponent
   ],
     imports: [
     CommonModule,
