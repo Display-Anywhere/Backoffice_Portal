@@ -11,7 +11,7 @@ import { AuthGuard } from './auth/auth.guard';
 import { ComponentsModule } from './components/components.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxLoadingModule } from 'ngx-loading';
-import { NgIdleKeepaliveModule } from '@ng-idle/keepalive'; // this includes the core NgIdleModule but includes keepalive providers for easy wireup
+//import { NgIdleKeepaliveModule } from '@ng-idle/keepalive'; // this includes the core NgIdleModule but includes keepalive providers for easy wireup
 
 import { MomentModule } from 'angular2-moment';
 
@@ -36,7 +36,7 @@ import { MomentModule } from 'angular2-moment';
     FormsModule,
     NgxLoadingModule.forRoot({}),
     MomentModule,
-    NgIdleKeepaliveModule.forRoot()
+    
       ],
   providers: [AuthGuard],
   bootstrap: [AppComponent]

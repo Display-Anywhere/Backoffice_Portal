@@ -256,12 +256,19 @@ this.PrvTotalToken=0;
   }
   onChangeCountry(CountryID) {
     this.Country_Id = CountryID;
+    this.CityList=[];
+    this.StateList=[];
+    const frm= this.Regform.value;
+    frm['cityName']="0";
+    frm['stateName']="0";
+    frm['Street']="";
     this.FillState(CountryID);
   }
   FillState(CountryID) {
     this.loading = true;
     this.Regform.get('stateName').setValue("0");
     this.ModifyStateId="0";
+    this.ModifyStateName=""
     this.StateList=[];
     var qry = "select stateid as id, statename as displayname  from tbstate where countryid = " + CountryID + " order by statename";
     this.cService.FillCombo(qry).pipe()
@@ -297,6 +304,8 @@ this.PrvTotalToken=0;
     var ArrayItem = {};
     ArrayItem["Id"] = StateID;
     ArrayItem["DisplayName"] = "";
+    this.ModifyStateId="0";
+    this.ModifyStateName=""
     this.NewFilterList=[];
     this.GetJSONRecord(ArrayItem, this.StateList);
     if (this.NewFilterList.length > 0) {

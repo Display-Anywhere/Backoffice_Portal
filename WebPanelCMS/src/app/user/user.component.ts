@@ -77,6 +77,7 @@ export class UserComponent implements OnInit {
       chkCopyData: [false],
       chkStreaming: [false],
       chkOfflineAlert: [false],
+      chkViewOnly:[false],
       OfflineIntervalHour:["30"],
     });
 
@@ -170,6 +171,8 @@ export class UserComponent implements OnInit {
     this.f.chkUpload.setValue(false);
     this.f.chkCopyData.setValue(false);
     this.f.chkStreaming.setValue(false);
+    this.f.chkViewOnly.setValue(false);
+    
 
     this.FillPlayer(this.did);
   }
@@ -251,7 +254,8 @@ export class UserComponent implements OnInit {
 
         this.f.chkOfflineAlert.setValue(obj.chkOfflineAlert);
         this.f.OfflineIntervalHour.setValue(obj.OfflineIntervalHour);
-
+        this.f.chkViewOnly.setValue(obj.chkViewOnly);
+        
         this.f.cmbFormat.setValue(obj.cmbFormat);
         this.FillPlaylist(obj.cmbFormat)
 
@@ -404,5 +408,15 @@ export class UserComponent implements OnInit {
     const total = this.SearchList.length;
     console.log(this.SearchList)
   }
-
+  OnChangeViewOnly(e){
+    this.f.chkPlayerDetail.setValue(e);
+    this.f.chkPlaylistLibrary.setValue(e);
+    this.f.chkScheduling.setValue(e);
+    this.f.chkAdvertisement.setValue(e);
+    this.f.chkDeleteSong.setValue(e);
+    this.f.chkInstantPlay.setValue(e);
+    this.f.chkUpload.setValue(e);
+    this.f.chkCopyData.setValue(e);
+    this.f.chkStreaming.setValue(e);
+  }
 }

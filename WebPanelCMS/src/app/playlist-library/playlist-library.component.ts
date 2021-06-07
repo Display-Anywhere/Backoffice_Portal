@@ -55,6 +55,7 @@ export class PlaylistLibraryComponent implements OnInit {
   }
 
   PlaylistSongsList = [];
+  PlaylistSongsSortList=[];
   PlaylistList = [];
   MainPlaylistList = [];
   SpecialPlaylistList = [];
@@ -150,6 +151,7 @@ export class PlaylistLibraryComponent implements OnInit {
   IscmbCustomerMediaTypeChange=true
   OtherKey="";
   OtherUrl="";
+  IschkViewOnly=0;
   ngOnInit() {
     localStorage.setItem('IsAnnouncement', '0');
     $('#dis').attr('unselectable', 'on');
@@ -207,7 +209,7 @@ export class PlaylistLibraryComponent implements OnInit {
     this.MainSongsList = [];
     this.FillClientList();
     this.chkTitle = true;
-    
+    this.IschkViewOnly = this.auth.chkViewOnly$.value ? 1 : 0;
   }
 
   FillClientList() {
@@ -501,6 +503,10 @@ export class PlaylistLibraryComponent implements OnInit {
       this.toastr.info('Please select a campaign name');
       return;
     }
+    if (this.IschkViewOnly==1){
+      this.toastr.info('This feature is not available in view only');
+      return;
+    }
     this.IsAutoPlaylistHide = false;
     this.IsOptionButtonHide = false;
   }
@@ -518,6 +524,7 @@ export class PlaylistLibraryComponent implements OnInit {
     }
     this.PlaylistSelected = [];
     this.ImageTimeInterval = [];
+    this.PlaylistSongsSortList=[];
     this.PlaylistSelected.push(fileid);
     this.loading = true;
     this.pService
@@ -529,6 +536,7 @@ export class PlaylistLibraryComponent implements OnInit {
           var obj = JSON.parse(returnData);
 
           this.PlaylistSongsList = obj;
+          this.PlaylistSongsSortList = obj;
           if (obj.length > 0) {
             const objImg = this.PlaylistSongsList.filter(
               (order) => order.isImgFind === 'Yes'
@@ -636,6 +644,10 @@ export class PlaylistLibraryComponent implements OnInit {
   }
 
   openTitleDeleteModal(mContent, id) {
+    if (this.IschkViewOnly==1){
+      this.toastr.info('This feature is not available in view only');
+      return;
+    }
     if (this.ForceUpdateTokenid != '') {
       if (this.PlaylistSongsList.length == 1) {
         this.toastr.info(
@@ -1534,7 +1546,10 @@ if (id=="0"){
       this.toastr.info('Please select a campaign name');
       return;
     }
-
+    if (this.IschkViewOnly==1){
+      this.toastr.info('This feature is not available in view only');
+      return;
+    }
     this.loading = true;
     this.pService
       .SavePlaylistFromBestOf(id, plName, this.formatid, isBestOff)
@@ -1566,6 +1581,10 @@ if (id=="0"){
       );
   }
   onPlaylistClick(id, pname) {
+    if (this.IschkViewOnly==1){
+      this.toastr.info('This feature is not available in view only');
+      return;
+    }
     this.IsAutoPlaylistHide = false;
     this.IsOptionButtonHide = false;
     var plName = pname.split('(');
@@ -1580,7 +1599,10 @@ if (id=="0"){
     var NewList = [];
     var h = this.PlaylistSelected[0];
     NewList = this.PlaylistList.filter((order) => order.Id === h);
-
+    if (this.IschkViewOnly==1){
+      this.toastr.info('This feature is not available in view only');
+      return;
+    }
     if (
       this.PlaylistSongContentType == 'Audio' &&
       NewList[0].IsMixedContent == false &&
@@ -1673,6 +1695,10 @@ if (id=="0"){
       );
   }
   PublishModal(UpdateModel) {
+    if (this.IschkViewOnly==1){
+      this.toastr.info('This feature is not available in view only');
+      return;
+    }
     if (this.ForceUpdateTokenid != '') {
       this.modalService.open(UpdateModel, { centered: true });
     }
@@ -1762,6 +1788,10 @@ if (id=="0"){
       );
   }
   onPlaylistDeleteClick(mContent) {
+    if (this.IschkViewOnly==1){
+      this.toastr.info('This feature is not available in view only');
+      return;
+    }
     this.txtMsg = '';
     this.txtCommonMsg = 'Are you sure to delete?';
     this.modalService.open(mContent);
@@ -1830,6 +1860,10 @@ if (id=="0"){
   openFormatModal(mContent) {
     if (this.cmbCustomer === '0') {
       this.toastr.info('Please select customer name', '');
+      return;
+    }
+    if (this.IschkViewOnly==1){
+      this.toastr.info('This feature is not available in view only');
       return;
     }
     if (this.cmbCustomerMediaType === '') {
@@ -1931,6 +1965,10 @@ if (id=="0"){
     this.modalService.open(mContent);
   }
   SettingPlaylist(UpdateModel) {
+    if (this.IschkViewOnly==1){
+      this.toastr.info('This feature is not available in view only');
+      return;
+    }
     this.loading = true;
     this.pService
       .SettingPlaylist(
@@ -2028,6 +2066,10 @@ if (id=="0"){
   }
 
   moveUp = function (num) {
+    if (this.IschkViewOnly==1){
+      this.toastr.info('This feature is not available in view only');
+      return;
+    }
     if (num > 0) {
       var tmp = this.PlaylistSongsList[num - 1];
       var tmpPL = this.plArray[num - 1];
@@ -2043,9 +2085,13 @@ if (id=="0"){
       this.selectedRowPL = [];
       this.selectPL(this.selectedRow);
     }
-    this.UpdateSRNo('');
+    this.UpdateSRNo('','');
   };
   moveDown = function (num) {
+    if (this.IschkViewOnly==1){
+      this.toastr.info('This feature is not available in view only');
+      return;
+    }
     if (num < this.PlaylistSongsList.length - 1) {
       var tmp = this.PlaylistSongsList[num + 1];
       var tmpPL = this.plArray[num + 1];
@@ -2060,7 +2106,7 @@ if (id=="0"){
       this.selectedRowPL = [];
       this.selectPL(this.selectedRow);
     }
-    this.UpdateSRNo('');
+    this.UpdateSRNo('','');
   };
   setClickedRow(i) {
     this.selectedRow = i;
@@ -2077,7 +2123,7 @@ if (id=="0"){
       srno++;
     }
   }
-  UpdateSRNo(UpdateModel) {
+  UpdateSRNo(UpdateModel,IsFillPlaylist) {
     if (this.plArray.length == 0) {
       return;
     }
@@ -2095,6 +2141,9 @@ if (id=="0"){
             this.loading = false;
             if (this.ForceUpdateTokenid != '') {
               //   this.modalService.open(UpdateModel, { centered: true });
+            }
+            if (IsFillPlaylist=="Yes"){
+              this.SelectPlaylist(this.PlaylistList[0].Id,'',this.PlaylistList[0].tokenIds);
             }
           } else {
             this.toastr.error(
@@ -2130,6 +2179,10 @@ if (id=="0"){
       this.toastr.info('Please select a campaign name');
       return;
     }
+    if (this.IschkViewOnly==1){
+      this.toastr.info('This feature is not available in view only');
+      return;
+    }
     localStorage.setItem('FormatID', this.formatid);
     this.modalService.open(content, { size: 'lg' });
   }
@@ -2143,6 +2196,10 @@ if (id=="0"){
   openDeleteFormatModal(content) {
     if (this.formatid == '0') {
       this.toastr.info('Please select a campaign name');
+      return;
+    }
+    if (this.IschkViewOnly==1){
+      this.toastr.info('This feature is not available in view only');
       return;
     }
     this.txtCommonMsg = 'Are you sure to delete?';
@@ -2291,6 +2348,10 @@ if (id=="0"){
       this.toastr.info('Please select a campaign name. Which you want to copy');
       return;
     }
+    if (this.IschkViewOnly==1){
+      this.toastr.info('This feature is not available in view only');
+      return;
+    }
     this.loading = true;
 
     this.pService
@@ -2330,6 +2391,10 @@ if (id=="0"){
   }
 
   onDeletePercentageClick(mContent) {
+    if (this.IschkViewOnly==1){
+      this.toastr.info('This feature is not available in view only');
+      return;
+    }
     this.modalService.open(mContent);
   }
 
@@ -2427,11 +2492,19 @@ if (id=="0"){
     this.IsOptionButtonHide = true;
   }
   EditImage(e, i, tName) {
+    if (this.IschkViewOnly==1){
+      this.toastr.info('This feature is not available in view only');
+      return;
+    }
     this.enableEdit = true;
     this.enableEditIndex = i;
     this.txtTitle = tName;
   }
   UpdateTitleName(id) {
+    if (this.IschkViewOnly==1){
+      this.toastr.info('This feature is not available in view only');
+      return;
+    }
     this.loading = true;
     this.pService
       .UpdateContent(id, this.txtTitle)
@@ -2570,6 +2643,10 @@ if (id=="0"){
   }
 
   PLShuffle(UpdateModel) {
+    if (this.IschkViewOnly==1){
+      this.toastr.info('This feature is not available in view only');
+      return;
+    }
     if (this.PlaylistSongsList.length == 0) {
       return;
     }
@@ -2588,7 +2665,7 @@ if (id=="0"){
       srno++;
     }
 
-    this.UpdateSRNo(UpdateModel);
+    this.UpdateSRNo(UpdateModel,'');
   }
 
   CustomSearch() {
@@ -2744,7 +2821,10 @@ if (id=="0"){
     if (this.ImageTimeInterval.length === 0) {
       return;
     }
-
+    if (this.IschkViewOnly==1){
+      this.toastr.info('This feature is not available in view only');
+      return;
+    }
     if (Type === 'All') {
       const ImgInterval = this.ImageTimeInterval[0].ImgInterval;
       this.ImageTimeInterval = [];
@@ -2811,6 +2891,10 @@ if (id=="0"){
   ForceAction = 'No';
   titleDeleteIdOwn = '0';
   openTitleDeleteModalOwn(mContent, id) {
+    if (this.IschkViewOnly==1){
+      this.toastr.info('This feature is not available in view only');
+      return;
+    }
     this.lblUpperMsg = 'Are you sure to delete?';
     this.ForceAction = 'No';
     this.ViewPlaylists = '';
@@ -2901,6 +2985,10 @@ if (id=="0"){
     
     if (this.ForceUpdateTokenid[0] === '') {
       this.toastr.info('No tokens are available with selected playlist');
+      return;
+    }
+    if (this.IschkViewOnly==1){
+      this.toastr.info('This feature is not available in view only');
       return;
     }
     this.IsVolumeLevelModal=true
@@ -3004,6 +3092,10 @@ if (MediaType!="Url"){
       this.toastr.info('Please select a customer name');
       return;
     }
+    if (this.IschkViewOnly==1){
+      this.toastr.info('This feature is not available in view only');
+      return;
+    }
     if (this.OtherKey===""){
       this.toastr.info('Customer is not registered');
       return;
@@ -3014,12 +3106,52 @@ if (MediaType!="Url"){
   }
 
   OpenSensorSettings(modalName){
+    if (this.IschkViewOnly==1){
+      this.toastr.info('This feature is not available in view only');
+      return;
+    }
           this.modalService.open(modalName, {
             size: 'lgSx',
           }); 
       }
       CloseSensorSettings(){
         localStorage.setItem('IsAnnouncement', '0');
+      }
+
+      PlaylistSort(SortModel) {
+        if (this.PlaylistSongsList.length == 0) {
+          this.toastr.info('Please select playlist', 'Success!');
+          return;
+        }
+        if (this.IschkViewOnly==1){
+          this.toastr.info('This feature is not available in view only');
+          return;
+        }
+        this.modalService.open(SortModel, { centered: true });
+      }
+
+async    SavePlaylistSort(ForceUpdate){
+        this.plArray = [];
+        for (let prop in this.PlaylistSongsSortList) {
+          this.plArray.push({
+            index: this.PlaylistSongsSortList[prop].SrNo,
+            titleid: this.PlaylistSongsSortList[prop].id,
+            id: this.PlaylistSongsSortList[prop].sId,
+          });
+        }
+      await  this.UpdateSRNo(ForceUpdate,'Yes');
+      
+      }
+
+      OnChangeSortInterval(e, sId) {
+        this.PlaylistSongsSortList.forEach(item => {
+          if (item["sId"]==sId){
+            item["SrNo"]=e
+          }
+        });
+      }
+      PlaylistSortModalClose(){
+        this.SelectPlaylist(this.PlaylistList[0].Id,'',this.PlaylistList[0].tokenIds);
       }
 }
 

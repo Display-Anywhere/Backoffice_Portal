@@ -63,6 +63,7 @@ export class StoreAndForwardComponent implements OnInit {
   SearchMediaTypeList = [];
   CustomSchedulePlaylist = [];
   TotalPercentageValue = 0;
+  IschkViewOnly = this.auth.chkViewOnly$.value ? 1 : 0;
   constructor(
     private formBuilder: FormBuilder,
     public toastrSF: ToastrService,
@@ -1209,6 +1210,10 @@ export class StoreAndForwardComponent implements OnInit {
     };
   }
   AddItem() {
+    if (this.IschkViewOnly==1){
+      this.toastrSF.info('This feature is not available in view only');
+      return;
+    }
     if (this.SFform.value.PlaylistId == '0') {
       this.toastrSF.error('Please select a playlist name');
       return;
@@ -1323,6 +1328,8 @@ export class StoreAndForwardComponent implements OnInit {
     ];
     this.SFform.controls['PlaylistId'].setValue('0');
     this.SFform.controls['PercentageValue'].setValue('0');
+    let wobj=[]
+    this.SFform.controls['wList'].setValue(wobj);
     /*
     this.PlaylistList =[];
     this.MainPlaylistList.forEach(CSP => {

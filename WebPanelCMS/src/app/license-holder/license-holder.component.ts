@@ -93,6 +93,7 @@ export class LicenseHolderComponent
   dtElement: DataTableDirective;
   dtOptions: any = {};
   dtTrigger: Subject<any> = new Subject();
+  IschkViewOnly=0;
   constructor(
     config: NgbModalConfig,
     private formBuilder: FormBuilder,
@@ -151,6 +152,8 @@ export class LicenseHolderComponent
       itemsShowLimit: 3,
     };
     this.DataTableSettings();
+
+    this.IschkViewOnly = this.auth.chkViewOnly$.value ? 1 : 0;
   }
   DataTableSettings() {
     this.dtOptions = {
@@ -436,6 +439,10 @@ async RefreshTokenList(){
       this.toastr.info('Please select a customer name');
       return;
     }
+    if (this.IschkViewOnly==1){
+      this.toastr.info('This feature is not available in view only');
+      return;
+    }
     this.loading = true;
     this.serviceLicense
       .SetOnlineIndicator(this.cid, Indicator)
@@ -601,6 +608,10 @@ async RefreshTokenList(){
       this.toastr.info('Please select a customer name');
       return;
     }
+    if (this.IschkViewOnly==1){
+      this.toastr.info('This feature is not available in view only');
+      return;
+    }
     this.uExcel = false;
     this.modalService.open(modalContant, {
       centered: true,
@@ -686,6 +697,10 @@ async RefreshTokenList(){
   SetSignage(ObjModal) {
     if (this.cid == '0') {
       this.toastr.info('Please select a customer name');
+      return;
+    }
+    if (this.IschkViewOnly==1){
+      this.toastr.info('This feature is not available in view only');
       return;
     }
     this.FolderList = [];
@@ -777,6 +792,10 @@ async RefreshTokenList(){
 
     if (this.cid == '0') {
       this.toastr.info('Please select a customer name');
+      return;
+    }
+    if (this.IschkViewOnly==1){
+      this.toastr.info('This feature is not available in view only');
       return;
     }
     this.loading = true;
@@ -911,6 +930,10 @@ async RefreshTokenList(){
       this.toastr.info('Please select a customer name');
       return;
     }
+    if (this.IschkViewOnly==1){
+      this.toastr.info('This feature is not available in view only');
+      return;
+    }
     localStorage.setItem('tcid', this.cid);
     this.FilterValue_For_Reload = 'All';
 
@@ -984,6 +1007,10 @@ async RefreshTokenList(){
   OpenUpdateInfo(InfoModal) {
     if (this.cid == '0') {
       this.toastr.info('Please select a customer name');
+      return;
+    }
+    if (this.IschkViewOnly==1){
+      this.toastr.info('This feature is not available in view only');
       return;
     }
     this.FilterValue_For_Reload = 'All';
@@ -1168,6 +1195,10 @@ async RefreshTokenList(){
   OpenOpeningHoursModal(gModal) {
     if (this.cid === '0') {
       this.toastr.info('Please select a customer name');
+      return;
+    }
+    if (this.IschkViewOnly==1){
+      this.toastr.info('This feature is not available in view only');
       return;
     }
     localStorage.setItem('tcid', this.cid);

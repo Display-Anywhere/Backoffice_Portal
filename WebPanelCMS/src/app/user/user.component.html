@@ -367,6 +367,27 @@
                                               >Delete Content</label
                                             >
                                           </div>
+                                          <div
+                                            class="custom-control custom-checkbox ml-1 mb-2 mr-2"
+                                          >
+                                            <input
+                                              type="checkbox"
+                                              class="custom-control-input ml-1 cursor-pointer"
+                                              id="ViewOnly"
+                                              name="chkViewOnly"
+                                              formControlName="chkViewOnly"
+                                              [ngClass]="{
+                                                'is-invalid':
+                                                  submitted && f.chkViewOnly.errors
+                                              }"
+                                              (change)="OnChangeViewOnly($event.target.checked)"
+                                            />
+                                            <label
+                                              class="custom-control-label cursor-pointer"
+                                              for="ViewOnly"
+                                              >View Only</label
+                                            >
+                                          </div>
                                         </div>
                                       </div>
             

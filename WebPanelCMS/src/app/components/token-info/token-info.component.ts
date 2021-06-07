@@ -70,6 +70,7 @@ export class TokenInfoComponent implements OnInit {
   EmgAlertId;
   ScheduleType="";
   ClientContentType="";
+  IschkViewOnly=0;
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
@@ -159,12 +160,17 @@ export class TokenInfoComponent implements OnInit {
     this.adList = [];
     this.prayerList = [];
     this.FillTokenInfo();
+    this.IschkViewOnly = this.auth.chkViewOnly$.value ? 1 : 0;
   }
   get f() {
     return this.TokenInfo.controls;
   }
 
   onSubmitTokenInfo = function () {
+    if (this.IschkViewOnly==1){
+      this.toastr.info('This feature is not available in view only');
+      return;
+    }
     if (this.TokenInfo.invalid) {
       return;
     }
@@ -235,9 +241,12 @@ this.submitted = true;this.loading = true;
   }
 
   openModal(content, pname, pschid, stime, eTime,PercentageValue) {
+    if (this.IschkViewOnly==1){
+      this.toastr.info('This feature is not available in view only');
+      return;
+    }
     var t = '1900-01-01 ' + stime;
     var t2 = '1900-01-01 ' + eTime;
-    console.log(t+ ' ' + t2);
     var dt = new Date(t);
     var dt2 = new Date(t2);
 
@@ -301,6 +310,10 @@ this.submitted = true;this.loading = true;
   }
 
   ResetToken() {
+    if (this.IschkViewOnly==1){
+      this.toastr.info('This feature is not available in view only');
+      return;
+    }
     this.loading = true;
     this.tService
       .ResetToken(this.TokenInfo.value.Tokenid, this.TokenInfo.value.TokenNoBkp)
@@ -355,6 +368,7 @@ this.submitted = true;this.loading = true;
   onChangeCountry(CountryID) {
     this.Country_Id = CountryID;
     this.CityList=[];
+    this.StateList=[];
     const frm= this.TokenInfo.value;
     frm['city']="0";
     frm['state']="0";
@@ -363,6 +377,10 @@ this.submitted = true;this.loading = true;
   }
   FillState(CountryID) {
     this.loading = true;
+    this.TokenInfo.get('state').setValue("0");
+    this.ModifyStateId="0";
+    this.ModifyStateName=""
+    this.StateList=[];
     var qry =
       'select stateid as id, statename as displayname  from tbstate where countryid = ' +
       CountryID +
@@ -390,6 +408,7 @@ this.submitted = true;this.loading = true;
     ArrayItem['Id'] = StateID;
     ArrayItem['DisplayName'] = '';
     this.NewFilterList = [];
+    this.ModifyStateName=""
     this.GetJSONRecord(ArrayItem, this.StateList);
     if (this.NewFilterList.length > 0) {
       this.ModifyStateName = this.NewFilterList[0].DisplayName;
@@ -399,6 +418,9 @@ this.submitted = true;this.loading = true;
   }
   FillCity(StateID) {
     this.loading = true;
+    this.TokenInfo.get('city').setValue("0");
+    this.ModifyCityId="0";
+    this.citName="";
     var qry =
       'select cityid as id, cityname as displayname  from tbcity where stateid = ' +
       StateID +
@@ -585,6 +607,10 @@ this.submitted = true;this.loading = true;
   }
 
   openResetModal(mContent) {
+    if (this.IschkViewOnly==1){
+      this.toastr.info('This feature is not available in view only');
+      return;
+    }
     this.modalService.open(mContent, { centered: true });
   }
   openStateModal(content) {
@@ -592,10 +618,18 @@ this.submitted = true;this.loading = true;
   }
   onSubmitState() {}
   openDeleteModal(content, pschid) {
+    if (this.IschkViewOnly==1){
+      this.toastr.info('This feature is not available in view only');
+      return;
+    }
     this.DelpSchid = pschid;
     this.modalService.open(content, { centered: true });
   }
   DeleteSchPlaylist() {
+    if (this.IschkViewOnly==1){
+      this.toastr.info('This feature is not available in view only');
+      return;
+    }
     this.loading = true;
     this.tService
       .DeleteTokenSch(this.DelpSchid)
@@ -679,6 +713,10 @@ this.submitted = true;this.loading = true;
   }
 
   openCommonModal(modal, ModalType) {
+    if (this.IschkViewOnly==1){
+      this.toastr.info('This feature is not available in view only');
+      return;
+    }
     this.ModalType = ModalType;
     if (ModalType == 'State') {
       this.HeaderText = 'State';
@@ -713,6 +751,10 @@ this.submitted = true;this.loading = true;
   };
 
   onSubmitModal() {
+    if (this.IschkViewOnly==1){
+      this.toastr.info('This feature is not available in view only');
+      return;
+    }
     this.loading = true;
     this.tService
       .CitySateNewModify(
@@ -765,17 +807,11 @@ this.submitted = true;this.loading = true;
         }
       );
   }
-  onChangeCity(Id) {
-    var ArrayItem = {};
-    ArrayItem['Id'] = Id;
-    ArrayItem['DisplayName'] = '';
-    this.NewFilterList = [];
-    this.citName=''
-    this.GetJSONRecord(ArrayItem, this.CityList);
-    if (this.NewFilterList.length > 0) {
-      this.citName = this.NewFilterList[0].DisplayName;
-    }
-    this.ModifyCityId = Id;
+  onChangeCity(event: Event) {
+    let selectElementText = event.target['options'][event.target['options'].selectedIndex].text;
+    let selectElementValue = event.target['options'][event.target['options'].selectedIndex].value;
+    this.citName = selectElementText;
+    this.ModifyCityId = selectElementValue;
   }
   onChangeGroup(Id) {
     var ArrayItem = {};
@@ -814,6 +850,10 @@ this.submitted = true;this.loading = true;
   }
   MediaTypeChange(value) {}
   openTitleDeleteModal(mContent, id) {
+    if (this.IschkViewOnly==1){
+      this.toastr.info('This feature is not available in view only');
+      return;
+    }
     this.AnnoId = id;
     this.modalService.open(mContent);
   }
@@ -891,6 +931,10 @@ this.submitted = true;this.loading = true;
   }
 
   openDeleteKeyboardModal(mContent, id) {
+    if (this.IschkViewOnly==1){
+      this.toastr.info('This feature is not available in view only');
+      return;
+    }
     this.keyboardId = id;
     this.modalService.open(mContent);
   }
@@ -946,6 +990,10 @@ this.submitted = true;this.loading = true;
       );
   }
   openEmergencyDeleteModal(mContent, id) {
+    if (this.IschkViewOnly==1){
+      this.toastr.info('This feature is not available in view only');
+      return;
+    }
     this.EmgAlertId = id;
     this.modalService.open(mContent);
   }

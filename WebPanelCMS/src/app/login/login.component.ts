@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit {
       this.emailText='jan@advikon.eu'
     }
     else{
-      this.emailText='j.rooijakkers@screensolutions.nl'
+      this.emailText='info@screensolutions.nl'
     }
     localStorage.setItem('IsAnnouncement','0')
     this.loginform = this.formBuilder.group({
@@ -70,7 +70,7 @@ export class LoginComponent implements OnInit {
           localStorage.setItem('chkUpload', obj.chkUpload);
           localStorage.setItem('chkCopyData', obj.chkCopyData);
           localStorage.setItem('chkStreaming', obj.chkStreaming);
-
+          localStorage.setItem('chkViewOnly', obj.chkViewOnly);
           this.authService.login();
           if ((obj.dfClientId === '6') || (obj.dfClientId === '95') || (obj.dfClientId === '88') || (obj.dfClientId === '98')) {
             this.authService.IsAdminLogin();
