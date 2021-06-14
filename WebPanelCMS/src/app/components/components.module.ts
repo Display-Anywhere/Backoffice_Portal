@@ -41,6 +41,7 @@ import { TemplateUrlComponent } from './template-url/template-url.component';
 import { ViewContentComponent } from './view-content/view-content.component';
 import { AssignvideoclipsComponent } from './assignvideoclips/assignvideoclips.component';
 import { AdminLogsComponent } from './admin-logs/admin-logs.component';
+import { InstantMobileComponent } from './instant-mobile/instant-mobile.component';
 
 
 //import { OwlMomentDateTimeModule } from 'ng-pick-datetime/date-time/adapter/moment-adapter/moment-date-time.module';
@@ -82,7 +83,8 @@ DownloadsensortemplateComponent,
 TemplateUrlComponent,
 ViewContentComponent,
 AssignvideoclipsComponent,
-AdminLogsComponent
+AdminLogsComponent,
+InstantMobileComponent
 ],
  
   exports: [
@@ -111,7 +113,8 @@ OpeninghourComponent,
 OfflineAlertComponent,
 DownloadsensortemplateComponent,
 ViewContentComponent,
-AdminLogsComponent
+AdminLogsComponent,
+InstantMobileComponent
   ],
     imports: [
     CommonModule,

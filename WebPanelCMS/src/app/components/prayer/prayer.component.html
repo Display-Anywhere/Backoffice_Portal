@@ -69,7 +69,7 @@
               <tr class="d-flex">
                 <th class="col">Start Time</th>
                 <th class="col">End Time</th>
-                <th class="col-sm-1 Link-Center_Width"></th>
+                <th class="col-sm-1 Link-Center_Width" *ngIf="!IschkViewOnly"></th>
               </tr>
             </thead>
             <tbody>
@@ -80,7 +80,7 @@
                 <td class="col">
                   {{ prayerLst.eTime }}
                 </td>
-                <td
+                <td *ngIf="!IschkViewOnly"
                   class="col-sm-1 cursor-pointer Link-Center_Width"
                   (click)="
                     openPrayerDeleteModal(PrayerDeleteModal, prayerLst.id)
@@ -98,7 +98,7 @@
         </div>
       </ng-template>
     </ngb-tab>
-    <ngb-tab id="tab-selectbyid2" title="AddNew">
+    <ngb-tab id="tab-selectbyid2" title="AddNew" *ngIf="!IschkViewOnly">
       <ng-template ngbTabContent>
         <div class="container-fluid">
           <form [formGroup]="Prayerform" (ngSubmit)="onSubmitPrayer()">

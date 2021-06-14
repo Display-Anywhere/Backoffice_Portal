@@ -526,6 +526,7 @@ export class PlaylistLibraryComponent implements OnInit {
     this.ImageTimeInterval = [];
     this.PlaylistSongsSortList=[];
     this.PlaylistSelected.push(fileid);
+    
     this.loading = true;
     this.pService
       .PlaylistSong(fileid, IsBestOffPlaylist)
@@ -546,7 +547,7 @@ export class PlaylistLibraryComponent implements OnInit {
             } else {
               this.isImgFind = 'No';
             }
-            //alert(obj[0].isImgFind)
+            
             this.PlaylistSongContentType = obj[0].MediaType;
           } else {
             this.PlaylistSongContentType = '';
@@ -1519,6 +1520,17 @@ if (id=="0"){
                 this.NewName = '';
                 this.SelectPlaylist(NewPlList[0].Id, '', NewPlList[0].tokenIds);
               } else {
+                this.PlaylistSelected = [];
+                  this.PlaylistSelected.push(this.PlaylistList[0].Id);
+                  this.PlaylistList.forEach(item => {
+                  
+                  if (item["Id"]=== this.PlaylistSelected[0]){
+                    item["check"]=true
+                  }
+                  else{
+                    item["check"]=false
+                  }
+                });
                 this.SelectPlaylist(
                   this.PlaylistList[0].Id,
                   '',
@@ -1708,7 +1720,7 @@ if (id=="0"){
     this.tid = [];
 
     for (var val of this.selectedRowPL) {
-      var k = this.PlaylistSongsList[val].id;
+      var k = this.PlaylistSongsList[val].sId;
       this.tid.push(k);
     }
   }
@@ -2143,7 +2155,8 @@ if (id=="0"){
               //   this.modalService.open(UpdateModel, { centered: true });
             }
             if (IsFillPlaylist=="Yes"){
-              this.SelectPlaylist(this.PlaylistList[0].Id,'',this.PlaylistList[0].tokenIds);
+              
+              this.SelectPlaylist(this.PlaylistSelected[0],'','');
             }
           } else {
             this.toastr.error(
@@ -3151,7 +3164,7 @@ async    SavePlaylistSort(ForceUpdate){
         });
       }
       PlaylistSortModalClose(){
-        this.SelectPlaylist(this.PlaylistList[0].Id,'',this.PlaylistList[0].tokenIds);
+        this.SelectPlaylist(this.PlaylistSelected[0],'','');
       }
 }
 

@@ -6,7 +6,7 @@
     <li class="nav-item">
       <a class="nav-link active" data-toggle="tab" href="#Search">Search</a>
     </li>
-    <li class="nav-item">
+    <li class="nav-item" *ngIf="!IschkViewOnly">
       <a class="nav-link" data-toggle="tab" href="#AddNew">Add New</a>
     </li>
   </ul>
@@ -76,10 +76,11 @@
               <th scope="col">Playlist Name</th>
               <th scope="col">Token Code</th>
               <th scope="col">Location</th>
+              <th scope="col">City</th>
               <th scope="col" style="width: 120px">Start Date</th>
               <th scope="col" style="width: 120px">End Date</th>
               <th scope="col">Week Day</th>
-              <th scope="col" class="Link-Center_Width"></th>
+              <th scope="col" class="Link-Center_Width" *ngIf="!IschkViewOnly"></th>
             </tr>
           </thead>
           <tbody>
@@ -96,10 +97,11 @@
               <td data-label="PlayList Name">{{ schLst.playlistName }}</td>
               <td data-label="Token Code">{{ schLst.token }}</td>
               <td data-label="Location">{{ schLst.location }}</td>
+              <td data-label="City">{{ schLst.city }}</td>
               <td data-label="Start Time">{{ schLst.StartTime }}</td>
               <td data-label="End Time">{{ schLst.EndTime }}</td>
               <td data-label="Week Day">{{ schLst.WeekNo }}</td>
-              <td
+              <td *ngIf="!IschkViewOnly"
                 data-label=""
                 class="cursor-pointer Link-Center_Width"
                 (click)="

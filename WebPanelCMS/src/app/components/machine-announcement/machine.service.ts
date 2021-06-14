@@ -98,4 +98,18 @@ export class MachineService {
     return this.http.post(this.cApi.DeleteFireAlert,params,{headers:headers})
      .pipe((data=>{return data;}))
   }
+  SaveInstantMobileAnnouncement(TokenId,splPlaylistId,FormatId,ClientId){
+    let headers = new HttpHeaders({ 'Content-Type':'application/json' });
+    var params = JSON.stringify({ TokenId: TokenId,splPlaylistId:splPlaylistId,FormatId:FormatId,ClientId:ClientId});
+    
+    return this.http.post(this.cApi.SaveInstantMobileAnnouncement,params,{headers:headers})
+     .pipe((data=>{return data;}))
+  } 
+  GetInstantMobileAnnouncement(Tokenid: string) {
+
+    let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    var params = JSON.stringify({ Tokenid: Tokenid });
+    return this.http.post(this.cApi.GetInstantMobileAnnouncement, params, { headers: headers })
+      .pipe((data => { return data; }))
+  }
 }

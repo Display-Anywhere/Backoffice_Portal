@@ -75,7 +75,7 @@
                 <th class="sticky-top WidthTitleTH">Title</th>
                 <th class="sticky-top WidthArtistTH">Artist</th>
                 <th class="sticky-top WidthCategoryTH">Genre</th>
-                <th class="sticky-top Link-Center_Width"></th>
+                <th class="sticky-top Link-Center_Width" *ngIf="!IschkViewOnly"></th>
               </tr>
             </thead>
             <tbody>
@@ -91,7 +91,7 @@
                 <td data-label="Genre" class="WidthCategoryTH">
                   {{ plSongLst.Genre }}
                 </td>
-                <td
+                <td *ngIf="!IschkViewOnly"
                   data-label=""
                   class="cursor-pointer Link-Center_Width"
                   (click)="openTitleDeleteModal(TitleDeleteModal, plSongLst.id)"
@@ -108,7 +108,7 @@
         </div>
       </ng-template>
     </ngb-tab>
-    <ngb-tab id="tab-selectbyid2" title="AddNew">
+    <ngb-tab id="tab-selectbyid2" title="AddNew" *ngIf="!IschkViewOnly">
       <ng-template ngbTabContent>
         <div class="col-sm-12">
           <div class="form-row">

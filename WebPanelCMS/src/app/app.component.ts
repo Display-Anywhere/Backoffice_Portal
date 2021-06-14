@@ -100,13 +100,13 @@ export class AppComponent implements OnInit {
   OpenManual(){
     this.iframeUrl =true
   }
-  CheckViewOnly(){
+  CheckViewOnly(rotue){
     var IschkViewOnly = this.auth.chkViewOnly$.value ? 1 : 0;
     if (IschkViewOnly==1){
       this.toastr.info('This feature is not available in view only');
       return;
     }
-    this.router.navigate(['Upload']);
+    this.router.navigate([rotue]);
     
   }
 }

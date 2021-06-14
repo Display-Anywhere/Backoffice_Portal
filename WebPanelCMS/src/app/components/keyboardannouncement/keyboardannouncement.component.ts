@@ -35,6 +35,7 @@ export class KeyboardannouncementComponent implements OnInit {
   cmbCustomer;
   chkAll:boolean=false;
   ForceUpdateTokenid=[];
+  IschkViewOnly = this.auth.chkViewOnly$.value ? 1 : 0;
   constructor(public toastr: ToastrService,  private cf: ConfigAPI,
      config: NgbModalConfig, private modalService: NgbModal, public auth:AuthService, 
      private mService:MachineService, private pService: PlaylistLibService,private serviceLicense: SerLicenseHolderService) {

@@ -423,6 +423,43 @@
         </select>
       </div>
 
+
+       <!-- show online indicator -->
+       <div
+       class="form-group col-sm-3 pb-1 m-0"
+     >
+     <div class="custom-control custom-checkbox mt-3">
+       <input
+         type="checkbox"
+         class="custom-control-input"
+         id="chkIndicatorID"
+         formControlName="chkIndicator"
+         [checked]="chkIndicatorBox"
+         name="chkToken"
+       />
+       <label class="custom-control-label ml-4" for="chkIndicatorID"
+         >Show Online Indicator</label
+       >
+     </div>
+    
+    <div class="custom-control custom-checkbox mt-2">
+      <input
+        type="checkbox"
+        class="custom-control-input"
+        id="chkKeyID"
+        formControlName="isShowKeyboardToast"
+        [checked]="chkShowKeyboard"
+        name="chkKey"
+      />
+      <label class="custom-control-label ml-4" for="chkKeyID"
+        >Show Keyboard Message</label>
+    </div>
+   </div>
+     <!-- show online indicator end -->
+
+
+
+
       <!-- total shots -->
       <div
         class="form-group col-sm-3 pb-1 m-0"
@@ -482,30 +519,10 @@
 
       <!-- dispensery alert email end -->
       <!-- radio buttons show indicator -->
-      <!-- show online indicator -->
-      <div
-        class="form-group col-sm-3 pb-1 m-0 mt-sm-3"
-        *ngIf="
-          f.chkMediaType.value != 'Signage' || f.DeviceType.value != 'Sanitizer'
-        "
-      >
-        <input
-          type="checkbox"
-          class="custom-control-input"
-          id="chkIndicatorID"
-          formControlName="chkIndicator"
-          [checked]="chkIndicatorBox"
-          name="chkToken"
-        />
-        <label class="custom-control-label ml-4 mt-sm-3" for="chkIndicatorID"
-          >Show Online Indicator</label
-        >
-      </div>
-
-      <!-- show online indicator end -->
+     
       <!-- Show Shots Message -->
       <div
-        class="form-group col-sm-3 pb-1 m-0 mt-sm-3"
+        class="form-group col-sm-3 pb-1 m-0 mt-sm-3 custom-control custom-checkbox"
         *ngIf="
           f.chkMediaType.value == 'Signage' && f.DeviceType.value == 'Sanitizer'
         "
@@ -527,7 +544,7 @@
       <!-- radio buttons end -->
 
       <div
-        class="form-group col-sm-3 pb-1 m-0"
+        class="d-none form-group col-sm-3 pb-1 m-0"
         *ngIf="
           f.chkMediaType.value == 'Signage' && f.DeviceType.value == 'Sanitizer'
         "
@@ -540,8 +557,8 @@
           [checked]="chkIndicatorBox"
           name="chkToken2"
         />
-        <label class="custom-control-label ml-4 mt-sm-3" for="chkIndicatorID1"
-          >Show Online Indicator</label
+        <label class="custom-control-label ml-4" for="chkIndicatorID1"
+          >Show Online Indicator 2</label
         >
       </div>
       <!-- button start -->

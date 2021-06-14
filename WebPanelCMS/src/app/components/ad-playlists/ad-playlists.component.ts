@@ -44,7 +44,7 @@ export class AdPlaylistsComponent implements OnInit {
   dtElement: DataTableDirective;
   dtOptions: any = {};
   dtTrigger: Subject<any> = new Subject();
-  
+  IschkViewOnly = this.auth.chkViewOnly$.value ? 1 : 0;
   constructor(private formBuilder: FormBuilder, public toastr: ToastrService, vcr: ViewContainerRef,
     config: NgbModalConfig, private modalService: NgbModal, private sfService: StoreForwardService,
     private aService: AdsService, public auth:AuthService) {
@@ -339,13 +339,13 @@ export class AdPlaylistsComponent implements OnInit {
     this.TokenList=[];
 
     this.dropdownList = [
-      { "id": "1", "itemName": "Monday" },
-      { "id": "2", "itemName": "Tuesday" },
-      { "id": "3", "itemName": "Wednesday" },
-      { "id": "4", "itemName": "Thursday" },
-      { "id": "5", "itemName": "Friday" },
-      { "id": "6", "itemName": "Saturday" },
-      { "id": "7", "itemName": "Sunday" }
+      { "id": "2", "itemName": "Monday" },
+      { "id": "3", "itemName": "Tuesday" },
+      { "id": "4", "itemName": "Wednesday" },
+      { "id": "5", "itemName": "Thursday" },
+      { "id": "6", "itemName": "Friday" },
+      { "id": "7", "itemName": "Saturday" },
+      { "id": "1", "itemName": "Sunday" }
     ];
   }
   SaveModifyInfo(tokenid, ModifyText){

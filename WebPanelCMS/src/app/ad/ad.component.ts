@@ -42,7 +42,7 @@ export class AdComponent implements OnInit {
   StateList=[];
   CityList=[];
   GroupList=[];
-
+  IschkViewOnly = this.auth.chkViewOnly$.value ? 1 : 0;
  
   
   constructor(private router: Router, private formBuilder: FormBuilder, public toastr: ToastrService, vcr: ViewContainerRef

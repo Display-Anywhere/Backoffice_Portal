@@ -38,6 +38,11 @@
                 >
               </li>
               <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#InstantMobile"
+                  >Instant Mobile Playlist</a
+                >
+              </li>
+              <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#Emergency"
                   >Emergency Alert</a
                 >
@@ -127,14 +132,14 @@
                               <th scope="col">Type</th>
                               <th scope="col">Start Date</th>
                               <th scope="col">Playing Mode</th>
-                              <th
+                              <th 
                                 scope="col"
-                                *ngIf="UserId == 0"
+                                *ngIf="((UserId == 0)&&(!IschkViewOnly))"
                                 class="Link-Center_Width"
                               ></th>
                               <th
                                 scope="col"
-                                *ngIf="UserId == 0"
+                                *ngIf="((UserId == 0)&&(!IschkViewOnly))"
                                 class="Link-Center_Width"
                               ></th>
                             </tr>
@@ -162,7 +167,7 @@
                               </td>
                               <td
                                 data-label=""
-                                *ngIf="UserId == 0"
+                                *ngIf="((UserId == 0)&&(!IschkViewOnly))"
                                 class="cursor-pointer Link-Center_Width"
                               >
                                 <a
@@ -176,9 +181,9 @@
                                   ></i>
                                 </a>
                               </td>
-                              <td
+                              <td 
                                 data-label=""
-                                *ngIf="UserId == 0"
+                                *ngIf="((UserId == 0)&&(!IschkViewOnly))"
                                 class="cursor-pointer Link-Center_Width"
                                 (click)="
                                   openAdsDeleteModal(AdsDeleteModal, adLst.id)
@@ -202,7 +207,7 @@
                       </div>
                     </ng-template>
                   </ngb-tab>
-                  <ngb-tab id="tab-selectbyid2" title="AddNew">
+                  <ngb-tab id="tab-selectbyid2" title="AddNew" *ngIf="!IschkViewOnly">
                     <ng-template ngbTabContent>
                       <div class="container-fluid">
                         <form [formGroup]="Adform" (ngSubmit)="onSubmitAd()">
@@ -838,6 +843,13 @@
               class="col-lg-12 tab-pane m-0 p-0"
             >
               <app-keyboardannouncement></app-keyboardannouncement>
+            </div>
+            <div
+              id="InstantMobile"
+              role="tabpanel"
+              class="col-lg-12 tab-pane m-0 p-0"
+            >
+              <app-instant-mobile></app-instant-mobile>
             </div>
             <div
               id="Emergency"

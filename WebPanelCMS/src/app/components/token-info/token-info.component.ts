@@ -22,6 +22,7 @@ export class TokenInfoComponent implements OnInit {
   submitted = false;
   chkIndicatorBox: boolean = false;
   chkShotMsg: boolean = false;
+  chkShowKeyboard=false;
   public loading = false;
   CountryList = [];
   StateList = [];
@@ -146,7 +147,8 @@ export class TokenInfoComponent implements OnInit {
       TotalShot: [0],
       AlertMail: [''],
       IsShowShotToast: [false],
-      OsVersion:['']
+      OsVersion:[''],
+      isShowKeyboardToast: [false],
     });
     this.TokenInfoModifyPlaylist = this.formBuilder.group({
       ModifyPlaylistName: [''],
@@ -518,11 +520,13 @@ this.submitted = true;this.loading = true;
             TotalShot: [objTokenData[0].TotalShot],
             AlertMail: [objTokenData[0].AlertMail],
             IsShowShotToast: [objTokenData[0].IsShowShotToast],
-            OsVersion:[objTokenData[0].OsVersion]
+            OsVersion:[objTokenData[0].OsVersion],
+            isShowKeyboardToast: [objTokenData[0].isShowKeyboardToast],
           }); }, 500);       
          
           this.chkIndicatorBox = objTokenData[0].Indicator;
           this.chkShotMsg = objTokenData[0].IsShowShotToast;
+          this.chkShowKeyboard = objTokenData[0].isShowKeyboardToast;
           this.ClientId = objTokenData[0].ClientId;
           this.ModifyStateId = objTokenData[0].state;
           this.ModifyCityId = objTokenData[0].city;
