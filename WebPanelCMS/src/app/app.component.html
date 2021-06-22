@@ -104,11 +104,11 @@
               </a>
             </li>
             <li
-              class="js-scroll-trigger" (click)="CheckViewOnly('Upload')"
-              *ngIf="authService.chkUpload$ | async"
+              class="js-scroll-trigger"
+              *ngIf="((authService.chkUpload$ | async) && (authService.chkViewOnly$ | async)==false)"
               routerLinkActive="active"
             >
-              <a href="javascript:;">
+              <a routerLink="/Upload">
                 <i class="fa fa-cloud-upload iq-arrow-left"></i
                 ><span>Uploads</span>
               </a>
@@ -133,11 +133,11 @@
               </a>
             </li>
             <li
-              class="js-scroll-trigger" (click)="CheckViewOnly('CopyData')"
-              *ngIf="authService.chkCopyData$ | async"
+              class="js-scroll-trigger"
+              *ngIf="((authService.chkCopyData$ | async) && (authService.chkViewOnly$ | async)==false)"
               routerLinkActive="active"
             >
-              <a href="javascript:;">
+              <a routerLink="/CopyData">
                 <i class="fa fa-clone iq-arrow-left"></i><span>Copy Data</span>
               </a>
             </li>
@@ -147,40 +147,40 @@
               </a>
             </li>
             <li
-              class="js-scroll-trigger" (click)="CheckViewOnly('InstantPlay')"
+              class="js-scroll-trigger"
               *ngIf="
-                (authService.chkInstantPlay$ | async) &&
+                (((authService.chkInstantPlay$ | async) &&
                 (authService.ClientContentType$ == 'MusicMedia' ||
-                  authService.ClientContentType$ == 'Both')
+                  authService.ClientContentType$ == 'Both')) && (authService.chkViewOnly$ | async)==false)
               "
               routerLinkActive="active"
             >
-              <a href="javascript:;">
+              <a routerLink="/InstantPlay">
                 <i class="fa fa-eercast iq-arrow-left"></i
                 ><span>Instant Play</span>
               </a>
             </li>
             <!--  *ngIf="authService.UserId$ == '0'"-->
             <li
-              class="js-scroll-trigger" (click)="CheckViewOnly('Users')"
-             
+              class="js-scroll-trigger"
+             *ngIf="(authService.chkViewOnly$ | async)==false"
               routerLinkActive="active"
             >
-              <a href="javascript:;">
+              <a routerLink="/Users">
                 <i class="fa fa-users iq-arrow-left"></i><span>Users</span>
               </a>
             </li>
             
             <li
-              class="js-scroll-trigger" (click)="CheckViewOnly('Streaming')"
+              class="js-scroll-trigger"
               *ngIf="
-                (authService.chkStreaming$ | async) &&
+                (((authService.chkStreaming$ | async) &&
                 (authService.ClientContentType$ == 'MusicMedia' ||
-                  authService.ClientContentType$ == 'Both')
+                  authService.ClientContentType$ == 'Both'))  && (authService.chkViewOnly$ | async)==false)
               "
               routerLinkActive="active"
             >
-              <a href="javascript:;">
+              <a routerLink="/Streaming">
                 <i class="fa fa-assistive-listening-systems iq-arrow-left"></i
                 ><span>Streaming</span>
               </a>

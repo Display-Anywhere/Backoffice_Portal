@@ -98,32 +98,30 @@ this.PrvTotalToken=0;
       processing: false,
       dom: 'rtp',
       columnDefs: [{
-        'targets': [0,5,6,7,8], // column index (start from 0)
+        'targets': [5,6,7,8], // column index (start from 0)
         'orderable': false,
       },{
-        'width':'0px', 'targets': 0,
+        'width':'120px', 'targets': 0,
       },{
-        'width':'120px', 'targets': 1,
+        'width':'180px', 'targets': 1,
       },{
-        'width':'210px', 'targets': 2,
+        'width':'280px', 'targets': 2,
       }
       ,{
-        'width':'280px', 'targets': 3,
+        'width':'100px', 'targets': 3,
       }
       ,{
         'width':'120px', 'targets': 4,
       },{
-        'width':'100px', 'targets': 5,
+        'width':'50px', 'targets': 5,
       },{
         'width':'50px', 'targets': 6,
       },{
-        'width':'50px', 'targets': 7,
+        'width':'100px', 'targets': 7,
       },{
-        'width':'100px', 'targets': 8,
+        'width':'120px', 'targets': 8,
       },{
-        'width':'130px', 'targets': 9,
-      },{
-        'width':'60px', 'targets': 10,
+        'width':'90px', 'targets': 9,
       }
   ],
       retrieve: true,

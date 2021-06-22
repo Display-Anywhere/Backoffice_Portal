@@ -379,7 +379,11 @@ td {
   height: 100% !important;
 }
 .modal-lgSx{
-  max-width: 1500px !important;
+    max-width: 1500px !important;
     width: 1450px !important;
     height: 713px;
+}
+.modal-lgo{
+  max-width: 750px !important;
+  width: 700px !important;
 }

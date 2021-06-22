@@ -5,8 +5,9 @@ import {
   ViewChildren,
   QueryList,
   ElementRef,
-  ViewChild,
+  ViewChild,PipeTransform
 } from '@angular/core';
+import { DecimalPipe } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -28,6 +29,7 @@ import {
   selector: 'app-playlist-library',
   templateUrl: './playlist-library.component.html',
   styleUrls: ['./playlist-library.component.css'],
+  providers: [DecimalPipe],
 })
 export class PlaylistLibraryComponent implements OnInit {
   constructor(
@@ -38,7 +40,7 @@ export class PlaylistLibraryComponent implements OnInit {
     private modalService: NgbModal,
     private pService: PlaylistLibService,
     public auth: AuthService,
-    private serviceLicense: SerLicenseHolderService
+    private serviceLicense: SerLicenseHolderService,private pipe: DecimalPipe
   ) {
     config.backdrop = 'static';
     config.keyboard = false;
@@ -55,6 +57,7 @@ export class PlaylistLibraryComponent implements OnInit {
   }
 
   PlaylistSongsList = [];
+  MainPlaylistSongsList = [];
   PlaylistSongsSortList=[];
   PlaylistList = [];
   MainPlaylistList = [];
@@ -203,6 +206,7 @@ export class PlaylistLibraryComponent implements OnInit {
     });
 
     this.PlaylistSongsList = [];
+    this.MainPlaylistSongsList = [];
     this.PlaylistList = [];
     this.MainPlaylistList = [];
     this.SongsList = [];
@@ -340,6 +344,7 @@ export class PlaylistLibraryComponent implements OnInit {
     this.PlaylistList = [];
     this.MainPlaylistList = [];
     this.PlaylistSongsList = [];
+    this.MainPlaylistSongsList = [];
     this.cmbCustomerMediaType = '';
     this.FormatList = [];
     this.CopyFormatList = [];
@@ -364,6 +369,7 @@ export class PlaylistLibraryComponent implements OnInit {
     this.PlaylistList = [];
     this.MainPlaylistList = [];
     this.PlaylistSongsList = [];
+    this.MainPlaylistSongsList = [];
     this.formatid = '0';
     this.FormatList = [];
     this.CopyFormatList = [];
@@ -537,6 +543,7 @@ export class PlaylistLibraryComponent implements OnInit {
           var obj = JSON.parse(returnData);
 
           this.PlaylistSongsList = obj;
+          this.MainPlaylistSongsList = obj;
           this.PlaylistSongsSortList = obj;
           if (obj.length > 0) {
             const objImg = this.PlaylistSongsList.filter(
@@ -602,6 +609,7 @@ export class PlaylistLibraryComponent implements OnInit {
             );
             this.onChangeFormat(this.formatid, this.txtDeletedFormatName);
             this.PlaylistSongsList = [];
+            this.MainPlaylistSongsList = [];
           } else if (obj.Responce == '2') {
             this.toastr.info('Playlist name already exists', 'Success!');
             this.loading = false;
@@ -1466,6 +1474,7 @@ if (id=="0"){
     this.PlaylistList = [];
     this.MainPlaylistList = [];
     this.PlaylistSongsList = [];
+    this.MainPlaylistSongsList = [];
     if (this.formatid == '') {
       return;
     }
@@ -1575,6 +1584,7 @@ if (id=="0"){
             this.loading = false;
             this.onChangeFormat(this.formatid, this.txtDeletedFormatName);
             this.PlaylistSongsList = [];
+            this.MainPlaylistSongsList = [];
           } else {
             this.toastr.error(
               'Apologies for the inconvenience.The error is recorded.',
@@ -1720,6 +1730,7 @@ if (id=="0"){
     this.tid = [];
 
     for (var val of this.selectedRowPL) {
+      
       var k = this.PlaylistSongsList[val].sId;
       this.tid.push(k);
     }
@@ -1742,6 +1753,9 @@ if (id=="0"){
             this.loading = false;
             this.tid = [];
             this.selectedRowPL = [];
+            this.PlaylistSearchText="";
+            this.PlaylistSongsList = [];
+            this.MainPlaylistSongsList=[]
             this.SelectPlaylist(
               this.PlaylistSelected[0],
               '',
@@ -2615,6 +2629,7 @@ if (id=="0"){
       this.selectedRowPL = [index];
     }
     this.selectedRow = index;
+    console.log(songLst)
     return;
   };
 
@@ -3140,7 +3155,7 @@ if (MediaType!="Url"){
           this.toastr.info('This feature is not available in view only');
           return;
         }
-        this.modalService.open(SortModel, { centered: true });
+        this.modalService.open(SortModel, { centered: true ,size: 'lgo'});
       }
 
 async    SavePlaylistSort(ForceUpdate){
@@ -3165,6 +3180,18 @@ async    SavePlaylistSort(ForceUpdate){
       }
       PlaylistSortModalClose(){
         this.SelectPlaylist(this.PlaylistSelected[0],'','');
+      }
+      onChangeEvent_Playlist(){
+        if (this.PlaylistSearchText!=""){
+          this.PlaylistSongsList = this.PlaylistSongsList.filter(country => this.matches(country, this.PlaylistSearchText, this.pipe));
+        }
+        else{
+          this.PlaylistSongsList=[]
+          this.PlaylistSongsList= this.MainPlaylistSongsList
+        }
+      }
+      matches(country, term: string, pipe: PipeTransform) {
+        return country.title.toLowerCase().includes(term.toLowerCase());
       }
 }
 

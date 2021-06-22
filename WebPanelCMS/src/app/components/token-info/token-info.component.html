@@ -603,15 +603,16 @@
         <a data-toggle="tab" href="#menu6" class="nav-link">Emergency Alert </a>
       </li>
       <li>
-        <a data-toggle="tab" href="#menu1" class="nav-link">Advertisement </a>
+        <a data-toggle="tab" href="#menu1" class="nav-link">Normal Ads </a>
+      </li>
+      
+      <li>
+        <a data-toggle="tab" href="#playlistAds" class="nav-link">Playlist Ads </a>
       </li>
       <li>
         <a data-toggle="tab" href="#menu4" class="nav-link"
-          >Instant Phone Playlist</a
+          >Instant Mobile Playlist</a
         >
-      </li>
-      <li>
-        <a data-toggle="tab" href="#menu2" class="nav-link">Prayer Timing </a>
       </li>
     </ul>
     <div class="tab-content">
@@ -893,6 +894,34 @@
             </tbody>
           </table>
         </div>
+      </div>
+      <div id="playlistAds" class="tab-pane fade">
+        <table
+          class="table data-table table-striped table-bordered mydatatable"
+        >
+          <thead class="bg-primary">
+            <tr>
+              <th scope="col">Campaign Name</th>
+              <th scope="col">Playlist Name</th>
+              <th scope="col">Start Date</th>
+              <th scope="col">End Date</th>
+              <th scope="col">Playing Mode</th>
+              <th scope="col">Frequency</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let pLst of AdsPlaylist">
+              <td>{{ pLst.fName }}</td>
+              <td>{{ pLst.pName }}</td>
+              <td>{{ pLst.sDate }}</td>
+              <td>{{ pLst.eDate }}</td>
+              <td>{{ pLst.pMode }}</td>
+              <td>{{ pLst.Fre }}</td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>

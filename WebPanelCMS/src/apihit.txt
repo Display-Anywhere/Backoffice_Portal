@@ -1,0 +1,40 @@
+//-- Upload URL --//
+var client = new RestClient("https://html5animationtogif.com/api/uploadurl.ashx");
+client.Timeout = -1;
+var request = new RestRequest(Method.POST);
+request.AlwaysMultipartFormData = true;
+request.AddParameter("url", "https://previews.envatousercontent.com/files/240056227/banners/A/728x90/index.html");
+IRestResponse response = client.Execute(request);
+Console.WriteLine(response.Content);
+-- { "status": "success",  "creativeid": "20621902-3ad7-40ac-b123-ecdd534df028" }
+
+--------------- convert_video
+var client = new RestClient("https://html5animationtogif.com/api/converttovideo.ashx");
+client.Timeout = -1;
+var request = new RestRequest(Method.POST);
+request.AlwaysMultipartFormData = true;
+request.AddParameter("clientid", "1108");
+request.AddParameter("apikey", "0db86ee4-3f8a-459e-847d-eba983260843");
+request.AddParameter("creativeid", "20621902-3ad7-40ac-b123-ecdd534df028");
+request.AddParameter("width", "778");
+request.AddParameter("height", "90");
+request.AddParameter("duration", "5");
+request.AddParameter("fps", "60");
+request.AddParameter("audio", "N");
+request.AddParameter("webhookurl", "");
+request.AddParameter("creativefitoption", "lefttop");
+request.AddParameter("bitrateoption", "CBR");
+request.AddParameter("bitratevalue", "17");
+request.AddParameter("pixelformat", "YUV420P");
+IRestResponse response = client.Execute(request);
+Console.WriteLine(response.Content);
+{ "status": "success",  "message": "",  "mediaid": "117796" }
+
+--------------------
+var client = new RestClient("https://html5animationtogif.com/api/checkstatus.ashx?creativeid=20621902-3ad7-40ac-b123-ecdd534df028&mediaid=117796&fileext=mp4");
+client.Timeout = -1;
+var request = new RestRequest(Method.GET);
+IRestResponse response = client.Execute(request);
+Console.WriteLine(response.Content);
+{ "status": "success",  "jobstatus": "done",  "url": "https://html5animationtogif.com/API/mediadownload.ashx?mediaid=117796&creativeid=20621902-3ad7-40ac-b123-ecdd534df028&fileext=mp4&inline=y" }
+

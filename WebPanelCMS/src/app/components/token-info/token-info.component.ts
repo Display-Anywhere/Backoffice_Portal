@@ -33,6 +33,7 @@ export class TokenInfoComponent implements OnInit {
   ModifySchList = [];
   adList = [];
   prayerList = [];
+  AdsPlaylist = [];
   shortmonths: Array<string>;
   TokenInfoModifyPlaylist: FormGroup;
   StateName = '';
@@ -467,6 +468,7 @@ this.submitted = true;this.loading = true;
           this.scheduleList = obj.lstPlaylistSch;
           this.adList = obj.lstAds;
           this.prayerList = obj.lstPrayer;
+          this.AdsPlaylist= obj.lstAdsPlaylist;
           this.APKPlaylist = obj.APKPlaylist;
           if (obj.lstTokenData == null) {
             this.toastr.error(

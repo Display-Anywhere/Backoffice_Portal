@@ -43,6 +43,7 @@ export class AdPlaylistsComponent implements OnInit {
   @ViewChild(DataTableDirective)
   dtElement: DataTableDirective;
   dtOptions: any = {};
+  SearchAdsDate
   dtTrigger: Subject<any> = new Subject();
   IschkViewOnly = this.auth.chkViewOnly$.value ? 1 : 0;
   constructor(private formBuilder: FormBuilder, public toastr: ToastrService, vcr: ViewContainerRef,
@@ -54,10 +55,12 @@ export class AdPlaylistsComponent implements OnInit {
 
   ngOnInit() {
     var cd = new Date();
-    
+    var cd = new Date();
+    this.SearchAdsDate = cd;
      
 
     this.Plform = this.formBuilder.group({
+      id: ["0"],
       CustomerId: ["0", Validators.required],
       FormatId: ["0", Validators.required],
       PlaylistId: ["0", Validators.required],
@@ -71,13 +74,13 @@ export class AdPlaylistsComponent implements OnInit {
       TokenList: [this.TokenSelected]
     });
     this.dropdownList = [ 
-      { "id": "1", "itemName": "Monday" },
-      { "id": "2", "itemName": "Tuesday" },
-      { "id": "3", "itemName": "Wednesday" },
-      { "id": "4", "itemName": "Thursday" },
-      { "id": "5", "itemName": "Friday" },
-      { "id": "6", "itemName": "Saturday" },
-      { "id": "7", "itemName": "Sunday" }
+      { "id": "2", "itemName": "Monday" },
+      { "id": "3", "itemName": "Tuesday" },
+      { "id": "4", "itemName": "Wednesday" },
+      { "id": "5", "itemName": "Thursday" },
+      { "id": "6", "itemName": "Friday" },
+      { "id": "7", "itemName": "Saturday" },
+      { "id": "1", "itemName": "Sunday" }
     ];
     this.TokenList = [];
     this.selectedItems = [];
@@ -186,11 +189,17 @@ export class AdPlaylistsComponent implements OnInit {
   }
   FillTokenInfo(deviceValue) {
     this.loading = true;
-    this.rerender();
+ 
     this.sfService.FillTokenInfo(deviceValue).pipe()
       .subscribe(data => {
         var returnData = JSON.stringify(data);
         this.TokenList = JSON.parse(returnData);
+        this.TokenList.forEach(item => {
+          const index: number = this.TokenSelected.indexOf(item["tokenid"]);
+          if (index !== -1) {
+            item["check"]= true
+          }
+        });
         this.loading = false;
         this.rerender();
       },
@@ -210,8 +219,8 @@ export class AdPlaylistsComponent implements OnInit {
     }
     this.ScheduleList=[]
     this.loading = true;
-     
-    this.sfService.FillAdPlaylist(this.cmbSearchCustomer, this.cmbSearchToken).pipe()
+    var sTime1 = new Date(this.SearchAdsDate);
+    this.sfService.FillAdPlaylist(this.cmbSearchCustomer, sTime1.toDateString()).pipe()
       .subscribe(data => {
         var returnData = JSON.stringify(data);
         this.ScheduleList = JSON.parse(returnData);
@@ -336,6 +345,7 @@ export class AdPlaylistsComponent implements OnInit {
     this.Plform.get('FormatId').setValue("0");
     this.Plform.get('PlaylistId').setValue("0");
     this.Plform.get('wList').setValue('');
+    this.Plform.get('id').setValue("0");
     this.TokenList=[];
 
     this.dropdownList = [
@@ -577,5 +587,42 @@ export class AdPlaylistsComponent implements OnInit {
       this.dtTrigger.next();
     
     });
+  }
+  EditClick(id,tokenid){
+    this.loading = true;
+     this.aService.FillSavePlaylistAds(id).pipe()
+      .subscribe(data => {
+        var returnData = JSON.stringify(data);
+        var obj = JSON.parse(returnData);
+        this.loading = false;
+        obj.wList.forEach(item => {
+          var objW= this.dropdownList.filter(x=> x.id==item["id"]);
+          item["itemName"]= objW[0].itemName
+        });
+        this.TokenSelected= obj.TokenLst
+        this.onChangeCustomer(obj.clientId)
+        this.onChangeFormat(obj.formatid)
+        this.selectedItems = obj.wList;
+        
+        this.loading = false;
+        this.Plform.get('wList').setValue(this.selectedItems);
+        this.Plform.get('CustomerId').setValue(obj.clientId);
+        var sd = new Date(obj.sDate);
+        var ed = new Date(obj.eDate);
+        this.Plform.get('id').setValue(id);
+        this.Plform.get('FormatId').setValue(obj.formatid);
+        this.Plform.get('PlaylistId').setValue(obj.splId);
+        this.Plform.get('sDate').setValue(sd);
+        this.Plform.get('eDate').setValue(ed);
+        this.Plform.get('pMode').setValue(obj.pMode);
+        this.Plform.get('TotalFrequancy').setValue(obj.TotalFrequancy);
+        this.Plform.get('TokenList').setValue(this.TokenSelected);
+        this.Plform.get('startTime').setValue(this.dt);
+        this.Plform.get('EndTime').setValue(this.dt2);
+      },
+        error => {
+          this.toastr.error("Apologies for the inconvenience.The error is recorded.", '');
+          this.loading = false;
+        })
   }
 }

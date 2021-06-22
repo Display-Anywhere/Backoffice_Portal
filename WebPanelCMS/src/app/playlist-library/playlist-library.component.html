@@ -478,6 +478,8 @@
               [(ngModel)]="PlaylistSearchText"
               placeholder="Search"
               class="form-control m-1 mr-1"
+              [ngModelOptions]="{ standalone: true }"
+                            (input)="onChangeEvent_Playlist()"
             />
           </div>
           <div id="disPL" class="table-responsive search-results">
@@ -1100,6 +1102,8 @@
                   (sort)="onSort_Libray($event)">Artist</th>
                   <th class="WidthCategoryPL bg-primary sticky-top"  sortable="genreName"
                   (sort)="onSort_Libray($event)">Genre</th>
+                  <th *ngIf="((chkMediaRadio!='Image') && (chkMediaRadio!='Url'))" class="WidthCategoryPL bg-primary sticky-top"  sortable="genreName"
+                  (sort)="onSort_Libray($event)">Length</th>
                   <!--<th *ngIf="((chkMediaRadio=='Audio') && (IsRF==true)) ||
                   ((chkMediaRadio=='Video')) " class="WidthCategoryPL bg-primary sticky-top">
                     {{ HeaderName }}
@@ -1214,10 +1218,11 @@
                   <!-- <td class="WidthLength">{{songLst.Length}}</td> -->
                   <td class="WidthArtistPL">{{ songLst.Artist }}</td>
                   <td class="WidthCategoryPL">{{ songLst.genreName }}</td>
+                  <td *ngIf="((chkMediaRadio!='Image') && (chkMediaRadio!='Url'))" class="WidthCategoryPL">{{ songLst.Length }}</td>
                   <!--
 
                   
-                  <td>{{ songLst.Label }}</td>
+                  <td>{{ songLst.Length }}</td>
                   <td class="WidthAlbumPL">{{ songLst.Album }}</td>
                   <td>{{ songLst.FolderName }}</td>
 
