@@ -7,7 +7,7 @@ import { ConfigAPI } from 'src/app/class/ConfigAPI';
 import { SerLicenseHolderService } from 'src/app/license-holder/ser-license-holder.service';
 import { AuthService } from 'src/app/auth/auth.service';
 import { MachineService } from '../machine-announcement/machine.service';
-
+import { Subject } from "rxjs";
 @Component({
   selector: 'app-upload',
   templateUrl: './upload.component.html',
@@ -40,6 +40,9 @@ export class UploadComponent implements OnInit {
   IsAutoDelete=false;
   resIsAutoDelete=false;
   dtpDeleteDate;
+  resetFormSubject: Subject<boolean> = new Subject<boolean>();
+  resetFormSubject_Url: Subject<boolean> = new Subject<boolean>();
+  resetFormSubject_ConvertUrl: Subject<boolean> = new Subject<boolean>();
   public uploader: FileUploader = new FileUploader({
     url: this.cf.UploadImage,
     itemAlias: 'photo',
@@ -128,6 +131,8 @@ export class UploadComponent implements OnInit {
         })
   }
   FillFolder(cid) {
+    this.cmbFolder="0";
+    this.FolderName="";
     this.loading = true;
     this.serviceLicense.GetClientFolder(cid).pipe()
       .subscribe(data => {
@@ -164,8 +169,9 @@ export class UploadComponent implements OnInit {
       this.InputAccept="";
     }
   }
-  
+  tempdfClientId=""
   ngOnInit() {
+    this.tempdfClientId = localStorage.getItem('dfClientId')
     var cd = new Date();
     this.dtpDeleteDate = cd;
     this.IsAnnouncement= localStorage.getItem('IsAnnouncement');
@@ -204,6 +210,8 @@ var Item_TitleId="";
         }
         this.UploaderResponce=[];
         this.uploader.clearQueue()  
+        this.cmbFolder="0";
+        this.FolderName="";
       }
       
       //8968680545-- rajinder singh-  Fast Tag
@@ -495,4 +503,22 @@ this.serviceLicense.DeleteFolder(this.cmbFolder).pipe()
           this.loading = false;
         })
   } 
+  ReloadControls(){
+    this.uploader.clearQueue();
+    if (this.IsAnnouncement==='0'){
+      this.FillFolder(this.CustomerId);
+    }
+    if (this.IsAnnouncement==='1'){
+      this.FillToken(this.CustomerId);
+    }
+  }
+  resetChildForm(){
+    this.resetFormSubject.next(true);
+ }
+ resetChildForm_url(){
+  this.resetFormSubject_Url.next(true);
+}
+resetChildForm_ConvertUrl(){
+  this.resetFormSubject_ConvertUrl.next(true);
+}
 }

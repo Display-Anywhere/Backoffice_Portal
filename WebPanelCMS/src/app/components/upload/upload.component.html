@@ -24,7 +24,7 @@
                   <a
                     class="nav-link active"
                     data-toggle="tab"
-                    href="#NormalUpload"
+                    href="#NormalUpload" (click)="ReloadControls()"
                     >Upload Content</a
                   >
                 </li>
@@ -35,13 +35,18 @@
                 </li>
                 
                 <li class="nav-item">
-                  <a class="nav-link" data-toggle="tab" href="#TemplateUrl"
+                  <a class="nav-link" data-toggle="tab" href="#TemplateUrl" (click)="resetChildForm_url()"
                     >Template Url</a
                   >
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" data-toggle="tab" href="#TemplateDownload"
+                  <a class="nav-link" data-toggle="tab" href="#TemplateDownload" (click)="resetChildForm()"
                     >Download Templates</a
+                  >
+                </li>
+                <li class="nav-item" *ngIf="tempdfClientId=='95'">
+                  <a class="nav-link" data-toggle="tab" href="#ConvertUrl" (click)="resetChildForm_ConvertUrl()"
+                    >Convert Url to Mp4</a
                   >
                 </li>
               </ul>
@@ -124,7 +129,7 @@
                       <select
                         *ngIf="IsAnnouncement === '0'"
                         name="cmbFolder"
-                        class="custom-select mb-3 col-sm-2 col-12"
+                        class="custom-select mb-3 col-sm-2 col-12 mt-2"
                         [(ngModel)]="cmbFolder"
                         (change)="onChangeFolder($event.target.value)"
                         id="cmbFolder"
@@ -137,18 +142,23 @@
                           {{ fLst.DisplayName }}
                         </option>
                       </select>
-
+                      <p *ngIf="((IsAnnouncement === '0') && (cmbFolder != '0'))" class="ml-2">
+                        <span>Is promo folder: <i *ngIf="resIsPromoFolder" class="fa fa-check-square text-primary" aria-hidden="true"></i> <i *ngIf="!resIsPromoFolder" class="text-danger fa fa-times-circle" aria-hidden="true"></i> </span> <br>
+                        <span>Auto delete content: <i *ngIf="resIsAutoDelete" class="fa fa-check-square text-primary" aria-hidden="true"></i> <i *ngIf="!resIsAutoDelete" class="text-danger fa fa-times-circle" aria-hidden="true"></i> </span><br>
+                        <span *ngIf="resIsAutoDelete" >Delete Date: <strong>{{dtpDeleteDate | date : 'dd/MMM/yyyy'}}</strong></span>
+                       </p>
                       <button
                         *ngIf="IsAnnouncement === '0'"
-                        class="btn btn-primary mb-2 mr-1 mt-n1 ml-sm-3"
-                        (click)="openGenreModal(modalGenre)"
+                        class="btn btn-primary mb-2 mr-1 mt-n1 ml-sm-3 mt-2"
+                        (click)="openGenreModal(modalGenre)" data-toggle="tooltip" data-placement="top" title="New/Edit Folder"
                       >
                         <i class="fa fa-bars" aria-hidden="true"></i>
                       </button>
                       <button
                         *ngIf="IsAnnouncement === '0'"
-                        class="btn btn-danger mb-2 mr-1 mt-n1"
+                        class="btn btn-danger mb-2 mr-1 mt-n1 mt-2"
                         (click)="openFolderDeleteModal(FolderDeleteModal)"
+                        data-toggle="tooltip" data-placement="top" title="Delete Folder"
                       >
                         <i class="fa fa-trash" aria-hidden="true"></i>
                       </button>
@@ -446,7 +456,15 @@
                 class="col-lg-12 tab-pane fade"
                 style="padding: 0 0 0 0; margin: 0 0 0 0"
               >
-                <app-download-template></app-download-template>
+                <app-download-template [resetFormSubject]="resetFormSubject.asObservable()"></app-download-template>
+              </div>
+              <div
+                id="ConvertUrl"
+                role="tabpanel"
+                class="col-lg-12 tab-pane fade"
+                style="padding: 0 0 0 0; margin: 0 0 0 0"
+              >
+                <app-converthtmlmp4  [resetFormSubject_ConvertUrl]="resetFormSubject_ConvertUrl.asObservable()"></app-converthtmlmp4>
               </div>
               <div
                 id="CreateTemplate"
@@ -492,7 +510,7 @@
                 class="col-lg-12 tab-pane fade"
                 style="padding: 0 0 0 0; margin: 0 0 0 0"
               >
-                <app-template-url></app-template-url>
+                <app-template-url  [resetFormSubject_Url]="resetFormSubject_Url.asObservable()"></app-template-url>
               </div>
             </div>
           </div>

@@ -27,4 +27,11 @@ export class SrDownloadTemplateService {
     return this.http.post(this.cApi.DownloadTemplates,params,{headers:headers})
      .pipe((data=>{return data;}))
   }
+  DownloadTemplatesConvertTOMp4(dfClientId,GenreId,FolderId,tList){
+    let headers = new HttpHeaders({ 'Content-Type':'application/json' });
+    var params = JSON.stringify({ dfClientId:dfClientId,GenreId:GenreId,FolderId:FolderId,
+      tList:tList,dbType: localStorage.getItem('DBType') });
+    return this.http.post(this.cApi.DownloadTemplatesConvertTOMp4,params,{headers:headers})
+     .pipe((data=>{return data;}))
+  }
 }

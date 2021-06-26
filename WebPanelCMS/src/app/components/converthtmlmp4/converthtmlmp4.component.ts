@@ -1,18 +1,20 @@
 import { Component, OnInit,Input  } from '@angular/core';
-import { SrDownloadTemplateService } from './sr-download-template.service';
 import { ToastrService } from 'ngx-toastr';
 import { SerLicenseHolderService } from 'src/app/license-holder/ser-license-holder.service';
 import { AuthService } from 'src/app/auth/auth.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subject } from "rxjs";
+import { SrDownloadTemplateService } from '../download-template/sr-download-template.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {NgbNavChangeEvent} from '@ng-bootstrap/ng-bootstrap';
 @Component({
-  selector: 'app-download-template',
-  templateUrl: './download-template.component.html',
-  styleUrls: ['./download-template.component.css']
+  selector: 'app-converthtmlmp4',
+  templateUrl: './converthtmlmp4.component.html',
+  styleUrls: ['./converthtmlmp4.component.css']
 })
-export class DownloadTemplateComponent implements OnInit {
-  public loading = false;
-  @Input() resetFormSubject: Subject<boolean> = new Subject<boolean>();
+export class Converthtmlmp4Component implements OnInit {
+  loading = false;
+  @Input() resetFormSubject_ConvertUrl: Subject<boolean> = new Subject<boolean>();
   TemplateList=[];
   MainTemplateList=[];
   CustomerList: any[];
@@ -26,30 +28,49 @@ export class DownloadTemplateComponent implements OnInit {
   FolderName = "";
   NewFolderName: string = "";
   TemplateSelected=[];
+  TemplateSelected_Own=[];
   chkAll:boolean=false;
   SearchCDate;
   chkIsAnnouncement=false
-    constructor(private dService: SrDownloadTemplateService,  public toastr: ToastrService,
+  frmUrl_Convert: FormGroup;
+  activeTab =1
+  constructor(private formBuilder: FormBuilder,private dService: SrDownloadTemplateService,  public toastr: ToastrService,
     private serviceLicense: SerLicenseHolderService, public auth:AuthService,private modalService: NgbModal) { 
-      
-    }
-    
-  ngOnInit() {
-    
+       }
+
+  ngOnInit () {
+    this.initUrlForm()
     var cd = new Date();
     this.SearchCDate = cd;
     this.FillClientList();
-    this.resetFormSubject.subscribe(response => {
+    this.resetFormSubject_ConvertUrl.subscribe(response => {
       if(response){
         var cd = new Date();
         this.SearchCDate = cd;
+        this.activeTab =1
+        this.ResetPage();
         if ((this.auth.IsAdminLogin$.value == false)) {
           this.CustomerId = localStorage.getItem('dfClientId');
+          this.frmUrl_Convert.controls['cmbCustomer'].setValue(this.CustomerId);
           this.onChangeCustomer(this.CustomerId);
         }
     }
   });
   }
+ResetPage(){
+  
+  this.TemplateSelected=[];
+  this.TemplateSelected_Own=[];
+  this.CustomerId="0";
+  this.cmbGenre="0";
+  this.cmbFolder="0";
+  this.FolderName="";
+  this.TemplateList=[];
+  this.MainTemplateList=[];
+  this.chkAll=false;
+  this.frmUrl_Convert.reset();
+  this.initUrlForm();
+}  
   FillClientList() {
     this.loading = true;
     var str = "";
@@ -251,11 +272,54 @@ if (this.cmbGenre=='0'){
       this.TemplateSelected=[];
     }
   }
-
+  
   SelectTemplates(url,name,id,duration,Refersh, event) {
     var TemplateItem = {};
+    
     if (event.target.checked) {
-      
+      if(duration>60){
+        this.toastr.info("You can enter maximum duration up to 60 seconds", '');
+        this.TemplateList.forEach(item => {
+          if (item["id"] == id){
+            item["check"]=true
+          }
+        });
+        setTimeout(() => {
+        this.TemplateList.forEach(item => {
+        var objT= this.TemplateSelected.filter(o=>o.id==item["id"])
+        if (objT.length==1){
+          item["check"]=true
+        }
+        else{
+          item["check"]=false
+        }
+      });
+    }, 100);
+        return
+      }
+
+
+      var TemplateSelected_length =this.TemplateSelected.length+1;
+      if (TemplateSelected_length>5){
+        this.toastr.info("Only five url will convert at one time.", '');
+        this.TemplateList.forEach(item => {
+          if (item["id"] == id){
+            item["check"]=true
+          }
+        });
+        setTimeout(() => {
+        this.TemplateList.forEach(item => {
+        var objT= this.TemplateSelected.filter(o=>o.id==item["id"])
+        if (objT.length==1){
+          item["check"]=true
+        }
+        else{
+          item["check"]=false
+        }
+      });
+    }, 100);
+        return;
+      }
       TemplateItem["TemplateName"] = name;
       TemplateItem["Url"] = url;
       TemplateItem["id"] = id;
@@ -274,7 +338,8 @@ if (this.cmbGenre=='0'){
   removeDuplicateRecord = (array): void => {
     this.TemplateSelected = this.TemplateSelected.filter(order => order.id !== array.id);
   }
-  DownloadTemplate(){
+  DownloadTemplate(ConvertType){
+    if (ConvertType=="Editor"){
 if (this.CustomerId=="0"){
   this.toastr.info("Please select a customer.", '');
   return;
@@ -284,17 +349,45 @@ if (this.cmbGenre=="0"){
   return;
 }
 if (this.TemplateSelected.length==0){
-  this.toastr.info("Please select atleast one template to download.", '');
+  this.toastr.info("Please select atleast one template.", '');
   return;
 }
+  if (this.TemplateSelected.length>5){
+    this.toastr.info("Only five url will convert at one time.", '');
+    return;
+  }
+  this.TemplateSelected.forEach(item=>{
+    item["IsAnnouncement"] = this.chkIsAnnouncement;
+  });
+  
+}
+else{
+  if (this.frmUrl_Convert.value.cmbCustomer==0){
+    this.toastr.info("Please select a customer.", '');
+    return;
+  }
+  if (this.frmUrl_Convert.value.cmbGenre==0){
+    this.toastr.info("Please select a genre.", '');
+    return;
+  }
+  if (this.TemplateSelected_Own.length==0){
+    this.toastr.info("Please add atleast one template.", '');
+    return;
+  }
+  this.TemplateSelected_Own.forEach(item=>{
+    item["IsAnnouncement"] = this.frmUrl_Convert.value.IsAnnouncement;
+  });
 
-this.TemplateSelected.forEach(item=>{
-  item["IsAnnouncement"] = this.chkIsAnnouncement;
-});
+  
+  this.CustomerId = this.frmUrl_Convert.value.cmbCustomer;
+  this.cmbGenre= this.frmUrl_Convert.value.cmbGenre;
+  this.cmbFolder= this.frmUrl_Convert.value.cmbFolder;
+  this.TemplateSelected= []
+  this.TemplateSelected= this.TemplateSelected_Own
+}
+this.loading = true;
 
-    this.loading = true;
-
-    this.dService.DownloadTemplates_new(this.CustomerId,this.cmbGenre,this.cmbFolder,this.TemplateSelected).pipe()
+    this.dService.DownloadTemplatesConvertTOMp4(this.CustomerId,this.cmbGenre,this.cmbFolder,this.TemplateSelected).pipe()
       .subscribe(data => {
         var returnData = JSON.stringify(data);
         var obj = JSON.parse(returnData);
@@ -302,6 +395,7 @@ this.TemplateSelected.forEach(item=>{
           this.toastr.info("Content Downloaded.", '');
         }
         this.TemplateSelected=[];
+        this.TemplateSelected_Own=[];
         this.CustomerId="0";
         this.cmbGenre="0";
         this.cmbFolder="0";
@@ -309,6 +403,8 @@ this.TemplateSelected.forEach(item=>{
         this.TemplateList=[];
         this.MainTemplateList=[];
         this.chkAll=false;
+        this.ResetPage();
+
         this.loading = false;
       },
         error => {
@@ -354,5 +450,66 @@ this.TemplateSelected.forEach(item=>{
   CloseModal(){
     this.modalService.dismissAll();
   }
+  initUrlForm(){
+    this.frmUrl_Convert = this.formBuilder.group({
+      id: [0],
+      cmbCustomer: [0],
+      cmbFolder: [0],
+      cmbGenre:[0],
+      urlName: [""],
+      duration: [20],
+      refersh: [50],
+      urlLink: [""],
+      dbType:[localStorage.getItem('DBType')],
+      IsAnnouncement:[false]
+    });
+   }
+   
+  AddItem(){
+    var TemplateSelected_length = this.TemplateSelected_Own.length + 1
+    if (TemplateSelected_length>5){
+      this.toastr.info("Only five url will convert at one time.", '');
+      return;
+    }
+    if (this.frmUrl_Convert.value.urlName==""){
+      this.toastr.info("Template name cannot be blank", '');
+      return;
+    }
+    if ((this.frmUrl_Convert.value.duration=="") || (this.frmUrl_Convert.value.duration==0)){
+      this.toastr.info("Duration cannot be blank", '');
+      return;
+    }
+    if (this.frmUrl_Convert.value.Url==""){
+      this.toastr.info("Template url cannot be blank", '');
+      return;
+    }
+    if(this.frmUrl_Convert.value.duration>60){
+      this.toastr.info("You can enter maximum duration up to 60 seconds", '');
+      this.frmUrl_Convert.controls['duration'].setValue(60);
+      return;
+    }
+    var TemplateItem = {};
+    TemplateItem = {};
+    TemplateItem["TemplateName"] = this.frmUrl_Convert.value.urlName;
+    TemplateItem["Url"] = this.frmUrl_Convert.value.urlLink;
+    TemplateItem["id"] = this.frmUrl_Convert.value.id;
+    TemplateItem["duration"] = this.frmUrl_Convert.value.duration;
+    TemplateItem["Refersh"] = this.frmUrl_Convert.value.refersh;
+    TemplateItem["IsAnnouncement"] = this.frmUrl_Convert.value.IsAnnouncement;
+    this.TemplateSelected_Own.push(TemplateItem);
+
+    this.frmUrl_Convert.controls['urlName'].setValue("");
+    this.frmUrl_Convert.controls['urlLink'].setValue("");
+  }
+  RemoveItem(index){
+    try {
+      this.TemplateSelected_Own.splice(index, 1);
+    } catch (error) {
+      
+    }
+  }
+  onNavChange(changeEvent: NgbNavChangeEvent){
+    this.ResetPage();
+
+  }
 }
-//http://jsfiddle.net/194rbn3s/5/

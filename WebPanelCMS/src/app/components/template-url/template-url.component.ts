@@ -1,11 +1,11 @@
-import { Component, OnInit, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, ViewContainerRef, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal, NgbModalConfig, NgbTimepickerConfig } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { AdsService } from 'src/app/ad/ads.service';
 import { AuthService } from 'src/app/auth/auth.service';
 import { SerLicenseHolderService } from 'src/app/license-holder/ser-license-holder.service';
-
+import { Subject } from "rxjs";
 @Component({
   selector: 'app-template-url',
   templateUrl: './template-url.component.html',
@@ -14,7 +14,7 @@ import { SerLicenseHolderService } from 'src/app/license-holder/ser-license-hold
 export class TemplateUrlComponent implements OnInit {
   frmUrl: FormGroup;
   loading = false;
-  
+  @Input() resetFormSubject_Url: Subject<boolean> = new Subject<boolean>();
   SearchCustomerList = [];
   CustomerList=[];
   UrlList=[]
@@ -34,6 +34,18 @@ export class TemplateUrlComponent implements OnInit {
   async ngOnInit()  {
     this.initUrlForm();
     await this.FillClientList();
+    this.resetFormSubject_Url.subscribe(response => {
+      if(response){
+        if ((this.auth.IsAdminLogin$.value == false)) {
+          this.frmUrl.get('cmbCustomer').setValue(localStorage.getItem('dfClientId'));
+          this.onChangeCustomer(localStorage.getItem('dfClientId'));
+
+          this.cmbSearchCustomer=localStorage.getItem('dfClientId')
+          this.onChangeSearchCustomer(localStorage.getItem('dfClientId'))
+        }
+    }
+  });
+
   }
 
  initUrlForm(){

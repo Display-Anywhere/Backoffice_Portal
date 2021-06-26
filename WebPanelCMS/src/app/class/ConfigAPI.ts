@@ -134,6 +134,7 @@ export class ConfigAPI {
    SaveInstantMobileAnnouncement: string = this.Host + 'SaveInstantMobileAnnouncement';
    GetInstantMobileAnnouncement: string = this.Host + 'GetInstantMobileAnnouncement';
    FillSavePlaylistAds: string = this.Host + 'FillSavePlaylistAds';
+   DownloadTemplatesConvertTOMp4: string = this.Host + 'DownloadTemplatesConvertTOMp4';
 
 }
 
