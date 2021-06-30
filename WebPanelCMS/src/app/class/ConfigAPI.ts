@@ -1,7 +1,7 @@
 export class ConfigAPI {
   //private Host = 'http://live.advikon.com/api/';
-   private Host: string = "https://api.advikon.com/api/";
-   //private Host: string = "http://localhost:60328/api/";
+   //private Host: string = "https://api.advikon.com/api/";
+   private Host: string = "http://localhost:60328/api/";
    FillQueryCombo: string = this.Host + 'FillQueryCombo';
    FillTokenInfo: string = this.Host + 'FillTokenInfo';
    FillTokenContent: string = this.Host + 'FillTokenContent';
@@ -135,6 +135,7 @@ export class ConfigAPI {
    GetInstantMobileAnnouncement: string = this.Host + 'GetInstantMobileAnnouncement';
    FillSavePlaylistAds: string = this.Host + 'FillSavePlaylistAds';
    DownloadTemplatesConvertTOMp4: string = this.Host + 'DownloadTemplatesConvertTOMp4';
+   SavePlaylistContentExpiry: string = this.Host + 'SavePlaylistContentExpiry';
 
 }
 

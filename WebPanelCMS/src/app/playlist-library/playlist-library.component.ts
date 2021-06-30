@@ -155,6 +155,7 @@ export class PlaylistLibraryComponent implements OnInit {
   OtherKey="";
   OtherUrl="";
   IschkViewOnly=0;
+  PlaylistExpiryList=[];
   ngOnInit() {
     localStorage.setItem('IsAnnouncement', '0');
     $('#dis').attr('unselectable', 'on');
@@ -3193,6 +3194,106 @@ async    SavePlaylistSort(ForceUpdate){
       matches(country, term: string, pipe: PipeTransform) {
         return country.title.toLowerCase().includes(term.toLowerCase());
       }
+
+
+      async PlaylistExpiry(SortModel) {
+        if (this.PlaylistSongsList.length == 0) {
+          this.toastr.info('Please select playlist', 'Success!');
+          return;
+        }
+        if (this.IschkViewOnly==1){
+          this.toastr.info('This feature is not available in view only');
+          return;
+        }
+       await this.FillPlaylistContent();
+        this.modalService.open(SortModel, { centered: true ,size: 'lgo'});
+      }
+
+      FillPlaylistContent() {
+          this.IsNormalPlaylist = true;
+        this.loading = true;
+        this.pService
+          .PlaylistSong(this.PlaylistSelected[0], 'No')
+          .pipe()
+          .subscribe(
+            (data) => {
+              var returnData = JSON.stringify(data);
+              var obj = JSON.parse(returnData);
+              obj.forEach(item => {
+                if (item["DeleteDate"]){
+                  var cd = new Date(item["DeleteDate"]);
+                  item["DeleteDate"]=cd
+                  item["NewDeleteDate"]=item["DeleteDate"]
+                }
+                
+              });
+              this.PlaylistExpiryList = obj;
+              this.loading = false;
+            },
+            (error) => {
+              this.toastr.error(
+                'Apologies for the inconvenience.The error is recorded.',
+                ''
+              );
+              this.loading = false;
+            }
+          );
+      }
+      onChangeExpiryDate(){
+        this.PlaylistExpiryList.forEach(item => {
+          if (item["DeleteDate"]!=""){
+            var eDate = new Date(item["DeleteDate"]);
+            item["NewDeleteDate"]= eDate.toDateString()
+          }
+          else{
+            item["NewDeleteDate"]=""
+          }
+        });
+      }
+      SavePlaylistContentExpiry(){
+
+        this.pService
+      .SavePlaylistContentExpiry(this.PlaylistExpiryList)
+      .pipe()
+      .subscribe(
+        (data) => {
+          var returnData = JSON.stringify(data);
+          var obj = JSON.parse(returnData);
+          if (obj.Responce == '1') {
+            this.toastr.info("Saved", 'Success!');
+            this.loading = false;
+            this.SelectPlaylist(this.PlaylistSelected[0],'','');
+          } else {
+            this.toastr.error(
+              'Apologies for the inconvenience.The error is recorded.',
+              ''
+            );
+          }
+          this.loading = false;
+        },
+        (error) => {
+          this.toastr.error(
+            'Apologies for the inconvenience.The error is recorded.',
+            ''
+          );
+          this.loading = false;
+        }
+      );
+
+        
+
+
+      
+      }
+
+
+
+
+
+
+
+
+
 }
 
 

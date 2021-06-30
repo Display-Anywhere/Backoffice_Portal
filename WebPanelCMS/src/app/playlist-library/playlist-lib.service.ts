@@ -178,4 +178,11 @@ export class PlaylistLibService {
     return this.http.post(this.cApi.SavePlaylistTokenVolume, params, { headers })
       .pipe((data => data));
   }
+  SavePlaylistContentExpiry(json) {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const params = JSON.stringify(json);
+    return this.http.post(this.cApi.SavePlaylistContentExpiry, params, { headers })
+      .pipe((data => data));
+  }
+
 }

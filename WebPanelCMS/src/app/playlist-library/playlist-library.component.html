@@ -424,6 +424,13 @@
               Publish
             </button>
             <button
+              type="button"
+              (click)="PlaylistExpiry(ExpiryContent)"
+              class="btn btn-primary m-1 mr-1"
+            >
+              Expiry
+            </button>
+            <button
             type="button"
             (click)="PlaylistSort(PlaylistSortModal)"
             class="btn btn-primary m-1 mr-1"
@@ -2015,6 +2022,78 @@
               </div>
               
             </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</ng-template>
+
+<ng-template class="tokenmodal" #ExpiryContent let-c="close" let-d="dismiss">
+  
+  <button
+    type="button"
+    class="close text-right"
+    aria-label="Close"
+    (click)="d('Cross click')"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+ 
+<div class="modal-body">
+  <div class="row">
+    <div class="col-12">
+      <button
+              type="button"
+              (click)="SavePlaylistContentExpiry()"
+              (click)="d('Cross click')"
+              class="btn btn-primary m-1  float-right"
+            >
+              <i class="fa fa-floppy-o" aria-hidden="true"></i>
+            </button>
+    </div>
+  </div>
+  <div id="disPL" class="table-responsive" style="height: 600px;overflow: auto;">
+    <table
+      class="table data-table table-striped table-bordered mydatatable"
+      id="eventtable"
+    >
+      <thead class="">
+        <tr>
+          <th class="WidthTitlePL bg-primary sticky-top" style="z-index: 1;">Title</th>
+          <th class="WidthArtistPL bg-primary sticky-top" style="z-index: 1;">Artist</th>
+          <th class="bg-primary sticky-top" style="z-index: 1;max-width: 35%;width: 35%;">
+            End Date
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="cursor-pointer" *ngFor="let plExpLst of PlaylistExpiryList ; let i = index">
+          <td class="WidthTitlePL">
+              {{ plExpLst.title }}
+          </td>
+
+          <td class="WidthArtistPL">
+            {{ plExpLst.Artist }}
+          </td>
+          <td>
+            <div class="form-group m-0 p-0 mr-2">
+              <input
+                id="{{ plExpLst.id }}{{ i }}"
+                class="form-control mb-2 mr-sm-2"
+                [owlDateTimeTrigger]="dtAdsDate"
+                [(ngModel)]="plExpLst.DeleteDate"
+                [owlDateTime]="dtAdsDate"
+                readonly
+              />
+              <owl-date-time
+                [pickerType]="'calendar'"
+                (afterPickerClosed)="onChangeExpiryDate()"
+                #dtAdsDate
+              ></owl-date-time>
+            </div>
+            
           </td>
         </tr>
       </tbody>

@@ -34,6 +34,10 @@ export class Converthtmlmp4Component implements OnInit {
   chkIsAnnouncement=false
   frmUrl_Convert: FormGroup;
   activeTab =1
+  CurrentValue = 0;
+  MaxValue = 0;
+  preventAbuse = false;
+
   constructor(private formBuilder: FormBuilder,private dService: SrDownloadTemplateService,  public toastr: ToastrService,
     private serviceLicense: SerLicenseHolderService, public auth:AuthService,private modalService: NgbModal) { 
        }
@@ -70,6 +74,11 @@ ResetPage(){
   this.chkAll=false;
   this.frmUrl_Convert.reset();
   this.initUrlForm();
+  this.CurrentValue = 0;
+  this.MaxValue = 0;
+  this.preventAbuse = false;
+  this.CrTime=0;
+  this.pauseTimer() 
 }  
   FillClientList() {
     this.loading = true;
@@ -153,11 +162,20 @@ ResetPage(){
         })
   }
 
-  openGenreModal(mdl) {
+  openGenreModal(mdl,SaveFrom) {
+    if (SaveFrom=='Editor'){
     if (this.CustomerId=="0"){
       this.toastr.info("Please select a customer name");
       return;
     }
+  }
+  if (SaveFrom=='Own'){
+    if (this.frmUrl_Convert.value.cmbCustomer==0){
+      this.toastr.info("Please select a customer name");
+      return;
+    }
+    this.CustomerId = this.frmUrl_Convert.value.cmbCustomer
+  }
     this.NewFolderName = this.FolderName;
     this.modalService.open(mdl);
   }
@@ -385,32 +403,60 @@ else{
   this.TemplateSelected= []
   this.TemplateSelected= this.TemplateSelected_Own
 }
-this.loading = true;
+this.loading = false;
+this.preventAbuse = true;
 
+    this.CalPrograssBarTimer(this.TemplateSelected);
     this.dService.DownloadTemplatesConvertTOMp4(this.CustomerId,this.cmbGenre,this.cmbFolder,this.TemplateSelected).pipe()
       .subscribe(data => {
         var returnData = JSON.stringify(data);
         var obj = JSON.parse(returnData);
-        if (obj.Responce=="1"){
-          this.toastr.info("Content Downloaded.", '');
-        }
-        this.TemplateSelected=[];
-        this.TemplateSelected_Own=[];
-        this.CustomerId="0";
-        this.cmbGenre="0";
-        this.cmbFolder="0";
-        this.FolderName="";
-        this.TemplateList=[];
-        this.MainTemplateList=[];
-        this.chkAll=false;
-        this.ResetPage();
-
+        this.preventAbuse = false;
         this.loading = false;
       },
         error => {
           this.toastr.error("Apologies for the inconvenience.The error is recorded.", '');
           this.loading = false;
         })
+  }
+  interval;
+  CrTime: number=0;
+  CalPrograssBarTimer(array){
+    this.CurrentValue = 0;
+    var totalUrl= array.length
+    var totalSeconds = totalUrl*130
+    this.MaxValue=totalSeconds+30
+    this.startTimer()
+  }
+  startTimer() {
+    this.interval = setInterval(() => {
+        this.CrTime++
+        if ((this.CrTime == (this.MaxValue-30)) && (this.preventAbuse == true)){
+          this.MaxValue=this.MaxValue+30;
+        }
+        if (this.preventAbuse ==false){
+          this.CurrentValue= this.MaxValue
+          this.toastr.info("Content Downloaded.", '');
+          this.TemplateSelected=[];
+          this.TemplateSelected_Own=[];
+          this.CustomerId="0";
+          this.cmbGenre="0";
+          this.cmbFolder="0";
+          this.FolderName="";
+          this.TemplateList=[];
+          this.MainTemplateList=[];
+          this.chkAll=false;
+          this.CurrentValue = 0;
+          this.MaxValue = 0;
+          this.CrTime=0;
+          this.ResetPage();
+          this.pauseTimer() 
+        }
+        this.CurrentValue=this.CrTime
+    },1000)
+  }
+  pauseTimer() {
+    clearInterval(this.interval);
   }
   onChangeGenre(id){
     var orientation="";
@@ -512,4 +558,5 @@ this.loading = true;
     this.ResetPage();
 
   }
+
 }

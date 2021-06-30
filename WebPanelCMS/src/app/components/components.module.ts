@@ -43,7 +43,8 @@ import { AssignvideoclipsComponent } from './assignvideoclips/assignvideoclips.c
 import { AdminLogsComponent } from './admin-logs/admin-logs.component';
 import { InstantMobileComponent } from './instant-mobile/instant-mobile.component';
 import { Converthtmlmp4Component } from './converthtmlmp4/converthtmlmp4.component';
-
+import { NgProgressModule } from "ngx-progressbar";
+import { NgProgressHttpModule } from "ngx-progressbar/http";
 
 //import { OwlMomentDateTimeModule } from 'ng-pick-datetime/date-time/adapter/moment-adapter/moment-date-time.module';
 export const MY_CUSTOM_FORMATS = {
@@ -130,7 +131,8 @@ Converthtmlmp4Component
     Ng2SearchPipeModule,
     DataTablesModule,
     NgMultiSelectDropDownModule.forRoot(),
-    FileUploadModule
+    FileUploadModule,
+
   ],
   providers:[{provide: DateTimeAdapter, useClass: MomentDateTimeAdapter, deps: [OWL_DATE_TIME_LOCALE]},
   {provide: OWL_DATE_TIME_FORMATS, useValue: MY_CUSTOM_FORMATS}]
