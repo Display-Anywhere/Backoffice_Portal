@@ -23,6 +23,7 @@ export class UploadComponent implements OnInit {
   CustomerList: any[];
   GenreList: any[];
   FolderList:any[];
+  FolderContentList=[];
   public loading = false;
   IsAnnouncement="0";
   iframeUrl:SafeResourceUrl;
@@ -40,6 +41,7 @@ export class UploadComponent implements OnInit {
   IsAutoDelete=false;
   resIsAutoDelete=false;
   dtpDeleteDate;
+  ComponentName="NormalUpload"
   resetFormSubject: Subject<boolean> = new Subject<boolean>();
   resetFormSubject_Url: Subject<boolean> = new Subject<boolean>();
   resetFormSubject_ConvertUrl: Subject<boolean> = new Subject<boolean>();
@@ -521,4 +523,59 @@ this.serviceLicense.DeleteFolder(this.cmbFolder).pipe()
 resetChildForm_ConvertUrl(){
   this.resetFormSubject_ConvertUrl.next(true);
 }
+ReloadComponent(componentName){
+  this.ComponentName= componentName
 }
+
+openViewContent(mdl){
+  if (this.cmbFolder=="0"){
+    this.toastr.info('Please a select folder name')
+    return
+  }
+  this.FolderContentList=[];
+  this.GetFolderContent(mdl);
+  
+}
+GetFolderContent(mdl){
+  this.loading = true;
+  this.serviceLicense.GetFolderContent(this.cmbFolder,this.CustomerId).pipe()
+      .subscribe(data => {
+        var returnData = JSON.stringify(data);
+        this.FolderContentList = JSON.parse(returnData);
+        this.loading = false;
+        this.modalService.open(mdl,{ size: 'lg' });
+      },
+        error => {
+          this.toastr.error("Apologies for the inconvenience.The error is recorded.", '');
+          this.loading = false;
+        })
+
+}
+
+OpenViewContent(modalName, url,oType,MediaType){
+  if (MediaType!="Url"){
+    window.open(url, '_blank'); 
+    return
+  }
+  
+      localStorage.setItem("ViewContent",url)
+      localStorage.setItem("oType",oType)
+      if (oType=="496"){
+        this.modalService.open(modalName, {
+          size: 'lgx',
+        }); 
+      }
+      if (oType=="495"){
+        this.modalService.open(modalName,{
+          size: 'smg'
+        }); 
+      }
+      
+    }
+    
+}
+
+
+
+
+

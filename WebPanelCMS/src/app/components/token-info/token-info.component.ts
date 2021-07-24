@@ -11,6 +11,7 @@ import { TokenInfoServiceService } from './token-info-service.service';
 import { MachineService } from '../machine-announcement/machine.service';
 import { SerLicenseHolderService } from 'src/app/license-holder/ser-license-holder.service';
 import { AuthService } from 'src/app/auth/auth.service';
+import { SerCopyDataService } from 'src/app/copy-data/ser-copy-data.service';
 
 @Component({
   selector: 'app-token-info',
@@ -30,6 +31,7 @@ export class TokenInfoComponent implements OnInit {
   GroupList = [];
   tid: string = '';
   scheduleList = [];
+  futureSchList=[];
   ModifySchList = [];
   adList = [];
   prayerList = [];
@@ -73,6 +75,9 @@ export class TokenInfoComponent implements OnInit {
   ScheduleType="";
   ClientContentType="";
   IschkViewOnly=0;
+  clid=""
+  prvGroupId="0";
+  ScheduleList=[]
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
@@ -83,12 +88,13 @@ export class TokenInfoComponent implements OnInit {
     private tService: TokenInfoServiceService,
     private mService: MachineService,
     public auth: AuthService,
-    private serviceLicense: SerLicenseHolderService
+    private serviceLicense: SerLicenseHolderService,private cService: SerCopyDataService
   ) {
     config.backdrop = 'static';
     config.keyboard = false;
   }
   ngOnInit() {
+    this.clid = localStorage.getItem('dfClientId');
     this.shortmonths = [
       'Jan',
       'Feb',
@@ -150,6 +156,8 @@ export class TokenInfoComponent implements OnInit {
       IsShowShotToast: [false],
       OsVersion:[''],
       isShowKeyboardToast: [false],
+      dfclientid: ["0"],
+      IsCheckGroupSchedule:[false]
     });
     this.TokenInfoModifyPlaylist = this.formBuilder.group({
       ModifyPlaylistName: [''],
@@ -170,6 +178,8 @@ export class TokenInfoComponent implements OnInit {
   }
 
   onSubmitTokenInfo = function () {
+
+    
     if (this.IschkViewOnly==1){
       this.toastr.info('This feature is not available in view only');
       return;
@@ -196,6 +206,15 @@ if (frm['chkMediaType']===''){
   frm['DeviceType']="";
   frm['LicenceType']="";
 }
+frm['IsCheckGroupSchedule']=false;
+
+if (this.prvGroupId != frm['GroupId']){
+  frm['IsCheckGroupSchedule']=true;
+}
+if (frm['GroupId']=='0'){
+  frm['IsCheckGroupSchedule']=false;
+}
+
  
 this.submitted = true;this.loading = true;
     this.tService
@@ -206,7 +225,7 @@ this.submitted = true;this.loading = true;
           var returnData = JSON.stringify(data);
           var obj = JSON.parse(returnData);
           if (obj.Responce == '1') {
-            this.toastr.info('Saved', 'Success!');
+              
             this.SaveModifyInfo(
               this.TokenInfo.value.Tokenid,
               'Token information is modify'
@@ -219,8 +238,14 @@ this.submitted = true;this.loading = true;
           }
           this.auth.isTokenInfoClose$.next(true);
           this.loading = false;
-          this.modalService.dismissAll('Cross click');
-         
+          if ((this.prvGroupId != frm['GroupId']) && (obj.lstPlaylistSch.length!=0)){
+            this.ScheduleList= obj.lstPlaylistSch
+            this.SaveSchedule();
+          }
+          else{
+            this.toastr.info('Saved', 'Success!');
+            this.modalService.dismissAll('Cross click');
+          }
         },
         (error) => {
           this.toastr.error(
@@ -470,6 +495,7 @@ this.submitted = true;this.loading = true;
           this.prayerList = obj.lstPrayer;
           this.AdsPlaylist= obj.lstAdsPlaylist;
           this.APKPlaylist = obj.APKPlaylist;
+          this.futureSchList = obj.lstfutureSchList
           if (obj.lstTokenData == null) {
             this.toastr.error(
               'Apologies for the inconvenience.The error is recorded.',
@@ -493,6 +519,7 @@ this.submitted = true;this.loading = true;
           }
           this.selectedItems = objTokenData[0].DispenserAlert;
           this.ClientContentType = objTokenData[0].ClientContentType;
+          this.prvGroupId=objTokenData[0].GroupId
 
           setTimeout(() => {  this.TokenInfo = this.formBuilder.group({
             Tokenid: [this.tid],
@@ -524,6 +551,8 @@ this.submitted = true;this.loading = true;
             IsShowShotToast: [objTokenData[0].IsShowShotToast],
             OsVersion:[objTokenData[0].OsVersion],
             isShowKeyboardToast: [objTokenData[0].isShowKeyboardToast],
+            dfclientid: [objTokenData[0].ClientId],
+            IsCheckGroupSchedule:[false]
           }); }, 500);       
          
           this.chkIndicatorBox = objTokenData[0].Indicator;
@@ -623,11 +652,13 @@ this.submitted = true;this.loading = true;
     this.modalService.open(content, { centered: true });
   }
   onSubmitState() {}
-  openDeleteModal(content, pschid) {
+  apiType=""
+  openDeleteModal(content, pschid, apitype) {
     if (this.IschkViewOnly==1){
       this.toastr.info('This feature is not available in view only');
       return;
     }
+    this.apiType=apitype
     this.DelpSchid = pschid;
     this.modalService.open(content, { centered: true });
   }
@@ -637,7 +668,8 @@ this.submitted = true;this.loading = true;
       return;
     }
     this.loading = true;
-    this.tService
+    if (this.apiType=="Normal"){
+      this.tService
       .DeleteTokenSch(this.DelpSchid)
       .pipe()
       .subscribe(
@@ -669,6 +701,42 @@ this.submitted = true;this.loading = true;
           this.loading = false;
         }
       );
+    }
+    else{
+      this.tService
+      .DeleteTokenSch_future(this.DelpSchid)
+      .pipe()
+      .subscribe(
+        (data) => {
+          var returnData = JSON.stringify(data);
+          var obj = JSON.parse(returnData);
+          if (obj.Responce == '1') {
+            this.toastr.info('Deleted', 'Success!');
+            this.SaveModifyInfo(
+              this.tid,
+              'Token schedule time is delete and schedule id is ' +
+                this.DelpSchid
+            );
+            this.loading = false;
+            this.FillTokenInfo();
+          } else {
+            this.toastr.error(
+              'Apologies for the inconvenience.The error is recorded.',
+              ''
+            );
+          }
+          this.loading = false;
+        },
+        (error) => {
+          this.toastr.error(
+            'Apologies for the inconvenience.The error is recorded.',
+            ''
+          );
+          this.loading = false;
+        }
+      );
+    }
+    
   }
 
   onChangeSchedule(schType) {
@@ -1059,4 +1127,45 @@ this.submitted = true;this.loading = true;
         }
       );
   }
+
+  CrossClick(){
+    this.modalService.dismissAll('Cross click');
+  }
+  
+SaveSchedule() {
+  var TokenSelected = [];
+
+  const frm= this.TokenInfo.value;
+  TokenSelected.push(frm['Tokenid']);
+
+  var CDform = this.formBuilder.group({
+        SchList: [this.ScheduleList],
+        TokenList: [TokenSelected],
+        dfClientId: [frm['dfclientid']]
+      });
+  
+      CDform.get('SchList').setValue(this.ScheduleList);
+      CDform.get('dfClientId').setValue(frm['dfclientid']);
+      CDform.get('TokenList').setValue(TokenSelected);
+      this.loading = true;
+      this.cService.SaveCopySchedule(CDform.value).pipe()
+        .subscribe(data => {
+          var returnData = JSON.stringify(data);
+          var obj = JSON.parse(returnData);
+          if (obj.Responce == "1") {
+            this.toastr.info("Saved", 'Success!');
+            this.ForceUpdateAll();
+          }
+          this.modalService.dismissAll('Cross click');
+          this.loading = false;
+        },
+          error => {
+            this.toastr.error("Apologies for the inconvenience.The error is recorded.", '');
+            this.loading = false;
+          })
+    }
+    
+
+
+
 }

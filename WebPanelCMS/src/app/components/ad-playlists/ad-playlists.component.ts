@@ -307,6 +307,13 @@ export class AdPlaylistsComponent implements OnInit {
     var eTime = new Date(this.Plform.value.EndTime);
     this.Plform.get('startTime').setValue(sTime.toTimeString().slice(0, 5));
     this.Plform.get('EndTime').setValue(eTime.toTimeString().slice(0, 5));
+
+    var sd = new Date(this.Plform.value.sDate);
+    var ed = new Date(this.Plform.value.eDate);
+
+    this.Plform.get('sDate').setValue(sd.toDateString());
+    this.Plform.get('eDate').setValue(ed.toDateString());
+
  
     this.loading = true;
     this.sfService.SaveAdPlaylist(this.Plform.value).pipe()
@@ -321,6 +328,10 @@ export class AdPlaylistsComponent implements OnInit {
       }
       else {
         this.toastr.error("Apologies for the inconvenience.The error is recorded.", '');
+        var cd = new Date(sd);
+        var ecd = new Date(ed);
+        this.Plform.get('sDate').setValue(cd);
+        this.Plform.get('eDate').setValue(ecd);
         this.loading = false;
       }
     },

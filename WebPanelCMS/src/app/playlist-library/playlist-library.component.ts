@@ -523,6 +523,7 @@ export class PlaylistLibraryComponent implements OnInit {
     this.FillPlaylistSongs(fileid, 'No', 'Yes', tids);
   }
   FillPlaylistSongs(fileid, IsBestOffPlaylist, IsNormal, tids) {
+    this.PlaylistSearchText=""
     this.ForceUpdateTokenid = tids;
     if (IsNormal == 'Yes') {
       this.IsNormalPlaylist = true;
@@ -659,7 +660,7 @@ export class PlaylistLibraryComponent implements OnInit {
       return;
     }
     if (this.ForceUpdateTokenid != '') {
-      if (this.PlaylistSongsList.length == 1) {
+      if (this.MainPlaylistSongsList.length == 1) {
         this.toastr.info(
           'This playlist is active and you can not delete all content'
         );
@@ -673,7 +674,7 @@ export class PlaylistLibraryComponent implements OnInit {
         return;
       }
       if (this.ForceUpdateTokenid != '') {
-        if (this.PlaylistSongsList.length == this.selectedRowPL.length) {
+        if (this.MainPlaylistSongsList.length == this.selectedRowPL.length) {
           this.toastr.info(
             'This playlist is in used. You cannot empty the content'
           );
@@ -1740,6 +1741,8 @@ if (id=="0"){
     if (this.selectRowsPL.length > 0) {
       this.getSelectedRowsPL();
     }
+
+   
 
     this.loading = true;
     this.pService
@@ -3149,15 +3152,41 @@ if (MediaType!="Url"){
 
       PlaylistSort(SortModel) {
         if (this.PlaylistSongsList.length == 0) {
-          this.toastr.info('Please select playlist', 'Success!');
+          this.toastr.info('Please select playlist');
           return;
         }
         if (this.IschkViewOnly==1){
           this.toastr.info('This feature is not available in view only');
           return;
         }
+        this.FillPlaylistSortContent();
         this.modalService.open(SortModel, { centered: true ,size: 'lgo'});
       }
+
+      FillPlaylistSortContent() {
+        this.IsNormalPlaylist = true;
+      this.loading = true;
+      this.PlaylistSongsSortList=[]
+      this.pService
+        .PlaylistSong(this.PlaylistSelected[0], 'No')
+        .pipe()
+        .subscribe(
+          (data) => {
+            var returnData = JSON.stringify(data);
+            var obj = JSON.parse(returnData);
+            this.PlaylistSongsSortList = obj;
+            this.loading = false;
+          },
+          (error) => {
+            this.toastr.error(
+              'Apologies for the inconvenience.The error is recorded.',
+              ''
+            );
+            this.loading = false;
+          }
+        );
+    }
+
 
 async    SavePlaylistSort(ForceUpdate){
         this.plArray = [];
@@ -3173,9 +3202,16 @@ async    SavePlaylistSort(ForceUpdate){
       }
 
       OnChangeSortInterval(e, sId) {
+        var prvSrNo="0"
         this.PlaylistSongsSortList.forEach(item => {
           if (item["sId"]==sId){
+            prvSrNo= item["SrNo"]
             item["SrNo"]=e
+          }
+        });
+        this.PlaylistSongsSortList.forEach(item => {
+          if ((item["SrNo"]==e) && (item["sId"]!=sId)){
+            item["SrNo"]=prvSrNo
           }
         });
       }
@@ -3198,7 +3234,7 @@ async    SavePlaylistSort(ForceUpdate){
 
       async PlaylistExpiry(SortModel) {
         if (this.PlaylistSongsList.length == 0) {
-          this.toastr.info('Please select playlist', 'Success!');
+          this.toastr.info('Please select playlist');
           return;
         }
         if (this.IschkViewOnly==1){
@@ -3279,11 +3315,17 @@ async    SavePlaylistSort(ForceUpdate){
           this.loading = false;
         }
       );
+      }
 
-        
+      ResetDeleteDate(id){
+        this.PlaylistExpiryList.forEach(item => {
+          if (item["sId"]==id){
+            item["NewDeleteDate"]= ""
+            item["DeleteDate"]= ""
+          }
+        });
 
 
-      
       }
 
 

@@ -45,6 +45,8 @@ import { InstantMobileComponent } from './instant-mobile/instant-mobile.componen
 import { Converthtmlmp4Component } from './converthtmlmp4/converthtmlmp4.component';
 import { NgProgressModule } from "ngx-progressbar";
 import { NgProgressHttpModule } from "ngx-progressbar/http";
+import { TempScheduleComponent } from './temp-schedule/temp-schedule.component';
+import { NormalscheduleComponent } from './normalschedule/normalschedule.component';
 
 //import { OwlMomentDateTimeModule } from 'ng-pick-datetime/date-time/adapter/moment-adapter/moment-date-time.module';
 export const MY_CUSTOM_FORMATS = {
@@ -87,7 +89,9 @@ ViewContentComponent,
 AssignvideoclipsComponent,
 AdminLogsComponent,
 InstantMobileComponent,
-Converthtmlmp4Component
+Converthtmlmp4Component,
+TempScheduleComponent,
+NormalscheduleComponent
 ],
  
   exports: [
@@ -118,7 +122,9 @@ DownloadsensortemplateComponent,
 ViewContentComponent,
 AdminLogsComponent,
 InstantMobileComponent,
-Converthtmlmp4Component
+Converthtmlmp4Component,
+TempScheduleComponent,
+NormalscheduleComponent
   ],
     imports: [
     CommonModule,

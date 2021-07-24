@@ -218,4 +218,10 @@ matches(country, term: string, pipe: PipeTransform) {
     || country.location.toLowerCase().includes(term.toLowerCase())
     || pipe.transform(country.tokenid).includes(term);
 }
+GetFolderContent(fid,cid) {
+  let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+  var params = JSON.stringify({ FolderId: fid, ClientId:cid,DBType: localStorage.getItem('DBType')});
+  return this.http.post(this.cApi.GetFolderContent, params, { headers: headers })
+    .pipe((data => { return data; }))
+}
 }

@@ -343,6 +343,8 @@ if (this.cmbGenre=='0'){
       TemplateItem["id"] = id;
       TemplateItem["duration"] = duration;
       TemplateItem["Refersh"] = Refersh;
+      TemplateItem["GenreId"] = this.cmbGenre;
+      TemplateItem["FolderId"] = this.cmbFolder;
       TemplateItem["IsAnnouncement"] = this.chkIsAnnouncement;
       this.TemplateSelected.push(TemplateItem)
     }
@@ -417,6 +419,22 @@ this.preventAbuse = true;
         error => {
           this.toastr.error("Apologies for the inconvenience.The error is recorded.", '');
           this.loading = false;
+          this.preventAbuse = false;
+          this.TemplateSelected=[];
+          this.TemplateSelected_Own=[];
+          this.CustomerId="0";
+          this.cmbGenre="0";
+          this.cmbFolder="0";
+          this.FolderName="";
+          this.TemplateList=[];
+          this.MainTemplateList=[];
+          this.chkAll=false;
+          this.CurrentValue = 0;
+          this.MaxValue = 0;
+          this.CrTime=0;
+          this.ResetPage();
+          this.pauseTimer() 
+
         })
   }
   interval;
@@ -542,11 +560,22 @@ this.preventAbuse = true;
     TemplateItem["duration"] = this.frmUrl_Convert.value.duration;
     TemplateItem["Refersh"] = this.frmUrl_Convert.value.refersh;
     TemplateItem["IsAnnouncement"] = this.frmUrl_Convert.value.IsAnnouncement;
-    this.TemplateSelected_Own.push(TemplateItem);
+    TemplateItem["FolderId"] = this.frmUrl_Convert.value.cmbFolder;
+    TemplateItem["GenreId"] = this.frmUrl_Convert.value.cmbGenre;
+    var gname="";
+    if (this.frmUrl_Convert.value.cmbGenre =="496"){
+      gname="Landscape Url"
+    }
+    if (this.frmUrl_Convert.value.cmbGenre =="495"){
+      gname="Portrait Url"
+    }
+    TemplateItem["Orientation"] = gname;
 
+    this.TemplateSelected_Own.push(TemplateItem);
     this.frmUrl_Convert.controls['urlName'].setValue("");
     this.frmUrl_Convert.controls['urlLink'].setValue("");
-  }
+
+}
   RemoveItem(index){
     try {
       this.TemplateSelected_Own.splice(index, 1);

@@ -24,28 +24,29 @@
                   <a
                     class="nav-link active"
                     data-toggle="tab"
-                    href="#NormalUpload" (click)="ReloadControls()"
+                    href="#NormalUpload" (click)="ReloadControls()" (click)="ReloadComponent('NormalUpload')"
                     >Upload Content</a
                   >
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" data-toggle="tab" href="#CreateTemplate"
-                    >Create Templates</a
+                  <a class="nav-link" data-toggle="tab" (click)="ReloadComponent('CreateTemplate')"
+                  href="#CreateTemplate">Create Templates</a
                   >
                 </li>
                 
                 <li class="nav-item">
-                  <a class="nav-link" data-toggle="tab" href="#TemplateUrl" (click)="resetChildForm_url()"
-                    >Template Url</a
+                  <a class="nav-link" data-toggle="tab" (click)="ReloadComponent('TemplateUrl')"
+                  href="#TemplateUrl">Template Url</a
                   >
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" data-toggle="tab" href="#TemplateDownload" (click)="resetChildForm()"
-                    >Download Templates</a
+                  <a class="nav-link" data-toggle="tab" (click)="ReloadComponent('TemplateDownload')"
+                  href="#TemplateDownload" >Download Templates</a
                   >
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" data-toggle="tab" href="#ConvertUrl" (click)="resetChildForm_ConvertUrl()"
+                  <a class="nav-link" data-toggle="tab" (click)="ReloadComponent('ConvertUrl')"
+                  href="#ConvertUrl"
                     >Convert Url to Mp4</a
                   >
                 </li>
@@ -161,6 +162,14 @@
                         data-toggle="tooltip" data-placement="top" title="Delete Folder"
                       >
                         <i class="fa fa-trash" aria-hidden="true"></i>
+                      </button>
+                      <button
+                        *ngIf="IsAnnouncement === '0'"
+                        class="btn btn-primary mb-2 mr-1 mt-n1 mt-2"
+                        data-toggle="tooltip" data-placement="top" title="View Content"
+                        (click)="openViewContent(ViewFolderContent)"
+                      >
+                      <i class="fa fa-eye" aria-hidden="true"></i>
                       </button>
                     </div>
                   </div>
@@ -360,8 +369,7 @@
                   </div>
                   <div class="row m-0 p-0" *ngIf="InputAccept == ''">
                     <div class="form-inline col-lg-12">
-                      Please select customer and genre so upload options will
-                      display.
+                      Please select customer and genre so upload options will display.
                     </div>
                   </div>
                 </div>
@@ -400,12 +408,12 @@
                               type="checkbox"
                               class="custom-control-input"
                               [(ngModel)]="IsPromoFolder"
-                              id="customCheck"
+                              id="chkPromoCheck"
                               name="example1"
                             />
                             <label
                               class="custom-control-label"
-                              for="customCheck"
+                              for="chkPromoCheck"
                               >Is promo folder</label
                             >
                           </div>
@@ -449,6 +457,76 @@
                     </div>
                   </div>
                 </ng-template>
+
+
+                <ng-template #ViewFolderContent let-c="close" let-d="dismiss">
+                  <div class="modal-header bg-primary">
+                    <h5 class="text-white">Folder Content</h5>
+                    <button
+                      type="button"
+                      class="close text-white"
+                      aria-label="Close"
+                      (click)="d('Cross click')"
+                    >
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body m-0 p-0">
+                    
+                      <div class="row">
+                        <div class="col-sm-12">
+                          <div id="disPL" class="table-responsive search-results">
+                            <table class="table data-table table-striped table-bordered mydatatable" id="eventtable">
+                              <thead class="">
+                                <tr>
+                                  <th class="WidthTitlePL bg-primary sticky-top" style="z-index: 1;">Title</th>
+                                  <th class="WidthArtistPL bg-primary sticky-top" style="z-index: 1;">Artist</th>
+                                  <th class="WidthCategoryPL bg-primary sticky-top" style="z-index: 1;">Genre</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr class="cursor-pointer" *ngFor="let plSongLst of FolderContentList">
+                                  <td class="WidthTitlePL">
+                                    <a href="javascript:;" (click)="OpenViewContent(viewcontent, plSongLst.TitleIdLink,plSongLst.genreId,plSongLst.MediaType)">
+                                      {{ plSongLst.title }}
+                                    </a>
+                                  </td>
+                                  <td class="WidthArtistPL">
+                                    {{ plSongLst.Artist }}
+                                  </td>
+                                  <td class="WidthCategoryPL">
+                                    {{ plSongLst.genreName }}
+                                  </td>
+
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                           
+                        </div>
+                      </div>
+                      
+                    
+                  </div>
+                </ng-template>
+
+                <ng-template class="tokenmodal" #viewcontent let-c="close" let-d="dismiss">
+  
+                  <button
+                    type="button"
+                    class="close text-right"
+                    aria-label="Close"
+                    (click)="d('Cross click')"
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                 
+                <div class="modal-body p-0">
+                  <app-view-content></app-view-content>
+                </div>
+                </ng-template>
+
+
               </div>
               <div
                 id="TemplateDownload"
@@ -456,7 +534,7 @@
                 class="col-lg-12 tab-pane fade"
                 style="padding: 0 0 0 0; margin: 0 0 0 0"
               >
-                <app-download-template [resetFormSubject]="resetFormSubject.asObservable()"></app-download-template>
+                <app-download-template *ngIf="ComponentName=='TemplateDownload'" ></app-download-template>
               </div>
               <div
                 id="ConvertUrl"
@@ -464,7 +542,7 @@
                 class="col-lg-12 tab-pane fade"
                 style="padding: 0 0 0 0; margin: 0 0 0 0"
               >
-                <app-converthtmlmp4  [resetFormSubject_ConvertUrl]="resetFormSubject_ConvertUrl.asObservable()"></app-converthtmlmp4>
+                <app-converthtmlmp4  *ngIf="ComponentName=='ConvertUrl'" ></app-converthtmlmp4>
               </div>
               <div
                 id="CreateTemplate"
@@ -510,7 +588,7 @@
                 class="col-lg-12 tab-pane fade"
                 style="padding: 0 0 0 0; margin: 0 0 0 0"
               >
-                <app-template-url  [resetFormSubject_Url]="resetFormSubject_Url.asObservable()"></app-template-url>
+                <app-template-url  *ngIf="ComponentName=='TemplateUrl'"></app-template-url>
               </div>
             </div>
           </div>

@@ -91,7 +91,7 @@
 
                     </form>
                     <div class="row mt-2 mb-2">
-                      <div class="col-lg-12" *ngIf="!preventAbuse">
+                      <div class="col-lg-12">
                         Note: The converting of URL to videos will take aproximatly 2 to 5 minutes per url. This depends of the time duration you want for exposure and the filesize. At the same time only 5 URL can be converted. A progress bar will inform you about the convertion.
                       </div>
                       <div class="col-lg-12" *ngIf="preventAbuse">
@@ -105,12 +105,14 @@
                                 <tr class="bg-primary">
                                     <th>Name</th>
                                     <th>Duration (Seconds)</th>
+                                    <th>Orientation</th>
                                     <th>Url</th>
                                     <th style="width: 30px"></th>
                                 </tr>
                                 <tr *ngFor=" let lstP of TemplateSelected_Own;let i = index">
                                     <td>{{lstP.TemplateName}}</td>
                                     <td>{{lstP.duration}}</td>
+                                    <td>{{lstP.Orientation}}</td>
                                     <td>{{lstP.Url}}</td>
                                     <td (click)="RemoveItem(i)">
                                         <i

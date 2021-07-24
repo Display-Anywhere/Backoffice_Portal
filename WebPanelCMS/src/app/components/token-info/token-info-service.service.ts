@@ -67,4 +67,10 @@ FindToken(tokenid, IsAdmin,ClientId,DbType){
   return this.http.post(this.cApi.FindToken,params,{headers:headers})
    .pipe((data=>{return data;}))
 }
+DeleteTokenSch_future(pschid){
+  let headers = new HttpHeaders({ 'Content-Type':'application/json' });
+  var params = JSON.stringify({pschid:pschid});
+  return this.http.post(this.cApi.DeleteTokenSch_future,params,{headers:headers})
+   .pipe((data=>{return data;}))
+}
 }

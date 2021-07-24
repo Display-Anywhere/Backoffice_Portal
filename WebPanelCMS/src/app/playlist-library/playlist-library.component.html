@@ -423,12 +423,12 @@
             >
               Publish
             </button>
-            <button
+            <button 
               type="button"
               (click)="PlaylistExpiry(ExpiryContent)"
               class="btn btn-primary m-1 mr-1"
             >
-              Expiry
+              Content Expiry 
             </button>
             <button
             type="button"
@@ -2078,7 +2078,7 @@
             {{ plExpLst.Artist }}
           </td>
           <td>
-            <div class="form-group m-0 p-0 mr-2">
+            <div class="form-group m-0 p-0 pull-left">
               <input
                 id="{{ plExpLst.id }}{{ i }}"
                 class="form-control mb-2 mr-sm-2"
@@ -2092,6 +2092,10 @@
                 (afterPickerClosed)="onChangeExpiryDate()"
                 #dtAdsDate
               ></owl-date-time>
+            </div>
+            <div class="m-0 p-0 mt-2 pull-right text-danger" (click)="ResetDeleteDate(plExpLst.sId)">
+              <i class="fa fa-ban" aria-hidden="true"></i>
+
             </div>
             
           </td>

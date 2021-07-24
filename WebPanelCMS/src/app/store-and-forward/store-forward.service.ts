@@ -96,4 +96,23 @@ SaveModifyLogs(tokenid, ModifyData:string){
     return this.http.post(this.cApi.SaveCopyContent,params,{headers:headers})
      .pipe((data=>{return data;}))
   }
+  SaveFutureSchedule(json:JSON){
+    let headers = new HttpHeaders({ 'Content-Type':'application/json' });
+    var params = json
+    return this.http.post(this.cApi.SaveFutureSchedule,params,{headers:headers})
+     .pipe((data=>{return data;}))
+  }
+  FillSF_future(cmbSearchCustomer,cmbSearchFormat,cmbSearchPlaylist){
+    let headers = new HttpHeaders({ 'Content-Type':'application/json' });
+    var params= JSON.stringify({clientId:cmbSearchCustomer,formatId:cmbSearchFormat,playlistId:cmbSearchPlaylist,UserId: localStorage.getItem('UserId')})
+ 
+    return this.http.post(this.cApi.FillSF_future,params,{headers:headers})
+     .pipe((data=>{return data;}))
+  }
+  DeleteTokenSch_future(pschid){
+    let headers = new HttpHeaders({ 'Content-Type':'application/json' });
+    var params = JSON.stringify({pschid:pschid});
+    return this.http.post(this.cApi.DeleteTokenSch_future,params,{headers:headers})
+     .pipe((data=>{return data;}))
+  }
 }

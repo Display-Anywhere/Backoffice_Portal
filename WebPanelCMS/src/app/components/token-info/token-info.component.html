@@ -562,6 +562,9 @@
         >
       </div>
       <!-- button start -->
+        <div class="col-sm-12 font-weight-bold" *ngIf="((prvGroupId!=ModifyGroupId) && (ModifyGroupId != '0'))" >
+          <p style="margin: 0 !important">By changing a player to another group, content and scheduling will be adapted from the new group ( If scheduling is available in new group )</p>
+        </div>
       <div class="col-12 float-right p-0 mt-3 pr-1">
         <div id="btns">
           <button
@@ -588,17 +591,18 @@
     <ul class="nav nav-tabs">
       <li class="active">
         <a data-toggle="tab" href="#home" class="nav-link active"
-          >Playlist Schedule</a
+          >Normal Schedule</a
         >
+      </li>
+      <li>
+        <a data-toggle="tab" href="#menu5" class="nav-link">Future Schedule</a>
       </li>
       <li>
         <a data-toggle="tab" href="#menu3" class="nav-link"
           >Sanitizer Announcement
         </a>
       </li>
-      <li>
-        <a data-toggle="tab" href="#menu5" class="nav-link">Keyboard Events </a>
-      </li>
+      
       <li>
         <a data-toggle="tab" href="#menu6" class="nav-link">Emergency Alert </a>
       </li>
@@ -689,7 +693,7 @@
               <td
                 data-label=""
                 class="text-danger m-0 p-0"
-                (click)="openDeleteModal(SchDeleteModal, schLst.id)"
+                (click)="openDeleteModal(SchDeleteModal, schLst.id,'Normal')"
               >
                 <i class="fa fa-trash" aria-hidden="true"></i>
               </td>
@@ -816,39 +820,85 @@
       <div id="menu5" class="tab-pane fade">
         <div class="table-responsive">
           <table
-            class="table data-table table-striped table-bordered mydatatable"
-          >
-            <thead class="bg-primary">
-              <tr>
-                <th class="sticky-top WidthTitleTH">Campaign Name</th>
-                <th class="sticky-top WidthArtistTH">Playlist Name</th>
-                <th class="sticky-top Link-Center_Width"></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let KeyLst of KeyboardPlaylist">
-                <td data-label="Campaign Name" class="WidthTitleTH">
-                  {{ KeyLst.fName }}
-                </td>
-                <td data-label="Playlist Name" class="WidthArtistTH">
-                  {{ KeyLst.pName }}
-                </td>
-                <td
-                  data-label=""
-                  class="cursor-pointer Link-Center_Width"
-                  (click)="
-                    openDeleteKeyboardModal(DeleteKeyboardModal, KeyLst.id)
-                  "
-                >
-                  <i
-                    class="fa fa-trash"
-                    style="color: red"
-                    aria-hidden="true"
-                  ></i>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          class="table data-table table-striped table-bordered mydatatable"
+        >
+          <thead class="bg-primary">
+            <tr>
+              <th scope="col">Campaign Name</th>
+              <th scope="col">Playlist Name</th>
+              <th  scope="col">
+                Start Date
+              </th>
+              <th scope="col">
+                End Date
+              </th>
+              <th *ngIf="ScheduleType !== 'PercentageSchedule'" scope="col">
+                Start Time
+              </th>
+              <th *ngIf="ScheduleType !== 'PercentageSchedule'" scope="col">
+                End Time
+              </th>
+              <th *ngIf="ScheduleType !== 'PercentageSchedule'" scope="col">
+                Week Day
+              </th>
+              <th *ngIf="ScheduleType === 'PercentageSchedule'" scope="col">
+                PercentageValue
+              </th>
+              <th scope="col">
+                Schedule Type
+              </th>
+              <th scope="col" class="Link-Center_Width"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let fuSchLst of futureSchList">
+              <td data-label="Campaign Name">
+                {{ fuSchLst.formatName }}
+              </td>
+              <td data-label="Playlist Name">
+                {{ fuSchLst.playlistName }}
+              </td>
+              <td data-label="Start Date">
+                {{ fuSchLst.sDate }}
+              </td>
+              <td data-label="End Date">
+                {{ fuSchLst.eDate }}
+              </td>
+              <td
+
+                *ngIf="fuSchLst.ScheduleType !== 'PercentageSchedule'"
+                data-label="Start Time"
+              >
+                {{ fuSchLst.StartTime }}
+              </td>
+              <td
+                *ngIf="fuSchLst.ScheduleType !== 'PercentageSchedule'"
+                data-label="End Time"
+              >
+                {{ fuSchLst.EndTime }}
+              </td>
+              <td
+                *ngIf="fuSchLst.ScheduleType !== 'PercentageSchedule'"
+                data-label="Week Day"
+              >
+                {{ fuSchLst.WeekDay }}
+              </td>
+              <td *ngIf="fuSchLst.ScheduleType === 'PercentageSchedule'" scope="col">
+                {{ fuSchLst.PercentageValue }}
+              </td>
+              <td data-label="Schedule Type">
+                {{ fuSchLst.scheduleType }}
+              </td>
+              <td
+                data-label=""
+                class="text-danger m-0 p-0"
+                (click)="openDeleteModal(SchDeleteModal, fuSchLst.id,'Future')"
+              >
+                <i class="fa fa-trash" aria-hidden="true"></i>
+              </td>
+            </tr>
+          </tbody>
+        </table>
         </div>
       </div>
       <div id="menu6" class="tab-pane fade">
@@ -1662,6 +1712,45 @@
             class="btn btn-danger col-sm-2 pull-right mr-2"
             (click)="ForceUpdateAll()"
             (click)="d('Cross click')"
+          >
+            <i class="fa fa-check fa-lg" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #GroupChange let-c="close" let-d="dismiss">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Group Change</h5>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12 m-0 p-0">
+          <p style="margin: 0 !important">By changing a player to another group, content and scheduling will be adapted from the new group.</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <button
+            class="btn btn-primary col-sm-2 pull-right"
+            (click)="CrossClick()"
+          >
+            <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+          </button>
+          <button
+            class="btn btn-danger col-sm-2 pull-right mr-2"
+            (click)="SaveSchedule()"
           >
             <i class="fa fa-check fa-lg" aria-hidden="true"></i>
           </button>
