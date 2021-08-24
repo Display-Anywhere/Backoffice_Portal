@@ -1,23 +1,25 @@
 import { Component, OnInit,ViewContainerRef,ViewChild } from '@angular/core';
-import { SerAdminLogService } from './ser-admin-log.service';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../auth/auth.service';
 import { DataTableDirective } from 'angular-datatables';
 import * as pdfMake from 'pdfmake/build/pdfmake.js';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts.js';
 import { Subject, Observable, Subscription } from 'rxjs';
+import { SerAdminLogService } from '../admin-logs/ser-admin-log.service';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
-  selector: 'app-admin-logs',
-  templateUrl: './admin-logs.component.html',
-  styleUrls: ['./admin-logs.component.css']
+  selector: 'app-player-ipaddress-logs',
+  templateUrl: './player-ipaddress-logs.component.html',
+  styleUrls: ['./player-ipaddress-logs.component.css']
 })
-export class AdminLogsComponent implements OnInit {
+export class PlayerIPAddressLogsComponent implements OnInit {
   CustomerList: any[];
   LogList = [];
   public loading = false;
-   
+  cid="0"
+  tid="0"
+  TokenList
   page: number = 1;
   pageSize: number = 20;
   dtOptions: any = {};
@@ -27,11 +29,13 @@ export class AdminLogsComponent implements OnInit {
   file_Name = "";
   constructor(private adminService: SerAdminLogService,public auth:AuthService,
      public toastr: ToastrService, vcr: ViewContainerRef) {
+      this.auth.ClientId$.subscribe((res) => {
+        this.onChangeCustomer(res)
+      }); 
    }
 
   ngOnInit() {
-    
-    this.FillClientList();
+     
     this.DataTableSettings();
   }
   FillClientList() {
@@ -44,13 +48,6 @@ export class AdminLogsComponent implements OnInit {
       .subscribe(data => {
         var returnData = JSON.stringify(data);
         this.CustomerList = JSON.parse(returnData);
-        if (i==1){
-        this.auth.SetClientId('0');
-        }
-        else{
-          this.auth.SetClientId(localStorage.getItem('dfClientId'));
-        }
-        
         this.loading = false;
       },
         error => {
@@ -65,7 +62,7 @@ export class AdminLogsComponent implements OnInit {
       processing: false,
       dom: 'Brtp',
       columnDefs: [{
-        'targets': [0,1], // column index (start from 0)
+        'targets': [4,5], // column index (start from 0)
         'orderable': false,
       }],
       retrieve: true,
@@ -73,33 +70,50 @@ export class AdminLogsComponent implements OnInit {
         {
           extend: 'pdf',
           pageSize: 'A4', title: '', filename: this.file_Name,
-          exportOptions: {
-            columns: [0,1, 2]
-          }
+           
         }, {
           extend: 'excelHtml5',
           pageSize: 'A4', title: '', filename: this.file_Name,
-          exportOptions: {
-            columns: [0,1, 2]
-          }
+          
         }
       ]
     };
   }
   onChangeCustomer(deviceValue) {
+    this.cid=deviceValue;
+    this.tid="0"
+    this.loading = true;
+    this.TokenList=[];
+    this.adminService.FillTokenInfo(this.cid, 1).pipe()
+      .subscribe(data => {
+        var returnData = JSON.stringify(data);
+        this.TokenList = JSON.parse(returnData);
+        this.loading = false;
+        this.FillRecords();
+      },
+        error => {
+          this.toastr.error("Apologies for the inconvenience.The error is recorded.", '');
+          this.loading = false;
+        })
+    
+  }
+  onChangePlayer(deviceValue) {
+    this.tid=deviceValue;
+    this.FillRecords();
+  }
+  FillRecords(){
     this.loading = true;
     this.LogList=[];
     this.rerender();
-    this.file_Name ="Logs";
+    this.file_Name ="Player_IP_Logs";
   this.DataTableSettings();
   
-    this.adminService.FillAdminLogs(deviceValue).pipe()
+    this.adminService.FillPlayerIpLogs(this.cid,this.tid).pipe()
       .subscribe(data => {
         var returnData = JSON.stringify(data);
         this.LogList = JSON.parse(returnData);
         this.rerender();
         this.loading = false;
-        this.auth.SetClientId(deviceValue);
       },
         error => {
           this.toastr.error("Apologies for the inconvenience.The error is recorded.", '');

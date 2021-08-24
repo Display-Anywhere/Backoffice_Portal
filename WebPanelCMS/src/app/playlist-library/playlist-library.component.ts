@@ -3119,7 +3119,11 @@ if (MediaType!="Url"){
     }
     
   }
-  OpenEditTemplates(){
+  OpenEditTemplates(Urltype){
+    if (Urltype=="google"){
+      window.open("https://www.google.com/slides/about/","_blank")
+    }
+    else{
     if (this.cmbCustomer == '0') {
       this.toastr.info('Please select a customer name');
       return;
@@ -3135,6 +3139,7 @@ if (MediaType!="Url"){
     else{
     window.open(this.OtherUrl,"_blank")
     }
+  }
   }
 
   OpenSensorSettings(modalName){

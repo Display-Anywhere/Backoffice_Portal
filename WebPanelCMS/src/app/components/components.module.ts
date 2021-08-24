@@ -47,6 +47,7 @@ import { NgProgressModule } from "ngx-progressbar";
 import { NgProgressHttpModule } from "ngx-progressbar/http";
 import { TempScheduleComponent } from './temp-schedule/temp-schedule.component';
 import { NormalscheduleComponent } from './normalschedule/normalschedule.component';
+import { PlayerIPAddressLogsComponent } from './player-ipaddress-logs/player-ipaddress-logs.component';
 
 //import { OwlMomentDateTimeModule } from 'ng-pick-datetime/date-time/adapter/moment-adapter/moment-date-time.module';
 export const MY_CUSTOM_FORMATS = {
@@ -91,7 +92,8 @@ AdminLogsComponent,
 InstantMobileComponent,
 Converthtmlmp4Component,
 TempScheduleComponent,
-NormalscheduleComponent
+NormalscheduleComponent,
+PlayerIPAddressLogsComponent
 ],
  
   exports: [
@@ -124,7 +126,8 @@ AdminLogsComponent,
 InstantMobileComponent,
 Converthtmlmp4Component,
 TempScheduleComponent,
-NormalscheduleComponent
+NormalscheduleComponent,
+PlayerIPAddressLogsComponent
   ],
     imports: [
     CommonModule,

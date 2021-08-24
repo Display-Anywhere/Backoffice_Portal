@@ -139,6 +139,7 @@ export class ConfigAPI {
    SaveFutureSchedule: string = this.Host + 'SaveFutureSchedule';
    FillSF_future: string = this.Host + 'FillSF_future';
    DeleteTokenSch_future: string = this.Host + 'DeleteTokenSch_future';
+   GetTokenIpAddressLogs: string = this.Host + 'GetTokenIpAddressLogs';
 
 }
 

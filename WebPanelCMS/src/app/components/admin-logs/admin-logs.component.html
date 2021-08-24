@@ -2,16 +2,16 @@
 </ngx-loading>
 
 <div class="container-fluid p-0">
- 
+  <div class="row m-0 p-0">
+    <div class="col-6 m-0 p-0">
+
+    
     <div class="row m-0 p-0">
-       
-         
-           
             <div class="col-12 ml-sm-n4">
               <label for="cmbCustomer">Customer Name:</label>
               <select
                 name="CustomerName"
-                class="custom-select mb-2 mr-sm-3 mr-1 col-sm-3"
+                class="custom-select mb-2 mr-sm-3 mr-1 col-sm-6"
                 (change)="onChangeCustomer($event.target.value)"
                 id="cmbCustomer"
               >
@@ -23,7 +23,7 @@
             </div>
         </div>   
           <div class="row m-0 p-0">
-            <div class="border col-sm-12 p-0">
+            <div class="border col-sm-12">
               <div class="table-responsive">
                 <table datatable
                 [dtOptions]="dtOptions"
@@ -32,7 +32,6 @@
                 >
                   <thead class="bg-primary">
                     <tr>
-                      <th class="text-white" scope="col">Client Name</th>
                       <th class="text-white" scope="col">IP Address</th>
                       <th class="text-white" scope="col">Description</th>
                       <th class="text-white" scope="col">DateTime</th>
@@ -44,9 +43,6 @@
                         let cLst of LogList"
                           
                     >
-                      <td data-label="Client Name">
-                        {{ cLst.clientname }}
-                      </td>
                       <td data-label="Ip Address">
                         {{ cLst.Ipaddress }}
                       </td>
@@ -62,9 +58,13 @@
                
               </div>
             </div>
+           
           </div>
-         
-       
-    
-   
+</div>
+<div class="col-sm-6 m-0 p-0">
+  <app-player-ipaddress-logs></app-player-ipaddress-logs>
+</div>
+
+
+</div>
 </div>

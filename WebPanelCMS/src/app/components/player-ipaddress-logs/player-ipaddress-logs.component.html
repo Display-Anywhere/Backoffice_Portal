@@ -1,0 +1,75 @@
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }">
+</ngx-loading>
+ 
+    <div class="row m-0 p-0">
+      <div class="col-12 ml-sm-n4">
+        <label for="cmbPlayer" class="mb-2 mr-sm-2">Player:</label>
+        <select
+          name="PlayerName"
+          class="custom-select mb-2 mr-sm-3 mr-1 col-sm-6"
+          (change)="onChangePlayer($event.target.value)"
+          id="cmbPlayer"
+        >
+          <option selected value="0">All</option>
+          <option *ngFor="let tLst of TokenList" [value]="tLst.tokenid">
+            {{ tLst.tokenid }}-{{ tLst.Name }}
+          </option>
+        </select>
+      </div>
+         
+    </div>
+ 
+      
+          <div class="row m-0 p-0">
+            <div class="border col-sm-12 p-0">
+              <div class="table-responsive">
+                <table datatable
+                [dtOptions]="dtOptions"
+                [dtTrigger]="dtTrigger"
+                  class="table data-table table-striped table-bordered mydatatable"
+                >
+                  <thead class="bg-primary">
+                    <tr>
+                      <th class="text-white" scope="col">Country</th>
+                      <th class="text-white" scope="col">City</th>
+                      <th class="text-white" scope="col">Location</th>
+                      <th class="text-white" scope="col">Token Code</th>
+                      <th class="text-white" scope="col">IP Address</th>
+                      <th class="text-white" scope="col">DateTime</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr
+                      *ngFor="
+                        let cLst of LogList"
+                          
+                    >
+                      <td data-label="Country">
+                        {{ cLst.countryName }}
+                      </td>
+                      <td data-label="City">
+                        {{ cLst.city }}
+                      </td>
+                      <td data-label="Location">
+                        {{ cLst.location }}
+                      </td>
+                      <td data-label="Token Code">
+                        {{ cLst.tokenid }}
+                      </td>
+                      <td data-label="Ip Address">
+                        {{ cLst.IpAddress }}
+                      </td>
+                      <td data-label="DateTime">
+                        {{ cLst.cDateT }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+               
+              </div>
+            </div>
+          </div>
+         
+       
+    
+    

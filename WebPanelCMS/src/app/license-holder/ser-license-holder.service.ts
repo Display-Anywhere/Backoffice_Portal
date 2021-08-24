@@ -136,9 +136,9 @@ export class SerLicenseHolderService {
     return this.http.post(this.cApi.DeleteFolder, params, { headers })
       .pipe((data => data));
   }
-  UpdateTokenGroups(tokenIds, GroupId) {
+  UpdateTokenGroups(tokenIds, GroupId,IsCheckGroupSchedule) {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    const params = JSON.stringify({ tokenIds, GroupId });
+    const params = JSON.stringify({ tokenIds, GroupId ,IsCheckGroupSchedule});
     return this.http.post(this.cApi.UpdateTokenGroups, params, { headers })
       .pipe((data => data));
   }
@@ -216,6 +216,7 @@ matches(country, term: string, pipe: PipeTransform) {
     || country.city.toLowerCase().includes(term.toLowerCase())
     || country.Name.toLowerCase().includes(term.toLowerCase())
     || country.location.toLowerCase().includes(term.toLowerCase())
+    || country.gName.toLowerCase().includes(term.toLowerCase())
     || pipe.transform(country.tokenid).includes(term);
 }
 GetFolderContent(fid,cid) {

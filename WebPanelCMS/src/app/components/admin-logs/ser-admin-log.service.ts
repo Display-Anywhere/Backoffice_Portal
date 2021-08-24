@@ -36,4 +36,17 @@ export class SerAdminLogService {
     return this.http.post(this.cApi.NewSavePlaylist,params,{headers:headers})
      .pipe((data=>{return data;}))
   }
+  FillPlayerIpLogs(cid:string,TokenId){
+    let headers = new HttpHeaders({ 'Content-Type':'application/json' });
+    var params = JSON.stringify({ clientId: cid,TokenId:TokenId});
+    return this.http.post(this.cApi.GetTokenIpAddressLogs,params,{headers:headers})
+     .pipe((data=>{return data;}))
+  }
+  FillTokenInfo(cid:string,IsActiveOnly){
+      
+    let headers = new HttpHeaders({ 'Content-Type':'application/json' });
+    var params = JSON.stringify({ clientId: cid ,UserId: localStorage.getItem('UserId'),IsActiveTokens:IsActiveOnly});
+    return this.http.post(this.cApi.FillTokenInfo,params,{headers:headers})
+     .pipe((data=>{return data;}))
+  }
 }

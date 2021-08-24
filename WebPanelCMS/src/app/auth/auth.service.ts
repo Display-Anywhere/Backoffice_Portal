@@ -22,6 +22,7 @@ export class AuthService {
   public ContentType$: string = "";
   public ClientContentType$: string = "";
   public isTokenInfoClose$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  public ClientId$ = new BehaviorSubject<string>("0");
   constructor() {
     const isLoggedIn = localStorage.getItem('loggedIn') === 'true';
     this.isLoggedIn$ = new BehaviorSubject(isLoggedIn);
@@ -59,16 +60,17 @@ export class AuthService {
 
 
     const chkUpload = localStorage.getItem('dfClientId') === 'true';
-    this.chkUpload$ = new BehaviorSubject(chkInstantPlay);
+    this.chkUpload$ = new BehaviorSubject(chkUpload);
 
     const chkCopyData = localStorage.getItem('dfClientId') === 'true';
-    this.chkCopyData$ = new BehaviorSubject(chkInstantPlay);
+    this.chkCopyData$ = new BehaviorSubject(chkCopyData);
 
     const chkStreaming = localStorage.getItem('dfClientId') === 'true';
-    this.chkStreaming$ = new BehaviorSubject(chkInstantPlay);
+    this.chkStreaming$ = new BehaviorSubject(chkStreaming);
 
 
     this.UserId$ = localStorage.getItem('UserId');
+    this.ClientId$.next(localStorage.getItem('dfClientId'));
     this.ContentType$ = localStorage.getItem('ContentType');
     this.ClientContentType$ = localStorage.getItem('ClientContentType');
     this.UserRights();
@@ -81,6 +83,9 @@ export class AuthService {
   }
   SetContenType() {
     this.ContentType$ = localStorage.getItem('ContentType');
+  }
+  SetClientId(id) {
+    this.ClientId$.next(id);
   }
   logout() {
     // logic

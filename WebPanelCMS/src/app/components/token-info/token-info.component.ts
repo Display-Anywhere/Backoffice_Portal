@@ -209,10 +209,10 @@ if (frm['chkMediaType']===''){
 frm['IsCheckGroupSchedule']=false;
 
 if (this.prvGroupId != frm['GroupId']){
-  frm['IsCheckGroupSchedule']=true;
+  //frm['IsCheckGroupSchedule']=true;
 }
 if (frm['GroupId']=='0'){
-  frm['IsCheckGroupSchedule']=false;
+ // frm['IsCheckGroupSchedule']=false;
 }
 
  
@@ -225,11 +225,12 @@ this.submitted = true;this.loading = true;
           var returnData = JSON.stringify(data);
           var obj = JSON.parse(returnData);
           if (obj.Responce == '1') {
-              
+            this.toastr.info('Saved', 'Success!');
             this.SaveModifyInfo(
               this.TokenInfo.value.Tokenid,
               'Token information is modify'
             );
+            this.modalService.dismissAll('Cross click');
           } else {
             this.toastr.error(
               'Apologies for the inconvenience.The error is recorded.',
@@ -239,12 +240,12 @@ this.submitted = true;this.loading = true;
           this.auth.isTokenInfoClose$.next(true);
           this.loading = false;
           if ((this.prvGroupId != frm['GroupId']) && (obj.lstPlaylistSch.length!=0)){
-            this.ScheduleList= obj.lstPlaylistSch
-            this.SaveSchedule();
+            //this.ScheduleList= obj.lstPlaylistSch
+            //this.SaveSchedule();
           }
           else{
-            this.toastr.info('Saved', 'Success!');
-            this.modalService.dismissAll('Cross click');
+            //this.toastr.info('Saved', 'Success!');
+            //this.modalService.dismissAll('Cross click');
           }
         },
         (error) => {

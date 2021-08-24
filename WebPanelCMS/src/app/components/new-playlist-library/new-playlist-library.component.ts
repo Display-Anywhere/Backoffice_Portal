@@ -29,6 +29,7 @@ export class NewPlaylistLibraryComponent implements OnInit {
   eLevel: boolean = false;
   eLanguage: boolean = false;
   eYear: boolean = false;
+  BitRate: boolean = false;
   AlbumList;
   FilterValue;
   CustomerMediaType = '';
@@ -349,6 +350,7 @@ else{
     this.GraphList = [];
     this.AutoBPM = false;
     this.rDate = false;
+    this.BitRate=false;
     this.eLevel = false;
     this.AutoSearchRadio = "";
     this.NewMusic = false;
@@ -362,6 +364,7 @@ else{
 
     this.AutoBPM = false;
     this.rDate = false;
+    this.BitRate=false;
     this.eLevel = false;
     this.eLanguage=false;
     this.eYear=false;
@@ -376,6 +379,7 @@ else{
     if (this.AutoSearchRadio == "NewVibe") {
       this.AutoBPM = false;
       this.rDate = false;
+      this.BitRate=false;
       this.eLevel = false;
       this.NewMusic = true;
       this.eLanguage=false;
@@ -385,6 +389,7 @@ else{
     if (this.AutoSearchRadio == "BPM") {
       this.AutoBPM = true;
       this.rDate = false;
+      this.BitRate=false;
       this.eLevel = false;
       this.NewMusic = false;
       this.eLanguage=false;
@@ -395,6 +400,7 @@ else{
     if (this.AutoSearchRadio == "ReleaseDate") {
       this.AutoBPM = false;
       this.rDate = true;
+      this.BitRate=false;
       this.eLevel = false;
       this.NewMusic = false;
       this.eLanguage=false;
@@ -402,9 +408,21 @@ else{
       this.data = [];
       this.FillReleaseDate();
     }
+    if (this.AutoSearchRadio == "BitRate") {
+      this.AutoBPM = false;
+      this.rDate = false;
+      this.BitRate=true;
+      this.eLevel = false;
+      this.NewMusic = false;
+      this.eLanguage=false;
+      this.eYear=false;
+      this.data = [];
+      this.FillBitRate();
+    }
     if (this.AutoSearchRadio == "Language") {
       this.AutoBPM = false;
       this.rDate = false;
+      this.BitRate=false;
       this.eLevel = false;
       this.NewMusic = false;
       this.eLanguage=true;
@@ -415,6 +433,7 @@ else{
     if (this.AutoSearchRadio == "Year") {
       this.AutoBPM = false;
       this.rDate = false;
+      this.BitRate=false;
       this.eLevel = false;
       this.NewMusic = false;
       this.eLanguage=false;
@@ -425,6 +444,7 @@ else{
     if (this.AutoSearchRadio == "EngeryLevel") {
       this.AutoBPM = false;
       this.rDate = false;
+      this.BitRate=false;
       this.eLevel = true;
       this.NewMusic = false;
       this.eLanguage=false;
@@ -535,6 +555,47 @@ else{
           this.toastr.error("Apologies for the inconvenience.The error is recorded.", '');
           this.loading = false;
         })
+  }
+  FillBitRate() {
+    this.loading = true;
+    var qry = 'select  bitrate as DisplayName, bitrate as Id from titles ';
+    qry = qry + " where bitrate is not null and bitrate !='' ";
+    qry = qry + " and mediatype='" +  this.mediatype + "' ";
+    qry =
+      qry +
+      " and (titles.dbtype='" +
+      localStorage.getItem('DBType') +
+      "' or titles.dbtype='Both') ";
+    if (this.mediatype != 'Image') {
+      qry = qry + ' and IsRoyaltyFree = ' + localStorage.getItem('IsRf') + ' ';
+    }
+    if (this.auth.ContentType$ == 'Signage') {
+      qry = qry + ' and titles.GenreId in(303,297, 325,324) ';
+    }
+    if (
+      this.mediatype == 'Image' &&
+      this.auth.ContentType$ == 'MusicMedia'
+    ) {
+      qry = qry + ' and tbGenre.GenreId=326 ';
+    }
+    qry = qry + ' group by bitrate order by bitrate ';
+    this.adminService
+      .FillCombo(qry)
+      .pipe()
+      .subscribe(
+        (data) => {
+          var returnData = JSON.stringify(data);
+          this.AlbumList = JSON.parse(returnData);
+          this.loading = false;
+        },
+        (error) => {
+          this.toastr.error(
+            'Apologies for the inconvenience.The error is recorded.',
+            ''
+          );
+          this.loading = false;
+        }
+      );
   }
   FillBPM() {
     var rf = "0";
