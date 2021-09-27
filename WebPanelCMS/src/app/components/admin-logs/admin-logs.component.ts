@@ -65,22 +65,16 @@ export class AdminLogsComponent implements OnInit {
       processing: false,
       dom: 'Brtp',
       columnDefs: [{
-        'targets': [0,1], // column index (start from 0)
+        'targets': [0,1,2,3], // column index (start from 0)
         'orderable': false,
       }],
       retrieve: true,
       buttons: [
-        {
-          extend: 'pdf',
-          pageSize: 'A4', title: '', filename: this.file_Name,
-          exportOptions: {
-            columns: [0,1, 2]
-          }
-        }, {
+         {
           extend: 'excelHtml5',
           pageSize: 'A4', title: '', filename: this.file_Name,
           exportOptions: {
-            columns: [0,1, 2]
+            columns: [1,2, 3]
           }
         }
       ]
@@ -91,7 +85,7 @@ export class AdminLogsComponent implements OnInit {
     this.LogList=[];
     this.rerender();
     this.file_Name ="Logs";
-  this.DataTableSettings();
+    this.DataTableSettings();
   
     this.adminService.FillAdminLogs(deviceValue).pipe()
       .subscribe(data => {

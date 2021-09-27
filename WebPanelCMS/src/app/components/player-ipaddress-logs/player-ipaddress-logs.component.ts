@@ -36,7 +36,7 @@ export class PlayerIPAddressLogsComponent implements OnInit {
 
   ngOnInit() {
      
-    this.DataTableSettings();
+    //this.DataTableSettings();
   }
   FillClientList() {
     this.loading = true;
@@ -68,10 +68,6 @@ export class PlayerIPAddressLogsComponent implements OnInit {
       retrieve: true,
       buttons: [
         {
-          extend: 'pdf',
-          pageSize: 'A4', title: '', filename: this.file_Name,
-           
-        }, {
           extend: 'excelHtml5',
           pageSize: 'A4', title: '', filename: this.file_Name,
           
@@ -84,12 +80,13 @@ export class PlayerIPAddressLogsComponent implements OnInit {
     this.tid="0"
     this.loading = true;
     this.TokenList=[];
+    this.LogList=[];
     this.adminService.FillTokenInfo(this.cid, 1).pipe()
       .subscribe(data => {
         var returnData = JSON.stringify(data);
         this.TokenList = JSON.parse(returnData);
         this.loading = false;
-        this.FillRecords();
+        //this.FillRecords();
       },
         error => {
           this.toastr.error("Apologies for the inconvenience.The error is recorded.", '');
@@ -104,15 +101,15 @@ export class PlayerIPAddressLogsComponent implements OnInit {
   FillRecords(){
     this.loading = true;
     this.LogList=[];
-    this.rerender();
+   // this.rerender();
     this.file_Name ="Player_IP_Logs";
-  this.DataTableSettings();
+  //this.DataTableSettings();
   
     this.adminService.FillPlayerIpLogs(this.cid,this.tid).pipe()
       .subscribe(data => {
         var returnData = JSON.stringify(data);
         this.LogList = JSON.parse(returnData);
-        this.rerender();
+        //this.rerender();
         this.loading = false;
       },
         error => {
@@ -121,11 +118,11 @@ export class PlayerIPAddressLogsComponent implements OnInit {
         })
   }
   ngAfterViewInit(): void {
-    this.dtTrigger.next();
+   // this.dtTrigger.next();
   }
   ngOnDestroy(): void {
     // Do not forget to unsubscribe the event
-    this.dtTrigger.unsubscribe();
+   // this.dtTrigger.unsubscribe();
   }
   rerender(): void {
     this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {

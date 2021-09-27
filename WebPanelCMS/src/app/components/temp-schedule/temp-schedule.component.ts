@@ -25,10 +25,12 @@ export class TempScheduleComponent implements OnInit {
   submitted = false;
   public loading = false;
   TokenSelected = [];
+  TokenSelected_publish = [];
   TokenList = [];
   MainTokenList = [];
   CustomerList: any[];
   PlaylistList = [];
+  SearchPlaylistList=[];
   MainPlaylistList = [];
   SearchFormatList = [];
   FormatList = [];
@@ -204,7 +206,8 @@ export class TempScheduleComponent implements OnInit {
         return;
       }
     }
-
+    this.TokenSelected_publish=[];
+    this.TokenSelected_publish= this.TokenSelected
     this.loading = true;
     if (this.sType=="Regular"){
       this.SaveRegularSchedule(UpdateModel,sTime,eTime)
@@ -224,6 +227,9 @@ export class TempScheduleComponent implements OnInit {
           var obj = JSON.parse(returnData);
           if (obj.Responce == '1') {
             this.toastrSF.info('Saved', 'Success!');
+
+            var params= JSON.stringify({TokenList:this.TokenSelected,lstPlaylist:this.CustomSchedulePlaylist,ScheduleType:this.SFform.value.ScheduleType})
+            this.SaveModifyInfo(0, 'New regular schedule is created with these values ' + params);
             this.loading = false;
             this.chkAll = false;
             this.CustomSchedulePlaylist = [];
@@ -231,6 +237,7 @@ export class TempScheduleComponent implements OnInit {
             this.selectedItems=[];
             this.TokenSelected=[];
             this.TokenList=[];
+
             this.sType="Regular"
             this.SFform.get('CustomerId').setValue('0');
             this.SFform.get('FormatId').setValue('0');
@@ -246,7 +253,7 @@ export class TempScheduleComponent implements OnInit {
             this.SFform.get('EndDate').setValue(this.dtDate);
 
 
-            this.SaveModifyInfo(0, 'New schedule is created');
+            
             this.ForceUpdateType = 'New';
             this.modalService.open(UpdateModel, { centered: true });
           } else {
@@ -278,6 +285,8 @@ export class TempScheduleComponent implements OnInit {
           var obj = JSON.parse(returnData);
           if (obj.Responce == '1') {
             this.toastrSF.info('Saved', 'Success!');
+            var params= JSON.stringify({startTime:this.SFform.value.startTime,EndTime:this.SFform.value.EndTime,startDate:this.SFform.value.startDate,EndDate:this.SFform.value.EndDate,TokenList:this.TokenSelected,lstPlaylist:this.CustomSchedulePlaylist,ScheduleType:this.SFform.value.ScheduleType})
+            this.SaveModifyInfo(0, 'New future schedule is created with these values ' + params);
             this.loading = false;
             this.chkAll = false;
             this.CustomSchedulePlaylist = [];
@@ -308,7 +317,6 @@ export class TempScheduleComponent implements OnInit {
             this.SFform.get('startTime').setValue(sTime);
             this.SFform.get('EndTime').setValue(eTime);
 
-            this.SaveModifyInfo(0, 'New schedule is created');
             this.ForceUpdateType = 'New';
             this.modalService.open(UpdateModel, { centered: true });
           } else {
@@ -426,8 +434,7 @@ export class TempScheduleComponent implements OnInit {
 
   onChangeFormat(id, type) {
     this.ScheduleList = [];
-    this.PlaylistList = [];
-    this.MainPlaylistList = [];
+    this.SearchPlaylistList = [];
     this.FillPlaylist(id, type);
   }
 
@@ -441,9 +448,16 @@ export class TempScheduleComponent implements OnInit {
           var returnData = JSON.stringify(data);
           this.PlaylistList = JSON.parse(returnData);
           this.MainPlaylistList = JSON.parse(returnData);
+          this.SearchPlaylistList=[];
+          this.PlaylistList.forEach(element => {
+            let obj =element['tokenIds']
+            if (obj[0]!=""){
+              this.SearchPlaylistList.push(element)
+            }
+          });
           this.loading = false;
           if (type == 'Search') {
-            this.SearchContent();
+            //this.SearchContent();
           }
         },
         (error) => {
@@ -635,6 +649,7 @@ export class TempScheduleComponent implements OnInit {
       return;
     }
     this.loading = true;
+    this.ScheduleList=[]
     if (this.sType_Search=="Regular"){
       this.sfService.FillSF(this.cmbSearchCustomer,this.cmbSearchFormat,this.cmbSearchPlaylist).pipe().subscribe((data) => {
         var returnData = JSON.stringify(data);
@@ -763,7 +778,7 @@ export class TempScheduleComponent implements OnInit {
     this.cmbSearchFormat=0
     this.cmbSearchPlaylist=0
     this.ScheduleList = [];
-    this.PlaylistList = [];
+    this.SearchPlaylistList = [];
     this.SearchFormatList=[]
     this.GetCustomerMediaType(id, 'Search');
   }
@@ -771,16 +786,16 @@ export class TempScheduleComponent implements OnInit {
     this.cmbSearchFormat=0
     this.cmbSearchPlaylist=0
     this.ScheduleList = [];
-    this.PlaylistList = [];
+    this.SearchPlaylistList = [];
     this.SearchFormatList=[]
     var qry=""
     if (this.sType_Search=="Regular"){
-      qry ='select max(sf.Formatid) as id , sf.formatname as displayname from tbSpecialFormat sf left join tbSpecialPlaylistSchedule_Token st on st.formatid= sf.formatid';
-      qry =qry + ' left join tbSpecialPlaylistSchedule sp on sp.pschid= st.pschid  where ';
+      qry ='select max(sf.Formatid) as id , sf.formatname as displayname from tbSpecialFormat sf inner join tbSpecialPlaylistSchedule_Token st on st.formatid= sf.formatid';
+      qry =qry + ' inner join tbSpecialPlaylistSchedule sp on sp.pschid= st.pschid  where ';
     }
     if (this.sType_Search=="Future"){
-      qry ='select max(sf.Formatid) as id , sf.formatname as displayname from tbSpecialFormat sf left join tbSpecialTempPlaylistSchedule_Token st on st.formatid= sf.formatid';
-      qry =qry + ' left join tbSpecialTempPlaylistSchedule sp on sp.pschid= st.pschid  where ';
+      qry ='select max(sf.Formatid) as id , sf.formatname as displayname from tbSpecialFormat sf inner join tbSpecialTempPlaylistSchedule_Token st on st.formatid= sf.formatid';
+      qry =qry + ' inner join tbSpecialTempPlaylistSchedule sp on sp.pschid= st.pschid  where ';
     }
     qry =qry +" (dbtype='" + localStorage.getItem('DBType') + "' or dbtype='Both') and  (st.dfclientid=" + this.cmbSearchCustomer + ' OR sf.dfclientid=' + this.cmbSearchCustomer +") and sf.mediatype='" + this.cmbSearchMediaType +"' group by  sf.formatname";
     this.loading = true;
@@ -1259,7 +1274,7 @@ export class TempScheduleComponent implements OnInit {
   ForceUpdateAll() {
     var tSelected = [];
     if (this.ForceUpdateType == 'New') {
-      this.TokenSelected.forEach((item) => {
+      this.TokenSelected_publish.forEach((item) => {
         tSelected.push(item.tokenId);
       });
     }

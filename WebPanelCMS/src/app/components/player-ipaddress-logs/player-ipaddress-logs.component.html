@@ -10,9 +10,9 @@
           (change)="onChangePlayer($event.target.value)"
           id="cmbPlayer"
         >
-          <option selected value="0">All</option>
+          <option selected value="0"></option>
           <option *ngFor="let tLst of TokenList" [value]="tLst.tokenid">
-            {{ tLst.tokenid }}-{{ tLst.Name }}
+            {{ tLst.tokenid }}-{{ tLst.location }}-{{ tLst.city }} [{{tLst.MediaType}}]
           </option>
         </select>
       </div>
@@ -20,7 +20,7 @@
     </div>
  
       
-          <div class="row m-0 p-0">
+          <div class="row m-0 p-0" style="margin-top: 2.7rem!important;">
             <div class="border col-sm-12 p-0">
               <div class="table-responsive">
                 <table datatable

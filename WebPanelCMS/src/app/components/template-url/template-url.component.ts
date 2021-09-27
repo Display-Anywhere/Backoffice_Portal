@@ -21,6 +21,7 @@ export class TemplateUrlComponent implements OnInit {
   page: number = 1;
   pageSize: number = 20;
   aid;
+  del_urlname=""
   FolderList=[]
   cmbSearchCustomer="0";
   constructor(private formBuilder: FormBuilder, public toastr: ToastrService, vcr: ViewContainerRef
@@ -115,6 +116,10 @@ export class TemplateUrlComponent implements OnInit {
       var obj = JSON.parse(returnData);
       if (obj.Responce == "1") {
         this.toastr.info("Saved", 'Success!');
+        this.SaveModifyInfo(
+          0,
+          'Template add/modify with these values '+ this.frmUrl.value
+        );
         this.initUrlForm();
         this.UrlList=[];
         this.FillClientList();
@@ -147,7 +152,8 @@ export class TemplateUrlComponent implements OnInit {
     });
     
   }
-  openUrlDeleteModal(mContent, id) {
+  openUrlDeleteModal(mContent, id,urlname) {
+    this.del_urlname=urlname
     this.aid = id;
     this.modalService.open(mContent, { centered: true });
   }
@@ -158,6 +164,10 @@ export class TemplateUrlComponent implements OnInit {
       .subscribe(data => {
         this.loading = false;
         this.toastr.info("Deleted");
+        this.SaveModifyInfo(
+          0,
+          'Template Url is deleted ('+this.del_urlname+') '
+        );
         this.onChangeSearchCustomer(this.cmbSearchCustomer)
       },
         error => {
@@ -199,4 +209,12 @@ export class TemplateUrlComponent implements OnInit {
   CloseModal(){
     this.modalService.dismissAll();
   }
+  SaveModifyInfo(tokenid, ModifyText) {
+    this.serviceLicense.SaveModifyLogs(tokenid, ModifyText).pipe()
+      .subscribe(data => {
+        var returnData = JSON.stringify(data);
+      },
+        error => {
+        })
+  };
 }

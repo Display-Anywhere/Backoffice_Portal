@@ -322,9 +322,10 @@ export class AdPlaylistsComponent implements OnInit {
       var obj = JSON.parse(returnData);
       if (obj.Responce == "1") {
         this.toastr.info("Saved", 'Success!');
+        this.SaveModifyInfo(0,"Playlist is schedule for advertisement");
         this.loading = false;
        this.clear();
-        this.SaveModifyInfo(0,"Playlist is schedule for advertisement");
+        
       }
       else {
         this.toastr.error("Apologies for the inconvenience.The error is recorded.", '');

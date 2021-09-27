@@ -24,6 +24,8 @@ import {
   NgbdSortableHeader_playlist,
   SortEvent,
 } from './playlist_sortable.directive';
+import { Router } from '@angular/router';
+import { trim } from 'jquery';
 
 @Component({
   selector: 'app-playlist-library',
@@ -40,13 +42,14 @@ export class PlaylistLibraryComponent implements OnInit {
     private modalService: NgbModal,
     private pService: PlaylistLibService,
     public auth: AuthService,
-    private serviceLicense: SerLicenseHolderService,private pipe: DecimalPipe
+    private serviceLicense: SerLicenseHolderService,private pipe: DecimalPipe, private router: Router
   ) {
     config.backdrop = 'static';
     config.keyboard = false;
     // ModuleRegistry.registerModules(AllCommunityModules);
     // ModuleRegistry.register(ClientSideRowModelModule);
   }
+  @ViewChild('flocation') flocationElement: ElementRef;
   @ViewChildren(NgbdSortableHeader_playlist)
   headers: QueryList<NgbdSortableHeader_playlist>;
   headers_library: QueryList<NgbdSortableHeader_playlist>;
@@ -150,6 +153,7 @@ export class PlaylistLibraryComponent implements OnInit {
   searchText = '';
   cmbVolume="90"
   IsVolumeLevelModal=false;
+  IsDownloadModal=false;
   TokenSelected = [];
   IscmbCustomerMediaTypeChange=true
   OtherKey="";
@@ -516,6 +520,7 @@ export class PlaylistLibraryComponent implements OnInit {
     }
     this.IsAutoPlaylistHide = false;
     this.IsOptionButtonHide = false;
+    this.flocationElement.nativeElement.focus();
   }
   SelectPlaylist(fileid, event, tids) {
     this.PlaylistSelected = [];
@@ -606,7 +611,7 @@ export class PlaylistLibraryComponent implements OnInit {
             this.plLastName = '';
             this.SaveModifyInfo(
               0,
-              'New playlist is create with name ' +
+              'Playlist is create/modify with name ' +
                 this.playlistform.value.plName
             );
             this.onChangeFormat(this.formatid, this.txtDeletedFormatName);
@@ -687,6 +692,7 @@ export class PlaylistLibraryComponent implements OnInit {
       this.tid.push[id];
     }
     this.modalService.open(mContent);
+    this.flocationElement.nativeElement.focus();
   }
 
   SearchContent() {
@@ -1583,6 +1589,10 @@ if (id=="0"){
           var obj = JSON.parse(returnData);
           if (obj.Responce == '1') {
             this.toastr.info('Saved', 'Success!');
+            this.SaveModifyInfo(
+              0,
+              'Special playlist ('+plName+') is added in campaign' 
+            );
             this.loading = false;
             this.onChangeFormat(this.formatid, this.txtDeletedFormatName);
             this.PlaylistSongsList = [];
@@ -1690,9 +1700,11 @@ if (id=="0"){
               '',
               this.ForceUpdateTokenid
             );
+            let pl= this.MainPlaylistList.filter(fId => fId.Id === this.PlaylistSelected[0])
+            let pln= pl[0].DisplayName.split('(')
             this.SaveModifyInfo(
-              this.SongsSelected,
-              'New songs is added in ' + this.PlaylistSelected + ' playlist '
+              0,
+              'New content is added in playlist ('+trim(pln[0])+') '
             );
             if (this.ForceUpdateTokenid != '') {
             }
@@ -1726,6 +1738,7 @@ if (id=="0"){
     if (this.ForceUpdateTokenid != '') {
       this.modalService.open(UpdateModel, { centered: true });
     }
+    this.flocationElement.nativeElement.focus();
   }
 
   getSelectedRowsPL() {
@@ -1764,6 +1777,12 @@ if (id=="0"){
               this.PlaylistSelected[0],
               '',
               this.ForceUpdateTokenid
+            );
+            let pl= this.MainPlaylistList.filter(fId => fId.Id === this.PlaylistSelected[0])
+            let pln= pl[0].DisplayName.split('(')
+            this.SaveModifyInfo(
+              0,
+              'Content is deleted from playlist ('+trim(pln[0])+')'
             );
             if (this.ForceUpdateTokenid != '') {
               // this.modalService.open(UpdateModel, { centered: true });
@@ -1837,6 +1856,10 @@ if (id=="0"){
           var obj = JSON.parse(returnData);
           if (obj.Responce == '1') {
             this.toastr.info('Deleted', 'Success!');
+            this.SaveModifyInfo(
+              0,
+              'Playlist is deleted.'
+            );
             this.loading = false;
             this.FillPlaylist(this.formatid);
             this.modalService.dismissAll();
@@ -1904,6 +1927,7 @@ if (id=="0"){
     this.NewFormatName = '';
     this.NewFormatName = this.txtDeletedFormatName;
     this.modalService.open(mContent);
+    this.flocationElement.nativeElement.focus();
   }
   onSubmitNewFormat() {
     if (this.NewFormatName == '') {
@@ -2014,9 +2038,15 @@ if (id=="0"){
           var returnData = JSON.stringify(data);
           var obj = JSON.parse(returnData);
           if (obj.Responce == '1') {
+            const params = JSON.stringify({ playlistid: this.pid, Mute:this.chkMute, Fixed:this.chkFixed, Mixed: this.chkMixed, chkDuplicate: this.chkDuplicate });
             this.toastr.info('Saved', 'Success!');
             this.loading = false;
             this.NewName = this.SettingPname;
+            this.SaveModifyInfo(
+              0,
+              'Playlist setting is changed with these values ' +
+              params
+            );
             this.FillPlaylist(this.formatid);
             if (this.ForceUpdateTokenid != '') {
               this.modalService.open(UpdateModel, { centered: true });
@@ -2172,6 +2202,15 @@ if (id=="0"){
             if (this.ForceUpdateTokenid != '') {
               //   this.modalService.open(UpdateModel, { centered: true });
             }
+
+            let pl= this.MainPlaylistList.filter(fId => fId.Id === this.PlaylistSelected[0])
+            let pln= pl[0].DisplayName.split('(')
+            this.SaveModifyInfo(
+              0,
+              'Content sequence is changed for playlist ('+trim(pln[0])+') '
+            );
+
+
             if (IsFillPlaylist=="Yes"){
               
               this.SelectPlaylist(this.PlaylistSelected[0],'','');
@@ -2216,6 +2255,7 @@ if (id=="0"){
     }
     localStorage.setItem('FormatID', this.formatid);
     this.modalService.open(content, { size: 'lg' });
+    this.flocationElement.nativeElement.focus();
   }
   ModelClose() {
     this.IsAutoPlaylistHide = true;
@@ -2237,6 +2277,7 @@ if (id=="0"){
     this.txtMsg = '';
     this.DeleteFormatid = this.formatid;
     this.modalService.open(content);
+    this.flocationElement.nativeElement.focus();
   }
 
   DeleteFormat(IsForceDelete) {
@@ -2311,7 +2352,16 @@ if (id=="0"){
         }
       );
   }
-  ViewTokens(modal, modalname) {
+  ViewTokens(modal, modalname, HitType) {
+    this.IsDownloadModal=false
+    if (HitType=="Download"){
+      if (this.PlaylistSelected.length == 0) {
+        this.toastr.info('Please select playlist');
+        return;
+      }
+      this.pid= this.PlaylistSelected[0]
+      this.IsDownloadModal=true
+    }
     this.IsVolumeLevelModal=false
     this.modalService.open(modal, { size: 'lg' });
     if (modalname == 'Format') {
@@ -2320,6 +2370,7 @@ if (id=="0"){
     if (modalname == 'Playlist') {
       this.FillTokenInfo(0, this.pid);
     }
+    this.flocationElement.nativeElement.focus();
   }
 
   UpdatePlaylistListArray() {
@@ -2440,6 +2491,11 @@ if (id=="0"){
           var obj = JSON.parse(returnData);
           if (obj.Responce == '1') {
             this.toastr.info('Deleted', 'Success!');
+            this.SaveModifyInfo(
+              0,
+              'Content is delete from playlist('+this.pid+') with percentage  ' +
+                this.txtDelPer
+            );
             this.loading = false;
             this.SelectPlaylist(this.pid, '', this.ForceUpdateTokenid);
           } else {
@@ -2698,6 +2754,7 @@ if (id=="0"){
     }
 
     this.UpdateSRNo(UpdateModel,'');
+    this.flocationElement.nativeElement.focus();
   }
 
   CustomSearch() {
@@ -2839,6 +2896,11 @@ if (id=="0"){
           var obj = JSON.parse(returnData);
           if (obj.Responce == '1') {
             this.toastr.info('Update request is submit', 'Success!');
+            this.SaveModifyInfo(
+              0,
+              'Pubish request is submitted for ' +
+              this.ForceUpdateTokenid
+            );
             this.loading = false;
           } else {
           }
@@ -3121,7 +3183,8 @@ if (MediaType!="Url"){
   }
   OpenEditTemplates(Urltype){
     if (Urltype=="google"){
-      window.open("https://www.google.com/slides/about/","_blank")
+      this.router.navigate(['Upload']);
+      localStorage.setItem('innerpage','template');
     }
     else{
     if (this.cmbCustomer == '0') {
@@ -3140,6 +3203,7 @@ if (MediaType!="Url"){
     window.open(this.OtherUrl,"_blank")
     }
   }
+  this.flocationElement.nativeElement.focus();
   }
 
   OpenSensorSettings(modalName){
@@ -3150,13 +3214,15 @@ if (MediaType!="Url"){
           this.modalService.open(modalName, {
             size: 'lgSx',
           }); 
+          this.flocationElement.nativeElement.focus();
       }
+
       CloseSensorSettings(){
         localStorage.setItem('IsAnnouncement', '0');
       }
 
       PlaylistSort(SortModel) {
-        if (this.PlaylistSongsList.length == 0) {
+        if (this.PlaylistSelected.length == 0) {
           this.toastr.info('Please select playlist');
           return;
         }
@@ -3166,6 +3232,7 @@ if (MediaType!="Url"){
         }
         this.FillPlaylistSortContent();
         this.modalService.open(SortModel, { centered: true ,size: 'lgo'});
+        this.flocationElement.nativeElement.focus();
       }
 
       FillPlaylistSortContent() {
@@ -3238,7 +3305,7 @@ async    SavePlaylistSort(ForceUpdate){
 
 
       async PlaylistExpiry(SortModel) {
-        if (this.PlaylistSongsList.length == 0) {
+        if (this.PlaylistSelected.length == 0) {
           this.toastr.info('Please select playlist');
           return;
         }
@@ -3248,6 +3315,7 @@ async    SavePlaylistSort(ForceUpdate){
         }
        await this.FillPlaylistContent();
         this.modalService.open(SortModel, { centered: true ,size: 'lgo'});
+        this.flocationElement.nativeElement.focus();
       }
 
       FillPlaylistContent() {
@@ -3303,7 +3371,14 @@ async    SavePlaylistSort(ForceUpdate){
           if (obj.Responce == '1') {
             this.toastr.info("Saved", 'Success!');
             this.loading = false;
+            let pl= this.MainPlaylistList.filter(fId => fId.Id === this.PlaylistSelected[0])
+            let pln= pl[0].DisplayName.split('(')
+            this.SaveModifyInfo(
+              0,
+              'Content expiry set for playlist ('+trim(pln[0])+') '
+            );
             this.SelectPlaylist(this.PlaylistSelected[0],'','');
+            
           } else {
             this.toastr.error(
               'Apologies for the inconvenience.The error is recorded.',
@@ -3335,10 +3410,34 @@ async    SavePlaylistSort(ForceUpdate){
 
 
 
+      OpenTemplatesUrl(modalName){
+        if (this.IschkViewOnly==1){
+          this.toastr.info('This feature is not available in view only');
+          return;
+        }
+              this.modalService.open(modalName, {
+                size: 'lgSx',
+              }); 
+              this.flocationElement.nativeElement.focus();
+          }
 
 
-
-
+          PlaylistContentStatus(mContent,tid) {
+            if (this.PlaylistSelected.length == 0) {
+              this.toastr.info('Please select playlist');
+              return;
+            }
+            if (this.IschkViewOnly==1){
+              this.toastr.info('This feature is not available in view only');
+              return;
+            }
+            localStorage.setItem('tokenClient',this.cmbCustomer.toString());
+            localStorage.setItem('tokenid',tid);
+            localStorage.setItem('dpid',this.PlaylistSelected[0]);
+            this.modalService.open(mContent, {  size: 'lg',
+            windowClass: 'tokenmodal', });
+            this.flocationElement.nativeElement.focus();
+          }
 
 
 }

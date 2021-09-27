@@ -2,6 +2,9 @@ export class ConfigAPI {
   //private Host = 'http://live.advikon.com/api/';
    private Host: string = "https://api.advikon.com/api/";
    //private Host: string = "http://localhost:60328/api/";
+   //private Host_panel: string = "https://panelapi.advikon.com/api/";
+   //private Host_panel: string = "http://localhost:60328/api/";
+
    FillQueryCombo: string = this.Host + 'FillQueryCombo';
    FillTokenInfo: string = this.Host + 'FillTokenInfo';
    FillTokenContent: string = this.Host + 'FillTokenContent';
@@ -141,6 +144,10 @@ export class ConfigAPI {
    DeleteTokenSch_future: string = this.Host + 'DeleteTokenSch_future';
    GetTokenIpAddressLogs: string = this.Host + 'GetTokenIpAddressLogs';
 
+
+
+   GetPlaylistsTitlesDownloadStatus: string = this.Host + 'GetPlaylistsTitlesDownloadStatus';
+   GetSplPlaylistDateWiseLive: string = this.Host + 'GetSplPlaylistDateWiseLive';
 }
 
 // localStorage.setItem('UserId', obj.UserId);

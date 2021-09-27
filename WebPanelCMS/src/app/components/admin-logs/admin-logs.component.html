@@ -3,7 +3,7 @@
 
 <div class="container-fluid p-0">
   <div class="row m-0 p-0">
-    <div class="col-6 m-0 p-0">
+    <div class="col-lg-6 m-0 p-0">
 
     
     <div class="row m-0 p-0">
@@ -32,9 +32,10 @@
                 >
                   <thead class="bg-primary">
                     <tr>
-                      <th class="text-white" scope="col">IP Address</th>
-                      <th class="text-white" scope="col">Description</th>
-                      <th class="text-white" scope="col">DateTime</th>
+                      <th class="d-none"></th>
+                      <th class="text-white">IP Address</th>
+                      <th class="text-white">Description</th>
+                      <th class="text-white">DateTime</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -43,14 +44,26 @@
                         let cLst of LogList"
                           
                     >
+                    <td  class="d-none"></td>
                       <td data-label="Ip Address">
-                        {{ cLst.Ipaddress }}
+                        <div style="overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;width: 120px;
+                      "> {{ cLst.Ipaddress }} </div>
                       </td>
                       <td data-label="Modification">
-                        {{ cLst.modifydata }}
+                        <div style="
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;width: 360px;
+                      ">
+                        {{ cLst.modifydata }} </div>
                       </td>
                       <td data-label="Modify DateTime">
-                        {{ cLst.ModifyDateTime }}
+                        <div style="overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;width: 160px;
+                      "> {{ cLst.ModifyDateTime }}</div>
                       </td>
                     </tr>
                   </tbody>
@@ -61,7 +74,7 @@
            
           </div>
 </div>
-<div class="col-sm-6 m-0 p-0">
+<div class="col-lg-6 m-0 p-0">
   <app-player-ipaddress-logs></app-player-ipaddress-logs>
 </div>
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, ViewContainerRef,ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
@@ -78,6 +78,7 @@ export class TokenInfoComponent implements OnInit {
   clid=""
   prvGroupId="0";
   ScheduleList=[]
+  @ViewChild('flocation') flocationElement: ElementRef;
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
@@ -209,10 +210,10 @@ if (frm['chkMediaType']===''){
 frm['IsCheckGroupSchedule']=false;
 
 if (this.prvGroupId != frm['GroupId']){
-  //frm['IsCheckGroupSchedule']=true;
+  frm['IsCheckGroupSchedule']=true;
 }
 if (frm['GroupId']=='0'){
- // frm['IsCheckGroupSchedule']=false;
+  frm['IsCheckGroupSchedule']=false;
 }
 
  
@@ -225,7 +226,7 @@ this.submitted = true;this.loading = true;
           var returnData = JSON.stringify(data);
           var obj = JSON.parse(returnData);
           if (obj.Responce == '1') {
-            this.toastr.info('Saved', 'Success!');
+             
             this.SaveModifyInfo(
               this.TokenInfo.value.Tokenid,
               'Token information is modify'
@@ -240,12 +241,12 @@ this.submitted = true;this.loading = true;
           this.auth.isTokenInfoClose$.next(true);
           this.loading = false;
           if ((this.prvGroupId != frm['GroupId']) && (obj.lstPlaylistSch.length!=0)){
-            //this.ScheduleList= obj.lstPlaylistSch
-            //this.SaveSchedule();
+            this.ScheduleList= obj.lstPlaylistSch
+            this.SaveSchedule();
           }
           else{
-            //this.toastr.info('Saved', 'Success!');
-            //this.modalService.dismissAll('Cross click');
+            this.toastr.info('Saved', 'Success!');
+            this.modalService.dismissAll('Cross click');
           }
         },
         (error) => {
@@ -755,6 +756,7 @@ this.submitted = true;this.loading = true;
         schItem['WeekDay'] = item.WeekDay;
         schItem['id'] = item.id;
         schItem['PercentageValue'] = item.PercentageValue;
+        schItem['volume'] = item.volume;
         this.ModifySchList.push(schItem);
       });
     }
@@ -768,6 +770,7 @@ this.submitted = true;this.loading = true;
         schItem['WeekDay'] = item.WeekDay;
         schItem['id'] = item.id;
         schItem['PercentageValue'] = item.PercentageValue;
+        schItem['volume'] = item.volume;
         this.ModifySchList.push(schItem);
       });
     }
@@ -781,6 +784,7 @@ this.submitted = true;this.loading = true;
         schItem['WeekDay'] = item.WeekDay;
         schItem['id'] = item.id;
         schItem['PercentageValue'] = item.PercentageValue;
+        schItem['volume'] = item.volume;
         this.ModifySchList.push(schItem);
       });
     }
@@ -1167,6 +1171,16 @@ SaveSchedule() {
     }
     
 
-
+    PlaylistContentStatus(mContent) {
+      if (this.IschkViewOnly==1){
+        this.toastr.info('This feature is not available in view only');
+        return;
+      }
+      localStorage.setItem('tokenClient',this.ClientId.toString());
+      localStorage.setItem('dpid','');
+      this.modalService.open(mContent, {  size: 'lg',
+      windowClass: 'tokenmodal', });
+      this.flocationElement.nativeElement.focus();
+    }
 
 }

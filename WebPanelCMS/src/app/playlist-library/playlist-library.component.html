@@ -16,7 +16,7 @@
 
           
           <div class="col-lg-12 ml-0 pl-0">
-            <label for="cName" class="mb-2 mr-sm-2">Customer Name:</label>
+            <label for="cName" class="mb-2 mr-sm-2" #flocation>Customer Name:</label>
             <select
               name="cName"
               class="custom-select mb-1"
@@ -40,9 +40,9 @@
           </button>
           </div>
           <div class="col-lg-6 ml-0 pl-0">
-            <button *ngIf="LoginDfClientId=='95'"
+            <button
             class="btn btn-primary w-100 custombutton"
-            (click)="OpenEditTemplates('google')">
+            (click)="OpenTemplatesUrl(templateurl)">
             Edit Slides
           </button>
           </div>
@@ -423,6 +423,15 @@
     <div class="col-md-8 p-0">
       <div class="card mb-2">
         <div class="card-body iq-total-content p-0">
+          <div class="pull-left">
+            <a href="javascript:;"
+          class="btn btn-primary ml-2 mt-1 pull-left"
+          (click)="ViewTokens(modalTokenInfo, 'Playlist','Download')"
+          
+        >
+          Download Status 
+      </a>
+          </div>
           <div class="pull-right pr-2">
             <button
               type="button"
@@ -1493,7 +1502,7 @@
           <button
             *ngIf="txtMsg != ''"
             class="btn btn-primary col-sm-4 pull-right mr-2"
-            (click)="ViewTokens(modalTokenInfo, 'Playlist')"
+            (click)="ViewTokens(modalTokenInfo, 'Playlist','')"
           >
             View Tokens
           </button>
@@ -1642,7 +1651,7 @@
           <button
             *ngIf="txtMsg != ''"
             class="btn btn-primary col-sm-4 pull-right mr-2"
-            (click)="ViewTokens(modalTokenInfo, 'Format')"
+            (click)="ViewTokens(modalTokenInfo, 'Format','')"
           >
             View Tokens
           </button>
@@ -1701,6 +1710,7 @@
               <th scope="col" style="width: 130px">City</th>
               <th scope="col">Location</th>
               <th *ngIf="IsVolumeLevelModal===true" scope="col" style="width: 100px">Volume</th>
+              <th *ngIf="IsDownloadModal===true" scope="col" style="width: 200px"></th>
             </tr>
           </thead>
           <tbody>
@@ -1730,8 +1740,11 @@
               <td data-label="Location">
                 {{ cLst.location }}
               </td>
-              <td *ngIf="IsVolumeLevelModal===true" data-label="Location">
+              <td *ngIf="IsVolumeLevelModal===true" data-label="Volume">
                 {{ cLst.Volume }}
+              </td>
+              <td *ngIf="IsDownloadModal===true" data-label="Status">
+                <a href="javascript:;" (click)="PlaylistContentStatus(playlistcontent,cLst.tokenid)">Download Status</a>
               </td>
             </tr>
           </tbody>
@@ -2071,7 +2084,7 @@
         <tr>
           <th class="WidthTitlePL bg-primary sticky-top" style="z-index: 1;">Title</th>
           <th class="WidthArtistPL bg-primary sticky-top" style="z-index: 1;">Artist</th>
-          <th class="bg-primary sticky-top" style="z-index: 1;max-width: 35%;width: 35%;">
+          <th class="bg-primary sticky-top" style="z-index: 1;max-width: 37%;width: 37%;">
             End Date
           </th>
         </tr>
@@ -2089,7 +2102,7 @@
             <div class="form-group m-0 p-0 pull-left">
               <input
                 id="{{ plExpLst.id }}{{ i }}"
-                class="form-control mb-2 mr-sm-2"
+                class="form-control mr-sm-2"
                 [owlDateTimeTrigger]="dtAdsDate"
                 [(ngModel)]="plExpLst.DeleteDate"
                 [owlDateTime]="dtAdsDate"
@@ -2112,4 +2125,36 @@
     </table>
   </div>
 </div>
+</ng-template>
+
+<ng-template class="tokenmodal" #templateurl let-c="close" let-d="dismiss">
+  
+  <button
+    type="button"
+    class="close text-right"
+    aria-label="Close"
+    (click)="d('Cross click')"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+ 
+<div class="modal-body p-0" style="height: 600px;">
+  <app-template-url></app-template-url>
+</div>
+</ng-template>
+<ng-template class="tokenmodal" #playlistcontent let-c="close" let-d="dismiss">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Playlist Content Download Status</h5>
+    <button
+    type="button"
+    class="close text-white"
+    aria-label="Close"
+    (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-playlists-titles-download-status></app-playlists-titles-download-status>
+  </div>
 </ng-template>

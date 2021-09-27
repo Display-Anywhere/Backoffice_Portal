@@ -98,7 +98,7 @@
                 >
                   <option selected value="0"></option>
                   <option
-                    *ngFor="let pLst of PlaylistList"
+                    *ngFor="let pLst of SearchPlaylistList"
                     [value]="pLst.Id"
                   >
                     {{ pLst.DisplayName }}
@@ -133,6 +133,7 @@
                   <th scope="col" style="width: 120px" *ngIf="sType_Search=='Future'" >End Date</th>
                   <th scope="col" style="width: 120px">Start Time</th>
                   <th scope="col" style="width: 120px">End Time</th>
+                  <th scope="col" *ngIf="((cmbSearchMediaType ==='Audio Copyright') || (cmbSearchMediaType ==='Audio DirectLicence') || (cmbSearchMediaType ==='Video'))" >Volume</th>
                   <th scope="col">Week Day</th>
                   
                   <th scope="col" style="width: 30px"></th>
@@ -161,7 +162,9 @@
                   <td data-label="End Date" *ngIf="sType_Search=='Future'" >{{ schLst.eDate }}</td>
                   <td data-label="Start Time">{{ schLst.StartTime }}</td>
                   <td data-label="End Time">{{ schLst.EndTime }}</td>
+                  <td data-label="Volume" *ngIf="((cmbSearchMediaType ==='Audio Copyright') || (cmbSearchMediaType ==='Audio DirectLicence') || (cmbSearchMediaType ==='Video'))">{{ schLst.volume }}</td>
                   <td data-label="Week Day">{{ schLst.WeekNo }}</td>
+                  
                 
                   <td
                     data-label=""
@@ -399,7 +402,7 @@
                             <input id="eTime" class="form-control mb-2 mr-sm-2" formControlName="EndTime"
                                 [owlDateTimeTrigger]="dt2" [owlDateTime]="dt2">
                             <owl-date-time [pickerType]="'timer'" #dt2></owl-date-time>                            -->
-                            <div *ngIf="((cmbMediaType ==='Audio Copyright') || (cmbMediaType ==='Audio DirectLicence'))" class="form-group col-sm-2 m-0">
+                            <div *ngIf="((cmbMediaType ==='Audio Copyright') || (cmbMediaType ==='Audio DirectLicence') || (cmbMediaType ==='Video') )" class="form-group col-sm-2 m-0">
                               <label for="pName" class="mb-2 mr-sm-2"
                                 >Volume:</label
                               >

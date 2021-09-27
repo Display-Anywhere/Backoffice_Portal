@@ -94,6 +94,7 @@ export class LicenseHolderComponent
   dtOptions: any = {};
   dtTrigger: Subject<any> = new Subject();
   IschkViewOnly=0;
+  @ViewChild('flocation') flocationElement: ElementRef;
   constructor(
     config: NgbModalConfig,
     private formBuilder: FormBuilder,
@@ -482,6 +483,7 @@ async RefreshTokenList(){
           this.loading = false;
         }
       );
+      this.flocationElement.nativeElement.focus();
   }
   startTimer() {
     this.interval = setInterval(() => {
@@ -593,15 +595,17 @@ async RefreshTokenList(){
         ExportItem['TokenCode'] = this.TokenList[j].tokenCode;
         ExportItem['Serial-MAC'] = '';
         ExportItem['Location'] = '';
-        ExportItem['IsAndroidPlayer'] = '';
-        ExportItem['IsWindowPlayer'] = '';
         ExportItem['IsAudioPlayer'] = '';
+        ExportItem['IsCopyright'] = '';
+        ExportItem['IsDirectLicence'] = '';
+        ExportItem['IsSignagePlayer'] = '';
         ExportItem['IsVideoPlayer'] = '';
         ExportItem['IsSanitizerPlayer'] = '';
         ExportList.push(ExportItem);
       }
     }
     this.excelService.exportAsExcelFile(ExportList, 'BulkActivation');
+    this.flocationElement.nativeElement.focus();
   }
   BulkActivation(modalContant) {
     if (this.cid == '0') {
@@ -617,6 +621,7 @@ async RefreshTokenList(){
       centered: true,
       windowClass: 'fade',
     });
+    this.flocationElement.nativeElement.focus();  
   }
   InputFileName: string = 'No file chosen...';
   fileUpload = { status: '', message: '', filePath: '' };
@@ -665,9 +670,11 @@ async RefreshTokenList(){
         this.loading = false;
       }
     );
+    this.flocationElement.nativeElement.focus();
   }
   UploadExcel() {
     this.uExcel = true;
+    this.flocationElement.nativeElement.focus();
   }
   Cancel() {
     this.uExcel = false;
@@ -707,6 +714,7 @@ async RefreshTokenList(){
     this.cmbFolder = '0';
     this.FillFolder();
     this.modalService.open(ObjModal, { size: 'lg' });
+    this.flocationElement.nativeElement.focus();
   }
 
   onChangeFolder(fid) {
@@ -830,6 +838,7 @@ async RefreshTokenList(){
           this.loading = false;
         }
       );
+      this.flocationElement.nativeElement.focus();
   }
   ForceUpdateAll() {
     if (this.TokenSelected.length == 0) {
@@ -1142,10 +1151,12 @@ async RefreshTokenList(){
       ExportList.push(ExportItem);
     }
     this.excelService.exportAsExcelFile(ExportList, 'BulkPlayerInfo');
+    this.flocationElement.nativeElement.focus();
   }
 
   UploadExcelInfo() {
     this.uExcel = true;
+    this.flocationElement.nativeElement.focus();
   }
   CancelInfo() {
     this.uExcel = false;

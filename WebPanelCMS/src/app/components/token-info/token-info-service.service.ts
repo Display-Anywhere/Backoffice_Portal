@@ -73,4 +73,16 @@ DeleteTokenSch_future(pschid){
   return this.http.post(this.cApi.DeleteTokenSch_future,params,{headers:headers})
    .pipe((data=>{return data;}))
 }
+GetSplPlaylistDateWiseLive(tokenid,DfClientId,WeekNo){
+  let headers = new HttpHeaders({ 'Content-Type':'application/json' });
+  var params = JSON.stringify({ WeekNo:WeekNo,TokenId: tokenid,DfClientId:DfClientId,CurrentDateTime:"NA" });
+  return this.http.post(this.cApi.GetSplPlaylistDateWiseLive,params,{headers:headers})
+   .pipe((data=>{return data;}))
+}
+GetPlaylistsTitlesDownloadStatus(tokenid,splplaylistid){
+  let headers = new HttpHeaders({ 'Content-Type':'application/json' });
+  var params = JSON.stringify({ tokenid: tokenid,splplaylistid:splplaylistid });
+  return this.http.post(this.cApi.GetPlaylistsTitlesDownloadStatus,params,{headers:headers})
+   .pipe((data=>{return data;}))
+}
 }

@@ -173,6 +173,8 @@ export class UploadComponent implements OnInit {
   }
   tempdfClientId=""
   ngOnInit() {
+    
+    
     this.tempdfClientId = localStorage.getItem('dfClientId')
     var cd = new Date();
     this.dtpDeleteDate = cd;
@@ -206,6 +208,10 @@ var Item_TitleId="";
               this.toastr.info("Content Uploaded");
             }
           }
+          this.SaveModifyInfo(
+            0,
+            'New content is uploaded'
+          );
         }
         if (returnRes=="2"){
           this.toastr.info("Content is already available");
@@ -222,7 +228,6 @@ var Item_TitleId="";
 
      
     this.FillClientList();
-    
     
   }
 
@@ -348,7 +353,7 @@ var Item_TitleId="";
       return;
     }
     var deleteDate = new Date(this.dtpDeleteDate);
-    this.serviceLicense.SaveFolder(this.cmbFolder, this.NewFolderName, this.CustomerId,this.IsPromoFolder, this.IsAutoDelete,deleteDate).pipe()
+    this.serviceLicense.SaveFolder(this.cmbFolder, this.NewFolderName, this.CustomerId,this.IsPromoFolder, this.IsAutoDelete,deleteDate.toDateString()).pipe()
       .subscribe(data => {
         var returnData = JSON.stringify(data);
         var obj = JSON.parse(returnData);
@@ -356,11 +361,12 @@ var Item_TitleId="";
           this.toastr.info("Saved", 'Success!');
 
           this.loading = false;
+          var params = JSON.stringify({FolderName: this.NewFolderName, IsPromoFolder:this.IsPromoFolder,IsAutoDelete:this.IsAutoDelete,DeleteDate:deleteDate.toDateString() });
           if (this.cmbFolder == "0") {
-            this.SaveModifyInfo(0, "New folder is create with name " + this.NewFolderName);
+            this.SaveModifyInfo(0, "New folder is create with name " + this.NewFolderName + " and with these values "+ params);
           }
           else {
-            this.SaveModifyInfo(0, "Folder name is modify. Now New name is " + this.NewFolderName);
+            this.SaveModifyInfo(0, "Folder name is modify. Now New name is " + this.NewFolderName + " and with these values "+ params);
 
           }
           this.cmbFolder = "0";
@@ -436,6 +442,10 @@ this.serviceLicense.DeleteFolder(this.cmbFolder).pipe()
         const obj = JSON.parse(returnData);
         if (obj.Responce === '1') {
           this.toastr.info('Folder Deleted', 'Success!');
+          this.SaveModifyInfo(
+            0,
+            'Folder ('+this.FolderName+') is delete'
+          );
           this.loading = false;
           this.cmbFolder = '0';
           this.FolderName = '';

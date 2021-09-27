@@ -5,6 +5,7 @@ import { NgbModalConfig, NgbModal, NgbTimepickerConfig, NgbTimeStruct } from '@n
 import { AdsService } from '../ad/ads.service';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../auth/auth.service';
+import { StoreForwardService } from '../store-and-forward/store-forward.service';
 @Component({
   selector: 'app-ad',
   templateUrl: './ad.component.html',
@@ -47,7 +48,7 @@ export class AdComponent implements OnInit {
   
   constructor(private router: Router, private formBuilder: FormBuilder, public toastr: ToastrService, vcr: ViewContainerRef
     , config: NgbModalConfig, private modalService: NgbModal, private aService: AdsService,
-    public auth:AuthService, configTime: NgbTimepickerConfig) {
+    public auth:AuthService, configTime: NgbTimepickerConfig,private sfService: StoreForwardService,) {
     config.backdrop = 'static';
     config.keyboard = false;
     configTime.seconds = false;
@@ -619,6 +620,10 @@ export class AdComponent implements OnInit {
         var obj = JSON.parse(returnData);
         if (obj.Responce == "1") {
           this.toastr.info("Updated", '');
+          this.SaveModifyInfo(
+            0,
+            'New advertisement is uploaded '
+          );
           this.Refresh();
         }
         else {
@@ -886,6 +891,17 @@ export class AdComponent implements OnInit {
           this.toastr.error("Apologies for the inconvenience.The error is recorded.", '');
           this.loading = false;
         })
+  }
+  SaveModifyInfo(tokenid, ModifyText) {
+    this.sfService
+      .SaveModifyLogs(tokenid, ModifyText)
+      .pipe()
+      .subscribe(
+        (data) => {
+          var returnData = JSON.stringify(data);
+        },
+        (error) => {}
+      );
   }
 }
 //https://www.truecodex.com/course/angular-6/file-upload-in-angular-6-7-with-progress-bar-using-web-api
