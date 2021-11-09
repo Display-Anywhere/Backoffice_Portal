@@ -19,7 +19,7 @@ export class LoginComponent implements OnInit {
   constructor(public toastr: ToastrService, private router: Router, private formBuilder: FormBuilder, private ulService: UloginService, private visitorsService: VisitorsService, public authService: AuthService) { }
   ngOnInit() {
     this.authService.logout();
-    localStorage.setItem('DBType', 'Advikon');
+    localStorage.setItem('DBType', 'Nusign');
 
     
     if (localStorage.getItem('DBType')==="Advikon"){
@@ -49,6 +49,7 @@ export class LoginComponent implements OnInit {
     if (this.loginform.invalid) {
       return;
     }
+    
     this.loading = true;
     this.ulService.uLogin(this.loginform.value).pipe()
       .subscribe(data => {
@@ -83,7 +84,7 @@ export class LoginComponent implements OnInit {
           }
           else {
             
-            this.router.navigate(['Dashboard']);
+            this.router.navigate(['LicenseHolderControl']);
             // this.router.navigate(['DJPlaylistLibrary']);
           }
 

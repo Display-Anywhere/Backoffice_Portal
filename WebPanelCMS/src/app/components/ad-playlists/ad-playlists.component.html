@@ -140,7 +140,7 @@
     <ngb-tab id="tab-AddNew" title="AddNew" *ngIf="!IschkViewOnly">
       <ng-template ngbTabContent>
         <div class="container-fluid">
-          <form [formGroup]="Plform" (ngSubmit)="onSubmitPL()">
+          <form [formGroup]="Plform" (ngSubmit)="onSubmitPL(ForceUpdate)">
             <div class="form-row">
               <div class="form-group col-sm-4 m-0">
                 <label for="cName" class="mb-2 mr-sm-2">Customer Name:</label>
@@ -255,7 +255,7 @@
                   id="pType"
                 >
                   <option value="Minutes">Minutes</option>
-                  <option value="Song">Song</option>
+                  <option value="Song">Content</option>
                 </select>
               </div>
               <div class="form-group col-sm-2 m-0">
@@ -442,6 +442,66 @@
             <i class="fa fa-check fa-lg" aria-hidden="true"></i>
           </button>
         </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+
+<ng-template #ForceUpdate let-c="close" let-d="dismiss">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Publish</h5>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12 m-0 p-0">
+          <p style="margin: 0 !important">You want to update locations now?</p>
+        </div>
+        <div class="col-sm-12 m-0 p-0 mt-1">
+          <p style="font-size: smaller">
+            Note: Have in mind that changes will be implemented immediately with
+            restart of the program.
+          </p>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-sm-4 p-0 text-right">
+          <button
+            class="btn btn-primary"
+            (click)="ForceUpdateAll()"
+            (click)="d('Cross click')"
+          >
+          Publish Now
+          </button>
+        </div>
+        
+          <div class="col-sm-6">
+          <button
+          class="btn btn-primary"
+          (click)="PublishSchedule()"
+          (click)="d('Cross click')"
+        >
+          Publish with Schedule
+        </button></div>
+
+        <div class="col-sm-2 p-0 text-right">
+          <button
+            class="btn btn-primary"
+            (click)="d('Cross click')"
+          >
+            <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+          </button>
+          </div>
+        
       </div>
     </div>
   </div>

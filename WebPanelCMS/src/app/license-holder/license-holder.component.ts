@@ -94,6 +94,10 @@ export class LicenseHolderComponent
   dtOptions: any = {};
   dtTrigger: Subject<any> = new Subject();
   IschkViewOnly=0;
+  SubClientId=""
+  cmbPublishHour="5"
+  cmbPublishId=""
+  PublishActive=1
   @ViewChild('flocation') flocationElement: ElementRef;
   constructor(
     config: NgbModalConfig,
@@ -125,6 +129,12 @@ export class LicenseHolderComponent
     }
   }
   async ngOnInit() {
+    if (localStorage.getItem('IsSubClientActive')==='Yes'){
+      this.SubClientId = localStorage.getItem('dfClientId')
+      localStorage.setItem('dfClientId',localStorage.getItem('Main_Client_Id'))
+    }
+
+
     this.auth.isTokenInfoClose$.next(false);
     this.Adform = this.formBuilder.group({
       FilePathNew: [''],
@@ -274,7 +284,12 @@ export class LicenseHolderComponent
           this.CustomerList = JSON.parse(returnData);
           this.loading = false;
           if (this.auth.IsAdminLogin$.value == false) {
-            this.cmbCustomerId = localStorage.getItem('dfClientId');
+            if (localStorage.getItem('IsSubClientActive')==='Yes'){
+              this.cmbCustomerId = this.SubClientId
+            }
+            else{
+              this.cmbCustomerId = localStorage.getItem('dfClientId');
+            }
             this.onChangeCustomer(this.cmbCustomerId);
           }
         },
@@ -296,6 +311,7 @@ export class LicenseHolderComponent
   onChangeCustomer(deviceValue) {
     this.SongsList = [];
     this.searchText="";
+    localStorage.removeItem('IsSubClientActive')
     if (deviceValue == '0') {
       this.TokenList = [];
       this.LogoId = 0;
@@ -806,7 +822,32 @@ async RefreshTokenList(){
       this.toastr.info('This feature is not available in view only');
       return;
     }
+
     this.loading = true;
+
+    var qry = "select id as Id,publishHr as DisplayName from tbPublishSchedule where clientid= "+this.cmbCustomerId+" "
+    this.serviceLicense.FillCombo(qry).pipe().subscribe((data) => {
+          var returnData = JSON.stringify(data);
+          let obj = JSON.parse(returnData);
+          console.log(obj)
+          if (obj.length!=0){
+            this.cmbPublishHour= obj[0]['DisplayName']
+            this.cmbPublishId=obj[0]['Id']
+          }
+          else{
+            this.cmbPublishHour="5"
+            this.cmbPublishId="0"
+          }
+        },
+        (error) => {
+         
+        }
+      );
+
+
+
+
+
     this.serviceLicense
       .FillTokenInfo(this.cid, '1')
       .pipe()
@@ -840,45 +881,79 @@ async RefreshTokenList(){
       );
       this.flocationElement.nativeElement.focus();
   }
-  ForceUpdateAll() {
+  ForceUpdateAll(type) {
     if (this.TokenSelected.length == 0) {
       this.toastr.info('Please select a token');
       return;
     }
+    if (type=="Now"){
+      this.PublishNow()
+    }
+    if (type=="Schedule"){
+      if (this.cmbPublishId=="0"){
+        this.toastr.info('Please set publish schedule');
+        return;
+      }
+      this.PublishSchedule()
+    }
+  }
+  PublishNow(){
     this.loading = true;
-    this.serviceLicense
-      .ForceUpdate(this.TokenSelected)
-      .pipe()
-      .subscribe(
-        (data) => {
+    this.serviceLicense.ForceUpdate(this.TokenSelected).pipe().subscribe((data) => {
           var returnData = JSON.stringify(data);
           var obj = JSON.parse(returnData);
           if (obj.Responce == '1') {
             this.toastr.info('Update request is submit', 'Success!');
             this.loading = false;
             this.chkAll = false;
+            this.SaveModifyInfo(
+              0,
+              'Publish request is submit for '+JSON.stringify(this.TokenSelected)+' '
+            );
             this.TokenSelected = [];
             this.PublishSearchList=[]
             this.searchTextPublish=''
             this.modalService.dismissAll();
           } else {
-            this.toastr.error(
-              'Apologies for the inconvenience.The error is recorded.',
-              ''
-            );
+            this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
           }
           this.loading = false;
         },
         (error) => {
-          this.toastr.error(
-            'Apologies for the inconvenience.The error is recorded.',
-            ''
-          );
+          this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
           this.loading = false;
         }
       );
   }
 
+  PublishSchedule(){
+    this.loading = true;
+    this.serviceLicense.SavePublishToken(this.cmbPublishId,this.TokenSelected).pipe().subscribe((data) => {
+          var returnData = JSON.stringify(data);
+          var obj = JSON.parse(returnData);
+          if (obj.Responce == '1') {
+            this.toastr.info('Update request is submit', 'Success!');
+            this.loading = false;
+            this.chkAll = false;
+            this.SaveModifyInfo(
+              0,
+              'Publish schedule is submit for '+JSON.stringify(this.TokenSelected)+' '
+            );
+            this.TokenSelected = [];
+            this.PublishSearchList=[]
+            this.searchTextPublish=''
+            this.modalService.dismissAll();
+          } else {
+            this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
+          }
+          this.loading = false;
+        },
+        (error) => {
+          this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
+          this.loading = false;
+        }
+      );
+  }
   GetSortOrder(prop, asc) {
     return function (a, b) {
       if (asc) {
@@ -1241,5 +1316,54 @@ async RefreshTokenList(){
     const total = this.PublishSearchList.length;
     this.ActiveTokenListlength =total
   }
-  
+  SetDefaultClient(){
+    if (this.cid == '0') {
+      this.toastr.info('Please select a customer name');
+      return;
+    }
+    if (this.IschkViewOnly==1){
+      this.toastr.info('This feature is not available in view only');
+      return;
+    }
+    localStorage.setItem('Main_Client_Id',localStorage.getItem('dfClientId'))
+    localStorage.setItem('dfClientId',this.cid)
+    localStorage.setItem('IsSubClientActive','Yes')
+    this.toastr.info('Default customer changed');
+    this.flocationElement.nativeElement.focus();  
+  }
+  SavePublishSchedule(){
+    this.loading = true;
+    this.serviceLicense.SavePublishSchedule(this.cid, this.cmbPublishHour).pipe().subscribe((data) => {
+          var returnData = JSON.stringify(data);
+          var obj = JSON.parse(returnData);
+          if (obj.Responce == '1') {
+            this.toastr.info('Save', '');
+            this.loading = false;
+            this.chkAll = false;
+            this.TokenSelected = [];
+            this.PublishSearchList=[]
+            this.searchTextPublish=''
+            this.modalService.dismissAll();
+          } else {
+            this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
+          }
+          this.loading = false;
+        },
+        (error) => {
+          this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
+          this.loading = false;
+        }
+      );
+  }
+  SaveModifyInfo(tokenid, ModifyText) {
+    this.pService
+      .SaveModifyLogs(tokenid, ModifyText)
+      .pipe()
+      .subscribe(
+        (data) => {
+          var returnData = JSON.stringify(data);
+        },
+        (error) => {}
+      );
+  }
 }

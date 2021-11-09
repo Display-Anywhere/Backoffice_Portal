@@ -85,4 +85,16 @@ GetPlaylistsTitlesDownloadStatus(tokenid,splplaylistid){
   return this.http.post(this.cApi.GetPlaylistsTitlesDownloadStatus,params,{headers:headers})
    .pipe((data=>{return data;}))
 }
+GetAdsDownloadStatus(tokenid){
+  let headers = new HttpHeaders({ 'Content-Type':'application/json' });
+  var params = JSON.stringify({ tokenid: tokenid,splplaylistid:"0" });
+  return this.http.post(this.cApi.GetAdsDownloadStatus,params,{headers:headers})
+   .pipe((data=>{return data;}))
+}
+FillSearchAds(customerId,cDate,tokenid){
+  let headers = new HttpHeaders({ 'Content-Type':'application/json' });
+  var params = JSON.stringify({ customerId: customerId ,cDate:cDate, TokenId:tokenid});
+  return this.http.post(this.cApi.FillSearchAds,params,{headers:headers})
+   .pipe((data=>{return data;}))
+}  
 }

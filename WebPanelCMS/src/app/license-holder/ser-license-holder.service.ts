@@ -225,4 +225,16 @@ GetFolderContent(fid,cid) {
   return this.http.post(this.cApi.GetFolderContent, params, { headers: headers })
     .pipe((data => { return data; }))
 }
+SavePublishSchedule(ClientId, hour) {
+  let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+  var params = JSON.stringify({ clientid: ClientId, publishHr: hour });
+  return this.http.post(this.cApi.SavePublishSchedule, params, { headers: headers })
+    .pipe((data => { return data; }))
+}
+SavePublishToken(publishid,tokenid) {
+  let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+  var params = JSON.stringify({ publishid:publishid,tokenid: tokenid });
+  return this.http.post(this.cApi.SavePublishToken, params, { headers: headers })
+    .pipe((data => { return data; }))
+}
 }

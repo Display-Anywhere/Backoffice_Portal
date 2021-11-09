@@ -1,0 +1,260 @@
+<ngx-loading
+  [show]="loading"
+  [config]="{ backdropBorderRadius: '3px', fullScreenBackdrop: true }"
+></ngx-loading>
+<div class="row">
+    <div class="col-lg-12">
+        <ul ngbNav #tGroups="ngbNav" [(activeId)]="ActiveTab" class="nav-tabs">
+            <li [ngbNavItem]="1" class="pr-2">
+                <a ngbNavLink>Search</a>
+                <ng-template ngbNavContent>
+                    <div class="form-row">
+                        <div class="form-group col-sm-4 pb-0 m-0">
+                            <div class="col-sm-12 p-0 pr-1 m-0 pull-left">
+                                <label for="GroupId">Content Type</label>
+                                <select  name="GroupId" [(ngModel)]="cmbSearchContentType" class="custom-select"
+                  (change)="onChangeSearchContentType($event.target.value)" id="GroupId">
+                  <option selected value="artist">Artist</option>
+                  <option value="title">Title</option>
+                </select>
+            </div>
+                        </div>
+                        <div class="form-group col-sm-8 text-right pb-0 m-0 pt-4">
+                          <button id="btnGroup7" class="btn btn-danger" (click)="openDeleteModal(DeleteModal, '0')">
+                            UnBlock
+                          </button>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 m-0 p-0 mt-3">
+                        <div class="table-responsive">
+                            <table class="table data-table table-striped table-bordered mydatatable">
+                                <thead class="bg-primary">
+                                    <tr>
+                                      <th scope="col" style="width: 60px">
+                                        <div class="custom-control custom-checkbox">
+                                          <input
+                                            (change)="allToken_Search($event)"
+                                            type="checkbox"
+                                            class="custom-control-input"
+                                            name="AllSearchContent"
+                                            id="AllActiveToken"
+                                            [(ngModel)]="chkAll_Search"
+                                          />
+                                          <label
+                                            class="custom-control-label cursor-pointer pt-1 text-white"
+                                            for="AllActiveToken"
+                                            >All</label
+                                          >
+                                        </div>
+                                      </th>
+                                      <th scope="col">Name</th>
+                                      <th scope="col" *ngIf="cmbSearchContentType=='title'">Artist</th>
+                                      
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr *ngFor="let tLst of ContentBlockList; let i = index">
+                                      <td data-label="" class="">
+                                        <div class="custom-control custom-checkbox">
+                                          <input
+                                            (change)="SelectContentBlockSearch(tLst.id, $event)"
+                                            type="checkbox"
+                                            class="custom-control-input"
+                                            id="{{ tLst.id }}{{ i }}{{ tLst.id }}"
+                                            [checked]="tLst.check"
+                                            name="chksrhTokenList"
+                                          />
+                                          <label
+                                            class="custom-control-label cursor-pointer"
+                                            for="{{ tLst.id }}{{ i }}{{ tLst.id }}"
+                                          ></label>
+                                        </div>
+                                      </td>
+                                        <td data-label="Name">
+                                            <span *ngIf="cmbSearchContentType=='artist'">{{ tLst.artist }}</span>
+                                            <span *ngIf="cmbSearchContentType=='title'">{{ tLst.title }}</span>
+                                        </td>
+                                        <td data-label="Artist" *ngIf="cmbSearchContentType=='title'">{{ tLst.artist }}</td>
+                                         
+                                    </tr>
+                                  </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </ng-template>
+            </li>
+            <li [ngbNavItem]="2" class="pr-2">
+                <a ngbNavLink>Add New</a>
+                <ng-template ngbNavContent>
+                    <form (keydown)="keyDownFunction($event)" class="w-100">
+                    <div class="form-row">
+                      
+
+                        
+                        <div class="form-group col-sm-4 pb-0 m-0">
+                        <label for="id">Content Type</label>
+                <select  name="id" [(ngModel)]="cmbContentType" class="custom-select" id="id"
+                (change)="onChangeContentType($event.target.value)">
+                  <option selected value="artist">Artist</option>
+                  <option value="title">Title</option>
+                </select>
+                        </div>
+                        <div class="form-group col-sm-4 pb-0 m-0">
+                            <label for="sid">Content Search</label>
+                            <input id="sid" type="text" [(ngModel)]="SearchText" value=""[ngModelOptions]="{ standalone: true }" class="form-control" />
+                        </div>
+                        <div class="col-sm-1 m-0 p-0 ml-1 float-left colBtn">
+                            <label for="bsid">&nbsp;</label>
+                            <button id="bsid" class="btn btn-secondary mr-1 mb-1 d-none d-md-block" (click)="SearchContent()">
+                              <i class="fa fa-search"></i>
+                            </button>
+                          </div>
+                        
+                    </div>
+                </form>
+        <div class="row mt-3">
+          <div class="col-lg-4" *ngIf="ContentSearchList.length!=0">
+            <input id="btnSearch" type="text" id="cName" autocomplete="off" [(ngModel)]="ContentSearchText"
+            placeholder="Search" class="form-control" [ngModelOptions]="{ standalone: true }" (input)="onChangeEvent_Assign()"/>
+    </div>
+        <div class="col-lg-8 text-right" *ngIf="ContentSearchList.length!=0">
+          <button id="btnGroup2" class="btn btn-danger" (click)="AddBlockContentRequest(BlockModal,'0')">
+          Block
+        </button>
+        </div>
+          
+                    <div class="col-lg-12 m-0 p-0">
+                        <div class="table-responsive">
+                            <table class="table data-table table-striped table-bordered mydatatable">
+                                <thead class="bg-primary">
+                                    <tr>
+                                      <th scope="col" style="width: 60px">
+                                        <div class="custom-control custom-checkbox">
+                                          <input
+                                            (change)="allToken_Assign($event)"
+                                            type="checkbox"
+                                            class="custom-control-input"
+                                            name="AllActiveTokenAssign"
+                                            id="AllActiveTokenAssign"
+                                            [(ngModel)]="chkAll_Assign"
+                                          />
+                                          <label
+                                            class="custom-control-label cursor-pointer pt-1 text-white"
+                                            for="AllActiveTokenAssign"
+                                            >All</label
+                                          >
+                                        </div>
+                                      </th>
+                                      <th scope="col" sortable="title"
+                                      (sort)="onSort($event)">Name</th>
+                                      <th scope="col" *ngIf="cmbContentType=='title'" sortable="artist"
+                                      (sort)="onSort($event)">Artist</th>
+                                       
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr *ngFor="let tLst of ContentSearchList | filter: ContentSearchText; let i = index">
+                                      <td data-label="" class="">
+                                        <div class="custom-control custom-checkbox">
+                                          <input
+                                            (change)="SelectContentBlock(tLst.id, $event)"
+                                            type="checkbox"
+                                            class="custom-control-input"
+                                            id="{{ tLst.id }}{{ i }}"
+                                            [checked]="tLst.check"
+                                            name="chkgrpTokenList"
+                                          />
+                                          <label
+                                            class="custom-control-label cursor-pointer"
+                                            for="{{ tLst.id }}{{ i }}"
+                                          ></label>
+                                        </div>
+                                      </td>
+                                        <td data-label="Name">
+                                            <span *ngIf="cmbContentType=='artist'">{{ tLst.artist }}</span>
+                                            <span *ngIf="cmbContentType=='title'">{{ tLst.title }}</span>
+                                        </td>
+                                        <td data-label="Artist" *ngIf="cmbContentType=='title'">{{ tLst.artist }}</td>
+                                        
+                                    </tr>
+                                  </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>    
+                </ng-template>
+            </li>
+        </ul>
+        <div [ngbNavOutlet]="tGroups" class="mt-2"></div>
+    </div>
+</div>
+
+<ng-template #DeleteModal let-c="close" let-d="dismiss">
+    <div class="modal-header bg-primary">
+      <h5 class="text-white">Delete</h5>
+      <button type="button" class="close text-white" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-12">
+            <p>Are you sure to delete?</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12">
+            <button
+              class="btn btn-primary col-sm-2 pull-right"
+              (click)="d('Cross click')"
+            >
+              <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+            </button>
+            <button
+              class="btn btn-danger col-sm-2 pull-right mr-2"
+              (click)="DeleteBlockContent()"
+              (click)="d('Cross click')"
+            >
+              <i class="fa fa-check fa-lg" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #BlockModal let-c="close" let-d="dismiss">
+    <div class="modal-header bg-primary">
+      <h5 class="text-white">Block Content</h5>
+      <button type="button" class="close text-white" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-12">
+            <p>Are you sure to block content?</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12">
+            <button
+              class="btn btn-primary col-sm-2 pull-right"
+              (click)="d('Cross click')"
+            >
+              <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+            </button>
+            <button
+              class="btn btn-danger col-sm-2 pull-right mr-2"
+              (click)="AddBlockContent()"
+              (click)="d('Cross click')"
+            >
+              <i class="fa fa-check fa-lg" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>

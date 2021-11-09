@@ -68,6 +68,7 @@ export class TempScheduleComponent implements OnInit {
   sType_Search="Regular"
   IschkViewOnly = this.auth.chkViewOnly$.value ? 1 : 0;
   dtDate = new Date()
+  cmbPublishId="0"
   constructor(
     private formBuilder: FormBuilder,
     public toastrSF: ToastrService,
@@ -153,6 +154,7 @@ export class TempScheduleComponent implements OnInit {
     };
 
     this.FillClient();
+    
   }
 
   onItemSelect(item: any) {}
@@ -162,6 +164,7 @@ export class TempScheduleComponent implements OnInit {
   }
 
   onSubmitSF(UpdateModel) {
+     
     this.submitted = true;
     if (this.SFform.value.CustomerId == '0') {
       this.toastrSF.error('Please select a customer name');
@@ -432,10 +435,13 @@ export class TempScheduleComponent implements OnInit {
       );
   }
 
-  onChangeFormat(id, type) {
+  async onChangeFormat(id, type) {
     this.ScheduleList = [];
     this.SearchPlaylistList = [];
-    this.FillPlaylist(id, type);
+    await this.FillPlaylist(id, type);
+    if (type == 'Search') {
+      await this.SearchContent();
+    }
   }
 
   FillPlaylist(id, type) {
@@ -485,7 +491,7 @@ export class TempScheduleComponent implements OnInit {
     this.TotalPercentageValue = 0;
     this.SFform.get('FormatId').setValue('0');
     this.SFform.get('PlaylistId').setValue('0');
-
+    this.GetPublishSchedule()
     this.time = {
       hour: this.dt.getHours(),
       minute: this.dt.getMinutes(),
@@ -774,15 +780,19 @@ export class TempScheduleComponent implements OnInit {
         }
       );
   }
-  onChangeSearchCustomer(id) {
+  async onChangeSearchCustomer(id) {
     this.cmbSearchFormat=0
     this.cmbSearchPlaylist=0
     this.ScheduleList = [];
     this.SearchPlaylistList = [];
     this.SearchFormatList=[]
-    this.GetCustomerMediaType(id, 'Search');
+    await this.GetCustomerMediaType(id, 'Search');
+    await this.SearchContent();
   }
-  onChangeSearchMediaType(mtype) {
+  onChangeType(){
+
+  }
+  async onChangeSearchMediaType(mtype) {
     this.cmbSearchFormat=0
     this.cmbSearchPlaylist=0
     this.ScheduleList = [];
@@ -799,7 +809,7 @@ export class TempScheduleComponent implements OnInit {
     }
     qry =qry +" (dbtype='" + localStorage.getItem('DBType') + "' or dbtype='Both') and  (st.dfclientid=" + this.cmbSearchCustomer + ' OR sf.dfclientid=' + this.cmbSearchCustomer +") and sf.mediatype='" + this.cmbSearchMediaType +"' group by  sf.formatname";
     this.loading = true;
-    this.sfService
+    await this.sfService
       .FillCombo(qry)
       .pipe()
       .subscribe(
@@ -807,6 +817,7 @@ export class TempScheduleComponent implements OnInit {
           var returnData = JSON.stringify(data);
           this.SearchFormatList = JSON.parse(returnData);
           this.loading = false;
+          this.SearchContent();
           //this.SearchContent();
         },
         (error) => {
@@ -1291,6 +1302,7 @@ export class TempScheduleComponent implements OnInit {
           var obj = JSON.parse(returnData);
           if (obj.Responce == '1') {
             this.toastrSF.info('Update request is submit', 'Success!');
+            this.SaveModifyInfo(0,'Pubish request is submitted for ' + JSON.stringify(tSelected));
             this.loading = false;
           } else {
           }
@@ -1585,4 +1597,58 @@ export class TempScheduleComponent implements OnInit {
 
     this.FillClient();
   }
+
+  async PublishSchedule(){
+         
+          
+    if (this.cmbPublishId=="0"){
+      this.toastrSF.info('Please set publish schedule');
+      return;
+    }
+    var tSelected = [];
+    if (this.ForceUpdateType == 'New') {
+      this.TokenSelected_publish.forEach((item) => {
+        tSelected.push(item.tokenId);
+      });
+    }
+    if (this.ForceUpdateType == 'Modify') {
+      tSelected.push(this.ModifyForceUpdateTokenId);
+    }
+    this.loading = true;
+    this.serviceLicense.SavePublishToken(this.cmbPublishId,tSelected).pipe().subscribe((data) => {
+          var returnData = JSON.stringify(data);
+          var obj = JSON.parse(returnData);
+          if (obj.Responce == '1') {
+            this.toastrSF.info('Update request is submit', 'Success!');
+            this.SaveModifyInfo(0,'Pubish schedule is submitted for ' + JSON.stringify(tSelected));
+            this.loading = false;
+          } else {
+            this.toastrSF.error('Apologies for the inconvenience.The error is recorded.','');
+          }
+          this.loading = false;
+        },
+        (error) => {
+          this.toastrSF.error('Apologies for the inconvenience.The error is recorded.','');
+          this.loading = false;
+        }
+      );
+  }
+GetPublishSchedule(){
+  let cid= this.SFform.get('CustomerId').value
+var qry = "select id as Id,publishHr as DisplayName from tbPublishSchedule where clientid= "+cid+" "
+this.serviceLicense.FillCombo(qry).pipe().subscribe((data) => {
+    var returnData = JSON.stringify(data);
+    let obj = JSON.parse(returnData);
+    if (obj.length!=0){
+      this.cmbPublishId=obj[0]['Id']
+    }
+    else{
+      this.cmbPublishId="0"
+    }
+  },
+  (error) => {
+   
+  }
+);
+}
 }

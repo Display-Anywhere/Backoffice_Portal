@@ -255,6 +255,13 @@
                           <thead class="bg-primary">
                             <tr>
                               <th
+                              scope="col"
+                              class="sticky-top"
+                              class="sticky-top" style="width: 70px !important;"
+                            >
+                              
+                            </th>
+                              <th
                                 scope="col"
                                 class="sticky-top"
                                 class="sticky-top"
@@ -285,7 +292,13 @@
                             </tr>
                           </thead>
                           <tbody>
-                            <tr *ngFor="let item of uploader.queue">
+                            <tr *ngFor="let item of uploader.queue;let i=index;">
+                              <td [ngClass]="[thumb[i].type === 'image' ? 'thumb_img' : 'thumb_video']">
+                                <img [src]="thumb[i].src" *ngIf="thumb[i].type=='image'" style="width: 70% !important;margin-left: auto;margin-right: auto;display: block;"/>
+                                <video [src]='thumb[i].src' *ngIf="thumb[i].type=='video'" controls preload="metadata" width="250" height="150">
+                                   
+                                </video>
+                              </td>
                               <td>
                                 <strong>{{ item?.file?.name }}</strong>
                               </td>

@@ -3,52 +3,127 @@
   [config]="{ backdropBorderRadius: '3px', fullScreenBackdrop: true }"
 >
 </ngx-loading>
-<div class="container-fluid m-0 p-0">
-    <div class="form-row" *ngIf="dpid==''">
-        <div class="form-group col-sm-3 pb-1 m-0">
-            <label for="countryName" class="mb-2 mr-sm-2">Playlist:</label>
-            <select name="countryname" class="custom-select"  (change)="onChangePlaylist($event.target.value)"
-              id="countryName">
-              <option selected value="0"></option>
-              <option *ngFor="let cLst of PlaylistList" [value]="cLst.splPlaylistId">
-                {{ cLst.splPlaylistName }}
-              </option>
-            </select>
-          </div>
-    </div>
-    <div class="table-responsive" style="
-    height: 500px;
-">
-        <table
-          class="table data-table table-striped table-bordered mydatatable"
-        >
-          <thead class="bg-primary">
-            <tr>
-              <th scope="col" class="bg-primary sticky-top">Title</th>
-              <th scope="col" class="bg-primary sticky-top">Artist</th>
-              <th scope="col" class="bg-primary sticky-top">Media Type</th>
-              <th scope="col" class="bg-primary sticky-top Link-Center_Width">Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let schLst of ContentList">
-              <td data-label="Title">
-                {{ schLst.Title }}
-              </td>
-              <td data-label="Artist">
-                {{ schLst.artistname }}
-              </td>
-              <td data-label="Media Type">
-                {{ schLst.MediaType }}
-              </td>
-              <td data-label="Status">
-                <i class="fa fa-check-circle text-success" aria-hidden="true" *ngIf="schLst.IsFind==1"></i>
-                <i class="fa fa-times-circle text-danger" aria-hidden="true" *ngIf="schLst.IsFind==0" ></i>
-              </td>
 
-              
-            </tr>
-          </tbody>
-        </table>
+<div class="container-fluid m-0 p-0">
+  <div class="row">
+    <div class="col-12">
+      <ul class="nav nav-pills" role="tablist"style="background: #fff; color: #000">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" href="#PlaylistStatus" >Playlist Status</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#normalads" >Normal Advertisemenet Status</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#playlistads" >Playlist Advertisemenet Status</a>
+        </li>
+
+      </ul>
     </div>
+  </div>
+
+<div class="row">
+  <div class="col-12">
+    <div class="tab-content">
+      <div id="PlaylistStatus" role="tabpanel" class="tab-pane active m-0 p-0">
+
+        <div class="form-row" *ngIf="dpid==''">
+          <div class="form-group col-sm-3 pb-1 m-0">
+              <label for="countryName" class="mb-2 mr-sm-2">Playlist:</label>
+              <select name="countryname" class="custom-select"  (change)="onChangePlaylist($event.target.value)"
+                id="countryName">
+                <option selected value="0"></option>
+                <option *ngFor="let cLst of PlaylistList" [value]="cLst.splPlaylistId">
+                  {{ cLst.splPlaylistName }}
+                </option>
+              </select>
+            </div>
+      </div>
+      <div class="table-responsive" style="height: 460px;">
+          <table class="table data-table table-striped table-bordered mydatatable">
+            <thead class="bg-primary">
+              <tr>
+                <th scope="col" class="bg-primary sticky-top">Title</th>
+                <th scope="col" class="bg-primary sticky-top">Artist</th>
+                <th scope="col" class="bg-primary sticky-top">Media Type</th>
+                <th scope="col" class="bg-primary sticky-top Link-Center_Width">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let schLst of ContentList">
+                <td data-label="Title">
+                  {{ schLst.Title }}
+                </td>
+                <td data-label="Artist">
+                  {{ schLst.artistname }}
+                </td>
+                <td data-label="Media Type">
+                  {{ schLst.MediaType }}
+                </td>
+                <td data-label="Status">
+                  <i class="fa fa-check-circle text-success" aria-hidden="true" *ngIf="schLst.IsFind==1"></i>
+                  <i class="fa fa-times-circle text-danger" aria-hidden="true" *ngIf="schLst.IsFind==0" ></i>
+                </td>
+  
+                
+              </tr>
+            </tbody>
+          </table>
+      </div>
+      </div>
+      <div id="normalads" role="tabpanel" class="tab-pane  m-0 p-0">
+        <div class="table-responsive" style="height: 500px;">
+          <table class="table data-table table-striped table-bordered mydatatable">
+            <thead class="bg-primary">
+              <tr>
+                <th scope="col" class="bg-primary sticky-top">Name</th>
+                <th scope="col" class="bg-primary sticky-top Link-Center_Width">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let schLst of AdsContentList">
+                <td data-label="Title">
+                  {{ schLst.Title }}
+                </td>
+                <td data-label="Status">
+                  <i class="fa fa-check-circle text-success" aria-hidden="true" *ngIf="schLst.IsFind==1"></i>
+                  <i class="fa fa-times-circle text-danger" aria-hidden="true" *ngIf="schLst.IsFind==0" ></i>
+                </td>
+  
+                
+              </tr>
+            </tbody>
+          </table>
+      </div>
+      </div>
+      <div id="playlistads" role="tabpanel" class="tab-pane  m-0 p-0">
+        <div class="table-responsive" style="height: 500px;">
+          <table class="table data-table table-striped table-bordered mydatatable">
+            <thead class="bg-primary">
+              <tr>
+                <th scope="col" class="bg-primary sticky-top">Title</th>
+                <th scope="col" class="bg-primary sticky-top Link-Center_Width">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let schLst of adsPlContentList">
+                <td data-label="Title">
+                  {{ schLst.Title }}
+                </td>
+                 
+                <td data-label="Status">
+                  <i class="fa fa-check-circle text-success" aria-hidden="true" *ngIf="schLst.IsFind==1"></i>
+                  <i class="fa fa-times-circle text-danger" aria-hidden="true" *ngIf="schLst.IsFind==0" ></i>
+                </td>
+  
+                
+              </tr>
+            </tbody>
+          </table>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 </div>

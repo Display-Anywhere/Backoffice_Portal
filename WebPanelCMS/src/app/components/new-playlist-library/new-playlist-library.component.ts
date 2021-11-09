@@ -197,6 +197,7 @@ else{
     this.JsonItem["TotalSongs"] = $("#txtSongs").val();
     this.JsonItem["formatid"] = localStorage.getItem("FormatID");
     this.JsonItem["DBType"] = localStorage.getItem("DBType");
+    this.JsonItem["clientid"] = localStorage.getItem('AutoClientId');
     this.JsonItem["lstGenrePer"] = this.NewGenreList;
 
     this.JsonList.push(this.JsonItem);

@@ -184,5 +184,28 @@ export class PlaylistLibService {
     return this.http.post(this.cApi.SavePlaylistContentExpiry, params, { headers })
       .pipe((data => data));
   }
-
+  GetClientContentBlock(json) {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const params = JSON.stringify(json);
+    return this.http.post(this.cApi.GetClientContentBlock, params, { headers })
+      .pipe((data => data));
+  }
+  DeleteClientContentBlock(id) {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const params = JSON.stringify({ id:id });
+    return this.http.post(this.cApi.DeleteClientContentBlock, params, { headers })
+      .pipe((data => data));
+  }
+  ContentTitleArtistSearch(json) {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const params = JSON.stringify(json);
+    return this.http.post(this.cApi.ContentTitleArtistSearch, params, { headers })
+      .pipe((data => data));
+  }
+  SaveClientContentBlock(json) {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const params = JSON.stringify(json);
+    return this.http.post(this.cApi.SaveClientContentBlock, params, { headers })
+      .pipe((data => data));
+  }
 }

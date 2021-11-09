@@ -22,6 +22,7 @@ export class CustomerDashboardComponent implements OnInit {
   TotalPlayers = 0;
   OnlinePlayers = 0;
   OfflinePlayer = 0;
+  DeviceStatusList = [];
   PlayerFillType = "Total Players";
   TokenInfo;
   searchText;
@@ -126,7 +127,26 @@ export class CustomerDashboardComponent implements OnInit {
     }
     this.GetCustomerTokenDetail('Total', cid);
   }
-  GetCustomerTokenDetail(type, cid) {
+
+  FillDeviceLastStatus() {
+    this.loading = true;
+    var qry = "select TokenId as Id, max(StatusDatetime) as DisplayName from tbTokenOverDueStatus where tokenid in(select tokenid from AMPlayerTokens where ClientID="+this.cmbCustomerId+") group by TokenId"
+    this.dService.FillCombo(qry).pipe().subscribe((data) => {
+          var returnData = JSON.stringify(data);
+          this.DeviceStatusList = JSON.parse(returnData);
+          
+        },
+        (error) => {
+          this.toastr.error(
+            'Apologies for the inconvenience.The error is recorded.',
+            ''
+          );
+           
+        }
+      );
+  }
+
+  async GetCustomerTokenDetail(type, cid) {
     this.PlayerFillType = type + " Players";
 
     if (this.auth.IsAdminLogin$.value == true) {
@@ -141,6 +161,8 @@ export class CustomerDashboardComponent implements OnInit {
     this.TokenList =[];
     this.MainTokenList =[];
     this.loading = true;
+    await this.FillDeviceLastStatus()
+
     this.dService.GetCustomerTokenDetailSummary(type, this.cmbCustomerId).pipe()
       .subscribe(data => {
         var returnData = JSON.stringify(data);
@@ -150,8 +172,18 @@ export class CustomerDashboardComponent implements OnInit {
           this.TotalPlayers = obj.TotalPlayers;
           this.OnlinePlayers = obj.OnlinePlayers;
           this.OfflinePlayer = obj.OfflinePlayer;
+          obj.lstToken.forEach(item => {
+            let obj= this.DeviceStatusList.filter(d=>d.Id===item['tokenCode'])
+            if (obj.length>0){
+              item['dStatus']=obj[0]['DisplayName']
+            }
+            else{
+              item['dStatus']=item['lStatus']
+            }
+          });
           this.TokenList = obj.lstToken;
           this.MainTokenList = obj.lstToken;
+
           this.ActiveTokenListlength =this.TokenList.length;
           this.loading = false;
           const objSort:SortEvent   ={

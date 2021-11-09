@@ -65,6 +65,7 @@ export class PlaylistLibraryComponent implements OnInit {
   PlaylistList = [];
   MainPlaylistList = [];
   SpecialPlaylistList = [];
+  Top50PlaylistList = [];
   PlaylistLibrary = [];
   PlaylistSelected = [];
   SongsList = [];
@@ -160,7 +161,8 @@ export class PlaylistLibraryComponent implements OnInit {
   OtherUrl="";
   IschkViewOnly=0;
   PlaylistExpiryList=[];
-  ngOnInit() {
+  cmbPublishId=""
+  async ngOnInit() {
     localStorage.setItem('IsAnnouncement', '0');
     $('#dis').attr('unselectable', 'on');
     $('#dis').css('user-select', 'none');
@@ -216,7 +218,8 @@ export class PlaylistLibraryComponent implements OnInit {
     this.MainPlaylistList = [];
     this.SongsList = [];
     this.MainSongsList = [];
-    this.FillClientList();
+    await this.FillsplPlaylist()
+    await this.FillClientList();
     this.chkTitle = true;
     this.IschkViewOnly = this.auth.chkViewOnly$.value ? 1 : 0;
   }
@@ -360,6 +363,7 @@ export class PlaylistLibraryComponent implements OnInit {
 
     this.PlaylistLibrary = [];
     //this.GetCustomerContentType();
+    this.GetPublishSchedule()
     this.GetCustomerMediaType(id);
     //this.LoginDfClientId = this.cmbCustomer;
 
@@ -771,7 +775,7 @@ export class PlaylistLibraryComponent implements OnInit {
       this.Search = false;
     }
     if (this.chkSearchRadio == 'BestOf') {
-      this.FillSpecialPlaylistList();
+      this.FillTop50PlaylistList();
       this.Search = false;
     }
     if (this.chkSearchRadio == 'Folder') {
@@ -790,6 +794,12 @@ export class PlaylistLibraryComponent implements OnInit {
       this.SongsList = [];
       this.MainSongsList = [];
       this.FillBitRate();
+      this.Search = false;
+    }
+    if (this.chkSearchRadio == 'splPlaylist') {
+      this.SongsList = [];
+      this.MainSongsList = [];
+      this.FillsplPlaylist();
       this.Search = false;
     }
     if (this.chkSearchRadio == 'title') {
@@ -1063,6 +1073,30 @@ export class PlaylistLibraryComponent implements OnInit {
         }
       );
   }
+
+
+  FillsplPlaylist() {
+    this.loading = true;
+    var qry = "select PlaylistID as Id , name  as DisplayName from Playlists where isPredefined=1 and Description='splPlaylist' order by name"
+    this.pService
+      .FillCombo(qry)
+      .pipe()
+      .subscribe(
+        (data) => {
+          var returnData = JSON.stringify(data);
+          this.SpecialPlaylistList = JSON.parse(returnData);
+          this.loading = false;
+        },
+        (error) => {
+          this.toastr.error(
+            'Apologies for the inconvenience.The error is recorded.',
+            ''
+          );
+          this.loading = false;
+        }
+      );
+  }
+
   FillBitRate() {
     this.loading = true;
     var qry = 'select  bitrate as DisplayName, bitrate as Id from titles ';
@@ -1383,7 +1417,7 @@ if (id=="0"){
       this.SearchText = '';
       this.Search = true;
       this.SearchRadioClick(this.chkSearchRadio);
-      this.FillSpecialPlaylistList();
+      this.FillTop50PlaylistList();
     } else {
      */ 
       
@@ -1400,7 +1434,7 @@ if (id=="0"){
             this.MainSongsList = obj
             this.loading = false;
             
-            this.FillSpecialPlaylistList();
+            this.FillTop50PlaylistList();
           },
           (error) => {
             this.toastr.error(
@@ -1809,7 +1843,7 @@ if (id=="0"){
       this.SearchContent();
     }
   }
-  FillSpecialPlaylistList() {
+  FillTop50PlaylistList() {
     this.loading = true;
     var qry =
       'GetBestPlaylist ' +
@@ -1823,7 +1857,7 @@ if (id=="0"){
       .subscribe(
         (data) => {
           var returnData = JSON.stringify(data);
-          this.SpecialPlaylistList = JSON.parse(returnData);
+          this.Top50PlaylistList = JSON.parse(returnData);
           this.loading = false;
           //this.FillCopyFormat();
         },
@@ -2254,6 +2288,7 @@ if (id=="0"){
       return;
     }
     localStorage.setItem('FormatID', this.formatid);
+    localStorage.setItem('AutoClientId', this.cmbCustomer);
     this.modalService.open(content, { size: 'lg' });
     this.flocationElement.nativeElement.focus();
   }
@@ -2872,7 +2907,6 @@ if (id=="0"){
           // this.CopyFormatList = JSON.parse(returnData);
           // this.CopyFormatListClone = JSON.parse(returnData);
           this.loading = false;
-          console.log(this.chkSearchRadio)
           this.SearchRadioClick(this.chkSearchRadio);
         },
         (error) => {
@@ -2899,7 +2933,7 @@ if (id=="0"){
             this.SaveModifyInfo(
               0,
               'Pubish request is submitted for ' +
-              this.ForceUpdateTokenid
+              JSON.stringify(this.ForceUpdateTokenid)
             );
             this.loading = false;
           } else {
@@ -3205,7 +3239,6 @@ if (MediaType!="Url"){
   }
   this.flocationElement.nativeElement.focus();
   }
-
   OpenSensorSettings(modalName){
     if (this.IschkViewOnly==1){
       this.toastr.info('This feature is not available in view only');
@@ -3439,7 +3472,65 @@ async    SavePlaylistSort(ForceUpdate){
             this.flocationElement.nativeElement.focus();
           }
 
+          OpenContentBlock(modalName){
+          if (this.IschkViewOnly==1){
+            this.toastr.info('This feature is not available in view only');
+            return;
+          }
+          localStorage.setItem('bCId',this.cmbCustomer);
+          localStorage.setItem('mType',this.cmbCustomerMediaType);
+          this.modalService.open(modalName, {
+            size: 'mdSx',
+          }); 
+          this.flocationElement.nativeElement.focus();
+        }
+        RefillCommonSearch(){
+        this.SearchContent();
+        }
 
+       async PublishSchedule(){
+         
+          
+          if (this.cmbPublishId=="0"){
+            this.toastr.info('Please set publish schedule');
+            return;
+          }
+          this.loading = true;
+          this.serviceLicense.SavePublishToken(this.cmbPublishId,this.ForceUpdateTokenid).pipe().subscribe((data) => {
+                var returnData = JSON.stringify(data);
+                var obj = JSON.parse(returnData);
+                if (obj.Responce == '1') {
+                  this.toastr.info('Update request is submit', 'Success!');
+                  this.SaveModifyInfo(0,'Pubish schedule is submitted for ' +JSON.stringify(this.ForceUpdateTokenid));
+                  this.loading = false;
+                } else {
+                  this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
+                }
+                this.loading = false;
+              },
+              (error) => {
+                this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
+                this.loading = false;
+              }
+            );
+        }
+GetPublishSchedule(){
+  var qry = "select id as Id,publishHr as DisplayName from tbPublishSchedule where clientid= "+this.cmbCustomer+" "
+    this.serviceLicense.FillCombo(qry).pipe().subscribe((data) => {
+          var returnData = JSON.stringify(data);
+          let obj = JSON.parse(returnData);
+          if (obj.length!=0){
+            this.cmbPublishId=obj[0]['Id']
+          }
+          else{
+            this.cmbPublishId="0"
+          }
+        },
+        (error) => {
+         
+        }
+      );
+}
 }
 
 

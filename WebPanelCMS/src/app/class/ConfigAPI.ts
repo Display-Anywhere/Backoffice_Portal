@@ -1,8 +1,9 @@
 export class ConfigAPI {
   //private Host = 'http://live.advikon.com/api/';
    private Host: string = "https://api.advikon.com/api/";
+   //private Host: string = "https://panelapi.advikon.com/api/";
    //private Host: string = "http://localhost:60328/api/";
-   //private Host_panel: string = "https://panelapi.advikon.com/api/";
+   private Host_panel: string = "https://panelapi.advikon.com/api/";
    //private Host_panel: string = "http://localhost:60328/api/";
 
    FillQueryCombo: string = this.Host + 'FillQueryCombo';
@@ -16,15 +17,15 @@ export class ConfigAPI {
    EditClickCustomer: string = this.Host + 'EditClickCustomer';
    DeleteCustomer: string = this.Host + 'DeleteCustomer';
    BestOf: string = this.Host + 'BestOf';
-   PlaylistSong: string = this.Host + 'PlaylistSong';
+   PlaylistSong: string = this.Host_panel + 'PlaylistSong';
    SaveBestPlaylist: string = this.Host + 'SaveBestPlaylist';
    AddPlaylistSong: string = this.Host + 'AddPlaylistSong';
-   CommanSearch: string = this.Host + 'CommanSearch';
+   CommanSearch: string = this.Host_panel + 'CommanSearch';
    DeleteTitle: string = this.Host + 'DeleteTitle';
    SavePlaylist: string = this.Host + 'SavePlaylist';
    SavePlaylistFromBestOf: string = this.Host + 'SavePlaylistFromBestOf';
    Playlist: string = this.Host + 'Playlist';
-   SongList: string = this.Host + 'SongList';
+   SongList: string = this.Host_panel + 'SongList';
    SaveSF: string = this.Host + 'SaveSF_New';
    FillSF: string = this.Host + 'FillSF';
    DeleteTokenSch: string = this.Host + 'DeleteTokenSch';
@@ -46,7 +47,7 @@ export class ConfigAPI {
    EditUser: string = this.Host + 'EditUser';
    DeleteUser: string = this.Host + 'DeleteUser';
    SaveUpdateUser: string = this.Host + 'SaveUpdateUser';
-   FillPlayedSongsLog: string = this.Host + 'FillPlayedSongsLog';
+   FillPlayedSongsLog: string = this.Host_panel + 'FillPlayedSongsLog';
    FillPlayedAdsLog: string = this.Host + 'FillPlayedAdsLog';
    CustomerLoginDetail: string = this.Host + 'CustomerLoginDetail';
    DeletePlaylist: string = this.Host + 'DeletePlaylist';
@@ -59,7 +60,7 @@ export class ConfigAPI {
    SaveModifyLogs: string = this.Host + 'SaveModifyLogs';
    FillAdminLogs: string = this.Host + 'FillAdminLogs';
    GetGenreList: string = this.Host + 'GetGenreList';
-   NewSavePlaylist: string = this.Host + 'NewSavePlaylist';
+   NewSavePlaylist: string = this.Host_panel + 'NewSavePlaylist';
    SaveAdPlaylist: string = this.Host + 'SaveAdPlaylist';
    FillAdPlaylist: string = this.Host + 'FillAdPlaylist';
    DeleteFormat: string = this.Host + 'DeleteFormat';
@@ -143,11 +144,15 @@ export class ConfigAPI {
    FillSF_future: string = this.Host + 'FillSF_future';
    DeleteTokenSch_future: string = this.Host + 'DeleteTokenSch_future';
    GetTokenIpAddressLogs: string = this.Host + 'GetTokenIpAddressLogs';
-
-
-
    GetPlaylistsTitlesDownloadStatus: string = this.Host + 'GetPlaylistsTitlesDownloadStatus';
    GetSplPlaylistDateWiseLive: string = this.Host + 'GetSplPlaylistDateWiseLive';
+   GetAdsDownloadStatus: string = this.Host_panel + 'GetAdsDownloadStatus';
+   SaveClientContentBlock: string = this.Host_panel + 'SaveClientContentBlock';
+   GetClientContentBlock: string = this.Host_panel + 'GetClientContentBlock';
+   DeleteClientContentBlock: string = this.Host_panel + 'DeleteClientContentBlock';
+   ContentTitleArtistSearch: string = this.Host_panel + 'ContentTitleArtistSearch';
+   SavePublishSchedule: string = this.Host_panel + 'SavePublishSchedule';
+   SavePublishToken: string = this.Host_panel + 'SavePublishToken';
 }
 
 // localStorage.setItem('UserId', obj.UserId);

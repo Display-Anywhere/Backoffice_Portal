@@ -387,3 +387,8 @@ td {
   max-width: 750px !important;
   width: 700px !important;
 }
+.modal-mdSx {
+  max-width: 1500px !important;
+  width: 800px !important;
+  height: 500px;
+}

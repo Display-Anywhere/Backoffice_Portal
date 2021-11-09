@@ -42,6 +42,8 @@ export class UploadComponent implements OnInit {
   resIsAutoDelete=false;
   dtpDeleteDate;
   ComponentName="NormalUpload"
+  ready = "";
+  thumb=[];
   resetFormSubject: Subject<boolean> = new Subject<boolean>();
   resetFormSubject_Url: Subject<boolean> = new Subject<boolean>();
   resetFormSubject_ConvertUrl: Subject<boolean> = new Subject<boolean>();
@@ -93,6 +95,7 @@ export class UploadComponent implements OnInit {
   }
   onChangeCustomer(id){
     this.uploader.clearQueue();
+    this.thumb=[]
     if (this.IsAnnouncement==='0'){
       this.FillFolder(id);
     }
@@ -150,6 +153,7 @@ export class UploadComponent implements OnInit {
   onChangeGenre(id) {
     
     this.uploader.clearQueue();
+    this.thumb=[]
     var ArrayItem = {};
     var fName = "";
     ArrayItem["Id"] = id;
@@ -229,6 +233,31 @@ var Item_TitleId="";
      
     this.FillClientList();
     
+
+    this.uploader.onAfterAddingFile = (file) => {
+      var image_file=file._file
+      let reader = new FileReader();
+     reader.addEventListener('load', () => {
+      
+      this.ready=file.file.type.split('/')[0];
+      if (this.ready=='image'){
+        this.thumb.push({
+          "src":reader.result.toString(),
+          "type":"image"
+        }
+        )
+      }
+      else{
+        this.thumb.push({
+          "src":reader.result,
+          "type":"video"
+        }
+        )
+      }
+    });
+    reader.readAsDataURL(image_file);
+    }
+
   }
 
   AddSong(id){

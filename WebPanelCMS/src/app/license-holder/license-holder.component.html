@@ -29,6 +29,18 @@
                 </select>
               </div>
 
+              <div class="form-group col-sm-2 m-0" *ngIf="this.auth.IsAdminLogin$.value===false">
+                <label for="btnDF" class="d-none d-xl-block mb-2 mr-sm-2"
+                  >&nbsp;</label
+                >
+                <input
+                  type="button"
+                  id="btnDF"
+                  class="btn btn-primary mb-2 mr-sm-2 mr-1"
+                  value="Set Default" (click)="SetDefaultClient()"
+                  style="width: 100%"
+                />
+              </div>
               <div class="form-group col-sm-2 m-0">
                 <label for="btnSig" class="d-none d-xl-block mb-2 mr-sm-2"
                   >&nbsp;</label
@@ -42,7 +54,7 @@
                   style="width: 100%"
                 />
               </div>
-              <div class="form-group col-sm-2 m-0">
+              <div class="form-group col-sm-1 m-0">
                 <label for="btnIndi" class="d-none d-xl-block mb-2 mr-sm-2"
                   >&nbsp;</label
                 >
@@ -52,10 +64,10 @@
                   class="btn btn-primary mb-2 mr-sm-2 mr-1"
                   (click)="SetIndicator(true)"
                   value="Show Indicator"
-                  style="width: 100%"
+                  style="width: 100%;width: 100%;font-size: 14px;padding: 0.475rem 0.60rem;"
                 />
               </div>
-              <div class="form-group col-sm-2 m-0">
+              <div class="form-group col-sm-1 m-0">
                 <label for="btnIndi" class="d-none d-xl-block mb-2 mr-sm-2"
                   >&nbsp;</label
                 >
@@ -65,7 +77,7 @@
                   class="btn btn-primary mb-2 mr-sm-2 mr-1"
                   (click)="SetIndicator(false)"
                   value="Disable Indicator"
-                  style="width: 100%"
+                  style="width: 100%;width: 100%;font-size: 14px;padding: 0.475rem 0.20rem;"
                 />
               </div>
               <div class="form-group col-sm-1 m-0">
@@ -232,7 +244,7 @@
                 ngbNavLink
                 (click)="OpenUpdateInfo(modalUpdateInfo)"
                 class="form-control-Tab mt-1"
-                >Player Copy Info</a
+                >Copy Player Info</a
               >
               <ng-template ngbNavContent> </ng-template>
             </li>
@@ -765,7 +777,7 @@
 
 <ng-template #modalForceUpdate let-c="close" let-d="dismiss">
   <div class="modal-header bg-primary">
-    <h5 class="text-white">Force Update</h5>
+    <h5 class="text-white">Publish</h5>
     <button
       type="button"
       class="close text-white"
@@ -777,94 +789,152 @@
   </div>
   <div class="modal-body">
     <div class="row">
-      <div class="col-lg-6">
-        <input
-        id="txtSearchExt"
-        type="text"
-        [(ngModel)]="searchTextPublish"
-        class="text search-input"
-        placeholder="Search"
-        class="form-control mb-2 mr-sm-2 w-75"
-        (input)="onChangeEvent()"
-      />
-      </div>
-      <div class="col-lg-6">
-        
-        <input
-          type="button"
-          class="btn btn-primary pull-right mb-2"
-          value="Publish"
-          (click)="ForceUpdateAll()"
-        />
-      </div>
-      <div class="col-sm-12 font-weight-bold mb-3 p-0" >
-        <p style="margin: 0 !important">You can use any keyword from media type, city , location,token no. For Example: Audio, Video, Signage etc.</p>
-      </div>
-          <div class="col-lg-12 m-0 p-0">
-        <div class="table-responsive">
-          <table
-            class="table data-table table-striped table-bordered mydatatable"
-          >
-            <thead class="bg-primary text-white">
-              <tr>
-                <th scope="col" style="width: 60px">
-                  <div class="custom-control custom-checkbox">
-                    <input
-                      (change)="allActiveToken($event)"
-                      type="checkbox"
-                      class="custom-control-input"
-                      name="AllActiveToken"
-                      id="AllActiveToken"
-                      [(ngModel)]="chkAll"
-                    />
-                    <label
-                      class="custom-control-label cursor-pointer pt-1 text-white"
-                      for="AllActiveToken"
-                      >All</label
+      <div class="col-lg-12">
+        <ul ngbNav #tPublish="ngbNav" [(activeId)]="PublishActive" class="nav-tabs">
+          <li [ngbNavItem]="1" class="pr-2">
+            <a ngbNavLink>Publish</a>
+            <ng-template ngbNavContent>
+              <div class="row">
+                <div class="col-lg-6">
+                  <input
+                  id="txtSearchExt"
+                  type="text"
+                  [(ngModel)]="searchTextPublish"
+                  class="text search-input"
+                  placeholder="Search"
+                  class="form-control mb-2 mr-sm-2 w-75"
+                  (input)="onChangeEvent()"
+                />
+                </div>
+                <div class="col-lg-6">
+                  
+                  <input
+                    type="button"
+                    class="btn btn-primary pull-right mb-2 ml-2"
+                    value="Publish with Schedule"
+                    (click)="ForceUpdateAll('Schedule')"
+                  />
+                  <input
+                    type="button"
+                    class="btn btn-primary pull-right mb-2"
+                    value="Publish Now"
+                    (click)="ForceUpdateAll('Now')"
+                  />
+                </div>
+                <div class="col-sm-12 font-weight-bold mb-3 p-0" >
+                  <p style="margin: 0 !important">You can use any keyword from media type, city , location,token no. For Example: Audio, Video, Signage etc.</p>
+                </div>
+                    <div class="col-lg-12 m-0 p-0">
+                  <div class="table-responsive">
+                    <table
+                      class="table data-table table-striped table-bordered mydatatable"
                     >
+                      <thead class="bg-primary text-white">
+                        <tr>
+                          <th scope="col" style="width: 60px">
+                            <div class="custom-control custom-checkbox">
+                              <input
+                                (change)="allActiveToken($event)"
+                                type="checkbox"
+                                class="custom-control-input"
+                                name="AllActiveToken"
+                                id="AllActiveToken"
+                                [(ngModel)]="chkAll"
+                              />
+                              <label
+                                class="custom-control-label cursor-pointer pt-1 text-white"
+                                for="AllActiveToken"
+                                >All</label
+                              >
+                            </div>
+                          </th>
+                          <th scope="col" sortable="city" (sort)="onSort($event)">City</th>
+                          <th scope="col" sortable="location" (sort)="onSort($event)">Location</th>
+                          <th scope="col" sortable="tokenCode" (sort)="onSort($event)">Token No</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let tLst of ActiveTokenList | filter:searchTextPublish | slice
+                        : (page - 1) * pageSize
+                        : (page - 1) * pageSize + pageSize; let i = index ">
+                          <td data-label="" class="">
+                            <div class="custom-control custom-checkbox">
+                              <input
+                                (change)="SelectActiveToken(tLst.tokenid, $event)"
+                                type="checkbox"
+                                class="custom-control-input"
+                                id="{{ tLst.tokenid }}{{ i }}"
+                                [checked]="tLst.check"
+                                name="chkTokenList"
+                              />
+                              <label
+                                class="custom-control-label cursor-pointer"
+                                for="{{ tLst.tokenid }}{{ i }}"
+                              ></label>
+                            </div>
+                          </td>
+                          <td data-label="City">{{ tLst.city }}</td>
+                          <td data-label="Location">{{ tLst.location }}</td>
+                          <td data-label="Token No">{{ tLst.tokenCode }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <ngb-pagination
+                                    [collectionSize]="ActiveTokenListlength"
+                                    [(page)]="page"
+                                    [pageSize]="pageSize"
+                                    aria-label="Default pagination"
+                                    (click)="GetCheckedToken()"
+                                  ></ngb-pagination>
                   </div>
-                </th>
-                <th scope="col" sortable="city" (sort)="onSort($event)">City</th>
-                <th scope="col" sortable="location" (sort)="onSort($event)">Location</th>
-                <th scope="col" sortable="tokenCode" (sort)="onSort($event)">Token No</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let tLst of ActiveTokenList | filter:searchTextPublish | slice
-              : (page - 1) * pageSize
-              : (page - 1) * pageSize + pageSize; let i = index ">
-                <td data-label="" class="">
-                  <div class="custom-control custom-checkbox">
-                    <input
-                      (change)="SelectActiveToken(tLst.tokenid, $event)"
-                      type="checkbox"
-                      class="custom-control-input"
-                      id="{{ tLst.tokenid }}{{ i }}"
-                      [checked]="tLst.check"
-                      name="chkTokenList"
-                    />
-                    <label
-                      class="custom-control-label cursor-pointer"
-                      for="{{ tLst.tokenid }}{{ i }}"
-                    ></label>
-                  </div>
-                </td>
-                <td data-label="City">{{ tLst.city }}</td>
-                <td data-label="Location">{{ tLst.location }}</td>
-                <td data-label="Token No">{{ tLst.tokenCode }}</td>
-              </tr>
-            </tbody>
-          </table>
-          <ngb-pagination
-                          [collectionSize]="ActiveTokenListlength"
-                          [(page)]="page"
-                          [pageSize]="pageSize"
-                          aria-label="Default pagination"
-                          (click)="GetCheckedToken()"
-                        ></ngb-pagination>
+                </div>
+              </div>
+            </ng-template>
+          </li>
+          <li [ngbNavItem]="2" class="pr-2">
+            <a ngbNavLink>Publish Schedule</a>
+            <ng-template ngbNavContent>
+              <div class="form-row">
+                <div class="form-group col-sm-3 m-0">
+                  <label for="cmbHour" class="mb-2 mr-sm-2" >Hour:</label>
+                  <select class="custom-select mb-3" id="cmbHour" [(ngModel)]="cmbPublishHour">
+                    <option value="1">01</option>
+                    <option value="2">02</option>
+                    <option value="3">03</option>
+                    <option value="4">04</option>
+                    <option value="5">05</option>
+                    <option value="6">06</option>
+                    <option value="7">07</option>
+                    <option value="8">08</option>
+                    <option value="9">09</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                    <option value="13">13</option>
+                    <option value="14">14</option>
+                    <option value="15">15</option>
+                    <option value="16">16</option>
+                    <option value="17">17</option>
+                    <option value="18">18</option>
+                    <option value="19">19</option>
+                    <option value="20">20</option>
+                    <option value="21">21</option>
+                    <option value="22">22</option>
+                    <option value="23">23</option>
+                  </select>
+                </div>
+                <div class="form-group col-sm-3 m-0 pt-1">
+                  <button class="btn btn-primary mr-2 mt-4" type="button" (click)="SavePublishSchedule()">Save</button>
+                </div>
+              </div>
+            </ng-template>
+          </li>
+        </ul>
+        <div [ngbNavOutlet]="tPublish" class="mt-2"></div>
         </div>
-      </div>
-    </div>
+        </div>
+       
+   
   </div>
 </ng-template>
 

@@ -136,7 +136,7 @@
         >
           <option value=""></option>
           <option *ngIf="((ClientContentType=='Both')||(ClientContentType=='MusicMedia'))" value="Audio">Audio</option>
-          <option *ngIf="((ClientContentType=='Both')||(ClientContentType=='MusicMedia'))" value="Video">Video Clips</option>
+          <option *ngIf="((ClientContentType=='Both')||(ClientContentType=='MusicMedia'))" value="Video">Music Clips</option>
           <option *ngIf="((ClientContentType=='Both')||(ClientContentType=='Signage'))" value="Signage">Signage</option>
         </select>
       </div>
@@ -1773,7 +1773,7 @@
 
 <ng-template class="tokenmodal" #playlistcontent let-c="close" let-d="dismiss">
   <div class="modal-header bg-primary">
-    <h5 class="text-white">Playlist Content Download Status</h5>
+    <h5 class="text-white">Download Status</h5>
     <button
     type="button"
     class="close text-white"

@@ -7,6 +7,7 @@ import { AuthService } from 'src/app/auth/auth.service';
 import { AdsService } from 'src/app/ad/ads.service';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
+import { SerLicenseHolderService } from 'src/app/license-holder/ser-license-holder.service';
 @Component({
   selector: 'app-ad-playlists',
   templateUrl: './ad-playlists.component.html',
@@ -44,11 +45,13 @@ export class AdPlaylistsComponent implements OnInit {
   dtElement: DataTableDirective;
   dtOptions: any = {};
   SearchAdsDate
+  cmbPublishId=""
+  ForceUpdateTokenid = '';
   dtTrigger: Subject<any> = new Subject();
   IschkViewOnly = this.auth.chkViewOnly$.value ? 1 : 0;
   constructor(private formBuilder: FormBuilder, public toastr: ToastrService, vcr: ViewContainerRef,
     config: NgbModalConfig, private modalService: NgbModal, private sfService: StoreForwardService,
-    private aService: AdsService, public auth:AuthService) {
+    private aService: AdsService, public auth:AuthService,private serviceLicense: SerLicenseHolderService) {
     config.backdrop = 'static';
     config.keyboard = false;
   }
@@ -179,6 +182,7 @@ export class AdPlaylistsComponent implements OnInit {
           this.loading = false;
           this.FillTokenInfo(deviceValue);
           this.FillGroup();
+          this.GetPublishSchedule()
         },
           error => {
             this.toastr.error("Apologies for the inconvenience.The error is recorded.", '');
@@ -261,7 +265,7 @@ export class AdPlaylistsComponent implements OnInit {
 
   }
   
-  onSubmitPL  = function () {
+  onSubmitPL  = function (UpdateModel) {
     
     this.submitted = true;
     if(this.Plform.value.CustomerId == 0){
@@ -324,6 +328,11 @@ export class AdPlaylistsComponent implements OnInit {
         this.toastr.info("Saved", 'Success!');
         this.SaveModifyInfo(0,"Playlist is schedule for advertisement");
         this.loading = false;
+        this.ForceUpdateTokenid=''
+        this.ForceUpdateTokenid= this.TokenSelected
+        if (this.ForceUpdateTokenid != '') {
+           this.modalService.open(UpdateModel, { centered: true });
+        }
        this.clear();
         
       }
@@ -637,4 +646,76 @@ export class AdPlaylistsComponent implements OnInit {
           this.loading = false;
         })
   }
+
+  
+  ForceUpdateAll() {
+    this.loading = true;
+    this.serviceLicense
+      .ForceUpdate(this.ForceUpdateTokenid)
+      .pipe()
+      .subscribe(
+        (data) => {
+          var returnData = JSON.stringify(data);
+          var obj = JSON.parse(returnData);
+          if (obj.Responce == '1') {
+            this.toastr.info('Update request is submit', 'Success!');
+            this.SaveModifyInfo(
+              0,
+              'Pubish request is submitted for ' +
+              JSON.stringify(this.ForceUpdateTokenid)
+            );
+            this.loading = false;
+          } else {
+          }
+          this.loading = false;
+        },
+        (error) => {
+          this.loading = false;
+        }
+      );
+  }
+
+  async PublishSchedule(){
+         
+          
+    if (this.cmbPublishId=="0"){
+      this.toastr.info('Please set publish schedule');
+      return;
+    }
+    this.loading = true;
+    this.serviceLicense.SavePublishToken(this.cmbPublishId,this.ForceUpdateTokenid).pipe().subscribe((data) => {
+          var returnData = JSON.stringify(data);
+          var obj = JSON.parse(returnData);
+          if (obj.Responce == '1') {
+            this.toastr.info('Update request is submit', 'Success!');
+            this.SaveModifyInfo(0,'Pubish schedule is submitted for ' +JSON.stringify(this.ForceUpdateTokenid));
+            this.loading = false;
+          } else {
+            this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
+          }
+          this.loading = false;
+        },
+        (error) => {
+          this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
+          this.loading = false;
+        }
+      );
+  }
+GetPublishSchedule(){
+var qry = "select id as Id,publishHr as DisplayName from tbPublishSchedule where clientid= "+this.cid+" "
+this.serviceLicense.FillCombo(qry).pipe().subscribe((data) => {
+    var returnData = JSON.stringify(data);
+    let obj = JSON.parse(returnData);
+    if (obj.length!=0){
+      this.cmbPublishId=obj[0]['Id']
+    }
+    else{
+      this.cmbPublishId="0"
+    }
+  },
+  (error) => {
+   
+  }
+);
+}
 }

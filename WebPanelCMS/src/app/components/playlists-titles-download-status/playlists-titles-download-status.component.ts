@@ -13,6 +13,7 @@ import { SerLicenseHolderService } from 'src/app/license-holder/ser-license-hold
 import { AuthService } from 'src/app/auth/auth.service';
 import { SerCopyDataService } from 'src/app/copy-data/ser-copy-data.service';
 import { TokenInfoServiceService } from '../token-info/token-info-service.service';
+import { AdsService } from 'src/app/ad/ads.service';
 @Component({
   selector: 'app-playlists-titles-download-status',
   templateUrl: './playlists-titles-download-status.component.html',
@@ -26,6 +27,9 @@ export class PlaylistsTitlesDownloadStatusComponent implements OnInit {
   cmbPlaylist=""
   PlaylistList=[];
   ContentList=[];
+  AdsDownloadContentList=[];
+  AdsContentList=[]
+  adsPlContentList=[]
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
@@ -37,17 +41,19 @@ export class PlaylistsTitlesDownloadStatusComponent implements OnInit {
     private mService: MachineService,
     public auth: AuthService,
     private serviceLicense: SerLicenseHolderService,
-    private cService: SerCopyDataService
+    private cService: SerCopyDataService,
+    private aService: AdsService
   ) {
     config.backdrop = 'static';
     config.keyboard = false;
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.clid = localStorage.getItem('tokenClient');
     this.tid = localStorage.getItem('tokenid');
     this.dpid = localStorage.getItem('dpid');
-    this.getPlayerCurrentDaySchedule()
+    await this.getPlayerCurrentDaySchedule()
+    await this.GetAdsDownloadStatus();
   }
   getPlayerCurrentDaySchedule() {
     this.loading = true;
@@ -97,5 +103,83 @@ export class PlaylistsTitlesDownloadStatusComponent implements OnInit {
         this.loading = false;
       }
     );
+  }
+
+
+  GetAdsDownloadStatus(){
+    this.loading = true;
+    this.AdsDownloadContentList=[];
+    this.adsPlContentList=[]
+    this.AdsContentList=[]
+    this.tService.GetAdsDownloadStatus(this.tid).pipe().subscribe((data) => {
+      if (data['response']=="1"){
+        this.AdsDownloadContentList = JSON.parse(data['data']);
+        this.FillAdsPlaylist()
+        this.FillAdsStatus()
+      }
+        this.loading = false;
+      },
+      (error) => {
+        this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
+        this.loading = false;
+      }
+    );
+  }
+  FillAdsPlaylist() {
+    this.loading = true;
+    var qry = " select p.titleid as Id ,t.title as DisplayName  from tbPlaylistAdsSchedule ps  "+
+    " inner join tbPlaylistAdsSchedule_Token pt on pt.pSchId= ps.pSchId  inner join tbSpecialPlaylists_Titles p on p.splPlaylistId= ps.splPlaylistId  inner join Titles t on t.titleid= p.titleid "+
+    " where pt.tokenId="+this.tid+"  and ps.eDate > GETDATE()"
+    this.tService.FillCombo(qry).pipe().subscribe((data) => {
+          var returnData = JSON.stringify(data);
+          let obj = JSON.parse(returnData);
+          this.adsPlContentList=[]
+          obj.forEach(item => {
+            let arr={}
+            arr['Title']=item['DisplayName']
+            let isF= this.AdsDownloadContentList.filter(od=> od.id === Number(item['Id']))
+            if (isF.length!=0){
+              arr['IsFind']=1
+            }
+            else{
+              arr['IsFind']=0
+            }
+            this.adsPlContentList.push(arr);
+          });
+          this.loading = false;
+        },
+        (error) => {
+          this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
+          this.loading = false;
+        }
+      );
+  }
+  FillAdsStatus() {
+    var sTime1 = new Date();
+    
+    this.loading = true;
+    this.tService.FillSearchAds(this.clid, sTime1.toDateString(),this.tid).pipe()
+      .subscribe(data => {
+        var returnData = JSON.stringify(data);
+        let obj = JSON.parse(returnData);
+        this.AdsContentList=[]
+        obj.forEach(item => {
+          let arr={}
+          arr['Title']=item['adName']
+          let isF= this.AdsDownloadContentList.filter(od=> od.id === Number(item['id']))
+          if (isF.length!=0){
+            arr['IsFind']=1
+          }
+          else{
+            arr['IsFind']=0
+          }
+          this.AdsContentList.push(arr);
+        });
+        this.loading = false;
+      },
+        error => {
+          this.toastr.error("Apologies for the inconvenience.The error is recorded.", '');
+          this.loading = false;
+        })
   }
 }

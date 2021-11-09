@@ -48,7 +48,8 @@
           </div>
         </div>
         <div class="row m-0 p-0">
-          <div [ngClass]="cmbCustomerMediaType == 'Signage'? 'col-md-8':'col-md-12'" class="ml-0 pl-0">
+          <div [ngClass]="(cmbCustomerMediaType == 'Audio Copyright')? 'col-md-8':
+          (cmbCustomerMediaType == 'Video')? 'col-md-8':(cmbCustomerMediaType == 'Signage')? 'col-md-8':'col-md-12'" class="ml-0 pl-0">
             <label for="cName" class="mb-2 mr-sm-2">Media Type:</label>
             <select
               name="cName"
@@ -65,6 +66,16 @@
                 {{ mLst.DisplayName }}
               </option>
             </select>
+          </div>
+          <div [ngClass]="(cmbCustomerMediaType == 'Audio Copyright')? 'col-md-4': 
+          (cmbCustomerMediaType == 'Video')? 'col-md-4':'d-none'" class="ml-0 pl-0">
+          
+            <label for="cName" class="mb-2 mr-sm-2">&nbsp;</label>
+            <button
+            class="btn btn-primary w-100 custombutton"
+            (click)="OpenContentBlock(contentblock)">
+            Content Block
+          </button>
           </div>
           <div [ngClass]="cmbCustomerMediaType == 'Signage'? 'col-md-4':'d-none'" class="ml-0 pl-0">
             <label for="cName" class="mb-2 mr-sm-2">&nbsp;</label>
@@ -135,11 +146,16 @@
                 >
               </li>
               <li *ngIf="cmbCustomerMediaType == 'Audio Copyright'" class="nav-item" (click)="onClickSpecialPlaylists()">
+                <a class="nav-link" data-toggle="tab" href="#top50"
+                  >Top 50</a
+                >
+              </li>
+              <li *ngIf="cmbCustomerMediaType == 'Audio Copyright'" class="nav-item" (click)="onClickSpecialPlaylists()">
                 <a class="nav-link" data-toggle="tab" href="#SpecialPlaylists"
                   >Special Playlists</a
                 >
               </li>
-              <li class="nav-item">
+              <li class="nav-item d-none">
                 <a class="nav-link" data-toggle="tab" href="#PlaylistLib"
                   >Copy to campaign</a
                 >
@@ -347,6 +363,51 @@
               </div>
             </div>
             <div
+            id="top50"
+            role="tabpanel"
+            class="container tab-pane fade p-0 m-0" *ngIf="cmbCustomerMediaType == 'Audio Copyright'"
+          >
+            <div class="col-lg-12 p-0 pull-left">
+              <div class="table-responsive search-results" style="height: 31.5rem !important;">
+                <table
+                  class="table data-table table-striped table-bordered mydatatable"
+                >
+                  <thead>
+                    <tr>
+                      <th class="bg-primary sticky-top">Playlist</th>
+                      <th class="bg-primary sticky-top" style="width: 136px !important;"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr
+                      class="cursor-pointer"
+                      *ngFor="let splLst of Top50PlaylistList"
+                    >
+                      <td
+                        
+                        (click)="
+                          FillPlaylistSongs(splLst.Id, 'Yes', 'No', '')
+                        "
+                      >
+                        {{ splLst.DisplayName }}
+                      </td>
+                      <td
+                        (click)="
+                          AddFormat(splLst.Id, splLst.DisplayName, '1')
+                        "
+                      >
+                        <a class="text-primary"
+                          >Add to Campaign</a
+                        >
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+            
+            <div
               id="PlaylistLib"
               role="tabpanel"
               class="container tab-pane fade p-0 m-0"
@@ -425,7 +486,7 @@
         <div class="card-body iq-total-content p-0">
           <div class="pull-left">
             <a href="javascript:;"
-          class="btn btn-primary ml-2 mt-1 pull-left"
+          class="btn btn-primary ml-0 mt-1 pull-left"
           (click)="ViewTokens(modalTokenInfo, 'Playlist','Download')"
           
         >
@@ -1033,13 +1094,16 @@
                     >Bit Rate</label
                   >
                 </div>
-                <div
-                  *ngIf="
-                    chkMediaRadio != 'Image' &&
-                    (auth.ContentType$ == 'MusicMedia' ||
-                      auth.ContentType$ == 'Both')
-                  "
-                  class="custom-control custom-radio custom-control-inline d-none mb-2 mr-1"
+
+                <div class="custom-control custom-radio custom-control-inline mb-2 mr-1 d-none">
+                  <input type="radio" class="custom-control-input cursor-pointer"
+                    id="splPlaylist" (change)="SearchRadioClick('splPlaylist')" name="chkSearch"/>
+                  <label class="custom-control-label cursor-pointer" for="splPlaylist">Special Playlist</label>
+                </div>
+
+
+                <div *ngIf="(cmbCustomerMediaType == 'Audio Copyright')"
+                  class="custom-control custom-radio custom-control-inline mb-2 mr-1 d-none"
                 >
                   <input
                     type="radio"
@@ -1863,22 +1927,35 @@
           </p>
         </div>
       </div>
-      <div class="row">
-        <div class="col-sm-12">
+      <div class="row mt-3">
+        <div class="col-sm-4 p-0 text-right">
           <button
-            class="btn btn-primary col-sm-2 pull-right"
+            class="btn btn-primary"
+            (click)="ForceUpdateAll()"
+            (click)="d('Cross click')"
+          >
+          Publish Now
+          </button>
+        </div>
+        
+          <div class="col-sm-6">
+          <button
+          class="btn btn-primary"
+          (click)="PublishSchedule()"
+          (click)="d('Cross click')"
+        >
+          Publish with Schedule
+        </button></div>
+
+        <div class="col-sm-2 p-0 text-right">
+          <button
+            class="btn btn-primary"
             (click)="d('Cross click')"
           >
             <i class="fa fa-times fa-lg" aria-hidden="true"></i>
           </button>
-          <button
-            class="btn btn-danger col-sm-2 pull-right mr-2"
-            (click)="ForceUpdateAll()"
-            (click)="d('Cross click')"
-          >
-            <i class="fa fa-check fa-lg" aria-hidden="true"></i>
-          </button>
-        </div>
+          </div>
+        
       </div>
     </div>
   </div>
@@ -2144,7 +2221,7 @@
 </ng-template>
 <ng-template class="tokenmodal" #playlistcontent let-c="close" let-d="dismiss">
   <div class="modal-header bg-primary">
-    <h5 class="text-white">Playlist Content Download Status</h5>
+    <h5 class="text-white">Download Status</h5>
     <button
     type="button"
     class="close text-white"
@@ -2156,5 +2233,22 @@
   </div>
   <div class="modal-body">
     <app-playlists-titles-download-status></app-playlists-titles-download-status>
+  </div>
+</ng-template>
+
+<ng-template class="tokenmodal" #contentblock let-c="close" let-d="dismiss">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Content Block</h5>
+    <button
+    type="button"
+    class="close text-white"
+    aria-label="Close" (click)="RefillCommonSearch()"
+    (click)="d('Cross click')" 
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-clientcontentblock></app-clientcontentblock>
   </div>
 </ng-template>
