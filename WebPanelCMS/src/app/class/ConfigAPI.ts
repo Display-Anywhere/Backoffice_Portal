@@ -25,7 +25,7 @@ export class ConfigAPI {
    SavePlaylist: string = this.Host + 'SavePlaylist';
    SavePlaylistFromBestOf: string = this.Host + 'SavePlaylistFromBestOf';
    Playlist: string = this.Host + 'Playlist';
-   SongList: string = this.Host_panel + 'SongList';
+   SongList: string = this.Host + 'SongList';
    SaveSF: string = this.Host + 'SaveSF_New';
    FillSF: string = this.Host + 'FillSF';
    DeleteTokenSch: string = this.Host + 'DeleteTokenSch';

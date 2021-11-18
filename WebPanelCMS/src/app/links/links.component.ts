@@ -17,6 +17,7 @@ export class LinksComponent implements OnInit {
   lName;
   lPwd;
   public loading = false;
+  dailypwd
   
   IsAdvikon:boolean= true;
   iframeUrl=false;
@@ -84,7 +85,7 @@ this.VideoLink0="https://bit.ly/31yZLD4";
     if (this.auth.IsAdminLogin$.value==true) {
       this.FillClientList();
     }
-     
+     this.GenerateDailyPwd()
   }
   FillClientList() {
     this.loading = true;
@@ -122,5 +123,13 @@ this.VideoLink0="https://bit.ly/31yZLD4";
   }
   HideManual(){
     this.iframeUrl =false
+  }
+  GenerateDailyPwd(){
+    var dt= new Date
+    let day = dt.getDate();
+    let month = dt.getMonth();
+    let year = dt.getFullYear();
+   let password = (((day + month + year) * (day * 3 + month* 2)) + day) % 10000;
+   this.dailypwd=password
   }
 }

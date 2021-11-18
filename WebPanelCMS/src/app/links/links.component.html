@@ -384,23 +384,25 @@
               </div>
             </div>
           </div>
-          <div class="d-none col-sm-4 col-lg-3 mb-3 custom_space">
-            <div class="card bg-primary p-2 pt-3 mb-2 text-center">
-              <div class="form-group">
-                <label class="mb-1 mr-sm-2 text-white"
-                  >Open Manual<br />
-                 </label
-                >
+          <div class="col-sm-4 col-lg-3 mb-3 custom_space" *ngIf="auth.IsAdminLogin$ | async">
+            <div class="card bg-primary p-2">
+              <div>
+                <h4 class="text-white text-left custom_style">
+                  Generate password:
+                </h4>
               </div>
-              <div class="form-group">
-                <a
-                  href="javascript:;"
-                  style="color: #fff" (click)="OpenManual()"
-                >
-                  <button class="btn btn-outline-light text-white" >
-                    <i class="fa fa-external-link" aria-hidden="true"></i>
-                  </button>
-                </a>
+              <div class="col-lg-12 p-0">
+                
+                <div class="form-inline p-1" style="height: 145px;">
+                  <label
+                    for="lname"
+                    class="col text-center pl-0 text-white"
+                    
+                    >Daily Password: {{dailypwd}}</label
+                  >
+                  
+                </div>
+                
               </div>
             </div>
           </div>
@@ -468,6 +470,8 @@
             </div>
           </div>
           <!-- Customer login content end -->
+
+
         </div>
       </div>
 

@@ -248,6 +248,8 @@ var Item_TitleId="";
         )
       }
       else{
+        this.thumb=[]
+        return
         this.thumb.push({
           "src":reader.result,
           "type":"video"
