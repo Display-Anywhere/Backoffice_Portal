@@ -177,8 +177,10 @@ export class TemplateUrlComponent implements OnInit {
   }
   onChangeSearchCustomer(id){
     this.UrlList = [];
+    let obj=[]
+    obj.push(id)
     this.loading = true;
-    this.serviceLicense.GetTemplateUrl(id).pipe()
+    this.serviceLicense.GetTemplateUrl(obj).pipe()
       .subscribe(data => {
         var returnData = JSON.stringify(data);
         this.UrlList = JSON.parse(returnData);

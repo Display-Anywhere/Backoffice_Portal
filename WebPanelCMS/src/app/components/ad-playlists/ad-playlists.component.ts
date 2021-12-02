@@ -317,8 +317,8 @@ export class AdPlaylistsComponent implements OnInit {
 
     this.Plform.get('sDate').setValue(sd.toDateString());
     this.Plform.get('eDate').setValue(ed.toDateString());
+    this.Plform.get('TokenList').setValue(this.TokenSelected);
 
- 
     this.loading = true;
     this.sfService.SaveAdPlaylist(this.Plform.value).pipe()
     .subscribe(data => {

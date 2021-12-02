@@ -16,11 +16,12 @@ export class LoginComponent implements OnInit {
   public loading = false;
   ipAddress;
   emailText=''
+  loginpage='PPDS'
   constructor(public toastr: ToastrService, private router: Router, private formBuilder: FormBuilder, private ulService: UloginService, private visitorsService: VisitorsService, public authService: AuthService) { }
   ngOnInit() {
     this.authService.logout();
     localStorage.setItem('DBType', 'Nusign');
-
+// google api key AIzaSyDZ3wMG5rYQ1CMlS1OLgNCIIk2cRRFRMrc
     
     if (localStorage.getItem('DBType')==="Advikon"){
       this.emailText='jan@advikon.eu'

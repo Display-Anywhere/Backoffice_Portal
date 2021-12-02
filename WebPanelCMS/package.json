@@ -24,6 +24,7 @@
     "@ng-idle/core": "^10.0.0-beta.1",
     "@ng-idle/keepalive": "^10.0.0-beta.1",
     "@ngx-loading-bar/http-client": "^5.1.2",
+    "@types/googlemaps": "^3.43.3",
     "angular-datatables": "^9.0.1",
     "angular2-moment": "^1.9.0",
     "bootstrap": "^4.4.1",

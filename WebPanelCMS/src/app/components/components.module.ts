@@ -50,6 +50,7 @@ import { NormalscheduleComponent } from './normalschedule/normalschedule.compone
 import { PlayerIPAddressLogsComponent } from './player-ipaddress-logs/player-ipaddress-logs.component';
 import { PlaylistsTitlesDownloadStatusComponent } from './playlists-titles-download-status/playlists-titles-download-status.component';
 import { ClientcontentblockComponent } from './clientcontentblock/clientcontentblock.component';
+import { PhilipsinfoComponent } from './philipsinfo/philipsinfo.component';
 
 //import { OwlMomentDateTimeModule } from 'ng-pick-datetime/date-time/adapter/moment-adapter/moment-date-time.module';
 export const MY_CUSTOM_FORMATS = {
@@ -97,7 +98,8 @@ TempScheduleComponent,
 NormalscheduleComponent,
 PlayerIPAddressLogsComponent,
 PlaylistsTitlesDownloadStatusComponent,
-ClientcontentblockComponent
+ClientcontentblockComponent,
+PhilipsinfoComponent
 ],
  
   exports: [
@@ -134,7 +136,8 @@ NormalscheduleComponent,
 PlayerIPAddressLogsComponent,
 TemplateUrlComponent,
 PlaylistsTitlesDownloadStatusComponent,
-ClientcontentblockComponent
+ClientcontentblockComponent,
+PhilipsinfoComponent
   ],
     imports: [
     CommonModule,

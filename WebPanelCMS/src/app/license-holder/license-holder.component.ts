@@ -1366,4 +1366,8 @@ async RefreshTokenList(){
         (error) => {}
       );
   }
+  openphinfo(philipsinfoModal){
+    this.modalService.open(philipsinfoModal, { size: 'lg' });
+
+  }
 }
