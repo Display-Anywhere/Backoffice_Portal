@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PlayerLogComponent } from './player-log/player-log.component';
-
+import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxLoadingModule  } from 'ngx-loading';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
@@ -51,6 +51,13 @@ import { PlayerIPAddressLogsComponent } from './player-ipaddress-logs/player-ipa
 import { PlaylistsTitlesDownloadStatusComponent } from './playlists-titles-download-status/playlists-titles-download-status.component';
 import { ClientcontentblockComponent } from './clientcontentblock/clientcontentblock.component';
 import { PhilipsinfoComponent } from './philipsinfo/philipsinfo.component';
+import { TemplateListComponent } from './template-list/template-list.component';
+import { MytemplateComponent } from './mytemplate/mytemplate.component';
+import { EditTemplateComponent } from './edit-template/edit-template.component';
+import { CommonComponentsRoutes } from './components.rotute';
+import { AssigncustomersComponent } from './assigncustomers/assigncustomers.component';
+import { PlayeractivationlogComponent } from './playeractivationlog/playeractivationlog.component';
+import { AgmCoreModule } from '@agm/core';
 
 //import { OwlMomentDateTimeModule } from 'ng-pick-datetime/date-time/adapter/moment-adapter/moment-date-time.module';
 export const MY_CUSTOM_FORMATS = {
@@ -99,7 +106,12 @@ NormalscheduleComponent,
 PlayerIPAddressLogsComponent,
 PlaylistsTitlesDownloadStatusComponent,
 ClientcontentblockComponent,
-PhilipsinfoComponent
+PhilipsinfoComponent,
+TemplateListComponent,
+MytemplateComponent,
+EditTemplateComponent,
+AssigncustomersComponent,
+PlayeractivationlogComponent
 ],
  
   exports: [
@@ -137,10 +149,14 @@ PlayerIPAddressLogsComponent,
 TemplateUrlComponent,
 PlaylistsTitlesDownloadStatusComponent,
 ClientcontentblockComponent,
-PhilipsinfoComponent
+PhilipsinfoComponent,
+TemplateListComponent,
+AssigncustomersComponent,
+PlayeractivationlogComponent
   ],
     imports: [
     CommonModule,
+    RouterModule.forChild(CommonComponentsRoutes),
     NgxLoadingModule.forRoot({}),
     NgbModule,
     ReactiveFormsModule,
@@ -151,7 +167,9 @@ PhilipsinfoComponent
     DataTablesModule,
     NgMultiSelectDropDownModule.forRoot(),
     FileUploadModule,
-
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyB8QxAguyrwBCX_eApLymamjHYyjlJKD0g'
+    })
   ],
   providers:[{provide: DateTimeAdapter, useClass: MomentDateTimeAdapter, deps: [OWL_DATE_TIME_LOCALE]},
   {provide: OWL_DATE_TIME_FORMATS, useValue: MY_CUSTOM_FORMATS}]

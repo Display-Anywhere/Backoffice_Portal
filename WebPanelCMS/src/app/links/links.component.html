@@ -1,6 +1,6 @@
 <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }">
 </ngx-loading>
-
+<!--<app-template-list></app-template-list>-->
 <div class="container-fluid p-0">
   <div class="col-12 p-0">
     <div class="row"   *ngIf="!iframeUrl">
@@ -128,7 +128,7 @@
               <div class="form-group">
                 <label class="mb-1 mr-sm-2 text-white"
                   >Audio S&amp;F LS (Android all version) <br />
-                  {{ AudioLink0 }}<br>Release date: Oct-21, Version:1.08</label
+                  {{ AudioLink0 }}<br>Release date: Dec-21, Version:1.08</label
                 >
               </div>
               <div class="form-group">
@@ -140,12 +140,12 @@
               </div>
             </div>
           </div>
-          <div class="col-sm-4 col-lg-3 mb-3 custom_space">
+          <div class="col-sm-4 col-lg-3 mb-3 custom_space d-none">
             <div class="card bg-primary p-2 pt-3 mb-2 text-center">
               <div class="form-group">
                 <label class="mb-1 mr-sm-2 text-white"
                   >Audio S&amp;F PT (Android all version) <br />
-                  {{ AudioLink90 }}<br>Release date: Oct-21, Version:1.08</label
+                  {{ AudioLink90 }}<br>Release date: Dec-21, Version:1.08</label
                 >
               </div>
               <div class="form-group">
@@ -182,9 +182,9 @@
             <div class="card bg-primary p-2 pt-3 mb-2 text-center">
               <div class="form-group">
                 <label class="mb-1 mr-sm-2 text-white"
-                  >Video/Signage LS (Android OS7 or Above) <br />{{
+                  >Video/Signage (Android OS7 or Above) <br />{{
                     VideoLink0 
-                  }}<br>Release date: Oct-21, Version:1.11</label
+                  }}<br>Release date: Dec-21, Version:1.11</label
                 >
               </div>
               <div class="form-group">
@@ -196,13 +196,13 @@
               </div>
             </div>
           </div>
-          <div class="col-sm-4 col-lg-3 mb-3 custom_space">
+          <div class="d-none col-sm-4 col-lg-3 mb-3 custom_space">
             <div class="card bg-primary p-2 pt-3 mb-2 text-center">
               <div class="form-group">
                 <label class="mb-1 mr-sm-2 text-white"
                   >Video/Signage PT (Android OS7 or Above) <br />{{
                     VideoLink90
-                  }}<br>Release date: Oct-21, Version:1.11</label
+                  }}<br>Release date: Dec-21, Version:1.11</label
                 >
               </div>
               <div class="form-group">
@@ -254,7 +254,7 @@
             <div class="card bg-primary p-2 pt-3 mb-2 text-center">
               <div class="form-group">
                 <label class="mb-1 mr-sm-2 text-white"
-                  >Signage Keyboard (Android) <br />{{ Keyboard }}<br>Release date: Oct-21, Version:1.11</label
+                  >Signage Keyboard (Android) <br />{{ Keyboard }}<br>Release date: Dec-21, Version:1.11</label
                 >
               </div>
               <div class="form-group">
@@ -283,12 +283,12 @@
               </div>
             </div>
           </div>
-          <div class="col-sm-4 col-lg-3 mb-3 custom_space">
+          <div class="d-none col-sm-4 col-lg-3 mb-3 custom_space">
             <div class="card bg-primary p-2 pt-3 mb-2 text-center">
               <div class="form-group">
                 <label class="mb-1 mr-sm-2 text-white"
                   >Video/Signage (OS4 or 6Pro or Ugoos)<br />
-                  {{ SanitizerLower }}<br>Release date: Oct-21, Version:1.11</label
+                  {{ SanitizerLower }}<br>Release date: Dec-21, Version:1.11</label
                 >
               </div>
               <div class="form-group">
@@ -309,7 +309,7 @@
               <div class="form-group">
                 <label class="mb-1 mr-sm-2 text-white"
                   >Video/Signage (ViewSonic)<br />
-                  {{ viewsonic }}<br>Release date: Oct-21, Version:1.11</label
+                  {{ viewsonic }}<br>Release date: Dec-21, Version:1.11</label
                 >
               </div>
               <div class="form-group">
@@ -393,7 +393,7 @@
               </div>
               <div class="col-lg-12 p-0">
                 
-                <div class="form-inline p-1" style="height: 145px;">
+                <div class="form-inline p-1" style="height: 115px;">
                   <label
                     for="lname"
                     class="col text-center pl-0 text-white"
@@ -406,6 +406,11 @@
               </div>
             </div>
           </div>
+          
+
+
+        </div>
+        <div class="row mt-2">
           <!-- Customer login content start -->
           <div class="col-sm-4 col-lg-6 mb-3 custom_space" *ngIf="auth.IsAdminLogin$ | async">
             <div class="card bg-primary p-2">
@@ -470,8 +475,6 @@
             </div>
           </div>
           <!-- Customer login content end -->
-
-
         </div>
       </div>
 

@@ -37,7 +37,7 @@
                   type="button"
                   id="btnDF"
                   class="btn btn-primary mb-2 mr-sm-2 mr-1"
-                  value="Set Default" (click)="SetDefaultClient()"
+                  value="Set Default" (click)="SetDefaultClient(modalMediaTypeDefault)"
                   style="width: 100%"
                 />
               </div>
@@ -1202,5 +1202,36 @@
   </div>
   <div class="modal-body">
     <app-philipsinfo></app-philipsinfo>
+  </div>
+</ng-template>
+
+
+<ng-template #modalMediaTypeDefault let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h5>Set Default Media Type</h5>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <table class="table data-table table-striped table-bordered mydatatable">
+      <thead class="bg-primary">
+        <tr>
+          <th scope="col">Media Type</th>
+          <th scope="col" style="width: 130px"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor=" let mType of CustomerMediaTypeList">
+          <td data-label="Media Type">{{ mType.DisplayName }}</td>
+          <td data-label="" class="text-primary" (click)="SetMediaTypeDefault(mType.Id)">Set Default</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </ng-template>

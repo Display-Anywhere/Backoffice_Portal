@@ -6,6 +6,8 @@ import { DataTableDirective } from 'angular-datatables';
 import * as pdfMake from 'pdfmake/build/pdfmake.js';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts.js';
 import { Subject, Observable, Subscription } from 'rxjs';
+import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
+import { VisitorsService } from 'src/app/visitors.service';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
@@ -25,8 +27,12 @@ export class AdminLogsComponent implements OnInit {
   @ViewChild(DataTableDirective)
   dtElement: DataTableDirective;
   file_Name = "";
-  constructor(private adminService: SerAdminLogService,public auth:AuthService,
-     public toastr: ToastrService, vcr: ViewContainerRef) {
+  lat 
+  lng
+  constructor(private adminService: SerAdminLogService,public auth:AuthService,private modalService: NgbModal,config: NgbModalConfig,
+    private visitorsService: VisitorsService,public toastr: ToastrService, vcr: ViewContainerRef) {
+      config.backdrop = 'static';
+      config.keyboard = false;
    }
 
   ngOnInit() {
@@ -117,5 +123,29 @@ export class AdminLogsComponent implements OnInit {
 
     });
   }
+  OpenAdminGoogleMap(ip,modal){
+    this.loading= true
 
+    this.visitorsService.getGEOLocation(ip).subscribe(res => {
+      
+      this.lat =  Number(res['latitude'])
+      this.lng =   Number(res['longitude'])
+      console.log(this.lat+ ' '+ this.lng);
+      this.loading = false;
+      setTimeout(() => {
+      this.modalService.open(modal, {
+        size: 'mdSx',
+      }); 
+    }, 1500);
+     
+      
+    },
+    error => {
+      this.loading = false;
+    });
+
+
+
+     
+  }
 }

@@ -50,6 +50,12 @@
                     >Convert Url to Mp4</a
                   >
                 </li>
+                <li class="nav-item" *ngIf="loginclientId=='95'">
+                  <a class="nav-link" data-toggle="tab" (click)="ReloadComponent('TemplatesEditor')"
+                  href="#TemplatesEditor"
+                    >Templates Editor</a
+                  >
+                </li>
               </ul>
             </div>
           </div>
@@ -608,6 +614,17 @@
               >
                 <app-template-url  *ngIf="ComponentName=='TemplateUrl'"></app-template-url>
               </div>
+
+
+              <div
+                id="TemplatesEditor"
+                role="tabpanel"
+                class="col-lg-12 tab-pane fade"
+                style="padding: 0 0 0 0; margin: 0 0 0 0"
+              >
+                <app-template-list  *ngIf="ComponentName=='TemplatesEditor'" ></app-template-list>
+              </div>
+
             </div>
           </div>
           <!-- card-body end -->

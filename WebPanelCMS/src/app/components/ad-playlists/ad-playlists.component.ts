@@ -8,10 +8,12 @@ import { AdsService } from 'src/app/ad/ads.service';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
 import { SerLicenseHolderService } from 'src/app/license-holder/ser-license-holder.service';
+import { DecimalPipe } from '@angular/common';
 @Component({
   selector: 'app-ad-playlists',
   templateUrl: './ad-playlists.component.html',
-  styleUrls: ['./ad-playlists.component.css']
+  styleUrls: ['./ad-playlists.component.css'],
+  providers: [DecimalPipe],
 })
 export class AdPlaylistsComponent implements OnInit {
   ScheduleList = [];
@@ -23,6 +25,7 @@ export class AdPlaylistsComponent implements OnInit {
   public loading = false;
   TokenSelected = [];
   TokenList = [];
+  TokenList_Search = [];
   CustomerList: any[];
   PlaylistList = [];
   SearchTokenList = [];
@@ -47,11 +50,13 @@ export class AdPlaylistsComponent implements OnInit {
   SearchAdsDate
   cmbPublishId=""
   ForceUpdateTokenid = '';
+  SearchText = '';
+  chkAll_Token= false
   dtTrigger: Subject<any> = new Subject();
   IschkViewOnly = this.auth.chkViewOnly$.value ? 1 : 0;
   constructor(private formBuilder: FormBuilder, public toastr: ToastrService, vcr: ViewContainerRef,
     config: NgbModalConfig, private modalService: NgbModal, private sfService: StoreForwardService,
-    private aService: AdsService, public auth:AuthService,private serviceLicense: SerLicenseHolderService) {
+    private aService: AdsService, public auth:AuthService,private serviceLicense: SerLicenseHolderService,private pipe: DecimalPipe) {
     config.backdrop = 'static';
     config.keyboard = false;
   }
@@ -97,7 +102,7 @@ export class AdPlaylistsComponent implements OnInit {
       itemsShowLimit: 4
     };
     this.FillClient();
-    this.DataTableSettings();
+    //this.DataTableSettings();
   }
 
   FillClient() {
@@ -168,6 +173,9 @@ export class AdPlaylistsComponent implements OnInit {
   cid="";
   onChangeCustomer(deviceValue) {
     this.cid=deviceValue;
+    this.SearchText=''
+    this.TokenSelected=[]
+    this.TokenList=[]
     var qry = "";
     qry = "";
     qry = "select max(sf.Formatid) as id , sf.formatname as displayname from tbSpecialFormat sf left join tbSpecialPlaylistSchedule_Token st on st.formatid= sf.formatid";
@@ -181,7 +189,7 @@ export class AdPlaylistsComponent implements OnInit {
           this.FormatList = JSON.parse(returnData);
           this.loading = false;
           this.FillTokenInfo(deviceValue);
-          this.FillGroup();
+          // this.FillGroup();
           this.GetPublishSchedule()
         },
           error => {
@@ -205,7 +213,7 @@ export class AdPlaylistsComponent implements OnInit {
           }
         });
         this.loading = false;
-        this.rerender();
+        //this.rerender();
       },
         error => {
           this.toastr.error("Apologies for the inconvenience.The error is recorded.", '');
@@ -354,11 +362,12 @@ export class AdPlaylistsComponent implements OnInit {
     var cd = new Date();
     this.selectedItems=[];
     this.TokenSelected=[];
+    this.TokenList_Search=[]
     this.Plform.get('sDate').setValue(cd);
     this.Plform.get('eDate').setValue(cd);
     this.Plform.get('pMode').setValue("Minutes");
     this.Plform.get('TotalFrequancy').setValue(0);
-
+    this.chkAll_Token=false
     this.PlaylistList=[];
     this.FormatList=[];
     this.dropdownList=[];
@@ -391,14 +400,22 @@ export class AdPlaylistsComponent implements OnInit {
   allToken(event){
     const checked = event.target.checked;
     this.TokenSelected=[];
+    if (this.SearchText === ''){
     this.TokenList.forEach(item=>{
       item.check = checked;
       this.TokenSelected.push(item.tokenid)
     });
+  }
+  else{
+    this.TokenList_Search.forEach((item) => {
+      item.check = checked;
+      this.TokenSelected.push(item.tokenid);
+    });
+  }
     if (checked==false){
       this.TokenSelected=[];
     }
-    
+    console.log(this.TokenSelected)
   }
   openAdsDeleteModal(mContent, id,tokenid) {
     this.aid = id;
@@ -528,7 +545,7 @@ export class AdPlaylistsComponent implements OnInit {
     this.loading = true;
     var ObjLocal;
      
-    this.rerender();
+    //this.rerender();
     this.sfService.FillTokenInfo(this.cid).pipe()
       .subscribe(data => {
         this.TokenList=[];
@@ -552,7 +569,7 @@ export class AdPlaylistsComponent implements OnInit {
         this.TokenList= JSON.parse(returnData);
        }
         this.loading = false;
-        this.rerender();
+        //this.rerender();
       },
         error => {
           this.toastr.error("Apologies for the inconvenience.The error is recorded.", '');
@@ -717,5 +734,23 @@ this.serviceLicense.FillCombo(qry).pipe().subscribe((data) => {
    
   }
 );
+}
+onChangeEvent_Search(){
+  this.TokenList_Search = this.TokenList.filter(country => this.serviceLicense.matches(country, this.SearchText, this.pipe));
+  const total = this.TokenList_Search.length;
+  this.chkAll_Token=false
+  //this.GetCheckedToken();
+}
+GetCheckedToken(){
+  this.TokenList.forEach(item => {
+    let obj = this.TokenSelected.indexOf(item["tokenid"])
+    if (obj != -1){
+      item["check"]=true
+    }
+    else{
+      item["check"]=false
+    }
+  });
+ 
 }
 }

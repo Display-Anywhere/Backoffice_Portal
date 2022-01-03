@@ -27,7 +27,7 @@
     >
       <thead class="bg-primary">
         <tr>
-          <th class="text-white" scope="col">Token Code</th>
+          <th class="text-white" scope="col" style="width: 130px">Token Id</th>
           <th class="text-white" scope="col">Name</th>
           <th class="text-white" scope="col">Location</th>
           <th class="text-white" scope="col" style="width: 130px">City</th>
@@ -38,7 +38,7 @@
           <th class="text-white" scope="col" style="width: 120px">
             Licence Type
           </th>
-          <th class="text-white" scope="col" style="width: 50px">V.</th>
+          <th class="text-white" scope="col" style="width: 130px">Activation Date</th>
         </tr>
       </thead>
       <tbody>
@@ -66,7 +66,7 @@
             {{ cLst.LicenceType }}
           </td>
           <td data-label="">
-            {{ cLst.Version }}
+            {{ cLst.datetokenused }}
           </td>
         </tr>
       </tbody>

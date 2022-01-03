@@ -572,5 +572,7 @@ this.PrvTotalToken=0;
           this.loading = false;
         })
   } 
-
+  openModalAssignCustomer(mdl){
+    this.modalService.open(mdl);
+    }
 }

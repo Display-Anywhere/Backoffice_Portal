@@ -11,6 +11,7 @@ import {
 import { StoreForwardService } from 'src/app/store-and-forward/store-forward.service';
 import { AuthService } from 'src/app/auth/auth.service';
 import { SerLicenseHolderService } from 'src/app/license-holder/ser-license-holder.service';
+import { trim } from 'jquery';
 @Component({
   selector: 'app-temp-schedule',
   templateUrl: './temp-schedule.component.html',
@@ -519,12 +520,22 @@ export class TempScheduleComponent implements OnInit {
       .subscribe(
         (data) => {
           var returnData = JSON.stringify(data);
+          var mType= localStorage.getItem('mType')
           if (type == 'New') {
             this.MediaTypeList = JSON.parse(returnData);
+            if(mType!=null){
+              this.cmbMediaType=mType
+              this.onChangeMediaType(mType)
+            }
           }
           if (type == 'Search') {
             this.SearchMediaTypeList = JSON.parse(returnData);
+            if(mType!=null){
+              this.cmbSearchMediaType=mType
+              this.onChangeSearchMediaType(mType)
+            }
           }
+          
           this.loading = false;
         },
         (error) => {
@@ -660,6 +671,10 @@ export class TempScheduleComponent implements OnInit {
       this.sfService.FillSF(this.cmbSearchCustomer,this.cmbSearchFormat,this.cmbSearchPlaylist).pipe().subscribe((data) => {
         var returnData = JSON.stringify(data);
         this.ScheduleList = JSON.parse(returnData);
+        console.log(this.cmbSearchMediaType)
+        if (this.cmbSearchMediaType != 0) {
+          this.ScheduleList= this.ScheduleList.filter(p => trim(p.mediatype) === this.cmbSearchMediaType)
+        }
         this.loading = false;
       },
       (error) => {
@@ -672,6 +687,9 @@ export class TempScheduleComponent implements OnInit {
       this.sfService.FillSF_future(this.cmbSearchCustomer,this.cmbSearchFormat,this.cmbSearchPlaylist).pipe().subscribe((data) => {
         var returnData = JSON.stringify(data);
         this.ScheduleList = JSON.parse(returnData);
+        if (this.cmbSearchMediaType != 0) {
+          this.ScheduleList= this.ScheduleList.filter(p => trim(p.mediatype) === this.cmbSearchMediaType)
+        }
         this.loading = false;
       },
       (error) => {

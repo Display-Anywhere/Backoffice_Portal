@@ -22,6 +22,9 @@ export class AuthService {
   public ContentType$: string = "";
   public ClientContentType$: string = "";
   public isTokenInfoClose$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  public IsEditTemplateOpen$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  onIsEditTemplateOpen = this.IsEditTemplateOpen$.asObservable();
+
   public ClientId$ = new BehaviorSubject<string>("0");
   constructor() {
     const isLoggedIn = localStorage.getItem('loggedIn') === 'true';
@@ -75,7 +78,9 @@ export class AuthService {
     this.ClientContentType$ = localStorage.getItem('ClientContentType');
     this.UserRights();
   }
-
+  SetEditTemplateOpen(value) {
+    this.IsEditTemplateOpen$.next(value);
+  }
   login() {
     // logic
     localStorage.setItem('loggedIn', 'true');

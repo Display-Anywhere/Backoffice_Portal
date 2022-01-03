@@ -1,0 +1,15 @@
+.banner {
+    background: #4788ff;
+    background: -webkit-linear-gradient(to right, #4788ff, #4788ff, #fdb99b);
+    background: linear-gradient(to right, #4788ff, #4788ff, #fdb99b);
+  }
+  .cursorpointer{
+      cursor: pointer;
+  }
+  .cursorpointer:hover{
+    border: 1px solid #dcdadabf;
+    border-radius: 6px;
+    box-shadow: 1px 0px 5px 3px rgba(123,123,123,1);
+    -webkit-box-shadow: 1px 0px 5px 3px rgba(123,123,123,1);
+    -moz-box-shadow: 1px 0px 5px 3px rgba(123,123,123,1);
+  }

@@ -49,4 +49,16 @@ export class SerAdminLogService {
     return this.http.post(this.cApi.FillTokenInfo,params,{headers:headers})
      .pipe((data=>{return data;}))
   }
+  AssignCustomers(cid:string,AssignClientId){
+    let headers = new HttpHeaders({ 'Content-Type':'application/json' });
+    var params = JSON.stringify({ ClientId: cid,AssignClientId:AssignClientId});
+    return this.http.post(this.cApi.AssignCustomers,params,{headers:headers})
+     .pipe((data=>{return data;}))
+  }
+  GetlatitudeANDlongitude(ipaddress:string){
+    let headers = new HttpHeaders({ 'Content-Type':'application/json' });
+    var params = JSON.stringify({ IpAddress: ipaddress});
+    return this.http.post(this.cApi.GetlatitudeANDlongitude,params,{headers:headers})
+     .pipe((data=>{return data;}))
+  }
 }

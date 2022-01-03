@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewContainerRef,ViewChild } from '@angular/core';
+import { Component, OnInit,ViewContainerRef,ViewChild, ElementRef } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../auth/auth.service';
 import { DataTableDirective } from 'angular-datatables';
@@ -6,6 +6,8 @@ import * as pdfMake from 'pdfmake/build/pdfmake.js';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts.js';
 import { Subject, Observable, Subscription } from 'rxjs';
 import { SerAdminLogService } from '../admin-logs/ser-admin-log.service';
+import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
+import { VisitorsService } from 'src/app/visitors.service';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
@@ -14,6 +16,8 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
   styleUrls: ['./player-ipaddress-logs.component.css']
 })
 export class PlayerIPAddressLogsComponent implements OnInit {
+
+  
   CustomerList: any[];
   LogList = [];
   public loading = false;
@@ -27,8 +31,13 @@ export class PlayerIPAddressLogsComponent implements OnInit {
   @ViewChild(DataTableDirective)
   dtElement: DataTableDirective;
   file_Name = "";
-  constructor(private adminService: SerAdminLogService,public auth:AuthService,
-     public toastr: ToastrService, vcr: ViewContainerRef) {
+  lat 
+  lng
+  zoom: number =15
+  constructor(private adminService: SerAdminLogService,public auth:AuthService,private modalService: NgbModal,config: NgbModalConfig,
+     public toastr: ToastrService,private visitorsService: VisitorsService, vcr: ViewContainerRef) {
+      config.backdrop = 'static';
+      config.keyboard = false;
       this.auth.ClientId$.subscribe((res) => {
         this.onChangeCustomer(res)
       }); 
@@ -134,5 +143,34 @@ export class PlayerIPAddressLogsComponent implements OnInit {
 
     });
   }
+  OpenGoogleMap(ip,modal){
+    try {
+      
+    this.loading= true
 
+    this.visitorsService.getGEOLocation(ip).subscribe(res => {
+      this.loading = false;
+      this.lat =  Number(res['latitude'])
+      this.lng =   Number(res['longitude'])
+      console.log(this.lat+ ' '+ this.lng);
+      
+      setTimeout(() => {
+      this.modalService.open(modal, {
+        size: 'mdSx',
+      }); 
+    }, 1500);
+     
+      
+    },
+    error => {
+      this.loading = false;
+    });
+
+  } catch (e) {
+    this.loading = false;
+      
+  } 
+  }
+  
+ 
 }

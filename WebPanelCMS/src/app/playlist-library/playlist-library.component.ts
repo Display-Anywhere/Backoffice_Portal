@@ -501,6 +501,11 @@ export class PlaylistLibraryComponent implements OnInit {
         (data) => {
           var returnData = JSON.stringify(data);
           this.CustomerMediaTypeList = JSON.parse(returnData);
+          var mType= localStorage.getItem('mType')
+          if(mType!=null){
+            this.cmbCustomerMediaType=mType
+            this.onChangeCustomerMediaType(mType)
+          }
           this.loading = false;
         },
         (error) => {

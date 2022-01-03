@@ -93,15 +93,21 @@
                             <option selected value="495">Portrait Url</option>
                           </select>
                               </div>
-                            <div class="form-group col-sm-2 m-0">
+                            <div class="form-group col-sm-3 m-0">
                                 <label for="cName" class="mb-2 mr-sm-2">Folder Name:</label>
-                                  <select name="cName" class="custom-select  mb-2 mr-sm-2" formControlName="cmbFolder">
+                                  <select name="cName" class="custom-select col-sm-10 mb-2 mr-sm-2" formControlName="cmbFolder" (change)="onChangeFolder($event.target.value)">
                               <option selected value="0"></option>
                               <option *ngFor="let fLst of FolderList" [value]="fLst.Id">
                               {{ fLst.DisplayName }}
                             </option>
                             </select>
+                              <button class="btn btn-primary" (click)="openFolderModal(modalFolder)" 
+                          data-toggle="tooltip" data-placement="top" title="New/Edit Folder"
+                        ><i class="fa fa-bars" aria-hidden="true"></i></button>
                                 </div>
+
+                                
+
                             <div class="form-group col-sm-3 m-0">
                                 <label for="cName" class="mb-2 mr-sm-2"
                                 >Name:</label
@@ -201,3 +207,46 @@
   </div>
 </ng-template>
 
+<ng-template #modalFolder let-c="close" let-d="dismiss">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Folder</h5>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12">
+          <label for="State" class="mb-2 mr-sm-2"
+            >Folder Name:</label
+          >
+          <input
+            type="text"
+            [(ngModel)]="NewFolderName"
+            class="form-control mb-2 mr-sm-2"
+            id="fName"
+          />
+        </div>
+      </div>
+      
+     
+      <div class="row">
+        <div class="col-sm-12">
+          <button
+            class="btn btn-primary col-sm-2 pull-right"
+            type="button"
+            (click)="onSubmitFolder()"
+          >
+            Save
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

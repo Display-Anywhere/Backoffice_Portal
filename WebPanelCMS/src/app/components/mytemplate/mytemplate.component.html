@@ -1,0 +1,239 @@
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px', fullScreenBackdrop: true }"></ngx-loading>
+
+<div class="row m-0 p-0">
+    <div class="col-lg-12 p-0">
+    <div class="form-row">
+      <div class="form-group col-sm-1 m-0">
+        <label for="SearchAdvtDate" class="mb-2 mr-sm-2">Date:</label>
+        <input
+          id="SearchAdvtDate"
+          class="form-control mb-2 mr-sm-2"
+          [owlDateTimeTrigger]="dtDate"
+          [(ngModel)]="SearchCDate"
+          [owlDateTime]="dtDate"
+          readonly
+        />
+        <owl-date-time
+          [pickerType]="'calendar'"
+          (afterPickerClosed)="FillTemplates()"
+          #dtDate
+        >
+        </owl-date-time>
+      </div>
+  
+      <div class="form-group col-sm-2 m-0">
+        <label for="cmbCustomer" class="mb-2 mr-sm-2"
+        >Customer Name:</label
+      >
+      <select
+        name="CustomerName"
+        class="custom-select  mb-2 mr-sm-2"
+        [(ngModel)]="CustomerId"
+        (change)="onChangeCustomer($event.target.value)"
+        id="cmbCustomer"
+      >
+        <option selected value="0"></option>
+        <option *ngFor="let cLst of CustomerList" [value]="cLst.Id">
+          {{ cLst.DisplayName }}
+        </option>
+      </select>
+  
+      </div>
+      <div class="form-group col-sm-2 m-0">
+        <label for="cmbGenre" class="mb-2 mr-sm-2">Orientation:</label>
+        <select
+          name="cmbGenre"
+          class="custom-select mb-2 mr-sm-2"
+          [(ngModel)]="cmbGenre"
+          (change)="onChangeGenre($event.target.value)"
+          id="cmbGenre"
+        >
+          <option selected value="0"></option>
+          <option *ngFor="let gLst of GenreList" [value]="gLst.Id">
+            {{ gLst.DisplayName }}
+          </option>
+        </select>
+      </div>
+  
+      <div class="form-group col-sm-2 m-0">
+        <div class="col-sm-10 p-0 pr-1 m-0 pull-left">
+  
+        
+        <label for="cmbFolder" class="mb-2 mr-sm-2">Folder Name:</label>
+        <select
+          name="cmbFolder"
+          class="custom-select mb-2 mr-sm-2"
+          [(ngModel)]="cmbFolder"
+          (change)="onChangeFolder($event.target.value)"
+          id="cmbFolder"
+        >
+          <option selected value="0"></option>
+          <option *ngFor="let fLst of FolderList" [value]="fLst.Id">
+            {{ fLst.DisplayName }}
+          </option>
+        </select>
+      </div>
+      <div class="col-sm-2 pull-right p-0">
+        <label for="btnCityName" class="mb-2 mr-sm-2">&nbsp;</label>
+         <button id="btnCityName"
+        class="btn btn-primary btn-sm mb-2 ml-1"
+        (click)="openGenreModal(modalGenre,'Editor')"
+      >
+        <i class="fa fa-bars" aria-hidden="true"></i>
+      </button>
+      </div>
+       
+      </div>
+  
+      <div class="d-none form-group col-sm-2 m-0">
+        <label for="btnAn" class="mb-2 mr-sm-2">&nbsp;</label>
+        <div id="btnAn"
+        class="custom-control custom-checkbox mb-2 mr-sm-2  mr-3 "
+      >
+        <input
+          type="checkbox"
+          class="custom-control-input"
+          name="chkAnc"
+          id="chkAnc"
+          [(ngModel)]="chkIsAnnouncement"
+        />
+        <label
+          class="custom-control-label cursor-pointer pt-0"
+          for="chkAnc"
+          >Is Sensor Announcement</label
+        >
+      </div>
+      </div>
+      <div class="form-group col-sm-1 m-0">
+        <label for="btnDo" class="mb-1 mr-sm-2">&nbsp;</label>
+        <button id="btnDo"
+        class="btn btn-primary mb-1 mr-sm-2"
+        (click)="DownloadTemplate('Editor')"
+      >
+      &nbsp; Convert &nbsp;
+      </button>
+      </div>
+  
+  
+    </div>
+  </div>
+  
+  </div>
+  <div class="row mt-2 mb-2">
+    <div class="col-lg-12" *ngIf="!preventAbuse">
+      Note: The converting of URL to videos will take aproximatly 2 to 5 minutes per url. This depends of the time duration you want for exposure and the filesize. At the same time only 5 URL can be converted. A progress bar will inform you about the convertion.
+    </div>
+    <div class="col-lg-12" *ngIf="preventAbuse">
+      <ngb-progressbar type="primary" textType="white" [value]="CurrentValue" [showValue]="false" [striped]="false" [max]="MaxValue"></ngb-progressbar>
+    </div>
+  </div>
+  
+  <div class="row m-0 p-0">
+    <div class="col-lg-12 m-0 p-0">
+      <div class="table-responsive">
+        <table class="table data-table table-striped table-bordered mydatatable">
+          <thead class="bg-primary">
+            <tr>
+              <th scope="col" style="width: 60px">
+              </th>
+              <th scope="col">Template Name</th>
+              <th scope="col">Orientation</th>
+              <th scope="col">Duration (Seconds)</th>
+              <th scope="col">Refersh Time (Seconds)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let tLst of TemplateList; let i = index">
+              <td data-label="" class="">
+                <div class="custom-control custom-checkbox">
+                  <input
+                    (change)="
+                      SelectTemplates(tLst.url, tLst.name, tLst.id,tLst.duration,tLst.Refersh, $event)
+                    "
+                    type="checkbox"
+                    class="custom-control-input"
+                    id="{{ tLst.id }}{{ i }}"
+                    [checked]="tLst.check"
+                    name="chkTokenList"
+                  />
+                  <label
+                    class="custom-control-label cursor-pointer"
+                    for="{{ tLst.id }}{{ i }}"
+                  ></label>
+                </div>
+              </td>
+              <td data-label="Template Name">
+                <a href="javascript:;" (click)="OpenViewContent(viewcontent, tLst.url,tLst.orientation)">
+                  {{ tLst.name }}
+                </a>
+              </td>
+              <td data-label="Orientation">{{ tLst.orientation }}</td>
+              <td data-label="Duration">
+                {{ tLst.duration }}
+              </td>
+              <td data-label="Refersh Time">
+                {{ tLst.Refersh }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  
+  
+  
+  <ng-template class="pt_main" #viewcontent let-c="close" let-d="dismiss">
+    
+    <button
+      type="button"
+      class="close text-right"
+      aria-label="Close"
+      (click)="CloseModal()"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+   
+  <div class="modal-body p-0">
+    <app-view-content></app-view-content>
+  </div>
+  </ng-template>
+  <ng-template #modalGenre let-c="close" let-d="dismiss">
+    <div class="modal-header bg-primary">
+      <h5 class="text-white">Folder</h5>
+      <button
+        type="button"
+        class="close text-white"
+        aria-label="Close"
+        (click)="d('Cross click')"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-12">
+            <label for="State" class="mb-2 mr-sm-2">Folder Name:</label>
+            <input
+              type="text"
+              [(ngModel)]="NewFolderName"
+              class="form-control mb-2 mr-sm-2"
+              id="fName"
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12">
+            <button
+              class="btn btn-primary col-sm-2 pull-right"
+              type="button"
+              (click)="onSubmitNewGenre()"
+            >
+              <i class="fa fa-floppy-o fa-lg" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>

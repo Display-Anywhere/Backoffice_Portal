@@ -27,7 +27,7 @@ export class UploadComponent implements OnInit {
   public loading = false;
   IsAnnouncement="0";
   iframeUrl:SafeResourceUrl;
-   
+  loginclientId=localStorage.getItem('dfClientId')
   NewFolderName: string = "";
   IsPromoFolder=false;
   resIsPromoFolder=false;
@@ -566,6 +566,7 @@ resetChildForm_ConvertUrl(){
 }
 ReloadComponent(componentName){
   this.ComponentName= componentName
+  this.auth.SetEditTemplateOpen(false)
 }
 
 openViewContent(mdl){

@@ -153,6 +153,8 @@ export class ConfigAPI {
    ContentTitleArtistSearch: string = this.Host_panel + 'ContentTitleArtistSearch';
    SavePublishSchedule: string = this.Host_panel + 'SavePublishSchedule';
    SavePublishToken: string = this.Host_panel + 'SavePublishToken';
+   GetlatitudeANDlongitude: string = this.Host_panel + 'GetlatitudeANDlongitude';
+   AssignCustomers: string = this.Host_panel + 'AssignCustomers';
 }
 
 // localStorage.setItem('UserId', obj.UserId);

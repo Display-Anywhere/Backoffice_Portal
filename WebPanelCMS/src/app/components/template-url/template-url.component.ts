@@ -52,8 +52,8 @@ export class TemplateUrlComponent implements OnInit {
  initUrlForm(){
   this.frmUrl = this.formBuilder.group({
     id: [0],
-    cmbCustomer: [0, Validators.required],
-    cmbFolder: [0],
+    cmbCustomer: ["0", Validators.required],
+    cmbFolder: ["0"],
     cmbGenre:[0],
     urlName: ["", Validators.required],
     duration: [20],
@@ -160,7 +160,9 @@ export class TemplateUrlComponent implements OnInit {
   async DeleteUrl(){
     this.UrlList = [];
     this.loading = true;
-    await this.serviceLicense.DeleteTemplateUrl(this.aid).pipe()
+    var obj= []
+    obj.push(this.aid)
+    await this.serviceLicense.DeleteTemplateUrl(obj).pipe()
       .subscribe(data => {
         this.loading = false;
         this.toastr.info("Deleted");
@@ -219,4 +221,81 @@ export class TemplateUrlComponent implements OnInit {
         error => {
         })
   };
+  FolderName = "";
+  IsPromoFolder=false;
+  resIsPromoFolder=false;
+  IsAutoDelete=false;
+  resIsAutoDelete=false;
+  dtpDeleteDate;
+  NewFolderName=""
+  onChangeFolder(id){
+    this.FolderName="";
+    this.resIsPromoFolder=false;
+    this.resIsAutoDelete=false;
+    var sd1= new Date()
+    this.dtpDeleteDate=sd1;
+    let NewfList = this.FolderList.filter(order => order.Id == id);
+    if (NewfList.length > 0) {
+      this.FolderName = NewfList[0].DisplayName;
+      this.resIsPromoFolder=NewfList[0].check;
+      this.resIsAutoDelete=NewfList[0].IsAutoDelete;
+      var sd= new Date(NewfList[0].DeleteDate)
+      this.dtpDeleteDate=sd;
+
+    }
+}
+  openFolderModal(mdl) {
+    var obj = this.frmUrl.value;
+
+    if (obj['cmbCustomer']=="0"){
+      this.toastr.info("Please select a customer name");
+      return;
+    }
+    this.NewFolderName = this.FolderName;
+    this.modalService.open(mdl);
+  }
+  onSubmitFolder() {
+    if (this.NewFolderName == "") {
+      this.toastr.info("Folder name cannot be blank", '');
+      return;
+    }
+    var obj_frm = this.frmUrl.value;
+    var deleteDate = new Date();
+    this.serviceLicense.SaveFolder(obj_frm['cmbFolder'], this.NewFolderName, obj_frm['cmbCustomer'],this.IsPromoFolder, this.IsAutoDelete,deleteDate.toDateString()).pipe()
+      .subscribe(data => {
+        var returnData = JSON.stringify(data);
+        var obj = JSON.parse(returnData);
+        if (obj.Responce != "-2") {
+          this.toastr.info("Saved", 'Success!');
+
+          this.loading = false;
+          var params = JSON.stringify({FolderName: this.NewFolderName, IsPromoFolder:this.IsPromoFolder,IsAutoDelete:this.IsAutoDelete,DeleteDate:deleteDate.toDateString() });
+          if (obj_frm['cmbFolder'] == "0") {
+            this.SaveModifyInfo(0, "New folder is create with name " + this.NewFolderName + " and with these values "+ params);
+          }
+          else {
+            this.SaveModifyInfo(0, "Folder name is modify. Now New name is " + this.NewFolderName + " and with these values "+ params);
+
+          }
+          obj_frm['cmbFolder'] = "0";
+          this.FolderName="";
+          this.resIsPromoFolder=false;
+          this.resIsAutoDelete=false;
+          this.FillFolder(obj_frm['cmbCustomer']);
+          this.modalService.dismissAll();
+        }
+        else if (obj.Responce == "-2") {
+          this.toastr.info("This folder name already exists", '');
+          this.loading = false;
+        }
+        else {
+          this.toastr.error("Apologies for the inconvenience.The error is recorded.", '');
+          this.loading = false;
+        }
+      },
+        error => {
+          this.toastr.error("Apologies for the inconvenience.The error is recorded.", '');
+          this.loading = false;
+        })
+  }
 }

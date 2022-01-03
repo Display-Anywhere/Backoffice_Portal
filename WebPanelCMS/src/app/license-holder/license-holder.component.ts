@@ -98,6 +98,7 @@ export class LicenseHolderComponent
   cmbPublishHour="5"
   cmbPublishId=""
   PublishActive=1
+  CustomerMediaTypeList
   @ViewChild('flocation') flocationElement: ElementRef;
   constructor(
     config: NgbModalConfig,
@@ -1316,7 +1317,7 @@ async RefreshTokenList(){
     const total = this.PublishSearchList.length;
     this.ActiveTokenListlength =total
   }
-  SetDefaultClient(){
+  SetDefaultClient(modalMediaTypeDefault){
     if (this.cid == '0') {
       this.toastr.info('Please select a customer name');
       return;
@@ -1325,11 +1326,46 @@ async RefreshTokenList(){
       this.toastr.info('This feature is not available in view only');
       return;
     }
-    localStorage.setItem('Main_Client_Id',localStorage.getItem('dfClientId'))
-    localStorage.setItem('dfClientId',this.cid)
-    localStorage.setItem('IsSubClientActive','Yes')
-    this.toastr.info('Default customer changed');
+    this.GetCustomerMediaType(this.cid,modalMediaTypeDefault)
     this.flocationElement.nativeElement.focus();  
+  }
+  GetCustomerMediaType(cid,modalMediaTypeDefault) {
+    this.loading = true;
+    var str = '';
+    str = 'GetCustomerMediaType ' + cid;
+
+    this.pService
+      .FillCombo(str)
+      .pipe()
+      .subscribe(
+        (data) => {
+          var returnData = JSON.stringify(data);
+          this.CustomerMediaTypeList = JSON.parse(returnData);
+          console.log(this.CustomerMediaTypeList)
+          if (this.CustomerMediaTypeList.length >1){
+            this.modalService.open(modalMediaTypeDefault)
+          }
+          localStorage.setItem('Main_Client_Id',localStorage.getItem('dfClientId'))
+          localStorage.setItem('dfClientId',this.cid)
+          localStorage.setItem('IsSubClientActive','Yes')
+          let mType= this.CustomerMediaTypeList[0].Id
+          localStorage.setItem('mType',mType)
+          this.toastr.info('Default customer and default media type is set');
+          this.loading = false;
+        },
+        (error) => {
+          this.toastr.error(
+            'Apologies for the inconvenience.The error is recorded.',
+            ''
+          );
+          this.loading = false;
+        }
+      );
+  }
+  SetMediaTypeDefault(mType){
+    localStorage.setItem('mType',mType)
+    this.toastr.info('Default media type is set');
+    this.modalService.dismissAll()
   }
   SavePublishSchedule(){
     this.loading = true;

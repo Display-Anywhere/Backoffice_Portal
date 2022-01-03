@@ -1,15 +1,16 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
-import { LoginComponent } from './login/login.component';
 
 import { CommonModule, HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import {ConfigAPI} from './class/ConfigAPI';
 import { NgxLoadingModule  } from 'ngx-loading';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import {ReactiveFormsModule,FormsModule  } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import { AuthGuard } from './auth/auth.guard';
+import { LoginComponent } from './login/login.component';
 
 const routes: Routes = [
  // {path: '', loadChildren:'./login/login.module#LoginModule' } , 
@@ -89,6 +90,11 @@ const routes: Routes = [
     loadChildren: () => import('./streaming/streaming.module').then(m => m.StreamingModule),
     canActivate:[AuthGuard]
    },
+   { 
+    path: 'general', 
+    loadChildren: () => import('./components/components.module').then(m => m.ComponentsModule),
+    canActivate:[AuthGuard]
+   },
    {
     path: '',
     redirectTo: '',
@@ -102,7 +108,7 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes,{
     preloadingStrategy:PreloadAllModules
   },),
-  
+  NgbModule,
   
   CommonModule,
   HttpClientModule,
