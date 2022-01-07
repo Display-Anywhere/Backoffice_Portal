@@ -246,14 +246,18 @@ if (this.cmbGenre=='0'){
 }
 
     this.loading = true;
-    this.dService.GetTemplates(this.CustomerId, this.cmbGenre, this.SearchCDate, '').pipe()
+    this.dService.GetOwnTemplates(this.CustomerId, this.cmbGenre, this.SearchCDate, '').pipe()
       .subscribe(data => {
-        var returnData = JSON.stringify(data);
-        this.TemplateList= JSON.parse(returnData);
+        if (data['response']=="1"){
+          this.TemplateList = JSON.parse(data['data']);
+        }
+        else{
+          this.TemplateList =[]
+        }
         this.TemplateList.forEach(item => {
           item["Refersh"]= item["duration"]*3
         });
-        this.TemplateList.sort(this.GetSortOrder("createdAt",false));
+        //this.TemplateList.sort(this.GetSortOrder("createdAt",false));
         this.loading = false;
       },
         error => {
@@ -493,23 +497,24 @@ this.preventAbuse = true;
   FilterRecord = (orientation): void => {
     this.TemplateList = this.MainTemplateList.filter(order => order.orientation === orientation);
   }
-  OpenViewContent(modalName, url,oType){
+  OpenViewContent(modalName, cnt,oType){
 
+    let clsName=''
+    if (oType=="496"){
+      localStorage.setItem("oType",oType)
+      clsName='lgx'
+    }
+    if (oType=="495"){
+      localStorage.setItem("oType",oType)
+        clsName= 'smg'
+      }
+      localStorage.removeItem('innerHtml')
+      localStorage.setItem('innerHtml',cnt)
+    this.modalService.open(modalName, {
+      size: clsName,
+    }); 
 
-    localStorage.setItem("ViewContent",url)
-    
-    if (oType!="portrait"){
-      localStorage.setItem("oType","496")
-      this.modalService.open(modalName, {
-        size: 'lgx',
-      }); 
-    }
-    if (oType=="portrait"){
-      localStorage.setItem("oType","495")
-      this.modalService.open(modalName,{
-        size: 'smg'
-      }); 
-    }
+     
     
   }
   CloseModal(){

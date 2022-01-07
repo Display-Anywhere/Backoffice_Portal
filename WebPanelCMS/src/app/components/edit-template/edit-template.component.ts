@@ -28,12 +28,14 @@ export class EditTemplateComponent implements OnInit {
     desc1:'',
     desc2:'',
     width:'',
-    height:''
+    height:'',
+    duration:''
   }
   selected_logoName=''
   selected_imgName=''
   templateId=  localStorage.getItem("edittemplate")
   isDisabled=true
+  txtTemplateName=''
   constructor(private serviceLicense: SerLicenseHolderService,public toastr: ToastrService,
     public auth: AuthService,private pService: PlaylistLibService,private modalService: NgbModal,
     private router: Router) { }
@@ -208,12 +210,24 @@ export class EditTemplateComponent implements OnInit {
     this.auth.SetEditTemplateOpen(false)
   }
   OpenViewContent(modalName){
-
-    localStorage.setItem('imgsrc',this.templatedata.imgurl)
-    localStorage.setItem('title',this.templatedata.title)
-    localStorage.setItem('desc',this.templatedata.desc)
-    localStorage.setItem('logosrc',this.templatedata.logoimgurl)
-    
+    let clsName=''
+    if (this.cmbLibraryGenre=="325"){
+      localStorage.setItem("oType","496")
+      clsName='lgx'
+    }
+    if (this.cmbLibraryGenre=="324"){
+      localStorage.setItem("oType","495")
+        clsName= 'smg'
+      }
+      
+      let cnt =this.GenrateHtml()
+      localStorage.removeItem('innerHtml')
+      localStorage.setItem('innerHtml',cnt)
+    this.modalService.open(modalName, {
+      size: clsName,
+    }); 
+  }
+  GenrateHtml(){
     localStorage.setItem('ngClass','')
     if (this.templateId=="2"){
       localStorage.setItem('ngClass','bg-success')
@@ -225,18 +239,15 @@ export class EditTemplateComponent implements OnInit {
       localStorage.setItem('ngClass','bg-warning')
     }
 
-    let clsName=''
     let content_Class=''
     let img_Class=''
     if (this.cmbLibraryGenre=="325"){
       localStorage.setItem("oType","496")
-      clsName='lgx'
       content_Class='col-lg-11'
       img_Class='col-lg-1'
     }
     if (this.cmbLibraryGenre=="324"){
       localStorage.setItem("oType","495")
-        clsName= 'smg'
         content_Class='col-lg-10'
         img_Class='col-lg-2'
       }
@@ -327,11 +338,177 @@ export class EditTemplateComponent implements OnInit {
       </div>
       `
     }
-    localStorage.removeItem('innerHtml')
-    localStorage.setItem('innerHtml',cnt)
-    this.modalService.open(modalName, {
-      size: clsName,
-    }); 
+    cnt=''
+    cnt=` <div class="row">
+          <div class="col-md-4">
+            <img src="images/logo.png" alt="">
+          </div>
+          <div class="col-md-8">
+            <img class="img-1" src="images/img-1.jpg" alt="">
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="row">
+            <div class="col-md-10 p-0">
+              <div class="main-banner d-flex justify-content-center">
+                <h2>
+                  We make <br> technology <br> work for people
+                </h2>
+              </div>
+            </div>
+            <div class="col-md-2 p-0">
+              <div class="box"></div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 content">
+          <h3>About Us</h3>
+          <p>Shineology Inc. is an IT company committed to creating excellent connections between 
+            people and technology.  We have been providing quality advanced technology
+            services to our customers since 2030. We make business  people and professional’s 
+            work as convenient as possible.</p>
+          <h3 class="mt-3">Services Offered</h3>
+          <div class="row">
+            <div class="col-md-6">
+              <p>Mobile Application</p>
+              <p>Programming & Networking </p>
+              <p>System Setup</p>
+            </div>
+            <div class="col-md-6">
+              <p>Mobile App Development</p>
+              <p>Website Design & Maintenance</p>
+              <p>Computer Repair</p>
+            </div>
+          </div>
+        </div>
+        <footer>
+          <div class="col-12">
+            <div class="row">
+              <div class="col-md-4">
+                <h3>Get in <br> Touch</h3>
+              </div>
+              <div class="col-md-4">
+                <div>
+                  <p>208-857-7264</p>
+                <p>yourwebsite.com</p>
+                <p>youremail@companyname.com </p>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div>
+                  <h4 class="pt-2 md-pt-0">Visit us at </h4>
+                <p>3706 Isaacs Creek Road</p>
+                <p>Decatur, IL 62522</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </footer>`
+        cnt=''
+        localStorage.setItem('ngClass','template1')
+        cnt=`<div class="row">
+        <div class="col-md-5">
+          <img class="logo" src="assets/basic-images/logo.svg" alt="" />
+        </div>
+        <div class="col-md-7">
+          <img class="img-1" src="assets/template1-images/templateimg1-1.jpg" alt="" />
+        </div>
+      </div>
+      <!-- main -->
+      <div class="col-12">
+        <div class="row">
+          <div class="col-md-10 p-0">
+            <div class="main-banner d-flex justify-content-center">
+              <h2>
+                Lorem ipsum dolor sit <br> amet consectetur <br> adipisicing elit.
+              </h2>
+            </div>
+          </div>
+          <div class="col-md-2 p-0">
+            <div class="box"></div>
+          </div>
+        </div>
+      </div>
+      <!-- main end -->
+      <!-- text section start -->
+      <div class="col-12 content">
+        <h3>About Us</h3>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis, placeat eos! Atque praesentium amet explicabo excepturi sequi natus dolore asperiores, aut, dolores nihil tempore voluptatibus quas soluta? Saepe ab sapiente voluptas unde nesciunt enim ex doloribus odio rem nisi. Cumque praesentium obcaecati veniam modi dolorum.
+        </p>
+        <h3 class="mt-3">Services Offered</h3>
+        <div class="row">
+          <div class="col-md-6">
+            <p>Lorem ipsum dolor</p>
+            <p>consectetur adipisicing</p>
+            <p>Atque praesentium</p>
+          </div>
+          <div class="col-md-6">
+            <p>Lorem ipsum dolor</p>
+            <p>consectetur adipisicing</p>
+            <p>Atque praesentium</p>
+          </div>
+        </div>
+      </div>
+      <!-- text section end -->
+      <footer>
+        <div class="col-12">
+          <div class="row">
+            <div class="col-md-4">
+              <h3>
+                Get in <br />
+                Touch
+              </h3>
+            </div>
+            <div class="col-md-4">
+              <div>
+                <p>000-000-0000</p>
+                <p>yourwebsite.com</p>
+                <p>youremail@companyname.com</p>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div>
+                <h4 class="pt-2 md-pt-0">Visit us at</h4>
+                <p>000 Lorem ipsum dolor</p>
+                <p>City - 62522</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>`
+    return cnt
+  }
+  SaveTemplate(){
+    if (this.templatedata.duration==''){
+      this.toastr.info('Duration cannot be blank','');
+      return
+    }
+    this.loading= true
+    let cnt =this.GenrateHtml()
+    let body={
+      "id":0,
+      "tName": this.txtTemplateName,
+      "genreid":this.cmbLibraryGenre,
+      "width":this.templatedata.width,
+      "height":this.templatedata.height,
+      "tHtml": cnt,
+      "dfclientId": this.cmbCustomerId,
+      "duration": this.templatedata.duration
+    }
+    this.pService.SaveOwnTemplates(body).pipe()
+        .subscribe((data) => {
+          this.loading = false;
+          this.toastr.info("Saved")
+        },
+        (error) => {
+          this.toastr.error(
+            'Apologies for the inconvenience.The error is recorded.',
+            ''
+          );
+          this.loading = false;
+        }
+      );
   }
   CustomRatio(e){
     if (e.target.checked) {

@@ -208,4 +208,11 @@ export class PlaylistLibService {
     return this.http.post(this.cApi.SaveClientContentBlock, params, { headers })
       .pipe((data => data));
   }
+  SaveOwnTemplates(json) {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const params = JSON.stringify(json);
+    return this.http.post(this.cApi.SaveOwnTemplates, params, { headers })
+      .pipe((data => data));
+  }
+ 
 }

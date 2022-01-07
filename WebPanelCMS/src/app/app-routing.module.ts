@@ -93,7 +93,6 @@ const routes: Routes = [
    { 
     path: 'general', 
     loadChildren: () => import('./components/components.module').then(m => m.ComponentsModule),
-    canActivate:[AuthGuard]
    },
    {
     path: '',

@@ -155,6 +155,9 @@ export class ConfigAPI {
    SavePublishToken: string = this.Host_panel + 'SavePublishToken';
    GetlatitudeANDlongitude: string = this.Host_panel + 'GetlatitudeANDlongitude';
    AssignCustomers: string = this.Host_panel + 'AssignCustomers';
+   SaveOwnTemplates: string = this.Host + 'SaveOwnTemplates';
+   GetOwnTemplates: string = this.Host + 'GetOwnTemplates';
+   GetOwnTemplatesHTMLContent: string = this.Host + 'GetOwnTemplatesHTMLContent';
 }
 
 // localStorage.setItem('UserId', obj.UserId);

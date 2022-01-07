@@ -3,7 +3,7 @@
 <div class="row m-0 p-0">
     <div class="col-lg-12 p-0">
     <div class="form-row">
-      <div class="form-group col-sm-1 m-0">
+      <div class="form-group col-sm-1 m-0 d-none">
         <label for="SearchAdvtDate" class="mb-2 mr-sm-2">Date:</label>
         <input
           id="SearchAdvtDate"
@@ -137,9 +137,8 @@
               <th scope="col" style="width: 60px">
               </th>
               <th scope="col">Template Name</th>
-              <th scope="col">Orientation</th>
               <th scope="col">Duration (Seconds)</th>
-              <th scope="col">Refersh Time (Seconds)</th>
+              <!--<th scope="col">Refersh Time (Seconds)</th>-->
             </tr>
           </thead>
           <tbody>
@@ -148,7 +147,7 @@
                 <div class="custom-control custom-checkbox">
                   <input
                     (change)="
-                      SelectTemplates(tLst.url, tLst.name, tLst.id,tLst.duration,tLst.Refersh, $event)
+                      SelectTemplates('', tLst.tname, tLst.id,tLst.duration,tLst.Refersh, $event)
                     "
                     type="checkbox"
                     class="custom-control-input"
@@ -163,17 +162,16 @@
                 </div>
               </td>
               <td data-label="Template Name">
-                <a href="javascript:;" (click)="OpenViewContent(viewcontent, tLst.url,tLst.orientation)">
-                  {{ tLst.name }}
+                <a href="javascript:;" (click)="OpenViewContent(viewcontent, tLst.tHtml,tLst.genreId)">
+                  {{ tLst.tname }}
                 </a>
               </td>
-              <td data-label="Orientation">{{ tLst.orientation }}</td>
               <td data-label="Duration">
                 {{ tLst.duration }}
               </td>
-              <td data-label="Refersh Time">
+              <!--<td data-label="Refersh Time">
                 {{ tLst.Refersh }}
-              </td>
+              </td>-->
             </tr>
           </tbody>
         </table>
@@ -195,7 +193,7 @@
     </button>
    
   <div class="modal-body p-0">
-    <app-view-content></app-view-content>
+    <app-playeractivationlog></app-playeractivationlog>
   </div>
   </ng-template>
   <ng-template #modalGenre let-c="close" let-d="dismiss">

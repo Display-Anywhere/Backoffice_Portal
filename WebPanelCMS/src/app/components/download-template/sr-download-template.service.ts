@@ -34,4 +34,16 @@ export class SrDownloadTemplateService {
     return this.http.post(this.cApi.DownloadTemplatesConvertTOMp4,params,{headers:headers})
      .pipe((data=>{return data;}))
   }
+  GetOwnTemplates(dfClientId:string , GenreId, cDate, search){
+    let headers = new HttpHeaders({ 'Content-Type':'application/json' });
+    var params = JSON.stringify({ dfClientId , GenreId, cDate, search});
+    return this.http.post(this.cApi.GetOwnTemplates,params,{headers:headers})
+     .pipe((data=>{return data;}))
+  }
+  GetOwnTemplatesHTMLContent(_id:string){
+    let headers = new HttpHeaders({ 'Content-Type':'application/json' });
+    var params = JSON.stringify({ _id});
+    return this.http.post(this.cApi.GetOwnTemplatesHTMLContent,params,{headers:headers})
+     .pipe((data=>{return data;}))
+  }
 }

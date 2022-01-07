@@ -414,3 +414,234 @@ td {
   color: #000 !important;
   background-color: #ffc107 !important;
 }
+
+/* template1 css start */
+.template1 {
+  font-family: 'Poppins', sans-serif !important;
+}
+.template1 .logo {
+  width: 210px;
+}
+.template1 .img-1 {
+  width: 100%;
+  z-index: -100;
+}
+.template1 .main-banner{
+  background-color: #1b1c1b;
+  color: #fff;
+  padding: 2.5rem;
+  margin-top: -9rem;
+  position: relative;
+}
+.template1 .main-banner h2 {
+  font-size: 2.2rem;
+}
+.template1 .main-banner:after {
+  content: '';
+}
+.template1 .box{
+  background-color: #00a5b7;
+  padding: 1rem;
+  margin-left: -3.5rem;
+  position: relative;
+  margin-right: 5rem;
+  margin-top: -3rem;
+}
+.template1 .content{
+  padding: 1rem;
+  position: relative;
+}
+.template1 .content h3 {
+  font-size: 18px;
+  color: #1b1b1b;
+}
+.template1 .content p {
+  font-size: 12px;
+  margin-bottom: 0.2rem;
+}
+.template1 .content:before {
+  content: "";
+  display: block;
+  width: 5px;
+  height: 175px;
+  background: #00a5b7;
+  left: 0;
+  position: absolute;
+}
+.template1 footer {
+  background-color: #1b1c1b;
+  padding: 1rem;
+  color: #fff;
+}
+.template1 footer p{
+  margin-bottom: 0;
+  font-size: 10px;
+}
+.template1 footer h4 {
+  margin-bottom: 0.2rem;
+  font-size: 14px;
+}
+.template1 footer h3 {
+  font-size: 20px;
+}
+.template1 footer .col-md-4{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (max-width: 650px) {
+  .template1 .content:before {
+    content: none;
+  }
+  .template1 .box {
+    display: none;
+  }
+  .template1 .main-banner {
+    padding: 2rem;
+    margin-top: -4rem;
+  }
+  .template1 .main-banner h2 {
+    font-size: 2rem;
+  }
+  .template1 footer .col-md-4{
+    display: flex;
+    justify-content: left;
+    align-items: initial;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 820px) {
+  .template1 .main-banner {
+    margin-top: -7rem;
+  }
+  .template1 .box {
+    display: none;
+  }
+  .template1 .content:before {
+    height: 270px;
+  }
+  .template1 .content:before {
+    content: none;
+  }
+  .template1 .logo {
+    width: 130px;
+  }
+}
+/* template1 css end */
+
+/* template1 css start */
+.template1 {
+  font-family: 'Poppins', sans-serif !important;
+}
+.template1 .logo {
+  width: 210px;
+}
+.template1 .img-1 {
+  width: 100%;
+  z-index: -100;
+}
+.template1 .main-banner{
+  background-color: #1b1c1b;
+  color: #fff;
+  padding: 2.5rem;
+  margin-top: -9rem;
+  position: relative;
+}
+.template1 .main-banner h2 {
+  font-size: 2.2rem;
+}
+.template1 .main-banner:after {
+  content: '';
+}
+.template1 .box{
+  background-color: #00a5b7;
+  padding: 1rem;
+  margin-left: -3.5rem;
+  position: relative;
+  margin-right: 5rem;
+  margin-top: -3rem;
+}
+.template1 .content{
+  padding: 1rem;
+  position: relative;
+}
+.template1 .content h3 {
+  font-size: 18px;
+  color: #1b1b1b;
+}
+.template1 .content p {
+  font-size: 12px;
+  margin-bottom: 0.2rem;
+}
+.template1 .content:before {
+  content: "";
+  display: block;
+  width: 5px;
+  height: 175px;
+  background: #00a5b7;
+  left: 0;
+  position: absolute;
+}
+.template1 footer {
+  background-color: #1b1c1b;
+  padding: 1rem;
+  color: #fff;
+}
+.template1 footer p{
+  margin-bottom: 0;
+  font-size: 10px;
+}
+.template1 footer h4 {
+  margin-bottom: 0.2rem;
+  font-size: 14px;
+}
+.template1 footer h3 {
+  font-size: 20px;
+}
+.template1 footer .col-md-4{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (max-width: 650px) {
+  .template1 .content:before {
+    content: none;
+  }
+  .template1 .box {
+    display: none;
+  }
+  .template1 .main-banner {
+    padding: 2rem;
+    margin-top: -4rem;
+  }
+  .template1 .main-banner h2 {
+    font-size: 2rem;
+  }
+  .template1 footer .col-md-4{
+    display: flex;
+    justify-content: left;
+    align-items: initial;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 820px) {
+  .template1 .main-banner {
+    margin-top: -7rem;
+  }
+  .template1 .box {
+    display: none;
+  }
+  .template1 .content:before {
+    height: 270px;
+  }
+  .template1 .content:before {
+    content: none;
+  }
+  .template1 .logo {
+    width: 130px;
+  }
+}
+/* template1 css end */
+
