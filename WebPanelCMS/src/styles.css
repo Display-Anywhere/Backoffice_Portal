@@ -427,6 +427,9 @@ td {
 .fixed {
   position: fixed;
 }
+.mt-n7 {
+  margin-top: -5rem;
+}
 /* basic classes end */
 
 /* temp-1 css start */
