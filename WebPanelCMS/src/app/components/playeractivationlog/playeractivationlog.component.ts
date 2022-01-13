@@ -32,6 +32,7 @@ GetTemplateHtmlContent(id){
           console.log(obj)
           this.content = obj[0].tHtml
           console.log(obj[0].tHtml)
+          this.ngClass=obj[0].bgColor
         }
         else{
           this.content=''

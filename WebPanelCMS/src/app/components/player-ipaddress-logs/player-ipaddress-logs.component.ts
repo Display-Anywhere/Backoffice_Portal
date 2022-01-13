@@ -23,6 +23,7 @@ export class PlayerIPAddressLogsComponent implements OnInit {
   public loading = false;
   cid="0"
   tid="0"
+  MapLocation=''
   TokenList
   page: number = 1;
   pageSize: number = 20;
@@ -104,8 +105,15 @@ export class PlayerIPAddressLogsComponent implements OnInit {
     
   }
   onChangePlayer(deviceValue) {
-    this.tid=deviceValue;
-    this.FillRecords();
+    try {
+      this.tid=deviceValue;
+      this.MapLocation=''
+      let obj= this.TokenList.filter(o=>o.tokenid===this.tid)
+      this.MapLocation= obj[0].Maplocation
+      this.FillRecords();
+      } catch (error) {
+        this.LogList=[];
+    }
   }
   FillRecords(){
     this.loading = true;

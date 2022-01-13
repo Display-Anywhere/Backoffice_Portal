@@ -5,3 +5,28 @@
     -webkit-box-shadow: 1px 0px 5px 3px rgba(123,123,123,1);
     -moz-box-shadow: 1px 0px 5px 3px rgba(123,123,123,1);
 }
+.bg-primary {
+    background-color: #007bff!important;
+}
+.bg-secondary {
+    background-color: #6c757d!important;
+}
+.bg-success {
+    background-color: #28a745!important;
+}
+.bg-danger {
+    background-color: #dc3545!important;
+}
+.bg-warning {
+    background-color: #ffc107!important;
+}
+.bg-info {
+    background-color: #17a2b8!important;
+}
+.bg-light {
+    background-color: #f8f9fa!important;
+}
+.bg-dark {
+    background-color: #343a40!important;
+}
+

@@ -158,7 +158,8 @@ export class TokenInfoComponent implements OnInit {
       OsVersion:[''],
       isShowKeyboardToast: [false],
       dfclientid: ["0"],
-      IsCheckGroupSchedule:[false]
+      IsCheckGroupSchedule:[false],
+      Maplocation:['']
     });
     this.TokenInfoModifyPlaylist = this.formBuilder.group({
       ModifyPlaylistName: [''],
@@ -554,7 +555,8 @@ this.submitted = true;this.loading = true;
             OsVersion:[objTokenData[0].OsVersion],
             isShowKeyboardToast: [objTokenData[0].isShowKeyboardToast],
             dfclientid: [objTokenData[0].ClientId],
-            IsCheckGroupSchedule:[false]
+            IsCheckGroupSchedule:[false],
+            Maplocation: [objTokenData[0].Maplocation]
           }); }, 500);       
          
           this.chkIndicatorBox = objTokenData[0].Indicator;

@@ -15,8 +15,10 @@
             {{ tLst.tokenid }}-{{ tLst.location }}-{{ tLst.city }} [{{tLst.MediaType}}]
           </option>
         </select>
+        <a *ngIf="MapLocation != ''" class="btn btn-primary mb-2 mr-1 mt-n1 mt-2" [href]="MapLocation" target="_blank"
+        ><i class="fa fa-map-marker" aria-hidden="true"></i>
+      </a>
       </div>
-         
     </div>
  
       
@@ -56,8 +58,8 @@
                       <td data-label="Token Code">
                         {{ cLst.tokenid }}
                       </td>
-                      <td data-label="Ip Address"  (click)="OpenGoogleMap(cLst.IpAddress,Mapcontent)" > <!-- -->
-                        {{ cLst.IpAddress }} <i class="fa fa-map-marker" aria-hidden="true"></i>
+                      <td data-label="Ip Address"   > <!-- -->
+                        {{ cLst.IpAddress }} 
                       </td>
                       <td data-label="DateTime">
                         {{ cLst.cDateT }}
@@ -91,9 +93,9 @@
             </div>
             <div class="modal-body p-1">
              <div class="col-lg-12" >
-              <agm-map [zoom]="15" [latitude]="lat" [longitude]="lng">
+              <!--<agm-map [zoom]="15" [latitude]="lat" [longitude]="lng">
                 <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
-              </agm-map>
+              </agm-map>-->
              </div>
             </div>
           </ng-template>

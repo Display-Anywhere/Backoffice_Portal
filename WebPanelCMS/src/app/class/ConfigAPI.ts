@@ -3,7 +3,7 @@ export class ConfigAPI {
    private Host: string = "https://api.advikon.com/api/";
    //private Host: string = "https://panelapi.advikon.com/api/";
    //private Host: string = "http://localhost:60328/api/";
-   private Host_panel: string = "https://panelapi.advikon.com/api/";
+   //private Host_panel: string = "https://api.advikon.com/api/";
    //private Host_panel: string = "http://localhost:60328/api/";
 
    FillQueryCombo: string = this.Host + 'FillQueryCombo';
@@ -17,10 +17,10 @@ export class ConfigAPI {
    EditClickCustomer: string = this.Host + 'EditClickCustomer';
    DeleteCustomer: string = this.Host + 'DeleteCustomer';
    BestOf: string = this.Host + 'BestOf';
-   PlaylistSong: string = this.Host_panel + 'PlaylistSong';
+   PlaylistSong: string = this.Host + 'PlaylistSong';
    SaveBestPlaylist: string = this.Host + 'SaveBestPlaylist';
    AddPlaylistSong: string = this.Host + 'AddPlaylistSong';
-   CommanSearch: string = this.Host_panel + 'CommanSearch';
+   CommanSearch: string = this.Host + 'CommanSearch';
    DeleteTitle: string = this.Host + 'DeleteTitle';
    SavePlaylist: string = this.Host + 'SavePlaylist';
    SavePlaylistFromBestOf: string = this.Host + 'SavePlaylistFromBestOf';
@@ -47,7 +47,7 @@ export class ConfigAPI {
    EditUser: string = this.Host + 'EditUser';
    DeleteUser: string = this.Host + 'DeleteUser';
    SaveUpdateUser: string = this.Host + 'SaveUpdateUser';
-   FillPlayedSongsLog: string = this.Host_panel + 'FillPlayedSongsLog';
+   FillPlayedSongsLog: string = this.Host + 'FillPlayedSongsLog';
    FillPlayedAdsLog: string = this.Host + 'FillPlayedAdsLog';
    CustomerLoginDetail: string = this.Host + 'CustomerLoginDetail';
    DeletePlaylist: string = this.Host + 'DeletePlaylist';
@@ -60,7 +60,7 @@ export class ConfigAPI {
    SaveModifyLogs: string = this.Host + 'SaveModifyLogs';
    FillAdminLogs: string = this.Host + 'FillAdminLogs';
    GetGenreList: string = this.Host + 'GetGenreList';
-   NewSavePlaylist: string = this.Host_panel + 'NewSavePlaylist';
+   NewSavePlaylist: string = this.Host + 'NewSavePlaylist';
    SaveAdPlaylist: string = this.Host + 'SaveAdPlaylist';
    FillAdPlaylist: string = this.Host + 'FillAdPlaylist';
    DeleteFormat: string = this.Host + 'DeleteFormat';
@@ -146,15 +146,15 @@ export class ConfigAPI {
    GetTokenIpAddressLogs: string = this.Host + 'GetTokenIpAddressLogs';
    GetPlaylistsTitlesDownloadStatus: string = this.Host + 'GetPlaylistsTitlesDownloadStatus';
    GetSplPlaylistDateWiseLive: string = this.Host + 'GetSplPlaylistDateWiseLive';
-   GetAdsDownloadStatus: string = this.Host_panel + 'GetAdsDownloadStatus';
-   SaveClientContentBlock: string = this.Host_panel + 'SaveClientContentBlock';
-   GetClientContentBlock: string = this.Host_panel + 'GetClientContentBlock';
-   DeleteClientContentBlock: string = this.Host_panel + 'DeleteClientContentBlock';
-   ContentTitleArtistSearch: string = this.Host_panel + 'ContentTitleArtistSearch';
-   SavePublishSchedule: string = this.Host_panel + 'SavePublishSchedule';
-   SavePublishToken: string = this.Host_panel + 'SavePublishToken';
-   GetlatitudeANDlongitude: string = this.Host_panel + 'GetlatitudeANDlongitude';
-   AssignCustomers: string = this.Host_panel + 'AssignCustomers';
+   GetAdsDownloadStatus: string = this.Host + 'GetAdsDownloadStatus';
+   SaveClientContentBlock: string = this.Host + 'SaveClientContentBlock';
+   GetClientContentBlock: string = this.Host + 'GetClientContentBlock';
+   DeleteClientContentBlock: string = this.Host + 'DeleteClientContentBlock';
+   ContentTitleArtistSearch: string = this.Host + 'ContentTitleArtistSearch';
+   SavePublishSchedule: string = this.Host + 'SavePublishSchedule';
+   SavePublishToken: string = this.Host + 'SavePublishToken';
+   GetlatitudeANDlongitude: string = this.Host + 'GetlatitudeANDlongitude';
+   AssignCustomers: string = this.Host + 'AssignCustomers';
    SaveOwnTemplates: string = this.Host + 'SaveOwnTemplates';
    GetOwnTemplates: string = this.Host + 'GetOwnTemplates';
    GetOwnTemplatesHTMLContent: string = this.Host + 'GetOwnTemplatesHTMLContent';

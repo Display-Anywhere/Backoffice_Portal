@@ -29,7 +29,8 @@ export class EditTemplateComponent implements OnInit {
     desc2:'',
     width:'',
     height:'',
-    duration:''
+    duration:'',
+    bgcolor:'bg-white'
   }
   selected_logoName=''
   selected_imgName=''
@@ -228,17 +229,7 @@ export class EditTemplateComponent implements OnInit {
     }); 
   }
   GenrateHtml(){
-    localStorage.setItem('ngClass','')
-    if (this.templateId=="2"){
-      localStorage.setItem('ngClass','bg-success')
-    }
-    if (this.templateId=="6"){
-      localStorage.setItem('ngClass','bg-primary')
-    }
-    if (this.templateId=="1"){
-      localStorage.setItem('ngClass','bg-warning')
-    }
-
+    localStorage.setItem('ngClass',this.templatedata.bgcolor)
     let content_Class=''
     let img_Class=''
     if (this.cmbLibraryGenre=="325"){
@@ -338,145 +329,6 @@ export class EditTemplateComponent implements OnInit {
       </div>
       `
     }
-    cnt=''
-    cnt=` <div class="row">
-          <div class="col-md-4">
-            <img src="images/logo.png" alt="">
-          </div>
-          <div class="col-md-8">
-            <img class="img-1" src="images/img-1.jpg" alt="">
-          </div>
-        </div>
-        <div class="col-12">
-          <div class="row">
-            <div class="col-md-10 p-0">
-              <div class="main-banner d-flex justify-content-center">
-                <h2>
-                  We make <br> technology <br> work for people
-                </h2>
-              </div>
-            </div>
-            <div class="col-md-2 p-0">
-              <div class="box"></div>
-            </div>
-          </div>
-        </div>
-        <div class="col-12 content">
-          <h3>About Us</h3>
-          <p>Shineology Inc. is an IT company committed to creating excellent connections between 
-            people and technology.  We have been providing quality advanced technology
-            services to our customers since 2030. We make business  people and professional’s 
-            work as convenient as possible.</p>
-          <h3 class="mt-3">Services Offered</h3>
-          <div class="row">
-            <div class="col-md-6">
-              <p>Mobile Application</p>
-              <p>Programming & Networking </p>
-              <p>System Setup</p>
-            </div>
-            <div class="col-md-6">
-              <p>Mobile App Development</p>
-              <p>Website Design & Maintenance</p>
-              <p>Computer Repair</p>
-            </div>
-          </div>
-        </div>
-        <footer>
-          <div class="col-12">
-            <div class="row">
-              <div class="col-md-4">
-                <h3>Get in <br> Touch</h3>
-              </div>
-              <div class="col-md-4">
-                <div>
-                  <p>208-857-7264</p>
-                <p>yourwebsite.com</p>
-                <p>youremail@companyname.com </p>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div>
-                  <h4 class="pt-2 md-pt-0">Visit us at </h4>
-                <p>3706 Isaacs Creek Road</p>
-                <p>Decatur, IL 62522</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </footer>`
-        cnt=''
-        localStorage.setItem('ngClass','template1')
-        cnt=`<div class="row">
-        <div class="col-md-5">
-          <img class="logo" src="assets/basic-images/logo.svg" alt="" />
-        </div>
-        <div class="col-md-7">
-          <img class="img-1" src="assets/template1-images/templateimg1-1.jpg" alt="" />
-        </div>
-      </div>
-      <!-- main -->
-      <div class="col-12">
-        <div class="row">
-          <div class="col-md-10 p-0">
-            <div class="main-banner d-flex justify-content-center">
-              <h2>
-                Lorem ipsum dolor sit <br> amet consectetur <br> adipisicing elit.
-              </h2>
-            </div>
-          </div>
-          <div class="col-md-2 p-0">
-            <div class="box"></div>
-          </div>
-        </div>
-      </div>
-      <!-- main end -->
-      <!-- text section start -->
-      <div class="col-12 content">
-        <h3>About Us</h3>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis, placeat eos! Atque praesentium amet explicabo excepturi sequi natus dolore asperiores, aut, dolores nihil tempore voluptatibus quas soluta? Saepe ab sapiente voluptas unde nesciunt enim ex doloribus odio rem nisi. Cumque praesentium obcaecati veniam modi dolorum.
-        </p>
-        <h3 class="mt-3">Services Offered</h3>
-        <div class="row">
-          <div class="col-md-6">
-            <p>Lorem ipsum dolor</p>
-            <p>consectetur adipisicing</p>
-            <p>Atque praesentium</p>
-          </div>
-          <div class="col-md-6">
-            <p>Lorem ipsum dolor</p>
-            <p>consectetur adipisicing</p>
-            <p>Atque praesentium</p>
-          </div>
-        </div>
-      </div>
-      <!-- text section end -->
-      <footer>
-        <div class="col-12">
-          <div class="row">
-            <div class="col-md-4">
-              <h3>
-                Get in <br />
-                Touch
-              </h3>
-            </div>
-            <div class="col-md-4">
-              <div>
-                <p>000-000-0000</p>
-                <p>yourwebsite.com</p>
-                <p>youremail@companyname.com</p>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div>
-                <h4 class="pt-2 md-pt-0">Visit us at</h4>
-                <p>000 Lorem ipsum dolor</p>
-                <p>City - 62522</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </footer>`
     return cnt
   }
   SaveTemplate(){
@@ -486,20 +338,29 @@ export class EditTemplateComponent implements OnInit {
     }
     this.loading= true
     let cnt =this.GenrateHtml()
+    let genreId=''
+    if (this.cmbLibraryGenre=="325"){
+      genreId="496"
+    }
+    if (this.cmbLibraryGenre=="324"){
+      genreId="495"
+    }
     let body={
       "id":0,
       "tName": this.txtTemplateName,
-      "genreid":this.cmbLibraryGenre,
+      "genreid":genreId,
       "width":this.templatedata.width,
       "height":this.templatedata.height,
       "tHtml": cnt,
       "dfclientId": this.cmbCustomerId,
-      "duration": this.templatedata.duration
+      "duration": this.templatedata.duration,
+      "bgcolor": this.templatedata.bgcolor
     }
     this.pService.SaveOwnTemplates(body).pipe()
         .subscribe((data) => {
           this.loading = false;
           this.toastr.info("Saved")
+          this.auth.SetEditTemplateOpen(false)
         },
         (error) => {
           this.toastr.error(

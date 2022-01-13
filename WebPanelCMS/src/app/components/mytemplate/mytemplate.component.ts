@@ -497,7 +497,7 @@ this.preventAbuse = true;
   FilterRecord = (orientation): void => {
     this.TemplateList = this.MainTemplateList.filter(order => order.orientation === orientation);
   }
-  OpenViewContent(modalName, cnt,oType){
+  OpenViewContent(modalName, cnt,oType,bgcolor){
 
     let clsName=''
     if (oType=="496"){
@@ -510,6 +510,7 @@ this.preventAbuse = true;
       }
       localStorage.removeItem('innerHtml')
       localStorage.setItem('innerHtml',cnt)
+      localStorage.setItem('ngClass',bgcolor)
     this.modalService.open(modalName, {
       size: clsName,
     }); 

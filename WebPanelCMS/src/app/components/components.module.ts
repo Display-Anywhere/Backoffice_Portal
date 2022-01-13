@@ -167,11 +167,14 @@ PlayeractivationlogComponent
     DataTablesModule,
     NgMultiSelectDropDownModule.forRoot(),
     FileUploadModule,
-    AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyB8QxAguyrwBCX_eApLymamjHYyjlJKD0g'
-    })
   ],
   providers:[{provide: DateTimeAdapter, useClass: MomentDateTimeAdapter, deps: [OWL_DATE_TIME_LOCALE]},
   {provide: OWL_DATE_TIME_FORMATS, useValue: MY_CUSTOM_FORMATS}]
 })
 export class ComponentsModule { }
+/*
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyB8QxAguyrwBCX_eApLymamjHYyjlJKD0g'
+    })
+
+*/
