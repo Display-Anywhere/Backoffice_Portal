@@ -371,10 +371,10 @@ td {
   max-width: 370px !important;
   width: 370px !important;
 }
-.modal-lgx {
+/* .modal-lgx {
   max-width: 993px !important;
   width: 993px !important;
-}
+} */
 .owl-dt-calendar-table{
   height: 100% !important;
 }
@@ -433,9 +433,9 @@ td {
 /* basic classes end */
 
 /* temp-1 css start */
-body, html {
+/* body, html {
   height: 100%;
-}
+} */
 .bg-1 {
   background: url('/assets/temp1-images/bg.jpg');
   height: 100%;
@@ -502,3 +502,9 @@ body, html {
   }
 }
 /* temp-1 css end */
+@media (min-width: 1024px){
+  .modal-lgx {
+    max-width: 993px !important;
+    width: 993px !important;
+  } 
+}
