@@ -371,6 +371,10 @@ td {
   max-width: 370px !important;
   width: 370px !important;
 }
+.modal-smgN {
+  max-width: 570px !important;
+  width: 570px !important;
+}
 /* .modal-lgx {
   max-width: 993px !important;
   width: 993px !important;

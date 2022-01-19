@@ -218,7 +218,7 @@ export class EditTemplateComponent implements OnInit {
     }
     if (this.cmbLibraryGenre=="324"){
       localStorage.setItem("oType","495")
-        clsName= 'smg'
+        clsName= 'smgN'
       }
       
       let cnt =this.GenrateHtml()
@@ -311,23 +311,20 @@ export class EditTemplateComponent implements OnInit {
       }
     }
     if (this.templateId==="1"){
-      let title=`<h1 class="fa-4x mb-3">`+this.templatedata.title+`</h1>`
-      if (this.cmbLibraryGenre=="324"){
-        title=`<h3 class="mb-3">`+this.templatedata.title+`</h3>`
-      }
+      localStorage.setItem('logosrc',this.templatedata.logoimgurl)
+      localStorage.setItem('title',this.templatedata.title)
+      localStorage.setItem('desc',this.templatedata.desc)
       cnt=""
-      cnt=`<div class="row mt-2 mb-2">
-      <div class="col-lg-12 mt-2 text-right mb-5">
-      <img class="img-thumbnail" width="100" height="100" src="`+this.templatedata.logoimgurl+`">
+      cnt=`  
+      <div class="col-12 d-flex justify-content-end">
+        <img src="`+this.templatedata.logoimgurl+`" alt="">
       </div>
-      <div class="col-lg-12 mr-0 pr-0 text-center pb-5">
-      `+title+`
-      <p class=" fa-2x mb-5"><strong>`+this.templatedata.desc+`</strong></p>
-      <i class="fa fa-exclamation-circle fa-5x" aria-hidden="true"></i>
+      <div class="col-12 text-center content">
+        <h3>`+this.templatedata.title+`</h3>
+        <h4>`+this.templatedata.desc+`</h4>
+        <img src="assets/images/temp-0/exclamation.png" alt="">
       </div>
-      
-      </div>
-      `
+  `
     }
     return cnt
   }
