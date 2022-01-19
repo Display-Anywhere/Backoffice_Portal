@@ -1,4 +1,4 @@
-<!--<div [ngClass]="ngClass"  [innerHtml]="content"></div>-->
+<!--<div class="container" [ngClass]="ngClass" [innerHtml]="content"></div>-->
 <!-- <div class="bg-1 temp-1 mt-n7">
     <div class="container-fluid">
       <div class="row">
@@ -38,14 +38,37 @@
     </div>
   </div> -->
   <!-- 1 template start -->
-  <div class="row temp-0 mt-n7" [ngClass]="ngClass">
+  <!-- <div class="row temp-0">
     <div class="col-12 d-flex justify-content-end">
-      <img [src]="logosrc" alt="" class="col-3">
+      <img src="assets/basic-images/logo.png" alt="">
     </div>
     <div class="col-12 text-center content">
-      <h3>{{title}}</h3>
-      <h4>{{desc}}</h4>
+      <h3>Wearing a Face Mask</h3>
+      <h4>is required to enter</h4>
       <img src="assets/images/temp-0/exclamation.png" alt="">
     </div>
+  </div> --> 
+  <!-- 1 template end -->
+  <!-- template 2 start -->
+  <div class="row temp-1">
+    <div class="col-12 p-0">
+      <img class="m-img d-none d-lg-block" src="assets/images/temp-1/1.jpg" alt="">
+      <img class="m-img d-block d-lg-none" src="assets/images/temp-1/1-mobile.jpg" alt="">
+    </div>
+    <footer>
+      <div class="col-12">
+        <div class="container">
+          <div class="row">
+            <div class="col-10">
+                <h2>Title</h2>
+                <p>Plain Text</p>
+            </div>
+            <div class="col-2 d-flex justify-content-end">
+              <img class="logo" src="assets/basic-images/logo.png" alt="">
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
   </div>
-<!-- 1 template end -->
+  <!-- template 2 end -->
