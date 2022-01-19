@@ -22,10 +22,19 @@
 .bg-dark {
     background-color: #343a40!important;
 }
+/* basic styles */
+.temp {
+    margin-top: -0.5rem !important;
+}
+@media (max-width: 1024px){
+    .temp{
+        margin-top: -1.5rem !important;
+    }
+}
+/* basic styles end */
 /* temp-0 start */
 .temp-0 {
-    background-color: #ffc200;
-    margin-top: -0.5rem !important;
+    background-color: #ffc200;    
 }
 .temp-0 .content h4{
     font-size: 3.35rem;
@@ -52,17 +61,11 @@
         margin-bottom: 9rem;
     }
 }
-@media (max-width: 1024px){
-    .temp-0{
-        margin-top: -1.5rem !important;
-    }
-}
 /* temp-0 end */
 /* temp-1 start */
 .temp-1 {
   /* background: url("src/assets/images/temp-1/1.jpg") no-repeat;
   background-size: cover; */
-  margin-top: -0.5rem !important;
 }
 .temp-1 .m-img {
   width: inherit;
@@ -86,12 +89,39 @@
     bottom: inherit;
     width: 100%;
 }
-.temp-1{
-  margin-top: -1.5rem !important;
-}
 .temp-1 .logo{
   max-width: initial;
   width: 90px;
 }
 }
 /* temp-1 end */
+/* temp-2 start */
+.temp-2 .logo{
+    position: absolute;
+}
+.temp-2 h2 {
+    color: #2b55aa;
+    margin-top: 3rem;
+    margin-left: 2rem;
+}
+.temp-2 p {
+    margin-left: 2rem;
+}
+.temp-2 .content-box {
+    position: relative;
+    background: #2b55aa;
+    color: #fff;
+    padding: 3rem 4rem;
+    padding-left: 3rem;
+    border-radius: 0 50px 0;
+    margin-top: 4rem;
+    margin-left: -9rem;
+}
+@media (max-width: 1024px){
+    .temp-2 .content-box {
+      padding: 13px 0;
+    	margin: 0;
+    	border-radius: 0;
+    }
+}
+/* temp-2 end */
