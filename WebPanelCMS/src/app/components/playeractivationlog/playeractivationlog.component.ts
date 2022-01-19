@@ -44,6 +44,9 @@ GetTemplateHtmlContent(id){
 }
   ngOnInit(): void {
     this.content= localStorage.getItem('innerHtml')
+    this.logosrc= localStorage.getItem('logosrc')
+    this.title= localStorage.getItem('title')
+    this.desc= localStorage.getItem('desc')
   }
 
 }

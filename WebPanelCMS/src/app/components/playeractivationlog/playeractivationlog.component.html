@@ -1,4 +1,4 @@
-<!--<div class="container" [ngClass]="ngClass" [innerHtml]="content"></div>-->
+<!--<div [ngClass]="ngClass"  [innerHtml]="content"></div>-->
 <!-- <div class="bg-1 temp-1 mt-n7">
     <div class="container-fluid">
       <div class="row">
@@ -38,14 +38,14 @@
     </div>
   </div> -->
   <!-- 1 template start -->
-  <div class="row temp-0">
+  <div class="row temp-0 mt-n7" [ngClass]="ngClass">
     <div class="col-12 d-flex justify-content-end">
-      <img src="assets/basic-images/logo.png" alt="">
+      <img [src]="logosrc" alt="" class="col-3">
     </div>
     <div class="col-12 text-center content">
-      <h3>Wearing a Face Mask</h3>
-      <h4>is required to enter</h4>
+      <h3>{{title}}</h3>
+      <h4>{{desc}}</h4>
       <img src="assets/images/temp-0/exclamation.png" alt="">
     </div>
   </div>
-  <!-- 1 template end -->
+<!-- 1 template end -->
