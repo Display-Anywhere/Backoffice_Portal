@@ -57,8 +57,6 @@ import { EditTemplateComponent } from './edit-template/edit-template.component';
 import { CommonComponentsRoutes } from './components.rotute';
 import { AssigncustomersComponent } from './assigncustomers/assigncustomers.component';
 import { PlayeractivationlogComponent } from './playeractivationlog/playeractivationlog.component';
-import { AgmCoreModule } from '@agm/core';
-
 //import { OwlMomentDateTimeModule } from 'ng-pick-datetime/date-time/adapter/moment-adapter/moment-date-time.module';
 export const MY_CUSTOM_FORMATS = {
   parseInput: 'LL LT',

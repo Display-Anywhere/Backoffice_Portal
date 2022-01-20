@@ -95,6 +95,7 @@ export class PlayerIPAddressLogsComponent implements OnInit {
       .subscribe(data => {
         var returnData = JSON.stringify(data);
         this.TokenList = JSON.parse(returnData);
+        this.TokenList.sort(this.GetSortOrder("city",true));
         this.loading = false;
         //this.FillRecords();
       },
@@ -103,6 +104,16 @@ export class PlayerIPAddressLogsComponent implements OnInit {
           this.loading = false;
         })
     
+  }
+  GetSortOrder(prop,asc) {    
+    return function(a, b) {    
+      if (asc) {
+        return (a[prop] > b[prop]) ? 1 : ((a[prop] < b[prop]) ? -1 : 0);
+    } else {
+        return (b[prop] > a[prop]) ? 1 : ((b[prop] < a[prop]) ? -1 : 0);
+    }   
+        return 0;    
+    } 
   }
   onChangePlayer(deviceValue) {
     try {

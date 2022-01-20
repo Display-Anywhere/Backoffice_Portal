@@ -12,7 +12,7 @@
         >
           <option selected value="0"></option>
           <option *ngFor="let tLst of TokenList" [value]="tLst.tokenid">
-            {{ tLst.tokenid }}-{{ tLst.location }}-{{ tLst.city }} [{{tLst.MediaType}}]
+            {{ tLst.city }}--{{ tLst.location }}--{{ tLst.tokenid }}--[{{tLst.MediaType}}]
           </option>
         </select>
         <a *ngIf="MapLocation != ''" class="btn btn-primary mb-2 mr-1 mt-n1 mt-2" [href]="MapLocation" target="_blank"
