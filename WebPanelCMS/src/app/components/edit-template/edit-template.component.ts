@@ -51,6 +51,12 @@ export class EditTemplateComponent implements OnInit {
       this.templatedata.desc='is required to enter'
       this.templatedata.bgcolor='bg-warning'
     }
+    if (this.templateId=="6"){
+      this.templatedata.bgcolor='bg-info'
+    }
+    if (this.templateId=="3"){
+      this.templatedata.bgcolor='bg-primary'
+    }
   }
   FillClientList() {
     this.loading = true;
@@ -219,20 +225,7 @@ export class EditTemplateComponent implements OnInit {
     this.auth.SetEditTemplateOpen(false)
   }
   OpenViewContent(modalName){
-   
-    let clsName=''
-    if (this.cmbLibraryGenre=="325"){
-      localStorage.setItem("oType","496")
-      clsName='lgx'
-    }
-    if (this.cmbLibraryGenre=="324"){
-      localStorage.setItem("oType","495")
-        clsName= 'smgN'
-      }
-      
-      let cnt =this.GenrateHtml()
-      localStorage.removeItem('innerHtml')
-      let IframeSRC_Safe = this.templateHost+ '?templateId=1&title='+this.templatedata.title+'&desc='+this.templatedata.desc+'&logosrc='+this.templatedata.logoimgurl+ '&ngClass='+this.templatedata.bgcolor
+      let IframeSRC_Safe = this.templateHost+ '?templateId='+this.templateId+'&title='+this.templatedata.title+'&desc='+this.templatedata.desc+'&logosrc='+this.templatedata.logoimgurl+ '&ngClass='+this.templatedata.bgcolor+'&imgSrc='+this.templatedata.imgurl+ '&text1='+this.templatedata.desc1+'&text2='+this.templatedata.desc2
       this.IframeSRC = this.sanitizer.bypassSecurityTrustResourceUrl(IframeSRC_Safe);
       this.IsClickPreview=true
   }
