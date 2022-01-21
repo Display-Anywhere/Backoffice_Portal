@@ -2,9 +2,9 @@
 
 <div class="container-fluid p-0 m-0 bg-white">
 <div class="row">
-    <div class="col-5" style="border-right: 3px solid #c0bebe;">
+    <div [ngClass]="cmbLibraryGenre === '325'?'col-5': 'col-3'" style="border-right: 3px solid #c0bebe;">
             <div class="form-row">
-                <div class="form-group col-sm-6 pb-1 m-0">
+                <div [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-12'" class="form-group pb-1 m-0">
                     <label for="token" class="mb-2 mr-sm-2">Customer:</label>
                     <select class="custom-select mb-3" (change)="onChangeCustomer()"
                     id="cmbCustomer" [(ngModel)]="cmbCustomerId">
@@ -14,28 +14,28 @@
                     </option>
                   </select>
                   </div>
-                <div class="form-group col-sm-6 pb-1 m-0">
+                <div [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-12'" class="form-group pb-1 m-0">
                     <label for="token" class="mb-2 mr-sm-2" #flocation>Template Name:</label>
                     <input type="text" class="form-control mb-2 mr-sm-2" id="location" [(ngModel)]="txtTemplateName"/>
                   </div>
-                  <div class="form-group col-sm-6 pb-1 m-0">
+                  <div [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-12'" class="form-group pb-1 m-0">
                     <label for="MediaType">Orientation:</label>
-                    <select name="lType" class="custom-select" id="MediaType" [(ngModel)]="cmbLibraryGenre">
+                    <select name="lType" class="custom-select" id="MediaType" [(ngModel)]="cmbLibraryGenre" (change)="onChangeLibraryGenre()">
                       <option value="325"> Landscape</option>
                       <option value="324"> Portrait</option>
                     </select>
                   </div>
-                  <div class="form-group col-sm-6 pb-1 m-0">
+                  <div [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-12'" class="form-group pb-1 m-0 d-none">
                     <label for="location21" class="mb-2 mr-sm-2 w-100"><input type="checkbox" class="mr-sm-2" (change)="CustomRatio($event)" /> Custom Screen Ratio:</label>
                     <input type="text" class="form-control w-25 mb-2 mr-sm-2 pull-left" id="location21" [(ngModel)]="templatedata.width" placeholder="Width" [readonly]="isDisabled" />
                     <input type="text" class="form-control w-25 mb-2 mr-sm-2 pull-left" id="location1" [(ngModel)]="templatedata.height" placeholder="Height" [readonly]="isDisabled"/>
                   </div>
-                  <div *ngIf="templateId !='1'" class="form-group col-sm-6 pb-1 m-0">
+                  <div *ngIf="templateId !='1'" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-12'" class="form-group pb-1 m-0">
                     <label for="bkImage" class="mb-2 mr-sm-2 w-100">Background Image:</label>
                     <input type="button" (click)="openLibrary(modalSignage,'Library')" class="btn btn-primary  mb-2 mr-sm-2" id="bkImage" value="Open Library" />
                     <span><strong>{{selected_imgName}}</strong></span>
                   </div>
-                  <div class="form-group col-sm-6 pb-2 m-0">
+                  <div [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-12'" class="form-group pb-2 m-0">
                     <label for="MediaType">Background Color:</label>
                     <select name="lType" class="custom-select" id="MediaType" [(ngModel)]="templatedata.bgcolor">
                       <option value="bg-white" class="p-3 mb-2 bg-white text-dark"> White</option>
@@ -48,50 +48,60 @@
                       <option value="bg-light" class="p-3 mb-2 bg-light text-dark">Light Gray</option>
                     </select>
                   </div>
-                  <div class="form-group col-sm-6 pb-1 m-0">
+                  <div [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-12'" class="form-group pb-1 m-0">
                     <label for="tHeading" class="mb-2 mr-sm-2">Heading:</label>
                     <input type="text" class="form-control mb-2 mr-sm-2" id="tHeading" [(ngModel)]="templatedata.title" />
                   </div>
-                  <div class="form-group col-sm-6 pb-1 m-0">
+                  <div [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-12'" class="form-group pb-1 m-0">
                     <label for="tdesc" class="mb-2 mr-sm-2">Description:</label>
                     <input type="text" class="form-control mb-2 mr-sm-2" id="tdesc" [(ngModel)]="templatedata.desc"  />
                   </div>
-                  <div *ngIf="templateId==='3'" class="form-group col-sm-6 pb-1 m-0">
+                  <div *ngIf="templateId==='3'" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-12'" class="form-group pb-1 m-0">
                     <label for="tdesc" class="mb-2 mr-sm-2">Text 1:</label>
                     <input type="text" class="form-control mb-2 mr-sm-2" id="tdesc" [(ngModel)]="templatedata.desc1"  />
                   </div>
-                  <div *ngIf="templateId==='3'" class="form-group col-sm-6 pb-1 m-0">
+                  <div *ngIf="templateId==='3'" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-12'" class="form-group pb-1 m-0">
                     <label for="tdesc" class="mb-2 mr-sm-2">Text 2:</label>
                     <input type="text" class="form-control mb-2 mr-sm-2" id="tdesc" [(ngModel)]="templatedata.desc2"  />
                   </div>
-                  <div class="form-group col-sm-6 pb-1 m-0">
+                  <div [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-12'" class="form-group pb-1 m-0">
                     <label for="bkImage" class="mb-2 mr-sm-2 w-100">Company Logo:</label>
                     <input type="button" (click)="openLibrary(modalSignage,'Logo')" class="btn btn-primary  mb-2 mr-sm-2" id="bkImage" value="Open Library" />
                     <span><strong>{{selected_logoName}}</strong></span>
                   </div>
-                  <div class="form-group col-sm-6 pb-1 m-0">
+                  <div [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-12'" class="form-group pb-1 m-0">
                     <label for="tdesc" class="mb-2 mr-sm-2">Duration(Seconds):</label>
                     <input type="text" class="form-control mb-2 mr-sm-2" id="tduration" [(ngModel)]="templatedata.duration"  />
                   </div>
-                  <div class="form-group col-sm-12 pb-1 m-0 mb-5">
-                    <button class="btn btn-warning mr-2 pull-right" (click)="CloseEditTemplate()" type="button">Cancel</button>
-                    <button class="btn btn-primary mr-2 pull-right" type="button" (click)="SaveTemplate()">Save</button>
-                    <button class="btn btn-primary mr-2 pull-right" type="button" (click)="OpenViewContent(viewcontent)">Preview</button>
-
+                  <div [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-12'" class="form-group pb-1 m-0" style="margin-top: 1.8rem !important;">
+                    <button class="btn btn-primary mr-2" type="button" (click)="OpenViewContent(viewcontent)">Preview</button>
+                    <button class="btn btn-primary mr-2" type="button" (click)="SaveTemplate()">Save</button>
+                    <button class="btn btn-warning mr-2" (click)="CloseEditTemplate()" type="button">Cancel</button>
                   </div>
 
             </div>
     </div>
+    <div [ngClass]="cmbLibraryGenre === '325'?'d-none': 'col-2'">
+
+    </div>
     <div class="col-7">
-        <img *ngIf="cmbLibraryGenre=='325' && templateId=='6'" src="assets/images/temp-1/1-landscape.png" alt="" class="img-fluid card-img-top w-75 mt-5 box-shadow" style="margin-left: auto;margin-right: auto;display: block;">
-        <img *ngIf="cmbLibraryGenre=='324' && templateId=='6'" src="assets/images/temp-1/1-portrait.png" alt="" class="img-fluid card-img-top w-50 mt-5 box-shadow" style="margin-left: auto;margin-right: auto;display: block;">
-        <img *ngIf="cmbLibraryGenre=='325' && templateId=='2'" src="https://manual.advikon.com/template/G_LS.png" alt="" class="img-fluid card-img-top w-75 mt-5 box-shadow" style="margin-left: auto;margin-right: auto;display: block;">
-        <img *ngIf="cmbLibraryGenre=='324' && templateId=='2'" src="https://manual.advikon.com/template/G_PT.png" alt="" class="img-fluid card-img-top h-75 w-50 mt-5 box-shadow" style="margin-left: auto;margin-right: auto;display: block;">
-        <img *ngIf="cmbLibraryGenre=='325' && templateId=='3'" src="assets/images/temp-2/2-landscape.png" alt="" class="img-fluid card-img-top w-75 mt-5 box-shadow" style="margin-left: auto;margin-right: auto;display: block;">
-        <img *ngIf="cmbLibraryGenre=='324' && templateId=='3'" src="assets/images/temp-2/2-portrait.png" alt="" class="img-fluid card-img-top w-50 mt-5 box-shadow" style="margin-left: auto;margin-right: auto;display: block;">
-        <img *ngIf="cmbLibraryGenre=='325' && templateId=='1'" src="assets/images/temp-0/0-landscape.png" alt="" class="img-fluid card-img-top w-75 mt-5 box-shadow" style="margin-left: auto;margin-right: auto;display: block;">
-        <!-- <iframe *ngIf="cmbLibraryGenre=='325' && templateId=='1'"  src="http://localhost:4200/#/general/template" title="Template 2" width="588" height="334" class="img-fluid card-img-top w-75 mt-5 box-shadow" style="margin-left: auto;margin-right: auto;display: block;"></iframe> -->
-        <img *ngIf="cmbLibraryGenre=='324' && templateId=='1'" src="assets/images/temp-0/0-portrait.png" alt="" class="img-fluid card-img-top w-50 mt-5 box-shadow" style="margin-left: auto;margin-right: auto;display: block;">
+      <iframe *ngIf="IsClickPreview && cmbLibraryGenre=='324' && templateId=='6'"  src="http://localhost:4201/#/?templateId=2" title="Template 2"  frameborder="0" class="w-50 mt-0" style="margin-left: auto;margin-right: auto;display: block;height: 41.4rem;"></iframe> 
+      <iframe *ngIf="IsClickPreview && cmbLibraryGenre=='325' && templateId=='6'"  src="http://localhost:4201/#/?templateId=2" title="Template 2" frameborder="0" class="w-100 mt-2" style="height: 30rem;"></iframe> 
+      <img *ngIf="!IsClickPreview && cmbLibraryGenre=='325' && templateId=='6'" src="assets/images/temp-1/1-landscape.png" alt="" class="img-fluid card-img-top w-75 mt-5 box-shadow" style="margin-left: auto;margin-right: auto;display: block;">
+      <img *ngIf="!IsClickPreview && cmbLibraryGenre=='324' && templateId=='6'" src="assets/images/temp-1/1-portrait.png" alt="" class="img-fluid card-img-top w-50 mt-5 box-shadow" style="margin-left: auto;margin-right: auto;display: block;">
+
+      <img *ngIf="!IsClickPreview && cmbLibraryGenre=='325' && templateId=='21'" src="https://manual.advikon.com/template/G_LS.png" alt="" class="img-fluid card-img-top w-75 mt-5 box-shadow" style="margin-left: auto;margin-right: auto;display: block;">
+      <img *ngIf="!IsClickPreview && cmbLibraryGenre=='324' && templateId=='21'" src="https://manual.advikon.com/template/G_PT.png" alt="" class="img-fluid card-img-top h-75 w-50 mt-5 box-shadow" style="margin-left: auto;margin-right: auto;display: block;">
+
+      <iframe *ngIf="IsClickPreview && cmbLibraryGenre=='324' && templateId=='3'"  src="http://localhost:4201/#/?templateId=3" title="Template 2"  frameborder="0" class="w-50 mt-0" style="margin-left: auto;margin-right: auto;display: block;height: 41.4rem;"></iframe> 
+      <iframe *ngIf="IsClickPreview && cmbLibraryGenre=='325' && templateId=='3'"  src="http://localhost:4201/#/?templateId=3" title="Template 2" frameborder="0" class="w-100 mt-2" style="height: 30rem;"></iframe> 
+      <img *ngIf="!IsClickPreview && cmbLibraryGenre=='325' && templateId=='3'" src="assets/images/temp-2/2-landscape.png" alt="" class="img-fluid card-img-top w-75 mt-5 box-shadow" style="margin-left: auto;margin-right: auto;display: block;">
+      <img *ngIf="!IsClickPreview && cmbLibraryGenre=='324' && templateId=='3'" src="assets/images/temp-2/2-portrait.png" alt="" class="img-fluid card-img-top w-50 mt-5 box-shadow" style="margin-left: auto;margin-right: auto;display: block;">
+
+      <iframe *ngIf="IsClickPreview && cmbLibraryGenre=='324' && templateId=='1'"  [src]="IframeSRC" title="Template 2"  frameborder="0" class="w-50 mt-0" style="margin-left: auto;margin-right: auto;display: block;height: 41.4rem;"></iframe> 
+      <iframe *ngIf="IsClickPreview && cmbLibraryGenre=='325' && templateId=='1'"  [src]="IframeSRC" title="Template 2" frameborder="0" class="w-100 mt-2" style="height: 30rem;"></iframe> 
+      <img *ngIf="!IsClickPreview && cmbLibraryGenre=='324' && templateId=='1'" src="assets/images/temp-0/0-portrait.png" alt="" class="img-fluid card-img-top w-50 mt-5 box-shadow" style="margin-left: auto;margin-right: auto;display: block;">
+      <img *ngIf="!IsClickPreview && cmbLibraryGenre=='325' && templateId=='1'" src="assets/images/temp-0/0-landscape.png" alt="" class="img-fluid card-img-top w-75 mt-5 box-shadow" style="margin-left: auto;margin-right: auto;display: block;">
 
       </div>
 </div>

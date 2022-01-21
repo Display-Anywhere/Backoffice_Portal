@@ -5,7 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/auth/auth.service';
 import { SerLicenseHolderService } from 'src/app/license-holder/ser-license-holder.service';
 import { PlaylistLibService } from 'src/app/playlist-library/playlist-lib.service';
-
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 @Component({
   selector: 'app-edit-template',
   templateUrl: './edit-template.component.html',
@@ -37,12 +37,20 @@ export class EditTemplateComponent implements OnInit {
   templateId=  localStorage.getItem("edittemplate")
   isDisabled=true
   txtTemplateName=''
+  IsClickPreview= false
+  IframeSRC: SafeResourceUrl
+  templateHost ='http://localhost:4201/#/'
   constructor(private serviceLicense: SerLicenseHolderService,public toastr: ToastrService,
     public auth: AuthService,private pService: PlaylistLibService,private modalService: NgbModal,
-    private router: Router) { }
+    private router: Router,public sanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
     this.FillClientList()
+    if (this.templateId=="1"){
+      this.templatedata.title='Wearing a Face Mask'
+      this.templatedata.desc='is required to enter'
+      this.templatedata.bgcolor='bg-warning'
+    }
   }
   FillClientList() {
     this.loading = true;
@@ -211,6 +219,7 @@ export class EditTemplateComponent implements OnInit {
     this.auth.SetEditTemplateOpen(false)
   }
   OpenViewContent(modalName){
+   
     let clsName=''
     if (this.cmbLibraryGenre=="325"){
       localStorage.setItem("oType","496")
@@ -223,10 +232,9 @@ export class EditTemplateComponent implements OnInit {
       
       let cnt =this.GenrateHtml()
       localStorage.removeItem('innerHtml')
-      localStorage.setItem('innerHtml',cnt)
-    this.modalService.open(modalName, {
-      size: clsName,
-    }); 
+      let IframeSRC_Safe = this.templateHost+ '?templateId=1&title='+this.templatedata.title+'&desc='+this.templatedata.desc+'&logosrc='+this.templatedata.logoimgurl+ '&ngClass='+this.templatedata.bgcolor
+      this.IframeSRC = this.sanitizer.bypassSecurityTrustResourceUrl(IframeSRC_Safe);
+      this.IsClickPreview=true
   }
   GenrateHtml(){
     localStorage.setItem('ngClass',this.templatedata.bgcolor)
@@ -315,7 +323,17 @@ export class EditTemplateComponent implements OnInit {
       localStorage.setItem('title',this.templatedata.title)
       localStorage.setItem('desc',this.templatedata.desc)
       cnt=""
-      cnt=`  
+      cnt =`<div class="row temp temp-0">
+      <div class="col-12 d-flex justify-content-end">
+        <img src="assets/basic-images/logo.png" alt="">
+      </div>
+      <div class="col-12 text-center content">
+        <h3>Wearing a Face Mask</h3>
+        <h4>is required to enter</h4>
+        <img src="assets/images/temp-0/exclamation.png" alt="">
+      </div>
+    </div>`
+      /*cnt=`  
       <div class="col-12 d-flex justify-content-end">
         <img src="`+this.templatedata.logoimgurl+`" alt="">
       </div>
@@ -324,7 +342,7 @@ export class EditTemplateComponent implements OnInit {
         <h4>`+this.templatedata.desc+`</h4>
         <img src="assets/images/temp-0/exclamation.png" alt="">
       </div>
-  `
+  `*/
     }
     return cnt
   }
@@ -377,6 +395,8 @@ export class EditTemplateComponent implements OnInit {
       this.templatedata.width=''
       this.templatedata.height=''
     }
-
+  }
+  onChangeLibraryGenre(){
+    this.IsClickPreview = false
   }
 }
