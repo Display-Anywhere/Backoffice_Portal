@@ -93,6 +93,7 @@ export class CustomerDashboardComponent implements OnInit {
         })
   }
   GetCustomerTokenDetailFilter(filter) {
+    this.searchText = "";
     if (filter == "Total") {
       this.TokenList=[];
       this.TokenList= this.MainTokenList;

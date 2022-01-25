@@ -278,7 +278,10 @@
                     <th scope="col" style="width: 100px !important">
                       Token Code
                     </th>
-                    <th scope="col" style="width: 150px !important">
+                    <th scope="col" style="width: 100px !important">
+                      Fix IP
+                    </th>
+                    <th scope="col" style="width: 90px !important">
                       Time Zone
                     </th>
                     <th scope="col" style="width: 150px !important">
@@ -295,13 +298,13 @@
                 </thead>
                 <tbody>
                   <tr *ngFor="let cLst of TokenList; let i = index">
-                    <td data-label="Country ">
+                    <td data-label="Country " style="font-size: 13px !important;">
                       {{ cLst.countryName }}
                     </td>
-                    <td data-label="City">
+                    <td data-label="City" style="font-size: 13px !important;">
                       {{ cLst.city }}
                     </td>
-                    <td data-label="Location">
+                    <td data-label="Location" style="font-size: 13px !important;">
                       {{ cLst.location }}
                     </td>
                     <!--
@@ -310,25 +313,28 @@
                   </td>
                   -->
 
-                    <td data-label="Media Type">
+                    <td data-label="Media Type" style="font-size: 13px !important;">
                       {{ cLst.MediaType }}
                     </td>
-                    <td data-label="Group">
+                    <td data-label="Group" style="font-size: 13px !important;">
                       {{ cLst.gName }}
                     </td>
-                    <td data-label="Token Code">
+                    <td data-label="Token Code" style="font-size: 13px !important;">
                       {{ cLst.tokenCode }}
                     </td>
-                    <td data-label="Time Zone">
+                    <td data-label="Token Code" style="font-size: 13px !important;">
+                      {{ cLst.FixIp }}
+                    </td>
+                    <td data-label="Time Zone" style="font-size: 13px !important;">
                       {{ cLst.tZone }}
                     </td>
                     <td
                       data-label="Available Space"
-                      *ngIf="cLst.fSpace === '0 MB'"
+                      *ngIf="cLst.fSpace === '0 MB'" style="font-size: 13px !important;"
                     ></td>
                     <td
                       data-label="Available Space"
-                      *ngIf="cLst.fSpace != '0 MB'"
+                      *ngIf="cLst.fSpace != '0 MB'" style="font-size: 13px !important;"
                     >
                       {{ cLst.fSpace }}
                     </td>

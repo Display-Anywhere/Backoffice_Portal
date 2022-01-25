@@ -179,11 +179,11 @@ export class LicenseHolderComponent
           caseInsensitive: false,
         },
         {
-          targets: [9, 10, 11], // column index (start from 0)
+          targets: [10, 11, 12], // column index (start from 0)
           orderable: false,
         },
         {
-          targets: [12, 13, 14],
+          targets: [13, 14, 15],
           visible: false,
         },
         {
@@ -191,11 +191,11 @@ export class LicenseHolderComponent
           targets: 0,
         },
         {
-          width: '115px',
+          width: '100px',
           targets: 1,
         },
         {
-          width: '170px',
+          width: '150px',
           targets: 2,
         },
         {
@@ -203,23 +203,19 @@ export class LicenseHolderComponent
           targets: 3,
         },
         {
-          width: '170px',
+          width: '160px',
           targets: 4,
         },
         {
-          width: '230px',
+          width: '210px',
           targets: 5,
         },
         {
-          width: '100px',
+          width: '90px',
           targets: 6,
         },
         {
           width: '90px',
-          targets: 7,
-        },
-        {
-          width: '50px',
           targets: 8,
         },
         {
@@ -227,12 +223,16 @@ export class LicenseHolderComponent
           targets: 9,
         },
         {
-          width: '20px',
+          width: '50px',
           targets: 10,
         },
         {
           width: '20px',
           targets: 11,
+        },
+        {
+          width: '20px',
+          targets: 12,
         },
       ],
       retrieve: true,
