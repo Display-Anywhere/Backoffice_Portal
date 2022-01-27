@@ -36,6 +36,26 @@
           </option>
         </select>
       </div>
+      <div class="form-group col-sm-2 m-0  ml-auto">
+        <div class="iq-search-bar device-search">
+          <div class="searchbox1">
+            <label class="mb-2 mr-sm-2" for="Search"
+              >&nbsp;</label
+            >
+            <input
+              type="text"
+              [(ngModel)]="tcontentsearchText"
+              [ngModelOptions]="{ standalone: true }"
+              class="text search-input"
+              placeholder="Search"
+              (input)="onChangeEvent_tcontent()"
+            />
+            <a class="search-link pr-3 mt-5" href="javascipt:;"
+            ><i class="fa fa-search"></i
+          ></a>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -44,7 +64,7 @@
       <thead class="bg-primary">
         <tr>
           <th scope="col" style="width: 60px">
-            <div class="custom-control custom-checkbox">
+            <div *ngIf="isShowAllCheckbox_tContent" class="custom-control custom-checkbox">
               <input
                 (change)="allContent($event)"
                 type="checkbox"
@@ -68,7 +88,7 @@
       <tbody>
         <tr
           *ngFor="
-            let TokenLst of ContentList
+            let TokenLst of ContentList | filter: tcontentsearchText
               | slice: (page - 1) * pageSize:(page - 1) * pageSize + pageSize;
             let i = index
           "

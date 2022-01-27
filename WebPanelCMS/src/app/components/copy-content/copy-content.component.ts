@@ -28,7 +28,7 @@ export class CopyContentComponent implements OnInit {
   FolderList: any[];
   ContentList:any[];
   TransferTitleSelected = [];
-
+  contentsearchText=''
   CustomerSearchList: any[];
   cmbSearchCustomer: number;
   cmbSearchFolder:number;
@@ -37,6 +37,7 @@ export class CopyContentComponent implements OnInit {
   chkAll:boolean=false;
   NewFolderName: string = "";
   FolderName = "";
+  isShowAllCheckbox_Content = true
   ngOnInit(): void {
     this.CDform = this.formBuilder.group({
       FolderId: [this.cmbSearchFolder],
@@ -112,13 +113,13 @@ export class CopyContentComponent implements OnInit {
     this.TransferTitleSelected=[];
     this.ContentList=[];
     this.cmbFolder=0;
-      this.FillFolder(e, "Main");
-     
-    
+    this.contentsearchText=''
+    this.chkAll = false
+    this.FillFolder(e, "Main");
   }
   onChangeFolder(e){
     this.chkAll= false;
-    
+    this.contentsearchText=''
     this.FillSearch(e);
   }
   NewfList;
@@ -264,6 +265,14 @@ export class CopyContentComponent implements OnInit {
     this.GetJSONFolderRecord(ArrayItem);
     if (this.NewfList.length > 0) {
       this.FolderName = this.NewfList[0].DisplayName;
+    }
+  }
+  onChangeEvent_content(){
+    if (this.contentsearchText==''){
+      this.isShowAllCheckbox_Content=true
+    }
+    else{
+      this.isShowAllCheckbox_Content = false
     }
   }
 }
