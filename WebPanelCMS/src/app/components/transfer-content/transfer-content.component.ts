@@ -36,6 +36,8 @@ export class TransferContentComponent implements OnInit {
   chkAll:boolean=false;
   NewFolderName: string = "";
   FolderName = "";
+  isShowAllCheckbox_tContent = true
+  tcontentsearchText=''
   ngOnInit(): void {
     this.CDform = this.formBuilder.group({
       FolderId: [this.cmbSearchFolder],
@@ -110,11 +112,13 @@ export class TransferContentComponent implements OnInit {
     this.TransferTitleSelected=[];
     this.ContentList=[];
     this.cmbFolder=0;
+    this.chkAll= false;
+    this.tcontentsearchText=''
     this.FillFolder(e, "Main");
   }
   onChangeFolder(e){
     this.chkAll= false;
-    
+    this.tcontentsearchText=''
     this.FillSearch(e);
   }
   NewfList;
@@ -262,4 +266,13 @@ export class TransferContentComponent implements OnInit {
       this.FolderName = this.NewfList[0].DisplayName;
     }
   }
+  onChangeEvent_tcontent(){
+    if (this.tcontentsearchText==''){
+      this.isShowAllCheckbox_tContent=true
+    }
+    else{
+      this.isShowAllCheckbox_tContent = false
+    }
+  }
+
 }

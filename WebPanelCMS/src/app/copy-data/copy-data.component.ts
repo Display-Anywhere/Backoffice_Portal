@@ -8,6 +8,7 @@ import { SerCopyDataService } from '../copy-data/ser-copy-data.service';
 import { TokenInfoServiceService } from '../components/token-info/token-info-service.service';
 import { AuthService } from '../auth/auth.service';
 import { NgbdSortableHeader_CopyData,SortEvent } from '../directive/copydata_sortable.directive';
+import { DecimalPipe } from '@angular/common';
 
 @Component({
   selector: 'app-copy-data',
@@ -44,12 +45,15 @@ export class CopyDataComponent implements OnInit {
   TabValue='CPS';
   TransferSearchText="";
   compare = (v1: string | number, v2: string | number) => v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
+  PlaylistsearchText=''
+  PlaylistTokenList_Search_Change=[]
+  PlaylistTokenListlength_Change=0
+  Playlist_chkAll_Change = false
 
-  
   constructor(private formBuilder: FormBuilder, public toastr: ToastrService, vcr: ViewContainerRef,
     private sfService: StoreForwardService, private tService: TokenInfoServiceService,
     private serviceLicense: SerLicenseHolderService, private cService: SerCopyDataService,
-    public auth:AuthService) {
+    public auth:AuthService, private pipe: DecimalPipe) {
     
   }
 
@@ -127,6 +131,9 @@ export class CopyDataComponent implements OnInit {
   }
   onChangeCustomer(id) {
     this.CustomerSelected = id;
+    this.PlaylistsearchText=''
+    this.Playlist_chkAll_Change = false
+    this.PlaylistTokenList_Search_Change = []
     this.FillTokenInfo(id);
   }
   FillTokenInfo(deviceValue) {
@@ -136,6 +143,7 @@ export class CopyDataComponent implements OnInit {
         var returnData = JSON.stringify(data);
         this.TokenList = JSON.parse(returnData);
         this.MainTokenList = JSON.parse(returnData);
+        this.PlaylistTokenListlength_Change =this.TokenList.length
         this.loading = false;
         const obj:SortEvent   ={
           column:'city',
@@ -163,6 +171,8 @@ export class CopyDataComponent implements OnInit {
     }
   }
   SaveContent() {
+console.log(this.TokenSelected)
+    return
     if (this.ScheduleList.length == 0) {
       this.toastr.info("Please select a schedule");
       return;
@@ -183,6 +193,7 @@ export class CopyDataComponent implements OnInit {
         var obj = JSON.parse(returnData);
         if (obj.Responce == "1") {
           this.toastr.info("Saved", 'Success!');
+          this.Playlist_chkAll_Change= false
           this.loading = false;
           this.cmbSearchCustomer = '0';
           this.cmbSearchToken = 0;
@@ -204,10 +215,18 @@ export class CopyDataComponent implements OnInit {
   allToken(event){
     const checked = event.target.checked;
     this.TokenSelected=[];
-    this.TokenList.forEach(item=>{
-      item.check = checked;
-      this.TokenSelected.push(item.tokenid)
-    });
+    if (this.PlaylistsearchText==''){
+      this.TokenList.forEach(item=>{
+        item.check = checked;
+        this.TokenSelected.push(item.tokenid)
+      });
+    }
+    else{
+      this.PlaylistTokenList_Search_Change.forEach((item) => {
+        item.check = checked;
+        this.TokenSelected.push(item.tokenid);
+      });
+      }
     if (checked==false){
       this.TokenSelected=[];
     }
@@ -475,4 +494,21 @@ if (this.TabValue=="TCT"){
   SetTabValue(value){
     this.TabValue= value
   }
+
+  onChangeEvent_Playlist(){
+    this.PlaylistTokenList_Search_Change = this.TokenList.filter(country => this.serviceLicense.matches(country, this.PlaylistsearchText, this.pipe));
+    const total = this.PlaylistTokenList_Search_Change.length;
+    this.PlaylistTokenListlength_Change =total
+    this.Playlist_chkAll_Change = false
+  }
+  GetCheckedToken_Playlist(){
+    this.TokenList.forEach(item => {
+      let obj = this.TokenSelected.indexOf(item["tokenid"])
+      if (obj != -1){
+        item["check"]=true
+      }
+    });
+   
+  }
+
 }

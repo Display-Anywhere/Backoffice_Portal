@@ -174,6 +174,26 @@
                         </button>
                       </div>
                     </div>
+                    <div class="form-group col-sm-2 m-0  ml-auto">
+                      <div class="iq-search-bar device-search">
+                        <div class="searchbox1">
+                          <label class="mb-2 mr-sm-2" for="Search"
+                            >&nbsp;</label
+                          >
+                          <input
+                            type="text"
+                            [(ngModel)]="PlaylistsearchText"
+                            [ngModelOptions]="{ standalone: true }"
+                            class="text search-input"
+                            placeholder="Search"
+                            (input)="onChangeEvent_Playlist()"
+                          />
+                          <a class="search-link pr-3 mt-5" href="javascipt:;"
+                          ><i class="fa fa-search"></i
+                        ></a>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <!-- <div class="form-row mb-1">
@@ -211,6 +231,7 @@
                               class="custom-control-input"
                               name="allToken"
                               id="AllToken"
+                              [(ngModel)]="Playlist_chkAll_Change"
                             />
                             <label
                               class="custom-control-label cursor-pointer pt-1 text-white"
@@ -269,7 +290,7 @@
                     <tbody>
                       <tr
                         *ngFor="
-                          let TokenLst of TokenList
+                          let TokenLst of TokenList | filter: PlaylistsearchText
                             | slice
                               : (page - 1) * pageSize
                               : (page - 1) * pageSize + pageSize;
@@ -307,10 +328,11 @@
                   </table>
 
                   <ngb-pagination
-                    [collectionSize]="TokenList.length"
+                    [collectionSize]="PlaylistTokenListlength_Change"
                     [(page)]="page"
                     [pageSize]="pageSize"
                     aria-label="Default pagination"
+                    (click)="GetCheckedToken_Playlist()"
                   ></ngb-pagination>
                 </div>
               </div>
@@ -398,7 +420,7 @@
                             class="text search-input"
                             placeholder="Search"
                           />
-                          <a class="search-link pr-3 mt-5" href="#"
+                          <a class="search-link pr-3 mt-5" href="javascipt:;"
                             ><i class="fa fa-search"></i
                           ></a>
                         </div>
