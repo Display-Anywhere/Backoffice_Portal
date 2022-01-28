@@ -155,7 +155,7 @@ export class EditTemplateComponent implements OnInit {
         var obj = JSON.parse(returnData);
         if (this.content_Type=='Library'){
           if (this.templateId=="3"){
-            let or="325"
+            let or="324"
             if (this.cmbLibraryGenre=="325"){
               or="324"
             }
