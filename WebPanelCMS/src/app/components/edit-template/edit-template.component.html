@@ -5,7 +5,7 @@
     <div [ngClass]="cmbLibraryGenre === '325'?'col-5': 'col-3'" style="border-right: 3px solid #c0bebe;">
             <div class="form-row">
                 <div [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-12'" class="form-group pb-1 m-0">
-                    <label for="token" class="mb-2 mr-sm-2">Customer: {{templateId}}</label>
+                    <label for="token" class="mb-2 mr-sm-2">Customer:</label>
                     <select class="custom-select mb-3" (change)="onChangeCustomer()"
                     id="cmbCustomer" [(ngModel)]="cmbCustomerId">
                     <option selected value="0"></option>
@@ -87,35 +87,33 @@
     <div [ngClass]="cmbLibraryGenre === '325'?'col-7 mt-3 d-flex justify-content-center': 'col-9 mt-3 d-flex justify-content-center'">
       <iframe *ngIf="IsClickPreview && cmbLibraryGenre=='324' && templateId=='6'"  [src]="IframeSRC" title="Template 2"  frameborder="0" scrolling="no" width="350" height="768"></iframe> 
       <iframe *ngIf="IsClickPreview && cmbLibraryGenre=='325' && templateId=='6'"  [src]="IframeSRC" title="Template 2" frameborder="0" scrolling="no" width="600" height="380"></iframe> 
-      <img *ngIf="!IsClickPreview && cmbLibraryGenre=='325' && templateId=='6'" src="assets/images/temp-1/1-landscape.png" alt="" class="img-fluid card-img-top w-75 mt-5 box-shadow" style="margin-left: auto;margin-right: auto;display: block;"> 
-     <img *ngIf="!IsClickPreview && cmbLibraryGenre=='324' && templateId=='6'" src="assets/images/temp-1/1-portrait.png" alt=""> 
-      <!--<iframe *ngIf="!IsClickPreview && cmbLibraryGenre=='324' && templateId=='6'" src="http://localhost:4201/#/" scrolling="no" frameborder="0" width="350" height="768"></iframe>-->
-      <!--<iframe *ngIf="!IsClickPreview && cmbLibraryGenre=='325' && templateId=='6'" src="http://localhost:4201/#/" frameborder="0" scrolling="no"  width="600" height="380"></iframe>-->
+      <!-- <img *ngIf="!IsClickPreview && cmbLibraryGenre=='325' && templateId=='6'" src="assets/images/temp-1/1-landscape.png" alt="" class="img-fluid card-img-top w-75 mt-5 box-shadow" style="margin-left: auto;margin-right: auto;display: block;"> -->
+      <iframe *ngIf="!IsClickPreview && cmbLibraryGenre=='325' && templateId=='6'" src="http://localhost:4201/#/" frameborder="0" scrolling="no"  width="600" height="380"></iframe>
 
-      <iframe *ngIf="IsClickPreview && cmbLibraryGenre=='324' && templateId=='2'" [src]="IframeSRC"  title="Template 2" scrolling="no"  frameborder="0" width="350" height="768"></iframe> 
-      <iframe *ngIf="IsClickPreview && cmbLibraryGenre=='325' && templateId=='2'" [src]="IframeSRC"  title="Template 2" frameborder="0" scrolling="no" width="600" height="380"></iframe> 
-      <img *ngIf="!IsClickPreview && cmbLibraryGenre=='325' && templateId=='2'" src="assets/images/temp-4/4-landscape.png" alt="" class="img-fluid card-img-top w-75 mt-5 box-shadow" style="margin-left: auto;margin-right: auto;display: block;">
-      <img *ngIf="!IsClickPreview && cmbLibraryGenre=='324' && templateId=='2'" src="assets/images/temp-4/4-portrait.png" alt="">
+      <!-- <img *ngIf="!IsClickPreview && cmbLibraryGenre=='324' && templateId=='6'" src="assets/images/temp-1/1-portrait.png" alt="" class="img-fluid card-img-top w-50 mt-5 box-shadow" style="margin-left: auto;margin-right: auto;display: block;"> -->
+      <iframe *ngIf="!IsClickPreview && cmbLibraryGenre=='324' && templateId=='6'" src="http://localhost:4201/#/" scrolling="no" frameborder="0" width="350" height="768"></iframe>
 
-      <iframe *ngIf="IsClickPreview && cmbLibraryGenre=='324' && templateId=='3'" [src]="IframeSRC"  title="Template 2" scrolling="no" frameborder="0" width="350" height="768"></iframe> 
-      <iframe *ngIf="IsClickPreview && cmbLibraryGenre=='325' && templateId=='3'" [src]="IframeSRC"  title="Template 2" frameborder="0" scrolling="no"></iframe> 
-      <img *ngIf="!IsClickPreview && cmbLibraryGenre=='325' && templateId=='3'" src="assets/images/temp-2/2-landscape.png" alt="" class="img-fluid card-img-top w-75 mt-5 box-shadow" style="margin-left: auto;margin-right: auto;display: block;">
-      <img *ngIf="!IsClickPreview && cmbLibraryGenre=='324' && templateId=='3'" src="assets/images/temp-2/2-portrait.png" alt="">
-      <!--  
+
+      <img *ngIf="!IsClickPreview && cmbLibraryGenre=='325' && templateId=='21'" src="https://manual.advikon.com/template/G_LS.png" alt="" class="img-fluid card-img-top w-75 mt-5 box-shadow" style="margin-left: auto;margin-right: auto;display: block;">
+      <img *ngIf="!IsClickPreview && cmbLibraryGenre=='324' && templateId=='21'" src="https://manual.advikon.com/template/G_PT.png" alt="" class="img-fluid card-img-top h-75 w-50 mt-5 box-shadow" style="margin-left: auto;margin-right: auto;display: block;">
+
+      <iframe *ngIf="IsClickPreview && cmbLibraryGenre=='324' && templateId=='3'" [src]="IframeSRC"  title="Template 2"  frameborder="0" scrolling="no" width="350" height="768"></iframe> 
+      <iframe *ngIf="IsClickPreview && cmbLibraryGenre=='325' && templateId=='3'" [src]="IframeSRC"  title="Template 2" frameborder="0" scrolling="no" class="w-100 mt-2" style="height: 30rem;"></iframe> 
+      <!-- <img *ngIf="!IsClickPreview && cmbLibraryGenre=='325' && templateId=='3'" src="assets/images/temp-2/2-landscape.png" alt="" class="img-fluid card-img-top w-75 mt-5 box-shadow" style="margin-left: auto;margin-right: auto;display: block;"> -->
       <iframe *ngIf="!IsClickPreview && cmbLibraryGenre=='325' && templateId=='3'" src="http://localhost:4201/#/" frameborder="0" scrolling="no" width="600" height="380"></iframe>
+
+      <!-- <img *ngIf="!IsClickPreview && cmbLibraryGenre=='324' && templateId=='3'" src="assets/images/temp-2/2-portrait.png" alt="" class="img-fluid card-img-top w-50 mt-5 box-shadow" style="margin-left: auto;margin-right: auto;display: block;"> -->
       <iframe *ngIf="!IsClickPreview && cmbLibraryGenre=='324' && templateId=='3'" src="http://localhost:4201/#/" scrolling="no" frameborder="0" width="350" height="768"></iframe>
-        -->
 
 
       <iframe *ngIf="IsClickPreview && cmbLibraryGenre=='324' && templateId=='1'"  [src]="IframeSRC" title="Template 2" scrolling="no" frameborder="0" width="350" height="768"></iframe> 
       <iframe *ngIf="IsClickPreview && cmbLibraryGenre=='325' && templateId=='1'"  [src]="IframeSRC" title="Template 2" scrolling="no" frameborder="0" width="600" height="380"></iframe> 
-      <img *ngIf="!IsClickPreview && cmbLibraryGenre=='324' && templateId=='1'" src="assets/images/temp-0/0-portrait.png" alt="">      <!-- first frame -->
-      <img *ngIf="!IsClickPreview && cmbLibraryGenre=='325' && templateId=='1'" src="assets/images/temp-0/0-landscape.png" alt="" class="img-fluid card-img-top w-75 mt-5 box-shadow" style="margin-left: auto;margin-right: auto;display: block;">
-      <!--  
-      <iframe *ngIf="!IsClickPreview && cmbLibraryGenre=='324' && templateId=='1'" src="http://localhost:4201/#/" scrolling="no" frameborder="0" width="350" height="768"></iframe>
       
+      <!-- first frame -->
+      <!-- <img *ngIf="!IsClickPreview && cmbLibraryGenre=='324' && templateId=='1'" src="assets/images/temp-0/0-portrait.png" alt="" class="img-fluid card-img-top w-50 mt-5 box-shadow" style="margin-left: auto;margin-right: auto;display: block;"> -->
+      <iframe *ngIf="!IsClickPreview && cmbLibraryGenre=='324' && templateId=='1'" src="http://localhost:4201/#/" scrolling="no" frameborder="0" width="350" height="768"></iframe>
+      <!-- <img *ngIf="!IsClickPreview && cmbLibraryGenre=='325' && templateId=='1'" src="assets/images/temp-0/0-landscape.png" alt="" class="img-fluid card-img-top w-75 mt-5 box-shadow" style="margin-left: auto;margin-right: auto;display: block;"> -->
       <iframe *ngIf="!IsClickPreview && cmbLibraryGenre=='325' && templateId=='1'" src="http://localhost:4201/#/" scrolling="no" frameborder="0" width="600" height="380"></iframe>
-        -->
       </div>
 </div>
 </div>
