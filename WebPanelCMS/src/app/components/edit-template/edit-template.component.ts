@@ -161,6 +161,13 @@ export class EditTemplateComponent implements OnInit {
             }
             this.SongsList = obj.filter(o=>o.genreId==or);
           }
+          else if (this.templateId=="2"){
+            let or="324"
+            if (this.cmbLibraryGenre=="325"){
+              or="324"
+            }
+            this.SongsList = obj.filter(o=>o.genreId==or);
+          }
           else{
             this.SongsList = obj.filter(o=>o.genreId==this.cmbLibraryGenre);
           }
