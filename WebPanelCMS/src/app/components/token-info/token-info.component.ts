@@ -217,8 +217,13 @@ if (this.prvGroupId != frm['GroupId']){
 if (frm['GroupId']=='0'){
   frm['IsCheckGroupSchedule']=false;
 }
-
- 
+if (frm['country']==='0'){
+  frm['city']="0";
+  frm['state']="0";
+}
+if (frm['state']==='0'){
+  frm['city']="0";
+}
 this.submitted = true;this.loading = true;
     this.tService
       .SaveTokenInfo(this.TokenInfo.value)
