@@ -30,7 +30,7 @@
                     <input type="text" class="form-control w-25 mb-2 mr-sm-2 pull-left" id="location21" [(ngModel)]="templatedata.width" placeholder="Width" [readonly]="isDisabled" />
                     <input type="text" class="form-control w-25 mb-2 mr-sm-2 pull-left" id="location1" [(ngModel)]="templatedata.height" placeholder="Height" [readonly]="isDisabled"/>
                   </div>
-                  <div *ngIf="templateId !='1'" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-12'" class="form-group pb-1 m-0">
+                  <div *ngIf="ShowBackgroundImageLibrary()" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-12'" class="form-group pb-1 m-0">
                     <label for="bkImage" class="mb-2 mr-sm-2 w-100">Background Image:</label>
                     <input type="button" (click)="openLibrary(modalSignage,'Library')" class="btn btn-primary  mb-2 mr-sm-2" id="bkImage" value="Open Library" />
                     <span><strong>{{selected_imgName}}</strong></span>
@@ -56,7 +56,7 @@
                     <label for="tdesc" class="mb-2 mr-sm-2">Description:</label>
                     <input type="text" class="form-control mb-2 mr-sm-2" id="tdesc" [(ngModel)]="templatedata.desc"  />
                   </div>
-                  <div *ngIf="templateId==='3'" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-12'" class="form-group pb-1 m-0">
+                  <div *ngIf="((templateId==='3') || (templateId==='4'))" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-12'" class="form-group pb-1 m-0">
                     <label for="tdesc" class="mb-2 mr-sm-2">Text 1:</label>
                     <input type="text" class="form-control mb-2 mr-sm-2" id="tdesc" [(ngModel)]="templatedata.desc1"  />
                   </div>
@@ -115,7 +115,14 @@
       <!--<iframe *ngIf="!IsClickPreview && cmbLibraryGenre=='324' && templateId=='1'" src="http://localhost:4201/#/" scrolling="no" frameborder="0" width="350" height="768"></iframe>-->
        <img *ngIf="!IsClickPreview && cmbLibraryGenre=='325' && templateId=='1'" src="assets/images/temp-0/0-landscape.png" alt="" class="img-fluid card-img-top w-75 mt-5 box-shadow" style="margin-left: auto;margin-right: auto;display: block;"> 
       <!--<iframe *ngIf="!IsClickPreview && cmbLibraryGenre=='325' && templateId=='1'" src="http://localhost:4201/#/" scrolling="no" frameborder="0" width="600" height="380"></iframe>-->
-      </div>
+      
+      <iframe *ngIf="IsClickPreview && cmbLibraryGenre=='324' && templateId=='4'"  [src]="IframeSRC" title="Template 4" scrolling="no" frameborder="0" width="350" height="768"></iframe> 
+      <iframe *ngIf="IsClickPreview && cmbLibraryGenre=='325' && templateId=='4'"  [src]="IframeSRC" title="Template 4" scrolling="no" frameborder="0" width="600" height="380"></iframe> 
+       <img *ngIf="!IsClickPreview && cmbLibraryGenre=='324' && templateId=='4'" src="assets/images/temp-5/5-portrait.png" alt="" style="width: 371px;height: 661px;"> 
+       <img *ngIf="!IsClickPreview && cmbLibraryGenre=='325' && templateId=='4'" src="assets/images/temp-5/5-landscape.png" alt="" class="img-fluid card-img-top w-75 mt-5 box-shadow" style="margin-left: auto;margin-right: auto;display: block;"> 
+
+    
+    </div>
 </div>
 </div>
 
