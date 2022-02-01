@@ -149,6 +149,8 @@ export class EditTemplateComponent implements OnInit {
   }
   FillContent() {
     this.loading = true;
+    localStorage.setItem('IsRf',"0")
+    localStorage.removeItem('ContentType')
     if (this.cmbLibraryFolder=="0"){
       this.pService.FillSongList('Image',false,this.cmbCustomerId).pipe()
       .subscribe((data) => {
@@ -364,7 +366,18 @@ export class EditTemplateComponent implements OnInit {
       return
     }
     this.loading= true
-    let cnt =this.GenrateHtml()
+    let cnt =
+      [{
+        templateId:this.templateId,
+        title:this.templatedata.title,
+        desc:this.templatedata.desc,
+        logosrc:this.templatedata.logoimgurl,
+        ngClass:this.templatedata.bgcolor,
+        imgSrc:this.templatedata.imgurl,
+        text1:this.templatedata.desc1,
+        text2:this.templatedata.desc2
+      }]
+    //this.GenrateHtml()
     let genreId=''
     if (this.cmbLibraryGenre=="325"){
       genreId="496"
@@ -378,7 +391,7 @@ export class EditTemplateComponent implements OnInit {
       "genreid":genreId,
       "width":this.templatedata.width,
       "height":this.templatedata.height,
-      "tHtml": cnt,
+      "tHtml":JSON.stringify(cnt),
       "dfclientId": this.cmbCustomerId,
       "duration": this.templatedata.duration,
       "bgcolor": this.templatedata.bgcolor

@@ -171,8 +171,6 @@ export class CopyDataComponent implements OnInit {
     }
   }
   SaveContent() {
-console.log(this.TokenSelected)
-    return
     if (this.ScheduleList.length == 0) {
       this.toastr.info("Please select a schedule");
       return;
