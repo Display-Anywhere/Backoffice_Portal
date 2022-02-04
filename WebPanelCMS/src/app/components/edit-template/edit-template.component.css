@@ -29,4 +29,13 @@
 .bg-dark {
     background-color: #343a40!important;
 }
-
+@media (min-width: 1024px) {
+    .landscape {
+        width: 590px !important;
+        height: 341px !important;
+    }
+    .portrait {
+        width: 371px !important;
+        height: 661px !important;
+    }
+}
