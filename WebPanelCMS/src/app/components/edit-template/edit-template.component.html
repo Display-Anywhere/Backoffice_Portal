@@ -22,7 +22,7 @@
                     <label for="MediaType">Orientation:</label>
                     <select name="lType" class="custom-select" id="MediaType" [(ngModel)]="cmbLibraryGenre" (change)="onChangeLibraryGenre()">
                       <option value="325"> Landscape</option>
-                      <option value="324"> Portrait</option>
+                      <option value="324" *ngIf="templateId !='5'"> Portrait</option>
                     </select>
                   </div>
                   <div [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-12'" class="form-group pb-1 m-0 d-none">
@@ -56,7 +56,7 @@
                     <label for="tdesc" class="mb-2 mr-sm-2">Description:</label>
                     <input type="text" class="form-control mb-2 mr-sm-2" id="tdesc" [(ngModel)]="templatedata.desc"  />
                   </div>
-                  <div *ngIf="((templateId==='3') || (templateId==='4'))" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-12'" class="form-group pb-1 m-0">
+                  <div *ngIf="((templateId==='3') || (templateId==='4') || (templateId==='5'))" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-12'" class="form-group pb-1 m-0">
                     <label for="tdesc" class="mb-2 mr-sm-2">Text 1:</label>
                     <input type="text" class="form-control mb-2 mr-sm-2" id="tdesc" [(ngModel)]="templatedata.desc1"  />
                   </div>
@@ -121,6 +121,9 @@
        <img *ngIf="!IsClickPreview && cmbLibraryGenre=='324' && templateId=='4'" src="assets/images/temp-5/5-portrait.png" alt="" style="width: 371px;height: 661px;"> 
        <img *ngIf="!IsClickPreview && cmbLibraryGenre=='325' && templateId=='4'" src="assets/images/temp-5/5-landscape.png" alt="" class="img-fluid card-img-top w-75 mt-5 box-shadow" style="margin-left: auto;margin-right: auto;display: block;"> 
 
+
+       <iframe *ngIf="IsClickPreview && cmbLibraryGenre=='325' && templateId=='5'"  [src]="IframeSRC" title="Template 6" scrolling="no" frameborder="0" width="600" height="380"></iframe> 
+       <img *ngIf="!IsClickPreview && cmbLibraryGenre=='325' && templateId=='5'" src="assets/images/temp-6/6-landscape.png" alt="" class="img-fluid card-img-top w-75 mt-5 box-shadow" style="margin-left: auto;margin-right: auto;display: block;"> 
     
     </div>
 </div>
