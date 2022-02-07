@@ -13,6 +13,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 })
 export class EditTemplateComponent implements OnInit {
   loading
+  color
   cmbLibraryFolder="0"
   LibraryFolderList
   SongsList
@@ -30,7 +31,7 @@ export class EditTemplateComponent implements OnInit {
     width:'',
     height:'',
     duration:'',
-    bgcolor:'bg-white'
+    bgcolor:'#ffffff'
   }
   selected_logoName=''
   selected_imgName=''
@@ -50,13 +51,13 @@ export class EditTemplateComponent implements OnInit {
     if (this.templateId=="1"){
       this.templatedata.title='Wearing a Face Mask'
       this.templatedata.desc='is required to enter'
-      this.templatedata.bgcolor='bg-warning'
+      this.templatedata.bgcolor='#ffc107'
     }
     if (this.templateId=="6"){
-      this.templatedata.bgcolor='bg-info'
+      this.templatedata.bgcolor='#17a2b8'
     }
     if (this.templateId=="3"){
-      this.templatedata.bgcolor='bg-primary'
+      this.templatedata.bgcolor='#007bff'
     }
   }
   FillClientList() {
@@ -235,7 +236,7 @@ export class EditTemplateComponent implements OnInit {
     this.auth.SetEditTemplateOpen(false)
   }
   OpenViewContent(modalName){
-    let IframeSRC_Safe = this.templateHost+ '?templateId='+this.templateId+'&title='+this.templatedata.title+'&desc='+this.templatedata.desc+'&logosrc='+this.templatedata.logoimgurl+ '&ngClass='+this.templatedata.bgcolor+'&imgSrc='+this.templatedata.imgurl+ '&text1='+this.templatedata.desc1+'&text2='+this.templatedata.desc2
+    let IframeSRC_Safe = this.templateHost+ '?templateId='+this.templateId+'&title='+this.templatedata.title+'&desc='+this.templatedata.desc+'&logosrc='+this.templatedata.logoimgurl+ '&ngClass='+this.templatedata.bgcolor.replace('#','')+'&imgSrc='+this.templatedata.imgurl+ '&text1='+this.templatedata.desc1+'&text2='+this.templatedata.desc2
     // 1 
     //let IframeSRC_Safe = "http://localhost:4201/#/?templateId=1&title=Wearing a Face Mask&desc=is required to enter&logosrc=http://api.nusign.eu/mp3files/238708.jpg&ngClass=bg-warning&imgSrc=&text1=&text2=" 
     // 2
@@ -372,7 +373,7 @@ export class EditTemplateComponent implements OnInit {
         title:this.templatedata.title,
         desc:this.templatedata.desc,
         logosrc:this.templatedata.logoimgurl,
-        ngClass:this.templatedata.bgcolor,
+        ngClass:this.templatedata.bgcolor.replace('#',''),
         imgSrc:this.templatedata.imgurl,
         text1:this.templatedata.desc1,
         text2:this.templatedata.desc2
@@ -394,7 +395,7 @@ export class EditTemplateComponent implements OnInit {
       "tHtml":JSON.stringify(cnt),
       "dfclientId": this.cmbCustomerId,
       "duration": this.templatedata.duration,
-      "bgcolor": this.templatedata.bgcolor
+      "bgcolor": this.templatedata.bgcolor.replace('#','')
     }
     this.pService.SaveOwnTemplates(body).pipe()
         .subscribe((data) => {

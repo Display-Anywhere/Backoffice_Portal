@@ -37,16 +37,7 @@
                   </div>
                   <div [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-12'" class="form-group pb-2 m-0">
                     <label for="MediaType">Background Color:</label>
-                    <select name="lType" class="custom-select" id="MediaType" [(ngModel)]="templatedata.bgcolor">
-                      <option value="bg-white" class="p-3 mb-2 bg-white text-dark"> White</option>
-                      <option value="bg-primary" class="p-3 mb-2 bg-primary text-white"> Blue</option>
-                      <option value="bg-secondary" class="p-3 mb-2 bg-secondary text-white">Dark Gray</option>
-                      <option value="bg-success" class="p-3 mb-2 bg-success text-white">Green</option>
-                      <option value="bg-danger" class="p-3 mb-2 bg-danger text-white">Red</option>
-                      <option value="bg-warning" class="p-3 mb-2 bg-warning text-dark">Yellow</option>
-                      <option value="bg-info" class="p-3 mb-2 bg-info text-white">Cyan</option>
-                      <option value="bg-light" class="p-3 mb-2 bg-light text-dark">Light Gray</option>
-                    </select>
+                    <input [(colorPicker)]="templatedata.bgcolor" class="form-control" readonly [style.background]="templatedata.bgcolor"/>
                   </div>
                   <div [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-12'" class="form-group pb-1 m-0">
                     <label for="tHeading" class="mb-2 mr-sm-2">Heading:</label>
