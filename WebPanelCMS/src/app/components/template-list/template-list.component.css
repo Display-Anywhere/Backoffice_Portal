@@ -13,3 +13,6 @@
     -webkit-box-shadow: 1px 0px 5px 3px rgba(123,123,123,1);
     -moz-box-shadow: 1px 0px 5px 3px rgba(123,123,123,1);
   }
+  .pb-5, .py-5 {
+    padding-bottom: 2.3rem !important;
+}
