@@ -40,8 +40,8 @@ export class EditTemplateComponent implements OnInit {
   txtTemplateName=''
   IsClickPreview= false
   IframeSRC: SafeResourceUrl
-   templateHost ='http://localhost:4201/#/'
-  // templateHost ='https://templates.nusign.eu/#/'
+  // templateHost ='http://localhost:4201/#/'
+   templateHost ='https://templates.nusign.eu/#/'
   constructor(private serviceLicense: SerLicenseHolderService,public toastr: ToastrService,
     public auth: AuthService,private pService: PlaylistLibService,private modalService: NgbModal,
     private router: Router,public sanitizer: DomSanitizer) { }
@@ -51,6 +51,9 @@ export class EditTemplateComponent implements OnInit {
     if (this.templateId=="1"){
       this.templatedata.title='Wearing a Face Mask'
       this.templatedata.desc='is required to enter'
+      this.templatedata.bgcolor='#ffc107'
+    }
+    if (this.templateId=="5"){
       this.templatedata.bgcolor='#ffc107'
     }
     if (this.templateId=="6"){
