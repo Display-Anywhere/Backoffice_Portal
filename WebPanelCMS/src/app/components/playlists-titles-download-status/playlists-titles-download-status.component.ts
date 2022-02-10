@@ -30,6 +30,7 @@ export class PlaylistsTitlesDownloadStatusComponent implements OnInit {
   AdsDownloadContentList=[];
   AdsContentList=[]
   adsPlContentList=[]
+  splPlaylistId
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
@@ -74,8 +75,12 @@ export class PlaylistsTitlesDownloadStatusComponent implements OnInit {
           }
         });
         this.loading = false;
+        this.splPlaylistId= this.PlaylistList[0].splPlaylistId
          if (this.dpid!=""){
           this.onChangePlaylist(this.dpid)
+         }
+         else{
+          this.onChangePlaylist(this.PlaylistList[0].splPlaylistId)
          }
         
       },

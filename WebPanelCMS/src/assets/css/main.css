@@ -30071,6 +30071,7 @@ table.dataTable th {
 }
 .tokenmodal .modal-lg {
   max-width: 1120px !important;
+  margin-top: 0.25rem !important;
 }
 .mobile-search {
   padding: 0.5em;

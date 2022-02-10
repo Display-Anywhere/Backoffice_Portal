@@ -252,3 +252,6 @@ thead {
   height: auto;
   font-size: 0.95em;
 }
+.text-success {
+  color: #28a745 !important;
+}

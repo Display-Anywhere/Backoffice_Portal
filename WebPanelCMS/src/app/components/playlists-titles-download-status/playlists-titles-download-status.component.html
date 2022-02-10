@@ -30,7 +30,7 @@
         <div class="form-row" *ngIf="dpid==''">
           <div class="form-group col-sm-3 pb-1 m-0">
               <label for="countryName" class="mb-2 mr-sm-2">Playlist:</label>
-              <select name="countryname" class="custom-select"  (change)="onChangePlaylist($event.target.value)"
+              <select name="countryname" class="custom-select"  [(ngModel)]="splPlaylistId"  (change)="onChangePlaylist($event.target.value)"
                 id="countryName">
                 <option selected value="0"></option>
                 <option *ngFor="let cLst of PlaylistList" [value]="cLst.splPlaylistId">

@@ -99,6 +99,7 @@ export class LicenseHolderComponent
   cmbPublishId=""
   PublishActive=1
   CustomerMediaTypeList
+  TokenContentMatchDownload =[]
   @ViewChild('flocation') flocationElement: ElementRef;
   constructor(
     config: NgbModalConfig,
@@ -179,11 +180,11 @@ export class LicenseHolderComponent
           caseInsensitive: false,
         },
         {
-          targets: [10, 11, 12], // column index (start from 0)
+          targets: [9, 10, 11, 12,13], // column index (start from 0)
           orderable: false,
         },
         {
-          targets: [13, 14, 15],
+          targets: [0,14, 15, 16],
           visible: false,
         },
         {
@@ -223,7 +224,7 @@ export class LicenseHolderComponent
           targets: 9,
         },
         {
-          width: '50px',
+          width: '20px',
           targets: 10,
         },
         {
@@ -233,6 +234,10 @@ export class LicenseHolderComponent
         {
           width: '20px',
           targets: 12,
+        },
+        {
+          width: '20px',
+          targets: 13,
         },
       ],
       retrieve: true,
@@ -309,7 +314,7 @@ export class LicenseHolderComponent
     localStorage.setItem('tokenid', tid);
     this.modalService.open(content, { size: 'lg', windowClass: 'tokenmodal' });
   }
-  onChangeCustomer(deviceValue) {
+ async onChangeCustomer(deviceValue) {
     this.SongsList = [];
     this.searchText="";
     localStorage.removeItem('IsSubClientActive')
@@ -320,7 +325,7 @@ export class LicenseHolderComponent
       this.MainTokenList = [];
       return;
     }
-    this.FillCustomerTokenList(deviceValue);
+    await this.FillTokenContentMatchDownload(deviceValue)
   }
   FillCustomerTokenList(deviceValue){
     this.DataTableSettings();
@@ -358,11 +363,45 @@ export class LicenseHolderComponent
         }
       );
   }
+  FillTokenContentMatchDownload(deviceValue){
+    this.loading = true;
+    this.serviceLicense.GetTokenContentMatchDownload(deviceValue).pipe().subscribe((data) => {
+      if (data['response']=="1"){
+        var obj = JSON.parse(data['data']);
+        this.TokenContentMatchDownload = obj
+      }
+      else{
+        this.TokenContentMatchDownload= []
+      }
+      this.loading = false;
+      this.FillCustomerTokenList(deviceValue);
+        },
+        (error) => {
+          this.loading = false;
+        }
+      );
+  }
   FillData(data) {
     var returnData = JSON.stringify(data);
-    this.TokenList = JSON.parse(returnData);
-    this.MainTokenList = JSON.parse(returnData);
-    this.InfoTokenList = JSON.parse(returnData);
+    const objData = JSON.parse(returnData);
+    objData.forEach(item => {
+      const obj =  this.TokenContentMatchDownload.filter(o => o.tokenid === Number(item['tokenid']))
+      if (obj.length==0){
+        item['IsDownloadAll']= 'false'  
+      }
+      else if (obj[0].pContent < 0){
+        item['IsDownloadAll']= 'false'
+      }
+      else if (obj[0].pContent == 0){
+        item['IsDownloadAll']= 'true'
+      }
+      else{
+        item['IsDownloadAll']= 'false'
+      }
+    });
+    this.TokenList = objData;
+    this.MainTokenList = objData;
+    this.InfoTokenList = objData;
     if (this.TokenList.length != 0) {
       this.LogoId = this.TokenList[0].AppLogoId;
       if (this.TokenList[0].IsIndicatorActive == '1') {

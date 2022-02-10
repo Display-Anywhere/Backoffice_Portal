@@ -127,7 +127,7 @@
           </div>
         </div>
         <!-- card-body start -->
-        <div class="card-body">
+        <div class="card-body pl-0 pr-0">
           <ul
             ngbNav
             #t="ngbNav"
@@ -288,7 +288,8 @@
                       Avail. Space
                     </th>
                     <th scope="col" style="width: 50px !important">V.</th>
-                    <th scope="col" style="width: 75px !important">Status</th>
+                    <th scope="col" style="width: 75px !important"></th>
+                    <th scope="col" style="width: 75px !important"></th>
                     <th scope="col" style="width: 30px !important"></th>
                     <th scope="col" style="width: 30px !important"></th>
                     <th scope="col" style="width: 0px !important"></th>
@@ -354,7 +355,16 @@
                     <td data-label="">
                       {{ cLst.Version }}
                     </td>
+                    <td data-label="" class="text-center" >
+                      <i *ngIf="cLst.PublishUpdate == 'True'" class="fa fa-lg fa-square text-danger" aria-hidden="true"  data-toggle="tooltip" data-placement="top" title="Waiting for Update"></i>
+                      <i *ngIf="cLst.PublishUpdate == 'False'" class="fa fa-lg fa-square text-success" aria-hidden="true"  data-toggle="tooltip" data-placement="top" title="Updated"></i>
+                  </td>
+                  <td data-label="" class="text-center">
+                    <i *ngIf="cLst.IsDownloadAll == 'false'" class="fa fa-lg fa-square text-gray" aria-hidden="true"  data-toggle="tooltip" data-placement="top" title="All Content Not Download" ></i>
+                    <i *ngIf="cLst.IsDownloadAll == 'true'" class="fa fa-lg fa-square text-primary" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="All Content Downloaded"></i>
+                </td>
 
+<!-- 
                     <td
                       data-label=""
                       class="text-center"
@@ -368,7 +378,7 @@
                         type="button"
                         class="btn btn-sm btn-danger p-1 m-0"
                         (click)="ForceUpdate(cLst.tokenid, i)"
-                        value="Update &nbsp;"
+                        value="Update1 &nbsp;"
                       />
 
                       <input
@@ -376,7 +386,7 @@
                         type="button"
                         class="btn btn-sm bg-success p-1 m-0"
                         (click)="ForceUpdate(cLst.tokenid, i)"
-                        value="Updated"
+                        value="Updated1"
                       />
                     </td>
 
@@ -451,7 +461,7 @@
                         style="font-size: 0.975rem"
                       />
                     </td>
-
+ -->
                     <td data-label="" *ngIf="IsIndicatorShow == true">
                       <img
                         src="/assets/img/green.png"
@@ -462,7 +472,7 @@
                           margin-left: auto;
                           margin-right: auto;
                           display: block;
-                        "
+                        "  data-toggle="tooltip" data-placement="top" title="Online Indicator Active"
                       />
                       <img
                         src="/assets/img/red.png"
@@ -473,7 +483,7 @@
                           margin-left: auto;
                           margin-right: auto;
                           display: block;
-                        "
+                        " data-toggle="tooltip" data-placement="top" title="Online Indicator deactivate"
                       />
                     </td>
                     <td data-label="" *ngIf="IsIndicatorShow == false">
@@ -485,7 +495,7 @@
                           margin-left: auto;
                           margin-right: auto;
                           display: block;
-                        "
+                        " data-toggle="tooltip" data-placement="top" title="Online Indicator deactivate"
                       />
                     </td>
 

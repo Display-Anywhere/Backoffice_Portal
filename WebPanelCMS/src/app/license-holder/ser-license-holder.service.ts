@@ -237,5 +237,10 @@ SavePublishToken(publishid,tokenid) {
   return this.http.post(this.cApi.SavePublishToken, params, { headers: headers })
     .pipe((data => { return data; }))
 }
-
+GetTokenContentMatchDownload(cid) {
+  let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+  var params = JSON.stringify({ ClientId: cid });
+  return this.http.post(this.cApi.GetTokenContentMatchDownload, params, { headers: headers })
+    .pipe((data => { return data; }))
+}
 }
