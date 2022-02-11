@@ -356,12 +356,12 @@
                       {{ cLst.Version }}
                     </td>
                     <td data-label="" class="text-center" >
-                      <i *ngIf="cLst.PublishUpdate == 'True'" class="fa fa-lg fa-square text-danger" aria-hidden="true"  data-toggle="tooltip" data-placement="top" title="Waiting for Update"></i>
+                      <i *ngIf="cLst.PublishUpdate == 'True'" class="fa fa-lg fa-square text-danger" aria-hidden="true"  data-toggle="tooltip" data-placement="top" title="Update"></i>
                       <i *ngIf="cLst.PublishUpdate == 'False'" class="fa fa-lg fa-square text-success" aria-hidden="true"  data-toggle="tooltip" data-placement="top" title="Updated"></i>
                   </td>
                   <td data-label="" class="text-center">
-                    <i *ngIf="cLst.IsDownloadAll == 'false'" class="fa fa-lg fa-square text-gray" aria-hidden="true"  data-toggle="tooltip" data-placement="top" title="All Content Not Download" ></i>
-                    <i *ngIf="cLst.IsDownloadAll == 'true'" class="fa fa-lg fa-square text-primary" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="All Content Downloaded"></i>
+                    <i *ngIf="cLst.IsDownloadAll == 'false'" class="fa fa-lg fa-square text-primary" aria-hidden="true"  data-toggle="tooltip" data-placement="top" title="Download not completed" ></i>
+                    <i *ngIf="cLst.IsDownloadAll == 'true'" class="fa fa-lg fa-square text-success" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Download  Completed"></i>
                 </td>
 
 <!-- 
@@ -472,7 +472,7 @@
                           margin-left: auto;
                           margin-right: auto;
                           display: block;
-                        "  data-toggle="tooltip" data-placement="top" title="Online Indicator Active"
+                        "  data-toggle="tooltip" data-placement="top" title="Online Indicator"
                       />
                       <img
                         src="/assets/img/red.png"
@@ -483,7 +483,7 @@
                           margin-left: auto;
                           margin-right: auto;
                           display: block;
-                        " data-toggle="tooltip" data-placement="top" title="Online Indicator deactivate"
+                        " data-toggle="tooltip" data-placement="top" title="Online Indicator"
                       />
                     </td>
                     <td data-label="" *ngIf="IsIndicatorShow == false">
@@ -495,7 +495,7 @@
                           margin-left: auto;
                           margin-right: auto;
                           display: block;
-                        " data-toggle="tooltip" data-placement="top" title="Online Indicator deactivate"
+                        " data-toggle="tooltip" data-placement="top" title="Online Indicator"
                       />
                     </td>
 
