@@ -35,6 +35,31 @@
                     <input type="button" (click)="openLibrary(modalSignage,'Library')" class="btn btn-primary  mb-2 mr-sm-2" id="bkImage" value="Open Library" />
                     <span><strong>{{selected_imgName}}</strong></span>
                   </div>
+                  <div *ngIf="ShowBackgroundImageLibraryMultiple()" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-12'" class="form-group pb-1 m-0">
+                    <label for="bkImage" class="mb-2 mr-sm-2 w-100">Background Image 2:</label>
+                    <input type="button" (click)="openLibrary(modalSignage2,'Library')" class="btn btn-primary  mb-2 mr-sm-2" id="bkImage" value="Open Library" />
+                    <span><strong>{{selected_imgName2}}</strong></span>
+                  </div>
+                  <div *ngIf="ShowBackgroundImageLibraryMultiple()" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-12'" class="form-group pb-1 m-0">
+                    <label for="bkImage" class="mb-2 mr-sm-2 w-100">Background Image 3:</label>
+                    <input type="button" (click)="openLibrary(modalSignage3,'Library')" class="btn btn-primary  mb-2 mr-sm-2" id="bkImage" value="Open Library" />
+                    <span><strong>{{selected_imgName3}}</strong></span>
+                  </div>
+                  <div *ngIf="ShowBackgroundImageLibraryMultiple()" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-12'" class="form-group pb-1 m-0">
+                    <label for="bkImage" class="mb-2 mr-sm-2 w-100">Background Image 4:</label>
+                    <input type="button" (click)="openLibrary(modalSignage4,'Library')" class="btn btn-primary  mb-2 mr-sm-2" id="bkImage" value="Open Library" />
+                    <span><strong>{{selected_imgName4}}</strong></span>
+                  </div>
+                  <div *ngIf="ShowBackgroundImageLibraryMultiple()" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-12'" class="form-group pb-1 m-0">
+                    <label for="bkImage" class="mb-2 mr-sm-2 w-100">Background Image 5:</label>
+                    <input type="button" (click)="openLibrary(modalSignage5,'Library')" class="btn btn-primary  mb-2 mr-sm-2" id="bkImage" value="Open Library" />
+                    <span><strong>{{selected_imgName5}}</strong></span>
+                  </div>
+                  <div *ngIf="ShowBackgroundImageLibraryMultiple()" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-12'" class="form-group pb-1 m-0">
+                    <label for="bkImage" class="mb-2 mr-sm-2 w-100">Background Image 6:</label>
+                    <input type="button" (click)="openLibrary(modalSignage6,'Library')" class="btn btn-primary  mb-2 mr-sm-2" id="bkImage" value="Open Library" />
+                    <span><strong>{{selected_imgName6}}</strong></span>
+                  </div>
                   <div [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-12'" class="form-group pb-2 m-0">
                     <label for="MediaType">Background Color:</label>
                     <input [(colorPicker)]="templatedata.bgcolor" class="form-control" readonly [style.background]="templatedata.bgcolor"/>
@@ -164,7 +189,7 @@
             <div class="card-body p-1 border-top">
               <a
                 href="javascript:;"
-                (click)="SetImage(songLst.TitleIdLink, songLst.title)" (click)="d('Cross click')"
+                (click)="SetImage(songLst.TitleIdLink, songLst.title,1)" (click)="d('Cross click')"
                 class="btn btn-primary btn-sm"
                 >Set</a
               >
@@ -227,4 +252,278 @@
   <div class="modal-body">
     <app-playeractivationlog></app-playeractivationlog>
   </div>
+  </ng-template>
+
+  <ng-template #modalSignage2 let-c="close" let-d="dismiss">
+    <div class="modal-header bg-primary">
+      <h5 class="text-white">Library</h5>
+      <button
+        type="button"
+        class="close text-white"
+        aria-label="Close"
+        (click)="d('Cross click')"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="col-12 p-0">
+        <label class="col-md-2 p-0">Folder Name:</label>
+        <select name="cmbCustomer" class="col-md-3 custom-select mb-3 mt-2" (change)="onChangeLibraryFolder()"
+          id="cmbFolder" [(ngModel)]="cmbLibraryFolder">
+          <option selected value="0">All</option>
+          <option *ngFor="let cLst of LibraryFolderList" [value]="cLst.Id">
+            {{ cLst.DisplayName }}
+          </option>
+        </select>
+
+        
+      </div>
+      <div class="row">
+        <div class="col-sm-4 col-6 mb-2" *ngFor="let songLst of SongsList">
+          <div class="card">
+            <img
+              class="card-img-top p-1"
+              src="{{ songLst.TitleIdLink }}"
+              alt="Card image"
+              style="height: 100px; object-fit: contain"
+            />
+            <div class="card-body p-1 border-top">
+              <a
+                href="javascript:;"
+                (click)="SetImage(songLst.TitleIdLink, songLst.title,2)" (click)="d('Cross click')"
+                class="btn btn-primary btn-sm"
+                >Set</a
+              >
+              <a
+                href="javascript:;"
+                (click)="OpenFullImageModal(modalFullImage, songLst.TitleIdLink)"
+                (click)="d('Cross click')"
+                class="ml-5"
+                >Full View</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #modalSignage3 let-c="close" let-d="dismiss">
+    <div class="modal-header bg-primary">
+      <h5 class="text-white">Library</h5>
+      <button
+        type="button"
+        class="close text-white"
+        aria-label="Close"
+        (click)="d('Cross click')"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="col-12 p-0">
+        <label class="col-md-2 p-0">Folder Name:</label>
+        <select name="cmbCustomer" class="col-md-3 custom-select mb-3 mt-2" (change)="onChangeLibraryFolder()"
+          id="cmbFolder" [(ngModel)]="cmbLibraryFolder">
+          <option selected value="0">All</option>
+          <option *ngFor="let cLst of LibraryFolderList" [value]="cLst.Id">
+            {{ cLst.DisplayName }}
+          </option>
+        </select>
+
+        
+      </div>
+      <div class="row">
+        <div class="col-sm-4 col-6 mb-2" *ngFor="let songLst of SongsList">
+          <div class="card">
+            <img
+              class="card-img-top p-1"
+              src="{{ songLst.TitleIdLink }}"
+              alt="Card image"
+              style="height: 100px; object-fit: contain"
+            />
+            <div class="card-body p-1 border-top">
+              <a
+                href="javascript:;"
+                (click)="SetImage(songLst.TitleIdLink, songLst.title,3)" (click)="d('Cross click')"
+                class="btn btn-primary btn-sm"
+                >Set</a
+              >
+              <a
+                href="javascript:;"
+                (click)="OpenFullImageModal(modalFullImage, songLst.TitleIdLink)"
+                (click)="d('Cross click')"
+                class="ml-5"
+                >Full View</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #modalSignage4 let-c="close" let-d="dismiss">
+    <div class="modal-header bg-primary">
+      <h5 class="text-white">Library</h5>
+      <button
+        type="button"
+        class="close text-white"
+        aria-label="Close"
+        (click)="d('Cross click')"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="col-12 p-0">
+        <label class="col-md-2 p-0">Folder Name:</label>
+        <select name="cmbCustomer" class="col-md-3 custom-select mb-3 mt-2" (change)="onChangeLibraryFolder()"
+          id="cmbFolder" [(ngModel)]="cmbLibraryFolder">
+          <option selected value="0">All</option>
+          <option *ngFor="let cLst of LibraryFolderList" [value]="cLst.Id">
+            {{ cLst.DisplayName }}
+          </option>
+        </select>
+
+        
+      </div>
+      <div class="row">
+        <div class="col-sm-4 col-6 mb-2" *ngFor="let songLst of SongsList">
+          <div class="card">
+            <img
+              class="card-img-top p-1"
+              src="{{ songLst.TitleIdLink }}"
+              alt="Card image"
+              style="height: 100px; object-fit: contain"
+            />
+            <div class="card-body p-1 border-top">
+              <a
+                href="javascript:;"
+                (click)="SetImage(songLst.TitleIdLink, songLst.title,4)" (click)="d('Cross click')"
+                class="btn btn-primary btn-sm"
+                >Set</a
+              >
+              <a
+                href="javascript:;"
+                (click)="OpenFullImageModal(modalFullImage, songLst.TitleIdLink)"
+                (click)="d('Cross click')"
+                class="ml-5"
+                >Full View</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template #modalSignage5 let-c="close" let-d="dismiss">
+    <div class="modal-header bg-primary">
+      <h5 class="text-white">Library</h5>
+      <button
+        type="button"
+        class="close text-white"
+        aria-label="Close"
+        (click)="d('Cross click')"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="col-12 p-0">
+        <label class="col-md-2 p-0">Folder Name:</label>
+        <select name="cmbCustomer" class="col-md-3 custom-select mb-3 mt-2" (change)="onChangeLibraryFolder()"
+          id="cmbFolder" [(ngModel)]="cmbLibraryFolder">
+          <option selected value="0">All</option>
+          <option *ngFor="let cLst of LibraryFolderList" [value]="cLst.Id">
+            {{ cLst.DisplayName }}
+          </option>
+        </select>
+
+        
+      </div>
+      <div class="row">
+        <div class="col-sm-4 col-6 mb-2" *ngFor="let songLst of SongsList">
+          <div class="card">
+            <img
+              class="card-img-top p-1"
+              src="{{ songLst.TitleIdLink }}"
+              alt="Card image"
+              style="height: 100px; object-fit: contain"
+            />
+            <div class="card-body p-1 border-top">
+              <a
+                href="javascript:;"
+                (click)="SetImage(songLst.TitleIdLink, songLst.title,5)" (click)="d('Cross click')"
+                class="btn btn-primary btn-sm"
+                >Set</a
+              >
+              <a
+                href="javascript:;"
+                (click)="OpenFullImageModal(modalFullImage, songLst.TitleIdLink)"
+                (click)="d('Cross click')"
+                class="ml-5"
+                >Full View</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #modalSignage6 let-c="close" let-d="dismiss">
+    <div class="modal-header bg-primary">
+      <h5 class="text-white">Library</h5>
+      <button
+        type="button"
+        class="close text-white"
+        aria-label="Close"
+        (click)="d('Cross click')"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="col-12 p-0">
+        <label class="col-md-2 p-0">Folder Name:</label>
+        <select name="cmbCustomer" class="col-md-3 custom-select mb-3 mt-2" (change)="onChangeLibraryFolder()"
+          id="cmbFolder" [(ngModel)]="cmbLibraryFolder">
+          <option selected value="0">All</option>
+          <option *ngFor="let cLst of LibraryFolderList" [value]="cLst.Id">
+            {{ cLst.DisplayName }}
+          </option>
+        </select>
+
+        
+      </div>
+      <div class="row">
+        <div class="col-sm-4 col-6 mb-2" *ngFor="let songLst of SongsList">
+          <div class="card">
+            <img
+              class="card-img-top p-1"
+              src="{{ songLst.TitleIdLink }}"
+              alt="Card image"
+              style="height: 100px; object-fit: contain"
+            />
+            <div class="card-body p-1 border-top">
+              <a
+                href="javascript:;"
+                (click)="SetImage(songLst.TitleIdLink, songLst.title,6)" (click)="d('Cross click')"
+                class="btn btn-primary btn-sm"
+                >Set</a
+              >
+              <a
+                href="javascript:;"
+                (click)="OpenFullImageModal(modalFullImage, songLst.TitleIdLink)"
+                (click)="d('Cross click')"
+                class="ml-5"
+                >Full View</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </ng-template>

@@ -31,10 +31,20 @@ export class EditTemplateComponent implements OnInit {
     width:'',
     height:'',
     duration:'',
-    bgcolor:'#ffffff'
+    bgcolor:'#ffffff',
+    imgurl2:'',
+    imgurl3:'',
+    imgurl4:'',
+    imgurl5:'',
+    imgurl6:''
   }
   selected_logoName=''
   selected_imgName=''
+  selected_imgName2=''
+  selected_imgName3=''
+  selected_imgName4=''
+  selected_imgName5=''
+  selected_imgName6=''
   templateId=  localStorage.getItem("edittemplate")
   isDisabled=true
   txtTemplateName=''
@@ -211,10 +221,32 @@ export class EditTemplateComponent implements OnInit {
       );
     }
   }
-  SetImage(url,title){
+  SetImage(url,title, imgCount){
     if (this.content_Type=='Library'){
-      this.templatedata.imgurl= url 
-      this.selected_imgName= title
+      if (imgCount==1){
+        this.templatedata.imgurl= url 
+        this.selected_imgName =title
+      }
+      if (imgCount==2){
+        this.templatedata.imgurl2= url 
+        this.selected_imgName2 =title
+      }
+      if (imgCount==3){
+        this.templatedata.imgurl3= url 
+        this.selected_imgName3 =title
+      }
+      if (imgCount==4){
+        this.templatedata.imgurl4= url 
+        this.selected_imgName4 =title
+      }
+      if (imgCount==5){
+        this.templatedata.imgurl5= url 
+        this.selected_imgName5 =title
+      }
+      if (imgCount==6){
+        this.templatedata.imgurl6= url 
+        this.selected_imgName6 =title
+      }
     }
     else{
       this.templatedata.logoimgurl= url 
@@ -239,7 +271,7 @@ export class EditTemplateComponent implements OnInit {
     this.auth.SetEditTemplateOpen(false)
   }
   OpenViewContent(modalName){
-    let IframeSRC_Safe = this.templateHost+ '?templateId='+this.templateId+'&title='+this.templatedata.title+'&desc='+this.templatedata.desc+'&logosrc='+this.templatedata.logoimgurl+ '&ngClass='+this.templatedata.bgcolor.replace('#','')+'&imgSrc='+this.templatedata.imgurl+ '&text1='+this.templatedata.desc1+'&text2='+this.templatedata.desc2
+    let IframeSRC_Safe = this.templateHost+ '?templateId='+this.templateId+'&title='+this.templatedata.title+'&desc='+this.templatedata.desc+'&logosrc='+this.templatedata.logoimgurl+ '&ngClass='+this.templatedata.bgcolor.replace('#','')+'&imgSrc='+this.templatedata.imgurl+ '&text1='+this.templatedata.desc1+'&text2='+this.templatedata.desc2+'&imgSrc2='+this.templatedata.imgurl2+'&imgSrc3='+this.templatedata.imgurl3+'&imgSrc4='+this.templatedata.imgurl4+'&imgSrc5='+this.templatedata.imgurl5+'&imgSrc6='+this.templatedata.imgurl6
     // 1 
     //let IframeSRC_Safe = "http://localhost:4201/#/?templateId=1&title=Wearing a Face Mask&desc=is required to enter&logosrc=http://api.nusign.eu/mp3files/238708.jpg&ngClass=bg-warning&imgSrc=&text1=&text2=" 
     // 2
@@ -437,6 +469,14 @@ export class EditTemplateComponent implements OnInit {
     }
     else{
       return true
+    }
+  }
+  ShowBackgroundImageLibraryMultiple () {
+    if (this.templateId ==='8'){
+      return true
+    }
+    else{
+      return false
     }
   }
   ShowPortraitGenre () {
