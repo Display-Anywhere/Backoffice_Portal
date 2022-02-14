@@ -1,194 +1,230 @@
-<div class="container-fluid p-0" *ngIf="IsEditTemplateOpen==false" >
-    <div class="col-12 p-0">
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-header" >
-                        <div class="col-lg-12 p-0">
-                            <ul class="nav nav-pills" role="tablist" style="background: #fff; color: #000">
-                                <li class="nav-item">
-                                    <a class="nav-link active" data-toggle="tab" href="#templatlist"  (click)="ReloadComponent('Templates')">Templates</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" data-toggle="tab" href="#mytemplatlist"  (click)="ReloadComponent('MyTemplates')">My Templates</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="card-body pt-0">
-                        <div class="tab-content">
-                            <div id="templatlist" role="tabpanel" class="tab-pane active m-0 p-0">
-                                <div class="container-fluid m-0 p-0 mt-3" *ngIf="ComponentName=='Templates'" >
-                                    <div class="px-lg-5">
-                                      <div class="row">
-                                        <!-- Gallery item -->
-                                        <div class="col-xl-3 col-lg-4 col-md-6 mb-4 cursorpointer">
-                                          <div class="bg-white rounded shadow-sm"><img src="assets/images/temp-0/0-thumbnail.png" alt="" class="img-fluid card-img-top">
-                                            <div class="pl-4 pr-4 pb-5 pt-1">
-                                              <h5 class="text-dark pull-left">Covid 1 </h5>
-                                              <div class="badge badge-primary px-3 rounded-pill font-weight-normal mt-1  pull-right" (click)="editTemplates('1')">Edit</div>
-                                            </div>
-                                          </div>
-                                        </div>
-                                        <!-- End -->
-                                  
-                                        <!-- Gallery item -->
-                                        <div class="col-xl-3 col-lg-4 col-md-6 mb-4 cursorpointer">
-                                            <div class="bg-white rounded shadow-sm"><img src="assets/images/temp-5/5-thumbnail.png" alt="" class="img-fluid card-img-top">
-                                              <div class="pl-4 pr-4 pb-5 pt-1">
-                                                <h5 class="text-dark pull-left">Covid 2 </h5>
-                                                <div class="badge badge-primary px-3 rounded-pill font-weight-normal mt-1  pull-right" (click)="editTemplates('4')">Edit</div>
-                                              </div>
-                                              </div>
-                                        </div>
-                                        <!-- End -->
-                                  
-                                        <!-- Gallery item -->
-                                        <div class="col-xl-3 col-lg-4 col-md-6 mb-4 cursorpointer">
-                                            <div class="bg-white rounded shadow-sm"><img src="assets/images/temp-1/1-thumbnail.png" alt="" class="img-fluid card-img-top">
-                                              <div class="pl-4 pr-4 pb-5 pt-1">
-                                                <h5 class="text-dark pull-left">Real estate 1</h5>
-                                                <div class="badge badge-primary px-3 rounded-pill font-weight-normal mt-1  pull-right" (click)="editTemplates('6')">Edit</div>
-                                              </div>
-                                              </div>
-                                        </div>
-                                        <!-- End -->
-                                  
-                                        <!-- Gallery item -->
-                                        <div class="col-xl-3 col-lg-4 col-md-6 mb-4 cursorpointer">
-                                            <div class="bg-white rounded shadow-sm"><img src="assets/images/temp-7/7-thumbnail.png" alt="" class="img-fluid card-img-top">
-                                              <div class="pl-4 pr-4 pb-5 pt-1">
-                                                <h5 class="text-dark pull-left">Real estate 2</h5>
-                                                <div class="badge badge-primary px-3 rounded-pill font-weight-normal mt-1  pull-right" (click)="editTemplates('7')">Edit</div>
-                                              </div>
-
-                                        </div>
-                                        </div>
-                                        <div class="col-xl-3 col-lg-4 col-md-6 mb-4 cursorpointer">
-                                          <div class="bg-white rounded shadow-sm"><img src="assets/images/temp-8/8-thumbnail.png" alt="" class="img-fluid card-img-top">
-                                            <div class="pl-4 pr-4 pb-5 pt-1">
-                                              <h5 class="text-dark pull-left">Real estate 3</h5>
-                                              <div class="badge badge-primary px-3 rounded-pill font-weight-normal mt-1  pull-right" (click)="editTemplates('8')">Edit</div>
-                                            </div>
-
-                                      </div>
-                                      </div>
-                                        <!-- End -->
-                                  
-                                        <!-- Gallery item -->
-                                        <div class="col-xl-3 col-lg-4 col-md-6 mb-4 cursorpointer">
-                                            <div class="bg-white rounded shadow-sm"><img src="assets/images/temp-4/4-thumbnail.png" alt="" class="img-fluid card-img-top">
-                                              <div class="pl-4 pr-4 pb-5 pt-1">
-                                                <h5 class="text-dark pull-left">Leasure 1</h5>
-                                                <div class="badge badge-primary px-3 rounded-pill font-weight-normal mt-1  pull-right" (click)="editTemplates('2')">Edit</div>
-                                              </div>
-
-                                        </div>
-                                        </div>
-                                        <!-- End -->
-                                  
-                                        <!-- Gallery item -->
-                                        <div class="col-xl-3 col-lg-4 col-md-6 mb-4 cursorpointer">
-                                            <div class="bg-white rounded shadow-sm"><img src="assets/images/temp-2/2-thumbnail.png" alt="" class="img-fluid card-img-top">
-                                              <div class="pl-4 pr-4 pb-5 pt-1">
-                                                <h5 class="text-dark pull-left">Leasure 2</h5>
-                                                <div class="badge badge-primary px-3 rounded-pill font-weight-normal mt-1  pull-right" (click)="editTemplates('3')">Edit</div>
-                                              </div>
-
-                                        </div>
-                                        </div>
-
-                                        <div class="col-xl-3 col-lg-4 col-md-6 mb-4 cursorpointer">
-                                          <div class="bg-white rounded shadow-sm"><img src="assets/images/temp-6/6-thumbnail.png" alt="" class="img-fluid card-img-top">
-                                            <div class="pl-4 pr-4 pb-5 pt-1">
-                                              <h5 class="text-dark pull-left">Leasure 3</h5>
-                                              <div class="badge badge-primary px-3 rounded-pill font-weight-normal mt-1  pull-right" (click)="editTemplates('5')">Edit</div>
-                                            </div>
-
-                                      </div>
-                                      </div>
-                                        <!-- End -->
-                                  
-                                        <!-- Gallery item -->
-                                        <div class="col-xl-3 col-lg-4 col-md-6 mb-4 cursorpointer d-none">
-                                            <div class="bg-white rounded shadow-sm"><img src="https://content.nusign.eu/img/template_previews/en/sunparks_4_lightblue.png" alt="" class="img-fluid card-img-top">
-                                                <div class="pl-4 pr-4 pb-4 pt-1">
-                                                  <h5> <a href="javascript:;" class="text-dark">Sunparks 1 Light Blue</a></h5>
-                                                    <div class="badge badge-primary px-3 rounded-pill font-weight-normal mt-3 " (click)="editTemplates('1')">Edit</div>
-                                                </div>
-                                        </div>
-                                        </div>
-                                        <!-- End -->
-                                  
-                                        <!-- Gallery item -->
-                                        <div class="col-xl-3 col-lg-4 col-md-6 mb-4 cursorpointer d-none">
-                                            <div class="bg-white rounded shadow-sm"><img src="https://content.nusign.eu/img/template_previews/en/sunparks_5_lightblue.png" alt="" class="img-fluid card-img-top">
-                                                <div class="pl-4 pr-4 pb-4 pt-1">
-                                                  <h5> <a href="javascript:;" class="text-dark">Sunparks 2 Light Blue</a></h5>
-                                                    <div class="badge badge-primary px-3 rounded-pill font-weight-normal mt-3 " (click)="editTemplates('1')">Edit</div>
-                                                </div>
-                                        </div>
-                                        </div>
-                                        <!-- End -->
-                                  
-                                        <!-- Gallery item -->
-                                        <div class="col-xl-3 col-lg-4 col-md-6 mb-4 cursorpointer d-none">
-                                            <div class="bg-white rounded shadow-sm"><img src="https://content.nusign.eu/img/template_previews/en/epidemic_3.png" alt="" class="img-fluid card-img-top">
-                                                <div class="pl-4 pr-4 pb-4 pt-1">
-                                                  <h5> <a href="javascript:;" class="text-dark">Epidemic 1</a></h5>
-                                                    <div class="badge badge-primary px-3 rounded-pill font-weight-normal mt-3 " (click)="editTemplates('1')">Edit</div>
-                                                </div>
-                                        </div>
-                                        </div>
-                                        <!-- End -->
-                                  
-                                        <!-- Gallery item -->
-                                        <div class="col-xl-3 col-lg-4 col-md-6 mb-4 cursorpointer d-none">
-                                            <div class="bg-white rounded shadow-sm"><img src="https://content.nusign.eu/img/template_previews/en/follow_us_linkedin_v3.png" alt="" class="img-fluid card-img-top">
-                                                <div class="pl-4 pr-4 pb-4 pt-1">
-                                                  <h5> <a href="javascript:;" class="text-dark">LinkedIn</a></h5>
-                                                    <div class="badge badge-primary px-3 rounded-pill font-weight-normal mt-3 " (click)="editTemplates('1')">Edit</div>
-                                                </div>
-                                        </div>
-                                        </div>
-                                        <!-- End -->
-                                  
-                                        <!-- Gallery item -->
-                                        <div class="col-xl-3 col-lg-4 col-md-6 mb-4 cursorpointer d-none">
-                                            <div class="bg-white rounded shadow-sm"><img src="https://content.nusign.eu/img/template_previews/en/follow_us_facebook_v3.png" alt="" class="img-fluid card-img-top">
-                                                <div class="pl-4 pr-4 pb-4 pt-1">
-                                                  <h5> <a href="javascript:;" class="text-dark">Facebook</a></h5>
-                                                    <div class="badge badge-primary px-3 rounded-pill font-weight-normal mt-3 " (click)="editTemplates('1')">Edit</div>
-                                                </div>
-                                        </div>
-                                        </div>
-                                        <!-- End -->
-                                  
-                                        <!-- Gallery item -->
-                                        <div class="col-xl-3 col-lg-4 col-md-6 mb-4 cursorpointer d-none">
-                                            <div class="bg-white rounded shadow-sm"><img src="https://content.nusign.eu/img/template_previews/en/follow_us_twitter.png" alt="" class="img-fluid card-img-top">
-                                                <div class="pl-4 pr-4 pb-4 pt-1">
-                                                  <h5> <a href="javascript:;" class="text-dark">Twitter</a></h5>
-                                                    <div class="badge badge-primary px-3 rounded-pill font-weight-normal mt-3 " (click)="editTemplates('1')">Edit</div>
-                                                </div>
-                                        </div>
-                                        </div>
-                                        <!-- End -->
-                                  
-                                      </div>
-                                    </div>
-                                  </div>
-                            </div>
-                            <div id="mytemplatlist" role="tabpanel" class="tab-pane m-0 p-0">
-                                <app-mytemplate *ngIf="ComponentName=='MyTemplates'"></app-mytemplate>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
+<div class="container-fluid p-0" *ngIf="IsEditTemplateOpen==false">
+  <div class="col-12 p-0">
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header">
+            <div class="col-lg-12 p-0">
+              <ul class="nav nav-pills" role="tablist" style="background: #fff; color: #000">
+                <li class="nav-item">
+                  <a class="nav-link active" data-toggle="tab" href="#templatlist"
+                    (click)="ReloadComponent('Templates')">Templates</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" data-toggle="tab" href="#mytemplatlist"
+                    (click)="ReloadComponent('MyTemplates')">My Templates</a>
+                </li>
+              </ul>
             </div>
+          </div>
+          <div class="card-body pt-0">
+            <div class="tab-content">
+              <div id="templatlist" role="tabpanel" class="tab-pane active m-0 p-0">
+                <div class="container-fluid m-0 p-0 mt-3" *ngIf="ComponentName=='Templates'">
+                  <div class="px-lg-5">
+                    <div class="row">
+                      <!-- Gallery item -->
+                      <div class="col-xl-3 col-lg-4 col-md-6 mb-4 cursorpointer">
+                        <div class="bg-white rounded shadow-sm"><img src="assets/images/temp-0/0-thumbnail.png" alt=""
+                            class="img-fluid card-img-top">
+                          <div class="pl-4 pr-4 pb-5 pt-1">
+                            <h5 class="text-dark pull-left">Covid 1 </h5>
+                            <div class="badge badge-primary px-3 rounded-pill font-weight-normal mt-1  pull-right"
+                              (click)="editTemplates('1')">Edit</div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- End -->
+
+                      <!-- Gallery item -->
+                      <div class="col-xl-3 col-lg-4 col-md-6 mb-4 cursorpointer">
+                        <div class="bg-white rounded shadow-sm"><img src="assets/images/temp-5/5-thumbnail.png" alt=""
+                            class="img-fluid card-img-top">
+                          <div class="pl-4 pr-4 pb-5 pt-1">
+                            <h5 class="text-dark pull-left">Covid 2 </h5>
+                            <div class="badge badge-primary px-3 rounded-pill font-weight-normal mt-1  pull-right"
+                              (click)="editTemplates('4')">Edit</div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- End -->
+
+                      <!-- Gallery item -->
+                      <div class="col-xl-3 col-lg-4 col-md-6 mb-4 cursorpointer">
+                        <div class="bg-white rounded shadow-sm"><img src="assets/images/temp-1/1-thumbnail.png" alt=""
+                            class="img-fluid card-img-top">
+                          <div class="pl-4 pr-4 pb-5 pt-1">
+                            <h5 class="text-dark pull-left">Real estate 1</h5>
+                            <div class="badge badge-primary px-3 rounded-pill font-weight-normal mt-1  pull-right"
+                              (click)="editTemplates('6')">Edit</div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- End -->
+
+                      <!-- Gallery item -->
+                      <div class="col-xl-3 col-lg-4 col-md-6 mb-4 cursorpointer">
+                        <div class="bg-white rounded shadow-sm"><img src="assets/images/temp-7/7-thumbnail.png" alt=""
+                            class="img-fluid card-img-top">
+                          <div class="pl-4 pr-4 pb-5 pt-1">
+                            <h5 class="text-dark pull-left">Real estate 2</h5>
+                            <div class="badge badge-primary px-3 rounded-pill font-weight-normal mt-1  pull-right"
+                              (click)="editTemplates('7')">Edit</div>
+                          </div>
+
+                        </div>
+                      </div>
+                      <div class="col-xl-3 col-lg-4 col-md-6 mb-4 cursorpointer">
+                        <div class="bg-white rounded shadow-sm"><img src="assets/images/temp-9/9-thumbnail.png" alt=""
+                            class="img-fluid card-img-top">
+                          <div class="pl-4 pr-4 pb-5 pt-1">
+                            <h5 class="text-dark pull-left">Real estate 3</h5>
+                            <div class="badge badge-primary px-3 rounded-pill font-weight-normal mt-1  pull-right"
+                              (click)="editTemplates('8')">Edit</div>
+                          </div>
+
+                        </div>
+                      </div>
+                      <!-- End -->
+
+                      <!-- Gallery item -->
+                      <div class="col-xl-3 col-lg-4 col-md-6 mb-4 cursorpointer">
+                        <div class="bg-white rounded shadow-sm"><img src="assets/images/temp-4/4-thumbnail.png" alt=""
+                            class="img-fluid card-img-top">
+                          <div class="pl-4 pr-4 pb-5 pt-1">
+                            <h5 class="text-dark pull-left">Leasure 1</h5>
+                            <div class="badge badge-primary px-3 rounded-pill font-weight-normal mt-1  pull-right"
+                              (click)="editTemplates('2')">Edit</div>
+                          </div>
+
+                        </div>
+                      </div>
+                      <!-- End -->
+
+                      <!-- Gallery item -->
+                      <div class="col-xl-3 col-lg-4 col-md-6 mb-4 cursorpointer">
+                        <div class="bg-white rounded shadow-sm"><img src="assets/images/temp-2/2-thumbnail.png" alt=""
+                            class="img-fluid card-img-top">
+                          <div class="pl-4 pr-4 pb-5 pt-1">
+                            <h5 class="text-dark pull-left">Leasure 2</h5>
+                            <div class="badge badge-primary px-3 rounded-pill font-weight-normal mt-1  pull-right"
+                              (click)="editTemplates('3')">Edit</div>
+                          </div>
+
+                        </div>
+                      </div>
+
+                      <div class="col-xl-3 col-lg-4 col-md-6 mb-4 cursorpointer">
+                        <div class="bg-white rounded shadow-sm"><img src="assets/images/temp-6/6-thumbnail.png" alt=""
+                            class="img-fluid card-img-top">
+                          <div class="pl-4 pr-4 pb-5 pt-1">
+                            <h5 class="text-dark pull-left">Leasure 3</h5>
+                            <div class="badge badge-primary px-3 rounded-pill font-weight-normal mt-1  pull-right"
+                              (click)="editTemplates('5')">Edit</div>
+                          </div>
+
+                        </div>
+                      </div>
+                      <!-- End -->
+
+                      <!-- Gallery item -->
+                      <div class="col-xl-3 col-lg-4 col-md-6 mb-4 cursorpointer d-none">
+                        <div class="bg-white rounded shadow-sm"><img
+                            src="https://content.nusign.eu/img/template_previews/en/sunparks_4_lightblue.png" alt=""
+                            class="img-fluid card-img-top">
+                          <div class="pl-4 pr-4 pb-4 pt-1">
+                            <h5> <a href="javascript:;" class="text-dark">Sunparks 1 Light Blue</a></h5>
+                            <div class="badge badge-primary px-3 rounded-pill font-weight-normal mt-3 "
+                              (click)="editTemplates('1')">Edit</div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- End -->
+
+                      <!-- Gallery item -->
+                      <div class="col-xl-3 col-lg-4 col-md-6 mb-4 cursorpointer d-none">
+                        <div class="bg-white rounded shadow-sm"><img
+                            src="https://content.nusign.eu/img/template_previews/en/sunparks_5_lightblue.png" alt=""
+                            class="img-fluid card-img-top">
+                          <div class="pl-4 pr-4 pb-4 pt-1">
+                            <h5> <a href="javascript:;" class="text-dark">Sunparks 2 Light Blue</a></h5>
+                            <div class="badge badge-primary px-3 rounded-pill font-weight-normal mt-3 "
+                              (click)="editTemplates('1')">Edit</div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- End -->
+
+                      <!-- Gallery item -->
+                      <div class="col-xl-3 col-lg-4 col-md-6 mb-4 cursorpointer d-none">
+                        <div class="bg-white rounded shadow-sm"><img
+                            src="https://content.nusign.eu/img/template_previews/en/epidemic_3.png" alt=""
+                            class="img-fluid card-img-top">
+                          <div class="pl-4 pr-4 pb-4 pt-1">
+                            <h5> <a href="javascript:;" class="text-dark">Epidemic 1</a></h5>
+                            <div class="badge badge-primary px-3 rounded-pill font-weight-normal mt-3 "
+                              (click)="editTemplates('1')">Edit</div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- End -->
+
+                      <!-- Gallery item -->
+                      <div class="col-xl-3 col-lg-4 col-md-6 mb-4 cursorpointer d-none">
+                        <div class="bg-white rounded shadow-sm"><img
+                            src="https://content.nusign.eu/img/template_previews/en/follow_us_linkedin_v3.png" alt=""
+                            class="img-fluid card-img-top">
+                          <div class="pl-4 pr-4 pb-4 pt-1">
+                            <h5> <a href="javascript:;" class="text-dark">LinkedIn</a></h5>
+                            <div class="badge badge-primary px-3 rounded-pill font-weight-normal mt-3 "
+                              (click)="editTemplates('1')">Edit</div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- End -->
+
+                      <!-- Gallery item -->
+                      <div class="col-xl-3 col-lg-4 col-md-6 mb-4 cursorpointer d-none">
+                        <div class="bg-white rounded shadow-sm"><img
+                            src="https://content.nusign.eu/img/template_previews/en/follow_us_facebook_v3.png" alt=""
+                            class="img-fluid card-img-top">
+                          <div class="pl-4 pr-4 pb-4 pt-1">
+                            <h5> <a href="javascript:;" class="text-dark">Facebook</a></h5>
+                            <div class="badge badge-primary px-3 rounded-pill font-weight-normal mt-3 "
+                              (click)="editTemplates('1')">Edit</div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- End -->
+
+                      <!-- Gallery item -->
+                      <div class="col-xl-3 col-lg-4 col-md-6 mb-4 cursorpointer d-none">
+                        <div class="bg-white rounded shadow-sm"><img
+                            src="https://content.nusign.eu/img/template_previews/en/follow_us_twitter.png" alt=""
+                            class="img-fluid card-img-top">
+                          <div class="pl-4 pr-4 pb-4 pt-1">
+                            <h5> <a href="javascript:;" class="text-dark">Twitter</a></h5>
+                            <div class="badge badge-primary px-3 rounded-pill font-weight-normal mt-3 "
+                              (click)="editTemplates('1')">Edit</div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- End -->
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div id="mytemplatlist" role="tabpanel" class="tab-pane m-0 p-0">
+                <app-mytemplate *ngIf="ComponentName=='MyTemplates'"></app-mytemplate>
+
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </div>
 
 
