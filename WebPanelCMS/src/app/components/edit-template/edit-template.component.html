@@ -50,7 +50,7 @@
                     <input type="button" (click)="openLibrary(modalSignage4,'Library')" class="btn btn-primary  mb-2 mr-sm-2" id="bkImage" value="Open Library" />
                     <span><strong>{{selected_imgName4}}</strong></span>
                   </div>
-                  <div *ngIf="ShowBackgroundImageLibraryMultiple()" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-12'" class="form-group pb-1 m-0">
+                  <!--<div *ngIf="ShowBackgroundImageLibraryMultiple()" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-12'" class="form-group pb-1 m-0">
                     <label for="bkImage" class="mb-2 mr-sm-2 w-100">Background Image 5:</label>
                     <input type="button" (click)="openLibrary(modalSignage5,'Library')" class="btn btn-primary  mb-2 mr-sm-2" id="bkImage" value="Open Library" />
                     <span><strong>{{selected_imgName5}}</strong></span>
@@ -59,7 +59,7 @@
                     <label for="bkImage" class="mb-2 mr-sm-2 w-100">Background Image 6:</label>
                     <input type="button" (click)="openLibrary(modalSignage6,'Library')" class="btn btn-primary  mb-2 mr-sm-2" id="bkImage" value="Open Library" />
                     <span><strong>{{selected_imgName6}}</strong></span>
-                  </div>
+                  </div>-->
                   <div [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-12'" class="form-group pb-2 m-0">
                     <label for="MediaType">Background Color:</label>
                     <input [(colorPicker)]="templatedata.bgcolor" class="form-control" readonly [style.background]="templatedata.bgcolor"/>
