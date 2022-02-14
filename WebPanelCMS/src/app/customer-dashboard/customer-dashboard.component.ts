@@ -210,7 +210,7 @@ export class CustomerDashboardComponent implements OnInit {
   openModal(content, tid, location, city) {
     this.TokenInfo = tid + "-" + location + "-" + city;
     localStorage.setItem("tokenid", tid);
-    this.modalService.open(content, { size: 'lg' });
+    this.modalService.open(content, { size: 'lgp' });
 
   }
   onSort({column, direction}: SortEvent) {

@@ -30073,6 +30073,9 @@ table.dataTable th {
   max-width: 1120px !important;
   margin-top: 0.25rem !important;
 }
+.modal-lgp {
+  max-width: 1120px !important;
+}
 .mobile-search {
   padding: 0.5em;
 }
