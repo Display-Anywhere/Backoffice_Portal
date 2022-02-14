@@ -46,7 +46,7 @@ export class ManagegroupsComponent implements OnInit {
   TokenSelected_Change = [];
   
   chkAll_Assign=false;
-
+  searchTextGroup=''
   obj:SortEvent   ={
     column:'city',
     direction: 'asc'
@@ -312,9 +312,6 @@ MainGroupTokenList=[];
           );
           this.GroupTokenList =this.MainGroupTokenList
           
-          
-          
-         
           this.loading = false;
         },
         (error) => {
@@ -326,6 +323,7 @@ MainGroupTokenList=[];
         }
       );
   } 
+   
   SetSort(){
     const obj:SortEvent   ={
       column:'city',
@@ -502,4 +500,5 @@ MainGroupTokenList=[];
             }
           );
       }
+       
 }
