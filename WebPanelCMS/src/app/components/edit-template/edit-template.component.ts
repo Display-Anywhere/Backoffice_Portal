@@ -28,6 +28,7 @@ export class EditTemplateComponent implements OnInit {
     logoimgurl:'',
     desc1:'',
     desc2:'',
+    desc3: '',
     width:'',
     height:'',
     duration:'',
@@ -271,7 +272,7 @@ export class EditTemplateComponent implements OnInit {
     this.auth.SetEditTemplateOpen(false)
   }
   OpenViewContent(modalName){
-    let IframeSRC_Safe = this.templateHost+ '?templateId='+this.templateId+'&title='+this.templatedata.title+'&desc='+this.templatedata.desc+'&logosrc='+this.templatedata.logoimgurl+ '&ngClass='+this.templatedata.bgcolor.replace('#','')+'&imgSrc='+this.templatedata.imgurl+ '&text1='+this.templatedata.desc1+'&text2='+this.templatedata.desc2+'&imgSrc2='+this.templatedata.imgurl2+'&imgSrc3='+this.templatedata.imgurl3+'&imgSrc4='+this.templatedata.imgurl4+'&imgSrc5='+this.templatedata.imgurl5+'&imgSrc6='+this.templatedata.imgurl6
+    let IframeSRC_Safe = this.templateHost+ '?templateId='+this.templateId+'&title='+this.templatedata.title+'&desc='+this.templatedata.desc+'&logosrc='+this.templatedata.logoimgurl+ '&ngClass='+this.templatedata.bgcolor.replace('#','')+'&imgSrc='+this.templatedata.imgurl+ '&text1='+this.templatedata.desc1+'&text2='+this.templatedata.desc2+'&imgSrc2='+this.templatedata.imgurl2+'&imgSrc3='+this.templatedata.imgurl3+'&imgSrc4='+this.templatedata.imgurl4+'&imgSrc5='+this.templatedata.imgurl5+'&imgSrc6='+this.templatedata.imgurl6+ '&text3='+this.templatedata.desc3
     // 1 
     //let IframeSRC_Safe = "http://localhost:4201/#/?templateId=1&title=Wearing a Face Mask&desc=is required to enter&logosrc=http://api.nusign.eu/mp3files/238708.jpg&ngClass=bg-warning&imgSrc=&text1=&text2=" 
     // 2
@@ -402,6 +403,13 @@ export class EditTemplateComponent implements OnInit {
       return
     }
     this.loading= true
+    /*
+    imgurl2:'',
+    imgurl3:'',
+    imgurl4:'',
+    imgurl5:'',
+    imgurl6:''
+    */
     let cnt =
       [{
         templateId:this.templateId,
@@ -411,7 +419,12 @@ export class EditTemplateComponent implements OnInit {
         ngClass:this.templatedata.bgcolor.replace('#',''),
         imgSrc:this.templatedata.imgurl,
         text1:this.templatedata.desc1,
-        text2:this.templatedata.desc2
+        text2:this.templatedata.desc2,
+        imgSrc2:this.templatedata.imgurl2,
+        imgSrc3:this.templatedata.imgurl3,
+        imgSrc4:this.templatedata.imgurl4,
+        imgSrc5:this.templatedata.imgurl5,
+        imgSrc6:this.templatedata.imgurl6
       }]
     //this.GenrateHtml()
     let genreId=''
@@ -473,6 +486,9 @@ export class EditTemplateComponent implements OnInit {
   }
   ShowBackgroundImageLibraryMultiple () {
     if (this.templateId ==='8'){
+      return true
+    }
+    else if (this.templateId ==='9'){
       return true
     }
     else{

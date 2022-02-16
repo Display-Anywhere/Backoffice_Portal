@@ -7,6 +7,7 @@ import { Subject } from "rxjs";
 import { SrDownloadTemplateService } from '../download-template/sr-download-template.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {NgbNavChangeEvent} from '@ng-bootstrap/ng-bootstrap';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 @Component({
   selector: 'app-mytemplate',
   templateUrl: './mytemplate.component.html',
@@ -37,10 +38,12 @@ export class MytemplateComponent implements OnInit {
   CurrentValue = 0;
   MaxValue = 0;
   preventAbuse = false;
-
-  
+  IframeSRC: SafeResourceUrl
+ // templateHost ='http://localhost:4201/#/'
+   templateHost ='https://templates.nusign.eu/#/'
+  IsLS_URL= true
   constructor(private formBuilder: FormBuilder,private dService: SrDownloadTemplateService,  public toastr: ToastrService,
-    private serviceLicense: SerLicenseHolderService, public auth:AuthService,private modalService: NgbModal) { 
+    private serviceLicense: SerLicenseHolderService, public auth:AuthService,private modalService: NgbModal, public sanitizer: DomSanitizer) { 
        }
 
   ngOnInit () {
@@ -497,23 +500,22 @@ this.preventAbuse = true;
   FilterRecord = (orientation): void => {
     this.TemplateList = this.MainTemplateList.filter(order => order.orientation === orientation);
   }
-  OpenViewContent(modalName, cnt,oType,bgcolor){
-
+  OpenViewContent(modalName,id, cnt,oType,bgcolor){
     let clsName=''
     if (oType=="496"){
-      localStorage.setItem("oType",oType)
-      clsName='lgx'
+      clsName='Template'
+      this.IsLS_URL = true
     }
     if (oType=="495"){
-      localStorage.setItem("oType",oType)
-        clsName= 'smg'
+        clsName= 'PT-Template'
+        this.IsLS_URL= false
       }
-      localStorage.removeItem('innerHtml')
-      localStorage.setItem('innerHtml',cnt)
-      localStorage.setItem('ngClass',bgcolor)
     this.modalService.open(modalName, {
       size: clsName,
     }); 
+    var content = JSON.parse(cnt)
+    let IframeSRC_Safe = this.templateHost+ '?templateId='+content[0].templateId+'&title='+content[0].title+'&desc='+content[0].desc+'&logosrc='+content[0].logosrc+ '&ngClass='+bgcolor+'&imgSrc='+content[0].imgSrc+ '&text1='+content[0].desc1+'&text2='+content[0].desc2+'&imgSrc2='+content[0].imgSrc2+'&imgSrc3='+content[0].imgSrc3+'&imgSrc4='+content[0].imgSrc4+'&imgSrc5='+content[0].imgSrc5+'&imgSrc6='+content[0].imgSrc6
+    this.IframeSRC = this.sanitizer.bypassSecurityTrustResourceUrl(IframeSRC_Safe);
 
      
     

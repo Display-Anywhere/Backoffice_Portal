@@ -30076,6 +30076,13 @@ table.dataTable th {
 .modal-lgp {
   max-width: 1120px !important;
 }
+.modal-Template {
+  max-width: 603px !important;
+}
+.modal-PT-Template {
+  max-width: 353px !important;
+  max-height: 770px !important;
+}
 .mobile-search {
   padding: 0.5em;
 }

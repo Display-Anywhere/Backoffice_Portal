@@ -18,7 +18,7 @@
                     <label for="token" class="mb-2 mr-sm-2" #flocation>Template Name:</label>
                     <input type="text" class="form-control mb-2 mr-sm-2" id="location" [(ngModel)]="txtTemplateName"/>
                   </div>
-                  <div [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-12'" class="form-group pb-1 m-0">
+                  <div [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-12'" class="d-none form-group pb-1 m-0">
                     <label for="MediaType">Orientation:</label>
                     <select name="lType" class="custom-select" id="MediaType" [(ngModel)]="cmbLibraryGenre" (change)="onChangeLibraryGenre()">
                       <option value="325"> Landscape</option>
@@ -72,13 +72,17 @@
                     <label for="tdesc" class="mb-2 mr-sm-2">Description:</label>
                     <input type="text" class="form-control mb-2 mr-sm-2" id="tdesc" [(ngModel)]="templatedata.desc"  />
                   </div>
-                  <div *ngIf="((templateId==='3') || (templateId==='4') || (templateId==='5') ||(templateId==='7'))" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-12'" class="form-group pb-1 m-0">
+                  <div *ngIf="((templateId==='3') || (templateId==='4') || (templateId==='5') ||(templateId==='7') ||(templateId==='9'))" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-12'" class="form-group pb-1 m-0">
                     <label for="tdesc" class="mb-2 mr-sm-2">Text 1:</label>
                     <input type="text" class="form-control mb-2 mr-sm-2" id="tdesc" [(ngModel)]="templatedata.desc1"  />
                   </div>
-                  <div *ngIf="templateId==='3'" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-12'" class="form-group pb-1 m-0">
+                  <div *ngIf="((templateId==='3') ||(templateId==='9'))" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-12'" class="form-group pb-1 m-0">
                     <label for="tdesc" class="mb-2 mr-sm-2">Text 2:</label>
                     <input type="text" class="form-control mb-2 mr-sm-2" id="tdesc" [(ngModel)]="templatedata.desc2"  />
+                  </div>
+                  <div *ngIf="(templateId==='9')" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-12'" class="form-group pb-1 m-0">
+                    <label for="tdesc" class="mb-2 mr-sm-2">Text 3:</label>
+                    <input type="text" class="form-control mb-2 mr-sm-2" id="tdesc" [(ngModel)]="templatedata.desc3"  />
                   </div>
                   <div [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-12'" class="form-group pb-1 m-0">
                     <label for="bkImage" class="mb-2 mr-sm-2 w-100">Company Logo:</label>
@@ -146,6 +150,9 @@
 
        <iframe *ngIf="IsClickPreview && cmbLibraryGenre=='325' && templateId=='8'"  [src]="IframeSRC" title="Template 8" scrolling="no" frameborder="0" width="600" height="380"></iframe> 
        <img *ngIf="!IsClickPreview && cmbLibraryGenre=='325' && templateId=='8'" src="assets/images/temp-8/8-landscape.png" alt="" class="img-fluid card-img-top w-75 mt-5 box-shadow landscape" style="margin-left: auto;margin-right: auto;display: block;"> 
+
+       <iframe *ngIf="IsClickPreview && cmbLibraryGenre=='325' && templateId=='9'"  [src]="IframeSRC" title="Template 8" scrolling="no" frameborder="0" width="600" height="380"></iframe> 
+       <img *ngIf="!IsClickPreview && cmbLibraryGenre=='325' && templateId=='9'" src="assets/images/temp-9/9-landscape.png" alt="" class="img-fluid card-img-top w-75 mt-5 box-shadow landscape" style="margin-left: auto;margin-right: auto;display: block;"> 
       </div>
 </div>
 </div>

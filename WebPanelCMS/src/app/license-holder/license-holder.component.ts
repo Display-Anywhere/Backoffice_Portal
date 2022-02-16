@@ -386,7 +386,10 @@ export class LicenseHolderComponent
     const objData = JSON.parse(returnData);
     objData.forEach(item => {
       const obj =  this.TokenContentMatchDownload.filter(o => o.tokenid === Number(item['tokenid']))
-      if (obj.length==0){
+      if (item['Version'] === '2.0'){
+        item['IsDownloadAll']= 'true'  
+      }
+      else if (obj.length==0){
         item['IsDownloadAll']= 'false'  
       }
       else if (obj[0].pContent < 0){
