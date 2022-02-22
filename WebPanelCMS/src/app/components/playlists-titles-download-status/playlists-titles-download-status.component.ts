@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewContainerRef } from '@angular/core';
+import { Component, HostListener, OnInit, ViewContainerRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
@@ -31,6 +31,9 @@ export class PlaylistsTitlesDownloadStatusComponent implements OnInit {
   AdsContentList=[]
   adsPlContentList=[]
   splPlaylistId
+  timeLeft: number = 300;
+  interval;
+  // @HostListener('window:beforeunload', ['$event' ])
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
@@ -48,13 +51,16 @@ export class PlaylistsTitlesDownloadStatusComponent implements OnInit {
     config.backdrop = 'static';
     config.keyboard = false;
   }
-
+  ngOnDestroy () {
+    clearInterval(this.interval);
+  }
   async ngOnInit() {
     this.clid = localStorage.getItem('tokenClient');
     this.tid = localStorage.getItem('tokenid');
     this.dpid = localStorage.getItem('dpid');
     await this.getPlayerCurrentDaySchedule()
     await this.GetAdsDownloadStatus();
+    this.startTimer();
   }
   getPlayerCurrentDaySchedule() {
     this.loading = true;
@@ -76,6 +82,9 @@ export class PlaylistsTitlesDownloadStatusComponent implements OnInit {
         });
         this.loading = false;
         this.splPlaylistId= this.PlaylistList[0].splPlaylistId
+        setTimeout(() => {
+          this.splPlaylistId= this.PlaylistList[0].splPlaylistId
+        }, 1500);
          if (this.dpid!=""){
           this.onChangePlaylist(this.dpid)
          }
@@ -119,16 +128,17 @@ export class PlaylistsTitlesDownloadStatusComponent implements OnInit {
     this.tService.GetAdsDownloadStatus(this.tid).pipe().subscribe((data) => {
       if (data['response']=="1"){
         this.AdsDownloadContentList = JSON.parse(data['data']);
-        this.FillAdsPlaylist()
         this.FillAdsStatus()
       }
         this.loading = false;
+        this.FillAdsPlaylist()
       },
       (error) => {
         this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
         this.loading = false;
       }
     );
+    
   }
   GetMonthName(monthNumber) {
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -195,4 +205,23 @@ export class PlaylistsTitlesDownloadStatusComponent implements OnInit {
           this.loading = false;
         })
   }
+  minutes
+seconds
+startTimer() {
+  this.interval = setInterval(() => {
+    if(this.timeLeft > 0) {
+      this.timeLeft--;
+      this.minutes = Math.floor(this.timeLeft / 60);
+this.seconds = Math.floor(this.timeLeft - this.minutes * 60);
+    } else {
+      this.timeLeft = 300;
+      this.refershPage()
+    }
+  },1000)
+}
+async refershPage(){
+  this.PlaylistList=[]
+  await this.getPlayerCurrentDaySchedule()
+  await this.GetAdsDownloadStatus();
+}
 }

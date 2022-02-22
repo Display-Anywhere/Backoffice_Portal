@@ -215,13 +215,22 @@
             <li [ngbNavItem]="8">
               <a
                 ngbNavLink
+                (click)="FilterTokenList('HotelTv')"
+                class="form-control-Tab mt-1"
+                >Hotel Tv</a
+              >
+              <ng-template ngbNavContent> </ng-template>
+            </li>
+            <li [ngbNavItem]="9">
+              <a
+                ngbNavLink
                 (click)="FilterTokenList('UnRegsiter')"
                 class="form-control-Tab mt-1"
                 >Un-Registered</a
               >
               <ng-template ngbNavContent> </ng-template>
             </li>
-            <li [ngbNavItem]="9">
+            <li [ngbNavItem]="10">
               <a
                 ngbNavLink
                 (click)="OpenGroupsModal(modalManageGroups)"
@@ -230,7 +239,7 @@
               >
               <ng-template ngbNavContent> </ng-template>
             </li>
-            <li [ngbNavItem]="10">
+            <li [ngbNavItem]="11">
               <a
                 ngbNavLink
                 (click)="OpenOpeningHoursModal(modalManageOpeningHours)"
@@ -239,7 +248,7 @@
               >
               <ng-template ngbNavContent> </ng-template>
             </li>
-            <li [ngbNavItem]="11">
+            <li [ngbNavItem]="12">
               <a
                 ngbNavLink
                 (click)="OpenUpdateInfo(modalUpdateInfo)"

@@ -433,6 +433,11 @@ export class LicenseHolderComponent
         (order) => order.MediaType === 'Signage'
       );
     }
+    if (this.FilterValue_For_Reload == 'HotelTv') {
+      this.TokenList = this.TokenList.filter(
+        (order) => order.DeviceType === 'HotelTv'
+      );
+    }
     if (this.FilterValue_For_Reload == 'UnRegsiter') {
       this.TokenList = this.TokenList.filter(
         (order) => order.TokenStatus === 'UnRegsiter'

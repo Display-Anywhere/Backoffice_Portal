@@ -50,39 +50,59 @@
                     <input type="button" (click)="openLibrary(modalSignage4,'Library')" class="btn btn-primary  mb-2 mr-sm-2" id="bkImage" value="Open Library" />
                     <span><strong>{{selected_imgName4}}</strong></span>
                   </div>
-                  <!--<div *ngIf="ShowBackgroundImageLibraryMultiple()" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-12'" class="form-group pb-1 m-0">
+                  <div *ngIf="((templateId==='11') || (templateId==='10'))" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-12'" class="form-group pb-1 m-0">
                     <label for="bkImage" class="mb-2 mr-sm-2 w-100">Background Image 5:</label>
                     <input type="button" (click)="openLibrary(modalSignage5,'Library')" class="btn btn-primary  mb-2 mr-sm-2" id="bkImage" value="Open Library" />
                     <span><strong>{{selected_imgName5}}</strong></span>
                   </div>
-                  <div *ngIf="ShowBackgroundImageLibraryMultiple()" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-12'" class="form-group pb-1 m-0">
+                  <div *ngIf="templateId==='11'" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-12'" class="form-group pb-1 m-0">
                     <label for="bkImage" class="mb-2 mr-sm-2 w-100">Background Image 6:</label>
                     <input type="button" (click)="openLibrary(modalSignage6,'Library')" class="btn btn-primary  mb-2 mr-sm-2" id="bkImage" value="Open Library" />
                     <span><strong>{{selected_imgName6}}</strong></span>
-                  </div>-->
-                  <div [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-12'" class="form-group pb-2 m-0">
+                  </div>
+                  <div *ngIf="templateId==='11'" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-12'" class="form-group pb-1 m-0">
+                    <label for="bkImage" class="mb-2 mr-sm-2 w-100">Background Image 7:</label>
+                    <input type="button" (click)="openLibrary(modalSignage7,'Library')" class="btn btn-primary  mb-2 mr-sm-2" id="bkImage" value="Open Library" />
+                    <span><strong>{{selected_imgName7}}</strong></span>
+                  </div>
+                  <div *ngIf="templateId==='11'" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-12'" class="form-group pb-1 m-0">
+                    <label for="bkImage" class="mb-2 mr-sm-2 w-100">Background Image 8:</label>
+                    <input type="button" (click)="openLibrary(modalSignage8,'Library')" class="btn btn-primary  mb-2 mr-sm-2" id="bkImage" value="Open Library" />
+                    <span><strong>{{selected_imgName8}}</strong></span>
+                  </div>
+                  <div  *ngIf="templateId!=='10'" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-12'" class="form-group pb-2 m-0">
                     <label for="MediaType">Background Color:</label>
                     <input [(colorPicker)]="templatedata.bgcolor" class="form-control" readonly [style.background]="templatedata.bgcolor"/>
                   </div>
                   <div [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-12'" class="form-group pb-1 m-0">
-                    <label for="tHeading" class="mb-2 mr-sm-2">Heading:</label>
+                    <label for="tHeading" class="mb-2 mr-sm-2">Heading <span *ngIf="templateId==='11'">1</span> :</label>
                     <input type="text" class="form-control mb-2 mr-sm-2" id="tHeading" [(ngModel)]="templatedata.title" />
                   </div>
                   <div [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-12'" class="form-group pb-1 m-0">
-                    <label for="tdesc" class="mb-2 mr-sm-2">Description:</label>
+                    <label for="tdesc" class="mb-2 mr-sm-2"><span *ngIf="templateId==='11'">Amount 1</span><span *ngIf="templateId !=='11'">Description</span>:</label>
                     <input type="text" class="form-control mb-2 mr-sm-2" id="tdesc" [(ngModel)]="templatedata.desc"  />
                   </div>
-                  <div *ngIf="((templateId==='3') || (templateId==='4') || (templateId==='5') ||(templateId==='7') ||(templateId==='9'))" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-12'" class="form-group pb-1 m-0">
-                    <label for="tdesc" class="mb-2 mr-sm-2">Text 1:</label>
+                  <div *ngIf="((templateId==='10') || (templateId==='11') || (templateId==='3') || (templateId==='4') || (templateId==='5') ||(templateId==='7') ||(templateId==='9'))" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-12'" class="form-group pb-1 m-0">
+                    <label for="tdesc" class="mb-2 mr-sm-2">
+                      <span *ngIf="templateId==='11'">Description 1</span>
+                      <span *ngIf="((templateId==='10') || (templateId==='3') || (templateId==='4') || (templateId==='5') ||(templateId==='7') ||(templateId==='9'))">Text 1</span>:</label>
                     <input type="text" class="form-control mb-2 mr-sm-2" id="tdesc" [(ngModel)]="templatedata.desc1"  />
                   </div>
-                  <div *ngIf="((templateId==='3') ||(templateId==='9'))" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-12'" class="form-group pb-1 m-0">
-                    <label for="tdesc" class="mb-2 mr-sm-2">Text 2:</label>
+                  <div *ngIf="((templateId==='11')||(templateId==='3') ||(templateId==='9'))" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-12'" class="form-group pb-1 m-0">
+                    <label for="tdesc" class="mb-2 mr-sm-2">
+                      <span *ngIf="templateId==='11'">Heading 2</span>
+                      <span *ngIf="((templateId==='3') ||(templateId==='9'))">Text 2</span>:</label>
                     <input type="text" class="form-control mb-2 mr-sm-2" id="tdesc" [(ngModel)]="templatedata.desc2"  />
                   </div>
-                  <div *ngIf="(templateId==='9')" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-12'" class="form-group pb-1 m-0">
-                    <label for="tdesc" class="mb-2 mr-sm-2">Text 3:</label>
+                  <div *ngIf="((templateId==='9') || (templateId==='11'))" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-12'" class="form-group pb-1 m-0">
+                    <label for="tdesc" class="mb-2 mr-sm-2">
+                      <span *ngIf="templateId==='11'">Amount 2</span><span *ngIf="(templateId==='9')">Text 3</span>:</label>
                     <input type="text" class="form-control mb-2 mr-sm-2" id="tdesc" [(ngModel)]="templatedata.desc3"  />
+                  </div>
+                  <div *ngIf="templateId==='11'" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-12'" class="form-group pb-1 m-0">
+                    <label for="tdesc" class="mb-2 mr-sm-2">
+                      <span >Description 2</span>:</label>
+                    <input type="text" class="form-control mb-2 mr-sm-2" id="tdesc" [(ngModel)]="templatedata.desc4"  />
                   </div>
                   <div [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-12'" class="form-group pb-1 m-0">
                     <label for="bkImage" class="mb-2 mr-sm-2 w-100">Company Logo:</label>
@@ -153,6 +173,12 @@
 
        <iframe *ngIf="IsClickPreview && cmbLibraryGenre=='325' && templateId=='9'"  [src]="IframeSRC" title="Template 8" scrolling="no" frameborder="0" width="600" height="380"></iframe> 
        <img *ngIf="!IsClickPreview && cmbLibraryGenre=='325' && templateId=='9'" src="assets/images/temp-9/9-landscape.png" alt="" class="img-fluid card-img-top w-75 mt-5 box-shadow landscape" style="margin-left: auto;margin-right: auto;display: block;"> 
+
+       <iframe *ngIf="IsClickPreview && cmbLibraryGenre=='325' && templateId=='10'"  [src]="IframeSRC" title="Template 8" scrolling="no" frameborder="0" width="600" height="380"></iframe> 
+       <img *ngIf="!IsClickPreview && cmbLibraryGenre=='325' && templateId=='10'" src="assets/images/temp-10/10-landscape.png" alt="" class="img-fluid card-img-top w-75 mt-5 box-shadow landscape" style="margin-left: auto;margin-right: auto;display: block;"> 
+
+       <iframe *ngIf="IsClickPreview && cmbLibraryGenre=='325' && templateId=='11'"  [src]="IframeSRC" title="Template 8" scrolling="no" frameborder="0" width="600" height="380"></iframe> 
+       <img *ngIf="!IsClickPreview && cmbLibraryGenre=='325' && templateId=='11'" src="assets/images/temp-11/11-landscape.png" alt="" class="img-fluid card-img-top w-75 mt-5 box-shadow landscape" style="margin-left: auto;margin-right: auto;display: block;"> 
       </div>
 </div>
 </div>
@@ -518,6 +544,115 @@
               <a
                 href="javascript:;"
                 (click)="SetImage(songLst.TitleIdLink, songLst.title,6)" (click)="d('Cross click')"
+                class="btn btn-primary btn-sm"
+                >Set</a
+              >
+              <a
+                href="javascript:;"
+                (click)="OpenFullImageModal(modalFullImage, songLst.TitleIdLink)"
+                (click)="d('Cross click')"
+                class="ml-5"
+                >Full View</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template #modalSignage7 let-c="close" let-d="dismiss">
+    <div class="modal-header bg-primary">
+      <h5 class="text-white">Library</h5>
+      <button
+        type="button"
+        class="close text-white"
+        aria-label="Close"
+        (click)="d('Cross click')"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="col-12 p-0">
+        <label class="col-md-2 p-0">Folder Name:</label>
+        <select name="cmbCustomer" class="col-md-3 custom-select mb-3 mt-2" (change)="onChangeLibraryFolder()"
+          id="cmbFolder" [(ngModel)]="cmbLibraryFolder">
+          <option selected value="0">All</option>
+          <option *ngFor="let cLst of LibraryFolderList" [value]="cLst.Id">
+            {{ cLst.DisplayName }}
+          </option>
+        </select>
+
+        
+      </div>
+      <div class="row">
+        <div class="col-sm-4 col-6 mb-2" *ngFor="let songLst of SongsList">
+          <div class="card">
+            <img
+              class="card-img-top p-1"
+              src="{{ songLst.TitleIdLink }}"
+              alt="Card image"
+              style="height: 100px; object-fit: contain"
+            />
+            <div class="card-body p-1 border-top">
+              <a
+                href="javascript:;"
+                (click)="SetImage(songLst.TitleIdLink, songLst.title,7)" (click)="d('Cross click')"
+                class="btn btn-primary btn-sm"
+                >Set</a
+              >
+              <a
+                href="javascript:;"
+                (click)="OpenFullImageModal(modalFullImage, songLst.TitleIdLink)"
+                (click)="d('Cross click')"
+                class="ml-5"
+                >Full View</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #modalSignage8 let-c="close" let-d="dismiss">
+    <div class="modal-header bg-primary">
+      <h5 class="text-white">Library</h5>
+      <button
+        type="button"
+        class="close text-white"
+        aria-label="Close"
+        (click)="d('Cross click')"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="col-12 p-0">
+        <label class="col-md-2 p-0">Folder Name:</label>
+        <select name="cmbCustomer" class="col-md-3 custom-select mb-3 mt-2" (change)="onChangeLibraryFolder()"
+          id="cmbFolder" [(ngModel)]="cmbLibraryFolder">
+          <option selected value="0">All</option>
+          <option *ngFor="let cLst of LibraryFolderList" [value]="cLst.Id">
+            {{ cLst.DisplayName }}
+          </option>
+        </select>
+
+        
+      </div>
+      <div class="row">
+        <div class="col-sm-4 col-6 mb-2" *ngFor="let songLst of SongsList">
+          <div class="card">
+            <img
+              class="card-img-top p-1"
+              src="{{ songLst.TitleIdLink }}"
+              alt="Card image"
+              style="height: 100px; object-fit: contain"
+            />
+            <div class="card-body p-1 border-top">
+              <a
+                href="javascript:;"
+                (click)="SetImage(songLst.TitleIdLink, songLst.title,8)" (click)="d('Cross click')"
                 class="btn btn-primary btn-sm"
                 >Set</a
               >

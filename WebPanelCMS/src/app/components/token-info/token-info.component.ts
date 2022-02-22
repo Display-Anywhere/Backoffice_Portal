@@ -62,6 +62,7 @@ export class TokenInfoComponent implements OnInit {
   APKPlaylist;
   chkScreen: boolean = false;
   chkSanitizer: boolean = false;
+  chkHotelTv= false
   chkTTL: boolean = false;
   chkKeyboard: boolean = false;
   chkKeyboardScreen: boolean = false;
@@ -491,6 +492,7 @@ this.submitted = true;this.loading = true;
           var returnData = JSON.stringify(data);
           var obj = JSON.parse(returnData);
           this.chkSanitizer = false;
+          this.chkHotelTv= false
           this.chkScreen = false;
           this.chkTTL = false;
           this.chkKeyboard = false;
@@ -600,6 +602,7 @@ this.submitted = true;this.loading = true;
           ) {
             this.chkSanitizer = true;
             this.chkScreen = false;
+            this.chkHotelTv = false
           }
           if (
             objTokenData[0].chkMediaType == 'Signage' &&
@@ -607,6 +610,15 @@ this.submitted = true;this.loading = true;
           ) {
             this.chkSanitizer = false;
             this.chkScreen = true;
+            this.chkHotelTv = false
+          }
+          if (
+            objTokenData[0].chkMediaType == 'Signage' &&
+            objTokenData[0].DeviceType == 'HotelTv'
+          ) {
+            this.chkSanitizer = false;
+            this.chkScreen = false;
+            this.chkHotelTv = true
           }
 
           if (

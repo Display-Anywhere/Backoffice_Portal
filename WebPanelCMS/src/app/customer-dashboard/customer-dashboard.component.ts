@@ -31,6 +31,9 @@ export class CustomerDashboardComponent implements OnInit {
   cmbCustomerId = "";
   ActiveTokenListlength=0;
   PublishSearchList=[]
+  
+  timeLeft: number = 300;
+  interval;
 
   @ViewChildren(NgbdSortableHeader_Dashboard) headers: QueryList<NgbdSortableHeader_Dashboard>;
   compare = (v1: string | number, v2: string | number) => v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
@@ -41,6 +44,9 @@ export class CustomerDashboardComponent implements OnInit {
     config.backdrop = 'static';
     config.keyboard = false;
     console.log("Dashboard");
+  }
+  ngOnDestroy () {
+    clearInterval(this.interval);
   }
 
   ngOnInit() {
@@ -115,6 +121,7 @@ export class CustomerDashboardComponent implements OnInit {
   }
 
   onChangeCustomer(deviceValue) {
+    this.timeLeft = 300
     this.cmbCustomerId = deviceValue;
     this.GetCustomerTokenDetail('Total', deviceValue);
   }
@@ -206,6 +213,7 @@ export class CustomerDashboardComponent implements OnInit {
           this.toastr.error("Apologies for the inconvenience.The error is recorded.", '');
           this.loading = false;
         })
+        this.startTimer();
   }
   openModal(content, tid, location, city) {
     this.TokenInfo = tid + "-" + location + "-" + city;
@@ -237,5 +245,20 @@ onChangeEvent(){
   this.ActiveTokenListlength =total
   console.log(total)
 }
-
+minutes
+seconds
+startTimer() {
+  this.interval = setInterval(() => {
+    if(this.timeLeft > 0) {
+      this.timeLeft--;
+      this.minutes = Math.floor(this.timeLeft / 60);
+this.seconds = Math.floor(this.timeLeft - this.minutes * 60);
+    } else {
+      this.timeLeft = 300;
+      if (this.cmbCustomerId != ""){
+        this.GetCustomerTokenDetail('Total', this.cmbCustomerId);
+      }
+    }
+  },1000)
+}
 }

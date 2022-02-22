@@ -85,6 +85,11 @@ export class TempScheduleComponent implements OnInit {
     config.keyboard = false;
     configTime.seconds = false;
     configTime.spinners = false;
+    this.auth.isTokenInfoClose$.subscribe((value) => {
+      if (value === true) {
+        this.tokenInfoClose()
+      }
+    });
   }
   // d = new Date();
   // year = this.d.getHours();
@@ -96,7 +101,7 @@ export class TempScheduleComponent implements OnInit {
   time2: NgbTimeStruct = { hour: 23, minute: 59, second: 0 };
   ngOnInit() {
      
-  
+    this.auth.isTokenInfoClose$.next(false);
     this.SFform = this.formBuilder.group({
       CustomerId: ['0', Validators.required],
       FormatId: ['0', Validators.required],

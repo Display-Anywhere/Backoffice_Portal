@@ -285,6 +285,13 @@
           >
             Sanitizer
           </option>
+          <option
+          [selected]="chkHotelTv"
+          *ngIf="f.chkMediaType.value == 'Signage'"
+          value="HotelTv"
+        >
+          Hotel Tv
+        </option>
 
           <!--
                             <option  *ngIf="f.chkMediaType.value == 'Audio'" value=""></option>
