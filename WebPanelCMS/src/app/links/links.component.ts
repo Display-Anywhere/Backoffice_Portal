@@ -38,6 +38,7 @@ Keyboard="";
 SignageVideo0="";
 SignageVideo90="";
 viewsonic="";
+SmartTv="https://bit.ly/3vl4Gqm"
   constructor(private serviceLicense: SerLicenseHolderService,
      public toastr: ToastrService, vcr: ViewContainerRef, public auth:AuthService,private sanitizer: DomSanitizer) {
   }

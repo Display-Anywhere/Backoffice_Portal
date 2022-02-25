@@ -444,7 +444,7 @@ this.preventAbuse = true;
     var totalUrl= array.length
     var totalSeconds = totalUrl*130
     this.MaxValue=totalSeconds+30
-    this.startTimer()
+     this.startTimer()
   }
   startTimer() {
     this.interval = setInterval(() => {

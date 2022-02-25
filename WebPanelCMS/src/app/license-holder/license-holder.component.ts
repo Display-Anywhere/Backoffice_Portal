@@ -430,7 +430,7 @@ export class LicenseHolderComponent
     }
     if (this.FilterValue_For_Reload == 'Signage') {
       this.TokenList = this.TokenList.filter(
-        (order) => order.MediaType === 'Signage'
+        (order) => order.MediaType === 'Signage' && order.DeviceType != 'HotelTv'
       );
     }
     if (this.FilterValue_For_Reload == 'HotelTv') {

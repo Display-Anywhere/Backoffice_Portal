@@ -155,6 +155,7 @@ export class CustomerDashboardComponent implements OnInit {
   }
 
   async GetCustomerTokenDetail(type, cid) {
+    clearInterval(this.interval);
     this.PlayerFillType = type + " Players";
 
     if (this.auth.IsAdminLogin$.value == true) {

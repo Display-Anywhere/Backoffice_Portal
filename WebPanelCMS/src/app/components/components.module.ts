@@ -59,6 +59,7 @@ import { AssigncustomersComponent } from './assigncustomers/assigncustomers.comp
 import { PlayeractivationlogComponent } from './playeractivationlog/playeractivationlog.component';
 //import { OwlMomentDateTimeModule } from 'ng-pick-datetime/date-time/adapter/moment-adapter/moment-date-time.module';
 import { ColorPickerModule } from 'ngx-color-picker';
+import { HoteltvPlayedLogsComponent } from './hoteltv-played-logs/hoteltv-played-logs.component';
 export const MY_CUSTOM_FORMATS = {
   parseInput: 'LL LT',
   fullPickerInput: 'LL LT',
@@ -110,7 +111,8 @@ TemplateListComponent,
 MytemplateComponent,
 EditTemplateComponent,
 AssigncustomersComponent,
-PlayeractivationlogComponent
+PlayeractivationlogComponent,
+HoteltvPlayedLogsComponent
 ],
  
   exports: [
@@ -151,7 +153,8 @@ ClientcontentblockComponent,
 PhilipsinfoComponent,
 TemplateListComponent,
 AssigncustomersComponent,
-PlayeractivationlogComponent
+PlayeractivationlogComponent,
+HoteltvPlayedLogsComponent
   ],
     imports: [
     CommonModule,
