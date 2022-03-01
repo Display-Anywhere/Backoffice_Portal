@@ -79,6 +79,12 @@ export class MachineService {
     return this.http.post(this.cApi.DeleteKeyboardAnnouncement,params,{headers:headers})
      .pipe((data=>{return data;}))
   }
+  DeleteInstantPlayPlaylist(id){
+    let headers = new HttpHeaders({ 'Content-Type':'application/json' });
+    var params = JSON.stringify({ id: id});
+    return this.http.post(this.cApi.DeleteInstantPlayPlaylist,params,{headers:headers})
+     .pipe((data=>{return data;}))
+  }
   SetFireAlert(tokenId,titleid,MediaType){
     let headers = new HttpHeaders({ 'Content-Type':'application/json' });
     var params = JSON.stringify({ tokenId: tokenId,titleid:titleid,MediaType:MediaType});

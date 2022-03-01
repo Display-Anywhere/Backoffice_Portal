@@ -95,6 +95,26 @@
                 </option>
               </select>
             </div>
+            <div class="form-group col-sm-3 m-0">
+              <label for="SearchcName" class="mb-2 mr-sm-2"
+                >Media Type:</label
+              >
+              <select
+                name="SearchcName"
+                class="custom-select mb-3"
+                [(ngModel)]="cmbCustomerMediaType"
+                (change)="onChangeCustomerMediaType($event.target.value)"
+                id="SearchcName"
+              >
+                <option selected value=""></option>
+                <option
+                *ngFor="let mLst of CustomerMediaTypeList"
+                [value]="mLst.Id"
+              >
+                {{ mLst.DisplayName }}
+              </option>
+              </select>
+            </div>
 
             <div class="form-group col-sm-4 m-0">
               <label for="SearchTName" class="mb-2 mr-sm-2">Token :</label>

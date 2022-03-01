@@ -26,7 +26,8 @@ export class InstantMobileComponent implements OnInit {
   PlaylistList:any[];
   SongsList;
   tid;
-   
+  CustomerMediaTypeList = [];
+  cmbCustomerMediaType = '';
   plArray = [];
   selectedRow;
   dropdownSettings = {};
@@ -76,34 +77,39 @@ export class InstantMobileComponent implements OnInit {
   onChangeSearchCustomer(id) {
     this.cmbSearchToken=[];
     this.SearchTokenList=[];
-    this.loading = true;
-    this.mService.FillTokenInfo(id).pipe()
-      .subscribe(data => {
-        var returnData = JSON.stringify(data);
-        this.SearchTokenList = JSON.parse(returnData);
-        this.loading = false;
-        this.dropdownSettings = {
-          singleSelection: false,
-          text: "",
-          idField: 'tokenid',
-          textField: 'tokenCode',
-          selectAllText: 'All',
-          unSelectAllText: 'All',
-          itemsShowLimit: 2
-        };
-        this.FillFormat();
-      },
-        error => {
-          this.toastr.error("Apologies for the inconvenience.The error is recorded.", '');
-          this.loading = false;
-        })
+    this.PlaylistList =[]
+    this.FormatList =[];
+    this.cmbFormat="0"
+    this.cmbPlaylist ="0"
+    this.cmbCustomerMediaType=""
+    this.GetCustomerMediaType(id)
   }
   FillFormat() {
     this.loading = true;
     var qry = "";
-    qry = "select max(sf.Formatid) as id , sf.formatname as displayname from tbSpecialFormat sf left join tbSpecialPlaylistSchedule_Token st on st.formatid= sf.formatid";
-    qry = qry + " left join tbSpecialPlaylistSchedule sp on sp.pschid= st.pschid  where ";
-    qry = qry + " (dbtype='"+ localStorage.getItem('DBType') +"' or dbtype='Both') and  (st.dfclientid=" + this.cmbSearchCustomer + " OR sf.dfclientid=" + this.cmbSearchCustomer + ") group by  sf.formatname";
+    var qry = '';
+
+    if (this.auth.IsAdminLogin$.value == true) {
+      qry = "FillFormat 0,'" + localStorage.getItem('DBType') + "'";
+    } else {
+    }
+    qry = '';
+    qry =
+      'select max(sf.Formatid) as id , sf.formatname as displayname from tbSpecialFormat sf left join tbSpecialPlaylistSchedule_Token st on st.formatid= sf.formatid';
+    qry =
+      qry +
+      ' left join tbSpecialPlaylistSchedule sp on sp.pschid= st.pschid  where ';
+    qry =
+      qry +
+      " (dbtype='" +
+      localStorage.getItem('DBType') +
+      "' or dbtype='Both') and  (st.dfclientid=" +
+      this.cmbSearchCustomer +
+      ' OR sf.dfclientid=' +
+      this.cmbSearchCustomer +
+      ") and sf.mediatype='" +
+      this.cmbCustomerMediaType +
+      "' group by  sf.formatname";
 
     this.mService.FillCombo(qry).pipe()
       .subscribe(data => {
@@ -205,7 +211,7 @@ export class InstantMobileComponent implements OnInit {
 
   DeleteKeyboardAnnouncement() {
     this.loading = true;
-    this.mService.DeleteKeyboardAnnouncement(this.tid).pipe()
+    this.mService.DeleteInstantPlayPlaylist(this.tid).pipe()
       .subscribe(data => {
         var returnData = JSON.stringify(data);
         var obj = JSON.parse(returnData);
@@ -323,4 +329,82 @@ SaveAnnouncement(UpdateModel){
           this.loading = false;
         })
   }
+  GetCustomerMediaType(cid) {
+    this.cmbSearchToken=[];
+    this.SearchTokenList=[];
+    this.PlaylistList =[]
+    this.FormatList =[];
+    this.cmbFormat="0"
+    this.cmbPlaylist ="0"
+    this.cmbCustomerMediaType=""
+    
+    this.loading = true;
+    var str = '';
+    str = 'GetCustomerMediaType ' + cid;
+
+    this.pService
+      .FillCombo(str)
+      .pipe()
+      .subscribe(
+        (data) => {
+          var returnData = JSON.stringify(data);
+          this.CustomerMediaTypeList = JSON.parse(returnData);
+          var mType= localStorage.getItem('mType')
+          if(mType!=null){
+            this.cmbCustomerMediaType=mType
+            this.onChangeCustomerMediaType(mType)
+          }
+          this.loading = false;
+        },
+        (error) => {
+          this.toastr.error(
+            'Apologies for the inconvenience.The error is recorded.',
+            ''
+          );
+          this.loading = false;
+        }
+      );
+  }
+  onChangeCustomerMediaType(id) {
+    this.FillPlayerInfo();
+  }
+FillPlayerInfo(){
+  this.cmbSearchToken=[];
+    this.SearchTokenList=[];
+    this.PlaylistList =[]
+    this.loading = true;
+    this.mService.FillTokenInfo(this.cmbSearchCustomer).pipe()
+      .subscribe(data => {
+        var returnData = JSON.stringify(data);
+        this.SearchTokenList = JSON.parse(returnData);
+        var objmType = this.cmbCustomerMediaType.split(' ');
+        let mtype = '';
+        if (objmType.length == 2) {
+          mtype = objmType[0].trim();
+        } else {
+          mtype = this.cmbCustomerMediaType;
+        }
+        this.SearchTokenList = this.SearchTokenList.filter(
+          (order) =>
+            order.MediaType === mtype
+        );
+
+
+        this.loading = false;
+        this.dropdownSettings = {
+          singleSelection: false,
+          text: "",
+          idField: 'tokenid',
+          textField: 'tInfo',
+          selectAllText: 'All',
+          unSelectAllText: 'All',
+          itemsShowLimit: 2
+        };
+        this.FillFormat();
+      },
+        error => {
+          this.toastr.error("Apologies for the inconvenience.The error is recorded.", '');
+          this.loading = false;
+        })
+}
 }

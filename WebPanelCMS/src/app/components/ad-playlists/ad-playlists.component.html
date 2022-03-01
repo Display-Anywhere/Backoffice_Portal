@@ -161,6 +161,26 @@
                   class="invalid-feedback"
                 ></div>
               </div>
+              <div class="form-group col-sm-3 m-0">
+                <label for="SearchcName" class="mb-2 mr-sm-2"
+                  >Media Type:</label
+                >
+                <select
+                  name="SearchcName"
+                  class="custom-select mb-3"
+                  [(ngModel)]="cmbCustomerMediaType" [ngModelOptions]="{standalone: true}"
+                  (change)="onChangeCustomerMediaType($event.target.value)"
+                  id="SearchcName"
+                >
+                  <option selected value=""></option>
+                  <option
+                  *ngFor="let mLst of CustomerMediaTypeList"
+                  [value]="mLst.Id"
+                >
+                  {{ mLst.DisplayName }}
+                </option>
+                </select>
+              </div>
               <div class="form-group col-sm-2 m-0">
                 <label for="fName" class="mb-2 mr-sm-2">Campaign Name:</label>
                 <select
@@ -223,9 +243,7 @@
                 />
                 <owl-date-time [pickerType]="'calendar'" #dt8></owl-date-time>
               </div>
-            </div>
-  
-            <div class="form-row">
+             
               <!--
   
               <div class="form-group col-sm-2 d-none">
@@ -258,7 +276,7 @@
                   <option value="Song">Content</option>
                 </select>
               </div>
-              <div class="form-group col-sm-2 m-0">
+              <div class="form-group col-sm-1 m-0">
                 <div style="padding: 0 0 0 5px">
                   <label for="pType" class="mb-2 mr-sm-2">Frequency: </label>
                   <input

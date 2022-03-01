@@ -51,6 +51,8 @@ export class AdPlaylistsComponent implements OnInit {
   cmbPublishId=""
   ForceUpdateTokenid = '';
   SearchText = '';
+  cmbCustomerMediaType=""
+  CustomerMediaTypeList=[]
   chkAll_Token= false
   dtTrigger: Subject<any> = new Subject();
   IschkViewOnly = this.auth.chkViewOnly$.value ? 1 : 0;
@@ -65,22 +67,9 @@ export class AdPlaylistsComponent implements OnInit {
     var cd = new Date();
     var cd = new Date();
     this.SearchAdsDate = cd;
-     
+     this.insForm()
 
-    this.Plform = this.formBuilder.group({
-      id: ["0"],
-      CustomerId: ["0", Validators.required],
-      FormatId: ["0", Validators.required],
-      PlaylistId: ["0", Validators.required],
-      sDate: [cd, Validators.required],
-      eDate: [cd, Validators.required],
-      startTime: [this.dt, Validators.required],
-      EndTime: [this.dt2, Validators.required],
-      pMode: ["Minutes"],
-      TotalFrequancy: [0],
-      wList: [this.selectedItems, Validators.required],
-      TokenList: [this.TokenSelected]
-    });
+    
     this.dropdownList = [ 
       { "id": "2", "itemName": "Monday" },
       { "id": "3", "itemName": "Tuesday" },
@@ -104,7 +93,23 @@ export class AdPlaylistsComponent implements OnInit {
     this.FillClient();
     //this.DataTableSettings();
   }
-
+insForm () {
+  var cd = new Date();
+  this.Plform = this.formBuilder.group({
+    id: ["0"],
+    CustomerId: ["0", Validators.required],
+    FormatId: ["0", Validators.required],
+    PlaylistId: ["0", Validators.required],
+    sDate: [cd, Validators.required],
+    eDate: [cd, Validators.required],
+    startTime: [this.dt, Validators.required],
+    EndTime: [this.dt2, Validators.required],
+    pMode: ["Minutes"],
+    TotalFrequancy: [0],
+    wList: [this.selectedItems, Validators.required],
+    TokenList: [this.TokenSelected]
+  });
+}
   FillClient() {
     var q = "";
     var i = this.auth.IsAdminLogin$.value ? 1 : 0;
@@ -128,29 +133,7 @@ export class AdPlaylistsComponent implements OnInit {
           this.loading = false;
         })
   }
-  FillFormat() {
-    var q = "";
-    if (this.auth.IsAdminLogin$.value == true) {
-      q = "FillFormat 0,'"+ localStorage.getItem('DBType') +"'";
-    }
-    else {
-      q = "select max(sf.Formatid) as id , sf.formatname as displayname from tbSpecialFormat sf left join tbSpecialPlaylistSchedule_Token st on st.formatid= sf.formatid";
-      q = q + " left join tbSpecialPlaylistSchedule sp on sp.pschid= st.pschid  where (dbtype='"+ localStorage.getItem('DBType') +"' or dbtype='Both') and (st.dfclientid=" + localStorage.getItem('dfClientId') + " OR sf.dfclientid=" + localStorage.getItem('dfClientId') + ") group by  sf.formatname";
-    }
-    this.loading = true;
-    this.sfService.FillCombo(q).pipe()
-      .subscribe(data => {
-        var returnData = JSON.stringify(data);
-        
-        this.FormatList = JSON.parse(returnData);
-        
-        this.loading = false;
-      },
-        error => {
-          this.toastr.error("Apologies for the inconvenience.The error is recorded.", '');
-          this.loading = false;
-        })
-  }
+   
   onChangeFormat(id) {
     this.ScheduleList = [];
     this.PlaylistList = [];
@@ -176,19 +159,52 @@ export class AdPlaylistsComponent implements OnInit {
     this.SearchText=''
     this.TokenSelected=[]
     this.TokenList=[]
+    this.selectedItems = []
+    var cd = new Date();
+    this.Plform.patchValue({
+     FormatId: "0",
+     PlaylistId: "0",
+     sDate: cd,
+     eDate: cd,
+     startTime: this.dt,
+     EndTime: this.dt2,
+     pMode: "Minutes",
+     TotalFrequancy: 0,
+     wList: this.selectedItems,
+     TokenList: this.TokenSelected
+   });
+    this.GetCustomerMediaType(deviceValue)
+  }
+  FillFormat() {
     var qry = "";
-    qry = "";
-    qry = "select max(sf.Formatid) as id , sf.formatname as displayname from tbSpecialFormat sf left join tbSpecialPlaylistSchedule_Token st on st.formatid= sf.formatid";
-    qry = qry + " left join tbSpecialPlaylistSchedule sp on sp.pschid= st.pschid  where ";
-    qry = qry + " (dbtype='" + localStorage.getItem('DBType') + "' or dbtype='Both') and  (st.dfclientid=" + deviceValue + " OR sf.dfclientid=" + deviceValue + ")  group by  sf.formatname";
-     
+    if (this.auth.IsAdminLogin$.value == true) {
+      qry = "FillFormat 0,'" + localStorage.getItem('DBType') + "'";
+    } else {
+    }
+    qry = '';
+    qry =
+      'select max(sf.Formatid) as id , sf.formatname as displayname from tbSpecialFormat sf left join tbSpecialPlaylistSchedule_Token st on st.formatid= sf.formatid';
+    qry =
+      qry +
+      ' left join tbSpecialPlaylistSchedule sp on sp.pschid= st.pschid  where ';
+    qry =
+      qry +
+      " (dbtype='" +
+      localStorage.getItem('DBType') +
+      "' or dbtype='Both') and  (st.dfclientid=" +
+      this.cid +
+      ' OR sf.dfclientid=' +
+      this.cid +
+      ") and sf.mediatype='" +
+      this.cmbCustomerMediaType +
+      "' group by  sf.formatname";
       this.loading = true;
       this.sfService.FillCombo(qry).pipe()
         .subscribe(data => {
           var returnData = JSON.stringify(data);
           this.FormatList = JSON.parse(returnData);
           this.loading = false;
-          this.FillTokenInfo(deviceValue);
+          this.FillTokenInfo(this.cid);
           // this.FillGroup();
           this.GetPublishSchedule()
         },
@@ -197,7 +213,6 @@ export class AdPlaylistsComponent implements OnInit {
             this.loading = false;
           })
     
-
   }
   FillTokenInfo(deviceValue) {
     this.loading = true;
@@ -212,6 +227,19 @@ export class AdPlaylistsComponent implements OnInit {
             item["check"]= true
           }
         });
+
+        var objmType = this.cmbCustomerMediaType.split(' ');
+        let mtype = '';
+        if (objmType.length == 2) {
+          mtype = objmType[0].trim();
+        } else {
+          mtype = this.cmbCustomerMediaType;
+        }
+        this.TokenList = this.TokenList.filter(
+          (order) =>
+            order.MediaType === mtype
+        );
+
         this.loading = false;
         //this.rerender();
       },
@@ -359,7 +387,10 @@ export class AdPlaylistsComponent implements OnInit {
       })
   }
   clear(){
+    this.ClearAll()
     var cd = new Date();
+    this.cmbSearchCustomer ="0"
+    this.cmbSearchToken =0
     this.selectedItems=[];
     this.TokenSelected=[];
     this.TokenList_Search=[]
@@ -627,36 +658,55 @@ export class AdPlaylistsComponent implements OnInit {
     });
   }
   EditClick(id,tokenid){
+    this.ClearAll()
     this.loading = true;
      this.aService.FillSavePlaylistAds(id).pipe()
       .subscribe(data => {
         var returnData = JSON.stringify(data);
         var obj = JSON.parse(returnData);
-        this.loading = false;
-        obj.wList.forEach(item => {
-          var objW= this.dropdownList.filter(x=> x.id==item["id"]);
-          item["itemName"]= objW[0].itemName
-        });
-        this.TokenSelected= obj.TokenLst
         this.onChangeCustomer(obj.clientId)
-        this.onChangeFormat(obj.formatid)
-        this.selectedItems = obj.wList;
-        
-        this.loading = false;
-        this.Plform.get('wList').setValue(this.selectedItems);
-        this.Plform.get('CustomerId').setValue(obj.clientId);
-        var sd = new Date(obj.sDate);
-        var ed = new Date(obj.eDate);
-        this.Plform.get('id').setValue(id);
-        this.Plform.get('FormatId').setValue(obj.formatid);
-        this.Plform.get('PlaylistId').setValue(obj.splId);
-        this.Plform.get('sDate').setValue(sd);
-        this.Plform.get('eDate').setValue(ed);
-        this.Plform.get('pMode').setValue(obj.pMode);
-        this.Plform.get('TotalFrequancy').setValue(obj.TotalFrequancy);
-        this.Plform.get('TokenList').setValue(this.TokenSelected);
-        this.Plform.get('startTime').setValue(this.dt);
-        this.Plform.get('EndTime').setValue(this.dt2);
+
+        var str=""
+        str="select formatid as id, mediatype as displayname from tbSpecialFormat where formatid="+ obj.formatid
+        this.sfService.FillCombo(str).pipe()
+        .subscribe(data => {
+          var returnData = JSON.stringify(data);
+          var objF = JSON.parse(returnData);
+          this.cmbCustomerMediaType = objF[0].DisplayName
+          this.FillFormat()
+          this.loading = false;
+          this.loading = false;
+          obj.wList.forEach(item => {
+            var objW= this.dropdownList.filter(x=> x.id==item["id"]);
+            item["itemName"]= objW[0].itemName
+          });
+          this.TokenSelected= obj.TokenLst
+          
+          this.onChangeFormat(obj.formatid)
+          this.selectedItems = obj.wList;
+          
+          this.loading = false;
+          this.Plform.get('wList').setValue(this.selectedItems);
+          this.Plform.get('CustomerId').setValue(obj.clientId);
+          var sd = new Date(obj.sDate);
+          var ed = new Date(obj.eDate);
+          this.Plform.get('id').setValue(id);
+          this.Plform.get('FormatId').setValue(obj.formatid);
+          this.Plform.get('PlaylistId').setValue(obj.splId);
+          this.Plform.get('sDate').setValue(sd);
+          this.Plform.get('eDate').setValue(ed);
+          this.Plform.get('pMode').setValue(obj.pMode);
+          this.Plform.get('TotalFrequancy').setValue(obj.TotalFrequancy);
+          this.Plform.get('TokenList').setValue(this.TokenSelected);
+          this.Plform.get('startTime').setValue(this.dt);
+          this.Plform.get('EndTime').setValue(this.dt2);
+        },
+          error => {
+            this.toastr.error("Apologies for the inconvenience.The error is recorded.", '');
+            this.loading = false;
+          })
+
+
       },
         error => {
           this.toastr.error("Apologies for the inconvenience.The error is recorded.", '');
@@ -681,6 +731,7 @@ export class AdPlaylistsComponent implements OnInit {
               'Pubish request is submitted for ' +
               JSON.stringify(this.ForceUpdateTokenid)
             );
+            this.ForceUpdateTokenid = '';
             this.loading = false;
           } else {
           }
@@ -752,5 +803,113 @@ GetCheckedToken(){
     }
   });
  
+}
+
+GetCustomerMediaType(cid) {
+  this.SearchText=''
+  this.TokenSelected=[]
+  this.TokenList=[]
+  this.FormatList=[]
+  this.PlaylistList=[]
+  
+  this.loading = true;
+  var str = '';
+  str = 'GetCustomerMediaType ' + cid;
+
+  this.serviceLicense
+    .FillCombo(str)
+    .pipe()
+    .subscribe(
+      (data) => {
+        var returnData = JSON.stringify(data);
+        this.CustomerMediaTypeList = JSON.parse(returnData);
+        var mType= localStorage.getItem('mType')
+        if(mType!=null){
+          this.cmbCustomerMediaType=mType
+          this.onChangeCustomerMediaType(mType)
+        }
+        this.loading = false;
+      },
+      (error) => {
+        this.toastr.error(
+          'Apologies for the inconvenience.The error is recorded.',
+          ''
+        );
+        this.loading = false;
+      }
+    );
+}
+
+onChangeCustomerMediaType(id) {
+   this.FillFormat()
+   var cd = new Date();
+   this.Plform.patchValue({
+    FormatId: "0",
+    PlaylistId: "0",
+    sDate: cd,
+    eDate: cd,
+    startTime: this.dt,
+    EndTime: this.dt2,
+    pMode: "Minutes",
+    TotalFrequancy: 0,
+    wList: this.selectedItems,
+    TokenList: this.TokenSelected
+  });
+}
+ClearAll (){
+  this.dropdownSettings = {};
+  this.dropdownList = [];
+  this.selectedItems = [];
+  this.submitted = false;
+  this.loading = false;
+  this.TokenSelected = [];
+  this.TokenList = [];
+  this.TokenList_Search = [];
+  this.PlaylistList = [];
+  this.SearchTokenList = [];
+  this.FormatList = [];
+  this.page  = 1;
+  this.pageSize  = 50;
+  this.pageSearch  = 1;
+  this.pageSizeSearch  = 20;
+  this.cmbSearchPlaylist = 0;
+  this.pSchid = 0;
+  this.searchText="";
+  this.aid;
+  this.delTokenId;
+  this.SearchAdsDate
+  this.cmbPublishId=""
+  
+  this.SearchText = '';
+  this.cmbCustomerMediaType=""
+  this.CustomerMediaTypeList=[]
+  this.chkAll_Token= false
+
+  var cd = new Date();
+    var cd = new Date();
+    this.SearchAdsDate = cd;
+     this.insForm()
+
+    
+    this.dropdownList = [ 
+      { "id": "2", "itemName": "Monday" },
+      { "id": "3", "itemName": "Tuesday" },
+      { "id": "4", "itemName": "Wednesday" },
+      { "id": "5", "itemName": "Thursday" },
+      { "id": "6", "itemName": "Friday" },
+      { "id": "7", "itemName": "Saturday" },
+      { "id": "1", "itemName": "Sunday" }
+    ];
+    this.TokenList = [];
+    this.selectedItems = [];
+    this.dropdownSettings = {
+      singleSelection: false,
+      text: "Select Week",
+      idField: 'id',
+      textField: 'itemName',
+      selectAllText: 'Week',
+      unSelectAllText: 'Week',
+      itemsShowLimit: 4
+    };
 }
 }
