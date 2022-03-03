@@ -450,11 +450,21 @@ export class LicenseHolderComponent
     }
   }
   async tokenInfoClose() {
-    await this.FillCustomerTokenList(this.cid);
+    this.RefreshTokenList()
     this.modalService.dismissAll();
   }
 async RefreshTokenList(){
-  await this.FillCustomerTokenList(this.cid);
+  this.SongsList = [];
+    localStorage.removeItem('IsSubClientActive')
+    if (this.cid == '0') {
+      this.TokenList = [];
+      this.LogoId = 0;
+      this.cid = '0';
+      this.MainTokenList = [];
+      return;
+    }
+    await this.FillTokenContentMatchDownload(this.cid)
+  // await this.FillCustomerTokenList(this.cid);
 }
   FullImageUrl;
   OpenFullImageModal(ObjModal, url) {
