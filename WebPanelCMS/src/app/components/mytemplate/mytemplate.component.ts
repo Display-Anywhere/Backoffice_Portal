@@ -39,7 +39,7 @@ export class MytemplateComponent implements OnInit {
   MaxValue = 0;
   preventAbuse = false;
   IframeSRC: SafeResourceUrl
- // templateHost ='http://localhost:4201/#/'
+  //templateHost ='http://localhost:4201/#/'
    templateHost ='https://templates.nusign.eu/#/'
   IsLS_URL= true
   constructor(private formBuilder: FormBuilder,private dService: SrDownloadTemplateService,  public toastr: ToastrService,
@@ -299,9 +299,12 @@ if (this.cmbGenre=='0'){
     }
   }
   
-  SelectTemplates(url,name,id,duration,Refersh, event) {
+  SelectTemplates(url,name,id,duration,Refersh, event, genreid, cnt, bgcolor) {
     var TemplateItem = {};
-    
+
+    var content = JSON.parse(cnt)
+    let IframeSRC_Safe = this.templateHost+ '?templateId='+content[0].templateId+'&title='+content[0].title+'&desc='+content[0].desc+'&logosrc='+content[0].logosrc+ '&ngClass='+bgcolor+'&imgSrc='+content[0].imgSrc+ '&text1='+content[0].text1+'&text2='+content[0].text2+ '&text3='+content[0].text3+'&text4='+content[0].text4+'&imgSrc2='+content[0].imgSrc2+'&imgSrc3='+content[0].imgSrc3+'&imgSrc4='+content[0].imgSrc4+'&imgSrc5='+content[0].imgSrc5+'&imgSrc6='+content[0].imgSrc6+'&imgSrc7='+content[0].imgSrc7+'&imgSrc8='+content[0].imgSrc8
+    url= IframeSRC_Safe
     if (event.target.checked) {
       if(duration>60){
         this.toastr.info("You can enter maximum duration up to 60 seconds", '');
@@ -514,11 +517,8 @@ this.preventAbuse = true;
       size: clsName,
     }); 
     var content = JSON.parse(cnt)
-    let IframeSRC_Safe = this.templateHost+ '?templateId='+content[0].templateId+'&title='+content[0].title+'&desc='+content[0].desc+'&logosrc='+content[0].logosrc+ '&ngClass='+bgcolor+'&imgSrc='+content[0].imgSrc+ '&text1='+content[0].desc1+'&text2='+content[0].desc2+'&imgSrc2='+content[0].imgSrc2+'&imgSrc3='+content[0].imgSrc3+'&imgSrc4='+content[0].imgSrc4+'&imgSrc5='+content[0].imgSrc5+'&imgSrc6='+content[0].imgSrc6
+    let IframeSRC_Safe = this.templateHost+ '?templateId='+content[0].templateId+'&title='+content[0].title+'&desc='+content[0].desc+'&logosrc='+content[0].logosrc+ '&ngClass='+bgcolor+'&imgSrc='+content[0].imgSrc+ '&text1='+content[0].text1+'&text2='+content[0].text2+ '&text3='+content[0].text3+'&text4='+content[0].text4+'&imgSrc2='+content[0].imgSrc2+'&imgSrc3='+content[0].imgSrc3+'&imgSrc4='+content[0].imgSrc4+'&imgSrc5='+content[0].imgSrc5+'&imgSrc6='+content[0].imgSrc6+'&imgSrc7='+content[0].imgSrc7+'&imgSrc8='+content[0].imgSrc8
     this.IframeSRC = this.sanitizer.bypassSecurityTrustResourceUrl(IframeSRC_Safe);
-
-     
-    
   }
   CloseModal(){
     this.modalService.dismissAll();
@@ -595,6 +595,33 @@ this.preventAbuse = true;
   onNavChange(changeEvent: NgbNavChangeEvent){
     this.ResetPage();
 
+  }
+
+  EditTemplate(id, cnt,genreId,bgcolor){
+    var content = JSON.parse(cnt)
+    var templatedata = {
+      templateId: content[0].templateId,
+      imgurl:content[0].imgSrc,
+      title:content[0].title,
+      desc:content[0].desc,
+      logoimgurl:content[0].logosrc,
+      desc1:'',
+      desc2:'',
+      desc3: '',
+      desc4: '',
+      width:'',
+      height:'',
+      duration:'',
+      bgcolor:'#'+bgcolor,
+      imgurl2:content[0].imgSrc2,
+      imgurl3:content[0].imgSrc3,
+      imgurl4:content[0].imgSrc4,
+      imgurl5:content[0].imgSrc5,
+      imgurl6:content[0].imgSrc6,
+      imgurl7:content[0].imgSrc7,
+      imgurl8:content[0].imgSrc8
+    }
+    let IframeSRC_Safe = this.templateHost+ ' imgSrc='+ '&text1='+content[0].text1+'&text2='+content[0].text2+ '&text3='+content[0].text3+'&text4='+content[0].text4+'&imgSrc2='+content[0].imgSrc2+'&imgSrc3='+content[0].imgSrc3+'&imgSrc4='+content[0].imgSrc4+'&imgSrc5='+content[0].imgSrc5+'&imgSrc6='+content[0].imgSrc6+'&imgSrc7='+content[0].imgSrc7+'&imgSrc8='+content[0].imgSrc8
   }
 
 }

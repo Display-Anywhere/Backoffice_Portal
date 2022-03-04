@@ -56,8 +56,8 @@ export class EditTemplateComponent implements OnInit {
   txtTemplateName=''
   IsClickPreview= false
   IframeSRC: SafeResourceUrl
-  templateHost ='http://localhost:4201/#/'
-  // templateHost ='https://templates.nusign.eu/#/'
+  // templateHost ='http://localhost:4201/#/'
+   templateHost ='https://templates.nusign.eu/#/'
   constructor(private serviceLicense: SerLicenseHolderService,public toastr: ToastrService,
     public auth: AuthService,private pService: PlaylistLibService,private modalService: NgbModal,
     private router: Router,public sanitizer: DomSanitizer) { }
@@ -447,11 +447,15 @@ export class EditTemplateComponent implements OnInit {
         imgSrc:this.templatedata.imgurl,
         text1:this.templatedata.desc1,
         text2:this.templatedata.desc2,
+        text3:this.templatedata.desc3,
+        text4:this.templatedata.desc4,
         imgSrc2:this.templatedata.imgurl2,
         imgSrc3:this.templatedata.imgurl3,
         imgSrc4:this.templatedata.imgurl4,
         imgSrc5:this.templatedata.imgurl5,
-        imgSrc6:this.templatedata.imgurl6
+        imgSrc6:this.templatedata.imgurl6,
+        imgSrc7:this.templatedata.imgurl7,
+        imgSrc8:this.templatedata.imgurl8
       }]
     //this.GenrateHtml()
     let genreId=''
