@@ -41,6 +41,7 @@ export class CustomerRegistrationComponent implements AfterViewInit, OnInit, OnD
   iCheckMain:boolean=true;
   iCheckSub:boolean=false;
 PrvTotalToken:number=0;
+logindf= localStorage.getItem('dfClientId')
 
 @ViewChild(DataTableDirective) dtElement: DataTableDirective;
 dtOptions: any = {};
@@ -336,7 +337,15 @@ this.PrvTotalToken=0;
     this.cService.FillCustomer().pipe()
       .subscribe(data => {
         var returnData = JSON.stringify(data);
-        this.CustomerList = JSON.parse(returnData);
+        const objList = JSON.parse(returnData);
+        if (this.logindf.toString() === "180"){
+          this.CustomerList= objList.filter(o => o.DealerDFClientID === this.logindf.toString())
+        }
+        else{
+          this.CustomerList= objList
+        }
+
+
         this.rerender();
          
         this.loading = false;

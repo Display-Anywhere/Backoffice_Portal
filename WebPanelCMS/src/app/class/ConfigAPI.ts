@@ -160,6 +160,7 @@ export class ConfigAPI {
    GetOwnTemplatesHTMLContent: string = this.Host + 'GetOwnTemplatesHTMLContent';
    GetTokenContentMatchDownload: string = this.Host + 'GetTokenContentMatchDownload';
    DeleteInstantPlayPlaylist: string = this.Host + 'DeleteInstantPlayPlaylist';
+   DeleteTemplate: string = this.Host + 'DeleteTemplate';
 }
 
 // localStorage.setItem('UserId', obj.UserId);

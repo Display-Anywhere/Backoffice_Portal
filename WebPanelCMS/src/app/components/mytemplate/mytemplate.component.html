@@ -138,8 +138,9 @@
               </th>
               <th scope="col">Template Name</th>
               <th scope="col">Duration (Seconds)</th>
-              <!--<th scope="col">Refersh Time (Seconds)</th>
-              <th></th>-->
+              <!--<th scope="col">Refersh Time (Seconds)</th>-->
+              <th></th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -172,10 +173,13 @@
               </td>
               <!--<td data-label="Refersh Time">
                 {{ tLst.Refersh }}
-              </td>
-              <td> <a href="javascript:;" (click)="EditTemplate(tLst.id, tLst.tHtml,tLst.genreId,tLst.bgColor)">
-                Edit
-              </a></td>-->
+              </td>-->
+              <td> <a href="javascript:;" (click)="EditTemplate(tLst.id, tLst.tHtml,tLst.genreId,tLst.bgColor, tLst.duration, tLst.tname )">
+                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+              </a></td>
+              <td > <a href="javascript:;" class="text-danger m-0 p-0" (click)="openDeleteModal(SchDeleteModal, tLst.id)">
+                <i class="fa fa-trash" aria-hidden="true"></i>
+              </a></td>
             </tr>
           </tbody>
         </table>
@@ -240,3 +244,44 @@
       </div>
     </div>
   </ng-template>
+
+  
+<ng-template #SchDeleteModal let-c="close" let-d="dismiss">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Delete Template</h5>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12">
+          <p>Are you sure to delete?</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <button
+            class="btn btn-primary col-sm-2 pull-right"
+            (click)="d('Cross click')"
+          >
+            <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+          </button>
+          <button
+            class="btn btn-danger col-sm-2 pull-right mr-2"
+            (click)="DeleteTemplate()"
+            (click)="d('Cross click')"
+          >
+            <i class="fa fa-check fa-lg" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

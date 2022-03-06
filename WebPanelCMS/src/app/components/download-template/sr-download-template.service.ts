@@ -46,4 +46,10 @@ export class SrDownloadTemplateService {
     return this.http.post(this.cApi.GetOwnTemplatesHTMLContent,params,{headers:headers})
      .pipe((data=>{return data;}))
   }
+  DeleteTemplate(id:string){
+    let headers = new HttpHeaders({ 'Content-Type':'application/json' });
+    var params = JSON.stringify({id});
+    return this.http.post(this.cApi.DeleteTemplate,params,{headers:headers})
+     .pipe((data=>{return data;}))
+  }
 }

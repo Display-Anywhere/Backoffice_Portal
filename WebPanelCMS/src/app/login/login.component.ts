@@ -75,7 +75,7 @@ export class LoginComponent implements OnInit {
           localStorage.setItem('chkStreaming', obj.chkStreaming);
           localStorage.setItem('chkViewOnly', obj.chkViewOnly);
           this.authService.login();
-          if ((obj.dfClientId === '6') || (obj.dfClientId === '95') || (obj.dfClientId === '88') || (obj.dfClientId === '98')) {
+          if ((obj.dfClientId === '6') || (obj.dfClientId === '95') || (obj.dfClientId === '180') || (obj.dfClientId === '6') || (obj.dfClientId === '98')) {
             this.authService.IsAdminLogin();
           }
           else {

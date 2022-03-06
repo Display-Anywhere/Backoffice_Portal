@@ -8,6 +8,7 @@ import { SrDownloadTemplateService } from '../download-template/sr-download-temp
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {NgbNavChangeEvent} from '@ng-bootstrap/ng-bootstrap';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { TokenInfoServiceService } from '../token-info/token-info-service.service';
 @Component({
   selector: 'app-mytemplate',
   templateUrl: './mytemplate.component.html',
@@ -42,7 +43,8 @@ export class MytemplateComponent implements OnInit {
   //templateHost ='http://localhost:4201/#/'
    templateHost ='https://templates.nusign.eu/#/'
   IsLS_URL= true
-  constructor(private formBuilder: FormBuilder,private dService: SrDownloadTemplateService,  public toastr: ToastrService,
+  DelpSchid="0"
+  constructor(private formBuilder: FormBuilder,private dService: SrDownloadTemplateService,  public toastr: ToastrService,private tService: TokenInfoServiceService,
     private serviceLicense: SerLicenseHolderService, public auth:AuthService,private modalService: NgbModal, public sanitizer: DomSanitizer) { 
        }
 
@@ -597,21 +599,25 @@ this.preventAbuse = true;
 
   }
 
-  EditTemplate(id, cnt,genreId,bgcolor){
+  EditTemplate(id, cnt,genreId,bgcolor, duration, TemplateName){
     var content = JSON.parse(cnt)
     var templatedata = {
+      _Id:id,
+      TemplateName: TemplateName,
+      clientid:this.CustomerId,
       templateId: content[0].templateId,
+      genreId:genreId,
       imgurl:content[0].imgSrc,
       title:content[0].title,
       desc:content[0].desc,
       logoimgurl:content[0].logosrc,
-      desc1:'',
-      desc2:'',
-      desc3: '',
-      desc4: '',
-      width:'',
-      height:'',
-      duration:'',
+      desc1:content[0].text1,
+      desc2:content[0].text2,
+      desc3: content[0].text3,
+      desc4: content[0].text4,
+      width:'0',
+      height:'0',
+      duration:duration,
       bgcolor:'#'+bgcolor,
       imgurl2:content[0].imgSrc2,
       imgurl3:content[0].imgSrc3,
@@ -619,9 +625,55 @@ this.preventAbuse = true;
       imgurl5:content[0].imgSrc5,
       imgurl6:content[0].imgSrc6,
       imgurl7:content[0].imgSrc7,
-      imgurl8:content[0].imgSrc8
+      imgurl8:content[0].imgSrc8,
+      selected_logoName:content[0].selected_logoName,
+      selected_imgName:content[0].selected_imgName,
+      selected_imgName2:content[0].selected_imgName2,
+      selected_imgName3:content[0].selected_imgName3,
+      selected_imgName4:content[0].selected_imgName4,
+      selected_imgName5:content[0].selected_imgName5,
+      selected_imgName6:content[0].selected_imgName6,
+      selected_imgName7:content[0].selected_imgName7,
+      selected_imgName8:content[0].selected_imgName8
     }
-    let IframeSRC_Safe = this.templateHost+ ' imgSrc='+ '&text1='+content[0].text1+'&text2='+content[0].text2+ '&text3='+content[0].text3+'&text4='+content[0].text4+'&imgSrc2='+content[0].imgSrc2+'&imgSrc3='+content[0].imgSrc3+'&imgSrc4='+content[0].imgSrc4+'&imgSrc5='+content[0].imgSrc5+'&imgSrc6='+content[0].imgSrc6+'&imgSrc7='+content[0].imgSrc7+'&imgSrc8='+content[0].imgSrc8
-  }
+    localStorage.setItem("edittemplate",content[0].templateId)
+    localStorage.setItem("edittemplatecontent",JSON.stringify(templatedata))
+    this.auth.SetEditTemplateOpen(true)
 
+  }
+  openDeleteModal(content, pschid) {
+    this.DelpSchid = pschid;
+    this.modalService.open(content, { centered: true });  }
+  DeleteTemplate() {
+    this.loading = true;
+    this.dService.DeleteTemplate(this.DelpSchid).pipe().subscribe((data) => {
+        var returnData = JSON.stringify(data);
+        var obj = JSON.parse(returnData);
+        if (obj.Responce == '1') {
+          this.toastr.info('Deleted', 'Success!');
+          this.SaveModifyInfo('0','Template is delete ');
+          this.loading = false;
+          this.FillTemplates();
+        } else {
+          this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
+        }
+        this.loading = false;
+      },
+      (error) => {
+        this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
+        this.loading = false;
+      }
+    );
+  }
+  SaveModifyInfo(tokenid, ModifyText) {
+    this.tService
+      .SaveModifyLogs(tokenid, ModifyText)
+      .pipe()
+      .subscribe(
+        (data) => {
+          var returnData = JSON.stringify(data);
+        },
+        (error) => {}
+      );
+  }
 }

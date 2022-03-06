@@ -12,10 +12,14 @@ export class TemplateListComponent implements OnInit {
   constructor(private router: Router, public auth:AuthService) { 
     this.auth.IsEditTemplateOpen$.subscribe((res: boolean) => {
       this.IsEditTemplateOpen=res
+      if (res === true){
+        this.ComponentName="Templates"
+      }
     });
   }
   
   ngOnInit(): void {
+    
   }
   ReloadComponent(componentName){
     this.ComponentName= componentName

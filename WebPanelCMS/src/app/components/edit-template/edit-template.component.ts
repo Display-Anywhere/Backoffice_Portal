@@ -22,6 +22,7 @@ export class EditTemplateComponent implements OnInit {
   content_Type=''
   cmbLibraryGenre="325"
   templatedata = {
+    _Id:'0',
     imgurl:'',
     title:'',
     desc:'',
@@ -40,17 +41,17 @@ export class EditTemplateComponent implements OnInit {
     imgurl5:'',
     imgurl6:'',
     imgurl7:'',
-    imgurl8:''
-  }
-  selected_logoName=''
-  selected_imgName=''
-  selected_imgName2=''
-  selected_imgName3=''
-  selected_imgName4=''
-  selected_imgName5=''
-  selected_imgName6=''
-  selected_imgName7=''
-  selected_imgName8=''
+    imgurl8:'',
+    selected_logoName:'',
+    selected_imgName:'',
+    selected_imgName2:'',
+    selected_imgName3:'',
+    selected_imgName4:'',
+    selected_imgName5:'',
+    selected_imgName6:'',
+    selected_imgName7:'',
+    selected_imgName8:''
+    }
   templateId=  localStorage.getItem("edittemplate")
   isDisabled=true
   txtTemplateName=''
@@ -77,6 +78,23 @@ export class EditTemplateComponent implements OnInit {
     }
     if (this.templateId=="3"){
       this.templatedata.bgcolor='#007bff'
+    }
+    let template_data = localStorage.getItem("edittemplatecontent")
+    localStorage.removeItem("edittemplatecontent")
+    if (template_data != null){
+      const t_data = JSON.parse(template_data)
+      this.templatedata = t_data
+      let genreId=''
+    if (t_data.genreId =="496"){
+      genreId="325"
+    }
+    if (this.cmbLibraryGenre=="495"){
+      genreId="324"
+    }
+      this.cmbLibraryGenre = genreId
+      this.cmbCustomerId= t_data.clientid
+      this.txtTemplateName= t_data.TemplateName
+      this.OpenViewContent()
     }
   }
   FillClientList() {
@@ -245,40 +263,40 @@ export class EditTemplateComponent implements OnInit {
     if (this.content_Type=='Library'){
       if (imgCount==1){
         this.templatedata.imgurl= url 
-        this.selected_imgName =title
+        this.templatedata.selected_imgName =title
       }
       if (imgCount==2){
         this.templatedata.imgurl2= url 
-        this.selected_imgName2 =title
+        this.templatedata.selected_imgName2 =title
       }
       if (imgCount==3){
         this.templatedata.imgurl3= url 
-        this.selected_imgName3 =title
+        this.templatedata.selected_imgName3 =title
       }
       if (imgCount==4){
         this.templatedata.imgurl4= url 
-        this.selected_imgName4 =title
+        this.templatedata.selected_imgName4 =title
       }
       if (imgCount==5){
         this.templatedata.imgurl5= url 
-        this.selected_imgName5 =title
+        this.templatedata.selected_imgName5 =title
       }
       if (imgCount==6){
         this.templatedata.imgurl6= url 
-        this.selected_imgName6 =title
+        this.templatedata.selected_imgName6 =title
       }
       if (imgCount==7){
         this.templatedata.imgurl7= url 
-        this.selected_imgName7 =title
+        this.templatedata.selected_imgName7 =title
       }
       if (imgCount==8){
         this.templatedata.imgurl8= url 
-        this.selected_imgName8 =title
+        this.templatedata.selected_imgName8 =title
       }
     }
     else{
       this.templatedata.logoimgurl= url 
-      this.selected_logoName= title
+      this.templatedata.selected_logoName= title
     }
   }
   FullImageUrl;
@@ -298,7 +316,7 @@ export class EditTemplateComponent implements OnInit {
   CloseEditTemplate(){
     this.auth.SetEditTemplateOpen(false)
   }
-  OpenViewContent(modalName){
+  OpenViewContent(){
     let IframeSRC_Safe = this.templateHost+ '?templateId='+this.templateId+'&title='+this.templatedata.title+'&desc='+this.templatedata.desc+'&logosrc='+this.templatedata.logoimgurl+ '&ngClass='+this.templatedata.bgcolor.replace('#','')+'&imgSrc='+this.templatedata.imgurl+ '&text1='+this.templatedata.desc1+'&text2='+this.templatedata.desc2+'&imgSrc2='+this.templatedata.imgurl2+'&imgSrc3='+this.templatedata.imgurl3+'&imgSrc4='+this.templatedata.imgurl4+'&imgSrc5='+this.templatedata.imgurl5+'&imgSrc6='+this.templatedata.imgurl6+'&imgSrc7='+this.templatedata.imgurl7+'&imgSrc8='+this.templatedata.imgurl8+ '&text3='+this.templatedata.desc3+ '&text4='+this.templatedata.desc4
     // 1 
     //let IframeSRC_Safe = "http://localhost:4201/#/?templateId=1&title=Wearing a Face Mask&desc=is required to enter&logosrc=http://api.nusign.eu/mp3files/238708.jpg&ngClass=bg-warning&imgSrc=&text1=&text2=" 
@@ -455,7 +473,16 @@ export class EditTemplateComponent implements OnInit {
         imgSrc5:this.templatedata.imgurl5,
         imgSrc6:this.templatedata.imgurl6,
         imgSrc7:this.templatedata.imgurl7,
-        imgSrc8:this.templatedata.imgurl8
+        imgSrc8:this.templatedata.imgurl8,
+        selected_logoName:this.templatedata.selected_logoName,
+        selected_imgName:this.templatedata.selected_imgName,
+        selected_imgName2:this.templatedata.selected_imgName2,
+        selected_imgName3:this.templatedata.selected_imgName3,
+        selected_imgName4:this.templatedata.selected_imgName4,
+        selected_imgName5:this.templatedata.selected_imgName5,
+        selected_imgName6:this.templatedata.selected_imgName6,
+        selected_imgName7:this.templatedata.selected_imgName7,
+        selected_imgName8:this.templatedata.selected_imgName8
       }]
     //this.GenrateHtml()
     let genreId=''
@@ -466,7 +493,7 @@ export class EditTemplateComponent implements OnInit {
       genreId="495"
     }
     let body={
-      "id":0,
+      "id":this.templatedata._Id,
       "tName": this.txtTemplateName,
       "genreid":genreId,
       "width":this.templatedata.width,
