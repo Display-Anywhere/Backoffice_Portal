@@ -6,6 +6,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
 export class AuthService {
   public isLoggedIn$: BehaviorSubject<boolean>;
   public IsAdminLogin$: BehaviorSubject<boolean>;
+  public IsClientAdminLogin$: BehaviorSubject<boolean>;
   public UserId$: string = "0";
   public chkDashboard$: BehaviorSubject<boolean>;
   public chkPlayerDetail$: BehaviorSubject<boolean>;
@@ -30,15 +31,22 @@ export class AuthService {
     const isLoggedIn = localStorage.getItem('loggedIn') === 'true';
     this.isLoggedIn$ = new BehaviorSubject(isLoggedIn);
     var LoginClientid;
-    if ((localStorage.getItem('dfClientId') == '6') || (localStorage.getItem('dfClientId') == '88') || (localStorage.getItem('dfClientId') == '180')
-      || (localStorage.getItem('dfClientId') == '95') || (localStorage.getItem('dfClientId') == '98')) {
+    if ((localStorage.getItem('dfClientId') == '6') || (localStorage.getItem('dfClientId') == '88') || (localStorage.getItem('dfClientId') == '95') || (localStorage.getItem('dfClientId') == '98')) {
       LoginClientid = true;
     }
     else {
       LoginClientid = false;
     }
+    var LoginClientAdminid;
+    if ((localStorage.getItem('dfClientId') == '180') && localStorage.getItem('UserId')==='0') {
+      LoginClientAdminid = true;
+    }
+    else {
+      LoginClientAdminid = false;
+    }
 
     this.IsAdminLogin$ = new BehaviorSubject(LoginClientid);
+    this.IsClientAdminLogin$ = new BehaviorSubject(LoginClientAdminid);
 
     const chkDashboard = localStorage.getItem('dfClientId') === 'true';
     this.chkDashboard$ = new BehaviorSubject(chkDashboard);
@@ -100,6 +108,10 @@ export class AuthService {
   }
   IsAdminLogin() {
     this.IsAdminLogin$.next(true);
+    this.UserRights();
+  }
+  IsClienAdminLogin() {
+    this.IsClientAdminLogin$.next(true);
     this.UserRights();
   }
   IsUserLogin() {

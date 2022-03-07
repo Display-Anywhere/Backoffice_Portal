@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit {
   public loading = false;
   ipAddress;
   emailText=''
-  loginpage='Nusign'
+  loginpage='PPDS'
   constructor(public toastr: ToastrService, private router: Router, private formBuilder: FormBuilder, private ulService: UloginService, private visitorsService: VisitorsService, public authService: AuthService) { }
   ngOnInit() {
     this.authService.logout();
@@ -75,12 +75,16 @@ export class LoginComponent implements OnInit {
           localStorage.setItem('chkStreaming', obj.chkStreaming);
           localStorage.setItem('chkViewOnly', obj.chkViewOnly);
           this.authService.login();
-          if ((obj.dfClientId === '6') || (obj.dfClientId === '95') || (obj.dfClientId === '180') || (obj.dfClientId === '6') || (obj.dfClientId === '98')) {
+          if ((obj.dfClientId === '6') || (obj.dfClientId === '95') || (obj.dfClientId === '6') || (obj.dfClientId === '98')) {
             this.authService.IsAdminLogin();
+          }
+          else if ((obj.dfClientId === '180') && (obj.UserId==='0')) {
+            this.authService.IsClienAdminLogin();
           }
           else {
             this.authService.IsUserLogin();
           }
+          
           if (localStorage.getItem('UserId') === '-1') {
             this.router.navigate(['DJPlaylistLibrary']);
           }

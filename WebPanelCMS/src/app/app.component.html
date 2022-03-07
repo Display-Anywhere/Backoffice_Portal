@@ -74,6 +74,15 @@
             </li>
             <li
               class="js-scroll-trigger"
+              *ngIf="authService.IsClientAdminLogin$ | async"
+              routerLinkActive="active"
+            >
+              <a routerLink="/Registration">
+                <i class="fa fa-superpowers iq-arrow-left"></i><span>New</span>
+              </a>
+            </li>
+            <li
+              class="js-scroll-trigger"
               *ngIf="authService.chkDashboard$ | async"
               routerLinkActive="active"
             >

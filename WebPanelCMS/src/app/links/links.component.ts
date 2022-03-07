@@ -86,12 +86,30 @@ this.VideoLink0="https://bit.ly/31yZLD4";
     if (this.auth.IsAdminLogin$.value==true) {
       this.FillClientList();
     }
+    if (this.auth.IsClientAdminLogin$.value==true) {
+      this.FillClientAdminList();
+    }
      this.GenerateDailyPwd()
   }
   FillClientList() {
     this.loading = true;
     var str = "";
     str = "select DFClientID as id,  ClientName    as displayname from DFClients where CountryCode is not null and DFClients.IsDealer=1 and (dbtype='"+localStorage.getItem('DBType')+"' or dbtype='Both') order by ClientName";
+    this.serviceLicense.FillCombo(str).pipe()
+      .subscribe(data => {
+        var returnData = JSON.stringify(data);
+        this.CustomerList = JSON.parse(returnData);
+        this.loading = false;
+      },
+        error => {
+          this.toastr.error("Apologies for the inconvenience.The error is recorded.", '');
+          this.loading = false;
+        })
+  }
+  FillClientAdminList() {
+    this.loading = true;
+    var str = "";
+    str = "select DFClientID as id,  ClientName    as displayname from DFClients where CountryCode is not null and DFClients.DealerDFClientID='"+localStorage.getItem('dfClientId'  )+"'  order by ClientName";
     this.serviceLicense.FillCombo(str).pipe()
       .subscribe(data => {
         var returnData = JSON.stringify(data);

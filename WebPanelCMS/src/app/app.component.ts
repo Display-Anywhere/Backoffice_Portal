@@ -24,6 +24,7 @@ export class AppComponent implements OnInit {
   timedOut = false;
   lastPing?: Date = null;
   iframeUrl=false
+  loginclientid= localStorage.getItem('dfClientId')
   constructor(
     public authService: AuthService,
     private modalService: NgbModal,
