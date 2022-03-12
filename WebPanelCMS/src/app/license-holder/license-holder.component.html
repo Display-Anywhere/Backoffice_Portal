@@ -471,7 +471,7 @@
                       />
                     </td>
  -->
-                    <td data-label="" *ngIf="IsIndicatorShow == true">
+                    <td data-label="" *ngIf="IsIndicatorShow == true && cLst.DeviceType !== 'HotelTv'">
                       <img
                         src="/assets/img/green.png"
                         alt="green"
@@ -495,7 +495,7 @@
                         " data-toggle="tooltip" data-placement="top" title="Online Indicator"
                       />
                     </td>
-                    <td data-label="" *ngIf="IsIndicatorShow == false">
+                    <td data-label="" *ngIf="IsIndicatorShow == false  && cLst.DeviceType !== 'HotelTv'">
                       <img
                         src="/assets/img/red.png"
                         alt="green"
@@ -507,7 +507,30 @@
                         " data-toggle="tooltip" data-placement="top" title="Online Indicator"
                       />
                     </td>
-
+                    <td data-label="" *ngIf="cLst.DeviceType == 'HotelTv'">
+                      <img
+                        src="/assets/img/green.png"
+                        alt="green"
+                        *ngIf="cLst.IshotelTvOnline == '1'"
+                        style="
+                          width: 20px;
+                          margin-left: auto;
+                          margin-right: auto;
+                          display: block;
+                        "  data-toggle="tooltip" data-placement="top" title="Online Indicator"
+                      />
+                      <img
+                        src="/assets/img/red.png"
+                        alt="green"
+                        *ngIf="cLst.IshotelTvOnline == '0'"
+                        style="
+                          width: 20px;
+                          margin-left: auto;
+                          margin-right: auto;
+                          display: block;
+                        " data-toggle="tooltip" data-placement="top" title="Online Indicator"
+                      />
+                    </td>
                     <td
                       data-label=""
                       class="text-center m-0 p-0"

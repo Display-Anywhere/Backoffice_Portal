@@ -338,8 +338,8 @@ this.PrvTotalToken=0;
       .subscribe(data => {
         var returnData = JSON.stringify(data);
         const objList = JSON.parse(returnData);
-        if (this.logindf.toString() === "180"){
-          this.CustomerList= objList.filter(o => o.DealerDFClientID === this.logindf.toString())
+        if (this.auth.IsClientAdminLogin$.value==true) {
+          this.CustomerList= objList.filter(o => o.DealerDFClientID === this.logindf.toString() ||  o.maindealerid === this.logindf.toString())
         }
         else{
           this.CustomerList= objList

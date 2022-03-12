@@ -38,7 +38,7 @@ export class AuthService {
       LoginClientid = false;
     }
     var LoginClientAdminid;
-    if ((localStorage.getItem('dfClientId') == '180') && localStorage.getItem('UserId')==='0') {
+    if ((localStorage.getItem('dfClientId') == '167') && localStorage.getItem('UserId')==='112') {
       LoginClientAdminid = true;
     }
     else {
@@ -115,6 +115,7 @@ export class AuthService {
     this.UserRights();
   }
   IsUserLogin() {
+    this.IsClientAdminLogin$.next(false);
     this.IsAdminLogin$.next(false);
     this.UserRights();
   }

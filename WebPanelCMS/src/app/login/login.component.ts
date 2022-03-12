@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit {
   public loading = false;
   ipAddress;
   emailText=''
-  loginpage='PPDS'
+  loginpage='Nusign'
   constructor(public toastr: ToastrService, private router: Router, private formBuilder: FormBuilder, private ulService: UloginService, private visitorsService: VisitorsService, public authService: AuthService) { }
   ngOnInit() {
     this.authService.logout();
@@ -78,7 +78,8 @@ export class LoginComponent implements OnInit {
           if ((obj.dfClientId === '6') || (obj.dfClientId === '95') || (obj.dfClientId === '6') || (obj.dfClientId === '98')) {
             this.authService.IsAdminLogin();
           }
-          else if ((obj.dfClientId === '180') && (obj.UserId==='0')) {
+          else if ((obj.dfClientId === '167') && (obj.UserId==='112')) {
+            localStorage.setItem('UserId', '0');
             this.authService.IsClienAdminLogin();
           }
           else {

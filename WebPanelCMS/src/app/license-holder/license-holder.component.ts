@@ -31,7 +31,7 @@ import { DataTableDirective } from 'angular-datatables';
 import { TokenInfoServiceService } from '../components/token-info/token-info-service.service';
 import { PlaylistLibService } from '../playlist-library/playlist-lib.service';
 import { NgbdSortableHeaderOpening, SortEvent } from './opensortable.directive';
-import { DecimalPipe } from '@angular/common';
+import { DatePipe, DecimalPipe } from '@angular/common';
 
 @Component({
   selector: 'app-license-holder',
@@ -52,7 +52,7 @@ export class LicenseHolderComponent
   TokenInfoPopup: boolean = false;
   page: number = 1;
   pageSize: number = 20;
-
+  DeviceStatusList =[]
   searchText="";
   cid = '0';
   LogoId = 0;
@@ -325,7 +325,7 @@ export class LicenseHolderComponent
       this.MainTokenList = [];
       return;
     }
-    await this.FillTokenContentMatchDownload(deviceValue)
+    await this.FillDeviceLastStatus(deviceValue)
   }
   FillCustomerTokenList(deviceValue){
     this.DataTableSettings();
@@ -381,6 +381,19 @@ export class LicenseHolderComponent
         }
       );
   }
+  FillDeviceLastStatus(deviceValue) {
+    this.loading = true;
+    var qry = "select TokenId as Id, max(StatusDatetime) as DisplayName from tbTokenOverDueStatus where tokenid in(select tokenid from AMPlayerTokens where ClientID="+this.cmbCustomerId+") group by TokenId"
+    this.pService.FillCombo(qry).pipe().subscribe((data) => {
+          var returnData = JSON.stringify(data);
+          this.DeviceStatusList = JSON.parse(returnData);
+          this.FillTokenContentMatchDownload(deviceValue)
+        },
+        (error) => {
+        }
+      );
+  }
+  minutes_interval:any
   FillData(data) {
     var returnData = JSON.stringify(data);
     const objData = JSON.parse(returnData);
@@ -401,7 +414,29 @@ export class LicenseHolderComponent
       else{
         item['IsDownloadAll']= 'false'
       }
+      
+      let obj_device= this.DeviceStatusList.filter(d => d.Id === item['tokenid'].toString())
+      if (obj_device.length>0){
+        const today = new Date();
+        const deviceStatus =new Date(obj_device[0]['DisplayName'])
+        let CETDateTime = today.toLocaleString("en-US", {timeZone: "CET"  });
+        const cet = CETDateTime.split(',')
+        const CET_DateTime = cet[0] + ' ' + cet[1]
+        const CET_today = new Date(CET_DateTime);
+        this.minutes_interval = Math.abs(deviceStatus.getTime() - CET_today.getTime()) / (1000 * 60) % 60;
+        if (parseInt(this.minutes_interval)<15 ){
+          item['IshotelTvOnline']='1'
+        }
+        else{
+          item['IshotelTvOnline']='0'
+        }
+      }
+      else{
+        item['IshotelTvOnline']='0'
+      }
     });
+
+
     this.TokenList = objData;
     this.MainTokenList = objData;
     this.InfoTokenList = objData;

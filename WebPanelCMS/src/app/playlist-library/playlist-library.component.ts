@@ -450,6 +450,12 @@ export class PlaylistLibraryComponent implements OnInit {
       localStorage.setItem('ContentType', 'Signage');
       localStorage.setItem('IsRf', '0');
     }
+    if (this.cmbCustomerMediaType === 'Signage'){
+      this.rdoName = 'Orientation';
+    }
+    else{
+      this.rdoName = 'Genre';
+    }
     this.rowSelection = 'multiple';
     this.txtCommonMsg = 'Are you sure to delete?';
     this.IsAutoPlaylistHide = true;
@@ -824,8 +830,12 @@ export class PlaylistLibraryComponent implements OnInit {
     this.SearchText = '';
     this.Search = true;
     this.chkGenre = false;
-
-    this.rdoName = 'Genre';
+    if (this.cmbCustomerMediaType === 'Signage'){
+      this.rdoName = 'Orientation';
+    }
+    else{
+      this.rdoName = 'Genre';
+    }
 
     if (e == 'Audio') {
       this.chkAudio = false;
@@ -1776,6 +1786,10 @@ if (id=="0"){
     }
     if (this.ForceUpdateTokenid != '') {
       this.modalService.open(UpdateModel, { centered: true });
+    }
+    else{
+      this.toastr.info('This playlist is not assigned to any location');
+      return;      
     }
     this.flocationElement.nativeElement.focus();
   }

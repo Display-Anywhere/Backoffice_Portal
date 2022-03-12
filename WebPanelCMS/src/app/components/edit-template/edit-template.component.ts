@@ -31,6 +31,12 @@ export class EditTemplateComponent implements OnInit {
     desc2:'',
     desc3: '',
     desc4: '',
+    desc5: '',
+    desc6: '',
+    desc7: '',
+    desc8: '',
+    desc9: '',
+    desc10: '',
     width:'',
     height:'',
     duration:'',
@@ -58,7 +64,7 @@ export class EditTemplateComponent implements OnInit {
   IsClickPreview= false
   IframeSRC: SafeResourceUrl
    templateHost ='http://localhost:4201/#/'
-   //templateHost ='https://templates.nusign.eu/#/'
+  // templateHost ='https://templates.nusign.eu/#/'
   constructor(private serviceLicense: SerLicenseHolderService,public toastr: ToastrService,
     public auth: AuthService,private pService: PlaylistLibService,private modalService: NgbModal,
     private router: Router,public sanitizer: DomSanitizer) { }
@@ -74,11 +80,21 @@ export class EditTemplateComponent implements OnInit {
       this.templatedata.bgcolor='#ffc107'
     }
     if (this.templateId=="6"){
-      this.templatedata.bgcolor='#17a2b8'
+      this.templatedata.bgcolor='#dbe0e1'
     }
     if (this.templateId=="3"){
       this.templatedata.bgcolor='#007bff'
     }
+    if (this.templateId=="9"){
+      this.templatedata.bgcolor='#02086c'
+    }
+    if (this.templateId=="11"){
+      this.templatedata.bgcolor='#ffc107'
+    }
+    if (this.templateId=="15"){
+      this.cmbLibraryGenre='324'
+    }
+    
     let template_data = localStorage.getItem("edittemplatecontent")
     localStorage.removeItem("edittemplatecontent")
     if (template_data != null){
@@ -317,7 +333,7 @@ export class EditTemplateComponent implements OnInit {
     this.auth.SetEditTemplateOpen(false)
   }
   OpenViewContent(){
-    let IframeSRC_Safe = this.templateHost+ '?templateId='+this.templateId+'&title='+this.templatedata.title+'&desc='+this.templatedata.desc+'&logosrc='+this.templatedata.logoimgurl+ '&ngClass='+this.templatedata.bgcolor.replace('#','')+'&imgSrc='+this.templatedata.imgurl+ '&text1='+this.templatedata.desc1+'&text2='+this.templatedata.desc2+'&imgSrc2='+this.templatedata.imgurl2+'&imgSrc3='+this.templatedata.imgurl3+'&imgSrc4='+this.templatedata.imgurl4+'&imgSrc5='+this.templatedata.imgurl5+'&imgSrc6='+this.templatedata.imgurl6+'&imgSrc7='+this.templatedata.imgurl7+'&imgSrc8='+this.templatedata.imgurl8+ '&text3='+this.templatedata.desc3+ '&text4='+this.templatedata.desc4
+    let IframeSRC_Safe = this.templateHost+ '?templateId='+this.templateId+'&title='+this.templatedata.title+'&desc='+this.templatedata.desc+'&logosrc='+this.templatedata.logoimgurl+ '&ngClass='+this.templatedata.bgcolor.replace('#','')+'&imgSrc='+this.templatedata.imgurl+ '&text1='+this.templatedata.desc1+'&text2='+this.templatedata.desc2+'&imgSrc2='+this.templatedata.imgurl2+'&imgSrc3='+this.templatedata.imgurl3+'&imgSrc4='+this.templatedata.imgurl4+'&imgSrc5='+this.templatedata.imgurl5+'&imgSrc6='+this.templatedata.imgurl6+'&imgSrc7='+this.templatedata.imgurl7+'&imgSrc8='+this.templatedata.imgurl8+ '&text3='+this.templatedata.desc3+ '&text4='+this.templatedata.desc4+ '&text5='+this.templatedata.desc5+ '&text6='+this.templatedata.desc6+ '&text7='+this.templatedata.desc7+ '&text8='+this.templatedata.desc8+ '&text9='+this.templatedata.desc9+ '&text10='+this.templatedata.desc10
     // 1 
     //let IframeSRC_Safe = "http://localhost:4201/#/?templateId=1&title=Wearing a Face Mask&desc=is required to enter&logosrc=http://api.nusign.eu/mp3files/238708.jpg&ngClass=bg-warning&imgSrc=&text1=&text2=" 
     // 2
@@ -467,6 +483,12 @@ export class EditTemplateComponent implements OnInit {
         text2:this.templatedata.desc2,
         text3:this.templatedata.desc3,
         text4:this.templatedata.desc4,
+        text5:this.templatedata.desc5,
+        text6:this.templatedata.desc6,
+        text7:this.templatedata.desc7,
+        text8:this.templatedata.desc8,
+        text9:this.templatedata.desc9,
+        text10:this.templatedata.desc10,
         imgSrc2:this.templatedata.imgurl2,
         imgSrc3:this.templatedata.imgurl3,
         imgSrc4:this.templatedata.imgurl4,
@@ -536,6 +558,9 @@ export class EditTemplateComponent implements OnInit {
       return false
     }
     else if (this.templateId ==='4'){
+      return false
+    }
+    else if (this.templateId ==='15'){
       return false
     }
     else{

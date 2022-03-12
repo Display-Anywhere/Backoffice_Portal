@@ -109,7 +109,7 @@ this.VideoLink0="https://bit.ly/31yZLD4";
   FillClientAdminList() {
     this.loading = true;
     var str = "";
-    str = "select DFClientID as id,  ClientName    as displayname from DFClients where CountryCode is not null and DFClients.DealerDFClientID='"+localStorage.getItem('dfClientId'  )+"'  order by ClientName";
+    str = "select DFClientID as id,  ClientName    as displayname from DFClients where CountryCode is not null and (DFClients.DealerDFClientID='"+localStorage.getItem('dfClientId'  )+"' or DFClients.maindealerid='"+localStorage.getItem('dfClientId'  )+"')  order by ClientName";
     this.serviceLicense.FillCombo(str).pipe()
       .subscribe(data => {
         var returnData = JSON.stringify(data);

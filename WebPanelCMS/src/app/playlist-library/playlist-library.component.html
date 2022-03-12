@@ -576,8 +576,10 @@
                 <tr>
                   <th class="WidthTitlePL bg-primary sticky-top" style="z-index: 1;">Title</th>
 
-                  <th class="WidthArtistPL bg-primary sticky-top" style="z-index: 1;">Artist</th>
-                  <th class="WidthCategoryPL bg-primary sticky-top" style="z-index: 1;">Genre</th>
+                  <th class="WidthArtistPL bg-primary sticky-top" style="z-index: 1;">
+                   <span *ngIf="cmbCustomerMediaType == 'Signage'">Type</span><span *ngIf="cmbCustomerMediaType != 'Signage'">Artist</span></th>
+                  <th class="WidthCategoryPL bg-primary sticky-top" style="z-index: 1;">
+                    <span *ngIf="cmbCustomerMediaType == 'Signage'">Orientation</span><span *ngIf="cmbCustomerMediaType != 'Signage'">Genre</span></th>
                   <!--<th class="WidthCategoryPL bg-primary sticky-top" style="z-index: 1;">Label</th>-->
                   <th class="WidthLength bg-primary sticky-top" style="z-index: 1;">Length</th>
 
@@ -1187,9 +1189,9 @@
                   <th class="WidthTitlePL bg-primary sticky-top" sortable="title"
                   (sort)="onSort_Libray($event)">Title</th>
                   <th class="WidthArtistPL bg-primary sticky-top"  sortable="Artist"
-                  (sort)="onSort_Libray($event)">Artist</th>
+                  (sort)="onSort_Libray($event)"><span *ngIf="cmbCustomerMediaType == 'Signage'">Type</span><span *ngIf="cmbCustomerMediaType != 'Signage'">Artist</span></th>
                   <th class="WidthCategoryPL bg-primary sticky-top"  sortable="genreName"
-                  (sort)="onSort_Libray($event)">Genre</th>
+                  (sort)="onSort_Libray($event)"><span *ngIf="cmbCustomerMediaType == 'Signage'">Orientation</span><span *ngIf="cmbCustomerMediaType != 'Signage'">Genre</span></th>
                   <th *ngIf="((chkMediaRadio!='Image') && (chkMediaRadio!='Url'))" class="WidthCategoryPL bg-primary sticky-top"  sortable="genreName"
                   (sort)="onSort_Libray($event)">Length</th>
                   <!--<th *ngIf="((chkMediaRadio=='Audio') && (IsRF==true)) ||
