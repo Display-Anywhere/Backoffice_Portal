@@ -588,6 +588,7 @@ export class EditTemplateComponent implements OnInit {
     }
   }
   ShowPortraitGenre () {
+    return true
     if (this.templateId ==='5'){
       return false
     }

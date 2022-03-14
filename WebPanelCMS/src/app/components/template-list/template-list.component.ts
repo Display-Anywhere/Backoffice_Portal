@@ -8,16 +8,20 @@ import { AuthService } from 'src/app/auth/auth.service';
 })
 export class TemplateListComponent implements OnInit {
   ComponentName="Templates"
+  TemplatListType="LS"
   IsEditTemplateOpen=false
   constructor(private router: Router, public auth:AuthService) { 
     this.auth.IsEditTemplateOpen$.subscribe((res: boolean) => {
       this.IsEditTemplateOpen=res
       if (res === true){
         this.ComponentName="Templates"
+        this.TemplatListType="LS"
       }
     });
   }
-  
+  FilterTemplatList(e) {
+    this.TemplatListType=e
+  }
   ngOnInit(): void {
     
   }
