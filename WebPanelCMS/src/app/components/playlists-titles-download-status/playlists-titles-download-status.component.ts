@@ -150,7 +150,7 @@ export class PlaylistsTitlesDownloadStatusComponent implements OnInit {
     var Year = crDate.getFullYear().toString();
     var month = crDate.getMonth() + 1;
     var cd= crDate.getDate() +"-" + this.GetMonthName(month) + "-" + Year + ""
-    var qry = " select p.titleid as Id ,t.title as DisplayName  from tbPlaylistAdsSchedule ps  "+
+    var qry = " select distinct p.titleid as Id ,t.title as DisplayName  from tbPlaylistAdsSchedule ps  "+
     " inner join tbPlaylistAdsSchedule_Token pt on pt.pSchId= ps.pSchId  inner join tbSpecialPlaylists_Titles p on p.splPlaylistId= ps.splPlaylistId  inner join Titles t on t.titleid= p.titleid "+
     " where pt.tokenId="+this.tid+"  and ps.eDate >= '"+cd+"'"
     this.tService.FillCombo(qry).pipe().subscribe((data) => {

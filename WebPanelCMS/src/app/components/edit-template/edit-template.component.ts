@@ -12,6 +12,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
   styleUrls: ['./edit-template.component.css']
 })
 export class EditTemplateComponent implements OnInit {
+  edittemplategenre= localStorage.getItem("edittemplategenre")
   loading
   color
   cmbLibraryFolder="0"
@@ -63,8 +64,8 @@ export class EditTemplateComponent implements OnInit {
   txtTemplateName=''
   IsClickPreview= false
   IframeSRC: SafeResourceUrl
-   templateHost ='http://localhost:4201/#/'
-  // templateHost ='https://templates.nusign.eu/#/'
+   //templateHost ='http://localhost:4201/#/'
+   templateHost ='https://templates.nusign.eu/#/'
   constructor(private serviceLicense: SerLicenseHolderService,public toastr: ToastrService,
     public auth: AuthService,private pService: PlaylistLibService,private modalService: NgbModal,
     private router: Router,public sanitizer: DomSanitizer) { }
@@ -91,10 +92,18 @@ export class EditTemplateComponent implements OnInit {
     if (this.templateId=="11"){
       this.templatedata.bgcolor='#ffc107'
     }
+    if (this.templateId=="2"){
+      this.templatedata.bgcolor='#023814'
+    }
     if (this.templateId=="15"){
       this.cmbLibraryGenre='324'
     }
-    
+    if (this.edittemplategenre === 'LS'){
+      this.cmbLibraryGenre='325'
+    }
+    if (this.edittemplategenre === 'PT'){
+      this.cmbLibraryGenre='324'
+    }
     let template_data = localStorage.getItem("edittemplatecontent")
     localStorage.removeItem("edittemplatecontent")
     if (template_data != null){

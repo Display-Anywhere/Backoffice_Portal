@@ -18,11 +18,11 @@
                     <label for="token" class="mb-2 mr-sm-2" #flocation>Template Name:</label>
                     <input type="text" class="form-control mb-2 mr-sm-2" id="location" [(ngModel)]="txtTemplateName"/>
                   </div>
-                  <div [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0">
+                  <div [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="d-none form-group pb-1 m-0">
                     <label for="MediaType">Orientation:</label>
                     <select name="lType" class="custom-select" id="MediaType" [(ngModel)]="cmbLibraryGenre" (change)="onChangeLibraryGenre()">
-                      <option value="325"> Landscape</option>
-                      <option value="324" *ngIf="ShowPortraitGenre()"> Portrait</option>
+                      <option value="325" *ngIf="edittemplategenre==='LS'"> Landscape</option>
+                      <option value="324" *ngIf="edittemplategenre==='PT'"> Portrait</option>
                     </select>
                   </div>
                   <div [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0 d-none">

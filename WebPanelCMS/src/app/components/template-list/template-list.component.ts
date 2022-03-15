@@ -29,9 +29,16 @@ export class TemplateListComponent implements OnInit {
     this.ComponentName= componentName
   }
   editTemplates(id){
+    localStorage.setItem("edittemplategenre",'LS')
     localStorage.setItem("edittemplate",id)
     this.auth.SetEditTemplateOpen(true)
     this.IsEditTemplateOpen=true
     //this.router.navigate(['general/edit-template']);
+  }
+  editPTTemplates(id) {
+    localStorage.setItem("edittemplategenre",'PT')
+    localStorage.setItem("edittemplate",id)
+    this.auth.SetEditTemplateOpen(true)
+    this.IsEditTemplateOpen=true
   }
 }
