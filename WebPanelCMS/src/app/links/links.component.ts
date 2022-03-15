@@ -38,6 +38,7 @@ Keyboard="";
 SignageVideo0="";
 SignageVideo90="";
 viewsonic="";
+UserId = localStorage.getItem('UserId');
 SmartTv="https://bit.ly/3vl4Gqm"
   constructor(private serviceLicense: SerLicenseHolderService,
      public toastr: ToastrService, vcr: ViewContainerRef, public auth:AuthService,private sanitizer: DomSanitizer) {
@@ -83,10 +84,11 @@ this.VideoLink0="https://bit.ly/31yZLD4";
     this.VideoLink0="https://bit.ly/2EwMhio";
     this.viewsonic="https://bit.ly/3eiur1O"
     }
+    
     if (this.auth.IsAdminLogin$.value==true) {
       this.FillClientList();
     }
-    if (this.auth.IsClientAdminLogin$.value==true) {
+    if (this.auth.IsAdminLogin$.value==false) {
       this.FillClientAdminList();
     }
      this.GenerateDailyPwd()

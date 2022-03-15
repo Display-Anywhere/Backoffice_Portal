@@ -156,9 +156,7 @@
             <li
               class="js-scroll-trigger"
               *ngIf="
-                (((authService.chkInstantPlay$ | async) &&
-                (authService.ClientContentType$ == 'MusicMedia' ||
-                  authService.ClientContentType$ == 'Both')) && (authService.chkViewOnly$ | async)==false)
+                (((authService.chkInstantPlay$ | async) ) && (authService.chkViewOnly$ | async)==false)
               "
               routerLinkActive="active"
             >
@@ -181,9 +179,7 @@
             <li
               class="js-scroll-trigger"
               *ngIf="
-                (((authService.chkStreaming$ | async) &&
-                (authService.ClientContentType$ == 'MusicMedia' ||
-                  authService.ClientContentType$ == 'Both'))  && (authService.chkViewOnly$ | async)==false)
+                (((authService.chkStreaming$ | async)  )  && (authService.chkViewOnly$ | async)==false)
               "
               routerLinkActive="active"
             >
