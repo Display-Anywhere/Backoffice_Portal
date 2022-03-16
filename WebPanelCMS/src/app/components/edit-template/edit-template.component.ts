@@ -64,8 +64,8 @@ export class EditTemplateComponent implements OnInit {
   txtTemplateName=''
   IsClickPreview= false
   IframeSRC: SafeResourceUrl
-   //templateHost ='http://localhost:4201/#/'
-   templateHost ='https://templates.nusign.eu/#/'
+   templateHost ='http://localhost:4201/#/'
+   //templateHost ='https://templates.nusign.eu/#/'
   constructor(private serviceLicense: SerLicenseHolderService,public toastr: ToastrService,
     public auth: AuthService,private pService: PlaylistLibService,private modalService: NgbModal,
     private router: Router,public sanitizer: DomSanitizer) { }
@@ -94,6 +94,9 @@ export class EditTemplateComponent implements OnInit {
     }
     if (this.templateId=="2"){
       this.templatedata.bgcolor='#023814'
+    }
+    if (this.templateId=="16"){
+      this.templatedata.bgcolor='#5b6c70'
     }
     if (this.templateId=="15"){
       this.cmbLibraryGenre='324'
@@ -570,6 +573,9 @@ export class EditTemplateComponent implements OnInit {
       return false
     }
     else if (this.templateId ==='15'){
+      return false
+    }
+    else if (this.templateId ==='16'){
       return false
     }
     else{
