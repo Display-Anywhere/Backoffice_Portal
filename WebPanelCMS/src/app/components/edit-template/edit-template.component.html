@@ -90,7 +90,7 @@
                       <span *ngIf="templateId==='15'">Heading 2</span>
                       <span *ngIf="templateId==='16'">Heading 2</span>
                       <span *ngIf="((templateId==='10') || (templateId==='3') || (templateId==='4') || (templateId==='5') ||(templateId==='7') ||(templateId==='9'))">Text 1</span>:</label>
-                    <input type="text" class="form-control mb-2 mr-sm-2" id="tdesc" [(ngModel)]="templatedata.desc1"  />
+                    <input type="text" class="form-control mb-2 mr-sm-2" id="tdesc" [(ngModel)]="templatedata.text1"  />
                   </div>
                   <div *ngIf="((templateId==='16')||(templateId==='15')||(templateId==='13')||(templateId==='12')||(templateId==='11')||(templateId==='3') ||(templateId==='9'))" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0">
                     <label for="tdesc" class="mb-2 mr-sm-2">
@@ -100,7 +100,7 @@
                       <span *ngIf="templateId==='15'">Description 2</span>
                       <span *ngIf="templateId==='16'">Description 2</span>
                       <span *ngIf="((templateId==='3') ||(templateId==='9'))">Text 2</span>:</label>
-                    <input type="text" class="form-control mb-2 mr-sm-2" id="tdesc" [(ngModel)]="templatedata.desc2"  />
+                    <input type="text" class="form-control mb-2 mr-sm-2" id="tdesc" [(ngModel)]="templatedata.text2"  />
                   </div>
                   <div *ngIf="((templateId==='16') ||(templateId==='15') ||(templateId==='13') ||(templateId==='12') ||(templateId==='9') || (templateId==='11'))" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0">
                     <label for="tdesc" class="mb-2 mr-sm-2">
@@ -110,7 +110,7 @@
                       <span *ngIf="templateId==='15'">Heading 3</span>
                       <span *ngIf="templateId==='16'">Heading 3</span>
                       <span *ngIf="(templateId==='9')">Text 3</span>:</label>
-                    <input type="text" class="form-control mb-2 mr-sm-2" id="tdesc" [(ngModel)]="templatedata.desc3"  />
+                    <input type="text" class="form-control mb-2 mr-sm-2" id="tdesc" [(ngModel)]="templatedata.text3"  />
                   </div>
                   <div *ngIf="((templateId==='16') ||(templateId==='15') ||(templateId==='11') || (templateId==='13'))" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0">
                     <label for="tdesc" class="mb-2 mr-sm-2">
@@ -118,47 +118,47 @@
                       <span *ngIf="templateId==='15'">Description 3</span>
                       <span *ngIf="templateId==='11'">Description 2</span>
                       <span *ngIf="templateId==='13'">Date</span>:</label>
-                    <input type="text" class="form-control mb-2 mr-sm-2" id="tdesc" [(ngModel)]="templatedata.desc4"  />
+                    <input type="text" class="form-control mb-2 mr-sm-2" id="tdesc" [(ngModel)]="templatedata.text4"  />
                   </div>
                   <div *ngIf="((templateId==='16') || (templateId==='15'))" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0">
                     <label for="tdesc" class="mb-2 mr-sm-2">
                       <span *ngIf="templateId==='16'">Heading 4</span>
                       <span *ngIf="templateId==='15'">Heading 4</span>
                       </label>
-                    <input type="text" class="form-control mb-2 mr-sm-2" id="tdesc" [(ngModel)]="templatedata.desc5"  />
+                    <input type="text" class="form-control mb-2 mr-sm-2" id="tdesc" [(ngModel)]="templatedata.text5"  />
                   </div>
                   <div *ngIf="((templateId==='16') || (templateId==='15'))" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0">
                     <label for="tdesc" class="mb-2 mr-sm-2">
                       <span *ngIf="templateId==='15'">Description 4</span>
                       <span *ngIf="templateId==='16'">Description 4</span>
                       </label>
-                    <input type="text" class="form-control mb-2 mr-sm-2" id="tdesc" [(ngModel)]="templatedata.desc6"  />
+                    <input type="text" class="form-control mb-2 mr-sm-2" id="tdesc" [(ngModel)]="templatedata.text6"  />
                   </div>
 
                   <div *ngIf="((templateId==='15'))" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0">
                     <label for="tdesc" class="mb-2 mr-sm-2">
                       <span *ngIf="templateId==='15'">Heading 5</span>
                       </label>
-                    <input type="text" class="form-control mb-2 mr-sm-2" id="tdesc" [(ngModel)]="templatedata.desc7"  />
+                    <input type="text" class="form-control mb-2 mr-sm-2" id="tdesc" [(ngModel)]="templatedata.text7"  />
                   </div>
                   <div *ngIf="((templateId==='15'))" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0">
                     <label for="tdesc" class="mb-2 mr-sm-2">
                       <span *ngIf="templateId==='15'">Description 5</span>
                       </label>
-                    <input type="text" class="form-control mb-2 mr-sm-2" id="tdesc" [(ngModel)]="templatedata.desc8"  />
+                    <input type="text" class="form-control mb-2 mr-sm-2" id="tdesc" [(ngModel)]="templatedata.text8"  />
                   </div>
 
                   <div *ngIf="((templateId==='15'))" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0">
                     <label for="tdesc" class="mb-2 mr-sm-2">
                       <span *ngIf="templateId==='15'">Heading 6</span>
                       </label>
-                    <input type="text" class="form-control mb-2 mr-sm-2" id="tdesc" [(ngModel)]="templatedata.desc9"  />
+                    <input type="text" class="form-control mb-2 mr-sm-2" id="tdesc" [(ngModel)]="templatedata.text9"  />
                   </div>
                   <div *ngIf="((templateId==='15'))" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0">
                     <label for="tdesc" class="mb-2 mr-sm-2">
                       <span *ngIf="templateId==='15'">Description 6</span>
                       </label>
-                    <input type="text" class="form-control mb-2 mr-sm-2" id="tdesc" [(ngModel)]="templatedata.desc10"  />
+                    <input type="text" class="form-control mb-2 mr-sm-2" id="tdesc" [(ngModel)]="templatedata.text10"  />
                   </div>
 
 

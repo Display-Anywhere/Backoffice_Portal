@@ -40,8 +40,8 @@ export class MytemplateComponent implements OnInit {
   MaxValue = 0;
   preventAbuse = false;
   IframeSRC: SafeResourceUrl
-  //templateHost ='http://localhost:4201/#/'
-   templateHost ='https://templates.nusign.eu/#/'
+  templateHost ='http://localhost:4201/#/'
+  // templateHost ='https://templates.nusign.eu/#/'
   IsLS_URL= true
   DelpSchid="0"
   constructor(private formBuilder: FormBuilder,private dService: SrDownloadTemplateService,  public toastr: ToastrService,private tService: TokenInfoServiceService,
@@ -305,7 +305,7 @@ if (this.cmbGenre=='0'){
     var TemplateItem = {};
 
     var content = JSON.parse(cnt)
-    let IframeSRC_Safe = this.templateHost+ '?templateId='+content[0].templateId+'&title='+content[0].title+'&desc='+content[0].desc+'&logosrc='+content[0].logosrc+ '&ngClass='+bgcolor+'&imgSrc='+content[0].imgSrc+ '&text1='+content[0].text1+'&text2='+content[0].text2+ '&text3='+content[0].text3+'&text4='+content[0].text4+'&imgSrc2='+content[0].imgSrc2+'&imgSrc3='+content[0].imgSrc3+'&imgSrc4='+content[0].imgSrc4+'&imgSrc5='+content[0].imgSrc5+'&imgSrc6='+content[0].imgSrc6+'&imgSrc7='+content[0].imgSrc7+'&imgSrc8='+content[0].imgSrc8
+    let IframeSRC_Safe = this.templateHost+ '?templateId='+content[0].templateId+'&title='+content[0].title+'&desc='+content[0].desc+'&logosrc='+content[0].logosrc+ '&ngClass='+bgcolor+'&imgSrc='+content[0].imgSrc+ '&text1='+content[0].text1+'&text2='+content[0].text2+ '&text3='+content[0].text3+'&text4='+content[0].text4+'&imgSrc2='+content[0].imgSrc2+'&imgSrc3='+content[0].imgSrc3+'&imgSrc4='+content[0].imgSrc4+'&imgSrc5='+content[0].imgSrc5+'&imgSrc6='+content[0].imgSrc6+'&imgSrc7='+content[0].imgSrc7+'&imgSrc8='+content[0].imgSrc8+ '&text5='+content[0].text5+ '&text6='+content[0].text6+ '&text7='+content[0].text7+ '&text8='+content[0].text8+ '&text9='+content[0].text9+ '&text10='+content[0].text10
     url= IframeSRC_Safe
     if (event.target.checked) {
       if(duration>60){
@@ -519,7 +519,8 @@ this.preventAbuse = true;
       size: clsName,
     }); 
     var content = JSON.parse(cnt)
-    let IframeSRC_Safe = this.templateHost+ '?templateId='+content[0].templateId+'&title='+content[0].title+'&desc='+content[0].desc+'&logosrc='+content[0].logosrc+ '&ngClass='+bgcolor+'&imgSrc='+content[0].imgSrc+ '&text1='+content[0].text1+'&text2='+content[0].text2+ '&text3='+content[0].text3+'&text4='+content[0].text4+'&imgSrc2='+content[0].imgSrc2+'&imgSrc3='+content[0].imgSrc3+'&imgSrc4='+content[0].imgSrc4+'&imgSrc5='+content[0].imgSrc5+'&imgSrc6='+content[0].imgSrc6+'&imgSrc7='+content[0].imgSrc7+'&imgSrc8='+content[0].imgSrc8
+    let IframeSRC_Safe = this.templateHost+ '?templateId='+content[0].templateId+'&title='+content[0].title+'&desc='+content[0].desc+'&logosrc='+content[0].logosrc+ '&ngClass='+bgcolor+'&imgSrc='+content[0].imgSrc+ '&text1='+content[0].text1+'&text2='+content[0].text2+ '&text3='+content[0].text3+'&text4='+content[0].text4+'&imgSrc2='+content[0].imgSrc2+'&imgSrc3='+content[0].imgSrc3+'&imgSrc4='+content[0].imgSrc4+'&imgSrc5='+content[0].imgSrc5+'&imgSrc6='+content[0].imgSrc6+'&imgSrc7='+content[0].imgSrc7+'&imgSrc8='+content[0].imgSrc8+ '&text5='+content[0].text5+ '&text6='+content[0].text6+ '&text7='+content[0].text7+ '&text8='+content[0].text8+ '&text9='+content[0].text9+ '&text10='+content[0].text10
+    console.log(IframeSRC_Safe)
     this.IframeSRC = this.sanitizer.bypassSecurityTrustResourceUrl(IframeSRC_Safe);
   }
   CloseModal(){
@@ -611,10 +612,17 @@ this.preventAbuse = true;
       title:content[0].title,
       desc:content[0].desc,
       logoimgurl:content[0].logosrc,
-      desc1:content[0].text1,
-      desc2:content[0].text2,
-      desc3: content[0].text3,
-      desc4: content[0].text4,
+      text1:content[0].text1,
+      text2:content[0].text2,
+      text3: content[0].text3,
+      text4: content[0].text4,
+
+      text5:content[0].text5,
+      text6:content[0].text6,
+      text7: content[0].text7,
+      text8: content[0].text8,
+      text9: content[0].text9,
+      text10: content[0].text10,
       width:'0',
       height:'0',
       duration:duration,

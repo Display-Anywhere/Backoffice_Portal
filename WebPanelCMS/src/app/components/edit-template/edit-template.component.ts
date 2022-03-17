@@ -28,16 +28,16 @@ export class EditTemplateComponent implements OnInit {
     title:'',
     desc:'',
     logoimgurl:'',
-    desc1:'',
-    desc2:'',
-    desc3: '',
-    desc4: '',
-    desc5: '',
-    desc6: '',
-    desc7: '',
-    desc8: '',
-    desc9: '',
-    desc10: '',
+    text1:'',
+    text2:'',
+    text3: '',
+    text4: '',
+    text5: '',
+    text6: '',
+    text7: '',
+    text8: '',
+    text9: '',
+    text10: '',
     width:'',
     height:'',
     duration:'',
@@ -122,6 +122,7 @@ export class EditTemplateComponent implements OnInit {
       this.cmbLibraryGenre = genreId
       this.cmbCustomerId= t_data.clientid
       this.txtTemplateName= t_data.TemplateName
+      console.log(t_data.TemplateName)
       this.OpenViewContent()
     }
   }
@@ -345,7 +346,7 @@ export class EditTemplateComponent implements OnInit {
     this.auth.SetEditTemplateOpen(false)
   }
   OpenViewContent(){
-    let IframeSRC_Safe = this.templateHost+ '?templateId='+this.templateId+'&title='+this.templatedata.title+'&desc='+this.templatedata.desc+'&logosrc='+this.templatedata.logoimgurl+ '&ngClass='+this.templatedata.bgcolor.replace('#','')+'&imgSrc='+this.templatedata.imgurl+ '&text1='+this.templatedata.desc1+'&text2='+this.templatedata.desc2+'&imgSrc2='+this.templatedata.imgurl2+'&imgSrc3='+this.templatedata.imgurl3+'&imgSrc4='+this.templatedata.imgurl4+'&imgSrc5='+this.templatedata.imgurl5+'&imgSrc6='+this.templatedata.imgurl6+'&imgSrc7='+this.templatedata.imgurl7+'&imgSrc8='+this.templatedata.imgurl8+ '&text3='+this.templatedata.desc3+ '&text4='+this.templatedata.desc4+ '&text5='+this.templatedata.desc5+ '&text6='+this.templatedata.desc6+ '&text7='+this.templatedata.desc7+ '&text8='+this.templatedata.desc8+ '&text9='+this.templatedata.desc9+ '&text10='+this.templatedata.desc10
+    let IframeSRC_Safe = this.templateHost+ '?templateId='+this.templateId+'&title='+this.templatedata.title+'&desc='+this.templatedata.desc+'&logosrc='+this.templatedata.logoimgurl+ '&ngClass='+this.templatedata.bgcolor.replace('#','')+'&imgSrc='+this.templatedata.imgurl+ '&text1='+this.templatedata.text1+'&text2='+this.templatedata.text2+'&imgSrc2='+this.templatedata.imgurl2+'&imgSrc3='+this.templatedata.imgurl3+'&imgSrc4='+this.templatedata.imgurl4+'&imgSrc5='+this.templatedata.imgurl5+'&imgSrc6='+this.templatedata.imgurl6+'&imgSrc7='+this.templatedata.imgurl7+'&imgSrc8='+this.templatedata.imgurl8+ '&text3='+this.templatedata.text3+ '&text4='+this.templatedata.text4+ '&text5='+this.templatedata.text5+ '&text6='+this.templatedata.text6+ '&text7='+this.templatedata.text7+ '&text8='+this.templatedata.text8+ '&text9='+this.templatedata.text9+ '&text10='+this.templatedata.text10
     // 1 
     //let IframeSRC_Safe = "http://localhost:4201/#/?templateId=1&title=Wearing a Face Mask&desc=is required to enter&logosrc=http://api.nusign.eu/mp3files/238708.jpg&ngClass=bg-warning&imgSrc=&text1=&text2=" 
     // 2
@@ -433,8 +434,8 @@ export class EditTemplateComponent implements OnInit {
     <p>`+this.templatedata.desc+`</p>
     </div>
     <div class="col-lg-12 mr-0 pr-0 bg-success mt-3 pt-4 pb-3">
-    <p class="text-white">`+this.templatedata.desc1+`</p>
-    <p>`+this.templatedata.desc2+`</p>
+    <p class="text-white">`+this.templatedata.text1+`</p>
+    <p>`+this.templatedata.text2+`</p>
     
     </div>
     
@@ -491,16 +492,16 @@ export class EditTemplateComponent implements OnInit {
         logosrc:this.templatedata.logoimgurl,
         ngClass:this.templatedata.bgcolor.replace('#',''),
         imgSrc:this.templatedata.imgurl,
-        text1:this.templatedata.desc1,
-        text2:this.templatedata.desc2,
-        text3:this.templatedata.desc3,
-        text4:this.templatedata.desc4,
-        text5:this.templatedata.desc5,
-        text6:this.templatedata.desc6,
-        text7:this.templatedata.desc7,
-        text8:this.templatedata.desc8,
-        text9:this.templatedata.desc9,
-        text10:this.templatedata.desc10,
+        text1:this.templatedata.text1,
+        text2:this.templatedata.text2,
+        text3:this.templatedata.text3,
+        text4:this.templatedata.text4,
+        text5:this.templatedata.text5,
+        text6:this.templatedata.text6,
+        text7:this.templatedata.text7,
+        text8:this.templatedata.text8,
+        text9:this.templatedata.text9,
+        text10:this.templatedata.text10,
         imgSrc2:this.templatedata.imgurl2,
         imgSrc3:this.templatedata.imgurl3,
         imgSrc4:this.templatedata.imgurl4,
