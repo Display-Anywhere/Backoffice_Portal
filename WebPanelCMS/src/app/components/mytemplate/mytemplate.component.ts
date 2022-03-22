@@ -40,8 +40,8 @@ export class MytemplateComponent implements OnInit {
   MaxValue = 0;
   preventAbuse = false;
   IframeSRC: SafeResourceUrl
-  templateHost ='http://localhost:4201/#/'
-  // templateHost ='https://templates.nusign.eu/#/'
+  //templateHost ='http://localhost:4201/#/'
+   templateHost ='https://templates.nusign.eu/#/'
   IsLS_URL= true
   DelpSchid="0"
   constructor(private formBuilder: FormBuilder,private dService: SrDownloadTemplateService,  public toastr: ToastrService,private tService: TokenInfoServiceService,

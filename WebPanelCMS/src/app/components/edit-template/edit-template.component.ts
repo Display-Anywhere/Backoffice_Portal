@@ -80,6 +80,9 @@ export class EditTemplateComponent implements OnInit {
     if (this.templateId=="5"){
       this.templatedata.bgcolor='#ffc107'
     }
+    if (this.templateId=="4"){
+      this.templatedata.bgcolor='#2e703e'
+    }
     if (this.templateId=="6"){
       this.templatedata.bgcolor='#dbe0e1'
     }
@@ -122,7 +125,6 @@ export class EditTemplateComponent implements OnInit {
       this.cmbLibraryGenre = genreId
       this.cmbCustomerId= t_data.clientid
       this.txtTemplateName= t_data.TemplateName
-      console.log(t_data.TemplateName)
       this.OpenViewContent()
     }
   }
@@ -491,7 +493,7 @@ export class EditTemplateComponent implements OnInit {
         desc:this.templatedata.desc,
         logosrc:this.templatedata.logoimgurl,
         ngClass:this.templatedata.bgcolor.replace('#',''),
-        imgSrc:this.templatedata.imgurl,
+        imgSrc:this.templatedata.imgurl.replace('http:','https:'),
         text1:this.templatedata.text1,
         text2:this.templatedata.text2,
         text3:this.templatedata.text3,
@@ -502,13 +504,13 @@ export class EditTemplateComponent implements OnInit {
         text8:this.templatedata.text8,
         text9:this.templatedata.text9,
         text10:this.templatedata.text10,
-        imgSrc2:this.templatedata.imgurl2,
-        imgSrc3:this.templatedata.imgurl3,
-        imgSrc4:this.templatedata.imgurl4,
-        imgSrc5:this.templatedata.imgurl5,
-        imgSrc6:this.templatedata.imgurl6,
-        imgSrc7:this.templatedata.imgurl7,
-        imgSrc8:this.templatedata.imgurl8,
+        imgSrc2:this.templatedata.imgurl2.replace('http:','https:'),
+        imgSrc3:this.templatedata.imgurl3.replace('http:','https:'),
+        imgSrc4:this.templatedata.imgurl4.replace('http:','https:'),
+        imgSrc5:this.templatedata.imgurl5.replace('http:','https:'),
+        imgSrc6:this.templatedata.imgurl6.replace('http:','https:'),
+        imgSrc7:this.templatedata.imgurl7.replace('http:','https:'),
+        imgSrc8:this.templatedata.imgurl8.replace('http:','https:'),
         selected_logoName:this.templatedata.selected_logoName,
         selected_imgName:this.templatedata.selected_imgName,
         selected_imgName2:this.templatedata.selected_imgName2,
