@@ -77,6 +77,11 @@ export class EditTemplateComponent implements OnInit {
       this.templatedata.desc='is required to enter'
       this.templatedata.bgcolor='#ffc107'
     }
+    if (this.templateId=="7"){
+      this.templatedata.title='Everyone is Welcome!'
+      this.templatedata.desc='Open House Event'
+      this.templatedata.text1='Find Houses'
+    }
     if (this.templateId=="5"){
       this.templatedata.bgcolor='#ffc107'
     }
@@ -90,9 +95,20 @@ export class EditTemplateComponent implements OnInit {
       this.templatedata.bgcolor='#007bff'
     }
     if (this.templateId=="9"){
+      this.templatedata.title='House For Sale'
+      this.templatedata.desc='$0,00,000'
+      this.templatedata.text1='The built-up area is 178 Square feet.'
+      this.templatedata.text2= '+000 0000 000'
+      this.templatedata.text3= 'abc@abc.com'
       this.templatedata.bgcolor='#02086c'
     }
     if (this.templateId=="11"){
+      this.templatedata.title='House For Sale'
+      this.templatedata.desc='$0,00,000'
+      this.templatedata.text1='The built-up area is 178 Square feet.'
+      this.templatedata.text2= 'House For Sale'
+      this.templatedata.text3= '$0,00,00'
+      this.templatedata.text4='The built-up area is 278 Square feet.'
       this.templatedata.bgcolor='#ffc107'
     }
     if (this.templateId=="2"){
