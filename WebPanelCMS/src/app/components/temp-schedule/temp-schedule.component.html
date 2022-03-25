@@ -196,7 +196,7 @@
             <form [formGroup]="SFform">
               <div class="form-row">
                 <div class="form-group col-sm-2 m-0">
-                  <label for="cName" class="mb-2 mr-sm-2"
+                  <label for="cName" class="mb-2 mr-sm-2" #flocation
                     >Customer Name:</label
                   >
                   <select
@@ -638,12 +638,13 @@
                   </ng-multiselect-dropdown>
                 </div>
                 <div class="form-group col-sm-1 m-0">
+                  <!---->
                   <button
                     class="btn btn-primary"
                     *ngIf="this.CustomSchedulePlaylist.length != 0"
                     type="button"
                     style="margin-top: 1.8rem !important; float: right"
-                    (click)="onSubmitSF(ForceUpdate)"
+                    (click)="onSubmitSF(ForceUpdate, ReducePlaylist)"
                   >
                     Save
                   </button>
@@ -943,3 +944,127 @@
       </div>
     </div>
   </ng-template>
+
+  <ng-template #ReducePlaylist let-c="close" let-d="dismiss">
+    <div class="modal-header bg-primary">
+      <h5 class="text-white">Reduce Playlist Content</h5>
+      <button
+        type="button"
+        class="close text-white"
+        aria-label="Close"
+        (click)="d('Cross click')"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-12 m-0 p-0">
+            <p style="margin: 0 !important">Content size is exceeds. Please reduce the size.<strong> Size Limit {{HoteltvPlaylistLimit}} MB.  Current Size {{HoteltvPlaylistSize}} MB</strong>
+              <button *ngIf="ShowLimitSubmitButton" class="btn btn-primary ml-5"  (click)="onSubmitSF(ForceUpdate, ReducePlaylist)">
+              Sumbit
+            </button></p>
+          </div>
+          <div class="col-sm-12 m-0 p-0 mt-1">
+            <div id="disPL" class="table-responsive search-results">
+              <table
+                class="table data-table table-striped table-bordered mydatatable"
+                id="eventtable"
+              >
+                <thead class="">
+                  <tr>
+                    <th class="WidthTitlePL bg-primary sticky-top" style="z-index: 1;">Title</th>
+                    <th class="WidthCategoryPL bg-primary sticky-top" style="z-index: 1;">
+                      Orientation</th>
+                    <th class="WidthCategoryPL bg-primary sticky-top" style="z-index: 1;">Size</th>
+                    <th class="Link-Center_Width bg-primary sticky-top" style="z-index: 1;"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="cursor-pointer" *ngFor="let plSongLst of PlaylistSongsList">
+                    <td class="WidthTitlePL">
+                      <a href="javascript:;" (click)="OpenViewContent(viewcontent, plSongLst.TitleIdLink,plSongLst.genreId,plSongLst.MediaType)">
+                        {{ plSongLst.title }}
+                      </a>
+                    </td>
+                    <td class="WidthCategoryPL">
+                      {{ plSongLst.GenreName }}
+                    </td>
+                    <td class="WidthCategoryPL">
+                      {{ plSongLst.FileSize }} MB
+                    </td>
+                    <td class="cursor-pointer Link-Center_Width">
+                      <span (click)="openTitleDeleteModal(TitleDeleteModal, plSongLst.sId)"><i
+                          class="fa fa-trash"
+                          style="color: red"
+                          aria-hidden="true"
+                        ></i
+                      ></span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+              
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template class="tokenmodal" #viewcontent let-c="close" let-d="dismiss">
+  
+    <button
+      type="button"
+      class="close text-right"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+   
+  <div class="modal-body p-0">
+    <app-view-content></app-view-content>
+  </div>
+  </ng-template>
+
+  <ng-template #TitleDeleteModal let-c="close" let-d="dismiss">
+    <div class="modal-header bg-primary">
+      <h5 class="text-white">Delete Title</h5>
+      <button
+        type="button"
+        class="close text-white"
+        aria-label="Close"
+        (click)="d('Cross click')"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-12">
+            <p>Are you sure to delete?</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12">
+            <button
+              class="btn btn-primary col-sm-2 pull-right"
+              (click)="d('Cross click')"
+            >
+              <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+            </button>
+            <button
+              class="btn btn-danger col-sm-2 pull-right mr-2"
+              (click)="DeleteTitle()"
+              (click)="d('Cross click')"
+            >
+              <i class="fa fa-check fa-lg" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  

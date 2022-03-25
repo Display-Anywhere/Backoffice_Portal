@@ -111,8 +111,31 @@ export class EditTemplateComponent implements OnInit {
       this.templatedata.text4='The built-up area is 278 Square feet.'
       this.templatedata.bgcolor='#ffc107'
     }
+    if (this.templateId=="10"){
+      this.templatedata.title='Fashion'
+      this.templatedata.desc='Runway Show'
+      this.templatedata.text1='Address, Ciy'
+    }
+    if (this.templateId=="12"){
+      this.templatedata.title='Sale Starts'
+      this.templatedata.desc='For limited period'
+      this.templatedata.text1='10'
+      this.templatedata.text2= 'NUSG77'
+    }
+    if (this.templateId=="13"){
+      this.templatedata.title='Fashion Event Proposal'
+      this.templatedata.desc='Fashion Entertaiment'
+      this.templatedata.text1='Fashion & Design'
+      this.templatedata.text2= 'Fashion Team'
+      this.templatedata.text3= 'fashion@fashion.com'
+      this.templatedata.text4='Jan 01, 1900'
+    }
     if (this.templateId=="2"){
       this.templatedata.bgcolor='#023814'
+    }
+    if (this.templateId=="14"){
+      this.templatedata.title='Winter'
+      this.templatedata.desc='New Collections'
     }
     if (this.templateId=="16"){
       this.templatedata.bgcolor='#5b6c70'

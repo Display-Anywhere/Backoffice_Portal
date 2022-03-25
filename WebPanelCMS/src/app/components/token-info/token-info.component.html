@@ -305,7 +305,17 @@
         </select>
       </div>
 
-      <div class="form-group col-sm-3 pb-1 m-0">
+      <div class="form-group col-sm-3 pb-1 m-0" *ngIf="f.DeviceType.value === 'HotelTv'">
+        <label for="limitType">Playlist Size Limit(MB):</label>
+        <input
+          type="number"
+          formControlName="playlistlimit"
+          class="form-control mb-2 mr-sm-2"
+          id="limitType"
+          min="0"
+        />
+      </div>
+      <div class="form-group col-sm-3 pb-1 m-0" *ngIf="f.DeviceType.value != 'HotelTv'">
         <label for="ComType">Communication Type:</label>
         <select
           name="pType"

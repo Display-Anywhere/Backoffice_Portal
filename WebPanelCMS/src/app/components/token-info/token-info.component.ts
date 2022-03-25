@@ -161,7 +161,8 @@ export class TokenInfoComponent implements OnInit {
       dfclientid: ["0"],
       IsCheckGroupSchedule:[false],
       Maplocation:[''],
-      FixIp:['']
+      FixIp:[''],
+      playlistlimit:[0]
     });
     this.TokenInfoModifyPlaylist = this.formBuilder.group({
       ModifyPlaylistName: [''],
@@ -565,7 +566,8 @@ this.submitted = true;this.loading = true;
             dfclientid: [objTokenData[0].ClientId],
             IsCheckGroupSchedule:[false],
             Maplocation: [objTokenData[0].Maplocation],
-            FixIp: [objTokenData[0].FixIp]
+            FixIp: [objTokenData[0].FixIp],
+            playlistlimit: [objTokenData[0].playlistlimit]
           }); }, 500);       
          
           this.chkIndicatorBox = objTokenData[0].Indicator;

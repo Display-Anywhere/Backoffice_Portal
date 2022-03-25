@@ -1,4 +1,4 @@
-import { Component, OnInit,Input,ViewContainerRef } from '@angular/core';
+import { Component, OnInit,Input,ViewContainerRef, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Subject } from "rxjs";
@@ -12,6 +12,7 @@ import { StoreForwardService } from 'src/app/store-and-forward/store-forward.ser
 import { AuthService } from 'src/app/auth/auth.service';
 import { SerLicenseHolderService } from 'src/app/license-holder/ser-license-holder.service';
 import { trim } from 'jquery';
+import { PlaylistLibService } from 'src/app/playlist-library/playlist-lib.service';
 @Component({
   selector: 'app-temp-schedule',
   templateUrl: './temp-schedule.component.html',
@@ -70,6 +71,12 @@ export class TempScheduleComponent implements OnInit {
   IschkViewOnly = this.auth.chkViewOnly$.value ? 1 : 0;
   dtDate = new Date()
   cmbPublishId="0"
+  PlaylistSongsList =[]
+  DeleteContentId
+  FilterPlaylistId
+  HoteltvPlaylistLimit
+  HoteltvPlaylistSize =0
+  ShowLimitSubmitButton= false
   constructor(
     private formBuilder: FormBuilder,
     public toastrSF: ToastrService,
@@ -77,7 +84,7 @@ export class TempScheduleComponent implements OnInit {
     config: NgbModalConfig,
     private modalService: NgbModal,
     private sfService: StoreForwardService,
-    public auth: AuthService,
+    public auth: AuthService,private pService: PlaylistLibService,
     private serviceLicense: SerLicenseHolderService,
     configTime: NgbTimepickerConfig
   ) {
@@ -91,6 +98,7 @@ export class TempScheduleComponent implements OnInit {
       }
     });
   }
+  @ViewChild('flocation') flocationElement: ElementRef;
   // d = new Date();
   // year = this.d.getHours();
   //   month = this.d.getMonth();
@@ -169,8 +177,9 @@ export class TempScheduleComponent implements OnInit {
     return this.SFform.controls;
   }
 
-  onSubmitSF(UpdateModel) {
-     
+  onSubmitSF(UpdateModel, ReducePlaylist) {
+    this.modalService.dismissAll()
+    var errorFound ="No"
     this.submitted = true;
     if (this.SFform.value.CustomerId == '0') {
       this.toastrSF.error('Please select a customer name');
@@ -183,9 +192,36 @@ export class TempScheduleComponent implements OnInit {
 
     if (this.TokenSelected.length == 0) {
       this.toastrSF.error('Please select at least one token', '');
+      errorFound="Yes"
       return;
     }
-
+    this.TokenList.forEach(item => {
+      var obj = this.TokenSelected.filter(o => o.tokenId === item.tokenid)
+      if (obj.length > 0 ){
+        if (item.DeviceType === "HotelTv") {
+          if (this.CustomSchedulePlaylist.length > 1){
+            this.toastrSF.error('Only one playlist is assign to Hotel Tv player', '');
+            errorFound="Yes"
+            return
+          }
+          var playlist = this.CustomSchedulePlaylist[0]
+          var obj_pl = this.PlaylistList.filter(o => o.Id === playlist.splId)
+          console.log('playlistlimit ' + item.playlistlimit + ' obj_pl[0].playlistsize ' + obj_pl[0].playlistsize)
+          this.HoteltvPlaylistLimit = item.playlistlimit
+          this.ShowLimitSubmitButton= false
+          if (Number(obj_pl[0].playlistsize) > Number(item.playlistlimit)){
+            this.FilterPlaylistId = playlist.splId
+            this.FillPlaylistSongs(playlist.splId)
+            this.modalService.open(ReducePlaylist, { centered: true, size: 'lg' });
+            errorFound="Yes"
+            return
+          }
+        }
+      }
+    });
+if (errorFound==="Yes"){
+  return
+}
     this.SFform.controls['TokenList'].setValue(this.TokenSelected);
     var sTime = this.SFform.value.startTime;
     var eTime = this.SFform.value.EndTime;
@@ -1674,4 +1710,99 @@ this.serviceLicense.FillCombo(qry).pipe().subscribe((data) => {
   }
 );
 }
+OpenViewContent(modalName, url,oType,MediaType){
+  if (MediaType!="Url"){
+    window.open(url, '_blank'); 
+    return
+  }
+  
+      localStorage.setItem("ViewContent",url)
+      localStorage.setItem("oType",oType)
+      if (oType=="496"){
+        this.modalService.open(modalName, {
+          size: 'lgx',
+        }); 
+      }
+      if (oType=="495"){
+        this.modalService.open(modalName,{
+          size: 'smg'
+        }); 
+      }
+      
+    }
+    FillPlaylistSongs(fileid) {
+      this.loading = true;
+      this.HoteltvPlaylistSize =0
+      this.pService
+        .PlaylistSong(fileid, 'No')
+        .pipe()
+        .subscribe(
+          (data) => {
+            var returnData = JSON.stringify(data);
+            var obj = JSON.parse(returnData);
+            obj.forEach(item => {
+              this.HoteltvPlaylistSize += Number(item.FileSize)
+            });
+            this.PlaylistSongsList = obj;
+            if (Number(this.HoteltvPlaylistSize) <= Number(this.HoteltvPlaylistLimit)){
+              this.ShowLimitSubmitButton= true
+            }
+            this.loading = false;
+          },
+          (error) => {
+            this.toastrSF.error(
+              'Apologies for the inconvenience.The error is recorded.',
+              ''
+            );
+            this.loading = false;
+          }
+        );
+    }
+    openTitleDeleteModal(mContent, id) {
+      if (this.IschkViewOnly==1){
+        this.toastrSF.info('This feature is not available in view only');
+        return;
+      }
+  
+      if (id == 0) {
+          this.toastrSF.info('Please select a title', '');
+          return;
+      }
+      this.DeleteContentId = id;
+      this.modalService.open(mContent);
+      this.flocationElement.nativeElement.focus();
+    }
+    async DeleteTitle() {
+      this.loading = true;
+      var tid = []
+      tid.push(this.DeleteContentId)
+      this.pService
+        .DeleteTitle(this.FilterPlaylistId, tid, 'No')
+        .pipe()
+        .subscribe(
+          async (data) => {
+            var returnData = JSON.stringify(data);
+            var obj = JSON.parse(returnData);
+            if (obj.Responce == '1') {
+              this.toastrSF.info('Deleted', 'Success!');
+              this.loading = false;
+              await this.FillPlaylist(this.SFform.value.FormatId , '');
+              this.FillPlaylistSongs(this.FilterPlaylistId)
+            } else {
+              this.toastrSF.error(
+                'Apologies for the inconvenience.The error is recorded.',
+                ''
+              );
+            }
+            this.loading = false;
+          },
+          (error) => {
+            this.toastrSF.error(
+              'Apologies for the inconvenience.The error is recorded.',
+              ''
+            );
+            this.loading = false;
+          }
+        );
+    }
 }

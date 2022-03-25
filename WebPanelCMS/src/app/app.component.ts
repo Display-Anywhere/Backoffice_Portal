@@ -74,6 +74,7 @@ export class AppComponent implements OnInit {
           if (obj.Responce == '0') {
             this.toastr.info('Token number is not found');
             this.loading = false;
+            this.SearchTokenId =''
             return;
           } else {
             this.ClientName = obj.message;
@@ -92,6 +93,7 @@ export class AppComponent implements OnInit {
           this.loading = false;
         }
       );
+      
   }
 
   logout() {
