@@ -64,8 +64,8 @@ export class EditTemplateComponent implements OnInit {
   txtTemplateName=''
   IsClickPreview= false
   IframeSRC: SafeResourceUrl
-   templateHost ='http://localhost:4201/#/'
-   //templateHost ='https://templates.nusign.eu/#/'
+   //templateHost ='http://localhost:4201/#/'
+   templateHost ='https://templates.nusign.eu/#/'
   constructor(private serviceLicense: SerLicenseHolderService,public toastr: ToastrService,
     public auth: AuthService,private pService: PlaylistLibService,private modalService: NgbModal,
     private router: Router,public sanitizer: DomSanitizer) { }
@@ -86,6 +86,9 @@ export class EditTemplateComponent implements OnInit {
       this.templatedata.bgcolor='#ffc107'
     }
     if (this.templateId=="4"){
+      this.templatedata.title='Wet your hands with clean, running water (warm or cold), turn off the tap, and apply soap'
+      this.templatedata.desc='Lather your hands by rubbing them together with the soap'
+      this.templatedata.text1='Scrub your hands for at least 20 seconds. Rinse your hands well under clean, running water.'
       this.templatedata.bgcolor='#2e703e'
     }
     if (this.templateId=="6"){

@@ -13,10 +13,12 @@ import { AuthService } from 'src/app/auth/auth.service';
 import { SerLicenseHolderService } from 'src/app/license-holder/ser-license-holder.service';
 import { trim } from 'jquery';
 import { PlaylistLibService } from 'src/app/playlist-library/playlist-lib.service';
+import { DecimalPipe } from '@angular/common';
 @Component({
   selector: 'app-temp-schedule',
   templateUrl: './temp-schedule.component.html',
-  styleUrls: ['./temp-schedule.component.css']
+  styleUrls: ['./temp-schedule.component.css'],
+  providers: [DecimalPipe]
 })
 export class TempScheduleComponent implements OnInit {
   ScheduleList = [];
@@ -77,6 +79,7 @@ export class TempScheduleComponent implements OnInit {
   HoteltvPlaylistLimit
   HoteltvPlaylistSize =0
   ShowLimitSubmitButton= false
+  cmbDeviceType=""
   constructor(
     private formBuilder: FormBuilder,
     public toastrSF: ToastrService,
@@ -85,7 +88,7 @@ export class TempScheduleComponent implements OnInit {
     private modalService: NgbModal,
     private sfService: StoreForwardService,
     public auth: AuthService,private pService: PlaylistLibService,
-    private serviceLicense: SerLicenseHolderService,
+    private serviceLicense: SerLicenseHolderService,private pipe: DecimalPipe,
     configTime: NgbTimepickerConfig
   ) {
     config.backdrop = 'static';
@@ -592,6 +595,8 @@ if (errorFound==="Yes"){
     this.ScheduleList = [];
     this.PlaylistList = [];
     this.FormatList = [];
+    this.TokenSelected = [];
+    this.chkAll = false
     this.CustomSchedulePlaylist=[];
     this.SFform.get('FormatId').setValue('0');
     this.SFform.get('PlaylistId').setValue('0');
@@ -631,7 +636,7 @@ if (errorFound==="Yes"){
         }
       );
   }
-
+  isHotelTvFind="No"
   FillTokenInfo(deviceValue) {
     this.loading = true;
     this.sfService
@@ -666,6 +671,14 @@ if (errorFound==="Yes"){
                 order.LicenceType === ptype
             );
           }
+          this.isHotelTvFind="No"
+          objList.forEach(item => {
+            if (item.DeviceType === "HotelTv") {
+              this.isHotelTvFind="Yes"
+              return
+            }
+            
+          });
 
           this.TokenList = objList;
           this.MainTokenList = objList;
@@ -685,15 +698,25 @@ if (errorFound==="Yes"){
   allToken(event) {
     var tokenItem = {};
     const checked = event.target.checked;
-    this.TokenSelected = [];
     this.chkAll = checked;
-    this.TokenList.forEach((item) => {
+    if (this.searchText==''){
+      this.TokenSelected = [];
+      this.TokenList.forEach((item) => {
+        tokenItem = {};
+        item.check = checked;
+        tokenItem['tokenId'] = item.tokenid;
+        tokenItem['schType'] = this.f.ScheduleType.value;
+        this.TokenSelected.push(tokenItem);
+      });
+  } else {
+    this.TokenList_Search_Assign.forEach((item) => {
       tokenItem = {};
       item.check = checked;
       tokenItem['tokenId'] = item.tokenid;
       tokenItem['schType'] = this.f.ScheduleType.value;
       this.TokenSelected.push(tokenItem);
     });
+  }
     if (checked == false) {
       this.TokenSelected = [];
     }
@@ -1804,5 +1827,31 @@ OpenViewContent(modalName, url,oType,MediaType){
             this.loading = false;
           }
         );
+    }
+    onChangeDeviceType(e) {
+      if (this.cmbDeviceType != 'All') {
+        this.TokenList= []
+        this.TokenList = this.MainTokenList.filter(
+          (order) => order.DeviceType == this.cmbDeviceType
+        );
+      }
+      if (this.cmbDeviceType === 'All') {
+        this.TokenList= []
+        this.TokenList = this.MainTokenList
+      }
+      if ( this.cmbDeviceType === 'Screen') {
+        this.TokenList= []
+        this.TokenList = this.MainTokenList.filter(
+          (order) => order.DeviceType !== 'HotelTv' && order.DeviceType !== 'Sanitizer'
+        );
+      }
+    }
+    TokenList_Search_Assign
+    onChangeEvent_TokenSearch(){
+      this.TokenList_Search_Assign = this.TokenList.filter(country => this.serviceLicense.matches(country, this.searchText, this.pipe));
+      const total = this.TokenList_Search_Assign.length;
+      if (this.searchText === ""){
+        this.chkAll = false
+      }
     }
 }

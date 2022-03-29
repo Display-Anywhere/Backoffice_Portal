@@ -565,6 +565,7 @@
                         [ngModelOptions]="{ standalone: true }"
                         class="text search-input"
                         placeholder="Search"
+                        (input)="onChangeEvent_TokenSearch()"
                       />
                       <!-- <a class="search-link" href="#"
                         ><i class="fa fa-search"></i
@@ -572,8 +573,17 @@
                     </div>
                   </div>
                 </div>
-
-                <div class="form-group col-sm-2 m-0">
+                <div class="form-group col-sm-2 m-0" *ngIf="isHotelTvFind==='Yes'" >
+                  <label class="mb-2 mr-sm-2" for="dType">Device Type:</label>
+                  <select name="pType" class="custom-select" id="dType" [(ngModel)]="cmbDeviceType"
+                  [ngModelOptions]="{ standalone: true }" (change)="onChangeDeviceType($event.target.value)">
+                  <option selected value="All"></option>
+                  <option value="Screen">Screen</option>
+                  <option value="Sanitizer">Sanitizer</option>
+                  <option value="HotelTv">Hotel TV</option>
+                </select>
+                </div>
+                <div class="form-group col-sm-2 m-0 d-none">
                   <label class="mb-2 mr-sm-2" for="country">Country:</label>
                   <ng-multiselect-dropdown
                     id="country"
@@ -589,7 +599,7 @@
                   >
                   </ng-multiselect-dropdown>
                 </div>
-                <div class="form-group col-sm-2 m-0">
+                <div class="form-group col-sm-2 m-0 d-none">
                   <label class="mb-2 mr-sm-2" for="State">State:</label>
                   <ng-multiselect-dropdown
                     id="State"
@@ -605,7 +615,7 @@
                   >
                   </ng-multiselect-dropdown>
                 </div>
-                <div class="form-group col-sm-2 m-0">
+                <div class="form-group col-sm-2 m-0 d-none">
                   <label class="mb-2 mr-sm-2" for="City">City:</label>
                   <ng-multiselect-dropdown
                     id="City"
@@ -621,7 +631,7 @@
                   >
                   </ng-multiselect-dropdown>
                 </div>
-                <div class="form-group col-sm-3 m-0">
+                <div class="form-group col-sm-3 m-0 ">
                   <label class="mb-2 mr-sm-2" for="City">Groups:</label>
                   <ng-multiselect-dropdown
                     id="GroupId"
@@ -637,7 +647,7 @@
                   >
                   </ng-multiselect-dropdown>
                 </div>
-                <div class="form-group col-sm-1 m-0">
+                <div class="form-group m-0" [ngClass]="isHotelTvFind==='Yes' ? 'col-sm-5' : 'col-sm-7' ">
                   <!---->
                   <button
                     class="btn btn-primary"
@@ -658,10 +668,7 @@
                   <thead class="bg-primary">
                     <tr>
                       <th scope="col" style="width: 60px">
-                        <div
-                          *ngIf="searchText == ''"
-                          class="custom-control custom-checkbox"
-                        >
+                        <div class="custom-control custom-checkbox">
                           <input
                             (change)="allToken($event)"
                             type="checkbox"
@@ -682,6 +689,7 @@
                       <th scope="col">Location</th>
                       <th scope="col">Media Type</th>
                       <th scope="col">Token No</th>
+                      <th scope="col" *ngIf="isHotelTvFind==='Yes'"  style="width: 100px">Size Limit</th>
                       <th scope="col" style="width: 30px"></th>
                     </tr>
                   </thead>
@@ -728,6 +736,10 @@
                       </td>
                       <td data-label="Token No">
                         {{ TokenLst.tokenCode }}
+                      </td>
+                      <td data-label="Size Limit" *ngIf="isHotelTvFind==='Yes'" >
+                        <span *ngIf="TokenLst.DeviceType==='HotelTv'">{{TokenLst.playlistlimit}} MB </span>
+                        <span *ngIf="TokenLst.DeviceType!=='HotelTv'"></span>
                       </td>
                       <td
                         data-label=""
@@ -961,7 +973,7 @@
       <div class="container-fluid">
         <div class="row">
           <div class="col-sm-12 m-0 p-0">
-            <p style="margin: 0 !important">Content size is exceeds. Please reduce the size.<strong> Size Limit {{HoteltvPlaylistLimit}} MB.  Current Size {{HoteltvPlaylistSize}} MB</strong>
+            <p style="margin: 0 !important">Playlist size exceeds the available space.<strong> The storage limit is {{HoteltvPlaylistLimit}} MB.  Current Size {{HoteltvPlaylistSize}} MB</strong>
               <button *ngIf="ShowLimitSubmitButton" class="btn btn-primary ml-5"  (click)="onSubmitSF(ForceUpdate, ReducePlaylist)">
               Sumbit
             </button></p>
