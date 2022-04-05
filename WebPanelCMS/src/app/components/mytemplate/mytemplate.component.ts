@@ -602,6 +602,9 @@ this.preventAbuse = true;
 
   EditTemplate(id, cnt,genreId,bgcolor, duration, TemplateName){
     var content = JSON.parse(cnt)
+    if (content[0].bgImgColor == undefined){
+      content[0].bgImgColor= "000000"
+    }
     var templatedata = {
       _Id:id,
       TemplateName: TemplateName,
@@ -642,7 +645,15 @@ this.preventAbuse = true;
       selected_imgName5:content[0].selected_imgName5,
       selected_imgName6:content[0].selected_imgName6,
       selected_imgName7:content[0].selected_imgName7,
-      selected_imgName8:content[0].selected_imgName8
+      selected_imgName8:content[0].selected_imgName8,
+      bgImgColor:'#'+content[0].bgImgColor
+    }
+    console.log(genreId)
+    if (genreId=="496"){
+      localStorage.setItem("edittemplategenre",'LS')
+    }
+    if (genreId=="495"){
+      localStorage.setItem("edittemplategenre",'PT')
     }
     localStorage.setItem("edittemplate",content[0].templateId)
     localStorage.setItem("edittemplatecontent",JSON.stringify(templatedata))

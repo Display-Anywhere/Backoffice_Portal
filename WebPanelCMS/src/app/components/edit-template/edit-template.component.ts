@@ -57,15 +57,16 @@ export class EditTemplateComponent implements OnInit {
     selected_imgName5:'',
     selected_imgName6:'',
     selected_imgName7:'',
-    selected_imgName8:''
+    selected_imgName8:'',
+    bgImgColor:'#000'
     }
   templateId=  localStorage.getItem("edittemplate")
   isDisabled=true
   txtTemplateName=''
   IsClickPreview= false
   IframeSRC: SafeResourceUrl
-   //templateHost ='http://localhost:4201/#/'
-   templateHost ='https://templates.nusign.eu/#/'
+   templateHost ='http://localhost:4201/#/'
+   //templateHost ='https://templates.nusign.eu/#/'
   constructor(private serviceLicense: SerLicenseHolderService,public toastr: ToastrService,
     public auth: AuthService,private pService: PlaylistLibService,private modalService: NgbModal,
     private router: Router,public sanitizer: DomSanitizer) { }
@@ -94,8 +95,13 @@ export class EditTemplateComponent implements OnInit {
     if (this.templateId=="6"){
       this.templatedata.bgcolor='#dbe0e1'
     }
+    if (this.templateId=="14"){
+      this.templatedata.bgImgColor='#3c5b4c'
+    }
+    
     if (this.templateId=="3"){
       this.templatedata.bgcolor='#007bff'
+      this.templatedata.bgImgColor='#ffffff'
     }
     if (this.templateId=="9"){
       this.templatedata.title='House For Sale'
@@ -135,7 +141,9 @@ export class EditTemplateComponent implements OnInit {
     }
     if (this.templateId=="2"){
       this.templatedata.bgcolor='#023814'
+      this.templatedata.bgImgColor='#ffffff'
     }
+   
     if (this.templateId=="14"){
       this.templatedata.title='Winter'
       this.templatedata.desc='New Collections'
@@ -152,11 +160,20 @@ export class EditTemplateComponent implements OnInit {
     if (this.edittemplategenre === 'PT'){
       this.cmbLibraryGenre='324'
     }
+    if ((this.templateId=="2") && ((this.cmbLibraryGenre=="324"))){
+      this.templatedata.bgImgColor='#000000'
+    }
+    if ((this.templateId=="3") && ((this.cmbLibraryGenre=="324"))){
+      this.templatedata.bgImgColor='#000000'
+    }
     let template_data = localStorage.getItem("edittemplatecontent")
     localStorage.removeItem("edittemplatecontent")
     if (template_data != null){
       const t_data = JSON.parse(template_data)
       this.templatedata = t_data
+      if (this.templatedata.bgImgColor==undefined) {
+        this.templatedata.bgImgColor ='#000'
+      }
       let genreId=''
     if (t_data.genreId =="496"){
       genreId="325"
@@ -390,7 +407,7 @@ export class EditTemplateComponent implements OnInit {
     this.auth.SetEditTemplateOpen(false)
   }
   OpenViewContent(){
-    let IframeSRC_Safe = this.templateHost+ '?templateId='+this.templateId+'&title='+this.templatedata.title+'&desc='+this.templatedata.desc+'&logosrc='+this.templatedata.logoimgurl+ '&ngClass='+this.templatedata.bgcolor.replace('#','')+'&imgSrc='+this.templatedata.imgurl+ '&text1='+this.templatedata.text1+'&text2='+this.templatedata.text2+'&imgSrc2='+this.templatedata.imgurl2+'&imgSrc3='+this.templatedata.imgurl3+'&imgSrc4='+this.templatedata.imgurl4+'&imgSrc5='+this.templatedata.imgurl5+'&imgSrc6='+this.templatedata.imgurl6+'&imgSrc7='+this.templatedata.imgurl7+'&imgSrc8='+this.templatedata.imgurl8+ '&text3='+this.templatedata.text3+ '&text4='+this.templatedata.text4+ '&text5='+this.templatedata.text5+ '&text6='+this.templatedata.text6+ '&text7='+this.templatedata.text7+ '&text8='+this.templatedata.text8+ '&text9='+this.templatedata.text9+ '&text10='+this.templatedata.text10
+    let IframeSRC_Safe = this.templateHost+ '?templateId='+this.templateId+'&title='+this.templatedata.title+'&desc='+this.templatedata.desc+'&logosrc='+this.templatedata.logoimgurl+ '&ngClass='+this.templatedata.bgcolor.replace('#','')+'&imgSrc='+this.templatedata.imgurl+ '&text1='+this.templatedata.text1+'&text2='+this.templatedata.text2+'&imgSrc2='+this.templatedata.imgurl2+'&imgSrc3='+this.templatedata.imgurl3+'&imgSrc4='+this.templatedata.imgurl4+'&imgSrc5='+this.templatedata.imgurl5+'&imgSrc6='+this.templatedata.imgurl6+'&imgSrc7='+this.templatedata.imgurl7+'&imgSrc8='+this.templatedata.imgurl8+ '&text3='+this.templatedata.text3+ '&text4='+this.templatedata.text4+ '&text5='+this.templatedata.text5+ '&text6='+this.templatedata.text6+ '&text7='+this.templatedata.text7+ '&text8='+this.templatedata.text8+ '&text9='+this.templatedata.text9+ '&text10='+this.templatedata.text10+'&bgImgColor='+this.templatedata.bgImgColor.replace('#','')
     // 1 
     //let IframeSRC_Safe = "http://localhost:4201/#/?templateId=1&title=Wearing a Face Mask&desc=is required to enter&logosrc=http://api.nusign.eu/mp3files/238708.jpg&ngClass=bg-warning&imgSrc=&text1=&text2=" 
     // 2
@@ -561,7 +578,8 @@ export class EditTemplateComponent implements OnInit {
         selected_imgName5:this.templatedata.selected_imgName5,
         selected_imgName6:this.templatedata.selected_imgName6,
         selected_imgName7:this.templatedata.selected_imgName7,
-        selected_imgName8:this.templatedata.selected_imgName8
+        selected_imgName8:this.templatedata.selected_imgName8,
+        bgImgColor:this.templatedata.bgImgColor.replace('#',''),
       }]
     //this.GenrateHtml()
     let genreId=''
