@@ -14,9 +14,7 @@
                   <a class="nav-link" data-toggle="tab" href="#mytemplatlist"
                     (click)="ReloadComponent('MyTemplates')">My Templates</a>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link disabled"  data-toggle="tab" href="javascript:">For now your template will only work when converted to MP4, we are working on URL integration.</a>
-                </li>
+                
               </ul>
             </div>
           </div>
@@ -26,11 +24,11 @@
                 <div class="col-lg-12 p-0 mt-2">
                   <ul class="nav nav-pills" role="tablist" style="background: #fff; color: #000">
                     <li class="nav-item">
-                      <a class="nav-link active" data-toggle="tab" href="#LStemplatlist"
+                      <a class="nav-link " [ngClass]="TemplatListType==='LS' ? 'active' : ''" data-toggle="tab" href="#LStemplatlist"
                         (click)="FilterTemplatList('LS')">Landscape</a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link" data-toggle="tab" href="#PTtemplatlist"
+                      <a class="nav-link" [ngClass]="TemplatListType==='PT' ? 'active' : ''" data-toggle="tab" href="#PTtemplatlist"
                         (click)="FilterTemplatList('PT')">Portrait</a>
                     </li>
                   </ul>

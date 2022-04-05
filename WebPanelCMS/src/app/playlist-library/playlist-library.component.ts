@@ -26,6 +26,7 @@ import {
 } from './playlist_sortable.directive';
 import { Router } from '@angular/router';
 import { trim } from 'jquery';
+import { StoreForwardService } from '../store-and-forward/store-forward.service';
 
 @Component({
   selector: 'app-playlist-library',
@@ -41,7 +42,7 @@ export class PlaylistLibraryComponent implements OnInit {
     config: NgbModalConfig,
     private modalService: NgbModal,
     private pService: PlaylistLibService,
-    public auth: AuthService,
+    public auth: AuthService,private sfService: StoreForwardService,
     private serviceLicense: SerLicenseHolderService,private pipe: DecimalPipe, private router: Router
   ) {
     config.backdrop = 'static';
@@ -100,7 +101,7 @@ export class PlaylistLibraryComponent implements OnInit {
   selectedRowPL = [];
   IsCL: boolean = false;
   IsRF: boolean = false;
-
+  playlistSize
   PlaylistSearchText = '';
   plArray = [];
   IsAutoPlaylistHide: boolean = true;
@@ -366,7 +367,7 @@ export class PlaylistLibraryComponent implements OnInit {
     this.GetPublishSchedule()
     this.GetCustomerMediaType(id);
     //this.LoginDfClientId = this.cmbCustomer;
-
+    this.GetDefaultHotelTvPlaylist()
     const obj= this.CustomerList.filter(fId => fId.Id === id)
     const url='https://content.nusign.eu/api/login?key='+ obj[0].apikey;
     this.OtherUrl= url+'&redirectUri=https://content.nusign.eu/my-templates/';
@@ -1757,6 +1758,7 @@ if (id=="0"){
             );
             if (this.ForceUpdateTokenid != '') {
             }
+            this.GetPlaylistContenSize()
           } else {
             this.toastr.error(
               'Apologies for the inconvenience.The error is recorded.',
@@ -1840,6 +1842,7 @@ if (id=="0"){
             if (this.ForceUpdateTokenid != '') {
               // this.modalService.open(UpdateModel, { centered: true });
             }
+            this.GetPlaylistContenSize()
           } else {
             this.toastr.error(
               'Apologies for the inconvenience.The error is recorded.',
@@ -2054,7 +2057,7 @@ if (id=="0"){
     Mixed,
     tids,
     spName,
-    Duplicate, volume
+    Duplicate, volume, playlistSize
   ) {
     this.pid = id;
     this.txtDelPer = '0';
@@ -2062,6 +2065,7 @@ if (id=="0"){
     this.chkFixed = chkFixed;
     this.chkMixed = Mixed;
     this.ForceUpdateTokenid = tids;
+    this.GetPlaylistContenSize_spl(id)
 
     var pName = spName.split('(');
     var pLastName = pName[1].trim();
@@ -3224,12 +3228,12 @@ if (MediaType!="Url"){
     localStorage.setItem("oType",oType)
     if (oType=="496"){
       this.modalService.open(modalName, {
-        size: 'lgx',
+        size: 'Template',
       }); 
     }
     if (oType=="495"){
       this.modalService.open(modalName,{
-        size: 'smg'
+        size: 'PT-Template'
       }); 
     }
     
@@ -3549,6 +3553,124 @@ GetPublishSchedule(){
          
         }
       );
+}
+SetDefaultHotelTvPlaylist() {
+  this.loading = true;
+this.pService.SaveDefaultPlaylistHotelTV(this.pid, this.cmbCustomer).pipe().subscribe(
+        (data) => {
+          var returnData = JSON.stringify(data);
+          var obj = JSON.parse(returnData);
+          if (obj.Responce == '1') {
+            this.AssignDefaultPlaylistSchedule()
+            this.GetDefaultHotelTvPlaylist()
+          } else {
+            this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
+            this.loading = false;
+          }
+        },
+        (error) => {
+          this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
+          this.loading = false;
+        }
+      );
+}
+AssignDefaultPlaylistSchedule(){
+  var body =`{
+    "CustomerId": "95",
+    "FormatId": "325",
+    "PlaylistId": "0",
+    "startTime": "00:00",
+    "EndTime": "23:59",
+    "startDate": "Thu Mar 31 2022",
+    "EndDate": "Thu Mar 31 2022",
+    "wList": [],
+    "TokenList": [
+        {
+            "tokenId": "107",
+            "schType": "Normal"
+        }
+    ],
+    "lstPlaylist": [
+        {
+            "Id": "01847",
+            "pName": "Test Tv  (6)",
+            "splId": ${this.pid},
+            "sTime": "00:00",
+            "eTime": "23:59",
+            "wId": "1,2,3,4,5,6,7",
+            "wName": "Mon,Tue,Wed,Thu,Fri,Sat,Sun",
+            "PercentageValue": "0",
+            "volume": "90"
+        }
+    ],
+    "ScheduleType": "Normal",
+    "PercentageValue": "0",
+    "volume": "90"
+}`
+  this.loading = true;
+  this.sfService.SaveSF(JSON.parse(body)).pipe().subscribe(
+    (data) => {
+      var returnData = JSON.stringify(data);
+      var obj = JSON.parse(returnData);
+      if (obj.Responce == '1') {
+        this.toastr.info("Saved", 'Success!');
+        this.modalService.dismissAll()
+        this.loading = false;
+      } else {
+        this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
+      }
+      this.loading = false;
+    },
+    (error) => {
+      this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
+      this.loading = false;
+    }
+  );
+}
+DefaultHotelTvPlaylist
+GetDefaultHotelTvPlaylist() {
+this.pService.GetDefaultPlaylistHotelTV(this.cmbCustomer).pipe().subscribe(
+        (data) => {
+          var returnData = JSON.stringify(data);
+          var obj = JSON.parse(returnData);
+          if (obj.response == '1') {
+            var resObj = JSON.parse(obj.data)
+            this.DefaultHotelTvPlaylist = resObj[0].splplaylistid.toString()
+          }
+        },
+        (error) => {
+        }
+      );
+}
+GetPlaylistContenSize() {
+  this.loading = true;
+  this.pService.Playlist(this.formatid).pipe().subscribe((data) => {
+        const returnData = JSON.stringify(data);
+        var PlaylistList = JSON.parse(returnData);
+        var obj = PlaylistList.filter(o => o.Id == this.PlaylistSelected[0])
+        this.loading = false;
+        this.playlistSize = obj[0].playlistsize
+      },
+      (error) => {
+        this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
+        this.loading = false;
+      }
+    );
+}
+GetPlaylistContenSize_spl(id) {
+  this.loading = true;
+  this.pService.Playlist(this.formatid).pipe().subscribe((data) => {
+        const returnData = JSON.stringify(data);
+        var PlaylistList = JSON.parse(returnData);
+        var obj = PlaylistList.filter(o => o.Id == id)
+        this.loading = false;
+        this.playlistSize = obj[0].playlistsize
+      },
+      (error) => {
+        this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
+        this.loading = false;
+      }
+    );
 }
 }
 

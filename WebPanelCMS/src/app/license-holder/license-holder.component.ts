@@ -180,11 +180,11 @@ export class LicenseHolderComponent
           caseInsensitive: false,
         },
         {
-          targets: [9, 10, 11, 12,13], // column index (start from 0)
+          targets: [9, 10, 11, 12,13,14], // column index (start from 0)
           orderable: false,
         },
         {
-          targets: [0,14, 15, 16],
+          targets: [0,15, 16, 17],
           visible: false,
         },
         {
@@ -238,6 +238,10 @@ export class LicenseHolderComponent
         {
           width: '20px',
           targets: 13,
+        },
+        {
+          width: '20px',
+          targets: 14,
         },
       ],
       retrieve: true,

@@ -303,7 +303,8 @@
                               playlistLst.tokenIds,
                               playlistLst.DisplayName,
                               playlistLst.IsDuplicate,
-                              playlistLst.volume
+                              playlistLst.volume,
+                              playlistLst.playlistsize
                             )
                           "
                         >
@@ -1371,6 +1372,12 @@
   <div class="modal-body">
     <div class="container-fluid">
       <div class="row mb-2">
+        <div class="col-sm-12 p-0 m-0 mb-2">
+          <label
+            style="vertical-align: sub"
+            >Playlist Content Size {{playlistSize}} MB</label
+          >
+        </div>
         <div class="col-sm-5 p-0 m-0">
           <label
             class="cursor-pointer col-sm-7 p-0 m-0"
@@ -1457,30 +1464,27 @@
           </select>
         </div>
       </div>
-      <div class="row">
-        <div class="col-sm-12 pr-0 mt-3">
-          <button class="btn btn-primary col-sm-4 pull-right mr-0"
-           (click)="VolumeLevelSetting(modalTokenInfo)"
-           (click)="d('Cross click')">
-          Volume Level
-        </button>
-          <button
-            class="btn btn-danger col-sm-5 pull-right mr-1 ml-1"
-            (click)="onPlaylistDeleteClick(PlaylistDeleteModal)"
-            (click)="d('Cross click')"
-          >
+      <div class="row mt-3">
+        <div class="col-sm-1 p-0 " style="margin-right: 1.9rem !important;">
+          <button style="font-size: 13px;" class="btn btn-primary" (click)="SettingPlaylist(ForceUpdate)"
+            (click)="d('Cross click')">Save</button>
+        </div>
+        <div class="col-sm-3 p-0" style="margin-right: .5rem !important;">
+          <button style="font-size: 13px;"
+            class="btn btn-danger" (click)="onPlaylistDeleteClick(PlaylistDeleteModal)" (click)="d('Cross click')">
             Delete Playlist
           </button>
-
-          <button
-            class="btn btn-primary col-sm-2 pull-right mr-0"
-            (click)="SettingPlaylist(ForceUpdate)"
-            (click)="d('Cross click')"
-          >
- Save
-          </button>
-          
         </div>
+        <div class="col-sm-3 p-0" style="margin-right: 0.4rem !important;">
+          <button class="btn btn-primary"  style="font-size: 13px;"
+           (click)="VolumeLevelSetting(modalTokenInfo)" (click)="d('Cross click')">Volume Level
+        </button>
+      </div>
+        <div class="col-sm-4 p-0" style="max-width: 32%;">
+          <button class="btn btn-primary" style="font-size: 13px;" (click)="SetDefaultHotelTvPlaylist()">
+            Default Hotel TV
+          </button>
+       </div>
       </div>
       <div class="row mt-4">
         <div class="col-sm-6 p-0 m-0 mb-2">
@@ -1497,14 +1501,14 @@
           />
         </div>
         <div class="col-sm-4 mb-2 pr-0">
-          <button
+          <button style="font-size: 12px;"
             *ngIf="txtDelPer == '0'"
             class="btn btn-danger col-sm-12 mr-0"
             disabled
           >
             <i class="fa fa-trash" aria-hidden="true"></i> Delete
           </button>
-          <button
+          <button style="font-size: 12px;"
             *ngIf="txtDelPer != '0'"
             class="btn btn-danger col-sm-12 mr-0"
             (click)="onDeletePercentageClick(DeletePercentageModal)"
@@ -1522,7 +1526,14 @@
           <input type="text" class="form-control" />
         </div>
       </div>
-      
+      <div class="row" *ngIf="DefaultHotelTvPlaylist === pid">
+        <div class="col-sm-12 p-0 m-0 mb-2">
+          <label
+            style="vertical-align: sub"
+            ><strong>Note: This playlist is a default for Hotel TV players</strong></label
+          >
+        </div>
+      </div>
     </div>
   </div>
 </ng-template>

@@ -15,7 +15,7 @@ export class TemplateListComponent implements OnInit {
       this.IsEditTemplateOpen=res
       if (res === true){
         this.ComponentName="Templates"
-        this.TemplatListType="LS"
+        this.TemplatListType=localStorage.getItem("edittemplategenre")
       }
     });
   }

@@ -214,5 +214,16 @@ export class PlaylistLibService {
     return this.http.post(this.cApi.SaveOwnTemplates, params, { headers })
       .pipe((data => data));
   }
- 
+  SaveDefaultPlaylistHotelTV(splPlaylistId, dfclientid) {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const params = JSON.stringify({ dfclientid:dfclientid, splPlaylistId:splPlaylistId });
+    return this.http.post(this.cApi.SaveDefaultPlaylistHotelTV, params, { headers })
+      .pipe((data => data));
+  }
+  GetDefaultPlaylistHotelTV( dfclientid) {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const params = JSON.stringify({ ClientId:dfclientid });
+    return this.http.post(this.cApi.GetDefaultPlaylistHotelTV, params, { headers })
+      .pipe((data => data));
+  }
 }

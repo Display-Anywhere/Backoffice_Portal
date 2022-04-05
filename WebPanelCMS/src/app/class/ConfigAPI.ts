@@ -161,6 +161,8 @@ export class ConfigAPI {
    GetTokenContentMatchDownload: string = this.Host + 'GetTokenContentMatchDownload';
    DeleteInstantPlayPlaylist: string = this.Host + 'DeleteInstantPlayPlaylist';
    DeleteTemplate: string = this.Host + 'DeleteTemplate';
+   SaveDefaultPlaylistHotelTV: string = this.Host + 'SaveDefaultPlaylistHotelTV';
+   GetDefaultPlaylistHotelTV: string = this.Host + 'GetDefaultPlaylistHotelTV';
 }
 
 // localStorage.setItem('UserId', obj.UserId);

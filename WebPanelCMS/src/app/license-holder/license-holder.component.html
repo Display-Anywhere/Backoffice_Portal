@@ -296,10 +296,11 @@
                     <th scope="col" style="width: 150px !important">
                       Avail. Space
                     </th>
-                    <th scope="col" style="width: 50px !important">V.</th>
-                    <th scope="col" style="width: 75px !important">S.</th>
-                    <th scope="col" style="width: 75px !important">D.</th>
-                    <th scope="col" style="width: 30px !important">OI</th>
+                    <th scope="col" style="width: 50px !important" data-toggle="tooltip" data-placement="top" title="Player Version">V.</th>
+                    <th scope="col" style="width: 75px !important" data-toggle="tooltip" data-placement="top" title="Publish Status">S.</th>
+                    <th scope="col" style="width: 75px !important" data-toggle="tooltip" data-placement="top" title="Content Download Status">D.</th>
+                    <th scope="col" style="width: 30px !important" data-toggle="tooltip" data-placement="top" title="Online Indicator">OI</th>
+                    <th scope="col" style="width: 30px !important" data-toggle="tooltip" data-placement="top" title="Hotel Tv Indicator">HI</th>
                     <th scope="col" style="width: 30px !important"></th>
                     <th scope="col" style="width: 0px !important"></th>
                     <th scope="col" style="width: 0px !important"></th>
@@ -471,7 +472,7 @@
                       />
                     </td>
  -->
-                    <td data-label="" *ngIf="IsIndicatorShow == true && cLst.DeviceType !== 'HotelTv'">
+                    <td data-label="" *ngIf="IsIndicatorShow == true">
                       <img
                         src="/assets/img/green.png"
                         alt="green"
@@ -495,7 +496,7 @@
                         " data-toggle="tooltip" data-placement="top" title="Online Indicator"
                       />
                     </td>
-                    <td data-label="" *ngIf="IsIndicatorShow == false  && cLst.DeviceType !== 'HotelTv'">
+                    <td data-label="" *ngIf="IsIndicatorShow == false">
                       <img
                         src="/assets/img/red.png"
                         alt="green"
@@ -507,29 +508,14 @@
                         " data-toggle="tooltip" data-placement="top" title="Online Indicator"
                       />
                     </td>
-                    <td data-label="" *ngIf="cLst.DeviceType == 'HotelTv'">
-                      <img
-                        src="/assets/img/green.png"
-                        alt="green"
-                        *ngIf="cLst.IshotelTvOnline == '1'"
-                        style="
-                          width: 20px;
-                          margin-left: auto;
-                          margin-right: auto;
-                          display: block;
-                        "  data-toggle="tooltip" data-placement="top" title="Online Indicator"
-                      />
-                      <img
-                        src="/assets/img/red.png"
-                        alt="green"
-                        *ngIf="cLst.IshotelTvOnline == '0'"
-                        style="
-                          width: 20px;
-                          margin-left: auto;
-                          margin-right: auto;
-                          display: block;
-                        " data-toggle="tooltip" data-placement="top" title="Online Indicator"
-                      />
+                    <td data-label="">
+                      <span *ngIf="cLst.DeviceType == 'HotelTv'">
+                      <i *ngIf="cLst.IshotelTvOnline == '0'" class="fa fa-lg fa-square text-danger" aria-hidden="true"  data-toggle="tooltip" data-placement="top" title="Hotel TV Indicator"></i>
+                      <i *ngIf="cLst.IshotelTvOnline == '1'" class="fa fa-lg fa-square text-success" aria-hidden="true"  data-toggle="tooltip" data-placement="top" title="Hotel TV Indicator"></i>
+                    </span>
+                    <span *ngIf="cLst.DeviceType != 'HotelTv'">
+                      <i class="fa fa-lg fa-square text-muted" aria-hidden="true"  data-toggle="tooltip" data-placement="top" title="Hotel TV is not active"></i>
+                    </span>
                     </td>
                     <td
                       data-label=""

@@ -306,7 +306,7 @@
       </div>
 
       <div class="form-group col-sm-3 pb-1 m-0" *ngIf="f.DeviceType.value === 'HotelTv'">
-        <label for="limitType">Playlist Size Limit(MB):</label>
+        <label for="limitType">Playlist Size Limit (MB):</label>
         <input
           type="number"
           formControlName="playlistlimit"
@@ -656,6 +656,11 @@
       <li>
         <a data-toggle="tab" href="#menu4" class="nav-link"
           >Instant Mobile Playlist</a
+        >
+      </li>
+      <li *ngIf="f.DeviceType.value === 'HotelTv'">
+        <a data-toggle="tab" href="#HotelTvDefault" class="nav-link"
+          >Default Hotel TV</a
         >
       </li>
     </ul>
@@ -1017,6 +1022,26 @@
             </tr>
           </tbody>
         </table>
+      </div>
+      <div id="HotelTvDefault" class="tab-pane fade">
+        <div class="table-responsive">
+          <table
+            class="table data-table table-striped table-bordered mydatatable"
+          >
+            <thead class="bg-primary">
+              <tr>
+                <th class="sticky-top WidthArtistTH">Playlist Name</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let HtLst of HotelTvDefaultPlaylist">
+                <td data-label="Playlist Name" class="WidthArtistTH">
+                  {{ HtLst.splplaylistname }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>

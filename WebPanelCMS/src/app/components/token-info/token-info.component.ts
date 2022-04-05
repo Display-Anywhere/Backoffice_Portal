@@ -12,6 +12,7 @@ import { MachineService } from '../machine-announcement/machine.service';
 import { SerLicenseHolderService } from 'src/app/license-holder/ser-license-holder.service';
 import { AuthService } from 'src/app/auth/auth.service';
 import { SerCopyDataService } from 'src/app/copy-data/ser-copy-data.service';
+import { PlaylistLibService } from 'src/app/playlist-library/playlist-lib.service';
 
 @Component({
   selector: 'app-token-info',
@@ -79,6 +80,7 @@ export class TokenInfoComponent implements OnInit {
   clid=""
   prvGroupId="0";
   ScheduleList=[]
+  HotelTvDefaultPlaylist =[]
   @ViewChild('flocation') flocationElement: ElementRef;
   constructor(
     private router: Router,
@@ -89,7 +91,7 @@ export class TokenInfoComponent implements OnInit {
     private modalService: NgbModal,
     private tService: TokenInfoServiceService,
     private mService: MachineService,
-    public auth: AuthService,
+    public auth: AuthService,private pService: PlaylistLibService,
     private serviceLicense: SerLicenseHolderService,private cService: SerCopyDataService
   ) {
     config.backdrop = 'static';
@@ -365,6 +367,8 @@ this.submitted = true;this.loading = true;
             this.toastr.info('Token Reset', 'Success!');
             this.SaveModifyInfo(this.TokenInfo.value.Tokenid, 'Token is reset');
             this.loading = false;
+            this.modalService.dismissAll('Cross click');
+            this.auth.isTokenInfoClose$.next(true);
           } else {
             this.toastr.error(
               'Apologies for the inconvenience.The error is recorded.',
@@ -655,6 +659,7 @@ this.submitted = true;this.loading = true;
           }
           this.GetKeyboardAnnouncement();
           this.GetFireAlert();
+          this.GetDefaultHotelTvPlaylist();
         },
         (error) => {
           this.toastr.error(
@@ -1205,5 +1210,20 @@ SaveSchedule() {
       windowClass: 'tokenmodal', });
       this.flocationElement.nativeElement.focus();
     }
+
+    GetDefaultHotelTvPlaylist() {
+      this.HotelTvDefaultPlaylist = []
+      this.pService.GetDefaultPlaylistHotelTV(this.ClientId).pipe().subscribe(
+              (data) => {
+                var returnData = JSON.stringify(data);
+                var obj = JSON.parse(returnData);
+                if (obj.response == '1') {
+                  this.HotelTvDefaultPlaylist = JSON.parse(obj.data)
+                }
+              },
+              (error) => {
+              }
+            );
+      }
 
 }

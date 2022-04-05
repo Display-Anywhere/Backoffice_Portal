@@ -684,4 +684,76 @@ this.preventAbuse = true;
         (error) => {}
       );
   }
+  async SaveUrl(){
+    if (this.CustomerId=="0"){
+      this.toastr.info("Please select a customer.", '');
+      return;
+    }
+    if (this.cmbGenre=="0"){
+      this.toastr.info("Please select a genre.", '');
+      return;
+    }
+    if (this.TemplateSelected.length==0){
+      this.toastr.info("Please select atleast one template.", '');
+      return;
+    }
+      var templateCount = this.TemplateSelected.length - 1
+    this.loading = true;
+    for (let index = 0; index < this.TemplateSelected.length; index++) {
+      var body =`{
+        "id": "0",
+        "cmbCustomer": "${this.CustomerId}",
+        "cmbFolder": "${this.cmbFolder}",
+        "cmbGenre": "${this.cmbGenre}",
+        "urlName": "${this.TemplateSelected[index].TemplateName}",
+        "duration": "${this.TemplateSelected[index].duration}",
+        "refersh": "${this.TemplateSelected[index].Refersh}",
+        "urlLink": "https://templates.nusign.eu/#/?id=${this.TemplateSelected[index].id}",
+        "dbType": "Nusign",
+        "IsAnnouncement": false
+    }`
+    await this.serviceLicense.SaveTemplateUrl(body).pipe()
+    .subscribe(data => {
+      var returnData = JSON.stringify(data);
+      var obj = JSON.parse(returnData);
+      if (obj.Responce == "1") {
+        if (templateCount == index)
+        {
+          this.toastr.info("Saved", 'Success!');
+          this.TemplateSelected=[];
+          this.TemplateSelected_Own=[];
+          this.CustomerId="0";
+          this.cmbGenre="0";
+          this.cmbFolder="0";
+          this.FolderName="";
+          this.TemplateList=[];
+          this.MainTemplateList=[];
+          this.chkAll=false;
+          this.CurrentValue = 0;
+          this.MaxValue = 0;
+          this.CrTime=0;
+          this.ResetPage();
+          this.pauseTimer() 
+          this.loading = false;
+          this.SaveModifyInfo(
+            0,
+            'Template add/modify with these values '+ body
+          );
+        }
+      }
+      else {
+        this.toastr.error("Apologies for the inconvenience.The error is recorded.", '');
+        this.loading = false;
+      }
+    },
+      error => {
+        this.toastr.error("Apologies for the inconvenience.The error is recorded.", '');
+        this.loading = false;
+      })
+    }
+      
+    
+    
+    
+  }
 }

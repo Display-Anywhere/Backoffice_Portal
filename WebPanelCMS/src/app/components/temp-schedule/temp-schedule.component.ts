@@ -209,7 +209,6 @@ export class TempScheduleComponent implements OnInit {
           }
           var playlist = this.CustomSchedulePlaylist[0]
           var obj_pl = this.PlaylistList.filter(o => o.Id === playlist.splId)
-          console.log('playlistlimit ' + item.playlistlimit + ' obj_pl[0].playlistsize ' + obj_pl[0].playlistsize)
           this.HoteltvPlaylistLimit = item.playlistlimit
           this.ShowLimitSubmitButton= false
           if (Number(obj_pl[0].playlistsize) > Number(item.playlistlimit)){
@@ -685,6 +684,7 @@ if (errorFound==="Yes"){
           this.loading = false;
           this.getSelectedRows();
           this.FillCountry();
+          this.onChangeDeviceType('')
         },
         (error) => {
           this.toastrSF.error(
@@ -1829,12 +1829,19 @@ OpenViewContent(modalName, url,oType,MediaType){
         );
     }
     onChangeDeviceType(e) {
-      if (this.cmbDeviceType != 'All') {
+      if (this.cmbDeviceType === 'HotelTv') {
         this.TokenList= []
         this.TokenList = this.MainTokenList.filter(
           (order) => order.DeviceType == this.cmbDeviceType
         );
       }
+      if (this.cmbDeviceType === 'Sanitizer') {
+        this.TokenList= []
+        this.TokenList = this.MainTokenList.filter(
+          (order) => order.DeviceType == this.cmbDeviceType
+        );
+      }
+
       if (this.cmbDeviceType === 'All') {
         this.TokenList= []
         this.TokenList = this.MainTokenList
