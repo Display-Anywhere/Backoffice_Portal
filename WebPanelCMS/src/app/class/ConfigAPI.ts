@@ -163,6 +163,7 @@ export class ConfigAPI {
    DeleteTemplate: string = this.Host + 'DeleteTemplate';
    SaveDefaultPlaylistHotelTV: string = this.Host + 'SaveDefaultPlaylistHotelTV';
    GetDefaultPlaylistHotelTV: string = this.Host + 'GetDefaultPlaylistHotelTV';
+   UploadEvent: string = this.Host + 'UploadEvent';
 }
 
 // localStorage.setItem('UserId', obj.UserId);

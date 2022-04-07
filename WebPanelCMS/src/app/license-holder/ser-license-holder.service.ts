@@ -96,6 +96,15 @@ export class SerLicenseHolderService {
       catchError(this.handleError)
     );
   }
+  uploadevent(formData) {
+    return this.http.post<any>(`${this.cApi.UploadEvent}`, formData, {
+      reportProgress: true,
+      observe: 'events'
+    }).pipe(
+      map(event => this.getEventMessage(event, formData)),
+      catchError(this.handleError)
+    );
+  }
   private getEventMessage(event: HttpEvent<any>, formData) {
 
     switch (event.type) {

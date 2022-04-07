@@ -106,6 +106,19 @@
                   style="width: 100%"
                 />
               </div>
+              <div class="form-group col-sm-2 m-0">
+                <label for="btnUploadEvent" class="d-none d-xl-block mb-2 mr-sm-2"
+                  >&nbsp;</label
+                >
+                <input
+                  type="button"
+                  id="btnUploadEvent"
+                  class="btn btn-primary mb-2 mr-sm-2 mr-1"
+                  (click)="openEventModal(modalEvent)"
+                  value="Events"
+                  style="width: 100%"
+                />
+              </div>
 
               <div class="form-group col-sm-2 m-0 d-none">
                 <label for="btnSearch" class="d-none d-xl-block mb-2 mr-sm-2"
@@ -1268,4 +1281,126 @@
       </tbody>
     </table>
   </div>
+</ng-template>
+
+
+<ng-template #modalEvent let-c="close" let-d="dismiss">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Events</h5>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <ngb-tabset #tPl="ngbTabset">
+      <ngb-tab id="tab-search" title="Event List">
+        <ng-template ngbTabContent>
+          <div class="table-responsive">
+            <table class="table data-table table-striped table-bordered mydatatable">
+              <thead>
+                <tr>
+                  <th class="bg-primary sticky-top" style="max-width: 40%;width: 40%;">Event Date</th>
+                  <th class="bg-primary sticky-top Link-Center_Width"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="cursor-pointer" *ngFor="let eLst of EventList; let i = index">
+                  <td>{{eLst.Id}}</td>
+                  <td class="Link-Center_Width"><a href="javascript:;" (click)="OpenViewContent(viewcontent, eLst.Id)"><i class="fa fa-eye" aria-hidden="true"></i></a> </td>
+
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab id="tab-AddNew" title="AddNew" *ngIf="!IschkViewOnly">
+        <ng-template ngbTabContent>
+          <div class="col-sm-12">
+            <div class="form-row">
+              <div class="form-group col-sm-3 m-0">
+                <label for="SearchEvtDate" class="mb-2 mr-sm-2">Event Date:</label>
+                <input
+                id="SearchEvtDate"
+                class="form-control mb-2 mr-sm-2"
+                [owlDateTimeTrigger]="dtEventDate"
+                [(ngModel)]="dtpEventDate"
+                [owlDateTime]="dtEventDate"
+                readonly
+              />
+              <owl-date-time
+                [pickerType]="'calendar'"
+                #dtEventDate
+              ></owl-date-time>
+              </div>
+              <div class="form-group col-sm-6 m-0">
+                <label for="chooseFile2" class="mb-2 mr-sm-2">Event File:</label>
+                <input
+                type="file"
+                name="profile"
+                #myEventInput
+                (change)="onSelectedFile($event)"
+                id="chooseFile2"
+                accept=".xlsx"
+                class="btn btn-default border"
+                style="width: 100%"
+              />
+              </div>
+              <div class="form-group col-sm-3 m-0">
+                <button 
+                type="button"
+                class="btn btn-primary btn-s mt-5"
+                (click)="UploadEventSheet()"
+                (click)="myEventInput.value = ''"
+              >
+                <span class="fa fa-cloud-upload"></span> Upload
+              </button>
+              </div>
+            </div>
+          </div>
+            <div class="row mt-2">
+              <div class="col-lg-12">
+                <div *ngIf="fileUpload.status === 'progress'">
+                  <div class="progress" style="height: 20px; margin-bottom: 20px">
+                    <div
+                      class="progress-bar"
+                      role="progressbar"
+                      [style.width.%]="fileUpload.message"
+                      aria-valuenow="25"
+                      aria-valuemin="0"
+                      aria-valuemax="100"
+                    >
+                      {{ fileUpload.message }}%
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+           
+        </ng-template>
+      </ngb-tab>
+    </ngb-tabset>
+
+     
+  </div>
+</ng-template>
+<ng-template class="tokenmodal" #viewcontent let-c="close" let-d="dismiss">
+  
+  <button
+    type="button"
+    class="close text-right"
+    aria-label="Close"
+    (click)="d('Cross click')"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+ 
+<div class="modal-body p-0">
+  <app-view-content></app-view-content>
+</div>
 </ng-template>

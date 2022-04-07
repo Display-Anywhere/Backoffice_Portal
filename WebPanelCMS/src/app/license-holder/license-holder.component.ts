@@ -47,7 +47,7 @@ export class LicenseHolderComponent
   TokenList = [];
   CustomerList: any[];
   FolderList: any[];
-
+  dtpEventDate = new Date()
   public loading = false;
   TokenInfoPopup: boolean = false;
   page: number = 1;
@@ -100,6 +100,7 @@ export class LicenseHolderComponent
   PublishActive=1
   CustomerMediaTypeList
   TokenContentMatchDownload =[]
+  EventList = []
   @ViewChild('flocation') flocationElement: ElementRef;
   constructor(
     config: NgbModalConfig,
@@ -131,6 +132,7 @@ export class LicenseHolderComponent
     }
   }
   async ngOnInit() {
+
     if (localStorage.getItem('IsSubClientActive')==='Yes'){
       this.SubClientId = localStorage.getItem('dfClientId')
       localStorage.setItem('dfClientId',localStorage.getItem('Main_Client_Id'))
@@ -755,6 +757,7 @@ async RefreshTokenList(){
       this.toastr.info('Please select a file');
       return;
     }
+    var eventDate = new Date()
     const formData = new FormData();
     formData.append('name', 'Excel');
     formData.append('profile', this.Adform.get('FilePathNew').value);
@@ -1502,4 +1505,83 @@ async RefreshTokenList(){
     this.modalService.open(philipsinfoModal, { size: 'lg' });
 
   }
+  GetEventDetails () {
+    this.loading = true;
+    var str = '';
+    str =`select format(eventdate,'dd-MMM-yyyy') as Id, eventdate as DisplayName  from tbEvent where clientid=${this.cmbCustomerId} order by eventdate desc`
+    this.serviceLicense.FillCombo(str).pipe().subscribe((data) => {
+          var returnData = JSON.stringify(data);
+          this.EventList = JSON.parse(returnData);
+          this.loading = false;
+        },
+        (error) => {
+          this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
+          this.loading = false;
+        }
+      );
+  }
+  openEventModal(modalContant) {
+    if (this.cid == '0') {
+      this.toastr.info('Please select a customer name');
+      return;
+    }
+    if (this.IschkViewOnly==1){
+      this.toastr.info('This feature is not available in view only');
+      return;
+    }
+    this.GetEventDetails()
+    this.modalService.open(modalContant, {
+      size: 'lg',
+      windowClass: 'fade',
+    });
+    this.flocationElement.nativeElement.focus();  
+  }
+  UploadEventSheet() {
+    if (this.Adform.get('FilePathNew').value.length == 0) {
+      this.toastr.info('Please select a file');
+      return;
+    }
+    var eventDate = new Date()
+    const formData = new FormData();
+    formData.append('name', 'Excel');
+    formData.append('clientid', this.cmbCustomerId);
+    formData.append('eventdate', eventDate.toDateString());
+    formData.append('profile', this.Adform.get('FilePathNew').value);
+
+    this.serviceLicense.uploadevent(formData).subscribe(
+      (res) => {
+        this.fileUpload = res;
+        var returnData = JSON.stringify(res);
+        var obj = JSON.parse(returnData);
+        if (obj.Responce == '1') {
+          this.toastr.info(obj.message, '');
+          this.modalService.dismissAll();
+          this.loading = false;
+          this.GetEventDetails()
+        }
+        if (obj.Responce == '0') {
+          this.toastr.error(obj.message);
+          this.InputFileName = 'No file chosen...';
+          this.loading = false;
+        }
+        this.Adform.get('FilePathNew').setValue('');
+      },
+      (err) => {
+        this.toastr.error('p');
+        this.error = err;
+        this.loading = false;
+      }
+    );
+    this.flocationElement.nativeElement.focus();
+  }
+  OpenViewContent(modalName, evtDate){
+    var url =`http://localhost:4201/#/?templateId=CP1&cpd=${evtDate}`
+    console.log(url)
+    localStorage.setItem("ViewContent",url)
+    localStorage.setItem("oType","496")
+      this.modalService.open(modalName, {
+        size: 'Template',
+      }); 
+  }
+  
 }
