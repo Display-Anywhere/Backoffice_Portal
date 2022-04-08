@@ -101,6 +101,10 @@ export class LicenseHolderComponent
   CustomerMediaTypeList
   TokenContentMatchDownload =[]
   EventList = []
+  MeetingRoomList =[]
+  cmbMeetingId ='0'
+  cmbRoomStatus =''
+  MeetingRoomDetail ={}
   @ViewChild('flocation') flocationElement: ElementRef;
   constructor(
     config: NgbModalConfig,
@@ -1530,6 +1534,7 @@ async RefreshTokenList(){
       return;
     }
     this.GetEventDetails()
+    this.GetMeetingRooms()
     this.modalService.open(modalContant, {
       size: 'lg',
       windowClass: 'fade',
@@ -1541,7 +1546,7 @@ async RefreshTokenList(){
       this.toastr.info('Please select a file');
       return;
     }
-    var eventDate = new Date()
+    var eventDate = new Date(this.dtpEventDate)
     const formData = new FormData();
     formData.append('name', 'Excel');
     formData.append('clientid', this.cmbCustomerId);
@@ -1575,7 +1580,7 @@ async RefreshTokenList(){
     this.flocationElement.nativeElement.focus();
   }
   OpenViewContent(modalName, evtDate){
-    var url =`http://localhost:4201/#/?templateId=CP1&cpd=${evtDate}`
+    var url =`https://templates.nusign.eu/#/?templateId=CP1&cpd=${evtDate}`
     console.log(url)
     localStorage.setItem("ViewContent",url)
     localStorage.setItem("oType","496")
@@ -1583,5 +1588,39 @@ async RefreshTokenList(){
         size: 'Template',
       }); 
   }
-  
+  GetMeetingRooms () {
+    this.loading = true;
+    this.MeetingRoomList = []
+    this.cmbMeetingId ="0"
+    this.cmbRoomStatus =""
+    this.serviceLicense.GetMeetingRooms(this.cid).pipe().subscribe((data) => {
+          var returnData = JSON.stringify(data);
+          var objRes = JSON.parse(returnData);
+          if (objRes.response == "1"){
+            this.MeetingRoomList = JSON.parse(objRes.data);
+          }
+          this.loading = false;
+        },
+        (error) => {
+          this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
+          this.loading = false;
+        }
+      );
+  }
+  onChangeMeetingRoom(deviceValue) {
+    var obj = this.MeetingRoomList.filter(o => o.id == deviceValue)
+    this.MeetingRoomDetail = obj[0]
+  }
+  UpdateMeetingInfo() {
+
+  }
+  OpenRoomViewContent(modalName){
+    var url =`http://localhost:4201/#/?templateId=CP2&mid=${this.cmbMeetingId}`
+    console.log(url)
+    localStorage.setItem("ViewContent",url)
+    localStorage.setItem("oType","496")
+      this.modalService.open(modalName, {
+        size: 'Template',
+      }); 
+  }
 }

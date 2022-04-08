@@ -164,6 +164,7 @@ export class ConfigAPI {
    SaveDefaultPlaylistHotelTV: string = this.Host + 'SaveDefaultPlaylistHotelTV';
    GetDefaultPlaylistHotelTV: string = this.Host + 'GetDefaultPlaylistHotelTV';
    UploadEvent: string = this.Host + 'UploadEvent';
+   GetMeetingRooms: string = this.Host + 'GetMeetingRooms';
 }
 
 // localStorage.setItem('UserId', obj.UserId);

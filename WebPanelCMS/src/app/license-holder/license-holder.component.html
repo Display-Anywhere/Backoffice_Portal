@@ -106,7 +106,7 @@
                   style="width: 100%"
                 />
               </div>
-              <div class="form-group col-sm-2 m-0">
+              <div class="form-group col-sm-2 m-0" *ngIf="cid === '95'">
                 <label for="btnUploadEvent" class="d-none d-xl-block mb-2 mr-sm-2"
                   >&nbsp;</label
                 >
@@ -115,7 +115,7 @@
                   id="btnUploadEvent"
                   class="btn btn-primary mb-2 mr-sm-2 mr-1"
                   (click)="openEventModal(modalEvent)"
-                  value="Events"
+                  value="Events/Meeting Rooms"
                   style="width: 100%"
                 />
               </div>
@@ -1286,7 +1286,7 @@
 
 <ng-template #modalEvent let-c="close" let-d="dismiss">
   <div class="modal-header bg-primary">
-    <h5 class="text-white">Events</h5>
+    <h5 class="text-white">Events/Meeting Rooms</h5>
     <button
       type="button"
       class="close text-white"
@@ -1319,7 +1319,7 @@
           </div>
         </ng-template>
       </ngb-tab>
-      <ngb-tab id="tab-AddNew" title="AddNew" *ngIf="!IschkViewOnly">
+      <ngb-tab id="tab-AddNew" title="Upload Events" *ngIf="!IschkViewOnly">
         <ng-template ngbTabContent>
           <div class="col-sm-12">
             <div class="form-row">
@@ -1382,6 +1382,101 @@
               </div>
             </div>
            
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab id="tab-Room" title="Meeting Rooms" *ngIf="!IschkViewOnly">
+        <ng-template ngbTabContent>
+          <div class="col-sm-12">
+            <div class="form-row">
+              <div class="form-group col-sm-4 m-0">
+                <label for="cmbMeeting"  class="mb-2 mr-sm-2" #flocation
+                  >Rooms:</label
+                >
+                <select
+                  class="custom-select mb-3"
+                  (change)="onChangeMeetingRoom($event.target.value)"
+                  id="cmbMeeting"
+                  [(ngModel)]="cmbMeetingId"
+                >
+                  <option selected value="0"></option>
+                  <option *ngFor="let cLst of MeetingRoomList" [value]="cLst.id">
+                    {{ cLst.roomname }}
+                  </option>
+                </select>
+              </div>
+              <div class="form-group col-sm-3 m-0">
+                <label for="cmbRoomStatus"  class="mb-2 mr-sm-2" #flocation
+                  >Room Status:</label
+                >
+                <select
+                  class="custom-select mb-3"
+                  id="cmbRoomStatus"
+                  [(ngModel)]="MeetingRoomDetail['roomstatus']"
+                >
+                  <option selected value="available">Available</option>
+                  <option selected value="not available">Not Available</option>
+                </select>
+              </div>
+              <div class="form-group col-sm-3 m-0 d-none">
+                <button 
+                type="button"
+                class="btn btn-primary btn-s mt-5"
+                (click)="UpdateMeetingInfo()"
+              >
+                Save
+              </button>
+              </div>
+              <div class="form-group col-sm-2 m-0">
+                <button 
+                type="button"
+                class="btn btn-primary btn-s mt-5"
+                (click)="OpenRoomViewContent(viewcontent)"
+              >
+                Preview
+              </button>
+              </div>
+            </div>
+            <div class="form-row mb-2">
+              <div class="form-group col-sm-2 m-0">
+                <img src="assets/images/cp2/cp2-0-default.png" alt="" class="imgCenter">
+              </div>
+              <div class="form-group col-sm-2 m-0">
+                <img src="assets/images/cp2/cp2-1-default.png" alt="" class="imgCenter">
+              </div>
+              <div class="form-group col-sm-2 m-0">
+                <img src="assets/images/cp2/cp2-2-default.png" alt="" class="imgCenter">
+              </div>
+              <div class="form-group col-sm-2 m-0">
+                <img src="assets/images/cp2/cp2-3-default.png" alt="" class="imgCenter">
+              </div>
+              <div class="form-group col-sm-2 m-0">
+                <img src="assets/images/cp2/cp2-4-default.png" alt="" class="imgCenter">
+              </div>
+              <div class="form-group col-sm-2 m-0">
+                <img src="assets/images/cp2/cp2-5-default.png" alt="" class="imgCenter">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-sm-2 m-0">
+                <input type="number" [(ngModel)]="MeetingRoomDetail['r2']" class="form-control mb-2 mr-sm-2"/>
+              </div>
+              <div class="form-group col-sm-2 m-0">
+                <input type="number" [(ngModel)]="MeetingRoomDetail['r3']" class="form-control mb-2 mr-sm-2"/>
+              </div>
+              <div class="form-group col-sm-2 m-0">
+                <input type="number" [(ngModel)]="MeetingRoomDetail['r4']" class="form-control mb-2 mr-sm-2"/>
+              </div>
+              <div class="form-group col-sm-2 m-0">
+                <input type="number" [(ngModel)]="MeetingRoomDetail['r5']" class="form-control mb-2 mr-sm-2"/>
+              </div>
+              <div class="form-group col-sm-2 m-0">
+                <input type="number" [(ngModel)]="MeetingRoomDetail['r6']" class="form-control mb-2 mr-sm-2"/>
+              </div>
+              <div class="form-group col-sm-2 m-0">
+                <input type="number" [(ngModel)]="MeetingRoomDetail['r7']" class="form-control mb-2 mr-sm-2"/>
+              </div>
+            </div>
+          </div>
         </ng-template>
       </ngb-tab>
     </ngb-tabset>

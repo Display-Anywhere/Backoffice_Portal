@@ -252,4 +252,10 @@ GetTokenContentMatchDownload(cid) {
   return this.http.post(this.cApi.GetTokenContentMatchDownload, params, { headers: headers })
     .pipe((data => { return data; }))
 }
+GetMeetingRooms(cid) {
+  let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+  var params = JSON.stringify({ ClientId: cid });
+  return this.http.post(this.cApi.GetMeetingRooms, params, { headers: headers })
+    .pipe((data => { return data; }))
+}
 }

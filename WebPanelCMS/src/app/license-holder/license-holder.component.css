@@ -255,3 +255,6 @@ thead {
 .text-success {
   color: #28a745 !important;
 }
+.imgCenter {
+  margin-left: auto;margin-right: auto;display: block;
+}
