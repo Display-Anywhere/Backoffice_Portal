@@ -31,10 +31,46 @@
                       <a class="nav-link" [ngClass]="TemplatListType==='PT' ? 'active' : ''" data-toggle="tab" href="#PTtemplatlist"
                         (click)="FilterTemplatList('PT')">Portrait</a>
                     </li>
+                    <li class="nav-item disabled" disabled>
+                      <a class="nav-link disabled" disabled data-toggle="tab" 
+                        >These templates are multi-functional and can be used for any purpose</a>
+                    </li>
                   </ul>
                 </div>
+                
                 <div class="container-fluid m-0 p-0 mt-3" *ngIf="ComponentName=='Templates'">
                   <div class="px-lg-5" *ngIf="TemplatListType=='LS'">
+                    <!--<div class="row" *ngIf="clientid=='95'">
+                      <div class="col-xl-12">
+                        <p><strong>Personal Templates</strong></p>
+                      </div>
+                      <div class="col-xl-3 col-lg-4 col-md-6 mb-4 cursorpointer">
+                        <div class="bg-white rounded shadow-sm"><img src="assets/images/temp-17/17-thumbnail.png" alt=""
+                            class="img-fluid card-img-top">
+                          <div class="pl-4 pr-4 pb-5 pt-1">
+                            <h5 class="text-dark pull-left">Template 1 </h5>
+                            <div class="badge badge-primary px-3 rounded-pill font-weight-normal mt-1  pull-right"
+                              (click)="editTemplates('17')">Edit</div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-xl-3 col-lg-4 col-md-6 mb-4 cursorpointer">
+                        <div class="bg-white rounded shadow-sm"><img src="assets/images/temp-18/18-thumbnail.png" alt=""
+                            class="img-fluid card-img-top">
+                          <div class="pl-4 pr-4 pb-5 pt-1">
+                            <h5 class="text-dark pull-left">Template 2 </h5>
+                            <div class="badge badge-primary px-3 rounded-pill font-weight-normal mt-1  pull-right"
+                              (click)="editTemplates('18')">Edit</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                     
+                    <div class="row" *ngIf="clientid=='95'">
+                      <div class="col-xl-12">
+                        <p><strong>Other Templates</strong></p>
+                      </div>
+                    </div>-->
                     <div class="row">
                       <!-- Gallery item -->
                       <div class="col-xl-3 col-lg-4 col-md-6 mb-4 cursorpointer">

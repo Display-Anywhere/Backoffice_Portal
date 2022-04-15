@@ -1306,13 +1306,14 @@
                 <tr>
                   <th class="bg-primary sticky-top" style="max-width: 40%;width: 40%;">Event Date</th>
                   <th class="bg-primary sticky-top Link-Center_Width"></th>
+                  <th class="bg-primary sticky-top Link-Center_Width"></th>
                 </tr>
               </thead>
               <tbody>
                 <tr class="cursor-pointer" *ngFor="let eLst of EventList; let i = index">
-                  <td>{{eLst.Id}}</td>
-                  <td class="Link-Center_Width"><a href="javascript:;" (click)="OpenViewContent(viewcontent, eLst.Id)"><i class="fa fa-eye" aria-hidden="true"></i></a> </td>
-
+                  <td>{{eLst.Id | date:'dd-MMM-yyyy'}}</td>
+                  <td class="Link-Center_Width"><a href="javascript:;" (click)="OpenViewContent(viewcontent, eLst.Id,'N')"><i class="fa fa-eye" aria-hidden="true"></i></a> </td>
+                  <td class="Link-Center_Width"><a href="javascript:;" (click)="OpenViewContent(viewcontent, eLst.Id,'O')"><i class="fa fa-eye" aria-hidden="true"></i></a> </td>
                 </tr>
               </tbody>
             </table>
@@ -1417,67 +1418,122 @@
                   <option selected value="not available">Not Available</option>
                 </select>
               </div>
-              <div class="form-group col-sm-3 m-0 d-none">
+              <div class="form-group col-sm-3 m-0">
                 <button 
                 type="button"
                 class="btn btn-primary btn-s mt-5"
-                (click)="UpdateMeetingInfo()"
+                (click)="UpdateMeetingInfo(viewcontent)"
               >
-                Save
-              </button>
-              </div>
-              <div class="form-group col-sm-2 m-0">
-                <button 
-                type="button"
-                class="btn btn-primary btn-s mt-5"
-                (click)="OpenRoomViewContent(viewcontent)"
-              >
-                Preview
+                Save & Preview
               </button>
               </div>
             </div>
             <div class="form-row mb-2">
-              <div class="form-group col-sm-2 m-0">
+              <div class="form-group col-hlf-2 m-0">
+                <img src="assets/images/cp2/cp2-6-default.png" alt="" class="imgCenter">
+              </div>
+              <div class="form-group col-hlf-2 m-0">
                 <img src="assets/images/cp2/cp2-0-default.png" alt="" class="imgCenter">
               </div>
-              <div class="form-group col-sm-2 m-0">
+              <div class="form-group col-hlf-2 m-0">
                 <img src="assets/images/cp2/cp2-1-default.png" alt="" class="imgCenter">
               </div>
-              <div class="form-group col-sm-2 m-0">
+              <div class="form-group col-hlf-2 m-0">
                 <img src="assets/images/cp2/cp2-2-default.png" alt="" class="imgCenter">
               </div>
-              <div class="form-group col-sm-2 m-0">
+              <div class="form-group col-hlf-2 m-0">
                 <img src="assets/images/cp2/cp2-3-default.png" alt="" class="imgCenter">
               </div>
-              <div class="form-group col-sm-2 m-0">
+              <div class="form-group col-hlf-2 m-0">
                 <img src="assets/images/cp2/cp2-4-default.png" alt="" class="imgCenter">
               </div>
-              <div class="form-group col-sm-2 m-0">
+              <div class="form-group col-hlf-2 m-0">
                 <img src="assets/images/cp2/cp2-5-default.png" alt="" class="imgCenter">
+              </div>
+              <div class="form-group col-hlf-2 m-0">
+                <img src="assets/images/cp2/cp2-7-default.png" alt="" class="imgCenter">
               </div>
             </div>
             <div class="form-row">
-              <div class="form-group col-sm-2 m-0">
+              <div class="form-group col-hlf-2 m-0">
+                <input type="number" [(ngModel)]="MeetingRoomDetail['r1']" class="form-control mb-2 mr-sm-2"/>
+              </div>
+              <div class="form-group col-hlf-2 m-0">
                 <input type="number" [(ngModel)]="MeetingRoomDetail['r2']" class="form-control mb-2 mr-sm-2"/>
               </div>
-              <div class="form-group col-sm-2 m-0">
+              <div class="form-group col-hlf-2 m-0">
                 <input type="number" [(ngModel)]="MeetingRoomDetail['r3']" class="form-control mb-2 mr-sm-2"/>
               </div>
-              <div class="form-group col-sm-2 m-0">
+              <div class="form-group col-hlf-2 m-0">
                 <input type="number" [(ngModel)]="MeetingRoomDetail['r4']" class="form-control mb-2 mr-sm-2"/>
               </div>
-              <div class="form-group col-sm-2 m-0">
+              <div class="form-group col-hlf-2 m-0">
                 <input type="number" [(ngModel)]="MeetingRoomDetail['r5']" class="form-control mb-2 mr-sm-2"/>
               </div>
-              <div class="form-group col-sm-2 m-0">
+              <div class="form-group col-hlf-2 m-0">
                 <input type="number" [(ngModel)]="MeetingRoomDetail['r6']" class="form-control mb-2 mr-sm-2"/>
               </div>
-              <div class="form-group col-sm-2 m-0">
+              <div class="form-group col-hlf-2 m-0">
                 <input type="number" [(ngModel)]="MeetingRoomDetail['r7']" class="form-control mb-2 mr-sm-2"/>
+              </div>
+              <div class="form-group col-hlf-2 m-0">
+                <input type="number" [(ngModel)]="MeetingRoomDetail['r8']" class="form-control mb-2 mr-sm-2"/>
               </div>
             </div>
           </div>
         </ng-template>
+      </ngb-tab>
+      <ngb-tab id="tab-CmpEvent" title="Company Events" *ngIf="!IschkViewOnly">
+        <ng-template ngbTabContent>
+        <div class="col-sm-12">
+          <div class="form-row">
+            <div class="form-group col-sm-5 m-0">
+              <label for="cmbEventCust"  class="mb-2 mr-sm-2"  
+                >Customer:</label
+              >
+              <select
+                class="custom-select mb-3"
+                (change)="onChangeEventCustomer($event.target.value)"
+                id="cmbEventCust"
+                [(ngModel)]="cmbEventCustomer"
+              >
+                <option selected value="0"></option>
+                <option *ngFor="let cLst of EventCustomerList" [value]="cLst.companyname">
+                  {{ cLst.companyname }}
+                </option>
+              </select>
+            </div>
+            <div class="form-group col-sm-5 m-0">
+              <label for="bkLogo" class="mb-2 mr-sm-2 w-100">Company Logo:</label>
+                    <input  id="bkLogo" type="button" (click)="openLibrary(modalCustomerLogo)" class="btn btn-primary  mb-2 mr-sm-2"   value="Open Library" />
+                    <span><strong>{{EventCustomerdata.selected_logoName}}</strong></span>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12">
+        <div class="table-responsive">
+          <table class="table data-table table-striped table-bordered mydatatable">
+            <thead>
+              <tr>
+                <th class="bg-primary sticky-top" >Time</th>
+                <th class="bg-primary sticky-top">Location</th>
+                <th class="bg-primary sticky-top">Activity</th>
+                <th class="bg-primary sticky-top"style="max-width: 7%;width: 7%;"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="cursor-pointer" *ngFor="let eLst of CustomerEventList; let i = index">
+                <td>{{eLst.eventtime}}</td>
+                <td>{{eLst.eventvenue}}</td>
+                <td>{{eLst.eventdtl}}</td>
+                <td style="max-width: 7%;width: 7%;"><a href="javascript:;" (click)="OpenViewEventContent(viewcontent, eLst)"><i class="fa fa-eye" aria-hidden="true"></i></a> </td>
+
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      </ng-template>
       </ngb-tab>
     </ngb-tabset>
 
@@ -1498,4 +1554,85 @@
 <div class="modal-body p-0">
   <app-view-content></app-view-content>
 </div>
+</ng-template>
+
+<ng-template #modalCustomerLogo let-c="close" let-d="dismiss">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Library</h5>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="col-12 p-0">
+      <div class="form-row">
+      <div class="form-group col-sm-6 m-0">
+        <label for="chooseFile2" class="mb-2 mr-sm-2">Logo:</label>
+        <input
+        type="file"
+        name="profile"
+        #myEventLogoInput
+        (change)="onSelectedFile($event)"
+        id="chooseFile2"
+        accept="image/jpeg, image/x-png"
+        class="btn btn-default border"
+        style="width: 100%"
+      />
+      </div>
+      <div class="form-group col-sm-3 m-0">
+        <button 
+        type="button"
+        class="btn btn-primary btn-s mt-5"
+        (click)="UploadCustomerLogo()"
+        (click)="myEventLogoInput.value = ''"
+      >
+        <span class="fa fa-cloud-upload"></span> Upload
+      </button>
+      </div>
+    </div>
+    </div>
+    <div class="row mt-2">
+      <div class="col-lg-12">
+        <div *ngIf="fileUpload.status === 'progress'">
+          <div class="progress" style="height: 20px; margin-bottom: 20px">
+            <div
+              class="progress-bar"
+              role="progressbar"
+              [style.width.%]="fileUpload.message"
+              aria-valuenow="25"
+              aria-valuemin="0"
+              aria-valuemax="100"
+            >
+              {{ fileUpload.message }}%
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-2">
+      <div class="col-sm-4 col-6 mb-2" *ngFor="let songLst of SongsList">
+        <div class="card">
+          <img
+            class="card-img-top p-1"
+            src="{{ songLst.TitleIdLink }}"
+            alt="Card image"
+            style="height: 100px; object-fit: contain"
+          />
+          <div class="card-body p-1 border-top">
+            <a
+              href="javascript:;"
+              (click)="SetImage(songLst.TitleIdLink, songLst.title,1)" (click)="d('Cross click')"
+              class="btn btn-primary btn-sm"
+              >Set</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </ng-template>

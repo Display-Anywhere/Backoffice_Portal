@@ -258,3 +258,7 @@ thead {
 .imgCenter {
   margin-left: auto;margin-right: auto;display: block;
 }
+.col-hlf-2 {
+  flex: 0 0 11.80%;
+  max-width: 11.80%;
+}

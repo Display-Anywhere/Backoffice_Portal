@@ -105,6 +105,15 @@ export class LicenseHolderComponent
   cmbMeetingId ='0'
   cmbRoomStatus =''
   MeetingRoomDetail ={}
+  cmbEventCustomer
+  EventCustomerList=[]
+  eventListjson= []
+  selected_logoName
+  EventCustomerdata = {
+    logoimgurl: "",
+    selected_logoName: ""
+  }
+  CustomerEventList =[]
   @ViewChild('flocation') flocationElement: ElementRef;
   constructor(
     config: NgbModalConfig,
@@ -809,6 +818,9 @@ async RefreshTokenList(){
         (data) => {
           var returnData = JSON.stringify(data);
           var obj = JSON.parse(returnData);
+          obj.forEach(item => {
+            item['TitleIdLink']= item['TitleIdLink'].replace('http:','https:')
+          });
           this.SongsList = obj;
           this.loading = false;
         },
@@ -1510,6 +1522,8 @@ async RefreshTokenList(){
 
   }
   GetEventDetails () {
+    this.GetCurrentEventDetails()
+    return
     this.loading = true;
     var str = '';
     str =`select format(eventdate,'dd-MMM-yyyy') as Id, eventdate as DisplayName  from tbEvent where clientid=${this.cmbCustomerId} order by eventdate desc`
@@ -1560,7 +1574,6 @@ async RefreshTokenList(){
         var obj = JSON.parse(returnData);
         if (obj.Responce == '1') {
           this.toastr.info(obj.message, '');
-          this.modalService.dismissAll();
           this.loading = false;
           this.GetEventDetails()
         }
@@ -1579,8 +1592,12 @@ async RefreshTokenList(){
     );
     this.flocationElement.nativeElement.focus();
   }
-  OpenViewContent(modalName, evtDate){
-    var url =`https://templates.nusign.eu/#/?templateId=CP1&cpd=${evtDate}`
+  OpenViewContent(modalName, evtDate, t){
+    var tid= "CP1"
+    if (t =="N"){
+      tid="CP4"
+    }
+    var url =`https://templates.nusign.eu/#/?templateId=${tid}&cpd=${evtDate}`
     console.log(url)
     localStorage.setItem("ViewContent",url)
     localStorage.setItem("oType","496")
@@ -1611,11 +1628,125 @@ async RefreshTokenList(){
     var obj = this.MeetingRoomList.filter(o => o.id == deviceValue)
     this.MeetingRoomDetail = obj[0]
   }
-  UpdateMeetingInfo() {
-
+  UpdateMeetingInfo(modalName) {
+    this.loading = true;
+    this.serviceLicense.UpdateMeetingRoomsInfo(this.MeetingRoomDetail).pipe().subscribe((data) => {
+      var returnData = JSON.stringify(data);
+      var objRes = JSON.parse(returnData);
+      if (objRes.response == "1"){
+        this.OpenRoomViewContent(modalName)
+      }
+      this.loading = false;
+    },
+    (error) => {
+      this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
+      this.loading = false;
+    }
+  );
   }
   OpenRoomViewContent(modalName){
-    var url =`http://localhost:4201/#/?templateId=CP2&mid=${this.cmbMeetingId}`
+    var url =`https://templates.nusign.eu/#/?templateId=CP2&mid=${this.cmbMeetingId}`
+    localStorage.setItem("ViewContent",url)
+    localStorage.setItem("oType","496")
+      this.modalService.open(modalName, {
+        size: 'Template',
+      }); 
+  }
+  GetCurrentEventDetails () {
+    this.EventList =[]
+    this.EventCustomerList =[]
+    var EventDate = new Date()
+    this.loading = true;
+    var str = '';
+    this.serviceLicense.GetEventDetails(EventDate.toDateString()).pipe().subscribe((data) => {
+      var returnData = JSON.stringify(data);
+      var obj  = JSON.parse(returnData);
+      if (obj.response =="1"){
+        var jsonParse = JSON.parse(obj.data)
+        var eventjson = JSON.parse(jsonParse[0].eventjson)
+        this.eventListjson= eventjson
+        eventjson.forEach(item => {
+          var arr = {}
+          this.EventCustomerList = this.EventCustomerList.filter(o => o.companyname != item['companyname'])
+          arr['companyname']= item['companyname']
+          this.EventCustomerList.push(arr)
+        });
+        this.EventList = [{
+          Id: jsonParse[0].eventdate
+        }] 
+      }
+          this.loading = false;
+
+        },
+        (error) => {
+          this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
+          this.loading = false;
+        }
+      );
+  }
+  openLibrary(ObjModal) {
+    this.cmbFolder= "0"
+    if (this.cmbCustomerId == '0') {
+      this.toastr.info('Please select a customer name');
+      return;
+    }
+    this.FillLogo("777");
+    this.modalService.open(ObjModal, { size: 'lg' });
+  }
+  SetImage(url,title, imgCount){
+      this.EventCustomerdata.logoimgurl= url 
+      this.EventCustomerdata.selected_logoName= title
+  }
+  
+  UploadCustomerLogo() {
+    if (this.Adform.get('FilePathNew').value.length == 0) {
+      this.toastr.info('Please select a file');
+      return;
+    }
+    var eventDate = new Date()
+    const formData = new FormData();
+    formData.append('GenreId', '326');
+    formData.append('GenreName', 'Logo Images');
+    formData.append('CustomerId', this.cmbCustomerId);
+    formData.append('MediaType', "Image");
+    formData.append('FolderId', '0');
+    formData.append('DBType', localStorage.getItem('DBType'));
+    formData.append('IsAnnouncement','0');
+    formData.append('name', 'Excel');
+    formData.append('profile', this.Adform.get('FilePathNew').value);
+
+
+    this.serviceLicense.uploadLogo(formData).subscribe(
+      (res) => {
+        this.fileUpload = res;
+        var returnData = JSON.stringify(res);
+        var obj = JSON.parse(returnData);
+        if (obj.Responce == '1') {
+          this.toastr.info(obj.message, '');
+          this.loading = false;
+          this.FillLogo("777");
+        }
+        if (obj.Responce == '0') {
+          this.toastr.error(obj.message);
+          this.InputFileName = 'No file chosen...';
+          this.loading = false;
+        }
+        this.Adform.get('FilePathNew').setValue('');
+      },
+      (err) => {
+        this.toastr.error('p');
+        this.error = err;
+        this.loading = false;
+      }
+    );
+    this.flocationElement.nativeElement.focus();
+  }
+  onChangeEventCustomer (e){
+    this.CustomerEventList = this.eventListjson.filter(o => o.companyname == e)
+  }
+  OpenViewEventContent (modalName, event) {
+    console.log(event)
+    var url =`https://templates.nusign.eu/#/?templateId=CP3&imgSrc=${this.EventCustomerdata.logoimgurl}&title=${event.companyname}&desc=${event.eventvenue}&text1=${event.eventtime}&text2=${event.eventdtl}`
     console.log(url)
     localStorage.setItem("ViewContent",url)
     localStorage.setItem("oType","496")
@@ -1623,4 +1754,5 @@ async RefreshTokenList(){
         size: 'Template',
       }); 
   }
+
 }

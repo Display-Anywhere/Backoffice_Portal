@@ -1,6 +1,6 @@
 export class ConfigAPI {
   //private Host = 'http://live.advikon.com/api/';
-    private Host: string = "https://api.nusign.eu/api/";
+     private Host: string = "https://api.nusign.eu/api/";
    //private Host: string = "https://panelapi.advikon.com/api/";
    //private Host: string = "http://localhost:60328/api/";
    //private Host_panel: string = "https://api.advikon.com/api/";
@@ -165,6 +165,8 @@ export class ConfigAPI {
    GetDefaultPlaylistHotelTV: string = this.Host + 'GetDefaultPlaylistHotelTV';
    UploadEvent: string = this.Host + 'UploadEvent';
    GetMeetingRooms: string = this.Host + 'GetMeetingRooms';
+   UpdateMeetingRoomsInfo: string = this.Host + 'UpdateMeetingRoomsInfo';
+   GetEventDetails: string = this.Host + 'GetEventDetails';
 }
 
 // localStorage.setItem('UserId', obj.UserId);

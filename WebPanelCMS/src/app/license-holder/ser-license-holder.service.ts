@@ -96,6 +96,15 @@ export class SerLicenseHolderService {
       catchError(this.handleError)
     );
   }
+  uploadLogo(formData) {
+    return this.http.post<any>(`${this.cApi.UploadImage}`, formData, {
+      reportProgress: true,
+      observe: 'events'
+    }).pipe(
+      map(event => this.getEventMessage(event, formData)),
+      catchError(this.handleError)
+    );
+  }
   uploadevent(formData) {
     return this.http.post<any>(`${this.cApi.UploadEvent}`, formData, {
       reportProgress: true,
@@ -256,6 +265,18 @@ GetMeetingRooms(cid) {
   let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
   var params = JSON.stringify({ ClientId: cid });
   return this.http.post(this.cApi.GetMeetingRooms, params, { headers: headers })
+    .pipe((data => { return data; }))
+}
+UpdateMeetingRoomsInfo(json) {
+  let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+  var params = json;
+  return this.http.post(this.cApi.UpdateMeetingRoomsInfo, params, { headers: headers })
+    .pipe((data => { return data; }))
+}
+GetEventDetails(eventDate) {
+  let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+  var params = JSON.stringify({ eventDate });
+  return this.http.post(this.cApi.GetEventDetails, params, { headers: headers })
     .pipe((data => { return data; }))
 }
 }

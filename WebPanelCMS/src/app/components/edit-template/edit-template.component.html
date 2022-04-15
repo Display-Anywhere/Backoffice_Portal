@@ -70,7 +70,7 @@
                     <input type="button" (click)="openLibrary(modalSignage8,'Library')" class="btn btn-primary  mb-2 mr-sm-2" id="bkImage8" value="Open Library" />
                     <span><strong>{{templatedata.selected_imgName8}}</strong></span>
                   </div>
-                  <div *ngIf="((templateId!=='1') && (templateId!=='2') && (templateId!=='3') && (templateId!=='4') && (templateId!=='12') && (templateId!=='15')  && (templateId!=='16'))" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-2 m-0">
+                  <div *ngIf="((templateId!=='1') && (templateId!=='2') && (templateId!=='3') && (templateId!=='4') && (templateId!=='12') && (templateId!=='15')  && (templateId!=='16') && (templateId!=='17') && (templateId!=='18'))" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-2 m-0">
                     <label for="MediaType">Background Image Color:</label>
                     <input [(colorPicker)]="templatedata.bgImgColor" class="form-control" readonly [style.background]="templatedata.bgImgColor"/>
                   </div>
@@ -82,7 +82,7 @@
                     <label for="MediaType">Background Image Color:</label>
                     <input [(colorPicker)]="templatedata.bgImgColor" class="form-control" readonly [style.background]="templatedata.bgImgColor"/>
                   </div>
-                  <div  *ngIf="((templateId!=='15') &&(templateId!=='7') && (templateId!=='10') && (templateId!=='12') && (templateId!=='13') && (templateId!=='14')  && (templateId!=='16'))" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-2 m-0">
+                  <div  *ngIf="((templateId!=='15') &&(templateId!=='7') && (templateId!=='10') && (templateId!=='12') && (templateId!=='13') && (templateId!=='14')  && (templateId!=='16') &&(templateId!=='17')&&(templateId!=='18'))" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-2 m-0">
                     <label for="MediaType">Background Color:</label>
                     <input [(colorPicker)]="templatedata.bgcolor" class="form-control" readonly [style.background]="templatedata.bgcolor"/>
                   </div>
@@ -174,7 +174,7 @@
                   </div>
 
 
-                  <div [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0">
+                  <div *ngIf="((templateId !='17') && (templateId !='18'))" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0">
                     <label for="bkLogo" class="mb-2 mr-sm-2 w-100">Company Logo:</label>
                     <input  id="bkLogo" type="button" (click)="openLibrary(modalSignage,'Logo')" class="btn btn-primary  mb-2 mr-sm-2"   value="Open Library" />
                     <span><strong>{{templatedata.selected_logoName}}</strong></span>
@@ -265,6 +265,13 @@
  
         <iframe *ngIf="IsClickPreview   && templateId=='16'"  [src]="IframeSRC" title="Template 2"  frameborder="0" scrolling="no" width="450" height="667"></iframe> 
         <img *ngIf="!IsClickPreview   && templateId=='16'" src="assets/images/temp-16/16-portrait.png" alt="" style="width: 371px;height: 661px;"> 
+
+        <iframe *ngIf="IsClickPreview && cmbLibraryGenre=='325' && templateId=='17'"  [src]="IframeSRC" title="Template 6" scrolling="no" frameborder="0" width="667" height="375"></iframe> 
+        <img *ngIf="!IsClickPreview && cmbLibraryGenre=='325' && templateId=='17'" src="assets/images/temp-17/17-landscape.png" alt="" class="img-fluid card-img-top w-75 mt-5 box-shadow landscape" style="margin-left: auto;margin-right: auto;display: block;"> 
+ 
+        <iframe *ngIf="IsClickPreview && cmbLibraryGenre=='325' && templateId=='18'"  [src]="IframeSRC" title="Template 6" scrolling="no" frameborder="0" width="667" height="375"></iframe> 
+        <img *ngIf="!IsClickPreview && cmbLibraryGenre=='325' && templateId=='18'" src="assets/images/temp-18/18-landscape.png" alt="" class="img-fluid card-img-top w-75 mt-5 box-shadow landscape" style="margin-left: auto;margin-right: auto;display: block;"> 
+ 
       </div>
 </div>
 </div>
