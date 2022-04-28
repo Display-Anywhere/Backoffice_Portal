@@ -148,12 +148,12 @@
                 <i class="fa fa-clone iq-arrow-left"></i><span>Copy Data</span>
               </a>
             </li>
-            <li class="js-scroll-trigger" routerLinkActive="active">
+            <li *ngIf="(((authService.chkEventMeeting$ | async)==false))" class="js-scroll-trigger" routerLinkActive="active">
               <a routerLink="/Links">
                 <i class="fa fa-tasks iq-arrow-left"></i><span>Links</span>
               </a>
             </li>
-            <li
+            <li 
               class="js-scroll-trigger"
               *ngIf="
                 (((authService.chkInstantPlay$ | async) ) && (authService.chkViewOnly$ | async)==false)
@@ -168,7 +168,7 @@
             <!--  *ngIf="authService.UserId$ == '0'"-->
             <li
               class="js-scroll-trigger"
-             *ngIf="(authService.chkViewOnly$ | async)==false"
+             *ngIf="((authService.UserId$ =='0') && ((authService.chkViewOnly$ | async)==false))"
               routerLinkActive="active"
             >
               <a routerLink="/Users">
@@ -188,17 +188,17 @@
                 ><span>Streaming</span>
               </a>
             </li>
-            <li class="js-scroll-trigger" routerLinkActive="active">
+            <li *ngIf="(((authService.chkEventMeeting$ | async)==false))" class="js-scroll-trigger" routerLinkActive="active">
               <a routerLink="/manual">
                 <i class="fa fa-ravelry iq-arrow-left"></i><span>Manual</span>
               </a>
             </li>
-            <li class="js-scroll-trigger" routerLinkActive="active">
+            <li *ngIf="(((authService.chkEventMeeting$ | async)==false))" class="js-scroll-trigger" routerLinkActive="active">
               <a routerLink="/Reports">
                 <i class="fa fa-table iq-arrow-left"></i><span>Stats</span>
               </a>
             </li>
-            <li class="js-scroll-trigger" class="d-none d-xl-block">
+            <li *ngIf="(((authService.chkEventMeeting$ | async)==false))" class="js-scroll-trigger" class="d-none d-xl-block">
               <div class="input-group mt-1 search-input">
                 <input
                   type="text"

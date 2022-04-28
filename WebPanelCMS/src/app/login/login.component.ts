@@ -75,8 +75,13 @@ export class LoginComponent implements OnInit {
           localStorage.setItem('chkCopyData', obj.chkCopyData);
           localStorage.setItem('chkStreaming', obj.chkStreaming);
           localStorage.setItem('chkViewOnly', obj.chkViewOnly);
+          localStorage.setItem('chkEventMeeting', obj.chkEventMeeting);
+          if (obj.UserId != 0 && obj.chkEventMeeting == true){
+            localStorage.setItem('chkDashboard', 'false');
+            localStorage.setItem('chkPlayerDetail', 'true');
+          }
           this.authService.login();
-          if ((obj.dfClientId === '6') || (obj.dfClientId === '95') || (obj.dfClientId === '6') || (obj.dfClientId === '98')) {
+          if ((obj.dfClientId === '6') || (obj.dfClientId === '95') || (obj.dfClientId === '6')) {
             this.authService.IsAdminLogin();
           }
           else if ((obj.dfClientId === '167') && (obj.UserId==='112')) {

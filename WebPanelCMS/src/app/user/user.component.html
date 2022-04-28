@@ -388,6 +388,26 @@
                                               >View Only</label
                                             >
                                           </div>
+                                          <div class="custom-control custom-checkbox ml-1 mb-2 mr-2"
+                                        >
+                                          <input  
+                                            type="checkbox"
+                                            class="custom-control-input ml-1 cursor-pointer"
+                                            id="EventMeeting"
+                                            name="chkEventMeeting"
+                                            formControlName="chkEventMeeting"
+                                            [ngClass]="{
+                                              'is-invalid':
+                                                submitted && f.chkEventMeeting.errors
+                                            }"
+                                            
+                                          />
+                                          <label
+                                            class="custom-control-label cursor-pointer"
+                                            for="EventMeeting"
+                                            >Event Meeting Only</label
+                                          >
+                                        </div>
                                         </div>
                                       </div>
             

@@ -28,8 +28,8 @@
                   </option>
                 </select>
               </div>
-
-              <div class="form-group col-sm-2 m-0" *ngIf="this.auth.IsAdminLogin$.value===false">
+              
+              <div class="form-group col-sm-1 m-0" *ngIf="this.auth.IsAdminLogin$.value===false && this.auth.chkEventMeeting$.value === false ">
                 <label for="btnDF" class="d-none d-xl-block mb-2 mr-sm-2"
                   >&nbsp;</label
                 >
@@ -41,7 +41,7 @@
                   style="width: 100%"
                 />
               </div>
-              <div class="form-group col-sm-2 m-0">
+              <div *ngIf="((this.auth.chkEventMeeting$.value ==false))" class="form-group col-sm-2 m-0">
                 <label for="btnSig" class="d-none d-xl-block mb-2 mr-sm-2"
                   >&nbsp;</label
                 >
@@ -54,7 +54,7 @@
                   style="width: 100%"
                 />
               </div>
-              <div class="form-group col-sm-1 m-0">
+              <div *ngIf="((this.auth.chkEventMeeting$.value ==false))" class="form-group col-sm-1 m-0">
                 <label for="btnIndi" class="d-none d-xl-block mb-2 mr-sm-2"
                   >&nbsp;</label
                 >
@@ -67,7 +67,7 @@
                   style="width: 100%;width: 100%;font-size: 14px;padding: 0.475rem 0.60rem;"
                 />
               </div>
-              <div class="form-group col-sm-1 m-0">
+              <div *ngIf="((this.auth.chkEventMeeting$.value ==false))" class="form-group col-sm-1 m-0">
                 <label for="btnIndi" class="d-none d-xl-block mb-2 mr-sm-2"
                   >&nbsp;</label
                 >
@@ -80,7 +80,7 @@
                   style="width: 100%;width: 100%;font-size: 14px;padding: 0.475rem 0.20rem;"
                 />
               </div>
-              <div class="form-group col-sm-1 m-0">
+              <div *ngIf="((this.auth.chkEventMeeting$.value ==false))" class="form-group col-sm-1 m-0">
                 <label for="btnForce" class="d-none d-xl-block mb-2 mr-sm-2"
                   >&nbsp;</label
                 >
@@ -93,7 +93,7 @@
                   style="width: 100%"
                 />
               </div>
-              <div class="form-group col-sm-2 m-0">
+              <div *ngIf="((this.auth.chkEventMeeting$.value ==false))" class="form-group col-sm-1 m-0">
                 <label for="btnExport" class="d-none d-xl-block mb-2 mr-sm-2"
                   >&nbsp;</label
                 >
@@ -103,10 +103,11 @@
                   class="btn btn-primary mb-2 mr-sm-2 mr-1"
                   (click)="BulkActivation(modalUploadExcel)"
                   value="Bulk Activation"
-                  style="width: 100%"
+                  style="width: 100%;font-size: 14px;
+                  padding: 0.475rem 0.6rem"
                 />
               </div>
-              <div class="form-group col-sm-2 m-0" *ngIf="cid === '95'">
+              <div class="form-group col-sm-2 m-0" *ngIf="((cmbCustomerId=='95') || (cmbCustomerId=='10'))">
                 <label for="btnUploadEvent" class="d-none d-xl-block mb-2 mr-sm-2"
                   >&nbsp;</label
                 >
@@ -1298,28 +1299,6 @@
   </div>
   <div class="modal-body">
     <ngb-tabset #tPl="ngbTabset">
-      <ngb-tab id="tab-search" title="Event List">
-        <ng-template ngbTabContent>
-          <div class="table-responsive">
-            <table class="table data-table table-striped table-bordered mydatatable">
-              <thead>
-                <tr>
-                  <th class="bg-primary sticky-top" style="max-width: 40%;width: 40%;">Event Date</th>
-                  <th class="bg-primary sticky-top Link-Center_Width"></th>
-                  <th class="bg-primary sticky-top Link-Center_Width"></th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="cursor-pointer" *ngFor="let eLst of EventList; let i = index">
-                  <td>{{eLst.Id | date:'dd-MMM-yyyy'}}</td>
-                  <td class="Link-Center_Width"><a href="javascript:;" (click)="OpenViewContent(viewcontent, eLst.Id,'N')"><i class="fa fa-eye" aria-hidden="true"></i></a> </td>
-                  <td class="Link-Center_Width"><a href="javascript:;" (click)="OpenViewContent(viewcontent, eLst.Id,'O')"><i class="fa fa-eye" aria-hidden="true"></i></a> </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </ng-template>
-      </ngb-tab>
       <ngb-tab id="tab-AddNew" title="Upload Events" *ngIf="!IschkViewOnly">
         <ng-template ngbTabContent>
           <div class="col-sm-12">
@@ -1347,7 +1326,7 @@
                 #myEventInput
                 (change)="onSelectedFile($event)"
                 id="chooseFile2"
-                accept=".xlsx"
+                accept=".xlsx,.xls"
                 class="btn btn-default border"
                 style="width: 100%"
               />
@@ -1385,7 +1364,92 @@
            
         </ng-template>
       </ngb-tab>
-      <ngb-tab id="tab-Room" title="Meeting Rooms" *ngIf="!IschkViewOnly">
+      <ngb-tab id="tab-search" title="Event List">
+        <ng-template ngbTabContent>
+          <div class="table-responsive">
+            <table class="table data-table table-striped table-bordered mydatatable">
+              <thead>
+                <tr>
+                  <th class="bg-primary sticky-top" style="max-width: 40%;width: 40%;">Event Date</th>
+                  <th class="bg-primary sticky-top Link-Center_Width"></th>
+                  <!--<th class="bg-primary sticky-top Link-Center_Width"></th>-->
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="cursor-pointer" *ngFor="let eLst of EventList; let i = index">
+                  <td>{{eLst.Id | date:'dd-MMM-yyyy'}}</td>
+                  <td class="Link-Center_Width"><a href="javascript:;" (click)="OpenViewContent(viewcontent, eLst.Id,'N')"><i class="fa fa-eye" aria-hidden="true"></i></a> </td>
+                  <!--<td class="Link-Center_Width"><a href="javascript:;" (click)="OpenViewContent(viewcontent, eLst.Id,'O')"><i class="fa fa-eye" aria-hidden="true"></i></a> </td>-->
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </ng-template>
+      </ngb-tab>
+      
+      
+      <ngb-tab id="tab-CmpEvent" title="Company Events" *ngIf="!IschkViewOnly">
+        <ng-template ngbTabContent>
+        <div class="col-sm-12">
+          <div class="form-row">
+            <div class="form-group col-sm-5 m-0">
+              <label for="cmbEventCust"  class="mb-2 mr-sm-2"  
+                >Customer:</label
+              >
+              <select
+                class="custom-select mb-3"
+                (change)="onChangeEventCustomer($event.target.value)"
+                id="cmbEventCust"
+                [(ngModel)]="cmbEventCustomer"
+              >
+                <option selected value="0"></option>
+                <option *ngFor="let cLst of EventCustomerList" [value]="cLst.companyname">
+                  {{ cLst.companyname }}
+                </option>
+              </select>
+            </div>
+            <div class="form-group col-sm-5 m-0">
+              <label for="bkLogo1" class="mb-2 mr-sm-2 w-100">Company Logo: <span style="cursor: pointer;"><i *ngIf="EventCustomerdata.selected_logoName !=''" (click)="ResetCompanylogo()" class="text-danger fa fa-times-circle" aria-hidden="true"></i></span> </label>
+                    <input  id="bkLogo" type="button" (click)="openLibrary(modalCustomerLogo)" class="btn btn-primary  mb-2 mr-sm-2"   value="Upload Company Logo" />
+                    <span><strong>{{EventCustomerdata.selected_logoName}}</strong></span>
+            </div>
+            <div class="form-group col-sm-2 m-0 text-right">
+              <button 
+              type="button"
+              class="btn btn-primary btn-s mt-5"
+              (click)="SaveRoomCustomerEvent()"
+            >
+              Save
+            </button>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12">
+        <div class="table-responsive">
+          <table class="table data-table table-striped table-bordered mydatatable">
+            <thead>
+              <tr>
+                <th class="bg-primary sticky-top" >Time</th>
+                <th class="bg-primary sticky-top">Location</th>
+                <th class="bg-primary sticky-top">Activity</th>
+                <th class="bg-primary sticky-top"style="max-width: 7%;width: 7%;"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="cursor-pointer" *ngFor="let eLst of CustomerEventList; let i = index">
+                <td>{{eLst.eventtime}}</td>
+                <td>{{eLst.eventvenue}}</td>
+                <td>{{eLst.eventdtl}}</td>
+                <td style="max-width: 7%;width: 7%;"><a href="javascript:;" (click)="OpenViewEventContent(viewcontent, eLst)"><i class="fa fa-eye" aria-hidden="true"></i></a> </td>
+
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      </ng-template>
+      </ngb-tab>
+<ngb-tab id="tab-Room" title="Meeting Rooms" *ngIf="!IschkViewOnly">
         <ng-template ngbTabContent>
           <div class="col-sm-12">
             <div class="form-row">
@@ -1405,7 +1469,7 @@
                   </option>
                 </select>
               </div>
-              <div class="form-group col-sm-3 m-0">
+              <div class="form-group col-sm-3 m-0 d-none">
                 <label for="cmbRoomStatus"  class="mb-2 mr-sm-2" #flocation
                   >Room Status:</label
                 >
@@ -1483,58 +1547,7 @@
           </div>
         </ng-template>
       </ngb-tab>
-      <ngb-tab id="tab-CmpEvent" title="Company Events" *ngIf="!IschkViewOnly">
-        <ng-template ngbTabContent>
-        <div class="col-sm-12">
-          <div class="form-row">
-            <div class="form-group col-sm-5 m-0">
-              <label for="cmbEventCust"  class="mb-2 mr-sm-2"  
-                >Customer:</label
-              >
-              <select
-                class="custom-select mb-3"
-                (change)="onChangeEventCustomer($event.target.value)"
-                id="cmbEventCust"
-                [(ngModel)]="cmbEventCustomer"
-              >
-                <option selected value="0"></option>
-                <option *ngFor="let cLst of EventCustomerList" [value]="cLst.companyname">
-                  {{ cLst.companyname }}
-                </option>
-              </select>
-            </div>
-            <div class="form-group col-sm-5 m-0">
-              <label for="bkLogo" class="mb-2 mr-sm-2 w-100">Company Logo:</label>
-                    <input  id="bkLogo" type="button" (click)="openLibrary(modalCustomerLogo)" class="btn btn-primary  mb-2 mr-sm-2"   value="Open Library" />
-                    <span><strong>{{EventCustomerdata.selected_logoName}}</strong></span>
-            </div>
-          </div>
-        </div>
-        <div class="col-sm-12">
-        <div class="table-responsive">
-          <table class="table data-table table-striped table-bordered mydatatable">
-            <thead>
-              <tr>
-                <th class="bg-primary sticky-top" >Time</th>
-                <th class="bg-primary sticky-top">Location</th>
-                <th class="bg-primary sticky-top">Activity</th>
-                <th class="bg-primary sticky-top"style="max-width: 7%;width: 7%;"></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr class="cursor-pointer" *ngFor="let eLst of CustomerEventList; let i = index">
-                <td>{{eLst.eventtime}}</td>
-                <td>{{eLst.eventvenue}}</td>
-                <td>{{eLst.eventdtl}}</td>
-                <td style="max-width: 7%;width: 7%;"><a href="javascript:;" (click)="OpenViewEventContent(viewcontent, eLst)"><i class="fa fa-eye" aria-hidden="true"></i></a> </td>
 
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      </ng-template>
-      </ngb-tab>
     </ngb-tabset>
 
      

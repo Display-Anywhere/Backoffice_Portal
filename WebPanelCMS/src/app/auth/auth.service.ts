@@ -15,7 +15,8 @@ export class AuthService {
   public chkAdvertisement$: BehaviorSubject<boolean>;
   public chkInstantPlay$: BehaviorSubject<boolean>;
   public chkViewOnly$: BehaviorSubject<boolean>;
-
+  public chkEventMeeting$: BehaviorSubject<boolean>;
+  
   public chkUpload$: BehaviorSubject<boolean>;
   public chkCopyData$: BehaviorSubject<boolean>;
   public chkStreaming$: BehaviorSubject<boolean>;
@@ -69,6 +70,8 @@ export class AuthService {
     const chkViewOnly = localStorage.getItem('chkViewOnly') === 'true';
     this.chkViewOnly$ = new BehaviorSubject(chkViewOnly);
 
+    const chkEventMeeting = localStorage.getItem('chkEventMeeting') === 'true';
+    this.chkEventMeeting$ = new BehaviorSubject(chkEventMeeting);
 
     const chkUpload = localStorage.getItem('dfClientId') === 'true';
     this.chkUpload$ = new BehaviorSubject(chkUpload);
@@ -187,5 +190,12 @@ export class AuthService {
     else {
       this.chkViewOnly$.next(false);
     }
+    if (localStorage.getItem('chkEventMeeting') == 'true') {
+      this.chkEventMeeting$.next(true);
+    }
+    else {
+      this.chkEventMeeting$.next(false);
+    }
+    
   }
 }

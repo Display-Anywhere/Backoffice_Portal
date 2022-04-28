@@ -273,10 +273,16 @@ UpdateMeetingRoomsInfo(json) {
   return this.http.post(this.cApi.UpdateMeetingRoomsInfo, params, { headers: headers })
     .pipe((data => { return data; }))
 }
-GetEventDetails(eventDate) {
+GetEventDetails(eventDate,dfclientid) {
   let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-  var params = JSON.stringify({ eventDate });
+  var params = JSON.stringify({ eventDate, dfclientid });
   return this.http.post(this.cApi.GetEventDetails, params, { headers: headers })
+    .pipe((data => { return data; }))
+}
+SaveRoomCustomerEvent(json) {
+  let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+  var params = json;
+  return this.http.post(this.cApi.SaveRoomCustomerEvent, params, { headers: headers })
     .pipe((data => { return data; }))
 }
 }

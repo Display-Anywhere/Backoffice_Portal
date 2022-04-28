@@ -66,7 +66,7 @@ export class EditTemplateComponent implements OnInit {
   IsClickPreview= false
   IframeSRC: SafeResourceUrl
    //templateHost ='http://localhost:4201/#/'
-   templateHost ='https://templates.nusign.eu/#/'
+   templateHost ='https://templates.nusign.eu'
   constructor(private serviceLicense: SerLicenseHolderService,public toastr: ToastrService,
     public auth: AuthService,private pService: PlaylistLibService,private modalService: NgbModal,
     private router: Router,public sanitizer: DomSanitizer) { }

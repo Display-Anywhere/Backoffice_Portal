@@ -298,4 +298,10 @@ export class TemplateUrlComponent implements OnInit {
           this.loading = false;
         })
   }
+  CancelPage(){
+    this.initUrlForm();
+    this.UrlList=[];
+    this.FillClientList();
+    this.cmbSearchCustomer="0";
+  }
 }

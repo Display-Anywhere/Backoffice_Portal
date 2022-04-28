@@ -7,3 +7,7 @@
 .nav-tabs{
     background: #fff !important;
 }  */
+
+.disablediv{
+  pointer-events:none;
+}

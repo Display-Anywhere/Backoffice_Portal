@@ -41,7 +41,7 @@ export class MytemplateComponent implements OnInit {
   preventAbuse = false;
   IframeSRC: SafeResourceUrl
   //templateHost ='http://localhost:4201/#/'
-   templateHost ='https://templates.nusign.eu/#/'
+   templateHost ='https://templates.nusign.eu'
   IsLS_URL= true
   DelpSchid="0"
   constructor(private formBuilder: FormBuilder,private dService: SrDownloadTemplateService,  public toastr: ToastrService,private tService: TokenInfoServiceService,
@@ -719,7 +719,7 @@ this.preventAbuse = true;
         "urlName": "${this.TemplateSelected[index].TemplateName}",
         "duration": "${this.TemplateSelected[index].duration}",
         "refersh": "${this.TemplateSelected[index].Refersh}",
-        "urlLink": "https://templates.nusign.eu/#/?id=${this.TemplateSelected[index].id}",
+        "urlLink": "https://templates.nusign.eu?id=${this.TemplateSelected[index].id}",
         "dbType": "Nusign",
         "IsAnnouncement": false
     }`

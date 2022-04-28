@@ -32,6 +32,7 @@ export class UserComponent implements OnInit {
   PlaylistList = [];
   cmbCustomer;
   chkUserAll: boolean = false;
+  chkdis: boolean = true;
   SearchList=[]
   @ViewChildren(NgbdSortableHeader_User) headers: QueryList<NgbdSortableHeader_User>;
   compare = (v1: string | number, v2: string | number) =>
@@ -78,6 +79,7 @@ export class UserComponent implements OnInit {
       chkStreaming: [false],
       chkOfflineAlert: [false],
       chkViewOnly:[false],
+      chkEventMeeting:[false],
       OfflineIntervalHour:["30"],
     });
 
@@ -116,10 +118,30 @@ export class UserComponent implements OnInit {
       this.toastr.error("Please select a user rights");
       return;
     }
+    if (this.f.chkEventMeeting.value == false) {
     if (this.TokenSelected.length == 0) {
       this.toastr.error("Please select a player");
       return;
     }
+  }
+  if (this.f.chkEventMeeting.value == true) {
+    this.f.chkDashboard.setValue(false);
+    this.f.chkPlayerDetail.setValue(true);
+    this.f.chkPlaylistLibrary.setValue(false);
+    this.f.chkScheduling.setValue(false);
+    this.f.chkAdvertisement.setValue(false);
+    this.f.chkInstantPlay.setValue(false);
+    this.f.chkDeleteSong.setValue(false);
+    this.f.chkInstantApk.setValue(false);
+    this.f.chkUserAdmin.setValue(false);
+    this.f.chkUpload.setValue(false);
+    this.f.chkCopyData.setValue(false);
+    this.f.chkStreaming.setValue(false);
+    this.f.chkViewOnly.setValue(false);
+  }
+  if (this.f.chkViewOnly.value == true) {
+    this.f.chkEventMeeting.setValue(false);
+  }
 
     this.Userform.get('dfClientid').setValue(this.did);
     this.loading = true;
@@ -172,6 +194,8 @@ export class UserComponent implements OnInit {
     this.f.chkCopyData.setValue(false);
     this.f.chkStreaming.setValue(false);
     this.f.chkViewOnly.setValue(false);
+    this.f.chkEventMeeting.setValue(false);
+    
     
 
     this.FillPlayer(this.did);
@@ -255,6 +279,7 @@ export class UserComponent implements OnInit {
         this.f.chkOfflineAlert.setValue(obj.chkOfflineAlert);
         this.f.OfflineIntervalHour.setValue(obj.OfflineIntervalHour);
         this.f.chkViewOnly.setValue(obj.chkViewOnly);
+        this.f.chkEventMeeting.setValue(obj.chkEventMeeting);
         
         this.f.cmbFormat.setValue(obj.cmbFormat);
         this.FillPlaylist(obj.cmbFormat)
@@ -359,7 +384,7 @@ export class UserComponent implements OnInit {
 
       },
         error => {
-          this.toastr.error("Apologies for the inconvenience.The error is recorded.", '');
+          //this.toastr.error("Apologies for the inconvenience.The error is recorded.", '');
           this.loading = false;
         })
   }
@@ -418,5 +443,6 @@ export class UserComponent implements OnInit {
     this.f.chkUpload.setValue(e);
     this.f.chkCopyData.setValue(e);
     this.f.chkStreaming.setValue(e);
+    this.f.chkEventMeeting.setValue(false);
   }
 }

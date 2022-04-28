@@ -5,7 +5,6 @@ export class ConfigAPI {
    //private Host: string = "http://localhost:60328/api/";
    //private Host_panel: string = "https://api.advikon.com/api/";
    //private Host_panel: string = "http://localhost:60328/api/";
-
    FillQueryCombo: string = this.Host + 'FillQueryCombo';
    FillTokenInfo: string = this.Host + 'FillTokenInfo';
    FillTokenContent: string = this.Host + 'FillTokenContent';
@@ -167,6 +166,7 @@ export class ConfigAPI {
    GetMeetingRooms: string = this.Host + 'GetMeetingRooms';
    UpdateMeetingRoomsInfo: string = this.Host + 'UpdateMeetingRoomsInfo';
    GetEventDetails: string = this.Host + 'GetEventDetails';
+   SaveRoomCustomerEvent: string =  this.Host + 'SaveRoomCustomerEvent';
 }
 
 // localStorage.setItem('UserId', obj.UserId);

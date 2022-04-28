@@ -1195,6 +1195,7 @@
                   (sort)="onSort_Libray($event)"><span *ngIf="cmbCustomerMediaType == 'Signage'">Orientation</span><span *ngIf="cmbCustomerMediaType != 'Signage'">Genre</span></th>
                   <th *ngIf="((chkMediaRadio!='Image') && (chkMediaRadio!='Url'))" class="WidthCategoryPL bg-primary sticky-top"  sortable="genreName"
                   (sort)="onSort_Libray($event)">Length</th>
+                  <th class="WidthCategoryPL bg-primary sticky-top" *ngIf="(chkMediaRadio=='Video') " sortable="Label" (sort)="onSort_Libray($event)">Label</th>
                   <!--<th *ngIf="((chkMediaRadio=='Audio') && (IsRF==true)) ||
                   ((chkMediaRadio=='Video')) " class="WidthCategoryPL bg-primary sticky-top">
                     {{ HeaderName }}
@@ -1310,6 +1311,7 @@
                   <td class="WidthArtistPL">{{ songLst.Artist }}</td>
                   <td class="WidthCategoryPL">{{ songLst.genreName }}</td>
                   <td *ngIf="((chkMediaRadio!='Image') && (chkMediaRadio!='Url'))" class="WidthCategoryPL">{{ songLst.Length }}</td>
+                  <td *ngIf="(chkMediaRadio=='Video') " class="WidthCategoryPL">{{songLst.Label}}</td>
                   <!--
 
                   
@@ -1331,8 +1333,7 @@
                     ></i>
                   </td>-->
 
-                  <!--<td *ngIf="((chkMediaRadio=='Audio') && (IsRF==true)) ||
-                  ((chkMediaRadio=='Video')) " class="WidthCategoryPL">{{songLst.Label}}</td>-->
+                  
                   
                   <td *ngIf="((chkMediaRadio=='Image'))" class="WidthCategoryPL">{{songLst.FolderName}}</td>
                   <td  *ngIf="((chkSearchRadio=='BPM'))"
