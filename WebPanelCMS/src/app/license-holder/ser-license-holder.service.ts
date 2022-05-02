@@ -279,6 +279,12 @@ GetEventDetails(eventDate,dfclientid) {
   return this.http.post(this.cApi.GetEventDetails, params, { headers: headers })
     .pipe((data => { return data; }))
 }
+GetFutureDateEventDetails(eventDate,dfclientid) {
+  let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+  var params = JSON.stringify({ eventDate, dfclientid });
+  return this.http.post(this.cApi.GetFutureDateEventDetails, params, { headers: headers })
+    .pipe((data => { return data; }))
+}
 SaveRoomCustomerEvent(json) {
   let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
   var params = json;

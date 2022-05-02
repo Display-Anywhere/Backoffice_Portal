@@ -167,6 +167,7 @@ export class ConfigAPI {
    UpdateMeetingRoomsInfo: string = this.Host + 'UpdateMeetingRoomsInfo';
    GetEventDetails: string = this.Host + 'GetEventDetails';
    SaveRoomCustomerEvent: string =  this.Host + 'SaveRoomCustomerEvent';
+   GetFutureDateEventDetails: string = this.Host + 'GetFutureDateEventDetails';
 }
 
 // localStorage.setItem('UserId', obj.UserId);

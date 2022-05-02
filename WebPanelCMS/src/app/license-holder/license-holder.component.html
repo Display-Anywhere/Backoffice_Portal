@@ -1304,18 +1304,18 @@
           <div class="col-sm-12">
             <div class="form-row">
               <div class="form-group col-sm-3 m-0">
-                <label for="SearchEvtDate" class="mb-2 mr-sm-2">Event Date:</label>
+                <label for="SearchEvtDate" class="ml-3 mb-2 mr-sm-2">Event Date:</label>
                 <input
                 id="SearchEvtDate"
                 class="form-control mb-2 mr-sm-2"
-                [owlDateTimeTrigger]="dtEventDate"
-                [(ngModel)]="dtpEventDate"
-                [owlDateTime]="dtEventDate"
+                [owlDateTimeTrigger]="dtUploadSheetEventDate"
+                [(ngModel)]="dtpUploadSheetEventDate"
+                [owlDateTime]="dtUploadSheetEventDate"
                 readonly
               />
               <owl-date-time
                 [pickerType]="'calendar'"
-                #dtEventDate
+                #dtUploadSheetEventDate
               ></owl-date-time>
               </div>
               <div class="form-group col-sm-6 m-0">
@@ -1388,11 +1388,27 @@
       </ngb-tab>
       
       
-      <ngb-tab id="tab-CmpEvent" title="Company Events" *ngIf="!IschkViewOnly">
+      <ngb-tab id="tab-CmpEvent" title="Upload Logo" *ngIf="!IschkViewOnly">
         <ng-template ngbTabContent>
         <div class="col-sm-12">
           <div class="form-row">
-            <div class="form-group col-sm-5 m-0">
+            <div class="form-group col-sm-2 m-0">
+              <label for="SearchEvtDate" class="ml-3 mb-2 mr-sm-2">Date:</label>
+              <input
+              id="SearchEvtDate"
+              class="form-control mb-2 mr-sm-2"
+              [owlDateTimeTrigger]="dtLogoEventDate"
+              [(ngModel)]="dtpLogoEventDate"
+              [owlDateTime]="dtLogoEventDate"
+              readonly
+            />
+            <owl-date-time
+              [pickerType]="'calendar'"
+              (afterPickerClosed)="GetEvent()"
+              #dtLogoEventDate
+            ></owl-date-time>
+            </div>
+            <div class="form-group col-sm-4 m-0">
               <label for="cmbEventCust"  class="mb-2 mr-sm-2"  
                 >Customer:</label
               >
@@ -1409,15 +1425,15 @@
               </select>
             </div>
             <div class="form-group col-sm-5 m-0">
-              <label for="bkLogo1" class="mb-2 mr-sm-2 w-100">Company Logo: <span style="cursor: pointer;"><i *ngIf="EventCustomerdata.selected_logoName !=''" (click)="ResetCompanylogo()" class="text-danger fa fa-times-circle" aria-hidden="true"></i></span> </label>
-                    <input  id="bkLogo" type="button" (click)="openLibrary(modalCustomerLogo)" class="btn btn-primary  mb-2 mr-sm-2"   value="Upload Company Logo" />
-                    <span><strong>{{EventCustomerdata.selected_logoName}}</strong></span>
+              <label for="bkLogo1" class="mb-2 mr-sm-2 w-100">Logo: <span style="cursor: pointer;"><i *ngIf="EventCustomerdata.selected_logoName !=''" (click)="ResetCompanylogo()" class="text-danger fa fa-times-circle" aria-hidden="true"></i></span> </label>
+                    <input  id="bkLogo" type="button" (click)="openLibrary(modalCustomerLogo)" class="btn btn-primary  mb-2 mr-sm-2"   value="Logo Library" />
+                    <span style="font-size: 11px;"><strong>{{EventCustomerdata.selected_logoName}}</strong></span>
             </div>
-            <div class="form-group col-sm-2 m-0 text-right">
+            <div class="form-group col-sm-1 m-0 text-right">
               <button 
               type="button"
               class="btn btn-primary btn-s mt-5"
-              (click)="SaveRoomCustomerEvent()"
+              (click)="SaveRoomCustomerEventWithButtonClick()"
             >
               Save
             </button>
@@ -1639,7 +1655,7 @@
           <div class="card-body p-1 border-top">
             <a
               href="javascript:;"
-              (click)="SetImage(songLst.TitleIdLink, songLst.title,1)" (click)="d('Cross click')"
+              (click)="SetImage(songLst.TitleIdLink, songLst.title,1,songLst.id)" (click)="d('Cross click')"
               class="btn btn-primary btn-sm"
               >Set</a
             >

@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit {
       this.emailText='jan@advikon.eu'
     }
     else{
-      this.emailText='info@screensolutions.nl'
+      this.emailText='info@nusign.be'
     }
     localStorage.setItem('IsAnnouncement','0')
     this.loginform = this.formBuilder.group({

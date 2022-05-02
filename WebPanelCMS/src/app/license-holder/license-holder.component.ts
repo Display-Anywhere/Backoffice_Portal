@@ -47,7 +47,8 @@ export class LicenseHolderComponent
   TokenList = [];
   CustomerList: any[];
   FolderList: any[];
-  dtpEventDate = new Date()
+  dtpEventDate1 = new Date()
+  dtpUploadSheetEventDate= new Date()
   public loading = false;
   TokenInfoPopup: boolean = false;
   page: number = 1;
@@ -109,9 +110,11 @@ export class LicenseHolderComponent
   EventCustomerList=[]
   eventListjson= []
   selected_logoName
+  dtpLogoEventDate= new Date()
   EventCustomerdata = {
     logoimgurl: "",
-    selected_logoName: ""
+    selected_logoName: "",
+    titleid: "0"
   }
   CustomerEventList =[]
   //templateHost ='http://localhost:4201'
@@ -1524,15 +1527,19 @@ async RefreshTokenList(){
     this.modalService.open(philipsinfoModal, { size: 'lg' });
 
   }
-  GetEventDetails () {
-    this.GetCurrentEventDetails()
-    return
+  GetFutureEventDetails () {
+    this.EventList =[]
     this.loading = true;
-    var str = '';
-    str =`select format(eventdate,'dd-MMM-yyyy') as Id, eventdate as DisplayName  from tbEvent where clientid=${this.cmbCustomerId} order by eventdate desc`
-    this.serviceLicense.FillCombo(str).pipe().subscribe((data) => {
-          var returnData = JSON.stringify(data);
-          this.EventList = JSON.parse(returnData);
+    var EventDate = new Date()
+    this.serviceLicense.GetFutureDateEventDetails(EventDate.toDateString(), this.cmbCustomerId).pipe().subscribe((data) => {
+      var returnData = JSON.stringify(data);
+      var obj  = JSON.parse(returnData);
+          var jsonParse = JSON.parse(obj.data)
+          jsonParse.forEach(item => {
+            var ar ={}
+            ar['Id'] = item['eventdate']
+            this.EventList.push(ar)
+          });
           this.loading = false;
         },
         (error) => {
@@ -1550,8 +1557,13 @@ async RefreshTokenList(){
       this.toastr.info('This feature is not available in view only');
       return;
     }
+    this.CustomerEventList = []
+    var EventDate = new Date()
+    this.dtpUploadSheetEventDate= EventDate
+    this.dtpLogoEventDate = EventDate
     this.GetMeetingRooms()
-    this.GetEventDetails()
+    this.GetFutureEventDetails()
+    this.GetCurrentEventDetails(EventDate)
     
     this.modalService.open(modalContant, {
       size: 'lg',
@@ -1559,12 +1571,13 @@ async RefreshTokenList(){
     });
     this.flocationElement.nativeElement.focus();  
   }
+  isUploadEventSheet="No"
   UploadEventSheet() {
     if (this.Adform.get('FilePathNew').value.length == 0) {
       this.toastr.info('Please select a file');
       return;
     }
-    var eventDate = new Date(this.dtpEventDate)
+    var eventDate = new Date(this.dtpUploadSheetEventDate)
     const formData = new FormData();
     formData.append('name', 'Excel');
     formData.append('clientid', this.cmbCustomerId);
@@ -1577,13 +1590,20 @@ async RefreshTokenList(){
         var returnData = JSON.stringify(res);
         var obj = JSON.parse(returnData);
         if (obj.Responce == '1') {
-          this.toastr.info(obj.message, '');
+          this.toastr.info('Sheet Uploaded', '');
           this.loading = false;
-          this.GetEventDetails()
+          this.isUploadEventSheet="Yes"
+          this.GetCurrentEventDetails(eventDate)
+          var currentd = new Date();
+          var cd = new Date(currentd.getFullYear(),currentd.getMonth(),currentd.getDate());
+          var putDate = new Date(eventDate);
+          if (cd == putDate) {
           if (this.cmbCustomerId == "10") {
             let payload =["2251","2253","2255"]
             this.publishEventPLayer(payload)
           }
+        }
+          this.GetFutureEventDetails()
         }
         if (obj.Responce == '0') {
           this.toastr.error(obj.message);
@@ -1676,20 +1696,22 @@ async RefreshTokenList(){
         size: 'Template',
       }); 
   }
-  GetCurrentEventDetails () {
-    this.EventList =[]
+  GetCurrentEventDetails (EventDate) {
+    this.CustomerEventList = []
     this.EventCustomerList =[]
     this.cmbEventCustomer="0"
-    var EventDate = new Date()
     this.loading = true;
     var str = '';
     this.serviceLicense.GetEventDetails(EventDate.toDateString(), this.cmbCustomerId).pipe().subscribe((data) => {
       var returnData = JSON.stringify(data);
       var obj  = JSON.parse(returnData);
+      this.loading = false;
       if (obj.response =="1"){
         var jsonParse = JSON.parse(obj.data)
         var eventjson = JSON.parse(jsonParse[0].eventjson)
         eventjson = eventjson.filter(o=> o.eventvenue != "Meeting Lounge")
+        this.CustomerEventList = []
+
         eventjson.forEach(item => {
           var objAr = this.MeetingRoomList.filter(o => o.roomname == item['eventvenue'])
           item['mid'] =0
@@ -1697,21 +1719,24 @@ async RefreshTokenList(){
           if (objAr.length >0 ){
             item['mid'] =objAr[0].id
             item['tid'] =objAr[0].tokenid
+
+            this.CustomerEventList.push(item)
           }
           var arr = {}
           this.EventCustomerList = this.EventCustomerList.filter(o => o.companyname != item['companyname'])
           arr['companyname']= item['companyname']
           this.EventCustomerList.push(arr)
         });
-        console.log(eventjson)
-        this.CustomerEventList = []
         this.eventListjson= eventjson
-        
-        this.EventList = [{
-          Id: jsonParse[0].eventdate
-        }] 
+        if (this.isUploadEventSheet == "No"){
+          this.CustomerEventList = []
+        }
+        if (this.isUploadEventSheet == "Yes"){
+          this.isUploadEventSheet = "No"
+          this.SaveRoomCustomerEventWithUploadSheet(EventDate)
+        }
       }
-          this.loading = false;
+          
 
         },
         (error) => {
@@ -1726,12 +1751,13 @@ async RefreshTokenList(){
       this.toastr.info('Please select a customer name');
       return;
     }
-    this.FillLogo("999");
+    this.FillLogo("777");
     this.modalService.open(ObjModal, { size: 'lg' });
   }
-  SetImage(url,title, imgCount){
+  SetImage(url,title, imgCount, titleid){
       this.EventCustomerdata.logoimgurl= url 
       this.EventCustomerdata.selected_logoName= title
+      this.EventCustomerdata.titleid  = titleid
   }
   
   UploadCustomerLogo() {
@@ -1760,7 +1786,7 @@ async RefreshTokenList(){
         if (obj.Responce == '1') {
           this.toastr.info(obj.message, '');
           this.loading = false;
-          this.FillLogo("777");
+          this.FillLogo("999");
         }
         if (obj.Responce == '0') {
           this.toastr.error(obj.message);
@@ -1779,6 +1805,7 @@ async RefreshTokenList(){
   }
   onChangeEventCustomer (e){
     // Meeting Lounge
+    this.ResetCompanylogo()
     this.CustomerEventList = this.eventListjson.filter(o => o.companyname == e && o.mid != 0)
   }
   OpenViewEventContent (modalName, event) {
@@ -1790,8 +1817,14 @@ async RefreshTokenList(){
         size: 'Template',
       }); 
   }
-
-  SaveRoomCustomerEvent() {
+  SaveRoomCustomerEventWithUploadSheet (eventDate) {
+    this.CommonSaveRoomCustomerEvent(eventDate)
+  }
+  SaveRoomCustomerEventWithButtonClick () {
+    var eventDate
+    this.CommonSaveRoomCustomerEvent(eventDate)
+  }
+  CommonSaveRoomCustomerEvent(eventDate) {
     
     var payload =[]
     let payloadPublish = []
@@ -1800,14 +1833,18 @@ async RefreshTokenList(){
       return
     }
     this.loading = true;
+    
+
     this.CustomerEventList.forEach(item => {
       var arr ={}
       arr['fromtotime'] = item['eventtime']
       arr['cName'] = item['companyname']
       arr['logoUrl'] = this.EventCustomerdata.logoimgurl
+      arr['titleid'] = this.EventCustomerdata.titleid 
       arr['activity'] = item['eventdtl']
       arr['mid'] = item['mid']
       arr['dfclientid'] =this.cmbCustomerId
+      arr['eventDate'] = eventDate.toDateString()
       payloadPublish.push(item['tid'])
       payload.push(arr)
     });
@@ -1815,10 +1852,18 @@ async RefreshTokenList(){
       var returnData = JSON.stringify(data);
       var objRes = JSON.parse(returnData);
       if (objRes.Responce == "1"){
-        this.toastr.info('Save', '');
+        this.toastr.info('Event schedule is saved', '');
+        var currentd = new Date();
+        var cd = new Date(currentd.getFullYear(),currentd.getMonth(),currentd.getDate());
+        var putDate = new Date(eventDate);
+        if (cd == putDate) {
         if (this.cmbCustomerId == "10") {
           this.publishEventPLayer(payloadPublish)
         }
+      }
+
+        this.CustomerEventList=[]
+        this.ResetCompanylogo();
       }
       this.loading = false;
     },
@@ -1831,7 +1876,20 @@ async RefreshTokenList(){
   ResetCompanylogo() {
     this.EventCustomerdata = {
       logoimgurl: "",
-      selected_logoName: ""
+      selected_logoName: "",
+      titleid:"0"
     }
   }
+  GetEvent(){
+    var currentd = new Date();
+    var cd = new Date(currentd.getFullYear(),currentd.getMonth(),currentd.getDate());
+    var EventDate = new Date(this.dtpLogoEventDate);
+    if (EventDate < cd) {
+      this.toastr.error('Event date could not be less than current date','');
+      this.dtpLogoEventDate = cd;
+    }
+    this.CustomerEventList = []
+    this.GetCurrentEventDetails(EventDate)
+  }
+
 }
