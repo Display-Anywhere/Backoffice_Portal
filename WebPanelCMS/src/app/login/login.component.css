@@ -67,3 +67,8 @@ input:-webkit-autofill:active {
 .logindivcenter{
   margin-left: auto;margin-right: auto;
 }
+.sbitlogo{ 
+  width: 200px;
+  height: 100%;
+  margin-bottom: 5rem;
+}

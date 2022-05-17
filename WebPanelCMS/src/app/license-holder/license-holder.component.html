@@ -149,7 +149,7 @@
             (navChange)="onNavChange($event)"
             class="nav nav-pills mb-3"
           >
-            <li [ngbNavItem]="1" class="pr-2 col p-0">
+            <li [ngbNavItem]="1" class="pr-2  p-0" [ngClass]="this.auth.chkEventMeeting$.value ==false?'col': 'col-3'" >
               <div class="iq-search-bar device-search">
                 <div class="searchbox1">
                   <input
@@ -244,7 +244,7 @@
               >
               <ng-template ngbNavContent> </ng-template>
             </li>
-            <li [ngbNavItem]="10">
+            <li [ngbNavItem]="10" *ngIf="((this.auth.chkEventMeeting$.value ==false))">
               <a
                 ngbNavLink
                 (click)="OpenGroupsModal(modalManageGroups)"
@@ -253,7 +253,7 @@
               >
               <ng-template ngbNavContent> </ng-template>
             </li>
-            <li [ngbNavItem]="11">
+            <li [ngbNavItem]="11" *ngIf="((this.auth.chkEventMeeting$.value ==false))">
               <a
                 ngbNavLink
                 (click)="OpenOpeningHoursModal(modalManageOpeningHours)"
@@ -262,7 +262,7 @@
               >
               <ng-template ngbNavContent> </ng-template>
             </li>
-            <li [ngbNavItem]="12">
+            <li [ngbNavItem]="12" *ngIf="((this.auth.chkEventMeeting$.value ==false))">
               <a
                 ngbNavLink
                 (click)="OpenUpdateInfo(modalUpdateInfo)"

@@ -380,18 +380,18 @@
                   <th scope="col" style="width: 120px !important">
                     Customer Name
                   </th>
-                  <th scope="col" style="width: 120px !important">E-mail</th>
+                  <th scope="col" style="width: 250px !important">E-mail</th>
                   <th scope="col" style="width: 120px !important">
                     Total Token
                   </th>
-                  <th scope="col" style="width: 120px !important">
+                  <!--<th scope="col" style="width: 120px !important">
                     Expiry Date
-                  </th>
+                  </th>-->
                   <th scope="col" class="Link-Center_Width"></th>
                   <th scope="col" class="Link-Center_Width"></th>
                   <th scope="col" style="width: 100px !important"></th>
-                  <th scope="col" style="width: 130px !important"></th>
-                  <th scope="col" style="width: 130px !important">License</th>
+                <th  *ngIf="IsSbit == 'No'" scope="col" style="width: 130px !important"></th>
+                  <th *ngIf="IsSbit == 'No'" scope="col" style="width: 130px !important">License</th> 
                 </tr>
               </thead>
               <tbody>
@@ -412,9 +412,9 @@
                   <td data-label="Total Token">
                     {{ cLst.totalToken }}
                   </td>
-                  <td data-label="Expiry Date">
+                  <!--<td data-label="Expiry Date">
                     {{ cLst.expiryDate }}
-                  </td>
+                  </td>-->
                   <td
                     data-label=""
                     class="cursor-pointer"
@@ -445,7 +445,7 @@
                   >
                     Send email
                   </td>
-                  <td data-label="">
+                  <td *ngIf="IsSbit == 'No'" data-label="">
                     <span
                       *ngIf="cLst.Key === ''"
                       class="cursor-pointer text-primary"
@@ -454,7 +454,7 @@
                     >
                     <span *ngIf="cLst.Key != ''">Activated</span>
                   </td>
-                  <td>
+                  <td *ngIf="IsSbit == 'No'">
                     <span
                       *ngIf="cLst.IsTemplateActive === '0'"
                       class="cursor-pointer text-primary"
@@ -481,7 +481,7 @@
                       "
                       >Disable</span
                     >
-                  </td>
+                  </td> 
                 </tr>
               </tbody>
             </table>

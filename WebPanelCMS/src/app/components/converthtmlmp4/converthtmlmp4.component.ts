@@ -24,7 +24,7 @@ export class Converthtmlmp4Component implements OnInit {
   cmbGenre = "0";
   cmbFolder = "0";
   CustomerId = "0";
-
+  IsSbit= localStorage.getItem('IsSbit')
   FolderName = "";
   NewFolderName: string = "";
   TemplateSelected=[];

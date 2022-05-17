@@ -28,6 +28,7 @@ export class EditTemplateComponent implements OnInit {
     title:'',
     desc:'',
     logoimgurl:'',
+    logoimgurl2:'',
     text1:'',
     text2:'',
     text3: '',
@@ -50,6 +51,7 @@ export class EditTemplateComponent implements OnInit {
     imgurl7:'',
     imgurl8:'',
     selected_logoName:'',
+    selected_logoName2:'',
     selected_imgName:'',
     selected_imgName2:'',
     selected_imgName3:'',
@@ -65,7 +67,7 @@ export class EditTemplateComponent implements OnInit {
   txtTemplateName=''
   IsClickPreview= false
   IframeSRC: SafeResourceUrl
-   //templateHost ='http://localhost:4201/#/'
+   //templateHost ='http://localhost:4201'
    templateHost ='https://templates.nusign.eu'
   constructor(private serviceLicense: SerLicenseHolderService,public toastr: ToastrService,
     public auth: AuthService,private pService: PlaylistLibService,private modalService: NgbModal,
@@ -138,6 +140,8 @@ export class EditTemplateComponent implements OnInit {
       this.templatedata.text2= 'Fashion Team'
       this.templatedata.text3= 'fashion@fashion.com'
       this.templatedata.text4='Jan 01, 1900'
+      this.templatedata.text5='Prepared for'
+      this.templatedata.text6='Prepared By'
     }
     if (this.templateId=="2"){
       this.templatedata.bgcolor='#023814'
@@ -385,8 +389,14 @@ export class EditTemplateComponent implements OnInit {
       }
     }
     else{
+      if (imgCount==1){
       this.templatedata.logoimgurl= url 
       this.templatedata.selected_logoName= title
+      }
+      if (imgCount==2){
+      this.templatedata.logoimgurl2= url 
+      this.templatedata.selected_logoName2= title
+      }
     }
   }
   FullImageUrl;
@@ -407,7 +417,7 @@ export class EditTemplateComponent implements OnInit {
     this.auth.SetEditTemplateOpen(false)
   }
   OpenViewContent(){
-    let IframeSRC_Safe = this.templateHost+ '?templateId='+this.templateId+'&title='+this.templatedata.title+'&desc='+this.templatedata.desc+'&logosrc='+this.templatedata.logoimgurl+ '&ngClass='+this.templatedata.bgcolor.replace('#','')+'&imgSrc='+this.templatedata.imgurl+ '&text1='+this.templatedata.text1+'&text2='+this.templatedata.text2+'&imgSrc2='+this.templatedata.imgurl2+'&imgSrc3='+this.templatedata.imgurl3+'&imgSrc4='+this.templatedata.imgurl4+'&imgSrc5='+this.templatedata.imgurl5+'&imgSrc6='+this.templatedata.imgurl6+'&imgSrc7='+this.templatedata.imgurl7+'&imgSrc8='+this.templatedata.imgurl8+ '&text3='+this.templatedata.text3+ '&text4='+this.templatedata.text4+ '&text5='+this.templatedata.text5+ '&text6='+this.templatedata.text6+ '&text7='+this.templatedata.text7+ '&text8='+this.templatedata.text8+ '&text9='+this.templatedata.text9+ '&text10='+this.templatedata.text10+'&bgImgColor='+this.templatedata.bgImgColor.replace('#','')
+    let IframeSRC_Safe = this.templateHost+ '?templateId='+this.templateId+'&title='+this.templatedata.title+'&desc='+this.templatedata.desc+'&logosrc='+this.templatedata.logoimgurl+ '&ngClass='+this.templatedata.bgcolor.replace('#','')+'&imgSrc='+this.templatedata.imgurl+ '&text1='+this.templatedata.text1+'&text2='+this.templatedata.text2+'&imgSrc2='+this.templatedata.imgurl2+'&imgSrc3='+this.templatedata.imgurl3+'&imgSrc4='+this.templatedata.imgurl4+'&imgSrc5='+this.templatedata.imgurl5+'&imgSrc6='+this.templatedata.imgurl6+'&imgSrc7='+this.templatedata.imgurl7+'&imgSrc8='+this.templatedata.imgurl8+ '&text3='+this.templatedata.text3+ '&text4='+this.templatedata.text4+ '&text5='+this.templatedata.text5+ '&text6='+this.templatedata.text6+ '&text7='+this.templatedata.text7+ '&text8='+this.templatedata.text8+ '&text9='+this.templatedata.text9+ '&text10='+this.templatedata.text10+'&bgImgColor='+this.templatedata.bgImgColor.replace('#','')+'&logosrc2='+this.templatedata.logoimgurl2
     // 1 
     //let IframeSRC_Safe = "http://localhost:4201/#/?templateId=1&title=Wearing a Face Mask&desc=is required to enter&logosrc=http://api.nusign.eu/mp3files/238708.jpg&ngClass=bg-warning&imgSrc=&text1=&text2=" 
     // 2
@@ -550,7 +560,8 @@ export class EditTemplateComponent implements OnInit {
         templateId:this.templateId,
         title:this.templatedata.title,
         desc:this.templatedata.desc,
-        logosrc:this.templatedata.logoimgurl,
+        logosrc:this.templatedata.logoimgurl.replace('http:','https:'),
+        logosrc2:this.templatedata.logoimgurl2.replace('http:','https:'),
         ngClass:this.templatedata.bgcolor.replace('#',''),
         imgSrc:this.templatedata.imgurl.replace('http:','https:'),
         text1:this.templatedata.text1,
@@ -571,6 +582,7 @@ export class EditTemplateComponent implements OnInit {
         imgSrc7:this.templatedata.imgurl7.replace('http:','https:'),
         imgSrc8:this.templatedata.imgurl8.replace('http:','https:'),
         selected_logoName:this.templatedata.selected_logoName,
+        selected_logoName2:this.templatedata.selected_logoName2,
         selected_imgName:this.templatedata.selected_imgName,
         selected_imgName2:this.templatedata.selected_imgName2,
         selected_imgName3:this.templatedata.selected_imgName3,
@@ -685,5 +697,13 @@ export class EditTemplateComponent implements OnInit {
     else{
       return true
     }
+  }
+  ResetCompanylogo (){
+    this.templatedata.selected_logoName =''
+    this.templatedata.logoimgurl =''
+  }
+  ResetCompanylogo2 (){
+    this.templatedata.selected_logoName2 =''
+    this.templatedata.logoimgurl2 =''
   }
 }

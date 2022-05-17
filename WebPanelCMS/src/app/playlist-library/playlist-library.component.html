@@ -33,7 +33,7 @@
         </div>
         <div class="row m-0 p-0">
           <div class="col-lg-6 ml-0 pl-0">
-            <button
+            <button *ngIf="IsSbit == 'No'"
             class="btn btn-primary w-100 custombutton"
             (click)="OpenEditTemplates('')">
             Edit Templates
@@ -1763,6 +1763,10 @@
       <option  value="70">70</option>
       <option  value="60">60</option>
       <option  value="50">50</option>
+      <option  value="40">40</option>
+      <option  value="30">30</option>
+      <option  value="20">20</option>
+      <option  value="10">10</option>
     </select>
   </div>
   <div class="col-sm-2">

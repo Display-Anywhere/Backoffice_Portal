@@ -42,7 +42,7 @@ export class CustomerRegistrationComponent implements AfterViewInit, OnInit, OnD
   iCheckSub:boolean=false;
 PrvTotalToken:number=0;
 logindf= localStorage.getItem('dfClientId')
-
+IsSbit= localStorage.getItem('IsSbit')
 @ViewChild(DataTableDirective) dtElement: DataTableDirective;
 dtOptions: any = {};
 dtTrigger: Subject<any> = new Subject();

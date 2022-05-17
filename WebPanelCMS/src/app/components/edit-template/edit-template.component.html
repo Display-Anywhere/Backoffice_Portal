@@ -94,9 +94,17 @@
                     <label for="tdesc" class="mb-2 mr-sm-2"><span *ngIf="templateId==='11'">Amount 1</span><span *ngIf="templateId !=='11'">Description</span><span *ngIf="((templateId==='15') || (templateId==='16'))">1</span> :</label>
                     <input type="text" class="form-control mb-2 mr-sm-2" id="tdesc" [(ngModel)]="templatedata.desc"  />
                   </div>
+                  <div *ngIf="templateId==='13'" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0">
+                    <label for="tdesc" class="mb-2 mr-sm-2">Text 1:</label>
+                    <input type="text" class="form-control mb-2 mr-sm-2" id="tdesc" [(ngModel)]="templatedata.text5"  />
+                  </div>
+                  <div *ngIf="templateId==='13'" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0">
+                    <label for="tdesc" class="mb-2 mr-sm-2">Text 2:</label>
+                    <input type="text" class="form-control mb-2 mr-sm-2" id="tdesc" [(ngModel)]="templatedata.text6"  />
+                  </div>
                   <div *ngIf="((templateId==='16') || (templateId==='15') ||(templateId==='13') ||(templateId==='12') || (templateId==='10') || (templateId==='11') || (templateId==='3') || (templateId==='4') || (templateId==='5') ||(templateId==='7') ||(templateId==='9'))" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0">
                     <label for="tdesc" class="mb-2 mr-sm-2">
-                      <span *ngIf="templateId==='13'">Prepared for</span>
+                      <span *ngIf="templateId==='13'">{{templatedata.text5}}</span>
                       <span *ngIf="templateId==='12'">Discount %</span>
                       <span *ngIf="templateId==='11'">Description 1</span>
                       <span *ngIf="templateId==='15'">Heading 2</span>
@@ -106,7 +114,7 @@
                   </div>
                   <div *ngIf="((templateId==='16')||(templateId==='15')||(templateId==='13')||(templateId==='12')||(templateId==='11')||(templateId==='3') ||(templateId==='9'))" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0">
                     <label for="tdesc" class="mb-2 mr-sm-2">
-                      <span *ngIf="templateId==='13'">Prepared By</span>
+                      <span *ngIf="templateId==='13'">{{templatedata.text6}}</span>
                       <span *ngIf="templateId==='12'">Promo Code</span>
                       <span *ngIf="templateId==='11'">Heading 2</span>
                       <span *ngIf="templateId==='15'">Description 2</span>
@@ -175,9 +183,14 @@
 
 
                   <div *ngIf="((templateId !='17') && (templateId !='18'))" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0">
-                    <label for="bkLogo" class="mb-2 mr-sm-2 w-100">Company Logo:</label>
+                    <label for="bkLogo211" class="mb-2 mr-sm-2 w-100">Company Logo: <span style="cursor: pointer;"><i *ngIf="templatedata.selected_logoName !=''" (click)="ResetCompanylogo()" class="text-danger fa fa-times-circle" aria-hidden="true"></i></span></label>
                     <input  id="bkLogo" type="button" (click)="openLibrary(modalSignage,'Logo')" class="btn btn-primary  mb-2 mr-sm-2"   value="Open Library" />
                     <span><strong>{{templatedata.selected_logoName}}</strong></span>
+                  </div>
+                  <div *ngIf="((templateId =='13'))" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0">
+                    <label for="bkLogo21" class="mb-2 mr-sm-2 w-100">Company Logo 2: <span style="cursor: pointer;"><i *ngIf="templatedata.selected_logoName2 !=''" (click)="ResetCompanylogo2()" class="text-danger fa fa-times-circle" aria-hidden="true"></i></span> </label>
+                    <input  id="bkLogo2" type="button" (click)="openLibrary(modalSignage9,'Logo')" class="btn btn-primary  mb-2 mr-sm-2"   value="Open Library" />
+                    <span><strong>{{templatedata.selected_logoName2}}</strong></span>
                   </div>
                   <div [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0">
                     <label for="tdesc" class="mb-2 mr-sm-2">Duration(Seconds):</label>
@@ -333,6 +346,60 @@
     </div>
   </ng-template>
   
+  <ng-template #modalSignage9 let-c="close" let-d="dismiss">
+    <div class="modal-header bg-primary">
+      <h5 class="text-white">Library</h5>
+      <button
+        type="button"
+        class="close text-white"
+        aria-label="Close"
+        (click)="d('Cross click')"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="col-12 p-0">
+        <label class="col-md-2 p-0">Folder Name:</label>
+        <select name="cmbCustomer" class="col-md-3 custom-select mb-3 mt-2" (change)="onChangeLibraryFolder()"
+          id="cmbFolder" [(ngModel)]="cmbLibraryFolder">
+          <option selected value="0">All</option>
+          <option *ngFor="let cLst of LibraryFolderList" [value]="cLst.Id">
+            {{ cLst.DisplayName }}
+          </option>
+        </select>
+
+        
+      </div>
+      <div class="row">
+        <div class="col-sm-4 col-6 mb-2" *ngFor="let songLst of SongsList">
+          <div class="card">
+            <img
+              class="card-img-top p-1"
+              src="{{ songLst.TitleIdLink }}"
+              alt="Card image"
+              style="height: 100px; object-fit: contain"
+            />
+            <div class="card-body p-1 border-top">
+              <a
+                href="javascript:;"
+                (click)="SetImage(songLst.TitleIdLink, songLst.title,2)" (click)="d('Cross click')"
+                class="btn btn-primary btn-sm"
+                >Set</a
+              >
+              <a
+                href="javascript:;"
+                (click)="OpenFullImageModal(modalFullImage, songLst.TitleIdLink)"
+                (click)="d('Cross click')"
+                class="ml-5"
+                >Full View</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
   <ng-template #modalFullImage let-c="close" let-d="dismiss">
     <div class="modal-header bg-primary">
       <button

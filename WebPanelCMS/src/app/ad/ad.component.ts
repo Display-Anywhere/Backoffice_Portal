@@ -333,6 +333,7 @@ export class AdComponent implements OnInit {
         this.loading = false;
         if (this.auth.IsAdminLogin$.value == false) {
           this.cmbSearchCustomer=localStorage.getItem('dfClientId')
+          this.SearchAd()
         }
         this.FillCategory();
       },

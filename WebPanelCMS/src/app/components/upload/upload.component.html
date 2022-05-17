@@ -28,22 +28,22 @@
                     >Upload Content</a
                   >
                 </li>
-                <li class="nav-item">
+                <!--<li class="nav-item">
                   <a class="nav-link" data-toggle="tab" (click)="ReloadComponent('CreateTemplate')"
                   href="#CreateTemplate">Create Templates</a
                   >
-                </li>
+                </li>-->
                 
                 <li class="nav-item">
                   <a class="nav-link" data-toggle="tab" (click)="ReloadComponent('TemplateUrl')"
                   href="#TemplateUrl">Template Url</a
                   >
                 </li>
-                <li class="nav-item">
+                 <li class="nav-item" *ngIf="IsSbit == 'No'">
                   <a class="nav-link" data-toggle="tab" (click)="ReloadComponent('TemplateDownload')"
                   href="#TemplateDownload" >Download DS Templates</a
                   >
-                </li>
+                </li> 
                 <li class="nav-item">
                   <a class="nav-link" data-toggle="tab" (click)="ReloadComponent('ConvertUrl')"
                   href="#ConvertUrl"

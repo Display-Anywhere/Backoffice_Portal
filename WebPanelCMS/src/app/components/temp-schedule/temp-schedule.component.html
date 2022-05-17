@@ -402,8 +402,9 @@
                 <!--
                             <input id="eTime" class="form-control mb-2 mr-sm-2" formControlName="EndTime"
                                 [owlDateTimeTrigger]="dt2" [owlDateTime]="dt2">
-                            <owl-date-time [pickerType]="'timer'" #dt2></owl-date-time>                            -->
-                            <div *ngIf="((cmbMediaType ==='Audio Copyright') || (cmbMediaType ==='Audio DirectLicence') || (cmbMediaType ==='Video') )" class="form-group col-sm-2 m-0">
+                            <owl-date-time [pickerType]="'timer'" #dt2></owl-date-time>                           
+                          *ngIf="((cmbMediaType ==='Audio Copyright') || (cmbMediaType ==='Audio DirectLicence') || (cmbMediaType ==='Video') )" -->
+                            <div  class="form-group col-sm-2 m-0">
                               <label for="pName" class="mb-2 mr-sm-2"
                                 >Volume:</label
                               >
@@ -413,6 +414,10 @@
                                 <option  value="70">70</option>
                                 <option  value="60">60</option>
                                 <option  value="50">50</option>
+                                <option  value="40">40</option>
+                                <option  value="30">30</option>
+                                <option  value="20">20</option>
+                                <option  value="10">10</option>
                               </select>
                             </div>
 
@@ -653,7 +658,7 @@
                     class="btn btn-primary"
                     
                     type="button"
-                    style="margin-top: 1.8rem !important; float: right"
+                    style="margin-top: 1.8rem !important;"
                     (click)="onSubmitSF(ForceUpdate, ReducePlaylist)"
                   >
                     Save

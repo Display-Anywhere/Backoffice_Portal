@@ -39,6 +39,7 @@ SignageVideo0="";
 SignageVideo90="";
 viewsonic="";
 UserId = localStorage.getItem('UserId');
+IsSbit= localStorage.getItem('IsSbit')
 SmartTv="https://bit.ly/3vl4Gqm"
   constructor(private serviceLicense: SerLicenseHolderService,
      public toastr: ToastrService, vcr: ViewContainerRef, public auth:AuthService,private sanitizer: DomSanitizer) {
@@ -70,7 +71,22 @@ this.VideoLink0="https://bit.ly/31yZLD4";
     //================================== Nusign ==========================
      
     this.IsAdvikon= false;
+if ((localStorage.getItem('IsSbit') == 'Yes')){
 
+  this.SignageVideo0="";
+  this.VideoLink90=""; 
+  this.AudioLink0="https://bit.ly/3yyS6Wv"; 
+  this.AudioLink90="";
+  this.Sanitizer0="https://bit.ly/3sfZ4vi";
+  this.AudioLinkSanitizer0="";
+  this.StreamLink="";
+  this.SanitizerLower="";
+  this.InstantPlay="https://bit.ly/3FkW06p";
+  this.Keyboard="https://bit.ly/3kHqCpr";
+  this.VideoLink0="https://bit.ly/3MW4dAQ";
+  this.viewsonic="https://bit.ly/3KQFeNQ"
+}
+else{
     this.SignageVideo0="https://bit.ly/3dpea8z";
     this.VideoLink90="https://bit.ly/2AsJQes"; 
     this.AudioLink0="https://bit.ly/3gHryGV"; 
@@ -84,7 +100,7 @@ this.VideoLink0="https://bit.ly/31yZLD4";
     this.VideoLink0="https://bit.ly/2EwMhio";
     this.viewsonic="https://bit.ly/3eiur1O"
     }
-    
+  }
     if (this.auth.IsAdminLogin$.value==true) {
       this.FillClientList();
     }

@@ -18,10 +18,12 @@ export class LoginComponent implements OnInit {
   ipAddress;
   emailText=''
   loginpage='Nusign'
+  IsSbit='No'
   constructor(public toastr: ToastrService, private router: Router, private formBuilder: FormBuilder, private ulService: UloginService, private visitorsService: VisitorsService, public authService: AuthService) { }
   ngOnInit() {
     this.authService.logout();
     localStorage.setItem('DBType', 'Nusign');
+    localStorage.setItem('IsSbit', this.IsSbit);
 
     
     if (localStorage.getItem('DBType')==="Advikon"){
@@ -86,6 +88,9 @@ export class LoginComponent implements OnInit {
           }
           else if ((obj.dfClientId === '167') && (obj.UserId==='112')) {
             localStorage.setItem('UserId', '0');
+            this.authService.IsClienAdminLogin();
+          }
+          else if ((obj.dfClientId === '183') && (obj.UserId==='0')) {
             this.authService.IsClienAdminLogin();
           }
           else {

@@ -163,6 +163,7 @@ export class PlaylistLibraryComponent implements OnInit {
   IschkViewOnly=0;
   PlaylistExpiryList=[];
   cmbPublishId=""
+  IsSbit= localStorage.getItem('IsSbit')
   async ngOnInit() {
     localStorage.setItem('IsAnnouncement', '0');
     $('#dis').attr('unselectable', 'on');
