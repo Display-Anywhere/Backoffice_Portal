@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit {
   public loading = false;
   ipAddress;
   emailText=''
-  loginpage='Nusign'
+  loginpage='PPDS'
   IsSbit='No'
   constructor(public toastr: ToastrService, private router: Router, private formBuilder: FormBuilder, private ulService: UloginService, private visitorsService: VisitorsService, public authService: AuthService) { }
   ngOnInit() {

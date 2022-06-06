@@ -168,6 +168,10 @@ export class ConfigAPI {
    GetEventDetails: string = this.Host + 'GetEventDetails';
    SaveRoomCustomerEvent: string =  this.Host + 'SaveRoomCustomerEvent';
    GetFutureDateEventDetails: string = this.Host + 'GetFutureDateEventDetails';
+   AppendSignagePlaylistRoom: string = this.Host + 'AppendSignagePlaylistRoom';
+   GetRoomSignagePlaylist: string = this.Host + 'GetRoomSignagePlaylist';
+   SetUnsetPromoLogo: string = this.Host + 'SetUnsetPromoLogo';
+   GetPromoLogo: string = this.Host + 'GetPromoLogo';
 }
 
 // localStorage.setItem('UserId', obj.UserId);

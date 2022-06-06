@@ -1727,7 +1727,7 @@ if (id=="0"){
       return;
     }
     if (this.SongsSelected.length == 0) {
-      this.toastr.error('Select atleast one song', '');
+      this.toastr.error('Select atleast one content', '');
       return;
     }
 

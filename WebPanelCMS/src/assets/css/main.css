@@ -1779,6 +1779,7 @@ pre code {
     border: 0;
   }
 }
+
 @media (max-width: 991.98px) {
   .table-responsive-lg {
     display: block;
@@ -17086,13 +17087,22 @@ fieldset[disabled] .btn {
   background: #fafbfe;
   padding: 5px 8px;
 }
+
+@media screen and (min-device-width: 768px) and (max-device-width: 1024px)  {
+  .rb-bg {
+     
+  }
+
+}
+
+
 @media (min-width: 992px) {
   .lb-img {
     left: 0;
     width: 213px;
   }
   .lb-img,
-  .rb-img {
+  .rb-img, .rb-bg {
     position: absolute;
     bottom: 0;
   }
@@ -17100,13 +17110,20 @@ fieldset[disabled] .btn {
     right: 0;
     width: 194px;
   }
+  .rb-bg {
+    right: 0;
+    top: 0;
+    width: 25%;
+  }
   .cnf-mail {
     width: 80%;
   }
 }
+
+
 @media (max-width: 991px) {
   .lb-img,
-  .rb-img {
+  .rb-img, .rb-bg {
     display: none;
   }
 }
@@ -19484,6 +19501,7 @@ h6.iq-song-title {
   }
 }
 @media (min-width: 768px) {
+
   .track-art,
   .track-artist {
     text-align: left;
@@ -19982,6 +20000,7 @@ img {
   line-height: 20px;
 }
 @media (min-width: 992px) and (max-width: 1499px) {
+ 
   .avatar-155.decrease {
     width: 135px !important;
     min-width: 135px !important;

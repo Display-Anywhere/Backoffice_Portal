@@ -58,6 +58,7 @@ export class LicenseHolderComponent
   cid = '0';
   LogoId = 0;
   SongsList = [];
+  PromoLogoList = [];
   DelLogoId = 0;
   uExcel: boolean = false;
   IsForceUpdateRunning: boolean = false;
@@ -117,9 +118,13 @@ export class LicenseHolderComponent
     titleid: "0"
   }
   CustomerEventList =[]
-  //templateHost ='http://localhost:4201'
+  MeetingSettings = {};
+  SelectedMeetingArray = []
+  RoomSignagePlaylist=[]
+ // templateHost ='http://localhost:4201'
   templateHost ='https://templates.nusign.eu'
-
+dtPromoStartDate = new Date()
+dtPromoEndDate = new Date()
   @ViewChild('flocation') flocationElement: ElementRef;
   constructor(
     config: NgbModalConfig,
@@ -695,8 +700,10 @@ async RefreshTokenList(){
           if (obj.Responce == '1') {
             this.toastr.info('Deleted', 'Success!');
             this.loading = false;
+            this.SetUnsetPromoLogo(this.DelLogoId,"1")
             this.DelLogoId = 0;
             this.FillLogo(this.cmbFolder);
+            this.FillPromoLogo("777");
           } else {
             this.toastr.error(
               'Apologies for the inconvenience.The error is recorded.',
@@ -1559,17 +1566,21 @@ async RefreshTokenList(){
     }
     this.CustomerEventList = []
     var EventDate = new Date()
+    this.dtPromoStartDate= new Date()
+    this.dtPromoEndDate= new Date()
     this.dtpUploadSheetEventDate= EventDate
     this.dtpLogoEventDate = EventDate
     this.GetMeetingRooms()
     this.GetFutureEventDetails()
     this.GetCurrentEventDetails(EventDate)
-    
+    this.FillFormat()
     this.modalService.open(modalContant, {
       size: 'lg',
       windowClass: 'fade',
     });
     this.flocationElement.nativeElement.focus();  
+    this.GetRoomSignagePlaylist()
+    this.FillPromoLogo("777")
   }
   isUploadEventSheet="No"
   UploadEventSheet() {
@@ -1641,6 +1652,9 @@ async RefreshTokenList(){
     if (t =="N"){
       tid="CP4"
     }
+    if (localStorage.getItem('IsSbit')=='Yes'){
+      tid="sbit1"
+    }
     var url =`${this.templateHost}?templateId=${tid}&cpd=${evtDate}&dfd=${this.cmbCustomerId}`
     console.log(url)
     localStorage.setItem("ViewContent",url)
@@ -1650,10 +1664,22 @@ async RefreshTokenList(){
       }); 
   }
   GetMeetingRooms () {
+    this.MeetingSettings = {
+      singleSelection: false,
+      text: '',
+      idField: 'id',
+      textField: 'roomname',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 1,
+    };
     this.loading = true;
     this.MeetingRoomList = []
+    this.SelectedMeetingArray = []
     this.cmbMeetingId ="0"
     this.cmbRoomStatus =""
+    this.cmbFormatId='0'
+    this.cmbPlaylistId ="0"
     this.serviceLicense.GetMeetingRooms(this.cid).pipe().subscribe((data) => {
           var returnData = JSON.stringify(data);
           var objRes = JSON.parse(returnData);
@@ -1671,14 +1697,47 @@ async RefreshTokenList(){
   onChangeMeetingRoom(deviceValue) {
     var obj = this.MeetingRoomList.filter(o => o.id == deviceValue)
     this.MeetingRoomDetail = obj[0]
+    this.cmbFormatId = this.MeetingRoomDetail['signageFormatid']
+    if ((this.cmbFormatId =="0") || (this.cmbFormatId ==null)){
+      this.PlaylistList =[]
+      this.cmbPlaylistId ='0'
+    }
+    else{
+      this.FillPlaylist(this.cmbFormatId)
+      this.cmbPlaylistId= this.MeetingRoomDetail['signagesplId']
+    }
   }
   UpdateMeetingInfo(modalName) {
+    this.MeetingRoomDetail['signagesplId']= this.cmbPlaylistId
+    this.MeetingRoomDetail['signageFormatid']= this.cmbFormatId
+    this.MeetingRoomDetail['lstRoom'] = this.SelectedMeetingArray
     this.loading = true;
     this.serviceLicense.UpdateMeetingRoomsInfo(this.MeetingRoomDetail).pipe().subscribe((data) => {
       var returnData = JSON.stringify(data);
       var objRes = JSON.parse(returnData);
+      this.loading = false;
       if (objRes.response == "1"){
-        this.OpenRoomViewContent(modalName)
+        this.toastr.info('Saved');
+        this.SelectedMeetingArray =[]
+        this.cmbFormatId ="0"
+        this.cmbPlaylistId="0"
+        //this.OpenRoomViewContent(modalName)
+        this.GetRoomSignagePlaylist()
+      }
+    },
+    (error) => {
+      this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
+      this.loading = false;
+    }
+  );
+  }
+  GetRoomSignagePlaylist() {
+    this.loading = true;
+    this.serviceLicense.GetRoomSignagePlaylist(this.cid).pipe().subscribe((data) => {
+      var returnData = JSON.stringify(data);
+      var objRes = JSON.parse(returnData);
+      if (objRes.response == "1"){
+        this.RoomSignagePlaylist = JSON.parse(objRes.data);
       }
       this.loading = false;
     },
@@ -1771,7 +1830,7 @@ async RefreshTokenList(){
     formData.append('GenreName', 'Logo Images');
     formData.append('CustomerId', this.cmbCustomerId);
     formData.append('MediaType', "Image");
-    formData.append('FolderId', '999');
+    formData.append('FolderId', '777');
     formData.append('DBType', localStorage.getItem('DBType'));
     formData.append('IsAnnouncement','0');
     formData.append('name', 'Excel');
@@ -1786,7 +1845,7 @@ async RefreshTokenList(){
         if (obj.Responce == '1') {
           this.toastr.info(obj.message, '');
           this.loading = false;
-          this.FillLogo("999");
+          this.FillLogo("777");
         }
         if (obj.Responce == '0') {
           this.toastr.error(obj.message);
@@ -1851,8 +1910,10 @@ async RefreshTokenList(){
     this.serviceLicense.SaveRoomCustomerEvent(payload).pipe().subscribe((data) => {
       var returnData = JSON.stringify(data);
       var objRes = JSON.parse(returnData);
+      this.loading = false;
       if (objRes.Responce == "1"){
-        this.toastr.info('Event schedule is saved', '');
+        this.AppendSignagePlaylistRoom(eventDate,payloadPublish)
+        /*this.toastr.info('Event schedule is saved', '');
         var currentd = new Date();
         var cd = new Date(currentd.getFullYear(),currentd.getMonth(),currentd.getDate());
         var putDate = new Date(eventDate);
@@ -1863,8 +1924,32 @@ async RefreshTokenList(){
       }
 
         this.CustomerEventList=[]
-        this.ResetCompanylogo();
+        this.ResetCompanylogo(); */
       }
+     
+    },
+    (error) => {
+      this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
+      this.loading = false;
+    }
+  );
+  }
+  AppendSignagePlaylistRoom(eventDate,payloadPublish) {
+    this.loading = true;
+    this.serviceLicense.AppendSignagePlaylistRoom(eventDate.toDateString(),this.cmbCustomerId).pipe().subscribe((data) => {
+      var returnData = JSON.stringify(data);
+      var objRes = JSON.parse(returnData);
+        this.toastr.info('Event schedule is saved', '');
+        var currentd = new Date();
+        var cd = new Date(currentd.getFullYear(),currentd.getMonth(),currentd.getDate());
+        var putDate = new Date(eventDate);
+        if (cd == putDate) {
+        if (this.cmbCustomerId == "10") {
+          this.publishEventPLayer(payloadPublish)
+        }
+      }
+      this.CustomerEventList=[]
+      this.ResetCompanylogo();
       this.loading = false;
     },
     (error) => {
@@ -1891,5 +1976,211 @@ async RefreshTokenList(){
     this.CustomerEventList = []
     this.GetCurrentEventDetails(EventDate)
   }
+  FormatList=[]
+  cmbFormatId="0"
+  PlaylistList=[]
+  cmbPlaylistId="0"
+  FillFormat() {
+    this.loading = true;
+    var qry = '';
+    if (this.auth.IsAdminLogin$.value == true) {
+      qry = "FillFormat 0,'" + localStorage.getItem('DBType') + "'";
+    } else {
+    }
+    qry = '';
+    qry =
+      'select max(sf.Formatid) as id , sf.formatname as displayname from tbSpecialFormat sf left join tbSpecialPlaylistSchedule_Token st on st.formatid= sf.formatid';
+    qry =
+      qry +
+      ' left join tbSpecialPlaylistSchedule sp on sp.pschid= st.pschid  where ';
+    qry =
+      qry +
+      " (dbtype='" +
+      localStorage.getItem('DBType') +
+      "' or dbtype='Both') and  (st.dfclientid=" +
+      this.cmbCustomerId +
+      ' OR sf.dfclientid=' +
+      this.cmbCustomerId +
+      ") and sf.mediatype='Signage' group by  sf.formatname";
 
+    this.pService.FillCombo(qry).pipe().subscribe((data) => {
+          var returnData = JSON.stringify(data);
+          this.FormatList = JSON.parse(returnData);
+          this.loading = false;
+        },
+        (error) => {
+          this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
+          this.loading = false;
+        }
+      );
+  }
+  onChangeFormat(id) {
+    this.PlaylistList = [];
+    this.cmbPlaylistId="0"
+    if (id == '') {
+      return;
+    }
+    if (id == '0') {
+      return;
+    }
+    this.FillPlaylist(id);
+  }
+  FillPlaylist(id) {
+    this.PlaylistList = [];
+    this.loading = true;
+    this.pService.Playlist(id).pipe().subscribe((data) => {
+          const returnData = JSON.stringify(data);
+          this.PlaylistList = JSON.parse(returnData);
+          this.loading = false;
+        },
+        (error) => {
+          this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
+          this.loading = false;
+        }
+      );
+  }
+  UploadPromoLogo() {
+    if (this.Adform.get('FilePathNew').value.length == 0) {
+      this.toastr.info('Please select a file');
+      return;
+    }
+    var eventDate = new Date()
+    const formData = new FormData();
+    formData.append('GenreId', '326');
+    formData.append('GenreName', 'Logo Images');
+    formData.append('CustomerId', this.cmbCustomerId);
+    formData.append('MediaType', "Image");
+    formData.append('FolderId', '777');
+    formData.append('DBType', localStorage.getItem('DBType'));
+    formData.append('IsAnnouncement','0');
+    formData.append('name', 'Excel');
+    formData.append('profile', this.Adform.get('FilePathNew').value);
+
+
+    this.serviceLicense.uploadLogo(formData).subscribe(
+      (res) => {
+        this.fileUpload = res;
+        var returnData = JSON.stringify(res);
+        var obj = JSON.parse(returnData);
+        if (obj.Responce == '1') {
+          this.toastr.info(obj.message, '');
+          this.loading = false;
+          this.FillPromoLogo("777");
+        }
+        if (obj.Responce == '0') {
+          this.toastr.error(obj.message);
+          this.InputFileName = 'No file chosen...';
+          this.loading = false;
+        }
+        this.Adform.get('FilePathNew').setValue('');
+      },
+      (err) => {
+        this.toastr.error('p');
+        this.error = err;
+        this.loading = false;
+      }
+    );
+    this.flocationElement.nativeElement.focus();
+  }
+  openPromoLogoLibrary(ObjModal) {
+    this.cmbFolder= "0"
+    if (this.cmbCustomerId == '0') {
+      this.toastr.info('Please select a customer name');
+      return;
+    }
+    this.modalService.open(ObjModal, { size: 'lg' });
+  }
+  FillPromoLogo(fid) {
+    this.loading = true;
+    this.serviceLicense
+      .FillSignageLogo(this.cid, fid)
+      .pipe()
+      .subscribe(
+        (data) => {
+          var returnData = JSON.stringify(data);
+          var obj = JSON.parse(returnData);
+          obj.forEach(item => {
+            item['TitleIdLink']= item['TitleIdLink'].replace('http:','https:')
+          });
+          this.PromoLogoList = obj;
+          this.loading = false;
+          this.GetPromoLogo()
+        },
+        (error) => {
+          this.toastr.error(
+            'Apologies for the inconvenience.The error is recorded.',
+            ''
+          );
+          this.loading = false;
+        }
+      );
+  }
+  GetPromoLogo() {
+    this.loading = true;
+    this.serviceLicense.GetPromoLogo(this.cid).pipe().subscribe((data) => {
+          var returnData = JSON.stringify(data);
+          var obj = JSON.parse(returnData);
+          if (obj.response == "1"){
+            var objRes = JSON.parse(obj.data);
+          this.PromoLogoList.forEach(item => {
+            var objFind= objRes.filter(o => o.titleid == Number(item['id']))
+            var IsFindPromo ="0"
+            if (objFind.length>0){
+              IsFindPromo ="1"
+            }
+            item["IsFindPromo"] = IsFindPromo
+          });
+        }
+        else{
+          this.PromoLogoList.forEach(item => {
+            item["IsFindPromo"] = "0"
+          });
+        }
+          this.loading = false;
+        },
+        (error) => {
+          this.toastr.error(
+            'Apologies for the inconvenience.The error is recorded.',
+            ''
+          );
+          this.loading = false;
+        }
+      );
+  }
+
+  SetUnsetPromoLogo(titleid,IsFindPromo) {
+    this.loading = true;
+    var dtPromoStartDate = new Date(this.dtPromoStartDate)
+    var dtPromoEndDate= new Date(this.dtPromoEndDate)
+    this.serviceLicense.SetUnsetPromoLogo(this.cmbCustomerId,titleid,IsFindPromo, dtPromoStartDate.toDateString(),dtPromoEndDate.toDateString()).pipe().subscribe((data) => {
+      var returnData = JSON.stringify(data);
+      var objRes = JSON.parse(returnData);
+      this.loading = false;
+      if (objRes.response == "1"){
+        this.FillPromoLogo("777")
+        if (this.cmbCustomerId == "10") {
+          let payload =["2251","2253","2255"]
+          this.publishEventPLayer(payload)
+        }
+      }
+    },
+    (error) => {
+      this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
+      this.loading = false;
+    }
+  );
+  }
+  PromoModaltitleid
+  PromoModalIsFindPromo
+  OpenPromoLogoDate(modalContant,titleid,IsFindPromo){
+    this.PromoModaltitleid= titleid
+    this.PromoModalIsFindPromo= IsFindPromo
+    this.modalService.open(modalContant, {
+      windowClass: 'fade',
+    });
+    this.flocationElement.nativeElement.focus(); 
+  }
+  onSubmitPromoDate(){
+    this.SetUnsetPromoLogo(this.PromoModaltitleid,this.PromoModalIsFindPromo)
+  }
 }

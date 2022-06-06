@@ -10,7 +10,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {ReactiveFormsModule,FormsModule  } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import { AuthGuard } from './auth/auth.guard';
-import { LoginComponent } from './login/login.component';
 
 const routes: Routes = [
  // {path: '', loadChildren:'./login/login.module#LoginModule' } , 
@@ -96,17 +95,14 @@ const routes: Routes = [
    },
    {
     path: '',
-    redirectTo: '',
-    pathMatch: 'full',
-    component:LoginComponent
-
+    loadChildren: () => import('./login/login.module').then(m => m.LoginModule),
   }
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes,{
     preloadingStrategy:PreloadAllModules
-  },),
+  }),
   NgbModule,
   
   CommonModule,
@@ -120,7 +116,7 @@ const routes: Routes = [
 
   exports: [RouterModule],
 
-  declarations:[LoginComponent],
+  declarations:[],
 
   providers: [ConfigAPI,
     {provide: LocationStrategy, useClass: HashLocationStrategy}]

@@ -18,6 +18,7 @@ import { MomentModule } from 'angular2-moment';
 
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -34,7 +35,7 @@ import { MomentModule } from 'angular2-moment';
     FormsModule,
     NgxLoadingModule.forRoot({}),
     MomentModule,
-   
+    
       ],
   providers: [AuthGuard],
   bootstrap: [AppComponent]

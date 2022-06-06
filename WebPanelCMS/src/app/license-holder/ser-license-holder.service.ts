@@ -291,4 +291,28 @@ SaveRoomCustomerEvent(json) {
   return this.http.post(this.cApi.SaveRoomCustomerEvent, params, { headers: headers })
     .pipe((data => { return data; }))
 }
+AppendSignagePlaylistRoom(cd, dfclientid) {
+  let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+  var params = JSON.stringify({ cd, dfclientid });
+  return this.http.post(this.cApi.AppendSignagePlaylistRoom, params, { headers: headers })
+    .pipe((data => { return data; }))
+}
+GetRoomSignagePlaylist(cid) {
+  let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+  var params = JSON.stringify({ ClientId: cid });
+  return this.http.post(this.cApi.GetRoomSignagePlaylist, params, { headers: headers })
+    .pipe((data => { return data; }))
+}
+GetPromoLogo(cid) {
+  let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+  var params = JSON.stringify({ ClientId: cid });
+  return this.http.post(this.cApi.GetPromoLogo, params, { headers: headers })
+    .pipe((data => { return data; }))
+}
+SetUnsetPromoLogo(cid, titleid, IsSet,startDate,endDate) {
+  let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+  var params = JSON.stringify({ dfclientid: cid , titleid: titleid, IsSet:IsSet,startDate:startDate,endDate:endDate});
+  return this.http.post(this.cApi.SetUnsetPromoLogo, params, { headers: headers })
+    .pipe((data => { return data; }))
+}
 }

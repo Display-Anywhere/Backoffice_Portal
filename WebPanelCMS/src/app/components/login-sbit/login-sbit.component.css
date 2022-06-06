@@ -1,0 +1,74 @@
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px #fafbfe inset !important;
+}
+.logo {
+  width: 25%;
+  /* border-radius: 50%;
+  border: 1px solid #ddd; */
+  margin-bottom: 1em;
+}
+.mt-2e {
+  margin-top: -1em;
+}
+.login-content {
+  position: inherit;
+  height: 100vh;
+  z-index: 99;
+}
+.logincontent {
+  margin-top: -2em !important;
+}
+
+/* .image_block {
+  width: 74%;
+  height: 175px;
+  position: relative;
+  margin-top: 3em;
+}
+
+.image_block span {
+  width: 100%;
+  text-align: center;
+  position: absolute;
+  bottom: 0px;
+}*/
+.emailtext{
+
+}
+@media (max-width: 768px) {
+  .logincontent {
+    margin-top: 1em;
+  }
+  .emailtext{
+    font-size: 13px;
+  }
+}
+
+@media (min-width: 769px) {
+  .image_block {
+    position: fixed;
+    text-align: center;
+    bottom: 0;
+  }
+  .emailtext{
+    
+  }
+}
+
+.boxShadow{
+  border: 1px solid #dcdadabf;
+  border-radius: 6px;
+  box-shadow: 1px 0px 5px 3px rgba(123,123,123,1);
+  -webkit-box-shadow: 1px 0px 5px 3px rgba(123,123,123,1);
+  -moz-box-shadow: 1px 0px 5px 3px rgba(123,123,123,1);
+}
+.logindivcenter{
+  margin-left: auto;margin-right: auto;
+}
+.sbitlogo{ 
+  width: 130px;
+  
+}

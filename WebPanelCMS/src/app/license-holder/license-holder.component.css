@@ -262,3 +262,8 @@ thead {
   flex: 0 0 11.80%;
   max-width: 11.80%;
 }
+.btn-success {
+  color: #fff;
+  background-color: #28a745 !important;
+  border-color: #28a745 !important;
+}

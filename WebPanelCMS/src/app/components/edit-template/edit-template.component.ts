@@ -659,6 +659,7 @@ export class EditTemplateComponent implements OnInit {
     else if (this.templateId ==='18'){
       return false
     }
+     
     else{
       return true
     }

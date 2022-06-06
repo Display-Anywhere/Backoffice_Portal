@@ -107,7 +107,7 @@
                   padding: 0.475rem 0.6rem"
                 />
               </div>
-              <div class="form-group col-sm-2 m-0" *ngIf="((cmbCustomerId=='95') || (cmbCustomerId=='10'))">
+              <div class="form-group col-sm-2 m-0" *ngIf="((cmbCustomerId=='95') || (cmbCustomerId=='10') || (cmbCustomerId=='183'))">
                 <label for="btnUploadEvent" class="d-none d-xl-block mb-2 mr-sm-2"
                   >&nbsp;</label
                 >
@@ -1465,15 +1465,25 @@
       </div>
       </ng-template>
       </ngb-tab>
-<ngb-tab id="tab-Room" title="Meeting Rooms" *ngIf="!IschkViewOnly">
+<ngb-tab id="tab-Room" title="Set Signage Playlist" *ngIf="!IschkViewOnly">
         <ng-template ngbTabContent>
           <div class="col-sm-12">
             <div class="form-row">
               <div class="form-group col-sm-4 m-0">
-                <label for="cmbMeeting"  class="mb-2 mr-sm-2" #flocation
-                  >Rooms:</label
-                >
-                <select
+                <label for="cmbMeeting"  class="mb-2 mr-sm-2">Rooms:</label>
+                <ng-multiselect-dropdown
+                id="cmbMeeting"
+                [placeholder]="' '"
+                [settings]="MeetingSettings"
+                [data]="MeetingRoomList"
+                [(ngModel)]="SelectedMeetingArray"
+                [ngModelOptions]="{ standalone: true }"
+              >
+              </ng-multiselect-dropdown>
+
+
+
+                <!--<select
                   class="custom-select mb-3"
                   (change)="onChangeMeetingRoom($event.target.value)"
                   id="cmbMeeting"
@@ -1483,10 +1493,41 @@
                   <option *ngFor="let cLst of MeetingRoomList" [value]="cLst.id">
                     {{ cLst.roomname }}
                   </option>
+                </select>-->
+              </div>
+              <div class="form-group col-sm-3 m-0">
+                <label for="cmbFormat"  class="mb-2 mr-sm-2"
+                  >Campaign Name:</label
+                >
+                <select
+                  class="custom-select mb-3"
+                  (change)="onChangeFormat($event.target.value)"
+                  id="cmbFormat"
+                  [(ngModel)]="cmbFormatId"
+                >
+                  <option selected value="0"></option>
+                  <option *ngFor="let fLst of FormatList" [value]="fLst.Id">
+                    {{ fLst.DisplayName }}
+                  </option>
+                </select>
+              </div>
+              <div class="form-group col-sm-3 m-0">
+                <label for="cmbPlaylist"  class="mb-2 mr-sm-2"
+                  >Playlist Name:</label
+                >
+                <select
+                  class="custom-select mb-3"
+                  id="cmbPlaylist"
+                  [(ngModel)]="cmbPlaylistId"
+                >
+                  <option selected value="0"></option>
+                  <option *ngFor="let fLst of PlaylistList" [value]="fLst.Id">
+                    {{ fLst.DisplayName }}
+                  </option>
                 </select>
               </div>
               <div class="form-group col-sm-3 m-0 d-none">
-                <label for="cmbRoomStatus"  class="mb-2 mr-sm-2" #flocation
+                <label for="cmbRoomStatus"  class="mb-2 mr-sm-2"  
                   >Room Status:</label
                 >
                 <select
@@ -1498,17 +1539,17 @@
                   <option selected value="not available">Not Available</option>
                 </select>
               </div>
-              <div class="form-group col-sm-3 m-0">
+              <div class="form-group col-sm-2 m-0">
                 <button 
                 type="button"
                 class="btn btn-primary btn-s mt-5"
                 (click)="UpdateMeetingInfo(viewcontent)"
               >
-                Save & Preview
+                Save
               </button>
               </div>
             </div>
-            <div class="form-row mb-2">
+            <div class="form-row mb-2 d-none">
               <div class="form-group col-hlf-2 m-0">
                 <img src="assets/images/cp2/cp2-6-default.png" alt="" class="imgCenter">
               </div>
@@ -1534,7 +1575,7 @@
                 <img src="assets/images/cp2/cp2-7-default.png" alt="" class="imgCenter">
               </div>
             </div>
-            <div class="form-row">
+            <div class="form-row d-none">
               <div class="form-group col-hlf-2 m-0">
                 <input type="number" [(ngModel)]="MeetingRoomDetail['r1']" class="form-control mb-2 mr-sm-2"/>
               </div>
@@ -1561,9 +1602,105 @@
               </div>
             </div>
           </div>
+          <div class="col-sm-12">
+            <div class="table-responsive">
+              <table class="table data-table table-striped table-bordered mydatatable">
+                <thead>
+                  <tr>
+                    <th class="bg-primary sticky-top" >Room Name</th>
+                    <th class="bg-primary sticky-top">Campaign Name</th>
+                    <th class="bg-primary sticky-top">Playlist Name</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="cursor-pointer" *ngFor="let eLst of RoomSignagePlaylist; let i = index">
+                    <td>{{eLst.roomname}}</td>
+                    <td>{{eLst.FormatName}}</td>
+                    <td>{{eLst.splPlaylistName}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </ng-template>
       </ngb-tab>
+      <ngb-tab id="tab-promoLogo" title="Promo Logo" *ngIf="!IschkViewOnly">
+        <ng-template ngbTabContent>
+          <div class="col-12 p-0">
+            <div class="form-row">
+            <div class="form-group col-sm-6 m-0">
+              <label for="chooseFile2" class="mb-2 mr-sm-2">Upload Promo Logo:</label>
+              <input
+              type="file"
+              name="profile"
+              #myEventLogoInput
+              (change)="onSelectedFile($event)"
+              id="chooseFile2"
+              accept="image/jpeg, image/x-png"
+              class="btn btn-default border"
+              style="width: 100%"
+            />
+            </div>
+            <div class="form-group col-sm-3 m-0">
+              <button 
+              type="button"
+              class="btn btn-primary btn-s mt-5"
+              (click)="UploadPromoLogo()"
+              (click)="myEventLogoInput.value = ''"
+            >
+              <span class="fa fa-cloud-upload"></span> Upload
+            </button>
+            </div>
+          </div>
+          </div>
+          <div class="row mt-2">
+            <div class="col-lg-12">
+              <div *ngIf="fileUpload.status === 'progress'">
+                <div class="progress" style="height: 20px; margin-bottom: 20px">
+                  <div
+                    class="progress-bar"
+                    role="progressbar"
+                    [style.width.%]="fileUpload.message"
+                    aria-valuenow="25"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                  >
+                    {{ fileUpload.message }}%
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+           <div class="row mt-3">
+            <div class="col-sm-3 mb-2" *ngFor="let songLst of PromoLogoList">
+              <div class="card">
+                <img
+                  class="card-img-top p-1"
+                  src="{{ songLst.TitleIdLink }}"
+                  alt="Card image"
+                  style="height: 100px; object-fit: contain"
+                />
+                <div class="card-body p-1 border-top">
+                  <a *ngIf="songLst.IsFindPromo=='0'" href="javascript:;" (click)="OpenPromoLogoDate(modalPromoLogoDate,songLst.id, songLst.IsFindPromo)"
+                    class="btn btn-primary btn-sm">Set</a>
+                    <a *ngIf="songLst.IsFindPromo=='1'" href="javascript:;" (click)="SetUnsetPromoLogo(songLst.id, songLst.IsFindPromo)"
+                    class="btn btn-primary btn-sm">UnSet</a>
+                    <a href="javascript:;" (click)="DeleteLogoModal(LogoDeleteModal, songLst.id)" class="btn btn-danger btn-sm"
+              style="padding: 7px; margin: 0px; float: right">
+              <i class="fa fa-trash-o float-right p-0 m-0" aria-hidden="true"></i>
+            </a>
 
+            <a *ngIf="songLst.IsFindPromo=='1'" href="javascript:;" class="btn btn-success btn-sm"
+            style="padding: 7px; margin: 0px; float: right;margin-right: 3px;">
+          <i class="fa fa-check-circle float-right p-0 m-0" aria-hidden="true"></i>
+          </a>
+            
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </ngb-tab>
     </ngb-tabset>
 
      
@@ -1663,5 +1800,55 @@
         </div>
       </div>
     </div>
+  </div>
+</ng-template>
+
+
+<ng-template #modalPromoLogoDate let-c="close" let-d="dismiss">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">&nbsp;</h5>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+   <div class="form-row">
+    <div class="form-group col-sm-6 pb-1 m-0">
+      <label for="dtPromosDate" class="mb-2 mr-sm-2">Start Date:</label>
+      <input
+        id="dtPromosDate"
+        [(ngModel)]="dtPromoStartDate"
+        class="form-control mb-2 mr-sm-2"
+        [owlDateTimeTrigger]="dtPromosDate"
+        [owlDateTime]="dtPromosDate"
+        readonly
+      />
+      <owl-date-time [pickerType]="'calendar'" #dtPromosDate></owl-date-time>
+    </div>
+    <div class="form-group col-sm-6 pb-1 m-0">
+      <label for="dtPromoEDate" class="mb-2 mr-sm-2">End Date:</label>
+      <input
+        id="dtPromoEDate"
+        [(ngModel)]="dtPromoEndDate"
+        class="form-control mb-2 mr-sm-2"
+        [owlDateTimeTrigger]="dtPromoEDate"
+        [owlDateTime]="dtPromoEDate"
+        readonly
+      />
+      <owl-date-time [pickerType]="'calendar'" #dtPromoEDate></owl-date-time>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-lg-12">
+      <button class="btn btn-primary mr-2 pull-right" type="button" (click)="onSubmitPromoDate()" (click)="d('Cross click')">
+      Save
+    </button>
+    </div>
+   </div>
   </div>
 </ng-template>
