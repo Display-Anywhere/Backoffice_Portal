@@ -125,6 +125,7 @@ export class LicenseHolderComponent
   templateHost ='https://templates.nusign.eu'
 dtPromoStartDate = new Date()
 dtPromoEndDate = new Date()
+loginpage= localStorage.getItem('loginpage')
   @ViewChild('flocation') flocationElement: ElementRef;
   constructor(
     config: NgbModalConfig,

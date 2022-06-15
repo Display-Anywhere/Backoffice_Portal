@@ -13,7 +13,7 @@
         <div class="col-12 p-0">
           <form
             [formGroup]="Regform"
-            (ngSubmit)="onSubmitReg(CustomerTokenDeleteModal, 'First')"
+            
           >
             <!-- for-row start -->
             <div class="row">
@@ -197,24 +197,18 @@
                   <div *ngIf="f.customerEmail.errors.email"></div>
                 </div>
               </div>
-              <div class="col-sm-3 col-lg-2 m-0">
-                <label for="cmbCustomer" class="mr-sm-2">Total Token's:</label>
-                <input
-                  type="number"
-                  formControlName="totalToken"
-                  id="totalToken"
-                  min="0"
-                  max="1000"
-                  value="0"
-                  [ngClass]="{ 'is-invalid': submitted && f.totalToken.errors }"
-                  autocomplete="false"
-                  (change)="onChangeToken()"
-                  class="form-control mr-sm-2"
-                />
-                <div
-                  *ngIf="submitted && f.totalToken.errors"
-                  class="invalid-feedback"
-                ></div>
+              <div class="col-sm-3 col-lg-2 m-0" *ngIf="IsEditClick == 'No'">
+                <label for="cmbaStatus" class="mr-sm-2">Status:</label>
+                <!--<input type="text" id="aKey" formControlName="ApiKey" autocomplete="false" class="form-control mr-sm-2" />-->
+                <select (change)="onChangeStatus($event)"
+                  name="aStatus"
+                  formControlName="aStatus"
+                  class="custom-select"
+                  id="cmbaStatus"
+                >
+                  <option selected value="Active">Active</option>
+                  <option value="Trial">Trial</option>
+                </select>
               </div>
               <div class="col-sm-3 col-lg-2 m-0">
                 <label for="cmbCustomer" class="mr-sm-2">Expiry Date:</label>
@@ -232,6 +226,27 @@
                   *ngIf="submitted && f.expiryDate.errors"
                   class="invalid-feedback"
                 ></div>
+              </div>
+              <div class="col-sm-3 col-lg-2 m-0" >
+                <label for="cmbCustomer" class="mr-sm-2">Total Token's:</label>
+                <input
+                  type="number"
+                  formControlName="totalToken"
+                  id="totalToken"
+                  min="0"
+                  max="1000"
+                  value="0"
+                  [ngClass]="{ 'is-invalid': submitted && f.totalToken.errors }"
+                  autocomplete="false"
+                  (change)="onChangeToken()"
+                  class="form-control mr-sm-2"
+                />
+                <div
+                  *ngIf="submitted && f.totalToken.errors"
+                  class="invalid-feedback"
+                ></div>
+
+               
               </div>
               <div class="col-sm-3 col-lg-2 m-0">
                 <label for="cmbCustomer" class="mr-sm-2">Support Email:</label>
@@ -273,16 +288,7 @@
                   class="form-control mr-sm-2"
                 />
               </div>
-              <div class="col-sm-3 col-lg-2 m-0">
-                <label for="cmbCustomer" class="mr-sm-2">Api Key:</label>
-                <input
-                  type="text"
-                  id="aKey"
-                  formControlName="ApiKey"
-                  autocomplete="false"
-                  class="form-control mr-sm-2"
-                />
-              </div>
+             
               <div class="col-sm-3 col-lg-2 m-0">
                 <label for="cmbCustomer" class="mr-sm-2">Content Type:</label>
                 <select
@@ -329,7 +335,7 @@
                 <button *ngIf="logindf==='95'" type="button" class="btn btn-primary mr-3" (click)="openModalAssignCustomer(modalAssignCustomer)">
                   Assign Customer
                 </button>
-                <button type="submit" class="btn btn-primary mr-3">
+                <button type="button" class="btn btn-primary mr-3" (click)="onSubmitReg(CustomerTokenDeleteModal, 'First')">
                   Save <i class="fa fa-floppy-o" aria-hidden="true"></i>
                 </button>
                 <button
@@ -387,11 +393,12 @@
                   <!--<th scope="col" style="width: 120px !important">
                     Expiry Date
                   </th>-->
+                  <th scope="col" style="width: 120px !important">
+                    Status
+                  </th>
                   <th scope="col" class="Link-Center_Width"></th>
                   <th scope="col" class="Link-Center_Width"></th>
-                  <th scope="col" style="width: 100px !important"></th>
-                <th  *ngIf="IsSbit == 'No'" scope="col" style="width: 130px !important"></th>
-                  <th *ngIf="IsSbit == 'No'" scope="col" style="width: 130px !important">License</th> 
+                  <th  scope="col" style="width: 130px !important"></th> 
                 </tr>
               </thead>
               <tbody>
@@ -415,6 +422,16 @@
                   <!--<td data-label="Expiry Date">
                     {{ cLst.expiryDate }}
                   </td>-->
+                  <td data-label="Status">
+                    <span [ngClass]="(cLst.aStatus == 'Trial') ? 'text-warning' :
+                    (cLst.aStatus == 'Trial Extend') ? 'text-warning' :
+                    ((cLst.aStatus == 'Active') ? ' text-primary' :
+                      'text-secondary')">
+                      {{ cLst.aStatus }}
+                        </span>
+
+                    
+                  </td>
                   <td
                     data-label=""
                     class="cursor-pointer"
@@ -438,49 +455,43 @@
                       aria-hidden="true"
                     ></i>
                   </td>
-                  <td
-                    data-label=""
-                    class="cursor-pointer text-primary"
-                    (click)="SendMail(cLst.id)"
-                  >
-                    Send email
-                  </td>
-                  <td *ngIf="IsSbit == 'No'" data-label="">
-                    <span
-                      *ngIf="cLst.Key === ''"
-                      class="cursor-pointer text-primary"
-                      (click)="TemplateAccess(cLst.id)"
-                      >Template access</span
-                    >
-                    <span *ngIf="cLst.Key != ''">Activated</span>
-                  </td>
-                  <td *ngIf="IsSbit == 'No'">
-                    <span
-                      *ngIf="cLst.IsTemplateActive === '0'"
-                      class="cursor-pointer text-primary"
-                      (click)="
-                        UpdateExpiryDate_Template_Creator(
-                          cLst.id,
-                          'Active',
-                          cLst.expiryDate,
-                          cLst.Key
-                        )
-                      "
-                      >Active</span
-                    >
-                    <span
-                      *ngIf="cLst.IsTemplateActive === '1'"
-                      class="cursor-pointer text-danger"
-                      (click)="
-                        UpdateExpiryDate_Template_Creator(
-                          cLst.id,
-                          'Disable',
-                          cLst.expiryDate,
-                          cLst.Key
-                        )
-                      "
-                      >Disable</span
-                    >
+                  
+                  
+                  <td>
+
+                    <ul class="navbar-nav">
+                      <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          Actions
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                          <a class="dropdown-item" href="javascript:;" (click)="SendMail(cLst.id)">Send email</a>
+                          
+                          <a class="dropdown-item" href="javascript:;" *ngIf="IsSbit == 'No'">
+                            <span *ngIf="cLst.Key === ''" class="cursor-pointer text-primary" (click)="TemplateAccess(cLst.id)">Template Access</span>
+                            <span *ngIf="cLst.Key != ''">Template Activated</span>
+                          </a>
+                          
+                          <a class="dropdown-item" href="javascript:;" *ngIf="IsSbit == 'No'">
+                            <span *ngIf="cLst.IsTemplateActive === '0'" class="cursor-pointer text-primary" (click)="UpdateExpiryDate_Template_Creator(cLst.id,'Active',cLst.expiryDate,cLst.Key)">Template License Active</span>
+                            <span *ngIf="cLst.IsTemplateActive === '1'" class="cursor-pointer text-danger" (click)="UpdateExpiryDate_Template_Creator(cLst.id,'Disable',cLst.expiryDate,cLst.Key)">Template License Disable</span>
+                          </a>
+                          
+                          <a class="dropdown-item" href="javascript:;" (click)="openModalAccountAccess(modalTrialExtend,cLst.expiryDate,cLst.id)" *ngIf="((cLst.aStatus=='Trial') || (cLst.aStatus=='Trial Extend'))">
+                            Account Activate
+                        </a>
+                        <a class="dropdown-item" href="javascript:;" (click)="openModalTrialExtend(modalTrialExtend,cLst.aStatus,cLst.expiryDate,cLst.id)"  *ngIf="((cLst.aStatus=='Trial') || (cLst.aStatus=='Trial Extend'))">
+                          Trial Extend
+                        </a>
+                        <a class="dropdown-item" href="javascript:;" (click)="openModalClientLogs(modalClientLogs,cLst.id)">
+                          Logs
+                        </a>
+                      </div>
+                      </li>
+                    </ul>
+
+                    <!--
+                    -->
                   </td> 
                 </tr>
               </tbody>
@@ -638,4 +649,94 @@
   <div class="modal-body">
     <app-assigncustomers></app-assigncustomers>
   </div>
+</ng-template>
+
+<ng-template #modalTrialExtend let-c="close" let-d="dismiss">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">{{HeaderText}}</h5>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12">
+          <label for="cmbCustomerq" class="mr-sm-2">Expiry Date:</label>
+                            <input
+                              id="dtTrialExtend"
+                              [(ngModel)]="dtTrialExtendExpiryDate"
+                              class="form-control mr-sm-2"
+                              [owlDateTimeTrigger]="dtTrialExtend"
+                              [owlDateTime]="dtTrialExtend"
+                              readonly
+                            />
+                            <owl-date-time [pickerType]="'calendar'" #dtTrialExtend></owl-date-time>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <div class="row">
+      <div class="col-sm-12">
+        <button
+          class="btn btn-primary pull-right"
+          type="button"
+          (click)="TrialExtend()"
+          (click)="d('Cross click')"
+        >
+          Save
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+
+<ng-template #modalClientLogs let-c="close" let-d="dismiss">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Logs</h5>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body p-0">
+     
+       
+          <div class="table-responsive">
+            <table class="table data-table table-striped table-bordered mydatatable">
+              <thead>
+                <tr>
+                  <th scope="col">Date/Time</th>
+                  <th scope="col">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let logLst of ClientLogslist">
+                  <td data-label="Date/Time">
+                    {{ logLst.logdatetime |  date:'dd/MMM/yyyy, hh:mm:ss a' }}
+                  </td>
+                  <td data-label="Status">
+                    {{ logLst.astatus }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+          </div>
+        
+    
+  </div>
+  
 </ng-template>

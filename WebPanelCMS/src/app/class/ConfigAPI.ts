@@ -172,6 +172,8 @@ export class ConfigAPI {
    GetRoomSignagePlaylist: string = this.Host + 'GetRoomSignagePlaylist';
    SetUnsetPromoLogo: string = this.Host + 'SetUnsetPromoLogo';
    GetPromoLogo: string = this.Host + 'GetPromoLogo';
+   UpdateClientStatus: string = this.Host + 'UpdateClientStatus';
+   GetClientLogs: string = this.Host + 'GetClientLogs';
 }
 
 // localStorage.setItem('UserId', obj.UserId);

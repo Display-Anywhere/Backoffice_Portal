@@ -61,4 +61,16 @@ export class CustomerRegService {
     return this.http.post(this.cApi.UpdateExpiryDate_Template_Creator, params, {headers})
      .pipe((data => data));
   }
+  UpdateClientStatus(aStatus,dfclientid,expiryDate){
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const params = JSON.stringify({aStatus: aStatus, dfclientid: dfclientid,loginclientid:localStorage.getItem('loginclientid'),expiryDate:expiryDate});
+    return this.http.post(this.cApi.UpdateClientStatus, params, {headers})
+     .pipe((data => data));
+  }
+  GetClientLogs(ClientId){
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const params = JSON.stringify({ClientId: ClientId});
+    return this.http.post(this.cApi.GetClientLogs, params, {headers})
+     .pipe((data => data));
+  }
 }

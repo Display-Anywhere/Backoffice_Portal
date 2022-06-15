@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit {
   public loading = false;
   ipAddress;
   emailText=''
-  loginpage='PPDS'
+  loginpage='Nusign'
   IsSbit='No'
   constructor(public toastr: ToastrService, private router: Router, private formBuilder: FormBuilder, private ulService: UloginService, private visitorsService: VisitorsService, public authService: AuthService) { }
   ngOnInit() {
@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit {
     localStorage.setItem('DBType', 'Nusign');
     localStorage.setItem('IsSbit', this.IsSbit);
 
-    
+    localStorage.setItem('loginpage', this.loginpage);
     if (localStorage.getItem('DBType')==="Advikon"){
       this.emailText='jan@advikon.eu'
     }
@@ -64,6 +64,7 @@ export class LoginComponent implements OnInit {
         if (obj.Responce === '1') {
           localStorage.setItem('UserId', obj.UserId);
           localStorage.setItem('dfClientId', obj.dfClientId);
+          localStorage.setItem('loginclientid', obj.dfClientId);
           localStorage.setItem('IsRf', obj.IsRf);
           localStorage.setItem('chkDashboard', obj.chkDashboard);
           localStorage.setItem('chkPlayerDetail', obj.chkPlayerDetail);

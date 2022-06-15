@@ -43,6 +43,8 @@ export class CustomerRegistrationComponent implements AfterViewInit, OnInit, OnD
 PrvTotalToken:number=0;
 logindf= localStorage.getItem('dfClientId')
 IsSbit= localStorage.getItem('IsSbit')
+IsTrailExtendClick="No"
+dtTrialExtendExpiryDate
 @ViewChild(DataTableDirective) dtElement: DataTableDirective;
 dtOptions: any = {};
 dtTrigger: Subject<any> = new Subject();
@@ -84,7 +86,9 @@ this.PrvTotalToken=0;
       personName:[""],
       dbType:[localStorage.getItem('DBType')],
       ContentType:["MusicMedia"],
-      ApiKey:[""]
+      ApiKey:[""],
+      loginclientId:[localStorage.getItem('loginclientid')],
+      aStatus:["Active"]
     });
     this.CustomerList = [];
      this.DataTableSettings();
@@ -99,30 +103,27 @@ this.PrvTotalToken=0;
       processing: false,
       dom: 'rtp',
       columnDefs: [{
-        'targets': [5,6,7,8], // column index (start from 0)
+        'targets': [4,5,6,7], // column index (start from 0)
         'orderable': false,
       },{
         'width':'120px', 'targets': 0,
       },{
-        'width':'180px', 'targets': 1,
+        'width':'230px', 'targets': 1,
       },{
-        'width':'280px', 'targets': 2,
+        'width':'350px', 'targets': 2,
       }
       ,{
         'width':'100px', 'targets': 3,
       }
       ,{
-        'width':'120px', 'targets': 4,
+        'width':'100px', 'targets': 4,
+      }
+      ,{
+        'width':'20px', 'targets': 5,
       },{
-        'width':'50px', 'targets': 5,
+        'width':'20px', 'targets': 6,
       },{
-        'width':'50px', 'targets': 6,
-      },{
-        'width':'100px', 'targets': 7,
-      },{
-        'width':'120px', 'targets': 8,
-      },{
-        'width':'90px', 'targets': 9,
+        'width':'50px', 'targets': 7,
       }
   ],
       retrieve: true,
@@ -175,7 +176,9 @@ this.PrvTotalToken=0;
       personName:[""],
       dbType:[localStorage.getItem('DBType')],
       ContentType:["MusicMedia"],
-      ApiKey:[""]
+      ApiKey:[""],
+      loginclientId:[localStorage.getItem('loginclientid')],
+      aStatus:["Active"]
     });
   };
   onChangeCity(event: Event) {
@@ -190,6 +193,16 @@ this.PrvTotalToken=0;
     }
   }
   onSubmitReg = function (mContent, hitType) {
+    var cd= new Date
+    var InputDate =  new Date(this.Regform.controls.expiryDate.value)
+
+    if (this.Regform.controls.aStatus.value=="Trial"){
+      if (InputDate<=cd){
+        this.toastr.info("Please set trial expiry date");
+        return
+      }
+    }
+return
     this.submitted = true;
     if (this.Regform.invalid) {
       return;
@@ -202,8 +215,7 @@ this.PrvTotalToken=0;
       return;
     }
   }
-
-
+    
     this.loading = true;
     var NewCname= this.cNameCode+this.cName;
     this.Regform.controls.customerName.setValue(NewCname);
@@ -396,7 +408,7 @@ this.PrvTotalToken=0;
           ContentType:[obj.ContentType],
           ApiKey:[obj.ApiKey]
         });
-        
+        this.dtTrialExtendExpiryDate = d
           if (obj.CustomerType=="MainCustomer"){
               this.iCheckMain=true;   
               this.iCheckSub=false;         
@@ -583,5 +595,85 @@ this.PrvTotalToken=0;
   } 
   openModalAssignCustomer(mdl){
     this.modalService.open(mdl);
+    }
+    accountStatus
+    accountStatus_ClientId
+    openModalTrialExtend(mdl, status,eDate,ClientId){
+      this.HeaderText ="Trial Extend"
+      this.dtTrialExtendExpiryDate = new Date(eDate)
+      this.accountStatus_ClientId= ClientId
+      this.accountStatus = status
+      this.modalService.open(mdl);
+      }
+      openModalAccountAccess(mdl,eDate,ClientId){
+        this.HeaderText ="Account Activate"
+        this.dtTrialExtendExpiryDate = new Date(eDate)
+        this.accountStatus_ClientId= ClientId
+        this.accountStatus= 'Active'
+        this.modalService.open(mdl);
+        }
+    AccountAccess(){
+      this.UpdateClientStatus()
+    }
+    TrialExtend(){
+      this.UpdateClientStatus()
+    }
+
+    UpdateClientStatus(){
+      this.loading = true;
+      this.cService.UpdateClientStatus(this.accountStatus,this.accountStatus_ClientId,this.dtTrialExtendExpiryDate).pipe()
+        .subscribe(data => {
+          var returnData = JSON.stringify(data);
+          var obj = JSON.parse(returnData);
+          if (obj.response == "1") {
+            this.toastr.info("Saved", 'Success!');
+            this.loading = false;
+            this.FillCustomer();
+          }
+          else {
+            this.toastr.error("Apologies for the inconvenience.The error is recorded.", '');
+            this.loading = false;
+            return;
+          }
+        },
+          error => {
+            this.toastr.error("Apologies for the inconvenience.The error is recorded.", '');
+            this.loading = false;
+          })
+    } 
+    ClientLogslist=[]
+    openModalClientLogs(mdl,ClientId){
+      this.loading = true;
+    this.cService.GetClientLogs(ClientId).pipe().subscribe((data) => {
+          var returnData = JSON.stringify(data);
+          this.ClientLogslist=[]
+          var obj = JSON.parse(returnData);
+          if (obj.response == "1"){
+            this.ClientLogslist = JSON.parse(obj.data);
+        }
+        this.modalService.open(mdl);
+          this.loading = false;
+        },
+        (error) => {
+          this.toastr.error(
+            'Apologies for the inconvenience.The error is recorded.',
+            ''
+          );
+          this.loading = false;
+        }
+      );
+      
+    }
+    onChangeStatus(event: Event){
+      let selectElementText = event.target['options'][event.target['options'].selectedIndex].text;
+      let selectElementValue = event.target['options'][event.target['options'].selectedIndex].value;
+      if (selectElementValue=="Active"){
+        this.Regform.controls.expiryDate.setValue(this.dateTime1)
+        
+      }
+      else{
+        var cd= new Date()
+        this.Regform.controls.expiryDate.setValue(cd)
+      }
     }
 }

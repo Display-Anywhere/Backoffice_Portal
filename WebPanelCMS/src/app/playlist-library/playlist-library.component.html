@@ -32,8 +32,8 @@
           </div>
         </div>
         <div class="row m-0 p-0">
-          <div class="col-lg-6 ml-0 pl-0">
-            <button *ngIf="IsSbit == 'No'"
+          <div class="col-lg-6 ml-0 pl-0" >
+            <button *ngIf="((IsSbit == 'No') && (OtherKey !=''))"
             class="btn btn-primary w-100 custombutton"
             (click)="OpenEditTemplates('')">
             Edit Templates
@@ -49,7 +49,7 @@
         </div>
         <div class="row m-0 p-0">
           <div [ngClass]="(cmbCustomerMediaType == 'Audio Copyright')? 'col-md-8':
-          (cmbCustomerMediaType == 'Video')? 'col-md-8':(cmbCustomerMediaType == 'Signage')? 'col-md-8':'col-md-12'" class="ml-0 pl-0">
+          (cmbCustomerMediaType == 'Video')? 'col-md-8':'col-md-12'" class="ml-0 pl-0">
             <label for="cName" class="mb-2 mr-sm-2">Media Type:</label>
             <select
               name="cName"
@@ -77,16 +77,24 @@
             Content Block
           </button>
           </div>
-          <div [ngClass]="cmbCustomerMediaType == 'Signage'? 'col-md-4':'d-none'" class="ml-0 pl-0">
-            <label for="cName" class="mb-2 mr-sm-2">&nbsp;</label>
-            <button
+           
+          </div>
+          <div class="row m-0 p-0" *ngIf="cmbCustomerMediaType == 'Signage'">
+            <div class="col-lg-6 ml-0 pl-0" >
+              <button
+              class="btn btn-primary w-100 custombutton"
+              (click)="OpenSensorSettings(SensorSettings)">
+              Sensor Settings
+            </button>
+            </div>
+            <div class="col-lg-6 ml-0 pl-0">
+              <button
             class="btn btn-primary w-100 custombutton"
-            (click)="OpenSensorSettings(SensorSettings)">
-            Sensor Settings
+            (click)="OpenContentBlock(contentblock)">
+            Content Block
           </button>
+            </div>
           </div>
-          </div>
-
           <div class="col-lg-12 p-0 m-0">
             <div class="col-lg-9 p-0 m-0 pull-left">
               <label for="FormatName" class="mb-2 mr-sm-2"
@@ -2267,6 +2275,6 @@
     </button>
   </div>
   <div class="modal-body">
-    <app-clientcontentblock></app-clientcontentblock>
+    <app-clientcontentblock [incomingMediatype]="cmbCustomerMediaType" [incomingClientId]="cmbCustomer"></app-clientcontentblock>
   </div>
 </ng-template>

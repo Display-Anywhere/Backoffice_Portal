@@ -1,5 +1,5 @@
 import { DecimalPipe } from '@angular/common';
-import { Component, OnInit, ViewContainerRef , ViewChildren,  QueryList, PipeTransform} from '@angular/core';
+import { Component, OnInit, ViewContainerRef , ViewChildren,  QueryList, PipeTransform, Input } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
@@ -46,14 +46,24 @@ export class ClientcontentblockComponent implements OnInit {
     config.keyboard = false;
     this.IschkViewOnly = this.auth.chkViewOnly$.value ? 1 : 0;
   }
+  @Input() incomingMediatype: string;
+  @Input() incomingClientId: string;
 
   async ngOnInit() {
     this.cmbCustomer = localStorage.getItem('bCId');
     this.longmediatype = localStorage.getItem('mType');
+
     this.mediatype='Video'
     if (this.longmediatype=='Audio Copyright'){
       this.mediatype='Audio'
     }
+    if (this.longmediatype=='Signage'){
+      this.mediatype='Signage'
+      this.cmbSearchContentType="title"
+      this.cmbContentType="title"
+      await this.SearchContent();
+    }
+
     await this.GetClientContentBlock(this.cmbSearchContentType);
   }
   GetClientContentBlock(contenttype) {
@@ -129,7 +139,7 @@ export class ClientcontentblockComponent implements OnInit {
   }
   SearchContent() {
     this.ContentSearchText="";
-    if (this.SearchText==""){
+    if ((this.longmediatype!='Signage') && (this.SearchText=="")){
       return
     }
     this.loading = true;

@@ -10,16 +10,17 @@
                 <ng-template ngbNavContent>
                     <div class="form-row">
                         <div class="form-group col-sm-4 pb-0 m-0">
-                            <div class="col-sm-12 p-0 pr-1 m-0 pull-left">
+                            <div class="col-sm-12 p-0 pr-1 m-0 pull-left"  *ngIf="mediatype != 'Signage'">
                                 <label for="GroupId">Content Type</label>
                                 <select  name="GroupId" [(ngModel)]="cmbSearchContentType" class="custom-select"
                   (change)="onChangeSearchContentType($event.target.value)" id="GroupId">
                   <option selected value="artist">Artist</option>
-                  <option value="title">Title</option>
+                  <option selected value="title">Title</option>
                 </select>
             </div>
                         </div>
-                        <div class="form-group col-sm-8 text-right pb-0 m-0 pt-4">
+                        <div class="form-group col-sm-8 text-right pb-0 m-0" [ngClass]="(mediatype == 'Signage')? 'pt-0': 
+                        'pt-4'" >
                           <button id="btnGroup7" class="btn btn-danger" (click)="openDeleteModal(DeleteModal, '0')">
                             UnBlock
                           </button>
@@ -48,7 +49,10 @@
                                         </div>
                                       </th>
                                       <th scope="col">Name</th>
-                                      <th scope="col" *ngIf="cmbSearchContentType=='title'">Artist</th>
+                                      <th scope="col" *ngIf="cmbSearchContentType=='title'">
+                                        <span *ngIf="mediatype != 'Signage'">Artist</span>
+                                        <span *ngIf="mediatype == 'Signage'">Media Type</span>
+                                      </th>
                                       
                                     </tr>
                                   </thead>
@@ -87,7 +91,7 @@
                 <a ngbNavLink>Add New</a>
                 <ng-template ngbNavContent>
                     <form (keydown)="keyDownFunction($event)" class="w-100">
-                    <div class="form-row">
+                    <div class="form-row" *ngIf="mediatype != 'Signage'">
                       
 
                         
@@ -96,7 +100,7 @@
                 <select  name="id" [(ngModel)]="cmbContentType" class="custom-select" id="id"
                 (change)="onChangeContentType($event.target.value)">
                   <option selected value="artist">Artist</option>
-                  <option value="title">Title</option>
+                  <option selected value="title">Title</option>
                 </select>
                         </div>
                         <div class="form-group col-sm-4 pb-0 m-0">
@@ -148,7 +152,10 @@
                                       <th scope="col" sortable="title"
                                       (sort)="onSort($event)">Name</th>
                                       <th scope="col" *ngIf="cmbContentType=='title'" sortable="artist"
-                                      (sort)="onSort($event)">Artist</th>
+                                      (sort)="onSort($event)">
+                                      <span *ngIf="mediatype != 'Signage'">Artist</span>
+                                      <span *ngIf="mediatype == 'Signage'">Media Type</span>
+                                    </th>
                                        
                                     </tr>
                                   </thead>
