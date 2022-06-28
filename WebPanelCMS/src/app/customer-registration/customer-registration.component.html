@@ -297,9 +297,9 @@
                   class="custom-select"
                   id="rdo2"
                 >
-                  <option selected value="MusicMedia">Music</option>
-                  <option value="Signage">Signage</option>
-                  <option value="Both">Both</option>
+                <option selected value="Signage">Signage</option>  
+                <option  value="MusicMedia">Music</option>
+                <option value="Both">All</option>
                 </select>
               </div>
               <div class="col-sm-3 col-lg-2 m-0">
@@ -473,15 +473,15 @@
                           </a>
                           
                           <a class="dropdown-item" href="javascript:;" *ngIf="IsSbit == 'No'">
-                            <span *ngIf="cLst.IsTemplateActive === '0'" class="cursor-pointer text-primary" (click)="UpdateExpiryDate_Template_Creator(cLst.id,'Active',cLst.expiryDate,cLst.Key)">Template License Active</span>
-                            <span *ngIf="cLst.IsTemplateActive === '1'" class="cursor-pointer text-danger" (click)="UpdateExpiryDate_Template_Creator(cLst.id,'Disable',cLst.expiryDate,cLst.Key)">Template License Disable</span>
+                            <span *ngIf="cLst.IsTemplateActive === '0'" class="cursor-pointer text-primary" (click)="UpdateExpiryDate_Template_Creator(cLst.id,'Active',cLst.expiryDate,cLst.Key)">Active Template License</span>
+                            <span *ngIf="cLst.IsTemplateActive === '1'" class="cursor-pointer text-danger" (click)="UpdateExpiryDate_Template_Creator(cLst.id,'Disable',cLst.expiryDate,cLst.Key)">Disable Template License</span>
                           </a>
                           
                           <a class="dropdown-item" href="javascript:;" (click)="openModalAccountAccess(modalTrialExtend,cLst.expiryDate,cLst.id)" *ngIf="((cLst.aStatus=='Trial') || (cLst.aStatus=='Trial Extend'))">
-                            Account Activate
+                            Activate Account
                         </a>
                         <a class="dropdown-item" href="javascript:;" (click)="openModalTrialExtend(modalTrialExtend,cLst.aStatus,cLst.expiryDate,cLst.id)"  *ngIf="((cLst.aStatus=='Trial') || (cLst.aStatus=='Trial Extend'))">
-                          Trial Extend
+                          Extend Trial
                         </a>
                         <a class="dropdown-item" href="javascript:;" (click)="openModalClientLogs(modalClientLogs,cLst.id)">
                           Logs

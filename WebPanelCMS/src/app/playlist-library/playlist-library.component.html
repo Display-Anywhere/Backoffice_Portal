@@ -1219,6 +1219,7 @@
                     {{ HeaderName2 }}
                   </th>
                   <th *ngIf="((chkSearchRadio=='NewVibe'))" class="WidthCategoryPL bg-primary sticky-top">Year</th>
+                  <th *ngIf="(cmbCustomerMediaType=='Audio Copyright')" class="WidthCategoryPL bg-primary sticky-top">Bit Rate</th>
                   <th *ngIf="(cmbCustomerMediaType=='Signage')" class="bg-primary sticky-top"></th>
                 </tr>
               </thead>
@@ -1350,6 +1351,10 @@
                   class="WidthCategoryPL">{{songLst.rDate}}</td>
                   <td  *ngIf="((chkSearchRadio=='NewVibe'))"
                   class="WidthCategoryPL">{{songLst.titleyear}}</td>
+
+                  <td *ngIf="(cmbCustomerMediaType=='Audio Copyright')" class="WidthCategoryPL">{{songLst.bitrate}}</td>
+
+
                   <td *ngIf="(cmbCustomerMediaType=='Signage')">
                     <i *ngIf="LoginDfClientId==songLst.dfClientId" (click)="openTitleDeleteModalOwn(OwnTitleDeleteModal,songLst.id)" class="fa fa-trash text-danger" aria-hidden="true"></i>
                   </td>

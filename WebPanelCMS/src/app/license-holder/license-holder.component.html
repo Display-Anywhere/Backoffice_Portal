@@ -11,7 +11,7 @@
         <div class="card-header bg-white d-flex justify-content-between">
           <div class="col-12 p-0">
             <div class="form-row">
-              <div class="form-group col-sm-3 m-0">
+              <div class="form-group col-sm-2 m-0">
                 <label for="cmbCustomer"  class="mb-2 mr-sm-2" #flocation
                   >Customer Name:</label
                 >
@@ -107,7 +107,21 @@
                   padding: 0.475rem 0.6rem"
                 />
               </div>
-              <div class="form-group col-sm-2 m-0" *ngIf="((cmbCustomerId=='95') || (cmbCustomerId=='10') || (cmbCustomerId=='183') || (loginpage=='PPDS'))">
+              <div *ngIf="((this.auth.chkEventMeeting$.value ==false))" class="form-group col-sm-1 m-0">
+                <label for="btnExport" class="d-none d-xl-block mb-2 mr-sm-2"
+                  >&nbsp;</label
+                >
+                <input
+                  type="button"
+                  id="btnExport"
+                  class="btn btn-primary mb-2 mr-sm-2 mr-1"
+                  (click)="ForceUpdateModal(modalExpiryDate)"
+                  value="Set Expiry Date"
+                  style="width: 100%;font-size: 14px;
+                  padding: 0.475rem 0.6rem"
+                />
+              </div>
+              <div class="form-group col-sm-2 m-0">
                 <label for="btnUploadEvent" class="d-none d-xl-block mb-2 mr-sm-2"
                   >&nbsp;</label
                 >
@@ -1850,5 +1864,129 @@
     </button>
     </div>
    </div>
+  </div>
+</ng-template>
+
+<ng-template #modalExpiryDate let-c="close" let-d="dismiss">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Set Expiry Date</h5>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    
+       
+              <div class="row">
+                <div class="col-lg-6">
+                  <input
+                  id="txtSearchExt"
+                  type="text"
+                  [(ngModel)]="searchTextPublish"
+                  class="text search-input"
+                  placeholder="Search"
+                  class="form-control mb-2 mr-sm-2 w-75 mt-4"
+                  (input)="onChangeEvent()"
+                />
+                </div>
+                <div class="form-group col-lg-4">
+                  <label for="dtTokenEDate" class="mb-2 mr-sm-2">Expiry Date:</label>
+      <input
+        id="dtTokenEDate"
+        [(ngModel)]="dtTokenExpiryDate"
+        class="form-control mb-2 mr-sm-2"
+        [owlDateTimeTrigger]="dtTokenEDate"
+        [owlDateTime]="dtTokenEDate"
+        readonly
+      />
+      <owl-date-time [pickerType]="'calendar'" #dtTokenEDate></owl-date-time>
+                </div>
+                <div class="col-lg-2">
+                  
+                  <input
+                    type="button"
+                    class="btn btn-primary pull-right mb-2 mt-4"
+                    value="Save"
+                    (click)="UpdatePlayerExpire()"
+                  />
+                </div>
+                <div class="col-sm-12 font-weight-bold mb-3 p-0" >
+                  <p style="margin: 0 !important">You can use any keyword from media type, city , location,token no. For Example: Audio, Video, Signage etc.</p>
+                </div>
+                    <div class="col-lg-12 m-0 p-0">
+                  <div class="table-responsive">
+                    <table
+                      class="table data-table table-striped table-bordered mydatatable"
+                    >
+                      <thead class="bg-primary text-white">
+                        <tr>
+                          <th scope="col" style="width: 60px">
+                            <div class="custom-control custom-checkbox">
+                              <input
+                                (change)="allActiveToken($event)"
+                                type="checkbox"
+                                class="custom-control-input"
+                                name="AllActiveToken"
+                                id="AllActiveToken"
+                                [(ngModel)]="chkAll"
+                              />
+                              <label
+                                class="custom-control-label cursor-pointer pt-1 text-white"
+                                for="AllActiveToken"
+                                >All</label
+                              >
+                            </div>
+                          </th>
+                          <th scope="col" sortable="city" (sort)="onSort($event)">City</th>
+                          <th scope="col" sortable="location" (sort)="onSort($event)">Location</th>
+                          <th scope="col" sortable="tokenCode" (sort)="onSort($event)">Token No</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let tLst of ActiveTokenList | filter:searchTextPublish | slice
+                        : (page - 1) * pageSize
+                        : (page - 1) * pageSize + pageSize; let i = index ">
+                          <td data-label="" class="">
+                            <div class="custom-control custom-checkbox">
+                              <input
+                                (change)="SelectActiveToken(tLst.tokenid, $event)"
+                                type="checkbox"
+                                class="custom-control-input"
+                                id="{{ tLst.tokenid }}{{ i }}"
+                                [checked]="tLst.check"
+                                name="chkTokenList"
+                              />
+                              <label
+                                class="custom-control-label cursor-pointer"
+                                for="{{ tLst.tokenid }}{{ i }}"
+                              ></label>
+                            </div>
+                          </td>
+                          <td data-label="City">{{ tLst.city }}</td>
+                          <td data-label="Location">{{ tLst.location }}</td>
+                          <td data-label="Token No">{{ tLst.tokenCode }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <ngb-pagination
+                                    [collectionSize]="ActiveTokenListlength"
+                                    [(page)]="page"
+                                    [pageSize]="pageSize"
+                                    aria-label="Default pagination"
+                                    (click)="GetCheckedToken()"
+                                  ></ngb-pagination>
+                  </div>
+                </div>
+              </div>
+        
+        
+         
+       
+    
   </div>
 </ng-template>

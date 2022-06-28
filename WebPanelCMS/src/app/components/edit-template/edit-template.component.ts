@@ -155,6 +155,49 @@ export class EditTemplateComponent implements OnInit {
     if (this.templateId=="16"){
       this.templatedata.bgcolor='#5b6c70'
     }
+    if (this.templateId=="21"){
+      this.templatedata.title='HALLOWEEN PARTY'
+      this.templatedata.desc='SCARY NIGHT PARTY'
+      this.templatedata.text1='PlEASE JOIN US'
+      this.templatedata.text2= 'DJ PNGTREE & JIMMY LI'
+      this.templatedata.text3= 'WINETASTING & PAIRINGS'
+      this.templatedata.text4= '2022/06/21'
+      this.templatedata.bgcolor='#000000'
+    }
+    if (this.templateId=="22"){
+      this.templatedata.title='2022'
+      this.templatedata.desc='NEW YEAR'
+      this.templatedata.text1='EVENT'
+      this.templatedata.text2= 'EXCLUSIVE'
+      this.templatedata.text3= 'GOLDEN STYLE'
+      this.templatedata.text4= 'MORDEN 2022'
+      this.templatedata.text5='69 SAMPLE STREET'
+      this.templatedata.text6='June 21,2022'
+      this.templatedata.text7='orem ipsum dolor sit amet, an'
+      this.templatedata.text8='ad mei wisi integre fabellas. Eos an'
+      this.templatedata.bgcolor='#000000'
+    }
+    if (this.templateId=="23"){
+      this.templatedata.title='MERRY'
+      this.templatedata.desc='Christmas'
+      this.templatedata.bgcolor='#006533'
+    }
+    if (this.templateId=="24"){
+      this.templatedata.title='SKIN CARE'
+      this.templatedata.desc='Classic has the same behavior with time grade has the same behavior with time and pattern has the same behavior with time the noble quality is showed finely.'
+      this.templatedata.text1='50'
+      this.templatedata.text2='PRINNNIAL CODE DEWS THE RAINFALL IN SOUTHERN CHINA HAS INCREASINGLY REDUCED.'
+      this.templatedata.bgcolor='#ffc107'
+    }
+    if (this.templateId=="25"){
+      this.templatedata.title='DELICIOUS'
+      this.templatedata.desc='Be Inspired'
+      this.templatedata.text1='PRINNNIAL CODE DEWS THE RAINFALL IN SOUTHERN CHINA HAS INCREASINGLY REDUCED.'
+      this.templatedata.text2='Master Class'
+      this.templatedata.text3='PRINNNIAL CODE DEWS THE RAINFALL IN SOUTHERN CHINA HAS INCREASINGLY REDUCED.'
+      this.templatedata.bgcolor='#000000'
+    }
+
     if (this.templateId=="15"){
       this.cmbLibraryGenre='324'
     }
@@ -417,7 +460,9 @@ export class EditTemplateComponent implements OnInit {
     this.auth.SetEditTemplateOpen(false)
   }
   OpenViewContent(){
-    let IframeSRC_Safe = this.templateHost+ '?templateId='+this.templateId+'&title='+this.templatedata.title+'&desc='+this.templatedata.desc+'&logosrc='+this.templatedata.logoimgurl+ '&ngClass='+this.templatedata.bgcolor.replace('#','')+'&imgSrc='+this.templatedata.imgurl+ '&text1='+this.templatedata.text1+'&text2='+this.templatedata.text2+'&imgSrc2='+this.templatedata.imgurl2+'&imgSrc3='+this.templatedata.imgurl3+'&imgSrc4='+this.templatedata.imgurl4+'&imgSrc5='+this.templatedata.imgurl5+'&imgSrc6='+this.templatedata.imgurl6+'&imgSrc7='+this.templatedata.imgurl7+'&imgSrc8='+this.templatedata.imgurl8+ '&text3='+this.templatedata.text3+ '&text4='+this.templatedata.text4+ '&text5='+this.templatedata.text5+ '&text6='+this.templatedata.text6+ '&text7='+this.templatedata.text7+ '&text8='+this.templatedata.text8+ '&text9='+this.templatedata.text9+ '&text10='+this.templatedata.text10+'&bgImgColor='+this.templatedata.bgImgColor.replace('#','')+'&logosrc2='+this.templatedata.logoimgurl2
+    var textoffer= this.templatedata.text1 
+    var offer= textoffer.replace('%','')
+    let IframeSRC_Safe = this.templateHost+ '?templateId='+this.templateId+'&title='+this.templatedata.title+'&desc='+this.templatedata.desc+'&logosrc='+this.templatedata.logoimgurl+ '&ngClass='+this.templatedata.bgcolor.replace('#','')+'&imgSrc='+this.templatedata.imgurl+ '&text1='+offer+'&text2='+this.templatedata.text2+'&imgSrc2='+this.templatedata.imgurl2+'&imgSrc3='+this.templatedata.imgurl3+'&imgSrc4='+this.templatedata.imgurl4+'&imgSrc5='+this.templatedata.imgurl5+'&imgSrc6='+this.templatedata.imgurl6+'&imgSrc7='+this.templatedata.imgurl7+'&imgSrc8='+this.templatedata.imgurl8+ '&text3='+this.templatedata.text3+ '&text4='+this.templatedata.text4+ '&text5='+this.templatedata.text5+ '&text6='+this.templatedata.text6+ '&text7='+this.templatedata.text7+ '&text8='+this.templatedata.text8+ '&text9='+this.templatedata.text9+ '&text10='+this.templatedata.text10+'&bgImgColor='+this.templatedata.bgImgColor.replace('#','')+'&logosrc2='+this.templatedata.logoimgurl2
     // 1 
     //let IframeSRC_Safe = "http://localhost:4201/#/?templateId=1&title=Wearing a Face Mask&desc=is required to enter&logosrc=http://api.nusign.eu/mp3files/238708.jpg&ngClass=bg-warning&imgSrc=&text1=&text2=" 
     // 2
@@ -659,6 +704,12 @@ export class EditTemplateComponent implements OnInit {
     else if (this.templateId ==='18'){
       return false
     }
+    else if (this.templateId ==='21'){
+      return false
+    }
+    else if (this.templateId ==='22'){
+      return false
+    }
      
     else{
       return true
@@ -678,6 +729,9 @@ export class EditTemplateComponent implements OnInit {
       return true
     }
     else if (this.templateId ==='14'){
+      return true
+    }
+    else if (this.templateId ==='25'){
       return true
     }
     else{

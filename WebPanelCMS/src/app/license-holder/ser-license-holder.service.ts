@@ -315,4 +315,10 @@ SetUnsetPromoLogo(cid, titleid, IsSet,startDate,endDate) {
   return this.http.post(this.cApi.SetUnsetPromoLogo, params, { headers: headers })
     .pipe((data => { return data; }))
 }
+UpdatePlayerExpire(tokenid,expiryDate) {
+  let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+  var params = JSON.stringify({ tokenid: tokenid,expiryDate:expiryDate });
+  return this.http.post(this.cApi.UpdatePlayerExpire, params, { headers: headers })
+    .pipe((data => { return data; }))
+}
 }

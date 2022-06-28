@@ -33,12 +33,12 @@
           <th class="text-white" scope="col" style="width: 130px">City</th>
           <th class="text-white" scope="col" style="width: 100px">Country</th>
           <th class="text-white" scope="col" style="width: 120px">
-            Player Type
+            Media Type
           </th>
-          <th class="text-white" scope="col" style="width: 120px">
-            Licence Type
+          <th class="text-white" scope="col" style="width: 130px">
+            Activation Date
           </th>
-          <th class="text-white" scope="col" style="width: 130px">Activation Date</th>
+          <th class="text-white" scope="col" style="width: 130px">Expiry Date</th>
         </tr>
       </thead>
       <tbody>
@@ -58,15 +58,16 @@
           <td data-label="Country ">
             {{ cLst.countryName }}
           </td>
-          <td data-label="Player Type ">
-            {{ cLst.playerType }}
+          <td data-label="Media Type ">
+            {{ cLst.MediaType }}
           </td>
 
-          <td data-label="Licence Type">
-            {{ cLst.LicenceType }}
-          </td>
+          
           <td data-label="">
             {{ cLst.datetokenused }}
+          </td>
+          <td data-label="Expiry Date">
+            {{ cLst.datetokenexpire }}
           </td>
         </tr>
       </tbody>

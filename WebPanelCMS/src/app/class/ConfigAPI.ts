@@ -174,6 +174,7 @@ export class ConfigAPI {
    GetPromoLogo: string = this.Host + 'GetPromoLogo';
    UpdateClientStatus: string = this.Host + 'UpdateClientStatus';
    GetClientLogs: string = this.Host + 'GetClientLogs';
+   UpdatePlayerExpire: string = this.Host + 'UpdatePlayerExpire';
 }
 
 // localStorage.setItem('UserId', obj.UserId);

@@ -125,6 +125,7 @@ export class LicenseHolderComponent
   templateHost ='https://templates.nusign.eu'
 dtPromoStartDate = new Date()
 dtPromoEndDate = new Date()
+dtTokenExpiryDate = new Date()
 loginpage= localStorage.getItem('loginpage')
   @ViewChild('flocation') flocationElement: ElementRef;
   constructor(
@@ -2183,5 +2184,39 @@ async RefreshTokenList(){
   }
   onSubmitPromoDate(){
     this.SetUnsetPromoLogo(this.PromoModaltitleid,this.PromoModalIsFindPromo)
+  }
+
+  UpdatePlayerExpire(){
+    if (this.TokenSelected.length == 0) {
+      this.toastr.info('Please select a token');
+      return;
+    }
+    this.loading = true;
+    var dtExDate = new Date(this.dtTokenExpiryDate)
+    this.serviceLicense.UpdatePlayerExpire(this.TokenSelected,dtExDate.toDateString()).pipe().subscribe((data) => {
+          var returnData = JSON.stringify(data);
+          var obj = JSON.parse(returnData);
+          if (obj.response == '1') {
+            this.toastr.info('Saved', 'Success!');
+            this.loading = false;
+            this.SaveModifyInfo(
+              0,
+              'Expiry Date changed for for '+JSON.stringify(this.TokenSelected)+' new expiry date: '+ dtExDate.toDateString()
+            );
+            this.TokenSelected = [];
+            this.PublishSearchList=[]
+            this.searchTextPublish=''
+            this.modalService.dismissAll();
+            this.dtTokenExpiryDate = new Date()
+          } else {
+            this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
+          }
+          this.loading = false;
+        },
+        (error) => {
+          this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
+          this.loading = false;
+        }
+      );
   }
 }

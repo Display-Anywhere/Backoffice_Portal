@@ -85,7 +85,7 @@ this.PrvTotalToken=0;
       MainCustomer: ["6"],
       personName:[""],
       dbType:[localStorage.getItem('DBType')],
-      ContentType:["MusicMedia"],
+      ContentType:["Signage"],
       ApiKey:[""],
       loginclientId:[localStorage.getItem('loginclientid')],
       aStatus:["Active"]
@@ -175,7 +175,7 @@ this.PrvTotalToken=0;
       MainCustomer: ["6"],
       personName:[""],
       dbType:[localStorage.getItem('DBType')],
-      ContentType:["MusicMedia"],
+      ContentType:["Signage"],
       ApiKey:[""],
       loginclientId:[localStorage.getItem('loginclientid')],
       aStatus:["Active"]
@@ -196,13 +196,14 @@ this.PrvTotalToken=0;
     var cd= new Date
     var InputDate =  new Date(this.Regform.controls.expiryDate.value)
 
+    if (this.Regform.controls.DfClientId.value ==""){
     if (this.Regform.controls.aStatus.value=="Trial"){
       if (InputDate<=cd){
         this.toastr.info("Please set trial expiry date");
         return
       }
     }
-return
+  }
     this.submitted = true;
     if (this.Regform.invalid) {
       return;
