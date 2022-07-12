@@ -4,7 +4,7 @@ import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { IPlayService } from '../instant-play/i-play.service';
 import * as $ from 'jquery';
 import { ToastrService } from 'ngx-toastr';
-import { AuthService } from '../auth/auth.service';
+import { AuthServiceOwn } from '../auth/auth.service';
 import { PlaylistLibService } from '../playlist-library/playlist-lib.service';
 import { NgbdSortableHeader_User, SortEvent } from './user_sortable.directive';
 import { SerLicenseHolderService } from '../license-holder/ser-license-holder.service';
@@ -40,7 +40,7 @@ export class UserComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder, public toastr: ToastrService, vcr: ViewContainerRef,
     config: NgbModalConfig, private modalService: NgbModal, private ipService: IPlayService,
-    public auth: AuthService, private pService: PlaylistLibService,private serviceLicense: SerLicenseHolderService,private pipe: DecimalPipe) {
+    public auth:AuthServiceOwn, private pService: PlaylistLibService,private serviceLicense: SerLicenseHolderService,private pipe: DecimalPipe) {
     config.backdrop = 'static';
     config.keyboard = false;
   }

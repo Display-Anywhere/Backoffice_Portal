@@ -4,7 +4,7 @@ import { ToastrService, Toast } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { CustomerRegService } from '../customer-registration/customer-reg.service';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AuthService } from '../auth/auth.service';
+import { AuthServiceOwn } from '../auth/auth.service';
 import { Subject, Observable, Subscription } from 'rxjs';
 import { DataTableDirective } from 'angular-datatables';
 @Component({
@@ -54,7 +54,7 @@ dtTrigger: Subject<any> = new Subject();
   constructor(private router: Router, private formBuilder: FormBuilder, 
     public toastr: ToastrService, vcr: ViewContainerRef, 
     private cService: CustomerRegService, config: NgbModalConfig, 
-    private modalService: NgbModal,public auth:AuthService) {
+    private modalService: NgbModal,public auth:AuthServiceOwn) {
     config.backdrop = 'static';
     config.keyboard = false;
   }
@@ -231,6 +231,11 @@ this.PrvTotalToken=0;
           this.loading = false;
           this.Refresh();
           this.FillCustomer();
+          return;
+        }
+        else if (obj.Responce == "2") {
+          this.toastr.error("This email is already regsitered.", '');
+          this.loading = false;
           return;
         }
         else if (obj.Responce == "0") {

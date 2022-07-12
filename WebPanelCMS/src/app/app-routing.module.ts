@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 
-import { CommonModule, HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { CommonModule, HashLocationStrategy, LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import {ConfigAPI} from './class/ConfigAPI';
 import { NgxLoadingModule  } from 'ngx-loading';
@@ -96,6 +96,10 @@ const routes: Routes = [
    {
     path: '',
     loadChildren: () => import('./login/login.module').then(m => m.LoginModule),
+  },
+   {
+    path: 'authorize',
+    loadChildren: () => import('./authorize-sso/AuthorizeSSO.module').then(m => m.AuthorizeSSOModule),
   }
 ];
 

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { ToastrService } from 'ngx-toastr';
 import { SerLicenseHolderService } from 'src/app/license-holder/ser-license-holder.service';
-import { AuthService } from 'src/app/auth/auth.service';
+import { AuthServiceOwn } from 'src/app/auth/auth.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SrDownloadTemplateService } from '../download-template/sr-download-template.service';
 import { MachineService } from '../machine-announcement/machine.service';
@@ -34,7 +34,7 @@ export class DownloadsensortemplateComponent implements OnInit {
   dropdownSettings = {};
   SongsSelected=[];
     constructor(private dService: SrDownloadTemplateService,  public toastr: ToastrService,
-    private serviceLicense: SerLicenseHolderService, public auth:AuthService,private modalService: NgbModal,private mService:MachineService) { }
+    private serviceLicense: SerLicenseHolderService, public auth:AuthServiceOwn,private modalService: NgbModal,private mService:MachineService) { }
  
   ngOnInit(): void {
     var cd = new Date();

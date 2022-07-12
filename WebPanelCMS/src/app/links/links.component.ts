@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { SerLicenseHolderService } from '../license-holder/ser-license-holder.service';
 import { ToastrService } from 'ngx-toastr';
-import { AuthService } from '../auth/auth.service';
+import { AuthServiceOwn } from '../auth/auth.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 
@@ -42,7 +42,7 @@ UserId = localStorage.getItem('UserId');
 IsSbit= localStorage.getItem('IsSbit')
 SmartTv="https://bit.ly/3vl4Gqm"
   constructor(private serviceLicense: SerLicenseHolderService,
-     public toastr: ToastrService, vcr: ViewContainerRef, public auth:AuthService,private sanitizer: DomSanitizer) {
+     public toastr: ToastrService, vcr: ViewContainerRef, public auth:AuthServiceOwn,private sanitizer: DomSanitizer) {
   }
 
   ngOnInit() {

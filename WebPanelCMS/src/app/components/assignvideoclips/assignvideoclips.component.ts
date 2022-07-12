@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgbModalConfig, NgbModal, NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { ConfigAPI } from 'src/app/class/ConfigAPI';
-import { AuthService } from 'src/app/auth/auth.service';
+import { AuthServiceOwn } from 'src/app/auth/auth.service';
 import { PlaylistLibService } from 'src/app/playlist-library/playlist-lib.service';
 import { SerLicenseHolderService } from 'src/app/license-holder/ser-license-holder.service';
 import { MachineService } from '../machine-announcement/machine.service';
@@ -35,7 +35,7 @@ export class AssignvideoclipsComponent implements OnInit {
   active = 1;
    
   constructor(public toastr: ToastrService,  private cf: ConfigAPI,
-     config: NgbModalConfig, private modalService: NgbModal, public auth:AuthService, 
+     config: NgbModalConfig, private modalService: NgbModal, public auth:AuthServiceOwn, 
      private mService:MachineService, private pService: PlaylistLibService,private serviceLicense: SerLicenseHolderService) {
       config.backdrop = 'static';
     config.keyboard = false;

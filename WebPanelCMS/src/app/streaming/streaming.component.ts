@@ -5,7 +5,7 @@ import { ConfigAPI } from '../class/ConfigAPI';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { StreamService } from './stream.service';
-import { AuthService } from '../auth/auth.service';
+import { AuthServiceOwn } from '../auth/auth.service';
 @Component({
   selector: 'app-streaming',
   templateUrl: './streaming.component.html',
@@ -45,7 +45,7 @@ export class StreamingComponent implements OnInit {
   });
   constructor(public toastr: ToastrService, vcr: ViewContainerRef, private cf: ConfigAPI,
     private serviceStream: StreamService, config: NgbModalConfig, private modalService: NgbModal,
-    public auth:AuthService) {
+    public auth:AuthServiceOwn) {
     config.backdrop = 'static';
     config.keyboard = false;
     this.uploader.onCompleteAll = () => {

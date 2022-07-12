@@ -4,8 +4,8 @@ import { Router } from '@angular/router';
 import { UloginService } from '../login/ulogin.service';
 import { VisitorsService } from '../visitors.service';
 import { ToastrService } from 'ngx-toastr';
-import { AuthService } from '../auth/auth.service';
-
+import { AuthServiceOwn } from '../auth/auth.service';
+import { AuthService } from '@auth0/auth0-angular';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -19,7 +19,11 @@ export class LoginComponent implements OnInit {
   emailText=''
   loginpage='Nusign'
   IsSbit='No'
-  constructor(public toastr: ToastrService, private router: Router, private formBuilder: FormBuilder, private ulService: UloginService, private visitorsService: VisitorsService, public authService: AuthService) { }
+  constructor(public toastr: ToastrService, private router: Router, private formBuilder: FormBuilder, 
+    private ulService: UloginService, private visitorsService: VisitorsService, 
+    public authService: AuthServiceOwn,private auth0: AuthService) {
+     }
+
   ngOnInit() {
     this.authService.logout();
     localStorage.setItem('DBType', 'Nusign');

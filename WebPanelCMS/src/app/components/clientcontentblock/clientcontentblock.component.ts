@@ -4,7 +4,7 @@ import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
-import { AuthService } from 'src/app/auth/auth.service';
+import { AuthServiceOwn } from 'src/app/auth/auth.service';
 import { SerLicenseHolderService } from 'src/app/license-holder/ser-license-holder.service';
 import { PlaylistLibService } from 'src/app/playlist-library/playlist-lib.service';
 import { NgbdSortableHeader_contentBlock, SortEvent } from './contentBlock_sortable.directive';
@@ -40,7 +40,7 @@ export class ClientcontentblockComponent implements OnInit {
   ContentSelected_Search = [];
   constructor(private formBuilder: FormBuilder,public toastr: ToastrService,vcr: ViewContainerRef,
     config: NgbModalConfig,private modalService: NgbModal,private pService: PlaylistLibService,
-    public auth: AuthService,private serviceLicense: SerLicenseHolderService,private pipe: DecimalPipe, 
+    public auth:AuthServiceOwn,private serviceLicense: SerLicenseHolderService,private pipe: DecimalPipe, 
   ) {
     config.backdrop = 'static';
     config.keyboard = false;

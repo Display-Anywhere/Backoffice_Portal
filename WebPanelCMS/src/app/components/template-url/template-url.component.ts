@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal, NgbModalConfig, NgbTimepickerConfig } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { AdsService } from 'src/app/ad/ads.service';
-import { AuthService } from 'src/app/auth/auth.service';
+import { AuthServiceOwn } from 'src/app/auth/auth.service';
 import { SerLicenseHolderService } from 'src/app/license-holder/ser-license-holder.service';
 import { Subject } from "rxjs";
 @Component({
@@ -26,7 +26,7 @@ export class TemplateUrlComponent implements OnInit {
   cmbSearchCustomer="0";
   constructor(private formBuilder: FormBuilder, public toastr: ToastrService, vcr: ViewContainerRef
     , config: NgbModalConfig, private modalService: NgbModal, private aService: AdsService,
-    public auth:AuthService, configTime: NgbTimepickerConfig,private serviceLicense: SerLicenseHolderService) {
+    public auth:AuthServiceOwn, configTime: NgbTimepickerConfig,private serviceLicense: SerLicenseHolderService) {
       config.backdrop = 'static';
       config.keyboard = false;
   

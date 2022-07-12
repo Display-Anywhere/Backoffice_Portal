@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ConfigAPI } from 'src/app/class/ConfigAPI';
-import { AuthService } from 'src/app/auth/auth.service';
+import { AuthServiceOwn } from 'src/app/auth/auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MachineService {
 
-  constructor(private http:HttpClient,private cApi:ConfigAPI, public auth:AuthService) { }
+  constructor(private http:HttpClient,private cApi:ConfigAPI, public auth:AuthServiceOwn) { }
   FillCombo(query:string){
     let headers = new HttpHeaders({ 'Content-Type':'application/json' });
     var params = JSON.stringify({ Query: query });

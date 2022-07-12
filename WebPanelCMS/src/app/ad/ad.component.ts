@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { NgbModalConfig, NgbModal, NgbTimepickerConfig, NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
 import { AdsService } from '../ad/ads.service';
 import { ToastrService } from 'ngx-toastr';
-import { AuthService } from '../auth/auth.service';
+import { AuthServiceOwn } from '../auth/auth.service';
 import { StoreForwardService } from '../store-and-forward/store-forward.service';
 @Component({
   selector: 'app-ad',
@@ -48,7 +48,7 @@ export class AdComponent implements OnInit {
   
   constructor(private router: Router, private formBuilder: FormBuilder, public toastr: ToastrService, vcr: ViewContainerRef
     , config: NgbModalConfig, private modalService: NgbModal, private aService: AdsService,
-    public auth:AuthService, configTime: NgbTimepickerConfig,private sfService: StoreForwardService,) {
+    public auth:AuthServiceOwn, configTime: NgbTimepickerConfig,private sfService: StoreForwardService,) {
     config.backdrop = 'static';
     config.keyboard = false;
     configTime.seconds = false;

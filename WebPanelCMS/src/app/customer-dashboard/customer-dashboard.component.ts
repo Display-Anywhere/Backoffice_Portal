@@ -2,7 +2,7 @@ import { Component, OnInit, ViewContainerRef,ViewChildren, QueryList } from '@an
 import { ToastrService } from 'ngx-toastr';
 import { DashboardService } from '../customer-dashboard/dashboard.service';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AuthService } from '../auth/auth.service';
+import { AuthServiceOwn } from '../auth/auth.service';
 import { Subject } from 'rxjs';
 import { NgbdSortableHeader_Dashboard,SortEvent } from './dashboard_sortable.directive';
 import { SerLicenseHolderService } from '../license-holder/ser-license-holder.service';
@@ -39,7 +39,7 @@ export class CustomerDashboardComponent implements OnInit {
   compare = (v1: string | number, v2: string | number) => v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
 
   constructor(public toastr: ToastrService, vcr: ViewContainerRef, private dService: DashboardService,
-    config: NgbModalConfig, private modalService: NgbModal, private auth: AuthService,
+    config: NgbModalConfig, private modalService: NgbModal, private auth: AuthServiceOwn,
     private pipe: DecimalPipe) {
     config.backdrop = 'static';
     config.keyboard = false;

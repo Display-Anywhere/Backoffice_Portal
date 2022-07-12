@@ -2,7 +2,7 @@ import { Component, OnInit,Input  } from '@angular/core';
 import { SrDownloadTemplateService } from './sr-download-template.service';
 import { ToastrService } from 'ngx-toastr';
 import { SerLicenseHolderService } from 'src/app/license-holder/ser-license-holder.service';
-import { AuthService } from 'src/app/auth/auth.service';
+import { AuthServiceOwn } from 'src/app/auth/auth.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subject } from "rxjs";
 @Component({
@@ -30,7 +30,7 @@ export class DownloadTemplateComponent implements OnInit {
   SearchCDate;
   chkIsAnnouncement=false
     constructor(private dService: SrDownloadTemplateService,  public toastr: ToastrService,
-    private serviceLicense: SerLicenseHolderService, public auth:AuthService,private modalService: NgbModal) { 
+    private serviceLicense: SerLicenseHolderService, public auth:AuthServiceOwn,private modalService: NgbModal) { 
       
     }
     

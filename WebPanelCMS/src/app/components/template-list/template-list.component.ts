@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from 'src/app/auth/auth.service';
+import { AuthServiceOwn } from 'src/app/auth/auth.service';
 @Component({
   selector: 'app-template-list',
   templateUrl: './template-list.component.html',
@@ -12,7 +12,7 @@ export class TemplateListComponent implements OnInit {
   IsEditTemplateOpen=false
   clientid= localStorage.getItem('dfClientId')
   IsSbit= localStorage.getItem('IsSbit')
-  constructor(private router: Router, public auth:AuthService) { 
+  constructor(private router: Router, public auth:AuthServiceOwn) { 
     this.auth.IsEditTemplateOpen$.subscribe((res: boolean) => {
       this.IsEditTemplateOpen=res
       if (res === true){

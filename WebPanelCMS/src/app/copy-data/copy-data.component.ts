@@ -6,7 +6,7 @@ import { StoreForwardService } from '../store-and-forward/store-forward.service'
 import { SerLicenseHolderService } from '../license-holder/ser-license-holder.service';
 import { SerCopyDataService } from '../copy-data/ser-copy-data.service';
 import { TokenInfoServiceService } from '../components/token-info/token-info-service.service';
-import { AuthService } from '../auth/auth.service';
+import { AuthServiceOwn } from '../auth/auth.service';
 import { NgbdSortableHeader_CopyData,SortEvent } from '../directive/copydata_sortable.directive';
 import { DecimalPipe } from '@angular/common';
 
@@ -53,7 +53,7 @@ export class CopyDataComponent implements OnInit {
   constructor(private formBuilder: FormBuilder, public toastr: ToastrService, vcr: ViewContainerRef,
     private sfService: StoreForwardService, private tService: TokenInfoServiceService,
     private serviceLicense: SerLicenseHolderService, private cService: SerCopyDataService,
-    public auth:AuthService, private pipe: DecimalPipe) {
+    public auth:AuthServiceOwn, private pipe: DecimalPipe) {
     
   }
 

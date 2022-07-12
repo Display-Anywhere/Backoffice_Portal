@@ -6,7 +6,7 @@ import * as pdfMake from 'pdfmake/build/pdfmake.js';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts.js';
 import { SerReportService } from 'src/app/report/ser-report.service';
 import { ToastrService } from 'ngx-toastr';
-import { AuthService } from 'src/app/auth/auth.service';
+import { AuthServiceOwn } from 'src/app/auth/auth.service';
 
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
@@ -33,7 +33,7 @@ export class RepTokenPlayedSongComponent implements AfterViewInit, OnInit, OnDes
     dtElement: DataTableDirective;
   constructor(config: NgbModalConfig, private modalService: NgbModal, 
     private rService: SerReportService, public toastr: ToastrService, vcr: ViewContainerRef,
-    public auth:AuthService) {
+    public auth:AuthServiceOwn) {
     config.backdrop = 'static';
     config.keyboard = false;
   }

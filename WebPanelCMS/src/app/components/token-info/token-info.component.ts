@@ -10,7 +10,7 @@ import {
 import { TokenInfoServiceService } from './token-info-service.service';
 import { MachineService } from '../machine-announcement/machine.service';
 import { SerLicenseHolderService } from 'src/app/license-holder/ser-license-holder.service';
-import { AuthService } from 'src/app/auth/auth.service';
+import { AuthServiceOwn } from 'src/app/auth/auth.service';
 import { SerCopyDataService } from 'src/app/copy-data/ser-copy-data.service';
 import { PlaylistLibService } from 'src/app/playlist-library/playlist-lib.service';
 
@@ -91,7 +91,7 @@ export class TokenInfoComponent implements OnInit {
     private modalService: NgbModal,
     private tService: TokenInfoServiceService,
     private mService: MachineService,
-    public auth: AuthService,private pService: PlaylistLibService,
+    public auth:AuthServiceOwn,private pService: PlaylistLibService,
     private serviceLicense: SerLicenseHolderService,private cService: SerCopyDataService
   ) {
     config.backdrop = 'static';

@@ -10,7 +10,7 @@ import {
 
 import { MachineService } from '../machine-announcement/machine.service';
 import { SerLicenseHolderService } from 'src/app/license-holder/ser-license-holder.service';
-import { AuthService } from 'src/app/auth/auth.service';
+import { AuthServiceOwn } from 'src/app/auth/auth.service';
 import { SerCopyDataService } from 'src/app/copy-data/ser-copy-data.service';
 import { TokenInfoServiceService } from '../token-info/token-info-service.service';
 import { AdsService } from 'src/app/ad/ads.service';
@@ -43,7 +43,7 @@ export class PlaylistsTitlesDownloadStatusComponent implements OnInit {
     private modalService: NgbModal,
     private tService: TokenInfoServiceService,
     private mService: MachineService,
-    public auth: AuthService,
+    public auth:AuthServiceOwn,
     private serviceLicense: SerLicenseHolderService,
     private cService: SerCopyDataService,
     private aService: AdsService

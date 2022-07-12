@@ -4,7 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import * as $ from 'jquery';
 import * as CanvasJs from 'src/assets/canvasjs.min.js'
 import { SerAdminLogService } from 'src/app/components/admin-logs/ser-admin-log.service';
-import { AuthService } from 'src/app/auth/auth.service';
+import { AuthServiceOwn } from 'src/app/auth/auth.service';
 @Component({
   selector: 'app-new-playlist-library',
   templateUrl: './new-playlist-library.component.html',
@@ -36,7 +36,7 @@ export class NewPlaylistLibraryComponent implements OnInit {
   rdoAudio: boolean;
   rdoVideo: boolean;
   constructor(private adminService: SerAdminLogService, public toastr: ToastrService,
-    vcr: ViewContainerRef, public auth: AuthService) {
+    vcr: ViewContainerRef, public auth: AuthServiceOwn) {
 
   }
 

@@ -9,7 +9,7 @@ import {
   NgbTimeStruct,
 } from '@ng-bootstrap/ng-bootstrap';
 import { StoreForwardService } from 'src/app/store-and-forward/store-forward.service';
-import { AuthService } from 'src/app/auth/auth.service';
+import { AuthServiceOwn } from 'src/app/auth/auth.service';
 import { SerLicenseHolderService } from 'src/app/license-holder/ser-license-holder.service';
 import { trim } from 'jquery';
 import { PlaylistLibService } from 'src/app/playlist-library/playlist-lib.service';
@@ -87,7 +87,7 @@ export class TempScheduleComponent implements OnInit {
     config: NgbModalConfig,
     private modalService: NgbModal,
     private sfService: StoreForwardService,
-    public auth: AuthService,private pService: PlaylistLibService,
+    public auth:AuthServiceOwn,private pService: PlaylistLibService,
     private serviceLicense: SerLicenseHolderService,private pipe: DecimalPipe,
     configTime: NgbTimepickerConfig
   ) {

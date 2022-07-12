@@ -5,7 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ConfigAPI } from 'src/app/class/ConfigAPI';
 import { SerLicenseHolderService } from 'src/app/license-holder/ser-license-holder.service';
-import { AuthService } from 'src/app/auth/auth.service';
+import { AuthServiceOwn } from 'src/app/auth/auth.service';
 import { MachineService } from '../machine-announcement/machine.service';
 import { Subject } from "rxjs";
 @Component({
@@ -54,7 +54,7 @@ export class UploadComponent implements OnInit {
   });
   constructor(public toastr: ToastrService, vcr: ViewContainerRef, private cf: ConfigAPI,
     private serviceLicense: SerLicenseHolderService, config: NgbModalConfig,
-     private modalService: NgbModal, public auth:AuthService, private sanitizer: DomSanitizer,private mService:MachineService) {
+     private modalService: NgbModal, public auth:AuthServiceOwn, private sanitizer: DomSanitizer,private mService:MachineService) {
     config.backdrop = 'static';
     config.keyboard = false;
      this.uploader.onCompleteAll = () => {

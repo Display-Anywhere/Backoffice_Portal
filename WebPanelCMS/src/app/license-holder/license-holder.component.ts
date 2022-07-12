@@ -25,7 +25,7 @@ import { Subject, Observable, Subscription } from 'rxjs';
 import { ExcelServiceService } from '../license-holder/excel-service.service';
 import { ConfigAPI } from '../class/ConfigAPI';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '../auth/auth.service';
+import { AuthServiceOwn } from '../auth/auth.service';
 import { DataTableDirective } from 'angular-datatables';
 
 import { TokenInfoServiceService } from '../components/token-info/token-info-service.service';
@@ -136,7 +136,7 @@ loginpage= localStorage.getItem('loginpage')
     private serviceLicense: SerLicenseHolderService,
     private excelService: ExcelServiceService,
     public toastr: ToastrService,
-    public auth: AuthService,
+    public auth:AuthServiceOwn,
     private tService: TokenInfoServiceService,
     private pService: PlaylistLibService,private pipe: DecimalPipe,
     vcr: ViewContainerRef,

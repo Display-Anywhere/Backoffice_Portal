@@ -13,6 +13,12 @@ export class UloginService {
     return this.http.post(this.cApi.uLogin,params,{headers:headers})
      .pipe((data=>{return data;}))
   }
+  CustomerLoginEmailVerify(email){
+    let headers = new HttpHeaders({ 'Content-Type':'application/json' });
+    var params = JSON.stringify({ email: email });
+    return this.http.post(this.cApi.CustomerLoginEmailVerify,params,{headers:headers})
+     .pipe((data=>{return data;}))
+  }
   
 SaveModifyLogs(tokenid:string, ModifyData:string){
   var UserId= localStorage.getItem('UserId');

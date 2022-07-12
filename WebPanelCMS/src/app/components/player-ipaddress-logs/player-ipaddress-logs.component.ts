@@ -1,6 +1,6 @@
 import { Component, OnInit,ViewContainerRef,ViewChild, ElementRef } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { AuthService } from '../../auth/auth.service';
+import { AuthServiceOwn } from '../../auth/auth.service';
 import { DataTableDirective } from 'angular-datatables';
 import * as pdfMake from 'pdfmake/build/pdfmake.js';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts.js';
@@ -35,7 +35,7 @@ export class PlayerIPAddressLogsComponent implements OnInit {
   lat 
   lng
   zoom: number =15
-  constructor(private adminService: SerAdminLogService,public auth:AuthService,private modalService: NgbModal,config: NgbModalConfig,
+  constructor(private adminService: SerAdminLogService,public auth:AuthServiceOwn,private modalService: NgbModal,config: NgbModalConfig,
      public toastr: ToastrService,private visitorsService: VisitorsService, vcr: ViewContainerRef) {
       config.backdrop = 'static';
       config.keyboard = false;

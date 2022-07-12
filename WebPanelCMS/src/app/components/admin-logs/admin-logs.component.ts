@@ -1,7 +1,7 @@
 import { Component, OnInit,ViewContainerRef,ViewChild } from '@angular/core';
 import { SerAdminLogService } from './ser-admin-log.service';
 import { ToastrService } from 'ngx-toastr';
-import { AuthService } from '../../auth/auth.service';
+import { AuthServiceOwn } from '../../auth/auth.service';
 import { DataTableDirective } from 'angular-datatables';
 import * as pdfMake from 'pdfmake/build/pdfmake.js';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts.js';
@@ -29,7 +29,7 @@ export class AdminLogsComponent implements OnInit {
   file_Name = "";
   lat 
   lng
-  constructor(private adminService: SerAdminLogService,public auth:AuthService,private modalService: NgbModal,config: NgbModalConfig,
+  constructor(private adminService: SerAdminLogService,public auth:AuthServiceOwn,private modalService: NgbModal,config: NgbModalConfig,
     private visitorsService: VisitorsService,public toastr: ToastrService, vcr: ViewContainerRef) {
       config.backdrop = 'static';
       config.keyboard = false;

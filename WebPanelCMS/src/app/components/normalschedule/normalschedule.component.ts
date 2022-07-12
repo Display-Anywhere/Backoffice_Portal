@@ -9,7 +9,7 @@ import {
   NgbTimeStruct,
 } from '@ng-bootstrap/ng-bootstrap';
 import { StoreForwardService } from 'src/app/store-and-forward/store-forward.service';
-import { AuthService } from 'src/app/auth/auth.service';
+import { AuthServiceOwn } from 'src/app/auth/auth.service';
 import { SerLicenseHolderService } from 'src/app/license-holder/ser-license-holder.service';
 @Component({
   selector: 'app-normalschedule',
@@ -71,7 +71,7 @@ export class NormalscheduleComponent implements OnInit {
     config: NgbModalConfig,
     private modalService: NgbModal,
     private sfService: StoreForwardService,
-    public auth: AuthService,
+    public auth:AuthServiceOwn,
     private serviceLicense: SerLicenseHolderService,
     configTime: NgbTimepickerConfig
   ) {

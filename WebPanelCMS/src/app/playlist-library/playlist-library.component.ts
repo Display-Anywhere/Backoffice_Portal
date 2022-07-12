@@ -13,7 +13,7 @@ import { ToastrService } from 'ngx-toastr';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PlaylistLibService } from '../playlist-library/playlist-lib.service';
 import * as $ from 'jquery';
-import { AuthService } from '../auth/auth.service';
+import { AuthServiceOwn } from '../auth/auth.service';
 import * as Shuffle from 'shuffle';
 import { SerLicenseHolderService } from '../license-holder/ser-license-holder.service';
 // import {ModuleRegistry, AllCommunityModules} from '@ag-grid-community/all-modules';
@@ -42,7 +42,7 @@ export class PlaylistLibraryComponent implements OnInit {
     config: NgbModalConfig,
     private modalService: NgbModal,
     private pService: PlaylistLibService,
-    public auth: AuthService,private sfService: StoreForwardService,
+    public auth:AuthServiceOwn,private sfService: StoreForwardService,
     private serviceLicense: SerLicenseHolderService,private pipe: DecimalPipe, private router: Router
   ) {
     config.backdrop = 'static';

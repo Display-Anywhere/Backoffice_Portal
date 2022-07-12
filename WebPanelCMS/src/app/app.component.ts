@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from './auth/auth.service';
+import { AuthServiceOwn } from './auth/auth.service';
 import {
   NgbModalConfig,
   NgbModal,
@@ -10,6 +10,7 @@ import {
 import { TokenInfoServiceService } from './components/token-info/token-info-service.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { AuthService } from '@auth0/auth0-angular';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -26,12 +27,12 @@ export class AppComponent implements OnInit {
   iframeUrl=false
   loginclientid= localStorage.getItem('dfClientId')
   constructor(
-    public authService: AuthService,
+    public authService: AuthServiceOwn,
     private modalService: NgbModal,
     private tService: TokenInfoServiceService,
     public toastr: ToastrService,
-    public auth: AuthService,
-    private router: Router
+    public auth: AuthServiceOwn,
+    private router: Router,private auth0: AuthService
   ) {
     
   }
@@ -97,6 +98,7 @@ export class AppComponent implements OnInit {
   }
 
   logout() {
+    //this.auth0.logout()
     this.authService.logout();
     this.router.navigate(['']);
   }

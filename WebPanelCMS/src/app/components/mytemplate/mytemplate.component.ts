@@ -1,7 +1,7 @@
 import { Component, OnInit,Input  } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { SerLicenseHolderService } from 'src/app/license-holder/ser-license-holder.service';
-import { AuthService } from 'src/app/auth/auth.service';
+import { AuthServiceOwn } from 'src/app/auth/auth.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subject } from "rxjs";
 import { SrDownloadTemplateService } from '../download-template/sr-download-template.service';
@@ -45,7 +45,7 @@ export class MytemplateComponent implements OnInit {
   IsLS_URL= true
   DelpSchid="0"
   constructor(private formBuilder: FormBuilder,private dService: SrDownloadTemplateService,  public toastr: ToastrService,private tService: TokenInfoServiceService,
-    private serviceLicense: SerLicenseHolderService, public auth:AuthService,private modalService: NgbModal, public sanitizer: DomSanitizer) { 
+    private serviceLicense: SerLicenseHolderService, public auth:AuthServiceOwn,private modalService: NgbModal, public sanitizer: DomSanitizer) { 
        }
 
   ngOnInit () {

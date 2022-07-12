@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
-import { AuthService } from 'src/app/auth/auth.service';
+import { AuthServiceOwn } from 'src/app/auth/auth.service';
 import { SerLicenseHolderService } from 'src/app/license-holder/ser-license-holder.service';
 import { PlaylistLibService } from 'src/app/playlist-library/playlist-lib.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
@@ -70,7 +70,7 @@ export class EditTemplateComponent implements OnInit {
    //templateHost ='http://localhost:4201'
    templateHost ='https://templates.nusign.eu'
   constructor(private serviceLicense: SerLicenseHolderService,public toastr: ToastrService,
-    public auth: AuthService,private pService: PlaylistLibService,private modalService: NgbModal,
+    public auth:AuthServiceOwn,private pService: PlaylistLibService,private modalService: NgbModal,
     private router: Router,public sanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
@@ -196,6 +196,38 @@ export class EditTemplateComponent implements OnInit {
       this.templatedata.text2='Master Class'
       this.templatedata.text3='PRINNNIAL CODE DEWS THE RAINFALL IN SOUTHERN CHINA HAS INCREASINGLY REDUCED.'
       this.templatedata.bgcolor='#000000'
+    }
+    if (this.templateId=="26"){
+      this.templatedata.title='Double'
+      this.templatedata.desc='QUARTER'
+      this.templatedata.text1='POUNDER with'
+      this.templatedata.text2= 'CHEESE'
+      this.templatedata.text3= '€22'
+      this.templatedata.text4= '€22'
+      this.templatedata.text5='€22'
+      this.templatedata.text6='€22'
+      this.templatedata.text7='For more information: +0000-000-0000'
+      this.templatedata.text8='information@demo.com'
+      this.templatedata.bgcolor='#000000'
+    }
+    if (this.templateId=="29"){
+      this.templatedata.title='FAST FOOD'
+      this.templatedata.desc='RESTAURANT'
+      this.templatedata.text1='OPENS 9AM-10PM'
+      this.templatedata.text2= 'HAMBURGER SPECIAL'
+      this.templatedata.text3= '€22'
+      this.templatedata.text4= 'HAMBURGER SPECIAL'
+      this.templatedata.text5='€10'
+      this.templatedata.text6='+0000-000-0000'
+      this.templatedata.bgcolor='#3f2315'
+    }
+    if (this.templateId=="27"){
+      this.templatedata.title='High Quality at Lowest Rates'
+      this.templatedata.desc='Cras justo odio\nDapibus ac facilisis in\nMorbi leo risus\nPorta ac consectetur ac\nVestibulum at eros'
+      this.templatedata.text1='0000-000-0000'
+      this.templatedata.text2= '0000-000-0000'
+      this.templatedata.text3= 'For more information: 0000-000-0000 information@misterburger.com'
+      this.templatedata.bgcolor='#007bff'
     }
 
     if (this.templateId=="15"){
@@ -462,7 +494,7 @@ export class EditTemplateComponent implements OnInit {
   OpenViewContent(){
     var textoffer= this.templatedata.text1 
     var offer= textoffer.replace('%','')
-    let IframeSRC_Safe = this.templateHost+ '?templateId='+this.templateId+'&title='+this.templatedata.title+'&desc='+this.templatedata.desc+'&logosrc='+this.templatedata.logoimgurl+ '&ngClass='+this.templatedata.bgcolor.replace('#','')+'&imgSrc='+this.templatedata.imgurl+ '&text1='+offer+'&text2='+this.templatedata.text2+'&imgSrc2='+this.templatedata.imgurl2+'&imgSrc3='+this.templatedata.imgurl3+'&imgSrc4='+this.templatedata.imgurl4+'&imgSrc5='+this.templatedata.imgurl5+'&imgSrc6='+this.templatedata.imgurl6+'&imgSrc7='+this.templatedata.imgurl7+'&imgSrc8='+this.templatedata.imgurl8+ '&text3='+this.templatedata.text3+ '&text4='+this.templatedata.text4+ '&text5='+this.templatedata.text5+ '&text6='+this.templatedata.text6+ '&text7='+this.templatedata.text7+ '&text8='+this.templatedata.text8+ '&text9='+this.templatedata.text9+ '&text10='+this.templatedata.text10+'&bgImgColor='+this.templatedata.bgImgColor.replace('#','')+'&logosrc2='+this.templatedata.logoimgurl2
+    let IframeSRC_Safe = this.templateHost+ '?templateId='+this.templateId+'&title='+this.templatedata.title+'&desc='+this.templatedata.desc.replace(/\n\r?/g, '<br />')+'&logosrc='+this.templatedata.logoimgurl+ '&ngClass='+this.templatedata.bgcolor.replace('#','')+'&imgSrc='+this.templatedata.imgurl+ '&text1='+offer+'&text2='+this.templatedata.text2+'&imgSrc2='+this.templatedata.imgurl2+'&imgSrc3='+this.templatedata.imgurl3+'&imgSrc4='+this.templatedata.imgurl4+'&imgSrc5='+this.templatedata.imgurl5+'&imgSrc6='+this.templatedata.imgurl6+'&imgSrc7='+this.templatedata.imgurl7+'&imgSrc8='+this.templatedata.imgurl8+ '&text3='+this.templatedata.text3+ '&text4='+this.templatedata.text4+ '&text5='+this.templatedata.text5+ '&text6='+this.templatedata.text6+ '&text7='+this.templatedata.text7+ '&text8='+this.templatedata.text8+ '&text9='+this.templatedata.text9+ '&text10='+this.templatedata.text10+'&bgImgColor='+this.templatedata.bgImgColor.replace('#','')+'&logosrc2='+this.templatedata.logoimgurl2
     // 1 
     //let IframeSRC_Safe = "http://localhost:4201/#/?templateId=1&title=Wearing a Face Mask&desc=is required to enter&logosrc=http://api.nusign.eu/mp3files/238708.jpg&ngClass=bg-warning&imgSrc=&text1=&text2=" 
     // 2
@@ -710,6 +742,9 @@ export class EditTemplateComponent implements OnInit {
     else if (this.templateId ==='22'){
       return false
     }
+    else if (this.templateId ==='27'){
+      return false
+    }
      
     else{
       return true
@@ -732,6 +767,9 @@ export class EditTemplateComponent implements OnInit {
       return true
     }
     else if (this.templateId ==='25'){
+      return true
+    }
+    else if (this.templateId ==='26'){
       return true
     }
     else{

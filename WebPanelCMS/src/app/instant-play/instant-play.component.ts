@@ -3,7 +3,7 @@ import { Component, OnInit, ViewContainerRef } from '@angular/core';
 
 import { IPlayService } from '../instant-play/i-play.service';
 import { ToastrService } from 'ngx-toastr';
-import { AuthService } from '../auth/auth.service';
+import { AuthServiceOwn } from '../auth/auth.service';
 import { PlaylistLibService } from '../playlist-library/playlist-lib.service';
 
 @Component({
@@ -36,7 +36,7 @@ export class InstantPlayComponent implements OnInit {
   ContentType$="";
   cmbCustomer="0"
   constructor(public toastr: ToastrService, vcr: ViewContainerRef, private ipService: IPlayService,
-    public auth:AuthService, private pService: PlaylistLibService) {
+    public auth:AuthServiceOwn, private pService: PlaylistLibService) {
 
   }
 

@@ -4,7 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PlaylistLibService } from '../playlist-library/playlist-lib.service';
 import * as $ from 'jquery';
-import { AuthService } from '../auth/auth.service';
+import { AuthServiceOwn } from '../auth/auth.service';
 import {NgbRatingConfig} from '@ng-bootstrap/ng-bootstrap';
 //import {ModuleRegistry, AllCommunityModules} from '@ag-grid-community/all-modules';
 //import {ClientSideRowModelModule} from "@ag-grid-community/client-side-row-model";
@@ -77,7 +77,7 @@ export class DJplaylistLibraryComponent implements OnInit {
   @ViewChildren("checkboxes") checkboxes: QueryList<ElementRef>;
   constructor(private formBuilder: FormBuilder, public toastr: ToastrService,
     vcr: ViewContainerRef, config: NgbModalConfig, private modalService: NgbModal,
-    private pService: PlaylistLibService, public auth:AuthService, configRating: NgbRatingConfig) {
+    private pService: PlaylistLibService, public auth:AuthServiceOwn, configRating: NgbRatingConfig) {
 
     config.backdrop = 'static';
     config.keyboard = false;

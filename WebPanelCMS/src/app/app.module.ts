@@ -14,6 +14,7 @@ import { NgxLoadingModule } from 'ngx-loading';
 //import { NgIdleKeepaliveModule } from '@ng-idle/keepalive'; // this includes the core NgIdleModule but includes keepalive providers for easy wireup
 
 import { MomentModule } from 'angular2-moment';
+import { AuthModule } from '@auth0/auth0-angular';
 
 
 
@@ -25,6 +26,10 @@ import { MomentModule } from 'angular2-moment';
   ],
   imports: [
     BrowserModule,
+    AuthModule.forRoot({
+      domain: 'dev-06g1v0jg.eu.auth0.com',
+      clientId: '0CCBObxDuOAu07CB0UA2hmaIRloMB3BD'
+    }),
     BrowserAnimationsModule,
     ToastrModule.forRoot({timeOut: 900,positionClass: 'toast-top-center'}),
     NgbModule,

@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewContainerRef,ViewChild,OnDestroy, AfterViewInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { AuthService } from 'src/app/auth/auth.service';
+import { AuthServiceOwn } from 'src/app/auth/auth.service';
 import { StoreForwardService } from 'src/app/store-and-forward/store-forward.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -14,7 +14,7 @@ import { Subject } from 'rxjs';
   styleUrls: ['./copysanitizerannouncement.component.css']
 })
 export class CopysanitizerannouncementComponent implements OnInit {
-  constructor(public toastr: ToastrService, public auth:AuthService, 
+  constructor(public toastr: ToastrService, public auth:AuthServiceOwn, 
     private sfService: StoreForwardService,private formBuilder: FormBuilder, 
     private modalService: NgbModal, private serviceLicense: SerLicenseHolderService,private mService:MachineService) { }
 

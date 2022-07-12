@@ -6,7 +6,7 @@ import * as $ from 'jquery';
 import { ToastrService } from 'ngx-toastr';
 import { PlaylistLibService } from 'src/app/playlist-library/playlist-lib.service';
 import { IPlayService } from 'src/app/instant-play/i-play.service';
-import { AuthService } from 'src/app/auth/auth.service';
+import { AuthServiceOwn } from 'src/app/auth/auth.service';
 import { DecimalPipe } from '@angular/common';
 import { SerLicenseHolderService } from 'src/app/license-holder/ser-license-holder.service';
 
@@ -39,7 +39,7 @@ export class OfflineAlertComponent implements OnInit {
   chkOfflineAll=false
   constructor(private formBuilder: FormBuilder, public toastr: ToastrService, vcr: ViewContainerRef,
     config: NgbModalConfig, private modalService: NgbModal, private ipService: IPlayService,
-    public auth: AuthService, private pService: PlaylistLibService,private serviceLicense: SerLicenseHolderService,private pipe: DecimalPipe) {
+    public auth:AuthServiceOwn, private pService: PlaylistLibService,private serviceLicense: SerLicenseHolderService,private pipe: DecimalPipe) {
     config.backdrop = 'static';
     config.keyboard = false;
   }

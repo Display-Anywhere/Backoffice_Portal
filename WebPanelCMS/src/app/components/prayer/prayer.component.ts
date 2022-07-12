@@ -4,7 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import * as _moment from 'moment';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PrayerserService } from '../prayer/prayerser.service';
-import { AuthService } from 'src/app/auth/auth.service';
+import { AuthServiceOwn } from 'src/app/auth/auth.service';
 const moment = (_moment as any).default ? (_moment as any).default : _moment;
 
 @Component({
@@ -33,7 +33,7 @@ IschkViewOnly = this.auth.chkViewOnly$.value ? 1 : 0;
 
   constructor(private formBuilder: FormBuilder, public toastr: ToastrService,
     vcr: ViewContainerRef, private pService: PrayerserService,config: NgbModalConfig, 
-    private modalService: NgbModal, public auth:AuthService) {
+    private modalService: NgbModal, public auth:AuthServiceOwn) {
     config.backdrop = 'static';
     config.keyboard = false;
   }

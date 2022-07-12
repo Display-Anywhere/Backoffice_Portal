@@ -175,6 +175,7 @@ export class ConfigAPI {
    UpdateClientStatus: string = this.Host + 'UpdateClientStatus';
    GetClientLogs: string = this.Host + 'GetClientLogs';
    UpdatePlayerExpire: string = this.Host + 'UpdatePlayerExpire';
+   CustomerLoginEmailVerify: string = this.Host + 'CustomerLoginEmailVerify';
 }
 
 // localStorage.setItem('UserId', obj.UserId);

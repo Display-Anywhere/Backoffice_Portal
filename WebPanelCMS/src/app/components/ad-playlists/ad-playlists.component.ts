@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { StoreForwardService } from 'src/app/store-and-forward/store-forward.service';
-import { AuthService } from 'src/app/auth/auth.service';
+import { AuthServiceOwn } from 'src/app/auth/auth.service';
 import { AdsService } from 'src/app/ad/ads.service';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
@@ -58,7 +58,7 @@ export class AdPlaylistsComponent implements OnInit {
   IschkViewOnly = this.auth.chkViewOnly$.value ? 1 : 0;
   constructor(private formBuilder: FormBuilder, public toastr: ToastrService, vcr: ViewContainerRef,
     config: NgbModalConfig, private modalService: NgbModal, private sfService: StoreForwardService,
-    private aService: AdsService, public auth:AuthService,private serviceLicense: SerLicenseHolderService,private pipe: DecimalPipe) {
+    private aService: AdsService, public auth:AuthServiceOwn,private serviceLicense: SerLicenseHolderService,private pipe: DecimalPipe) {
     config.backdrop = 'static';
     config.keyboard = false;
   }

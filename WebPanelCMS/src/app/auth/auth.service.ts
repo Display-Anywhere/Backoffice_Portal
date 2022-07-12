@@ -3,7 +3,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
 
 
 @Injectable({ providedIn: 'root' })
-export class AuthService {
+export class AuthServiceOwn {
   public isLoggedIn$: BehaviorSubject<boolean>;
   public IsAdminLogin$: BehaviorSubject<boolean>;
   public IsClientAdminLogin$: BehaviorSubject<boolean>;

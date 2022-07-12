@@ -1,7 +1,7 @@
 import { Component, OnInit,ViewContainerRef,ViewChild } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
-import { AuthService } from '../../auth/auth.service';
+import { AuthServiceOwn } from '../../auth/auth.service';
 import { SerAdminLogService } from '../admin-logs/ser-admin-log.service';
 
 
@@ -17,7 +17,7 @@ export class AssigncustomersComponent implements OnInit {
   Assign_CustomerList =[]
   ClientSelected=[]
   cmbCustomer
-  constructor(private adminService: SerAdminLogService,public auth:AuthService,private modalService: NgbModal,
+  constructor(private adminService: SerAdminLogService,public auth:AuthServiceOwn,private modalService: NgbModal,
     public toastr: ToastrService, vcr: ViewContainerRef) { }
 
   ngOnInit(): void {
