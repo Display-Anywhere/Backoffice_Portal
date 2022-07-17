@@ -142,3 +142,5 @@ export class LoginComponent implements OnInit {
       );
   }
 }
+//Enter_the_Application_Id_here > 80a7b076-4c4a-429e-9b6f-402f3e5e49c5
+// Enter_the_Tenant_Info_Here => b8e4b8e1-2211-4845-8e03-cf1e88544864

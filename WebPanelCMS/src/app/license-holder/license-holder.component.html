@@ -11,7 +11,7 @@
         <div class="card-header bg-white d-flex justify-content-between">
           <div class="col-12 p-0">
             <div class="form-row">
-              <div class="form-group col-sm-2 m-0">
+              <div class="form-group col-sm-3 m-0">
                 <label for="cmbCustomer"  class="mb-2 mr-sm-2" #flocation
                   >Customer Name:</label
                 >
@@ -28,8 +28,64 @@
                   </option>
                 </select>
               </div>
-              
-              <div class="form-group col-sm-1 m-0" *ngIf="this.auth.IsAdminLogin$.value===false && this.auth.chkEventMeeting$.value === false ">
+              <div class="form-group col-sm-1 m-0">
+                <ul class="navbar-nav">
+                  <li class="nav-item dropdown">
+                    <label for="navbarDropdownMenuLink" class="d-none d-xl-block mb-2 mr-sm-2"
+                  >&nbsp;</label
+                >
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i class="fa fa-cog fa-lg" aria-hidden="true"></i>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                      <a class="dropdown-item" href="javascript:;" (click)="SetDefaultClient(modalMediaTypeDefault)"
+                      *ngIf="this.auth.IsAdminLogin$.value===false && this.auth.chkEventMeeting$.value === false ">
+                        Set Default
+                      </a>
+                      <a class="dropdown-item" href="javascript:;" (click)="SetSignage(modalSignage)"
+                      *ngIf="((this.auth.chkEventMeeting$.value ==false))">
+                        Set Signage App Logo
+                      </a>
+                      <a class="dropdown-item" href="javascript:;" (click)="SetIndicator(true)" 
+                      *ngIf="((this.auth.chkEventMeeting$.value ==false))">
+                        Show Indicator
+                      </a>
+                      <a class="dropdown-item" href="javascript:;" (click)="SetIndicator(false)" 
+                      *ngIf="((this.auth.chkEventMeeting$.value ==false))">
+                        Disable Indicator
+                      </a>
+                      <a class="dropdown-item" href="javascript:;" (click)="ForceUpdateModal(modalForceUpdate)"
+                      *ngIf="((this.auth.chkEventMeeting$.value ==false))">
+                        Publish
+                      </a>
+                      <a class="dropdown-item" href="javascript:;"  (click)="BulkActivation(modalUploadExcel)"
+                      *ngIf="((this.auth.chkEventMeeting$.value ==false))">
+                        Bulk Activation
+                      </a>
+                      <a class="dropdown-item" href="javascript:;" (click)="ForceUpdateModal(modalExpiryDate)" 
+                      *ngIf="((this.auth.chkEventMeeting$.value ==false))">
+                        Set Expiry Date
+                      </a>
+                      <a class="dropdown-item" href="javascript:;" (click)="openEventModal(modalEvent)">
+                        Events/Meeting Rooms
+                      </a>
+                      <a class="dropdown-item" href="javascript:;" (click)="OpenGroupsModal(modalManageGroups)"
+                      *ngIf="((this.auth.chkEventMeeting$.value ==false))">
+                        Groups
+                      </a>
+                      <a class="dropdown-item" href="javascript:;" (click)="OpenOpeningHoursModal(modalManageOpeningHours)"
+                      *ngIf="((this.auth.chkEventMeeting$.value ==false))">
+                        Opening Hours/Reboot Time
+                      </a>
+                      <a class="dropdown-item" href="javascript:;" (click)="OpenUpdateInfo(modalUpdateInfo)"
+                      *ngIf="((this.auth.chkEventMeeting$.value ==false))">
+                        Copy Player Info
+                      </a>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <div class="form-group col-sm-1 m-0 d-none" *ngIf="this.auth.IsAdminLogin$.value===false && this.auth.chkEventMeeting$.value === false ">
                 <label for="btnDF" class="d-none d-xl-block mb-2 mr-sm-2"
                   >&nbsp;</label
                 >
@@ -41,7 +97,7 @@
                   style="width: 100%"
                 />
               </div>
-              <div *ngIf="((this.auth.chkEventMeeting$.value ==false))" class="form-group col-sm-2 m-0">
+              <div *ngIf="((this.auth.chkEventMeeting$.value ==false))" class="form-group col-sm-2 m-0 d-none">
                 <label for="btnSig" class="d-none d-xl-block mb-2 mr-sm-2"
                   >&nbsp;</label
                 >
@@ -54,7 +110,7 @@
                   style="width: 100%"
                 />
               </div>
-              <div *ngIf="((this.auth.chkEventMeeting$.value ==false))" class="form-group col-sm-1 m-0">
+              <div *ngIf="((this.auth.chkEventMeeting$.value ==false))" class="form-group col-sm-1 m-0 d-none">
                 <label for="btnIndi" class="d-none d-xl-block mb-2 mr-sm-2"
                   >&nbsp;</label
                 >
@@ -67,7 +123,7 @@
                   style="width: 100%;width: 100%;font-size: 14px;padding: 0.475rem 0.60rem;"
                 />
               </div>
-              <div *ngIf="((this.auth.chkEventMeeting$.value ==false))" class="form-group col-sm-1 m-0">
+              <div *ngIf="((this.auth.chkEventMeeting$.value ==false))" class="form-group col-sm-1 m-0 d-none">
                 <label for="btnIndi" class="d-none d-xl-block mb-2 mr-sm-2"
                   >&nbsp;</label
                 >
@@ -80,7 +136,7 @@
                   style="width: 100%;width: 100%;font-size: 14px;padding: 0.475rem 0.20rem;"
                 />
               </div>
-              <div *ngIf="((this.auth.chkEventMeeting$.value ==false))" class="form-group col-sm-1 m-0">
+              <div *ngIf="((this.auth.chkEventMeeting$.value ==false))" class="form-group col-sm-1 m-0 d-none">
                 <label for="btnForce" class="d-none d-xl-block mb-2 mr-sm-2"
                   >&nbsp;</label
                 >
@@ -93,7 +149,7 @@
                   style="width: 100%"
                 />
               </div>
-              <div *ngIf="((this.auth.chkEventMeeting$.value ==false))" class="form-group col-sm-1 m-0">
+              <div *ngIf="((this.auth.chkEventMeeting$.value ==false))" class="form-group col-sm-1 m-0 d-none">
                 <label for="btnExport" class="d-none d-xl-block mb-2 mr-sm-2"
                   >&nbsp;</label
                 >
@@ -107,7 +163,7 @@
                   padding: 0.475rem 0.6rem"
                 />
               </div>
-              <div *ngIf="((this.auth.chkEventMeeting$.value ==false))" class="form-group col-sm-1 m-0">
+              <div *ngIf="((this.auth.chkEventMeeting$.value ==false))" class="form-group col-sm-1 m-0 d-none">
                 <label for="btnExport" class="d-none d-xl-block mb-2 mr-sm-2"
                   >&nbsp;</label
                 >
@@ -121,7 +177,7 @@
                   padding: 0.475rem 0.6rem"
                 />
               </div>
-              <div class="form-group col-sm-2 m-0">
+              <div class="form-group col-sm-2 m-0 d-none">
                 <label for="btnUploadEvent" class="d-none d-xl-block mb-2 mr-sm-2"
                   >&nbsp;</label
                 >
@@ -163,7 +219,7 @@
             (navChange)="onNavChange($event)"
             class="nav nav-pills mb-3"
           >
-            <li [ngbNavItem]="1" class="pr-2  p-0" [ngClass]="this.auth.chkEventMeeting$.value ==false?'col': 'col-3'" >
+            <li [ngbNavItem]="1" class="pr-2  p-0" [ngClass]="this.auth.chkEventMeeting$.value ==false?'col-3': 'col-3'" >
               <div class="iq-search-bar device-search">
                 <div class="searchbox1">
                   <input
@@ -258,6 +314,7 @@
               >
               <ng-template ngbNavContent> </ng-template>
             </li>
+            <!--
             <li [ngbNavItem]="10" *ngIf="((this.auth.chkEventMeeting$.value ==false))">
               <a
                 ngbNavLink
@@ -284,7 +341,8 @@
                 >Copy Player Info</a
               >
               <ng-template ngbNavContent> </ng-template>
-            </li>
+            </li> 
+          -->
           </ul>
           <div class="tab-content">
             <div class="table-responsive">
