@@ -52,8 +52,8 @@
   "devDependencies": {
     "@angular/cli": "~11.2.19",
     "@angular/compiler-cli": "~11.2.14",
-    "@angular/language-service": "~11.2.14",
     "@angular-devkit/build-angular": "^0.1102.19",
+    "@angular/language-service": "~11.2.14",
     "@types/datatables.net": "^1.10.19",
     "@types/datatables.net-buttons": "^1.4.5",
     "@types/jasmine": "~3.5.0",
