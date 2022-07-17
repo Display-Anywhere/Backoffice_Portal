@@ -1,14 +1,10 @@
 <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' , fullScreenBackdrop: true }">
 </ngx-loading>
 <div class="container-fluid p-0 m-0">
-  <ngb-tabset>
-    <ngb-tab>
-      <ng-template ngbTabTitle
-        ><span (click)="SearchPlayedSong()"
-          >Played Schedule Logs</span
-        ></ng-template
-      >
-      <ng-template ngbTabContent>
+  <ul ngbNav #tPlayerLog="ngbNav" [(activeId)]="PlayerLogActiveTabId" class="nav-tabs">
+    <li [ngbNavItem]="1" class="pr-2">
+      <a ngbNavLink (click)="SearchPlayedSong()">Played Schedule Logs</a>
+      <ng-template ngbNavContent>
         <div class="row">
           <div class="col-sm-12 mt-2">
             <div class="d-flex">
@@ -105,13 +101,11 @@
           </div>
         </div>
       </ng-template>
-    </ngb-tab>
+    </li>
 
-    <ngb-tab>
-      <ng-template ngbTabTitle
-        ><span (click)="SearchPlayedAds()">Played Ads Logs</span></ng-template
-      >
-      <ng-template ngbTabContent>
+    <li [ngbNavItem]="2" class="pr-2">
+      <a ngbNavLink (click)="SearchPlayedAds()">Played Ads Logs</a>
+      <ng-template ngbNavContent>
         <div class="row">
           <div class="col-sm-12 mt-2">
             <div class="d-flex">
@@ -206,15 +200,11 @@
           </div>
         </div>
       </ng-template>
-    </ngb-tab>
+    </li>
 
-    <ngb-tab>
-      <ng-template ngbTabTitle
-        ><span (click)="SearchPlayedSanitiser()"
-          >Played Sanitiser Logs</span
-        ></ng-template
-      >
-      <ng-template ngbTabContent>
+    <li [ngbNavItem]="3" class="pr-2">
+      <a ngbNavLink (click)="SearchPlayedSanitiser()">Played Sanitiser Logs</a>
+      <ng-template ngbNavContent>
         <div class="row">
           <div class="col-sm-12 mt-2">
             <div class="d-flex">
@@ -308,10 +298,11 @@
           </div>
         </div>
       </ng-template>
-    </ngb-tab>
+    </li>
     <!--<ngb-tab>
       <ng-template ngbTabTitle><span>Played Keyboard Logs</span></ng-template>
       <ng-template ngbTabContent> </ng-template>
     </ngb-tab>-->
-  </ngb-tabset>
+  </ul>
+  <div [ngbNavOutlet]="tPlayerLog" class="mt-2"></div>
 </div>

@@ -28,6 +28,7 @@ export class PrayerComponent implements OnInit {
   cmbSearchToken = 0;
 pid;
 submitted;
+UserPrayerTabId =1
 IschkViewOnly = this.auth.chkViewOnly$.value ? 1 : 0;
   @ViewChildren("checkboxesCustomer") checkboxesCustomer: QueryList<ElementRef>;
 

@@ -23,6 +23,7 @@ export class TemplateUrlComponent implements OnInit {
   aid;
   del_urlname=""
   FolderList=[]
+  UrlActiveTabId=1
   cmbSearchCustomer="0";
   constructor(private formBuilder: FormBuilder, public toastr: ToastrService, vcr: ViewContainerRef
     , config: NgbModalConfig, private modalService: NgbModal, private aService: AdsService,

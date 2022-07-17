@@ -34,6 +34,7 @@ export class UserComponent implements OnInit {
   chkUserAll: boolean = false;
   chkdis: boolean = true;
   SearchList=[]
+  UserActiveTabId=1
   @ViewChildren(NgbdSortableHeader_User) headers: QueryList<NgbdSortableHeader_User>;
   compare = (v1: string | number, v2: string | number) =>
     v1 < v2 ? -1 : v1 > v2 ? 1 : 0;

@@ -13,6 +13,7 @@ import { SerLicenseHolderService } from 'src/app/license-holder/ser-license-hold
 })
 export class EmergencyAlertComponent implements OnInit {
   public loading = false;
+  EmergencyAlertActiveTabId=1
   cmbSearchCustomer = '0';
   cmbSearchToken=[]; 
   SearchTokenList;

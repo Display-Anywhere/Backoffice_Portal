@@ -13,6 +13,7 @@ import { StoreForwardService } from '../store-and-forward/store-forward.service'
 })
 
 export class AdComponent implements OnInit {
+  DemandsActiveId=1
   Adform: FormGroup;
   submitted = false;
   public loading = false;

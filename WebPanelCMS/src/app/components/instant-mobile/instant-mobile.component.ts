@@ -14,6 +14,7 @@ import { SerLicenseHolderService } from 'src/app/license-holder/ser-license-hold
 })
 export class InstantMobileComponent implements OnInit {
   public loading = false;
+  InstantActiveTabId=1
   cmbSearchCustomer = '0';
   cmbSearchToken; 
   SearchTokenList;

@@ -63,6 +63,7 @@ export class NormalscheduleComponent implements OnInit {
   SearchMediaTypeList = [];
   CustomSchedulePlaylist = [];
   TotalPercentageValue = 0;
+  NormalAdsActiveTabId=1
   IschkViewOnly = this.auth.chkViewOnly$.value ? 1 : 0;
   constructor(
     private formBuilder: FormBuilder,

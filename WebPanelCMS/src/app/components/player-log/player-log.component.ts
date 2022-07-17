@@ -32,7 +32,7 @@ export class PlayerLogComponent implements OnInit {
   pageSanitiser: number = 1;
   pageSizeSanitiser: number = 30;
   searchSanitiserText;
-
+  PlayerLogActiveTabId=1
   ngOnInit() {
     var cd = new Date();
     this.SearchSongDate = cd;

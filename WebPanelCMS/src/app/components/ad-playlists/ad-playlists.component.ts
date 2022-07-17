@@ -17,6 +17,7 @@ import { DecimalPipe } from '@angular/common';
 })
 export class AdPlaylistsComponent implements OnInit {
   ScheduleList = [];
+  adPlaylistActiveTabId=1
   dropdownSettings = {};
   dropdownList = [];
   selectedItems = [];

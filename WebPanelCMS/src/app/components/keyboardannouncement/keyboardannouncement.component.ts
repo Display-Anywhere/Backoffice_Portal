@@ -15,6 +15,7 @@ import { SerLicenseHolderService } from 'src/app/license-holder/ser-license-hold
 
 export class KeyboardannouncementComponent implements OnInit {
   public loading = false;
+  KeyboardActiveTabId=1
   cmbSearchCustomer = '0';
   cmbSearchToken; 
   SearchTokenList;

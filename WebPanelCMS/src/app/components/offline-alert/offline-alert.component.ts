@@ -37,6 +37,7 @@ export class OfflineAlertComponent implements OnInit {
   timeInterval=30
   SearchList=[];
   chkOfflineAll=false
+  OfflineAlertActiveTabId=1
   constructor(private formBuilder: FormBuilder, public toastr: ToastrService, vcr: ViewContainerRef,
     config: NgbModalConfig, private modalService: NgbModal, private ipService: IPlayService,
     public auth:AuthServiceOwn, private pService: PlaylistLibService,private serviceLicense: SerLicenseHolderService,private pipe: DecimalPipe) {

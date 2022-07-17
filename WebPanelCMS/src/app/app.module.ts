@@ -13,7 +13,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxLoadingModule } from 'ngx-loading';
 //import { NgIdleKeepaliveModule } from '@ng-idle/keepalive'; // this includes the core NgIdleModule but includes keepalive providers for easy wireup
 
-import { MomentModule } from 'angular2-moment';
 import { AuthModule } from '@auth0/auth0-angular';
 
 
@@ -39,7 +38,6 @@ import { AuthModule } from '@auth0/auth0-angular';
     ReactiveFormsModule,
     FormsModule,
     NgxLoadingModule.forRoot({}),
-    MomentModule,
     
       ],
   providers: [AuthGuard],

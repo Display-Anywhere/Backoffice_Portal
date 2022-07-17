@@ -14,7 +14,7 @@
                 >
               </li>
               <li class="nav-item">
-                <a class="nav-link" (click)="t.select('tab-selectbyid1')" data-toggle="tab" href="#OfflineAlert" 
+                <a class="nav-link"  data-toggle="tab" href="#OfflineAlert" 
                   >Offline Alert</a
                 >
               </li>
@@ -40,9 +40,10 @@
                   </option>
                 </select>
               </div>
-              <ngb-tabset #t="ngbTabset">
-                <ngb-tab id="tab-selectbyid1" title="Search">
-                            <ng-template ngbTabContent>
+              <ul ngbNav #tUsers="ngbNav" [(activeId)]="UserActiveTabId" class="nav-tabs">
+                <li [ngbNavItem]="1" class="pr-2">
+                  <a ngbNavLink>Search</a>
+                            <ng-template ngbNavContent>
                               <div class="row m-0 p-0">
                                 <div class="table-responsive">
                                   <table
@@ -68,7 +69,7 @@
                                           <i
                                             class="fa fa-pencil-square-o text-primary"
                                             (click)="onClickEditUser(uLst.id)"
-                                            (click)="t.select('tab-selectbyid2')"
+                                            (click)="UserActiveTabId = 2"
                                             aria-hidden="true"
                                           ></i>
                                         </td>
@@ -91,9 +92,10 @@
                                 </div>
                               </div>
                             </ng-template>
-                          </ngb-tab>          
-                          <ngb-tab id="tab-selectbyid2" title="AddNew">
-                            <ng-template ngbTabContent>
+                          </li>          
+                          <li [ngbNavItem]="2" class="pr-2">
+                            <a ngbNavLink>AddNew</a>
+                            <ng-template ngbNavContent>
                               <div class="row m-0 p-0">
                                 <div class="col-lg-12">
                                   <form
@@ -602,11 +604,11 @@
                                 </div>
                               </div>
                             </ng-template>
-                          </ngb-tab>
+                          </li>
             
             
-                        </ngb-tabset>
-
+                        </ul>
+                        <div [ngbNavOutlet]="tUsers" class="mt-2"></div>
             </div>
             <div id="OfflineAlert" role="tabpanel" class="col-lg-12 tab-pane m-0 p-0">
               <app-offline-alert></app-offline-alert>
