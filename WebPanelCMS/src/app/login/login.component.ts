@@ -18,7 +18,7 @@ export class LoginComponent implements OnInit {
   ipAddress;
   emailText=''
   loginpage='Nusign'
-  IsSbit='No'
+  IsSbit='Yes'
   constructor(public toastr: ToastrService, private router: Router, private formBuilder: FormBuilder, 
     private ulService: UloginService, private visitorsService: VisitorsService, 
     public authService: AuthServiceOwn,private auth0: AuthService) {

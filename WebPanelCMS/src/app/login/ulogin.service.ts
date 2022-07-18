@@ -29,4 +29,10 @@ SaveModifyLogs(tokenid:string, ModifyData:string){
     return this.http.post(this.cApi.SaveModifyLogs,params,{headers:headers})
      .pipe((data=>{return data;}))
   }
+  getMicrosoftProfile() {
+    this.http.get('https://graph.microsoft.com/v1.0/me')
+      .subscribe(profile => {
+        return profile;
+      });
+  }
 }

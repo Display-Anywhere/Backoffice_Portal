@@ -46,6 +46,14 @@
                       *ngIf="((this.auth.chkEventMeeting$.value ==false))">
                         Set Signage App Logo
                       </a>
+                      <a class="dropdown-item" href="javascript:;" (click)="UpdateTwoWayAuth('1')" 
+                      *ngIf="((this.auth.chkEventMeeting$.value ==false) && (IsTwoWayAuthActive=='0'))">
+                        Enable 2FA Authentication
+                      </a>
+                      <a class="dropdown-item" href="javascript:;" (click)="UpdateTwoWayAuth('0')" 
+                      *ngIf="((this.auth.chkEventMeeting$.value ==false) && (IsTwoWayAuthActive=='1'))">
+                      Disable 2FA Authentication
+                      </a>
                       <a class="dropdown-item" href="javascript:;" (click)="SetIndicator(true)" 
                       *ngIf="((this.auth.chkEventMeeting$.value ==false))">
                         Show Indicator

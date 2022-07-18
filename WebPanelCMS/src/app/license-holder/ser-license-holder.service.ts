@@ -321,4 +321,10 @@ UpdatePlayerExpire(tokenid,expiryDate) {
   return this.http.post(this.cApi.UpdatePlayerExpire, params, { headers: headers })
     .pipe((data => { return data; }))
 }
+UpdateTwoWayAuth(ClientId, TwoWayAuthStatus) {
+  let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+  var params = JSON.stringify({ ClientId: ClientId, TwoWayAuthStatus: TwoWayAuthStatus });
+  return this.http.post(this.cApi.UpdateTwoWayAuth, params, { headers: headers })
+    .pipe((data => { return data; }))
+}
 }

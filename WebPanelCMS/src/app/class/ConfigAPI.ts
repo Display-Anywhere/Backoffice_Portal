@@ -2,9 +2,9 @@ import { Injectable } from "@angular/core";
 @Injectable()
 export class ConfigAPI {
   //private Host = 'http://live.advikon.com/api/';
-     private Host: string = "https://api.nusign.eu/api/";
+    // private Host: string = "https://api.nusign.eu/api/";
    //private Host: string = "https://panelapi.advikon.com/api/";
-   //private Host: string = "http://localhost:60328/api/";
+   private Host: string = "http://localhost:60328/api/";
    //private Host_panel: string = "https://api.advikon.com/api/";
    //private Host_panel: string = "http://localhost:60328/api/";
    FillQueryCombo: string = this.Host + 'FillQueryCombo';
@@ -178,6 +178,7 @@ export class ConfigAPI {
    GetClientLogs: string = this.Host + 'GetClientLogs';
    UpdatePlayerExpire: string = this.Host + 'UpdatePlayerExpire';
    CustomerLoginEmailVerify: string = this.Host + 'CustomerLoginEmailVerify';
+   UpdateTwoWayAuth: string = this.Host + 'UpdateTwoWayAuth';
 }
 
 // localStorage.setItem('UserId', obj.UserId);

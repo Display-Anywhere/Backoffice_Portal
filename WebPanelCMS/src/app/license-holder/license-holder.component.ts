@@ -90,6 +90,7 @@ export class LicenseHolderComponent
   StateList = [];
   CityList = [];
   cmbCustomerId = '0';
+  IsTwoWayAuthActive='0'
   FilterValue_For_Reload = 'All';
   @ViewChild(DataTableDirective)
   dtElement: DataTableDirective;
@@ -314,7 +315,7 @@ loginpage= localStorage.getItem('loginpage')
       localStorage.getItem('DBType');
 
     this.serviceLicense
-      .FillCombo(str)
+      .FillCustomerWithKey(str)
       .pipe()
       .subscribe(
         (data) => {
@@ -355,8 +356,12 @@ loginpage= localStorage.getItem('loginpage')
       this.LogoId = 0;
       this.cid = '0';
       this.MainTokenList = [];
+      this.IsTwoWayAuthActive='0'
       return;
     }
+    const obj= this.CustomerList.filter(o => o.Id == this.cmbCustomerId)
+    console.log(obj)
+    this.IsTwoWayAuthActive = obj[0].IsTwoWayAuthActive
     await this.FillDeviceLastStatus(deviceValue)
   }
   FillCustomerTokenList(deviceValue){
@@ -2219,4 +2224,39 @@ async RefreshTokenList(){
         }
       );
   }
+
+  UpdateTwoWayAuth(status){
+    if (this.cid == '0') {
+      this.toastr.info('Please select a customer name');
+      return;
+    }
+    if (this.IschkViewOnly==1){
+      this.toastr.info('This feature is not available in view only');
+      return;
+    }
+    this.loading = true;
+    this.serviceLicense.UpdateTwoWayAuth(this.cmbCustomerId,status).pipe().subscribe((data) => {
+          var returnData = JSON.stringify(data);
+          var obj = JSON.parse(returnData);
+          if (obj.response == '1') {
+            this.toastr.info('Saved', 'Success!');
+            this.loading = false;
+            let msg='2FA enable for '+this.cmbCustomerId+' '
+            this.IsTwoWayAuthActive = status
+            if (status=='0'){
+              msg='2FA disable for '+this.cmbCustomerId+' '
+            }
+            this.SaveModifyInfo(0,msg);
+          } else {
+            this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
+          }
+          this.loading = false;
+        },
+        (error) => {
+          this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
+          this.loading = false;
+        }
+      );
+  }
+
 }

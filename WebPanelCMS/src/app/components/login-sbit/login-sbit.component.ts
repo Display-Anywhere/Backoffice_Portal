@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, ViewContainerRef, Inject, OnDestroy  } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '@auth0/auth0-angular';
@@ -6,13 +6,17 @@ import { ToastrService } from 'ngx-toastr';
 import { AuthServiceOwn } from 'src/app/auth/auth.service';
 import { UloginService } from 'src/app/login/ulogin.service';
 import { VisitorsService } from 'src/app/visitors.service';
-
+import { MsalService, MsalBroadcastService, MSAL_GUARD_CONFIG, MsalGuardConfiguration } from '@azure/msal-angular';
+import { AuthenticationResult, InteractionStatus, InteractionType, PopupRequest, RedirectRequest , EventMessage, EventType} from '@azure/msal-browser';
+import { Subject } from 'rxjs';
+import { filter, takeUntil } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-login-sbit',
   templateUrl: './login-sbit.component.html',
   styleUrls: ['./login-sbit.component.css']
 })
-export class LoginSbitComponent implements OnInit {
+export class LoginSbitComponent implements OnInit, OnDestroy {
   loginform: FormGroup;
   submitted = false;
   public loading = false;
@@ -21,9 +25,15 @@ export class LoginSbitComponent implements OnInit {
   loginpage='Nusign'
   IsSbit='Yes'
 
+  loginDisplay = false;
+  private readonly _destroying$ = new Subject<void>();
+
   constructor(public toastr: ToastrService, private router: Router, private formBuilder: FormBuilder,
      private ulService: UloginService, private visitorsService: VisitorsService,
-      public authService: AuthServiceOwn,private auth0: AuthService) {
+      public authService: AuthServiceOwn,private auth0: AuthService,private http: HttpClient,
+      @Inject(MSAL_GUARD_CONFIG) private msalGuardConfig: MsalGuardConfiguration,
+    private MauthService: MsalService,
+    private msalBroadcastService: MsalBroadcastService) {
         this.auth0.isAuthenticated$.subscribe((res: boolean) => {
           if (res) {
             this.auth0.idTokenClaims$.subscribe((IdToken) => (
@@ -43,7 +53,26 @@ export class LoginSbitComponent implements OnInit {
         this.loginSSOwithAPI(email)
       }
       loginSSO() {
-        this.auth0.loginWithRedirect();
+        //this.auth0.loginWithRedirect();
+        if (this.msalGuardConfig.interactionType === InteractionType.Popup) {
+          if (this.msalGuardConfig.authRequest) {
+            this.MauthService.loginPopup({ ...this.msalGuardConfig.authRequest } as PopupRequest)
+              .subscribe((response: AuthenticationResult) => {
+                this.MauthService.instance.setActiveAccount(response.account);
+              });
+          } else {
+            this.MauthService.loginPopup()
+              .subscribe((response: AuthenticationResult) => {
+                this.MauthService.instance.setActiveAccount(response.account);
+              });
+          }
+        } else {
+          if (this.msalGuardConfig.authRequest) {
+            this.MauthService.loginRedirect({ ...this.msalGuardConfig.authRequest } as RedirectRequest);
+          } else {
+            this.MauthService.loginRedirect();
+          }
+        }
       }
       loginSSOwithAPI(email){
         this.loading = true;
@@ -119,6 +148,21 @@ export class LoginSbitComponent implements OnInit {
       }
 
       ngOnInit() {
+        this.msalBroadcastService.inProgress$
+        .pipe(
+          filter((status: InteractionStatus) => status === InteractionStatus.None),
+          takeUntil(this._destroying$)
+        )
+        .subscribe(() => {
+          this.setLoginDisplay();
+        });
+        this.msalBroadcastService.msalSubject$
+      .pipe(
+        filter((msg: EventMessage) => msg.eventType === EventType.LOGIN_SUCCESS),
+      )
+      .subscribe((result: EventMessage) => {
+        this.setLoginDisplay();
+      });
         this.authService.logout();
         localStorage.setItem('DBType', 'Nusign');
         localStorage.setItem('IsSbit', this.IsSbit);
@@ -142,8 +186,26 @@ export class LoginSbitComponent implements OnInit {
         this.visitorsService.getIpAddress().subscribe(res => {
           localStorage.setItem('ipAddress', res['ip']);
         });
+
+      
+
       }
-    
+      async getMicrosoftProfile(){
+        this.loading = true;
+        this.http.get('https://graph.microsoft.com/v1.0/me')
+      .subscribe(profile => {
+        this.loginSSOwithAPI(profile['userPrincipalName'])
+      });
+        this.loading = false;
+        
+      }
+
+    setLoginDisplay() {
+    this.loginDisplay = this.MauthService.instance.getAllAccounts().length > 0;
+    if (this.loginDisplay ==true){
+      this.getMicrosoftProfile()
+    }
+  }
       get f() { return this.loginform.controls; }
     
       onSubmit() {
@@ -233,6 +295,11 @@ export class LoginSbitComponent implements OnInit {
             },
             (error) => {}
           );
+      }
+
+      ngOnDestroy(): void {
+        this._destroying$.next(undefined);
+        this._destroying$.complete();
       }
     }
     

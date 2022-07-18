@@ -21,6 +21,8 @@
     "@angular/platform-browser-dynamic": "~13.3.11",
     "@angular/router": "~13.3.11",
     "@auth0/auth0-angular": "^1.10.0",
+    "@azure/msal-angular": "^2.3.3",
+    "@azure/msal-browser": "^2.27.0",
     "@ng-bootstrap/ng-bootstrap": "^12.1.2",
     "@ng-idle/core": "^11.0.3",
     "@ng-idle/keepalive": "^11.0.3",
