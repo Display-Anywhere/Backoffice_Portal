@@ -138,7 +138,12 @@ export class RepTitleSummaryComponent implements AfterViewInit, OnInit, OnDestro
   }
   ngOnDestroy(): void {
     // Do not forget to unsubscribe the event
-    this.dtTrigger.unsubscribe();
+    try {
+      this.dtTrigger.unsubscribe();
+      
+    } catch (error) {
+      
+    }
   }
   rerender(): void {
     this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {

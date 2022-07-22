@@ -35,4 +35,10 @@ SaveModifyLogs(tokenid:string, ModifyData:string){
         return profile;
       });
   }
+  SendOTP(email,oCode){
+    let headers = new HttpHeaders({ 'Content-Type':'application/json' });
+    var params = JSON.stringify({ ClientEmail: email , oCode: oCode});
+    return this.http.post(this.cApi.SendOTP,params,{headers:headers})
+     .pipe((data=>{return data;}))
+  }
 }

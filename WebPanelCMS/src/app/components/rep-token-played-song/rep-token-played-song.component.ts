@@ -207,7 +207,11 @@ this.file_Name= this.Client_Name+"_"+this.tokenid+"_"+ FromDate.toDateString()+"
   }
   ngOnDestroy(): void {
     // Do not forget to unsubscribe the event
-    this.dtTrigger.unsubscribe();
+    try {
+      this.dtTrigger.unsubscribe();
+    } catch (error) {
+      
+    }
   }
   rerender(): void {
     this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {

@@ -29,7 +29,7 @@ export function MSALInstanceFactory(): IPublicClientApplication {
     auth: {
       clientId: '80a7b076-4c4a-429e-9b6f-402f3e5e49c5',
       authority: 'https://login.microsoftonline.com/common',
-      redirectUri: 'http://localhost:4200/'
+      redirectUri: 'https://signage.sbit-hospitality.com'
     },
     cache: {
       cacheLocation: BrowserCacheLocation.LocalStorage,

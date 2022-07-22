@@ -346,7 +346,8 @@
                           [collectionSize]="GroupTokenListlength_Change"
                           [(page)]="page"
                           [pageSize]="pageSize"
-                          aria-label="Default pagination"
+                          [boundaryLinks]="true"
+                  size="sm"
                           (click)="GetCheckedToken()"
                         ></ngb-pagination>
             </div>

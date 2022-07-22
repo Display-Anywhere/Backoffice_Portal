@@ -172,7 +172,8 @@
               [collectionSize]="ScheduleList.length"
               [(page)]="pageSearch"
               [pageSize]="pageSizeSearch"
-              aria-label="Default pagination"
+              [boundaryLinks]="true"
+                  size="sm"
             ></ngb-pagination>
           </div>
 
@@ -674,7 +675,8 @@
                   [collectionSize]="TokenList.length"
                   [(page)]="page"
                   [pageSize]="pageSize"
-                  aria-label="Default pagination"
+                  [boundaryLinks]="true"
+                  size="sm"
                   (pageChange)="loadPage($event)"
                 ></ngb-pagination>
               </div>

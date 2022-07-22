@@ -331,7 +331,8 @@
                     [collectionSize]="PlaylistTokenListlength_Change"
                     [(page)]="page"
                     [pageSize]="pageSize"
-                    aria-label="Default pagination"
+                    [boundaryLinks]="true"
+                  size="sm"
                     (click)="GetCheckedToken_Playlist()"
                   ></ngb-pagination>
                 </div>
@@ -533,7 +534,8 @@
                     [collectionSize]="TransferTokenList.length"
                     [(page)]="Tpage"
                     [pageSize]="TpageSize"
-                    aria-label="Default pagination"
+                    [boundaryLinks]="true"
+                  size="sm"
                   ></ngb-pagination>
                 </div>
               </div>

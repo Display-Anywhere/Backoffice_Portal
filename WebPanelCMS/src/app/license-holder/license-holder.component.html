@@ -11,7 +11,7 @@
         <div class="card-header bg-white d-flex justify-content-between">
           <div class="col-12 p-0">
             <div class="form-row">
-              <div class="form-group col-sm-3 m-0">
+              <div class="form-group col-sm-2 m-0">
                 <label for="cmbCustomer"  class="mb-2 mr-sm-2" #flocation
                   >Customer Name:</label
                 >
@@ -19,7 +19,7 @@
                   class="custom-select mb-3"
                   (change)="onChangeCustomer($event.target.value)"
                   id="cmbCustomer"
-                  (click)="t.select(2)"
+                  (click)="t.select(3)"
                   [(ngModel)]="cmbCustomerId"
                 >
                   <option selected value="0"></option>
@@ -28,7 +28,7 @@
                   </option>
                 </select>
               </div>
-              <div class="form-group col-sm-1 m-0">
+              <div class="form-group col-sm-1 m-0 d-none">
                 <ul class="navbar-nav">
                   <li class="nav-item dropdown">
                     <label for="navbarDropdownMenuLink" class="d-none d-xl-block mb-2 mr-sm-2"
@@ -46,14 +46,7 @@
                       *ngIf="((this.auth.chkEventMeeting$.value ==false))">
                         Set Signage App Logo
                       </a>
-                      <a class="dropdown-item" href="javascript:;" (click)="UpdateTwoWayAuth('1')" 
-                      *ngIf="((this.auth.chkEventMeeting$.value ==false) && (IsTwoWayAuthActive=='0'))">
-                        Enable 2FA Authentication
-                      </a>
-                      <a class="dropdown-item" href="javascript:;" (click)="UpdateTwoWayAuth('0')" 
-                      *ngIf="((this.auth.chkEventMeeting$.value ==false) && (IsTwoWayAuthActive=='1'))">
-                      Disable 2FA Authentication
-                      </a>
+                      
                       <a class="dropdown-item" href="javascript:;" (click)="SetIndicator(true)" 
                       *ngIf="((this.auth.chkEventMeeting$.value ==false))">
                         Show Indicator
@@ -93,7 +86,7 @@
                   </li>
                 </ul>
               </div>
-              <div class="form-group col-sm-1 m-0 d-none" *ngIf="this.auth.IsAdminLogin$.value===false && this.auth.chkEventMeeting$.value === false ">
+              <div class="form-group col-sm-1 m-0 " *ngIf="this.auth.IsAdminLogin$.value===true && this.auth.chkEventMeeting$.value === false ">
                 <label for="btnDF" class="d-none d-xl-block mb-2 mr-sm-2"
                   >&nbsp;</label
                 >
@@ -102,10 +95,11 @@
                   id="btnDF"
                   class="btn btn-primary mb-2 mr-sm-2 mr-1"
                   value="Set Default" (click)="SetDefaultClient(modalMediaTypeDefault)"
-                  style="width: 100%"
+                  style="width: 100%;font-size: 14px;
+                  padding: 0.475rem 0.6rem"
                 />
               </div>
-              <div *ngIf="((this.auth.chkEventMeeting$.value ==false))" class="form-group col-sm-2 m-0 d-none">
+              <div *ngIf="((this.auth.chkEventMeeting$.value ==false))" class="form-group col-sm-1 m-0">
                 <label for="btnSig" class="d-none d-xl-block mb-2 mr-sm-2"
                   >&nbsp;</label
                 >
@@ -114,11 +108,12 @@
                   id="btnSig"
                   class="btn btn-primary mb-2 mr-sm-2 mr-1"
                   (click)="SetSignage(modalSignage)"
-                  value="Set Signage App Logo"
-                  style="width: 100%"
+                  value="Set App Logo"
+                  style="width: 100%;font-size: 14px;
+                  padding: 0.475rem 0.6rem"
                 />
               </div>
-              <div *ngIf="((this.auth.chkEventMeeting$.value ==false))" class="form-group col-sm-1 m-0 d-none">
+              <div *ngIf="((this.auth.chkEventMeeting$.value ==false))" class="form-group col-sm-1 m-0">
                 <label for="btnIndi" class="d-none d-xl-block mb-2 mr-sm-2"
                   >&nbsp;</label
                 >
@@ -131,7 +126,7 @@
                   style="width: 100%;width: 100%;font-size: 14px;padding: 0.475rem 0.60rem;"
                 />
               </div>
-              <div *ngIf="((this.auth.chkEventMeeting$.value ==false))" class="form-group col-sm-1 m-0 d-none">
+              <div *ngIf="((this.auth.chkEventMeeting$.value ==false))" class="form-group col-sm-1 m-0">
                 <label for="btnIndi" class="d-none d-xl-block mb-2 mr-sm-2"
                   >&nbsp;</label
                 >
@@ -144,7 +139,7 @@
                   style="width: 100%;width: 100%;font-size: 14px;padding: 0.475rem 0.20rem;"
                 />
               </div>
-              <div *ngIf="((this.auth.chkEventMeeting$.value ==false))" class="form-group col-sm-1 m-0 d-none">
+              <div *ngIf="((this.auth.chkEventMeeting$.value ==false))" class="form-group col-sm-1 m-0">
                 <label for="btnForce" class="d-none d-xl-block mb-2 mr-sm-2"
                   >&nbsp;</label
                 >
@@ -154,10 +149,10 @@
                   class="btn btn-primary mb-2 mr-sm-2 mr-1"
                   (click)="ForceUpdateModal(modalForceUpdate)"
                   value="Publish"
-                  style="width: 100%"
+                  style="width: 100%;width: 100%;font-size: 14px;padding: 0.475rem 0.20rem;"
                 />
               </div>
-              <div *ngIf="((this.auth.chkEventMeeting$.value ==false))" class="form-group col-sm-1 m-0 d-none">
+              <div *ngIf="((this.auth.chkEventMeeting$.value ==false))" class="form-group col-sm-1 m-0">
                 <label for="btnExport" class="d-none d-xl-block mb-2 mr-sm-2"
                   >&nbsp;</label
                 >
@@ -166,12 +161,12 @@
                   id="btnExport"
                   class="btn btn-primary mb-2 mr-sm-2 mr-1"
                   (click)="BulkActivation(modalUploadExcel)"
-                  value="Bulk Activation"
+                  value="Bulk"
                   style="width: 100%;font-size: 14px;
                   padding: 0.475rem 0.6rem"
                 />
               </div>
-              <div *ngIf="((this.auth.chkEventMeeting$.value ==false))" class="form-group col-sm-1 m-0 d-none">
+              <div *ngIf="((this.auth.chkEventMeeting$.value ==false))" class="form-group col-sm-1 m-0">
                 <label for="btnExport" class="d-none d-xl-block mb-2 mr-sm-2"
                   >&nbsp;</label
                 >
@@ -180,12 +175,12 @@
                   id="btnExport"
                   class="btn btn-primary mb-2 mr-sm-2 mr-1"
                   (click)="ForceUpdateModal(modalExpiryDate)"
-                  value="Set Expiry Date"
+                  value="Expiry Date"
                   style="width: 100%;font-size: 14px;
                   padding: 0.475rem 0.6rem"
                 />
               </div>
-              <div class="form-group col-sm-2 m-0 d-none">
+              <div class="form-group col-sm-1 m-0">
                 <label for="btnUploadEvent" class="d-none d-xl-block mb-2 mr-sm-2"
                   >&nbsp;</label
                 >
@@ -194,11 +189,12 @@
                   id="btnUploadEvent"
                   class="btn btn-primary mb-2 mr-sm-2 mr-1"
                   (click)="openEventModal(modalEvent)"
-                  value="Events/Meeting Rooms"
-                  style="width: 100%"
+                  value="Meeting Rooms"
+                  style="width: 100%;width: 100%;font-size: 14px;padding: 0.475rem 0.20rem;"
                 />
               </div>
-
+             
+              
               <div class="form-group col-sm-2 m-0 d-none">
                 <label for="btnSearch" class="d-none d-xl-block mb-2 mr-sm-2"
                   >&nbsp;</label
@@ -227,7 +223,7 @@
             (navChange)="onNavChange($event)"
             class="nav nav-pills mb-3"
           >
-            <li [ngbNavItem]="1" class="pr-2  p-0" [ngClass]="this.auth.chkEventMeeting$.value ==false?'col-3': 'col-3'" >
+            <li [ngbNavItem]="1" class="pr-2  p-0" [ngClass]="this.auth.chkEventMeeting$.value ==false?'col-2': 'col-2'" >
               <div class="iq-search-bar device-search">
                 <div class="searchbox1">
                   <input
@@ -237,7 +233,8 @@
                     [(ngModel)]="searchText"
                     class="text search-input"
                     placeholder="Search"
-                    (keyup)="filterById()"
+                    (input)="onChangeTokenEvent()"
+                    
                   />
                   <a class="search-link" href="javascript:;" 
                   style="right: 50px;"><i class="fa fa-search"></i
@@ -309,7 +306,7 @@
                 ngbNavLink
                 (click)="FilterTokenList('HotelTv')"
                 class="form-control-Tab mt-1"
-                >Hotel TV</a
+                >H-Info</a
               >
               <ng-template ngbNavContent> </ng-template>
             </li>
@@ -322,7 +319,7 @@
               >
               <ng-template ngbNavContent> </ng-template>
             </li>
-            <!--
+             
             <li [ngbNavItem]="10" *ngIf="((this.auth.chkEventMeeting$.value ==false))">
               <a
                 ngbNavLink
@@ -337,7 +334,7 @@
                 ngbNavLink
                 (click)="OpenOpeningHoursModal(modalManageOpeningHours)"
                 class="form-control-Tab mt-1"
-                >Opening Hours/Reboot Time</a
+                >Opening/Reboot Time</a
               >
               <ng-template ngbNavContent> </ng-template>
             </li>
@@ -346,19 +343,15 @@
                 ngbNavLink
                 (click)="OpenUpdateInfo(modalUpdateInfo)"
                 class="form-control-Tab mt-1"
-                >Copy Player Info</a
+                >Player Info</a
               >
               <ng-template ngbNavContent> </ng-template>
             </li> 
-          -->
+           
           </ul>
           <div class="tab-content">
             <div class="table-responsive">
               <table
-                id="first-table"
-                datatable
-                [dtOptions]="dtOptions"
-                [dtTrigger]="dtTrigger"
                 class="table data-table table-striped table-bordered mydatatable"
               >
                 <thead class="bg-primary text-white">
@@ -366,46 +359,41 @@
                     <!--<th scope="col" [appSort]="TokenList" data-order="asc" data-name="tokenCode">Token Code</th>
                   <th scope="col" [appSort]="TokenList" data-order="asc" data-name="location">Location </th>
                   -->
-                    <th scope="col" style="width: 60px !important">Country</th>
-                    <th scope="col" style="width: 115px !important">City</th>
-                    <th scope="col" style="width: 130px !important">
+                    <th scope="col" style="width: 120px !important">City</th>
+                    <th scope="col" style="width: 190px !important">
                       Location
                     </th>
                     <!--
     <th scope="col" style="width:120px !important;">Player Type </th>
                   -->
-                    <th scope="col" style="width: 120px !important">
+                    <th scope="col" style="width: 110px !important">
                       Media Type
                     </th>
-                    <th scope="col" style="width: 130px !important">Group</th>
-                    <th scope="col" style="width: 100px !important">
+                    <th scope="col" style="width: 190px !important">Group</th>
+                    <th scope="col" style="width: 210px !important">
                       Token Code
                     </th>
-                    <th scope="col" style="width: 100px !important">
+                    <th scope="col" style="width: 90px !important">
                       Fix IP
                     </th>
-                    <th scope="col" style="width: 90px !important">
+                    <th scope="col" style="width: 110px !important">
                       Time Zone
                     </th>
-                    <th scope="col" style="width: 150px !important">
+                    <th scope="col" style="width: 110px !important">
                       Avail. Space
                     </th>
                     <th scope="col" style="width: 50px !important" data-toggle="tooltip" data-placement="top" title="Player Version">V.</th>
-                    <th scope="col" style="width: 75px !important" data-toggle="tooltip" data-placement="top" title="Publish Status">S.</th>
-                    <th scope="col" style="width: 75px !important" data-toggle="tooltip" data-placement="top" title="Content Download Status">D.</th>
-                    <th scope="col" style="width: 30px !important" data-toggle="tooltip" data-placement="top" title="Online Indicator">OI</th>
+                    <th scope="col" style="width: 30px !important" data-toggle="tooltip" data-placement="top" title="Publish Status">S.</th>
+                    <th scope="col" style="width: 30px !important" data-toggle="tooltip" data-placement="top" title="Content Download Status">D.</th>
+                    <th scope="col" style="width: 35px !important" data-toggle="tooltip" data-placement="top" title="Online Indicator">OI</th>
                     <th scope="col" style="width: 30px !important" data-toggle="tooltip" data-placement="top" title="Hotel Tv Indicator">HI</th>
                     <th scope="col" style="width: 30px !important"></th>
-                    <th scope="col" style="width: 0px !important; display: none;"></th>
-                    <th scope="col" style="width: 0px !important; display: none;"></th>
-                    <th scope="col" style="width: 0px !important; display: none;"></th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let cLst of TokenList; let i = index">
-                    <td data-label="Country " style="font-size: 13px !important;">
-                      {{ cLst.countryName }}
-                    </td>
+                  <tr *ngFor="let cLst of TokenList | filter:searchText | slice
+                  : (pagePlayer - 1) * pageSizePlayer
+                  : (pagePlayer - 1) * pageSizePlayer + pageSizePlayer; let i = index">
                     <td data-label="City" style="font-size: 13px !important;">
                       {{ cLst.city }}
                     </td>
@@ -604,11 +592,11 @@
                     </td>
                     <td data-label="">
                       <span *ngIf="cLst.DeviceType == 'HotelTv'">
-                      <i *ngIf="cLst.IshotelTvOnline == '0'" class="fa fa-lg fa-square text-danger" aria-hidden="true"  data-toggle="tooltip" data-placement="top" title="Hotel TV Indicator"></i>
-                      <i *ngIf="cLst.IshotelTvOnline == '1'" class="fa fa-lg fa-square text-success" aria-hidden="true"  data-toggle="tooltip" data-placement="top" title="Hotel TV Indicator"></i>
+                      <i *ngIf="cLst.IshotelTvOnline == '0'" class="fa fa-lg fa-square text-danger" aria-hidden="true"  data-toggle="tooltip" data-placement="top" title="H-Info Indicator"></i>
+                      <i *ngIf="cLst.IshotelTvOnline == '1'" class="fa fa-lg fa-square text-success" aria-hidden="true"  data-toggle="tooltip" data-placement="top" title="H-Info Indicator"></i>
                     </span>
                     <span *ngIf="cLst.DeviceType != 'HotelTv'">
-                      <i class="fa fa-lg fa-square text-muted" aria-hidden="true"  data-toggle="tooltip" data-placement="top" title="Hotel TV is not active"></i>
+                      <i class="fa fa-lg fa-square text-muted" aria-hidden="true"  data-toggle="tooltip" data-placement="top" title="H-Info is not active"></i>
                     </span>
                     </td>
                     <td
@@ -618,18 +606,17 @@
                     >
                       <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                     </td>
-                    <td data-label="" style="display: none;">
-                      {{ cLst.token }}
-                    </td>
-                    <td data-label="" style="display: none;">
-                      {{ cLst.TokenStatus }}
-                    </td>
-                    <td data-label="" style="display: none;">
-                      {{ cLst.DeviceType }}
-                    </td>
+                   
                   </tr>
                 </tbody>
               </table>
+              <ngb-pagination
+                  [collectionSize]="ActivePlayerListlength"
+                  [(page)]="pagePlayer"
+                  [pageSize]="pageSizePlayer"
+                  [boundaryLinks]="true"
+                  size="sm"
+                ></ngb-pagination>
             </div>
           </div>
         </div>
@@ -1011,7 +998,8 @@
                                     [collectionSize]="ActiveTokenListlength"
                                     [(page)]="page"
                                     [pageSize]="pageSize"
-                                    aria-label="Default pagination"
+                                    [boundaryLinks]="true"
+                  size="sm"
                                     (click)="GetCheckedToken()"
                                   ></ngb-pagination>
                   </div>
@@ -1073,7 +1061,7 @@
       type="button"
       class="close text-white"
       aria-label="Close"
-      (click)="t.select(2)"
+      (click)="t.select(3)"
       (click)="tokenInfoClose()"
     >
       <span aria-hidden="true">&times;</span>
@@ -1206,7 +1194,7 @@
       type="button"
       class="close text-white"
       aria-label="Close"
-      (click)="t.select(2)"
+      (click)="t.select(3)"
       (click)="tokenInfoClose()"
     >
       <span aria-hidden="true">&times;</span>
@@ -1224,7 +1212,7 @@
       type="button"
       class="close text-white"
       aria-label="Close"
-      (click)="t.select(2)"
+      (click)="t.select(3)"
       (click)="tokenInfoClose()"
     >
       <span aria-hidden="true">&times;</span>
@@ -1378,7 +1366,7 @@
     </button>
   </div>
   <div class="modal-body">
-    <ul ngbNav #tEvents="ngbNav" activeId="1" class="nav-tabs">
+    <ul ngbNav #tEvents="ngbNav" (activeId)="1" class="nav-tabs">
       <li [ngbNavItem]="1" class="pr-2" *ngIf="!IschkViewOnly">
         <a ngbNavLink>Upload Events</a>
         <ng-template ngbNavContent>
@@ -1708,7 +1696,7 @@
           </div>
         </ng-template>
       </li>
-      <li [ngbNavItem]="4" class="pr-2" *ngIf="!IschkViewOnly">
+      <li [ngbNavItem]="5" class="pr-2" *ngIf="!IschkViewOnly">
         <a ngbNavLink>Promo Logo</a>
         <ng-template ngbNavContent>
           <div class="col-12 p-0">
@@ -2048,7 +2036,8 @@
                                     [collectionSize]="ActiveTokenListlength"
                                     [(page)]="page"
                                     [pageSize]="pageSize"
-                                    aria-label="Default pagination"
+                                    [boundaryLinks]="true"
+                  size="sm"
                                     (click)="GetCheckedToken()"
                                   ></ngb-pagination>
                   </div>

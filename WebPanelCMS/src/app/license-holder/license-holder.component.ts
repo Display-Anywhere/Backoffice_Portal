@@ -1,24 +1,5 @@
-import {
-  Component,
-  OnInit,
-  ViewContainerRef,
-  Input,
-  Output,
-  OnDestroy,
-  AfterViewInit,
-  ElementRef,
-  ViewChild,
-  QueryList,
-  ViewChildren,PipeTransform
-} from '@angular/core';
-import {
-  NgbModalConfig,
-  NgbModal,
-  NgbNavChangeEvent,
-  NgbTimepickerConfig,
-  NgbTimeStruct,
-  NgbNavModule,
-} from '@ng-bootstrap/ng-bootstrap';
+import {  Component,  OnInit,  ViewContainerRef,  Input,  Output,  OnDestroy,  AfterViewInit,  ElementRef,  ViewChild,  QueryList,  ViewChildren,PipeTransform} from '@angular/core';
+import {  NgbModalConfig,  NgbModal,  NgbNavChangeEvent,  NgbTimepickerConfig,  NgbTimeStruct,  NgbNavModule,} from '@ng-bootstrap/ng-bootstrap';
 import { SerLicenseHolderService } from '../license-holder/ser-license-holder.service';
 import { ToastrService } from 'ngx-toastr';
 import { Subject, Observable, Subscription } from 'rxjs';
@@ -75,7 +56,7 @@ export class LicenseHolderComponent
   PublishSearchList=[]
   MainTokenList = [];
   InfoTokenList = [];
-  active = 2;
+  active = 3;
 
   txtDelPer;
   cmbPlaylist = '0';
@@ -90,8 +71,8 @@ export class LicenseHolderComponent
   StateList = [];
   CityList = [];
   cmbCustomerId = '0';
-  IsTwoWayAuthActive='0'
-  FilterValue_For_Reload = 'All';
+  
+  FilterValue_For_Reload = 'Regsiter';
   @ViewChild(DataTableDirective)
   dtElement: DataTableDirective;
   dtOptions: any = {};
@@ -128,6 +109,10 @@ dtPromoStartDate = new Date()
 dtPromoEndDate = new Date()
 dtTokenExpiryDate = new Date()
 loginpage= localStorage.getItem('loginpage')
+ActivePlayerListlength=0;
+  PlayerSearchList=[]
+  pagePlayer: number = 1;
+  pageSizePlayer: number = 50;
   @ViewChild('flocation') flocationElement: ElementRef;
   constructor(
     config: NgbModalConfig,
@@ -289,7 +274,11 @@ loginpage= localStorage.getItem('loginpage')
   ngOnDestroy(): void {
     // Do not forget to unsubscribe the event
 
-    this.dtTrigger.unsubscribe();
+    try {
+      this.dtTrigger.unsubscribe();
+    } catch (error) {
+      
+    }
   }
   rerender(): void {
     this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
@@ -356,23 +345,23 @@ loginpage= localStorage.getItem('loginpage')
       this.LogoId = 0;
       this.cid = '0';
       this.MainTokenList = [];
-      this.IsTwoWayAuthActive='0'
+      this.ActivePlayerListlength=0
       return;
     }
     const obj= this.CustomerList.filter(o => o.Id == this.cmbCustomerId)
-    console.log(obj)
-    this.IsTwoWayAuthActive = obj[0].IsTwoWayAuthActive
     await this.FillDeviceLastStatus(deviceValue)
   }
+  
   FillCustomerTokenList(deviceValue){
-    this.DataTableSettings();
+    //this.DataTableSettings();
     // this.rerender();
 
     this.loading = true;
     if (this.cid != deviceValue) {
-      this.FilterValue_For_Reload = 'All';
+      this.FilterValue_For_Reload = 'Regsiter';
     }
     this.cid = deviceValue;
+    
 
     this.serviceLicense
       .FillTokenInfo(deviceValue, '0')
@@ -380,10 +369,11 @@ loginpage= localStorage.getItem('loginpage')
       .subscribe(
         (data) => {
           this.FillData(data);
-          setTimeout(() => {}, 1000);
-          this.rerender();
+          
+          
+          //this.rerender();
           if (this.searchText!=""){
-            setTimeout(() => {this.filterById();}, 1000);
+           // setTimeout(() => {this.filterById();}, 1000);
           }
           /*
           setTimeout(() => {
@@ -411,6 +401,7 @@ loginpage= localStorage.getItem('loginpage')
         this.TokenContentMatchDownload= []
       }
       this.loading = false;
+      
       this.FillCustomerTokenList(deviceValue);
         },
         (error) => {
@@ -472,58 +463,69 @@ loginpage= localStorage.getItem('loginpage')
         item['IshotelTvOnline']='0'
       }
     });
+ 
+    objData.sort((a, b) => (a.city > b.city) ? 1 : -1)
 
-
-    this.TokenList = objData;
+    //this.TokenList = objData;
     this.MainTokenList = objData;
     this.InfoTokenList = objData;
-    if (this.TokenList.length != 0) {
-      this.LogoId = this.TokenList[0].AppLogoId;
-      if (this.TokenList[0].IsIndicatorActive == '1') {
+    if (this.MainTokenList.length != 0) {
+      this.LogoId = this.MainTokenList[0].AppLogoId;
+      if (this.MainTokenList[0].IsIndicatorActive == '1') {
         this.IsIndicatorShow = true;
       } else {
         this.IsIndicatorShow = true;
       }
     }
     this.loading = false;
-   
+    
+    if (this.FilterValue_For_Reload == 'All') {
+      this.TokenList = this.MainTokenList
+    }
     if (this.FilterValue_For_Reload == 'Regsiter') {
-      this.TokenList = this.TokenList.filter((order) => order.token === 'used');
+      this.TokenList = this.MainTokenList.filter((order) => order.token === 'used');
     }
     if (this.FilterValue_For_Reload == 'Audio') {
-      this.TokenList = this.TokenList.filter(
+      this.TokenList = this.MainTokenList.filter(
         (order) => order.MediaType === 'Audio'
       );
     }
     if (this.FilterValue_For_Reload == 'Video') {
-      this.TokenList = this.TokenList.filter(
+      this.TokenList = this.MainTokenList.filter(
         (order) => order.MediaType === 'Video'
       );
     }
     if (this.FilterValue_For_Reload == 'Signage') {
-      this.TokenList = this.TokenList.filter(
+      this.TokenList = this.MainTokenList.filter(
         (order) => order.MediaType === 'Signage' && order.DeviceType != 'HotelTv'
       );
     }
     if (this.FilterValue_For_Reload == 'HotelTv') {
-      this.TokenList = this.TokenList.filter(
+      this.TokenList = this.MainTokenList.filter(
         (order) => order.DeviceType === 'HotelTv'
       );
     }
     if (this.FilterValue_For_Reload == 'UnRegsiter') {
-      this.TokenList = this.TokenList.filter(
+      this.TokenList = this.MainTokenList.filter(
         (order) => order.TokenStatus === 'UnRegsiter'
       );
     }
     if (this.FilterValue_For_Reload == 'Sanitizer') {
-      this.TokenList = this.TokenList.filter(
+      this.TokenList = this.MainTokenList.filter(
         (order) => order.DeviceType === 'Sanitizer'
       );
     }
+    this.ActivePlayerListlength= this.TokenList.length
+  }
+  sortByLastModifiedDesc() {
+    return this.TokenList.sort((a: any, b: any) => {
+      return <any>(b.city) - <any>(a.city);
+    });
   }
   async tokenInfoClose() {
     this.RefreshTokenList()
     this.modalService.dismissAll();
+    
   }
 async RefreshTokenList(){
   this.SongsList = [];
@@ -736,11 +738,11 @@ async RefreshTokenList(){
     this.uExcel = false;
     var ExportList = [];
     var ExportItem = {};
-    for (var j = 0; j < this.TokenList.length; j++) {
+    for (var j = 0; j < this.MainTokenList.length; j++) {
       ExportItem = {};
-      if (this.TokenList[j].token != 'used') {
-        ExportItem['TokenId'] = this.TokenList[j].tokenid;
-        ExportItem['TokenCode'] = this.TokenList[j].tokenCode;
+      if (this.MainTokenList[j].token != 'used') {
+        ExportItem['TokenId'] = this.MainTokenList[j].tokenid;
+        ExportItem['TokenCode'] = this.MainTokenList[j].tokenCode;
         ExportItem['Serial-MAC'] = '';
         ExportItem['Location'] = '';
         ExportItem['IsAudioPlayer'] = '';
@@ -1155,7 +1157,7 @@ async RefreshTokenList(){
       return;
     }
     localStorage.setItem('tcid', this.cid);
-    this.FilterValue_For_Reload = 'All';
+    this.FilterValue_For_Reload = 'Regsiter';
 
     this.modalService.open(gModal, { size: 'lg' });
   }
@@ -1233,7 +1235,7 @@ async RefreshTokenList(){
       this.toastr.info('This feature is not available in view only');
       return;
     }
-    this.FilterValue_For_Reload = 'All';
+    this.FilterValue_For_Reload = 'Regsiter';
     this.uExcel = false;
     this.modalService.open(InfoModal, {
       centered: true,
@@ -1424,7 +1426,7 @@ async RefreshTokenList(){
       return;
     }
     localStorage.setItem('tcid', this.cid);
-    this.FilterValue_For_Reload = 'All';
+    this.FilterValue_For_Reload = 'Regsiter';
     this.modalService.open(gModal, { size: 'lgx' });
   }
   onSort({column, direction}: SortEvent) {
@@ -2225,38 +2227,11 @@ async RefreshTokenList(){
       );
   }
 
-  UpdateTwoWayAuth(status){
-    if (this.cid == '0') {
-      this.toastr.info('Please select a customer name');
-      return;
-    }
-    if (this.IschkViewOnly==1){
-      this.toastr.info('This feature is not available in view only');
-      return;
-    }
-    this.loading = true;
-    this.serviceLicense.UpdateTwoWayAuth(this.cmbCustomerId,status).pipe().subscribe((data) => {
-          var returnData = JSON.stringify(data);
-          var obj = JSON.parse(returnData);
-          if (obj.response == '1') {
-            this.toastr.info('Saved', 'Success!');
-            this.loading = false;
-            let msg='2FA enable for '+this.cmbCustomerId+' '
-            this.IsTwoWayAuthActive = status
-            if (status=='0'){
-              msg='2FA disable for '+this.cmbCustomerId+' '
-            }
-            this.SaveModifyInfo(0,msg);
-          } else {
-            this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
-          }
-          this.loading = false;
-        },
-        (error) => {
-          this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
-          this.loading = false;
-        }
-      );
+  
+  onChangeTokenEvent(){
+    this.PlayerSearchList = this.TokenList.filter(country => this.serviceLicense.matches(country, this.searchText, this.pipe));
+    const total = this.PlayerSearchList.length;
+    this.ActivePlayerListlength =total
   }
 
 }

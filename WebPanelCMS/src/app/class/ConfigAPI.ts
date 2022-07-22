@@ -179,6 +179,7 @@ export class ConfigAPI {
    UpdatePlayerExpire: string = this.Host + 'UpdatePlayerExpire';
    CustomerLoginEmailVerify: string = this.Host + 'CustomerLoginEmailVerify';
    UpdateTwoWayAuth: string = this.Host + 'UpdateTwoWayAuth';
+   SendOTP: string = this.Host + 'SendOTP';
 }
 
 // localStorage.setItem('UserId', obj.UserId);

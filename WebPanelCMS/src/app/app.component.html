@@ -101,15 +101,7 @@
                 ><span>Player Details</span>
               </a>
             </li>
-            <li
-              class="js-scroll-trigger"
-              *ngIf="authService.chkPlaylistLibrary$ | async"
-              routerLinkActive="active"
-            >
-              <a routerLink="/PlaylistLibrary">
-                <i class="fa fa-suitcase iq-arrow-left"></i><span>Library</span>
-              </a>
-            </li>
+            
             <li
               class="js-scroll-trigger"
               *ngIf="((authService.chkUpload$ | async) && (authService.chkViewOnly$ | async)==false)"
@@ -120,6 +112,16 @@
                 ><span>Uploads</span>
               </a>
             </li>
+            <li
+              class="js-scroll-trigger"
+              *ngIf="authService.chkPlaylistLibrary$ | async"
+              routerLinkActive="active"
+            >
+              <a routerLink="/PlaylistLibrary">
+                <i class="fa fa-suitcase iq-arrow-left"></i><span>Library</span>
+              </a>
+            </li>
+            
             <li
               class="js-scroll-trigger"
               *ngIf="authService.chkScheduling$ | async"
@@ -136,9 +138,39 @@
               routerLinkActive="active"
             >
               <a routerLink="/Ads">
-                <i class="fa fa-bandcamp iq-arrow-left"></i><span>Demands</span>
+                <i class="fa fa-bandcamp iq-arrow-left"></i><span>Ads</span>
               </a>
             </li>
+            <li 
+            class="js-scroll-trigger"
+            *ngIf="
+              (((authService.chkInstantPlay$ | async) ) && (authService.chkViewOnly$ | async)==false)
+            "
+            routerLinkActive="active"
+          >
+            <a routerLink="/InstantPlay">
+              <i class="fa fa-eercast iq-arrow-left"></i
+              ><span>Instant Play</span>
+            </a>
+          </li>
+          <!--  *ngIf="authService.UserId$ == '0'"-->
+          <li
+            class="js-scroll-trigger"
+           *ngIf="((authService.UserId$ =='0') && ((authService.chkViewOnly$ | async)==false))"
+            routerLinkActive="active"
+          >
+            <a routerLink="/Users">
+              <i class="fa fa-users iq-arrow-left"></i><span>Users</span>
+            </a>
+          </li>
+          <li *ngIf="(((authService.chkEventMeeting$ | async)==false))" class="js-scroll-trigger" routerLinkActive="active">
+            <a routerLink="/Reports">
+              <i class="fa fa-table iq-arrow-left"></i><span>Stats</span>
+            </a>
+          </li>
+
+
+
             <li
               class="js-scroll-trigger"
               *ngIf="((authService.chkCopyData$ | async) && (authService.chkViewOnly$ | async)==false)"
@@ -153,28 +185,7 @@
                 <i class="fa fa-tasks iq-arrow-left"></i><span>Links</span>
               </a>
             </li>
-            <li 
-              class="js-scroll-trigger"
-              *ngIf="
-                (((authService.chkInstantPlay$ | async) ) && (authService.chkViewOnly$ | async)==false)
-              "
-              routerLinkActive="active"
-            >
-              <a routerLink="/InstantPlay">
-                <i class="fa fa-eercast iq-arrow-left"></i
-                ><span>Instant Play</span>
-              </a>
-            </li>
-            <!--  *ngIf="authService.UserId$ == '0'"-->
-            <li
-              class="js-scroll-trigger"
-             *ngIf="((authService.UserId$ =='0') && ((authService.chkViewOnly$ | async)==false))"
-              routerLinkActive="active"
-            >
-              <a routerLink="/Users">
-                <i class="fa fa-users iq-arrow-left"></i><span>Users</span>
-              </a>
-            </li>
+            
             
             <li
               class="js-scroll-trigger"
@@ -193,11 +204,7 @@
                 <i class="fa fa-ravelry iq-arrow-left"></i><span>Manual</span>
               </a>
             </li>
-            <li *ngIf="(((authService.chkEventMeeting$ | async)==false))" class="js-scroll-trigger" routerLinkActive="active">
-              <a routerLink="/Reports">
-                <i class="fa fa-table iq-arrow-left"></i><span>Stats</span>
-              </a>
-            </li>
+            
             <li *ngIf="(((authService.chkEventMeeting$ | async)==false))" class="js-scroll-trigger" class="d-none d-xl-block">
               <div class="input-group mt-1 search-input">
                 <input

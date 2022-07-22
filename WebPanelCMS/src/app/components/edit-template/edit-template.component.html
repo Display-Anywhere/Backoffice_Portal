@@ -75,7 +75,7 @@
                     <input type="button" (click)="openLibrary(modalSignage8,'Library')" class="btn btn-primary  mb-2 mr-sm-2" id="bkImage8" value="Open Library" />
                     <span><strong>{{templatedata.selected_imgName8}}</strong></span>
                   </div>
-                  <div *ngIf="((templateId!=='1') && (templateId!=='2') && (templateId!=='3') && (templateId!=='4') && (templateId!=='12') && (templateId!=='15')  && (templateId!=='16') && (templateId!=='17') && (templateId!=='18') && (templateId!=='19') && (templateId!=='21')  && (templateId!=='22') && (templateId!=='23') && (templateId!=='24') && (templateId!=='25') && (templateId!=='26') && (templateId!=='27') && (templateId!=='28') && (templateId!=='29') && (templateId!=='30'))" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-2 m-0">
+                  <div *ngIf="((templateId!=='1') && (templateId!=='2') && (templateId!=='3') && (templateId!=='4') && (templateId!=='12') && (templateId!=='15')  && (templateId!=='16') && (templateId!=='17') && (templateId!=='18') && (templateId!=='19') && (templateId!=='21')  && (templateId!=='22') && (templateId!=='23') && (templateId!=='24') && (templateId!=='25') && (templateId!=='26') && (templateId!=='27') && (templateId!=='28') && (templateId!=='29') && (templateId!=='30') && (templateId!=='31') && (templateId!=='32') && (templateId!=='33') && (templateId!=='34') && (templateId!=='35'))" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-2 m-0">
                     <label for="MediaType">Background Image Color:</label>
                     <input [(colorPicker)]="templatedata.bgImgColor" class="form-control" readonly [style.background]="templatedata.bgImgColor"/>
                   </div>
@@ -91,9 +91,37 @@
                     <label for="MediaType">Background Color:</label>
                     <input [(colorPicker)]="templatedata.bgcolor" class="form-control" readonly [style.background]="templatedata.bgcolor"/>
                   </div>
-                  <div *ngIf="((templateId!=='19') && (templateId!=='26') && (templateId!=='29'))" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0">
+                  <div *ngIf="((templateId!=='19') && (templateId!=='26') && (templateId!=='29') && (templateId!=='31') && (templateId!=='33') && (templateId!=='34') && (templateId!=='35'))" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0">
                     <label for="tHeading" class="mb-2 mr-sm-2">
                       <span>Heading:</span>
+                    </label>
+                    <input  type="text" class="form-control mb-2 mr-sm-2" id="tHeading" [(ngModel)]="templatedata.title" />
+                  </div>
+
+                  <div *ngIf="((templateId=='34'))" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0">
+                    <label for="tHeading" class="mb-2 mr-sm-2">
+                      <span>Heading 1:</span>
+                    </label>
+                    <input  type="text" class="form-control mb-2 mr-sm-2" id="tHeading" [(ngModel)]="templatedata.title" />
+                  </div>
+
+                  <div *ngIf="((templateId=='35'))" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0">
+                    <label for="tHeading" class="mb-2 mr-sm-2">
+                      <span>Heading:</span>
+                    </label>
+                    <textarea class="form-control mb-2 mr-sm-2" id="tHeading" rows="3" [(ngModel)]="templatedata.title" style="line-height: 1.5 !important;"></textarea>
+                  </div>
+
+
+                  <div *ngIf="((templateId=='33'))" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0">
+                    <label for="tHeading" class="mb-2 mr-sm-2">
+                      <span>Title 1:</span>
+                    </label>
+                    <input  type="text" class="form-control mb-2 mr-sm-2" id="tHeading" [(ngModel)]="templatedata.title" />
+                  </div>
+                  <div *ngIf="((templateId=='31'))" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0">
+                    <label for="tHeading" class="mb-2 mr-sm-2">
+                      <span>Heading 1:</span>
                     </label>
                     <input  type="text" class="form-control mb-2 mr-sm-2" id="tHeading" [(ngModel)]="templatedata.title" />
                   </div>
@@ -124,16 +152,118 @@
                   <div [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0">
                     <label for="tdesc" class="mb-2 mr-sm-2">
                       <span *ngIf="templateId==='11'">Amount 1</span>
-                      <span *ngIf="((templateId !=='11') && (templateId !=='19') && (templateId !=='25') && (templateId !=='26') && (templateId !=='29') && (templateId !=='27'))">Description</span>
+                      <span *ngIf="((templateId !=='11') && (templateId !=='19') && (templateId !=='25') && (templateId !=='26') && (templateId !=='29') && (templateId !=='27') && (templateId !=='31') && (templateId !=='32') && (templateId !=='33')&& (templateId !=='34') && (templateId !=='35'))">Description</span>
                       <span *ngIf="((templateId==='15') || (templateId==='16'))">1</span>
                       <span *ngIf="templateId==='19'">General manager</span>
                       <span *ngIf="templateId==='25'">Title 1</span>
                       <span *ngIf="templateId==='26'">Description 1</span>
                       <span *ngIf="templateId==='29'">Heading 2</span>
                       <span *ngIf="templateId==='27'">Services</span>
+                      <span *ngIf="templateId==='31'">Heading 2</span>
+                      <span *ngIf="templateId==='32'">Year</span>
+                      <span *ngIf="templateId==='33'">Title 2</span>
+                      <span *ngIf="templateId==='34'">Heading 2</span>
+                      <span *ngIf="templateId==='35'">Note</span>
                        :</label>
-                    <input *ngIf="((templateId!=='24') && (templateId!=='27'))" type="text" class="form-control mb-2 mr-sm-2" id="tdesc" [(ngModel)]="templatedata.desc"  />
-                    <textarea *ngIf="((templateId==='24') || (templateId==='27'))" class="form-control mb-2 mr-sm-2" id="tde" rows="3" [(ngModel)]="templatedata.desc" style="line-height: 1.5 !important;"></textarea>
+                    <input *ngIf="((templateId!=='24') && (templateId!=='27') && (templateId!=='35'))" type="text" class="form-control mb-2 mr-sm-2" id="tdesc" [(ngModel)]="templatedata.desc"  />
+                    <textarea *ngIf="((templateId==='24') || (templateId==='27') || (templateId==='35'))" class="form-control mb-2 mr-sm-2" id="tde" rows="3" [(ngModel)]="templatedata.desc" style="line-height: 1.5 !important;"></textarea>
+                  </div>
+
+                  <div *ngIf="templateId==='35'" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0">
+                    <label for="tdesc" class="mb-2 mr-sm-2">Website:</label>
+                    <input type="text" class="form-control mb-2 mr-sm-2" id="tdesc" [(ngModel)]="templatedata.text1"  />
+                  </div>
+                  <div *ngIf="templateId==='35'" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0">
+                    <label for="tdesc" class="mb-2 mr-sm-2">Address:</label>
+                    <input type="text" class="form-control mb-2 mr-sm-2" id="tdesc" [(ngModel)]="templatedata.text2"  />
+                  </div>
+                  <div *ngIf="templateId==='35'" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0">
+                    <label for="tdesc" class="mb-2 mr-sm-2">Contact No:</label>
+                    <input type="text" class="form-control mb-2 mr-sm-2" id="tdesc" [(ngModel)]="templatedata.text3"  />
+                  </div>
+
+
+
+                  <div *ngIf="templateId==='34'" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0">
+                    <label for="tdesc" class="mb-2 mr-sm-2">Heading 3:</label>
+                    <input type="text" class="form-control mb-2 mr-sm-2" id="tdesc" [(ngModel)]="templatedata.text1"  />
+                  </div>
+
+                  <div *ngIf="templateId==='34'" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0">
+                    <label for="tdesc" class="mb-2 mr-sm-2">Description:</label>
+                    <textarea class="form-control mb-2 mr-sm-2" id="tdd" rows="3" [(ngModel)]="templatedata.text2" style="line-height: 1.5 !important;"></textarea>
+                  </div>
+
+                  <div *ngIf="templateId==='34'" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0">
+                    <label for="tdesc" class="mb-2 mr-sm-2">Contact us:</label>
+                    <input type="text" class="form-control mb-2 mr-sm-2" id="tdesc" [(ngModel)]="templatedata.text3"  />
+                  </div>
+
+                  <div *ngIf="templateId==='34'" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0">
+                    <label for="tdesc" class="mb-2 mr-sm-2">Website:</label>
+                    <input type="text" class="form-control mb-2 mr-sm-2" id="tdesc" [(ngModel)]="templatedata.text4"  />
+                  </div>
+                  <div *ngIf="templateId==='34'" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0">
+                    <label for="tdesc" class="mb-2 mr-sm-2">Address:</label>
+                    <input type="text" class="form-control mb-2 mr-sm-2" id="tdesc" [(ngModel)]="templatedata.text5"  />
+                  </div>
+                  <div *ngIf="templateId==='34'" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0">
+                    <label for="tdesc" class="mb-2 mr-sm-2">Contact No:</label>
+                    <input type="text" class="form-control mb-2 mr-sm-2" id="tdesc" [(ngModel)]="templatedata.text6"  />
+                  </div>
+
+
+
+                  <div *ngIf="templateId==='33'" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0">
+                    <label for="tdesc" class="mb-2 mr-sm-2">Title 3:</label>
+                    <input type="text" class="form-control mb-2 mr-sm-2" id="tdesc" [(ngModel)]="templatedata.text1"  />
+                  </div>
+
+                  <div *ngIf="templateId==='33'" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0">
+                    <label for="tdesc" class="mb-2 mr-sm-2">Description:</label>
+                    <textarea class="form-control mb-2 mr-sm-2" id="tdd" rows="3" [(ngModel)]="templatedata.text2" style="line-height: 1.5 !important;"></textarea>
+                  </div>
+
+                  <div *ngIf="templateId==='33'" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0">
+                    <label for="tdesc" class="mb-2 mr-sm-2">Date/Time:</label>
+                    <input type="text" class="form-control mb-2 mr-sm-2" id="tdesc" [(ngModel)]="templatedata.text3"  />
+                  </div>
+                  <div *ngIf="templateId==='33'" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0">
+                    <label for="tdesc" class="mb-2 mr-sm-2">Contact:</label>
+                    <input type="text" class="form-control mb-2 mr-sm-2" id="tdesc" [(ngModel)]="templatedata.text4"  />
+                  </div>
+
+                  <div *ngIf="templateId==='32'" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0">
+                    <label for="tdesc" class="mb-2 mr-sm-2">Description:</label>
+                    <input type="text" class="form-control mb-2 mr-sm-2" id="tdesc" [(ngModel)]="templatedata.text1"  />
+                  </div>
+                  <div *ngIf="templateId==='32'" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0">
+                    <label for="tdesc" class="mb-2 mr-sm-2">Contact:</label>
+                    <input type="text" class="form-control mb-2 mr-sm-2" id="tdesc" [(ngModel)]="templatedata.text2"  />
+                  </div>
+                  <div *ngIf="templateId==='32'" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0">
+                    <label for="tdesc" class="mb-2 mr-sm-2">Note:</label>
+                    <input type="text" class="form-control mb-2 mr-sm-2" id="tdesc" [(ngModel)]="templatedata.text3"  />
+                  </div>
+
+                  <div *ngIf="templateId==='31'" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0">
+                    <label for="tdesc" class="mb-2 mr-sm-2">Description 1:</label>
+                    <input type="text" class="form-control mb-2 mr-sm-2" id="tdesc" [(ngModel)]="templatedata.text1"  />
+                  </div>
+
+                  <div *ngIf="templateId==='31'" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0">
+                    <label for="tdesc" class="mb-2 mr-sm-2">Description 2:</label>
+                    <input type="text" class="form-control mb-2 mr-sm-2" id="tdesc" [(ngModel)]="templatedata.text2"  />
+                  </div>
+
+                  <div *ngIf="templateId==='31'" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0">
+                    <label for="tdesc" class="mb-2 mr-sm-2">Contact:</label>
+                    <input type="text" class="form-control mb-2 mr-sm-2" id="tdesc" [(ngModel)]="templatedata.text3"  />
+                  </div>
+
+                  <div *ngIf="templateId==='31'" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0">
+                    <label for="tdesc" class="mb-2 mr-sm-2">Note:</label>
+                    <input type="text" class="form-control mb-2 mr-sm-2" id="tdesc" [(ngModel)]="templatedata.text4"  />
                   </div>
 
                   <div *ngIf="templateId==='27'" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0">
@@ -472,6 +602,20 @@
         <iframe *ngIf="IsClickPreview && cmbLibraryGenre=='325' && templateId=='29'"  [src]="IframeSRC" title="Template 8" scrolling="no" frameborder="0" width="667" height="375"></iframe> 
         <img *ngIf="!IsClickPreview && cmbLibraryGenre=='325' && templateId=='29'" src="assets/images/temp-29/29-landscape.png" alt="" class="img-fluid card-img-top w-75 mt-5 box-shadow landscape" style="margin-left: auto;margin-right: auto;display: block;"> 
 
+        <iframe *ngIf="IsClickPreview && cmbLibraryGenre=='325' && templateId=='31'"  [src]="IframeSRC" title="Template 8" scrolling="no" frameborder="0" width="667" height="375"></iframe> 
+        <img *ngIf="!IsClickPreview && cmbLibraryGenre=='325' && templateId=='31'" src="assets/images/temp-31/31-landscape.png" alt="" class="img-fluid card-img-top w-75 mt-5 box-shadow landscape" style="margin-left: auto;margin-right: auto;display: block;"> 
+
+        <iframe *ngIf="IsClickPreview && cmbLibraryGenre=='325' && templateId=='32'"  [src]="IframeSRC" title="Template 8" scrolling="no" frameborder="0" width="667" height="375"></iframe> 
+        <img *ngIf="!IsClickPreview && cmbLibraryGenre=='325' && templateId=='32'" src="assets/images/temp-32/32-landscape.png" alt="" class="img-fluid card-img-top w-75 mt-5 box-shadow landscape" style="margin-left: auto;margin-right: auto;display: block;"> 
+
+        <iframe *ngIf="IsClickPreview && cmbLibraryGenre=='325' && templateId=='33'"  [src]="IframeSRC" title="Template 8" scrolling="no" frameborder="0" width="667" height="375"></iframe> 
+        <img *ngIf="!IsClickPreview && cmbLibraryGenre=='325' && templateId=='33'" src="assets/images/temp-33/33-landscape.png" alt="" class="img-fluid card-img-top w-75 mt-5 box-shadow landscape" style="margin-left: auto;margin-right: auto;display: block;"> 
+
+        <iframe *ngIf="IsClickPreview && cmbLibraryGenre=='325' && templateId=='34'"  [src]="IframeSRC" title="Template 8" scrolling="no" frameborder="0" width="667" height="375"></iframe> 
+        <img *ngIf="!IsClickPreview && cmbLibraryGenre=='325' && templateId=='34'" src="assets/images/temp-34/34-landscape.png" alt="" class="img-fluid card-img-top w-75 mt-5 box-shadow landscape" style="margin-left: auto;margin-right: auto;display: block;"> 
+
+        <iframe *ngIf="IsClickPreview && cmbLibraryGenre=='325' && templateId=='35'"  [src]="IframeSRC" title="Template 8" scrolling="no" frameborder="0" width="667" height="375"></iframe> 
+        <img *ngIf="!IsClickPreview && cmbLibraryGenre=='325' && templateId=='35'" src="assets/images/temp-35/35-landscape.png" alt="" class="img-fluid card-img-top w-75 mt-5 box-shadow landscape" style="margin-left: auto;margin-right: auto;display: block;"> 
       </div>
 </div>
 </div>

@@ -200,9 +200,9 @@
             <div class="card bg-primary p-2 pt-3 mb-2 text-center">
               <div class="form-group">
                 <label class="mb-1 mr-sm-2 text-white"
-                  >Hotel TV <br />{{
+                  >H-Info <br />{{
                     SmartTv 
-                  }}<br>Release date: Jun-22, Version:1.13</label
+                  }}<br>Release date: Jul-22, Version:1.13</label
                 >
               </div>
               <div class="form-group">
@@ -421,6 +421,32 @@
                   
                 </div>
                 
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-sm-4 col-lg-3 mb-3 custom_space">
+            <div class="card bg-primary p-2">
+              <div>
+                <h4 class="text-white text-left custom_style">
+                  2FA Authentication
+                </h4>
+              </div>
+              <div class="col-lg-12 p-0">
+                
+                <div class="form-inline p-1" style="height: 115px;">
+                  <span for="lname1" class="col text-center pl-0 text-white">
+                    <button class="btn btn-outline-light text-white" *ngIf="(IsTwoWayAuthActive=='0')"
+                    (click)="UpdateTwoWayAuth('1')">
+                      Enable
+                    </button>
+                    <button class="btn btn-outline-light text-white" *ngIf="(IsTwoWayAuthActive=='1')"
+                    (click)="UpdateTwoWayAuth('0')">
+                    Disable
+                    </button>
+                    </span>
+                </div>
+                  
               </div>
             </div>
           </div>

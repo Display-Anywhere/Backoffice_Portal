@@ -164,7 +164,8 @@
                   [collectionSize]="ActiveTokenListlength"
                   [(page)]="page"
                   [pageSize]="pageSize"
-                  aria-label="Default pagination"
+                  [boundaryLinks]="true"
+                  size="sm"
                   (click)="GetCheckedToken()"
                 ></ngb-pagination>
                 </div>
@@ -306,7 +307,8 @@
                   [collectionSize]="ActiveTokenListlength_Reboot"
                   [(page)]="page_Reboot"
                   [pageSize]="pageSize_Reboot"
-                  aria-label="Default pagination"
+                  [boundaryLinks]="true"
+                  size="sm"
                   (click)="GetCheckedToken_Reboot()"
                 ></ngb-pagination>
                 </div>

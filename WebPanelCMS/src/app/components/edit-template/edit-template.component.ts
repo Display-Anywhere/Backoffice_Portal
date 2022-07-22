@@ -229,7 +229,51 @@ export class EditTemplateComponent implements OnInit {
       this.templatedata.text3= 'For more information: 0000-000-0000 information@misterburger.com'
       this.templatedata.bgcolor='#007bff'
     }
-
+    if (this.templateId=="31"){
+      this.templatedata.title='SCHOOL'
+      this.templatedata.desc='ADMISSION'
+      this.templatedata.text1='Now Open For'
+      this.templatedata.text2= 'Registration'
+      this.templatedata.text3= 'For more Information 000 123 456 798'
+      this.templatedata.text4= 'The Best Education For Your Children'
+      this.templatedata.bgcolor='#405649'
+    }
+    if (this.templateId=="32"){
+      this.templatedata.title='ADMISSION'
+      this.templatedata.desc='2023'
+      this.templatedata.text1='OPEN NOW'
+      this.templatedata.text2= 'For more Information 000 123 456 798'
+      this.templatedata.text3= 'The Best Education For Your Children'
+      this.templatedata.bgcolor='#FFD300'
+    }
+    if (this.templateId=="33"){
+      this.templatedata.title='Event Announcement'
+      this.templatedata.desc='Digital'
+      this.templatedata.text1='Marketing'
+      this.templatedata.text2= 'Lorem ipsum color sit amet, consecteture adiposcing elit.\nMaecenas ullamcorper enim sit am'
+      this.templatedata.text3= '27 NOVEMBER 2022 | 09:00 AM'
+      this.templatedata.text4= 'For more information email@demo.com'
+      this.templatedata.bgcolor='#022E44'
+    }
+    if (this.templateId=="34"){
+      this.templatedata.title='A Better Legal System'
+      this.templatedata.desc='Great Lawyer'
+      this.templatedata.text1='Great Law Firm'
+      this.templatedata.text2= 'Lorem ipsum color sit amet, consecteture adiposcing elit.\nMaecenas ullamcorper enim sit am'
+      this.templatedata.text3= 'CONTACT US'
+      this.templatedata.text4= 'www.yourwebsite.com'
+      this.templatedata.text5= '123 Street,BE'
+      this.templatedata.text6= '000 123 456 798'
+      this.templatedata.bgcolor='#109dab'
+    }
+    if (this.templateId=="35"){
+      this.templatedata.title='Your\nMedical\nClinic'
+      this.templatedata.desc='Lorem ipsum color sit amet, consecteture adiposcing elit.\nMaecenas ullamcorper enim sit am'
+      this.templatedata.text1= 'www.yourwebsite.com'
+      this.templatedata.text2= '123 Street,BE'
+      this.templatedata.text3 = '000 123 456 798'
+      this.templatedata.bgcolor='#062E4E'
+    }
     if (this.templateId=="15"){
       this.cmbLibraryGenre='324'
     }
@@ -392,6 +436,27 @@ export class EditTemplateComponent implements OnInit {
             }
             this.SongsList = obj.filter(o=>o.genreId==or);
           }
+          else if (this.templateId=="33"){
+            let or="324"
+            if (this.cmbLibraryGenre=="325"){
+              or="324"
+            }
+            this.SongsList = obj.filter(o=>o.genreId==or);
+          }
+          else if (this.templateId=="34"){
+            let or="324"
+            if (this.cmbLibraryGenre=="325"){
+              or="324"
+            }
+            this.SongsList = obj.filter(o=>o.genreId==or);
+          }
+          else if (this.templateId=="35"){
+            let or="324"
+            if (this.cmbLibraryGenre=="325"){
+              or="324"
+            }
+            this.SongsList = obj.filter(o=>o.genreId==or);
+          }
           else{
             this.SongsList = obj.filter(o=>o.genreId==this.cmbLibraryGenre);
           }
@@ -494,7 +559,7 @@ export class EditTemplateComponent implements OnInit {
   OpenViewContent(){
     var textoffer= this.templatedata.text1 
     var offer= textoffer.replace('%','')
-    let IframeSRC_Safe = this.templateHost+ '?templateId='+this.templateId+'&title='+this.templatedata.title+'&desc='+this.templatedata.desc.replace(/\n\r?/g, '<br />')+'&logosrc='+this.templatedata.logoimgurl+ '&ngClass='+this.templatedata.bgcolor.replace('#','')+'&imgSrc='+this.templatedata.imgurl+ '&text1='+offer+'&text2='+this.templatedata.text2+'&imgSrc2='+this.templatedata.imgurl2+'&imgSrc3='+this.templatedata.imgurl3+'&imgSrc4='+this.templatedata.imgurl4+'&imgSrc5='+this.templatedata.imgurl5+'&imgSrc6='+this.templatedata.imgurl6+'&imgSrc7='+this.templatedata.imgurl7+'&imgSrc8='+this.templatedata.imgurl8+ '&text3='+this.templatedata.text3+ '&text4='+this.templatedata.text4+ '&text5='+this.templatedata.text5+ '&text6='+this.templatedata.text6+ '&text7='+this.templatedata.text7+ '&text8='+this.templatedata.text8+ '&text9='+this.templatedata.text9+ '&text10='+this.templatedata.text10+'&bgImgColor='+this.templatedata.bgImgColor.replace('#','')+'&logosrc2='+this.templatedata.logoimgurl2
+    let IframeSRC_Safe = this.templateHost+ '?templateId='+this.templateId+'&title='+this.templatedata.title.replace(/\n\r?/g, '<br />')+'&desc='+this.templatedata.desc.replace(/\n\r?/g, '<br />')+'&logosrc='+this.templatedata.logoimgurl+ '&ngClass='+this.templatedata.bgcolor.replace('#','')+'&imgSrc='+this.templatedata.imgurl+ '&text1='+offer+'&text2='+this.templatedata.text2.replace(/\n\r?/g, '<br />')+'&imgSrc2='+this.templatedata.imgurl2+'&imgSrc3='+this.templatedata.imgurl3+'&imgSrc4='+this.templatedata.imgurl4+'&imgSrc5='+this.templatedata.imgurl5+'&imgSrc6='+this.templatedata.imgurl6+'&imgSrc7='+this.templatedata.imgurl7+'&imgSrc8='+this.templatedata.imgurl8+ '&text3='+this.templatedata.text3+ '&text4='+this.templatedata.text4+ '&text5='+this.templatedata.text5+ '&text6='+this.templatedata.text6+ '&text7='+this.templatedata.text7+ '&text8='+this.templatedata.text8+ '&text9='+this.templatedata.text9+ '&text10='+this.templatedata.text10+'&bgImgColor='+this.templatedata.bgImgColor.replace('#','')+'&logosrc2='+this.templatedata.logoimgurl2
     // 1 
     //let IframeSRC_Safe = "http://localhost:4201/#/?templateId=1&title=Wearing a Face Mask&desc=is required to enter&logosrc=http://api.nusign.eu/mp3files/238708.jpg&ngClass=bg-warning&imgSrc=&text1=&text2=" 
     // 2

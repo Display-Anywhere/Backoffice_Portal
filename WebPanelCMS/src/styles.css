@@ -276,29 +276,7 @@ th[sortableOpen].descasc:before {
 ::-webkit-input-placeholder {
   font-family: Nunito, sans-serif;
 }
-/* pagination */
-.pagination {
-  color: #333;
-  float: right;
-  text-align: right;
-  padding-top: 0.25em;
-}
-.page-item.disabled .page-link {
-  cursor: default;
-  color: #666 !important;
-  border: 1px solid transparent;
-  background: transparent;
-  box-shadow: none;
-  padding: 3px 10px;
-}
-.page-item.active .page-link {
-  padding: 3px 10px;
-  color: #4788ff !important;
-  border: 1px solid #4788ff !important;
-  background: #c9dcff !important;
-  border-radius: 5px;
-}
-/* pagination end */
+
 
 th {
   font-size: 14.5px !important;
@@ -307,15 +285,12 @@ tr,
 td {
   font-size: 14.5px !important;
 }
-.page-link {
-  position: relative;
-  display: block;
-  padding: 3px 10px !important;
-  margin-left: -1px;
-  line-height: 1.25;
-  color: #333 !important;
-  background-color: #fff;
-  border: 0;
+.pagination {
+  float: right;
+  text-align: right;
+}
+.visually-hidden{
+  display: none;
 }
 .search-results {
   height: 350px !important;
@@ -518,4 +493,8 @@ td {
 
 .modal {
   background: rgba(0, 0, 0, 0.5);
+}
+.multiselect-dropdown  .dropdown-btn {
+  height: 38px;
+
 }

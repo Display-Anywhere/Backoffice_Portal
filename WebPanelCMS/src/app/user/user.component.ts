@@ -151,6 +151,12 @@ export class UserComponent implements OnInit {
       .subscribe(data => {
         var returnData = JSON.stringify(data);
         var obj = JSON.parse(returnData);
+
+        if (obj.Responce == "2") {
+          this.toastr.error("This username already exists.", '');
+          this.loading = false;
+          return;
+        }
         if (obj.Responce == "1") {
           this.toastr.info("Saved", 'Success!');
           this.loading = false;

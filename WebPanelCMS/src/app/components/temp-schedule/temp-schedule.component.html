@@ -5,7 +5,7 @@
 </ngx-loading>
 
 <div class="col-lg-12 p-0">
-    <ul ngbNav #ttpSch="ngbNav" activeId="1" class="nav-tabs">
+    <ul ngbNav #ttpSch="ngbNav" (activeId)="1" class="nav-tabs">
       <li [ngbNavItem]="1" class="pr-2">
         <a ngbNavLink>Search</a>
         <ng-template ngbNavContent>
@@ -185,7 +185,8 @@
               [collectionSize]="ScheduleList.length"
               [(page)]="pageSearch"
               [pageSize]="pageSizeSearch"
-              aria-label="Default pagination"
+              [boundaryLinks]="true"
+                  size="sm"
             ></ngb-pagination>
           </div>
 
@@ -764,7 +765,8 @@
                   [collectionSize]="TokenList.length"
                   [(page)]="page"
                   [pageSize]="pageSize"
-                  aria-label="Default pagination"
+                  [boundaryLinks]="true"
+                  size="sm"
                   (pageChange)="loadPage($event)"
                 ></ngb-pagination>
               </div>

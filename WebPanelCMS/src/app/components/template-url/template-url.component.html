@@ -67,12 +67,13 @@
                     [collectionSize]="UrlList.length"
                     [(page)]="page"
                     [pageSize]="pageSize"
-                    aria-label="Default pagination"
+                    [boundaryLinks]="true"
+                  size="sm"
                   ></ngb-pagination>
                 </div>
             </ng-template>
           </li>
-        <li [ngbNavItem]="1" class="pr-2">
+        <li [ngbNavItem]="2" class="pr-2">
           <a ngbNavLink>AddNew</a>
             <ng-template ngbNavContent>
                 <div class="container-fluid">

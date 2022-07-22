@@ -133,7 +133,8 @@
             [collectionSize]="ScheduleList.length"
             [(page)]="pageSearch"
             [pageSize]="pageSizeSearch"
-            aria-label="Default pagination"
+            [boundaryLinks]="true"
+                  size="sm"
           ></ngb-pagination>
         </div>
       </ng-template>

@@ -411,7 +411,8 @@
             [collectionSize]="data.length"
             [(page)]="page"
             [pageSize]="pageSize"
-            aria-label="Default pagination"
+            [boundaryLinks]="true"
+                  size="sm"
             (pageChange)="loadPage($event)"
           ></ngb-pagination>
         </div>
