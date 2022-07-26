@@ -26,6 +26,11 @@ export class LoginSbitComponent implements OnInit, OnDestroy {
   IsSbit='Yes'
 
   loginDisplay = false;
+  IsTwoWayActive= "0"
+  randomNumber = ''
+  EnterOTPCode = ''
+  resApiObj:any
+
   private readonly _destroying$ = new Subject<void>();
 
   constructor(public toastr: ToastrService, private router: Router, private formBuilder: FormBuilder,
@@ -78,56 +83,17 @@ export class LoginSbitComponent implements OnInit, OnDestroy {
         this.loading = true;
       this.ulService.CustomerLoginEmailVerify(email).pipe()
         .subscribe(data => {
+          this.loading = false;
           const returnData = JSON.stringify(data);
   
           const obj = JSON.parse(returnData);
+          this.resApiObj =obj
           if (obj.Responce === '1') {
-            localStorage.setItem('UserId', obj.UserId);
-            localStorage.setItem('dfClientId', obj.dfClientId);
-            localStorage.setItem('loginclientid', obj.dfClientId);
-            localStorage.setItem('IsRf', obj.IsRf);
-            localStorage.setItem('chkDashboard', obj.chkDashboard);
-            localStorage.setItem('chkPlayerDetail', obj.chkPlayerDetail);
-            localStorage.setItem('chkPlaylistLibrary', obj.chkPlaylistLibrary);
-            localStorage.setItem('chkScheduling', obj.chkScheduling);
-            localStorage.setItem('chkAdvertisement', obj.chkAdvertisement);
-            localStorage.setItem('chkInstantPlay', obj.chkInstantPlay);
-            localStorage.setItem('ClientContentType', obj.ContentType);
-  
-            localStorage.setItem('chkUpload', obj.chkUpload);
-            localStorage.setItem('chkCopyData', obj.chkCopyData);
-            localStorage.setItem('chkStreaming', obj.chkStreaming);
-            localStorage.setItem('chkViewOnly', obj.chkViewOnly);
-            localStorage.setItem('chkEventMeeting', obj.chkEventMeeting);
-            if (obj.UserId != 0 && obj.chkEventMeeting == true){
-              localStorage.setItem('chkDashboard', 'false');
-              localStorage.setItem('chkPlayerDetail', 'true');
+            if (obj.IsTwoWayAuthActive == '1') {
+              this.SendOtpEmail(email)
+            } else {
+              this.ApiObject(obj);
             }
-            this.authService.login();
-            if ((obj.dfClientId === '6') || (obj.dfClientId === '95') || (obj.dfClientId === '6')) {
-              this.authService.IsAdminLogin();
-            }
-            else if ((obj.dfClientId === '167') && (obj.UserId==='112')) {
-              localStorage.setItem('UserId', '0');
-              this.authService.IsClienAdminLogin();
-            }
-            else if ((obj.dfClientId === '183') && (obj.UserId==='0')) {
-              this.authService.IsClienAdminLogin();
-            }
-            else {
-              this.authService.IsUserLogin();
-            }
-            
-            if (localStorage.getItem('UserId') === '-1') {
-              this.router.navigate(['DJPlaylistLibrary']);
-            }
-            else {
-              
-              this.router.navigate(['LicenseHolderControl']);
-              // this.router.navigate(['DJPlaylistLibrary']);
-            }
-  
-  
           }
           else if (obj.Responce === '0') {
             this.toastr.error('Login user/password is wrong', '');
@@ -139,7 +105,7 @@ export class LoginSbitComponent implements OnInit, OnDestroy {
             '0',
             'Login'
           );
-          this.loading = false;
+         
         },
           error => {
             this.toastr.error('Apologies for the inconvenience.The error is recorded.', '');
@@ -218,55 +184,18 @@ export class LoginSbitComponent implements OnInit, OnDestroy {
         this.loading = true;
         this.ulService.uLogin(this.loginform.value).pipe()
           .subscribe(data => {
+            this.loading = false;
             const returnData = JSON.stringify(data);
     
             const obj = JSON.parse(returnData);
+            this.resApiObj =obj
             if (obj.Responce === '1') {
-              localStorage.setItem('UserId', obj.UserId);
-              localStorage.setItem('dfClientId', obj.dfClientId);
-              localStorage.setItem('IsRf', obj.IsRf);
-              localStorage.setItem('chkDashboard', obj.chkDashboard);
-              localStorage.setItem('chkPlayerDetail', obj.chkPlayerDetail);
-              localStorage.setItem('chkPlaylistLibrary', obj.chkPlaylistLibrary);
-              localStorage.setItem('chkScheduling', obj.chkScheduling);
-              localStorage.setItem('chkAdvertisement', obj.chkAdvertisement);
-              localStorage.setItem('chkInstantPlay', obj.chkInstantPlay);
-              localStorage.setItem('ClientContentType', obj.ContentType);
-    
-              localStorage.setItem('chkUpload', obj.chkUpload);
-              localStorage.setItem('chkCopyData', obj.chkCopyData);
-              localStorage.setItem('chkStreaming', obj.chkStreaming);
-              localStorage.setItem('chkViewOnly', obj.chkViewOnly);
-              localStorage.setItem('chkEventMeeting', obj.chkEventMeeting);
-              if (obj.UserId != 0 && obj.chkEventMeeting == true){
-                localStorage.setItem('chkDashboard', 'false');
-                localStorage.setItem('chkPlayerDetail', 'true');
+              if (obj.IsTwoWayAuthActive == '1') {
+                const frmValue = this.loginform.value
+                this.SendOtpEmail(frmValue['email'])
+              } else {
+                this.ApiObject(obj);
               }
-              this.authService.login();
-              if ((obj.dfClientId === '6') || (obj.dfClientId === '95') || (obj.dfClientId === '6')) {
-                this.authService.IsAdminLogin();
-              }
-              else if ((obj.dfClientId === '167') && (obj.UserId==='112')) {
-                localStorage.setItem('UserId', '0');
-                this.authService.IsClienAdminLogin();
-              }
-              else if ((obj.dfClientId === '183') && (obj.UserId==='0')) {
-                this.authService.IsClienAdminLogin();
-              }
-              else {
-                this.authService.IsUserLogin();
-              }
-              
-              if (localStorage.getItem('UserId') === '-1') {
-                this.router.navigate(['DJPlaylistLibrary']);
-              }
-              else {
-                
-                this.router.navigate(['LicenseHolderControl']);
-                // this.router.navigate(['DJPlaylistLibrary']);
-              }
-    
-    
             }
             else if (obj.Responce === '0') {
               this.toastr.error('Login user/password is wrong', '');
@@ -278,7 +207,7 @@ export class LoginSbitComponent implements OnInit, OnDestroy {
               '0',
               'Login'
             );
-            this.loading = false;
+            
           },
             error => {
               this.toastr.error('Apologies for the inconvenience.The error is recorded.', '');
@@ -301,6 +230,106 @@ export class LoginSbitComponent implements OnInit, OnDestroy {
         this._destroying$.next(undefined);
         this._destroying$.complete();
       }
+
+
+      ApiObject(obj) {
+        localStorage.setItem('UserId', obj.UserId);
+        localStorage.setItem('dfClientId', obj.dfClientId);
+        localStorage.setItem('IsTwoWayAuthActive', obj.IsTwoWayAuthActive);
+        localStorage.setItem('loginclientid', obj.dfClientId);
+        localStorage.setItem('IsRf', obj.IsRf);
+        localStorage.setItem('chkDashboard', obj.chkDashboard);
+        localStorage.setItem('chkPlayerDetail', obj.chkPlayerDetail);
+        localStorage.setItem('chkPlaylistLibrary', obj.chkPlaylistLibrary);
+        localStorage.setItem('chkScheduling', obj.chkScheduling);
+        localStorage.setItem('chkAdvertisement', obj.chkAdvertisement);
+        localStorage.setItem('chkInstantPlay', obj.chkInstantPlay);
+        localStorage.setItem('ClientContentType', obj.ContentType);
+    
+        localStorage.setItem('chkUpload', obj.chkUpload);
+        localStorage.setItem('chkCopyData', obj.chkCopyData);
+        localStorage.setItem('chkStreaming', obj.chkStreaming);
+        localStorage.setItem('chkViewOnly', obj.chkViewOnly);
+        localStorage.setItem('chkEventMeeting', obj.chkEventMeeting);
+        if (obj.UserId != 0 && obj.chkEventMeeting == true) {
+          localStorage.setItem('chkDashboard', 'false');
+          localStorage.setItem('chkPlayerDetail', 'true');
+        }
+        this.authService.login();
+        if (
+          obj.dfClientId === '6' ||
+          obj.dfClientId === '95' ||
+          obj.dfClientId === '6'
+        ) {
+          this.authService.IsAdminLogin();
+        } else if (obj.dfClientId === '167' && obj.UserId === '112') {
+          localStorage.setItem('UserId', '0');
+          this.authService.IsClienAdminLogin();
+        } else if (obj.dfClientId === '183' && obj.UserId === '0') {
+          this.authService.IsClienAdminLogin();
+        } else {
+          this.authService.IsUserLogin();
+        }
+    
+        if (localStorage.getItem('UserId') === '-1') {
+          this.router.navigate(['DJPlaylistLibrary']);
+        } else {
+          this.router.navigate(['LicenseHolderControl']);
+          // this.router.navigate(['DJPlaylistLibrary']);
+        }
+      }
+    
+      SendOtpEmail(email) {
+        try {
+          this.loading = true;
+          const possible =
+            'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            this.randomNumber=''
+          for (var i = 0; i < 10; i++) {
+            this.randomNumber += possible.charAt(
+              Math.floor(Math.random() * possible.length)
+            );
+          }
+          this.ulService
+          .SendOTP(email, this.randomNumber.toUpperCase()).pipe().subscribe(
+            (data) => {
+              const returnData = JSON.stringify(data);
+              const obj = JSON.parse(returnData);
+              this.loading = false;
+              if (obj.Responce === '1') {
+                this.IsTwoWayActive= "1"
+                this.toastr.info('One time code is sent. Please check your email', '');
+              }
+            },
+            (error) => {
+              this.toastr.error(
+                'Apologies for the inconvenience.The error is recorded.',
+                ''
+              );
+              this.loading = false;
+            }
+          );
+          
+    
+        } catch (error) {
+          this.toastr.error(
+            'Apologies for the inconvenience.The error is recorded.',
+            ''
+          );
+          this.loading = false;
+        }
+      }
+      MatchOtp(){
+        const enterCode= this.EnterOTPCode+'_'+this.resApiObj.dfClientId
+        const sentCode=this.randomNumber.toUpperCase()+'_'+this.resApiObj.dfClientId
+        if (enterCode== sentCode){
+          this.ApiObject(this.resApiObj)
+        }
+        else{
+          this.toastr.error('One time code is not match', '');
+        }
+      }
+
     }
     
 

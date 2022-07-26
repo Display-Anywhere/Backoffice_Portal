@@ -25,11 +25,15 @@ export function loggerCallback(logLevel: LogLevel, message: string) {
 }
 
 export function MSALInstanceFactory(): IPublicClientApplication {
+  let redirectUrl = "https://nusign.eu"
+  if (localStorage.getItem('IsSbit')=="Yes"){
+    redirectUrl ="https://signage.sbit-hospitality.com"
+  }
   return new PublicClientApplication({
     auth: {
       clientId: '80a7b076-4c4a-429e-9b6f-402f3e5e49c5',
       authority: 'https://login.microsoftonline.com/common',
-      redirectUri: 'https://signage.sbit-hospitality.com'
+      redirectUri: redirectUrl
     },
     cache: {
       cacheLocation: BrowserCacheLocation.LocalStorage,
