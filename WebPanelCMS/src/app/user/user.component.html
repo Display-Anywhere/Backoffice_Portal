@@ -51,19 +51,57 @@
                                   >
                                     <thead class="bg-primary">
                                       <tr>
-                                        <th scope="col">User</th>
-                                        <th scope="col">Password</th>
+                                        <th style="width: 60px;">2FA</th>
+                                        <th scope="col" class="w-50">User</th>
+                                        <th scope="col" class="w-50">Password</th>
+                                        <th scope="col" style="width: 30px"></th>
                                         <th scope="col" style="width: 30px"></th>
                                         <th scope="col" style="width: 30px"></th>
                                       </tr>
                                     </thead>
                                     <tbody>
-                                      <tr *ngFor="let uLst of UserList">
+                                      <tr *ngFor="let uLst of UserList;let i = index">
+                                        <td>
+                                          <div
+                                                  class="custom-control custom-checkbox mb-2 mr-sm-2"
+                                                >
+                                                  <input
+                                                    (change)="
+                                                    Enable_Disable_2FA(uLst.id, $event)
+                                                    "
+                                                    type="checkbox"
+                                                    class="custom-control-input"
+                                                    id="{{ uLst.id }}"
+                                                    [checked]="uLst.check"
+                                                    name="chkToken"
+                                                  />
+                                                  <label
+                                                    class="custom-control-label"
+                                                    for="{{ uLst.id }}"
+                                                    style="justify-content: left"
+                                                    >&nbsp;</label
+                                                  >
+                                                </div>
+                                        </td>
                                         <td>
                                           {{ uLst.UserName1 }}
                                         </td>
                                         <td>
-                                          {{ uLst.Password1 }}
+                                          <span *ngIf="uLst.showPassword =='0'">*********</span>
+                                          <span *ngIf="uLst.showPassword =='1'">{{uLst.Password1}}</span>
+                                          
+                                        </td>
+                                        <td>
+                                          <i *ngIf="uLst.showPassword =='0'"
+                                            class="fa fa-eye text-primary"
+                                            (click)="showpassword(uLst.id,'show')"
+                                            aria-hidden="true"
+                                          ></i>
+                                          <i *ngIf="uLst.showPassword =='1'"
+                                            class="fa fa-eye-slash text-primary"
+                                            (click)="showpassword(uLst.id,'hide')"
+                                            aria-hidden="true"
+                                          ></i>
                                         </td>
                                         <td>
                                           <i

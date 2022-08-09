@@ -174,28 +174,7 @@ else{
 
 
   UpdateTwoWayAuth(status){
-    if (this.IschkViewOnly==1){
-      this.toastr.info('This feature is not available in view only');
-      return;
-    }
-    this.loading = true;
-    this.serviceLicense.UpdateTwoWayAuth(status).pipe().subscribe((data) => {
-          var returnData = JSON.stringify(data);
-          var obj = JSON.parse(returnData);
-          if (obj.response == '1') {
-            this.toastr.info('Saved', 'Success!');
-            this.loading = false;
-            this.IsTwoWayAuthActive= status
-          } else {
-            this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
-          }
-          this.loading = false;
-        },
-        (error) => {
-          this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
-          this.loading = false;
-        }
-      );
+    
   }
 
 }

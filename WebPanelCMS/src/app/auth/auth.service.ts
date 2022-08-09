@@ -20,7 +20,7 @@ export class AuthServiceOwn {
   public chkUpload$: BehaviorSubject<boolean>;
   public chkCopyData$: BehaviorSubject<boolean>;
   public chkStreaming$: BehaviorSubject<boolean>;
-
+  public IsTwoWayAuthActive$: string = "0";
   public ContentType$: string = "";
   public ClientContentType$: string = "";
   public isTokenInfoClose$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
@@ -42,10 +42,12 @@ export class AuthServiceOwn {
     if ((localStorage.getItem('dfClientId') == '167') && localStorage.getItem('UserId')==='112') {
       LoginClientAdminid = true;
     }
+    else if ((localStorage.getItem('dfClientId') == '183') && localStorage.getItem('UserId')==='0') {
+      LoginClientAdminid = true;
+    }
     else {
       LoginClientAdminid = false;
     }
-
     this.IsAdminLogin$ = new BehaviorSubject(LoginClientid);
     this.IsClientAdminLogin$ = new BehaviorSubject(LoginClientAdminid);
 
@@ -84,6 +86,7 @@ export class AuthServiceOwn {
 
 
     this.UserId$ = localStorage.getItem('UserId');
+    this.IsTwoWayAuthActive$ = localStorage.getItem('IsTwoWayAuthActive');
     this.ClientId$.next(localStorage.getItem('dfClientId'));
     this.ContentType$ = localStorage.getItem('ContentType');
     this.ClientContentType$ = localStorage.getItem('ClientContentType');
@@ -96,6 +99,9 @@ export class AuthServiceOwn {
     // logic
     localStorage.setItem('loggedIn', 'true');
     this.isLoggedIn$.next(true);
+  }
+  SetTwoWayAuthActive() {
+    this.IsTwoWayAuthActive$ = localStorage.getItem('IsTwoWayAuthActive');
   }
   SetContenType() {
     this.ContentType$ = localStorage.getItem('ContentType');
@@ -123,6 +129,7 @@ export class AuthServiceOwn {
     this.UserRights();
   }
   UserRights() {
+    this.IsTwoWayAuthActive$ = localStorage.getItem('IsTwoWayAuthActive');
     this.UserId$ = localStorage.getItem('UserId');
     this.ContentType$ = localStorage.getItem('ContentType');
     this.ClientContentType$ = localStorage.getItem('ClientContentType');

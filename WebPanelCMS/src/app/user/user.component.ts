@@ -250,12 +250,27 @@ export class UserComponent implements OnInit {
       .subscribe(data => {
         var returnData = JSON.stringify(data);
         this.UserList = JSON.parse(returnData);
+        this.UserList.forEach(item => {
+          item['showPassword']="0"
+          
+        });
         this.loading = false;
       },
         error => {
           this.toastr.error("Apologies for the inconvenience.The error is recorded.", '');
           this.loading = false;
         })
+  }
+  showpassword(id,status){
+    console.log(id+'  ==  '+ status)
+    this.UserList.forEach(item => {
+      if ((item['id']==id) && (status=='show')){
+        item['showPassword']="1"
+      }
+      if ((item['id']==id) && (status=='hide')){
+        item['showPassword']="0"
+      }
+    });
   }
   onClickEditUser(id) {
     this.loading = true;
@@ -451,5 +466,30 @@ export class UserComponent implements OnInit {
     this.f.chkCopyData.setValue(e);
     this.f.chkStreaming.setValue(e);
     this.f.chkEventMeeting.setValue(false);
+  }
+  Enable_Disable_2FA(id, event) {
+    let status= "0"
+    if(event.target.checked == true){
+      status= "1"
+    }
+
+    this.loading = true;
+    this.serviceLicense.UpdateTwoWayAuth(status,id).pipe().subscribe((data) => {
+          var returnData = JSON.stringify(data);
+          var obj = JSON.parse(returnData);
+          if (obj.response == '1') {
+            this.toastr.info('Saved', 'Success!');
+            this.loading = false;
+            this.FillUserList(this.did);
+          } else {
+            this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
+          }
+          this.loading = false;
+        },
+        (error) => {
+          this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
+          this.loading = false;
+        }
+      );
   }
 }

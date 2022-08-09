@@ -321,9 +321,9 @@ UpdatePlayerExpire(tokenid,expiryDate) {
   return this.http.post(this.cApi.UpdatePlayerExpire, params, { headers: headers })
     .pipe((data => { return data; }))
 }
-UpdateTwoWayAuth(TwoWayAuthStatus) {
+UpdateTwoWayAuth(TwoWayAuthStatus,UserId) {
   let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-  var params = JSON.stringify({ ClientId: localStorage.getItem('dfClientId'), TwoWayAuthStatus: TwoWayAuthStatus,UserId:localStorage.getItem('UserId') });
+  var params = JSON.stringify({ ClientId: localStorage.getItem('dfClientId'), TwoWayAuthStatus: TwoWayAuthStatus,UserId:UserId });
   return this.http.post(this.cApi.UpdateTwoWayAuth, params, { headers: headers })
     .pipe((data => { return data; }))
 }

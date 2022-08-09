@@ -11,6 +11,7 @@ import { TokenInfoServiceService } from './components/token-info/token-info-serv
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { AuthService } from '@auth0/auth0-angular';
+import { SerLicenseHolderService } from './license-holder/ser-license-holder.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -32,7 +33,7 @@ export class AppComponent implements OnInit {
     private tService: TokenInfoServiceService,
     public toastr: ToastrService,
     public auth: AuthServiceOwn,
-    private router: Router,private auth0: AuthService
+    private router: Router,private auth0: AuthService, private serviceLicense: SerLicenseHolderService
   ) {
     
   }
@@ -113,5 +114,26 @@ export class AppComponent implements OnInit {
     }
     this.router.navigate([rotue]);
     
+  }
+  Enable_Disable_2FA(status) {
+    this.loading = true;
+    this.serviceLicense.UpdateTwoWayAuth(status,'0').pipe().subscribe((data) => {
+          var returnData = JSON.stringify(data);
+          var obj = JSON.parse(returnData);
+          if (obj.response == '1') {
+            this.toastr.info('Saved', 'Success!');
+            this.loading = false;
+            localStorage.setItem('IsTwoWayAuthActive', status);
+            this.auth.SetTwoWayAuthActive()
+          } else {
+            this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
+          }
+          this.loading = false;
+        },
+        (error) => {
+          this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
+          this.loading = false;
+        }
+      );
   }
 }
