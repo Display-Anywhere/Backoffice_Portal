@@ -1,0 +1,15 @@
+<ul ngbNav #ktpUrl="ngbNav" (activeId)="1" class="nav-tabs">
+    <li [ngbNavItem]="1" class="pr-2">
+        <a ngbNavLink>Logs</a>
+        <ng-template ngbNavContent>
+            <app-rep-machine-logs></app-rep-machine-logs>
+        </ng-template>
+    </li>
+    <li [ngbNavItem]="2" class="pr-2">
+        <a ngbNavLink>Dispenser Change Logs</a>
+        <ng-template ngbNavContent>
+            <app-rep-machine-dispenser-change-log></app-rep-machine-dispenser-change-log>
+        </ng-template>
+    </li>
+</ul>
+<div [ngbNavOutlet]="ktpUrl" class="mt-2"></div>

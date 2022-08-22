@@ -3224,7 +3224,7 @@ if (MediaType!="Url"){
   window.open(url, '_blank'); 
   return
 }
-
+console.log(url)
     localStorage.setItem("ViewContent",url)
     localStorage.setItem("oType",oType)
     if (oType=="496"){

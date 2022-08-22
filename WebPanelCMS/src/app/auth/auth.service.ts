@@ -5,6 +5,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class AuthServiceOwn {
   public isLoggedIn$: BehaviorSubject<boolean>;
+  public isKpnActive$: BehaviorSubject<boolean>;
   public IsAdminLogin$: BehaviorSubject<boolean>;
   public IsClientAdminLogin$: BehaviorSubject<boolean>;
   public UserId$: string = "0";
@@ -84,6 +85,8 @@ export class AuthServiceOwn {
     const chkStreaming = localStorage.getItem('dfClientId') === 'true';
     this.chkStreaming$ = new BehaviorSubject(chkStreaming);
 
+    const isKpnActive = localStorage.getItem('isKpnActive') === 'true';
+    this.isKpnActive$ = new BehaviorSubject(isKpnActive);
 
     this.UserId$ = localStorage.getItem('UserId');
     this.IsTwoWayAuthActive$ = localStorage.getItem('IsTwoWayAuthActive');
@@ -133,6 +136,12 @@ export class AuthServiceOwn {
     this.UserId$ = localStorage.getItem('UserId');
     this.ContentType$ = localStorage.getItem('ContentType');
     this.ClientContentType$ = localStorage.getItem('ClientContentType');
+    if (localStorage.getItem('isKpnActive') == 'true') {
+      this.isKpnActive$.next(true);
+    }
+    else {
+      this.isKpnActive$.next(false);
+    }
     if (localStorage.getItem('chkDashboard') == 'true') {
       this.chkDashboard$.next(true);
     }

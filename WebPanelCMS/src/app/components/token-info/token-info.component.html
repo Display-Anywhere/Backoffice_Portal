@@ -491,6 +491,25 @@
     </div>
 
 
+    <div
+        class="form-group col-sm-3 pb-1 m-0 mb-2 custom-control custom-checkbox"
+        *ngIf="
+        Client_IsKpnActive == '1' && f.DeviceType.value == 'HotelTv'
+        "
+      >
+        <input
+          type="checkbox"
+          class="custom-control-input"
+          id="chkKpnActive"
+          formControlName="IsKpnActive"
+          [checked]="chkIsKpnActive"
+          name="chkKpnActive"
+        />
+        <label class="custom-control-label ml-4" for="chkKpnActive"
+          >Active KPN</label
+        >
+      </div>
+
 
       <!-- total shots -->
       <div

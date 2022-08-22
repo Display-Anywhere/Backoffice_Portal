@@ -24,6 +24,7 @@ export class TokenInfoComponent implements OnInit {
   submitted = false;
   chkIndicatorBox: boolean = false;
   chkShotMsg: boolean = false;
+  chkIsKpnActive: boolean = false;
   chkShowKeyboard=false;
   public loading = false;
   CountryList = [];
@@ -81,6 +82,7 @@ export class TokenInfoComponent implements OnInit {
   prvGroupId="0";
   ScheduleList=[]
   HotelTvDefaultPlaylist =[]
+  Client_IsKpnActive='0'
   @ViewChild('flocation') flocationElement: ElementRef;
   constructor(
     private router: Router,
@@ -164,7 +166,8 @@ export class TokenInfoComponent implements OnInit {
       IsCheckGroupSchedule:[false],
       Maplocation:[''],
       FixIp:[''],
-      playlistlimit:[0]
+      playlistlimit:[0],
+      IsKpnActive: [false]
     });
     this.TokenInfoModifyPlaylist = this.formBuilder.group({
       ModifyPlaylistName: [''],
@@ -565,6 +568,7 @@ this.submitted = true;this.loading = true;
             TotalShot: [objTokenData[0].TotalShot],
             AlertMail: [objTokenData[0].AlertMail],
             IsShowShotToast: [objTokenData[0].IsShowShotToast],
+            IsKpnActive: [objTokenData[0].IsKpnActive],
             OsVersion:[objTokenData[0].OsVersion],
             isShowKeyboardToast: [objTokenData[0].isShowKeyboardToast],
             dfclientid: [objTokenData[0].ClientId],
@@ -576,6 +580,8 @@ this.submitted = true;this.loading = true;
          
           this.chkIndicatorBox = objTokenData[0].Indicator;
           this.chkShotMsg = objTokenData[0].IsShowShotToast;
+          this.chkIsKpnActive = objTokenData[0].IsKpnActive;
+          this.Client_IsKpnActive=objTokenData[0].Client_IsKpnActive;
           this.chkShowKeyboard = objTokenData[0].isShowKeyboardToast;
           this.ClientId = objTokenData[0].ClientId;
           this.ModifyStateId = objTokenData[0].state;

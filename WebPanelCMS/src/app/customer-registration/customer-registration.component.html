@@ -466,13 +466,18 @@
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                           <a class="dropdown-item" href="javascript:;" (click)="SendMail(cLst.id)">Send email</a>
-                          
-                          <a class="dropdown-item" href="javascript:;" *ngIf="IsSbit == 'No'">
+                          <a class="dropdown-item" href="javascript:;">
+                            <span *ngIf="cLst.IsKpnActive === '0'" class="cursor-pointer text-primary" (click)="UpdateKPNStatus('1',cLst.id)">Active KPN</span>
+                            <span *ngIf="cLst.IsKpnActive === '1'" class="cursor-pointer text-danger" (click)="UpdateKPNStatus('0',cLst.id)">Disable KPN</span>
+                          </a>
+
+
+                          <a class="dropdown-item d-none" href="javascript:;" *ngIf="IsSbit == 'No'">
                             <span *ngIf="cLst.Key === ''" class="cursor-pointer text-primary" (click)="TemplateAccess(cLst.id)">Template Access</span>
                             <span *ngIf="cLst.Key != ''">Template Activated</span>
                           </a>
                           
-                          <a class="dropdown-item" href="javascript:;" *ngIf="IsSbit == 'No'">
+                          <a class="dropdown-item d-none" href="javascript:;" *ngIf="IsSbit == 'No'">
                             <span *ngIf="cLst.IsTemplateActive === '0'" class="cursor-pointer text-primary" (click)="UpdateExpiryDate_Template_Creator(cLst.id,'Active',cLst.expiryDate,cLst.Key)">Active Template License</span>
                             <span *ngIf="cLst.IsTemplateActive === '1'" class="cursor-pointer text-danger" (click)="UpdateExpiryDate_Template_Creator(cLst.id,'Disable',cLst.expiryDate,cLst.Key)">Disable Template License</span>
                           </a>

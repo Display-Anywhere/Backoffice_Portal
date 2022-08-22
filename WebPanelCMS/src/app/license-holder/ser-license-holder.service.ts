@@ -327,4 +327,20 @@ UpdateTwoWayAuth(TwoWayAuthStatus,UserId) {
   return this.http.post(this.cApi.UpdateTwoWayAuth, params, { headers: headers })
     .pipe((data => { return data; }))
 }
+kpnLogin() {
+  return this.http.get(this.cApi.KPNLogin)
+    .pipe((data => { return data; }))
+}
+GetKpnChannels() {
+  let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+  var params = JSON.stringify({ code: localStorage.getItem('code')});
+  return this.http.post(this.cApi.GetKpnChannels, params, { headers: headers })
+    .pipe((data => { return data; }))
+}
+GetKpnChannelDetails(channelid) {
+  let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+  var params = JSON.stringify({ code: localStorage.getItem('code'), chid:channelid});
+  return this.http.post(this.cApi.GetKpnChannelDetail, params, { headers: headers })
+    .pipe((data => { return data; }))
+}
 }

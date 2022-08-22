@@ -34,12 +34,12 @@
         <div class="row m-0 p-0">
           <div class="col-lg-6 ml-0 pl-0" >
             <button *ngIf="((IsSbit == 'No') && (OtherKey !=''))"
-            class="btn btn-primary w-100 custombutton"
+            class="btn btn-primary w-100 custombutton d-none"
             (click)="OpenEditTemplates('')">
             Edit Templates
           </button>
           </div>
-          <div class="col-lg-6 ml-0 pl-0">
+          <div class="col-lg-6 ml-0 pl-0" *ngIf="cmbCustomerMediaType == 'Signage'">
             <button
             class="btn btn-primary w-100 custombutton"
             (click)="OpenTemplatesUrl(templateurl)">

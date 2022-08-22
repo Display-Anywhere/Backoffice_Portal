@@ -308,7 +308,7 @@ if (this.cmbGenre=='0'){
     let IframeSRC_Safe = this.templateHost+ '?templateId='+content[0].templateId+'&title='+content[0].title+'&desc='+content[0].desc+'&logosrc='+content[0].logosrc+ '&ngClass='+bgcolor+'&imgSrc='+content[0].imgSrc+ '&text1='+content[0].text1+'&text2='+content[0].text2+ '&text3='+content[0].text3+'&text4='+content[0].text4+'&imgSrc2='+content[0].imgSrc2+'&imgSrc3='+content[0].imgSrc3+'&imgSrc4='+content[0].imgSrc4+'&imgSrc5='+content[0].imgSrc5+'&imgSrc6='+content[0].imgSrc6+'&imgSrc7='+content[0].imgSrc7+'&imgSrc8='+content[0].imgSrc8+ '&text5='+content[0].text5+ '&text6='+content[0].text6+ '&text7='+content[0].text7+ '&text8='+content[0].text8+ '&text9='+content[0].text9+ '&text10='+content[0].text10
     url= IframeSRC_Safe
     if (event.target.checked) {
-      if(duration>60){
+      if(duration>180){
         this.toastr.info("You can enter maximum duration up to 60 seconds", '');
         this.TemplateList.forEach(item => {
           if (item["id"] == id){

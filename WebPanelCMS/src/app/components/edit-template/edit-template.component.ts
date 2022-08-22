@@ -62,6 +62,7 @@ export class EditTemplateComponent implements OnInit {
     selected_imgName8:'',
     bgImgColor:'#000'
     }
+    MenuList=[]
   templateId=  localStorage.getItem("edittemplate")
   isDisabled=true
   txtTemplateName=''
@@ -277,12 +278,14 @@ export class EditTemplateComponent implements OnInit {
     if (this.templateId=="15"){
       this.cmbLibraryGenre='324'
     }
+
     if (this.edittemplategenre === 'LS'){
       this.cmbLibraryGenre='325'
     }
     if (this.edittemplategenre === 'PT'){
       this.cmbLibraryGenre='324'
     }
+
     if ((this.templateId=="2") && ((this.cmbLibraryGenre=="324"))){
       this.templatedata.bgImgColor='#000000'
     }
@@ -301,12 +304,16 @@ export class EditTemplateComponent implements OnInit {
     if (t_data.genreId =="496"){
       genreId="325"
     }
-    if (this.cmbLibraryGenre=="495"){
+    if (t_data.genreId=="495"){
       genreId="324"
     }
       this.cmbLibraryGenre = genreId
       this.cmbCustomerId= t_data.clientid
       this.txtTemplateName= t_data.TemplateName
+      if (this.templateId =='37'){
+        this.MenuList = JSON.parse(t_data.text10)
+      }
+      
       this.OpenViewContent()
     }
   }
@@ -457,6 +464,13 @@ export class EditTemplateComponent implements OnInit {
             }
             this.SongsList = obj.filter(o=>o.genreId==or);
           }
+          else if (this.templateId=="37"){
+            let or="325"
+            if (this.cmbLibraryGenre=="324"){
+              or="325"
+            }
+            this.SongsList = obj.filter(o=>o.genreId==or);
+          }
           else{
             this.SongsList = obj.filter(o=>o.genreId==this.cmbLibraryGenre);
           }
@@ -557,6 +571,7 @@ export class EditTemplateComponent implements OnInit {
     this.auth.SetEditTemplateOpen(false)
   }
   OpenViewContent(){
+    this.templatedata.text10 = JSON.stringify(this.MenuList)
     var textoffer= this.templatedata.text1 
     var offer= textoffer.replace('%','')
     let IframeSRC_Safe = this.templateHost+ '?templateId='+this.templateId+'&title='+this.templatedata.title.replace(/\n\r?/g, '<br />')+'&desc='+this.templatedata.desc.replace(/\n\r?/g, '<br />')+'&logosrc='+this.templatedata.logoimgurl+ '&ngClass='+this.templatedata.bgcolor.replace('#','')+'&imgSrc='+this.templatedata.imgurl+ '&text1='+offer+'&text2='+this.templatedata.text2.replace(/\n\r?/g, '<br />')+'&imgSrc2='+this.templatedata.imgurl2+'&imgSrc3='+this.templatedata.imgurl3+'&imgSrc4='+this.templatedata.imgurl4+'&imgSrc5='+this.templatedata.imgurl5+'&imgSrc6='+this.templatedata.imgurl6+'&imgSrc7='+this.templatedata.imgurl7+'&imgSrc8='+this.templatedata.imgurl8+ '&text3='+this.templatedata.text3+ '&text4='+this.templatedata.text4+ '&text5='+this.templatedata.text5+ '&text6='+this.templatedata.text6+ '&text7='+this.templatedata.text7+ '&text8='+this.templatedata.text8+ '&text9='+this.templatedata.text9+ '&text10='+this.templatedata.text10+'&bgImgColor='+this.templatedata.bgImgColor.replace('#','')+'&logosrc2='+this.templatedata.logoimgurl2
@@ -697,6 +712,11 @@ export class EditTemplateComponent implements OnInit {
     imgurl5:'',
     imgurl6:''
     */
+   let text_10= this.templatedata.text10
+   if (this.templateId =='37'){
+    text_10 =''
+    text_10 = JSON.stringify(this.MenuList)
+   }
     let cnt =
       [{
         templateId:this.templateId,
@@ -715,7 +735,7 @@ export class EditTemplateComponent implements OnInit {
         text7:this.templatedata.text7,
         text8:this.templatedata.text8,
         text9:this.templatedata.text9,
-        text10:this.templatedata.text10,
+        text10:text_10,
         imgSrc2:this.templatedata.imgurl2.replace('http:','https:'),
         imgSrc3:this.templatedata.imgurl3.replace('http:','https:'),
         imgSrc4:this.templatedata.imgurl4.replace('http:','https:'),
@@ -863,5 +883,22 @@ export class EditTemplateComponent implements OnInit {
   ResetCompanylogo2 (){
     this.templatedata.selected_logoName2 =''
     this.templatedata.logoimgurl2 =''
+  }
+  addMenu(){
+    this.MenuList=[
+      ...this.MenuList,
+      {
+        id:Math.random(),
+        title: this.templatedata.desc,
+        price: this.templatedata.text1,
+        desc:this.templatedata.text2,
+      }
+    ]
+    this.templatedata.desc =""
+    this.templatedata.text1 =""
+    this.templatedata.text2 =""
+  }
+  removeMenu(id){
+    this.MenuList= this.MenuList.filter(o => o.id != id)
   }
 }

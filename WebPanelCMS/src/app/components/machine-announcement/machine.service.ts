@@ -118,4 +118,30 @@ export class MachineService {
     return this.http.post(this.cApi.GetInstantMobileAnnouncement, params, { headers: headers })
       .pipe((data => { return data; }))
   }
+
+  AssignKpnChannels(TokenId,channel){
+    let headers = new HttpHeaders({ 'Content-Type':'application/json' });
+    var params = JSON.stringify({ TokenId: TokenId,channel:channel});
+    
+    return this.http.post(this.cApi.AssignKpnChannels,params,{headers:headers})
+     .pipe((data=>{return data;}))
+  } 
+  GetPlayerKpnChannels(tokenid) {
+    let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    var params = JSON.stringify({ tokenid: tokenid });
+    return this.http.post(this.cApi.GetPlayerKpnChannels, params, { headers: headers })
+      .pipe((data => { return data; }))
+  }
+  RemovePlayerKpnChannel(_id) {
+    let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    var params = JSON.stringify({ _id: _id });
+    return this.http.post(this.cApi.RemovePlayerKpnChannel, params, { headers: headers })
+      .pipe((data => { return data; }))
+  }
+  GetKpnChannelSummary(channelid) {
+    let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    var params = JSON.stringify({ channelid: channelid });
+    return this.http.post(this.cApi.GetKpnChannelSummary, params, { headers: headers })
+      .pipe((data => { return data; }))
+  }
 }

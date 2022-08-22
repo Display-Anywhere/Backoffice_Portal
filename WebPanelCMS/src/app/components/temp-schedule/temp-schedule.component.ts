@@ -645,6 +645,7 @@ if (errorFound==="Yes"){
         (data) => {
           var returnData = JSON.stringify(data);
           var obj = JSON.parse(returnData);
+          obj= obj.filter(o => o.IsKpnActive =='0')
           const objfrm = this.SFform.value;
           var objmType = this.cmbMediaType.split(' ');
           let mtype = '';

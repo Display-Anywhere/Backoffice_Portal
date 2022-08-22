@@ -2,3 +2,4 @@
 /WebPanelCMS/src/assets/images/*.png
 *.png
 *.jpg
+/WebPanelCMS/src/assets/images/*.zip

@@ -60,13 +60,14 @@ export class LoginComponent implements OnInit,OnDestroy {
       });
     this.authService.logout();
     localStorage.setItem('DBType', 'Nusign');
+    localStorage.setItem('code','')
     localStorage.setItem('IsSbit', this.IsSbit);
 
     localStorage.setItem('loginpage', this.loginpage);
     if (localStorage.getItem('DBType') === 'Advikon') {
       this.emailText = 'jan@advikon.eu';
     } else {
-      this.emailText = 'info@nusign.be';
+      this.emailText = 'jan@advikon.eu';
     }
     localStorage.setItem('IsAnnouncement', '0');
     this.loginform = this.formBuilder.group({
@@ -160,6 +161,7 @@ export class LoginComponent implements OnInit,OnDestroy {
     localStorage.setItem('chkStreaming', obj.chkStreaming);
     localStorage.setItem('chkViewOnly', obj.chkViewOnly);
     localStorage.setItem('chkEventMeeting', obj.chkEventMeeting);
+    localStorage.setItem('isKpnActive','true') 
     if (obj.UserId != 0 && obj.chkEventMeeting == true) {
       localStorage.setItem('chkDashboard', 'false');
       localStorage.setItem('chkPlayerDetail', 'true');

@@ -180,6 +180,15 @@ export class ConfigAPI {
    CustomerLoginEmailVerify: string = this.Host + 'CustomerLoginEmailVerify';
    UpdateTwoWayAuth: string = this.Host + 'UpdateTwoWayAuth';
    SendOTP: string = this.Host + 'SendOTP';
+
+   KPNLogin: string = this.Host + 'KPNLogin';
+   GetKpnChannels: string = this.Host + 'GetKpnChannels';
+   GetKpnChannelDetail: string = this.Host + 'GetKpnChannelDetail';
+   UpdateClientKPNStatus: string = this.Host + 'UpdateClientKPNStatus';
+   AssignKpnChannels: string = this.Host + 'AssignKpnChannels';
+   GetPlayerKpnChannels: string = this.Host + 'GetPlayerKpnChannels';
+   RemovePlayerKpnChannel: string = this.Host + 'RemovePlayerKpnChannel';
+   GetKpnChannelSummary: string = this.Host + 'GetKpnChannelSummary';
 }
 
 // localStorage.setItem('UserId', obj.UserId);

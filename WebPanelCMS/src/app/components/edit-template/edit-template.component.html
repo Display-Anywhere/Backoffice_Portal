@@ -75,7 +75,7 @@
                     <input type="button" (click)="openLibrary(modalSignage8,'Library')" class="btn btn-primary  mb-2 mr-sm-2" id="bkImage8" value="Open Library" />
                     <span><strong>{{templatedata.selected_imgName8}}</strong></span>
                   </div>
-                  <div *ngIf="((templateId!=='1') && (templateId!=='2') && (templateId!=='3') && (templateId!=='4') && (templateId!=='12') && (templateId!=='15')  && (templateId!=='16') && (templateId!=='17') && (templateId!=='18') && (templateId!=='19') && (templateId!=='21')  && (templateId!=='22') && (templateId!=='23') && (templateId!=='24') && (templateId!=='25') && (templateId!=='26') && (templateId!=='27') && (templateId!=='28') && (templateId!=='29') && (templateId!=='30') && (templateId!=='31') && (templateId!=='32') && (templateId!=='33') && (templateId!=='34') && (templateId!=='35'))" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-2 m-0">
+                  <div *ngIf="((templateId!=='1') && (templateId!=='2') && (templateId!=='3') && (templateId!=='4') && (templateId!=='12') && (templateId!=='15')  && (templateId!=='16') && (templateId!=='17') && (templateId!=='18') && (templateId!=='19') && (templateId!=='21')  && (templateId!=='22') && (templateId!=='23') && (templateId!=='24') && (templateId!=='25') && (templateId!=='26') && (templateId!=='27') && (templateId!=='28') && (templateId!=='29') && (templateId!=='30') && (templateId!=='31') && (templateId!=='32') && (templateId!=='33') && (templateId!=='34') && (templateId!=='35') && (templateId!=='37'))" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-2 m-0">
                     <label for="MediaType">Background Image Color:</label>
                     <input [(colorPicker)]="templatedata.bgImgColor" class="form-control" readonly [style.background]="templatedata.bgImgColor"/>
                   </div>
@@ -87,11 +87,11 @@
                     <label for="MediaType">Background Image Color:</label>
                     <input [(colorPicker)]="templatedata.bgImgColor" class="form-control" readonly [style.background]="templatedata.bgImgColor"/>
                   </div>
-                  <div  *ngIf="((templateId!=='15') &&(templateId!=='7') && (templateId!=='10') && (templateId!=='12') && (templateId!=='13') && (templateId!=='14')  && (templateId!=='16') &&(templateId!=='17')&&(templateId!=='18') &&(templateId!=='19'))" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-2 m-0">
+                  <div  *ngIf="((templateId!=='15') &&(templateId!=='7') && (templateId!=='10') && (templateId!=='12') && (templateId!=='13') && (templateId!=='14')  && (templateId!=='16') &&(templateId!=='17')&&(templateId!=='18') &&(templateId!=='19') &&(templateId!=='37'))" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-2 m-0">
                     <label for="MediaType">Background Color:</label>
                     <input [(colorPicker)]="templatedata.bgcolor" class="form-control" readonly [style.background]="templatedata.bgcolor"/>
                   </div>
-                  <div *ngIf="((templateId!=='19') && (templateId!=='26') && (templateId!=='29') && (templateId!=='31') && (templateId!=='33') && (templateId!=='34') && (templateId!=='35'))" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0">
+                  <div *ngIf="((templateId!=='19') && (templateId!=='26') && (templateId!=='29') && (templateId!=='31') && (templateId!=='33') && (templateId!=='34') && (templateId!=='35') && (templateId!=='37'))" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0">
                     <label for="tHeading" class="mb-2 mr-sm-2">
                       <span>Heading:</span>
                     </label>
@@ -149,7 +149,7 @@
                       </label>
                     <input type="text" class="form-control mb-2 mr-sm-2" id="tdesc" [(ngModel)]="templatedata.text1"  />
                   </div>
-                  <div [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0">
+                  <div *ngIf="templateId!='37'" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0">
                     <label for="tdesc" class="mb-2 mr-sm-2">
                       <span *ngIf="templateId==='11'">Amount 1</span>
                       <span *ngIf="((templateId !=='11') && (templateId !=='19') && (templateId !=='25') && (templateId !=='26') && (templateId !=='29') && (templateId !=='27') && (templateId !=='31') && (templateId !=='32') && (templateId !=='33')&& (templateId !=='34') && (templateId !=='35'))">Description</span>
@@ -483,6 +483,60 @@
                     <label for="tdesc" class="mb-2 mr-sm-2">Duration(Seconds):</label>
                     <input type="text" class="form-control mb-2 mr-sm-2" id="tduration" [(ngModel)]="templatedata.duration"  />
                   </div>
+                  <div *ngIf="(templateId=='37')" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0">
+                    <label for="tHeading" class="mb-2 mr-sm-2">
+                      <span>Heading:</span>
+                    </label>
+                    <input  type="text" class="form-control mb-2 mr-sm-2" id="tHeading" [(ngModel)]="templatedata.title" />
+                  </div>
+                  <div *ngIf="(templateId=='37')" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0">
+                    <label for="tHeading" class="mb-2 mr-sm-2">
+                      <span>Title:</span>
+                    </label>
+                    <input  type="text" class="form-control mb-2 mr-sm-2" id="tHeading" [(ngModel)]="templatedata.desc" />
+                  </div>
+                  <div *ngIf="(templateId=='37')" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0">
+                    <label for="tHeading" class="mb-2 mr-sm-2">
+                      <span>Price:</span>
+                    </label>
+                    <input  type="text" class="form-control mb-2 mr-sm-2" id="tHeading" [(ngModel)]="templatedata.text1" />
+                  </div>
+                  <div *ngIf="(templateId=='37')" [ngClass]="cmbLibraryGenre === '325'?'col-sm-11': 'col-sm-11'" class="form-group pb-1 m-0">
+                    <label for="tHeading" class="mb-2 mr-sm-2">
+                      <span>Description:</span>
+                    </label>
+                    <input  type="text" class="form-control mb-2 mr-sm-2" id="tHeading" [(ngModel)]="templatedata.text2" />
+                  </div>
+                  <div *ngIf="(templateId=='37')" [ngClass]="cmbLibraryGenre === '325'?'col-sm-1': 'col-sm-1'" class="form-group pb-1 m-0">
+                    <label for="tHeading" class="mb-2 mr-sm-2">
+                      <span>&nbsp;</span>
+                    </label>
+                    <button id="tHeading" class="btn btn-primary" (click)="addMenu()">
+                      <i class="fa fa-plus" aria-hidden="true"></i>
+                  </button>
+                    
+                  </div>
+                  <div *ngIf="(templateId=='37')" [ngClass]="cmbLibraryGenre === '325'?'col-sm-12': 'col-sm-12'" class="form-group pb-1 m-0">
+                    <div class="table-responsive">
+                      <table class="table table table-striped table-sm table-bordered">
+                        <thead class="bg-primary">
+                          <tr>
+                            <th class="text-white" scope="col">Title</th>
+                            <th class="text-white" scope="col" style="width:100px">Price</th>
+                            <th class="text-white" scope="col" style="width:30px"></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let sgLst of MenuList">
+                            <td data-label="Title">{{ sgLst.title }}</td>
+                            <td data-label="Price">{{ sgLst.price }}</td>
+                            <td data-label="" (click)="removeMenu(sgLst.id)"><i class="fa fa-minus-circle" aria-hidden="true"></i></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    
+                  </div>
                   <div [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0" style="margin-top: 1.8rem !important;">
                     <button class="btn btn-primary mr-2" type="button" (click)="OpenViewContent()">Preview</button>
                     <button class="btn btn-primary mr-2" type="button" (click)="SaveTemplate()">Save</button>
@@ -616,6 +670,10 @@
 
         <iframe *ngIf="IsClickPreview && cmbLibraryGenre=='325' && templateId=='35'"  [src]="IframeSRC" title="Template 8" scrolling="no" frameborder="0" width="667" height="375"></iframe> 
         <img *ngIf="!IsClickPreview && cmbLibraryGenre=='325' && templateId=='35'" src="assets/images/temp-35/35-landscape.png" alt="" class="img-fluid card-img-top w-75 mt-5 box-shadow landscape" style="margin-left: auto;margin-right: auto;display: block;"> 
+
+        <iframe *ngIf="IsClickPreview   && templateId=='37'"  [src]="IframeSRC" title="Template 2"  frameborder="0" scrolling="no" width="450" height="667" style="border: 2px solid #ededed;"></iframe> 
+        <img *ngIf="!IsClickPreview   && templateId=='37'" src="assets/images/temp-15/15-landscape.png" alt="" style="width: 371px;height: 661px;"> 
+
       </div>
 </div>
 </div>

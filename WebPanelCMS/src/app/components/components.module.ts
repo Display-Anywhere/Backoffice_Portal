@@ -61,6 +61,9 @@ import { PlayeractivationlogComponent } from './playeractivationlog/playeractiva
 import { ColorPickerModule } from 'ngx-color-picker';
 import { HoteltvPlayedLogsComponent } from './hoteltv-played-logs/hoteltv-played-logs.component';
 import { LoginSbitComponent } from './login-sbit/login-sbit.component';
+import { KpnChannelsComponent } from './kpn-channels/kpn-channels.component';
+import { SanitizerLogsComponent } from './sanitizer-logs/sanitizer-logs.component';
+import { KpnSummaryComponent } from './kpn-summary/kpn-summary.component';
 export const MY_CUSTOM_FORMATS = {
   parseInput: 'LL LT',
   fullPickerInput: 'LL LT',
@@ -114,7 +117,10 @@ EditTemplateComponent,
 AssigncustomersComponent,
 PlayeractivationlogComponent,
 HoteltvPlayedLogsComponent,
-LoginSbitComponent
+LoginSbitComponent,
+KpnChannelsComponent,
+SanitizerLogsComponent,
+KpnSummaryComponent
 ],
  
   exports: [
@@ -157,7 +163,9 @@ TemplateListComponent,
 AssigncustomersComponent,
 PlayeractivationlogComponent,
 HoteltvPlayedLogsComponent,
-LoginSbitComponent
+LoginSbitComponent,
+SanitizerLogsComponent,
+KpnSummaryComponent
   ],
     imports: [
     CommonModule,
