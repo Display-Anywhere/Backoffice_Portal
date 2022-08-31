@@ -6,6 +6,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
 export class AuthServiceOwn {
   public isLoggedIn$: BehaviorSubject<boolean>;
   public isKpnActive$: BehaviorSubject<boolean>;
+  public isSanitizerActive$: BehaviorSubject<boolean>;
   public IsAdminLogin$: BehaviorSubject<boolean>;
   public IsClientAdminLogin$: BehaviorSubject<boolean>;
   public UserId$: string = "0";
@@ -88,6 +89,9 @@ export class AuthServiceOwn {
     const isKpnActive = localStorage.getItem('isKpnActive') === 'true';
     this.isKpnActive$ = new BehaviorSubject(isKpnActive);
 
+    const isSanitizerActive = localStorage.getItem('isSanitizerActive') === 'true';
+    this.isSanitizerActive$ = new BehaviorSubject(isSanitizerActive);
+    
     this.UserId$ = localStorage.getItem('UserId');
     this.IsTwoWayAuthActive$ = localStorage.getItem('IsTwoWayAuthActive');
     this.ClientId$.next(localStorage.getItem('dfClientId'));
@@ -142,6 +146,13 @@ export class AuthServiceOwn {
     else {
       this.isKpnActive$.next(false);
     }
+    if (localStorage.getItem('isSanitizerActive') == 'true') {
+      this.isSanitizerActive$.next(true);
+    }
+    else {
+      this.isSanitizerActive$.next(false);
+    }
+    
     if (localStorage.getItem('chkDashboard') == 'true') {
       this.chkDashboard$.next(true);
     }

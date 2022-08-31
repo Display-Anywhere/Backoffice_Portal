@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthServiceOwn } from '../auth/auth.service';
 @Component({
   selector: 'app-report',
   templateUrl: './report.component.html',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class ReportComponent implements OnInit {
   
 IsAdminLogin:boolean= false;
-  constructor(){}
+  constructor(public authService: AuthServiceOwn){}
   ngOnInit() {
     if ((localStorage.getItem('dfClientId') == "2") || (localStorage.getItem('dfClientId') == "6")) {
       this.IsAdminLogin = true;

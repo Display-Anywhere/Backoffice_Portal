@@ -467,8 +467,12 @@
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                           <a class="dropdown-item" href="javascript:;" (click)="SendMail(cLst.id)">Send email</a>
                           <a class="dropdown-item" href="javascript:;">
-                            <span *ngIf="cLst.IsKpnActive === '0'" class="cursor-pointer text-primary" (click)="UpdateKPNStatus('1',cLst.id)">Active KPN</span>
-                            <span *ngIf="cLst.IsKpnActive === '1'" class="cursor-pointer text-danger" (click)="UpdateKPNStatus('0',cLst.id)">Disable KPN</span>
+                            <span *ngIf="cLst.IsKpnActive === '0'" class="cursor-pointer text-primary" (click)="UpdateKPNStatus('1',cLst.id)">Activate KPN</span>
+                            <span *ngIf="cLst.IsKpnActive === '1'" class="cursor-pointer text-danger" (click)="UpdateKPNStatus('0',cLst.id)">Deactivate KPN</span>
+                          </a>
+                          <a class="dropdown-item" href="javascript:;">
+                            <span *ngIf="cLst.isSanitizerActive === '0'" class="cursor-pointer text-primary" (click)="UpdateSanitizerStatus('1',cLst.id)">Activate Sanitizer</span>
+                            <span *ngIf="cLst.isSanitizerActive === '1'" class="cursor-pointer text-danger" (click)="UpdateSanitizerStatus('0',cLst.id)">Deactivate Sanitizer</span>
                           </a>
 
 

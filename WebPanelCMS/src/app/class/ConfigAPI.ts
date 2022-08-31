@@ -189,6 +189,7 @@ export class ConfigAPI {
    GetPlayerKpnChannels: string = this.Host + 'GetPlayerKpnChannels';
    RemovePlayerKpnChannel: string = this.Host + 'RemovePlayerKpnChannel';
    GetKpnChannelSummary: string = this.Host + 'GetKpnChannelSummary';
+   UpdateClientSanitizerStatus: string = this.Host + 'UpdateClientSanitizerStatus';
 }
 
 // localStorage.setItem('UserId', obj.UserId);

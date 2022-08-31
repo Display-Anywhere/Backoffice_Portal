@@ -278,7 +278,7 @@
           </option>
           <option
             [selected]="chkSanitizer"
-            *ngIf="f.chkMediaType.value == 'Signage'"
+            *ngIf="((f.chkMediaType.value == 'Signage') && (isSanitizerActive))"
             value="Sanitizer"
           >
             Sanitizer
@@ -506,7 +506,7 @@
           name="chkKpnActive"
         />
         <label class="custom-control-label ml-4" for="chkKpnActive"
-          >Active KPN</label
+          >Activate KPN</label
         >
       </div>
 
@@ -654,7 +654,7 @@
       <li>
         <a data-toggle="tab" href="#menu5" class="nav-link">Future Schedule</a>
       </li>
-      <li>
+      <li *ngIf="isSanitizerActive">
         <a data-toggle="tab" href="#menu3" class="nav-link"
           >Sanitizer Announcement
         </a>

@@ -164,6 +164,7 @@ export class PlaylistLibraryComponent implements OnInit {
   PlaylistExpiryList=[];
   cmbPublishId=""
   IsSbit= localStorage.getItem('IsSbit')
+  isSanitizerActive=false
   async ngOnInit() {
     localStorage.setItem('IsAnnouncement', '0');
     $('#dis').attr('unselectable', 'on');
@@ -373,6 +374,7 @@ export class PlaylistLibraryComponent implements OnInit {
     const url='https://content.nusign.eu/api/login?key='+ obj[0].apikey;
     this.OtherUrl= url+'&redirectUri=https://content.nusign.eu/my-templates/';
     this.OtherKey=obj[0].apikey;
+    this.isSanitizerActive= obj[0].isSanitizerActive
   }
   onChangeCustomerMediaType(id) {
     this.IscmbCustomerMediaTypeChange=true

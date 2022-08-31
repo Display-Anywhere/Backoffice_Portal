@@ -36,12 +36,12 @@
                     >Content Summary</a
                   >
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" *ngIf="authService.isSanitizerActive$ | async">
                   <a class="nav-link" data-toggle="tab" href="#MachineLog"
                     >Sanitizer Logs</a
                   >
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" *ngIf="authService.isKpnActive$ | async">
                   <a
                     class="nav-link"
                     data-toggle="tab"

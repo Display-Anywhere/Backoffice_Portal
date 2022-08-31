@@ -161,7 +161,8 @@ export class LoginComponent implements OnInit,OnDestroy {
     localStorage.setItem('chkStreaming', obj.chkStreaming);
     localStorage.setItem('chkViewOnly', obj.chkViewOnly);
     localStorage.setItem('chkEventMeeting', obj.chkEventMeeting);
-    localStorage.setItem('isKpnActive','true') 
+    localStorage.setItem('isKpnActive',obj.isKpnActive) 
+    localStorage.setItem('isSanitizerActive',obj.isSanitizerActive) 
     if (obj.UserId != 0 && obj.chkEventMeeting == true) {
       localStorage.setItem('chkDashboard', 'false');
       localStorage.setItem('chkPlayerDetail', 'true');

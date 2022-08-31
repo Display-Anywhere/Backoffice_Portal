@@ -178,6 +178,14 @@ insForm () {
   }
   FillFormat() {
     var qry = "";
+    var innerQry=""
+    if ((this.cmbCustomerMediaType == 'Signage') || (this.cmbCustomerMediaType == 'Video')){
+      innerQry= " and sf.mediatype in('Signage','Video') "
+    }
+    else{
+      innerQry= " and sf.mediatype in('"+this.cmbCustomerMediaType+"') "
+    }
+    
     if (this.auth.IsAdminLogin$.value == true) {
       qry = "FillFormat 0,'" + localStorage.getItem('DBType') + "'";
     } else {
@@ -196,9 +204,8 @@ insForm () {
       this.cid +
       ' OR sf.dfclientid=' +
       this.cid +
-      ") and sf.mediatype='" +
-      this.cmbCustomerMediaType +
-      "' group by  sf.formatname";
+      ")"+ innerQry +
+      "  group by  sf.formatname";
       this.loading = true;
       this.sfService.FillCombo(qry).pipe()
         .subscribe(data => {

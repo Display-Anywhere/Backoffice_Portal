@@ -79,4 +79,10 @@ export class CustomerRegService {
     return this.http.post(this.cApi.UpdateClientKPNStatus, params, {headers})
      .pipe((data => data));
   }
+  UpdateClientSanitizerStatus(aStatus,dfclientid){
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const params = JSON.stringify({aStatus: aStatus, dfclientid: dfclientid,loginclientid:null,expiryDate:null});
+    return this.http.post(this.cApi.UpdateClientSanitizerStatus, params, {headers})
+     .pipe((data => data));
+  }
 }

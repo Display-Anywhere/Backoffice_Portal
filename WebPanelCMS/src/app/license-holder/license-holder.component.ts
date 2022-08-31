@@ -57,7 +57,7 @@ export class LicenseHolderComponent
   MainTokenList = [];
   InfoTokenList = [];
   active = 3;
-
+  isSanitizerActive=false
   txtDelPer;
   cmbPlaylist = '0';
   tokenid;
@@ -349,6 +349,7 @@ ActivePlayerListlength=0;
       return;
     }
     const obj= this.CustomerList.filter(o => o.Id == this.cmbCustomerId)
+    this.isSanitizerActive= obj[0].isSanitizerActive
     await this.FillDeviceLastStatus(deviceValue)
   }
   
@@ -743,7 +744,7 @@ async RefreshTokenList(){
       if (this.MainTokenList[j].token != 'used') {
         ExportItem['TokenId'] = this.MainTokenList[j].tokenid;
         ExportItem['TokenCode'] = this.MainTokenList[j].tokenCode;
-        ExportItem['Serial-MAC'] = '';
+        ExportItem['MAC'] = '';
         ExportItem['Location'] = '';
         ExportItem['IsAudioPlayer'] = '';
         ExportItem['IsCopyright'] = '';
@@ -751,6 +752,7 @@ async RefreshTokenList(){
         ExportItem['IsSignagePlayer'] = '';
         ExportItem['IsVideoPlayer'] = '';
         ExportItem['IsSanitizerPlayer'] = '';
+        ExportItem['IsH-Info'] = '';
         ExportList.push(ExportItem);
       }
     }

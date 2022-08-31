@@ -12,7 +12,7 @@ export const CommonComponentsRoutes: Route[] = [
     component: PlayeractivationlogComponent
   },
   {
-    path: 'kpnchannels',
+    path: 'kpn',
     component: KpnChannelsComponent
   }
 ];

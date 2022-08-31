@@ -282,7 +282,7 @@
               >
               <ng-template ngbNavContent> </ng-template>
             </li>
-            <li [ngbNavItem]="6">
+            <li [ngbNavItem]="6" *ngIf="isSanitizerActive">
               <a
                 ngbNavLink
                 (click)="FilterTokenList('Sanitizer')"
