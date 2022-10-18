@@ -1,2 +1,0 @@
-- name: Github Sync
-  uses: repo-sync/https://github.com/DisplayAnywhere/WebPanel.git
