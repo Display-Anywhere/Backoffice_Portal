@@ -68,7 +68,7 @@ export class EditTemplateComponent implements OnInit {
   txtTemplateName=''
   IsClickPreview= false
   IframeSRC: SafeResourceUrl
-   //templateHost ='http://localhost:4201'
+   //templateHost ='http://localhost:4202'
    templateHost ='https://templates.nusign.eu'
   constructor(private serviceLicense: SerLicenseHolderService,public toastr: ToastrService,
     public auth:AuthServiceOwn,private pService: PlaylistLibService,private modalService: NgbModal,
@@ -855,6 +855,9 @@ export class EditTemplateComponent implements OnInit {
       return true
     }
     else if (this.templateId ==='26'){
+      return true
+    }
+    else if (this.templateId ==='39'){
       return true
     }
     else{

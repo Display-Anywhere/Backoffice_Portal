@@ -10,7 +10,7 @@ export class ReportComponent implements OnInit {
 IsAdminLogin:boolean= false;
   constructor(public authService: AuthServiceOwn){}
   ngOnInit() {
-    if ((localStorage.getItem('dfClientId') == "2") || (localStorage.getItem('dfClientId') == "6")) {
+    if ((localStorage.getItem('dfClientId') == "95") || (localStorage.getItem('dfClientId') == "183")) {
       this.IsAdminLogin = true;
       
     }

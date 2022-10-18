@@ -290,6 +290,13 @@
         >
           H-Info
         </option>
+        <option
+          [selected]="chkWhiteBoard"
+          *ngIf="f.chkMediaType.value == 'Signage'"
+          value="WhiteBoard"
+        >
+        E-link
+        </option>
 
           <!--
                             <option  *ngIf="f.chkMediaType.value == 'Audio'" value=""></option>

@@ -33,8 +33,8 @@
                             <tr>
                                 <th scope="col">Name</th>
                                 <th scope="col">Orientation</th>
-                                <th scope="col">Duration (Seconds)</th>
-                                <th scope="col">Refersh Time (Seconds)</th>
+                                <th scope="col">Duration </th>
+                                <th scope="col">Refersh Time</th>
                                 <th scope="col" class="Link-Center_Width"></th>
                                 <th scope="col" class="Link-Center_Width"></th>
                               </tr>
@@ -50,8 +50,22 @@
                                   <span *ngIf="adLst.cmbGenre==='496'">Landscape Url</span>  
                                   <span *ngIf="adLst.cmbGenre==='495'">Portrait Url</span>  
                                   </td>
-                                  <td  data-label="Duration">{{adLst.duration}}</td>
-                                  <td  data-label="Refersh Time">{{adLst.refersh}}</td>
+                                  <td  data-label="Duration">
+                                    <span *ngIf="adLst.Url_Time_With_Min == false">
+                                      {{adLst.duration}} Seconds 
+                                    </span>
+                                    <span *ngIf="adLst.Url_Time_With_Min == true">
+                                      {{adLst.duration_min}} Minutes
+                                    </span>
+                                  </td>
+                                  <td  data-label="Refersh Time">
+                                    <span *ngIf="adLst.Url_Time_With_Min == false">
+                                      {{adLst.refersh}} Seconds
+                                    </span>
+                                    <span *ngIf="adLst.Url_Time_With_Min == true">
+                                      {{adLst.refershtime_min}} Minutes
+                                    </span>
+                                  </td>
                                   <td data-label="" class="cursor-pointer Link-Center_Width">
                                 <a href="javascript:;" (click)="EditUrl(adLst)" (click)="UrlActiveTabId = 2">
                                   <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
@@ -117,19 +131,37 @@
                               >
                               <input type="text" formControlName="urlName" id="cName" autocomplete="off" class="form-control mb-2 mr-sm-2"/>
                             </div>
-                            <div class="form-group col-sm-2 m-0">
+                            <div class="form-group col-sm-1 m-0">
+                              <div class="custom-control custom-checkbox  mb-2 mt-5">
+                                <input type="checkbox"  formControlName="Url_Time_With_Min" class="custom-control-input" id="customCheck" name="example1">
+                                <label class="custom-control-label" for="customCheck">Minutes</label>
+                              </div>    
+                            </div>
+                            <div *ngIf="frmU.Url_Time_With_Min.value == true" class="form-group col-sm-2 m-0">
+                              <label for="cName" class="mb-2 mr-sm-2"
+                              >Duration (Minutes):</label
+                            >
+                            <input type="number" min="1" formControlName="duration_min" id="cName" autocomplete="off" class="form-control mb-2 mr-sm-2"/>
+                          </div>
+                          <div *ngIf="frmU.Url_Time_With_Min.value == true" class="form-group col-sm-2 m-0">
+                            <label for="cName" class="mb-2 mr-sm-2"
+                            >Refersh Time (Minutes):</label
+                          >
+                          <input type="number" min="2" formControlName="refershtime_min" id="cName" autocomplete="off" class="form-control mb-2 mr-sm-2"/>
+                        </div>
+                            <div *ngIf="frmU.Url_Time_With_Min.value == false" class="form-group col-sm-2 m-0">
                               <label for="cName" class="mb-2 mr-sm-2"
                               >Duration (Seconds):</label
                             >
                             <input type="number" min="20" formControlName="duration" id="cName" autocomplete="off" class="form-control mb-2 mr-sm-2"/>
                           </div>
-                          <div class="form-group col-sm-2 m-0">
+                          <div *ngIf="frmU.Url_Time_With_Min.value == false" class="form-group col-sm-2 m-0">
                             <label for="cName" class="mb-2 mr-sm-2"
                             >Refersh Time (Seconds):</label
                           >
                           <input type="number" min="40" formControlName="refersh" id="cName" autocomplete="off" class="form-control mb-2 mr-sm-2"/>
                         </div>
-                            <div class="form-group col-sm-4 m-0">
+                            <div class="form-group col-sm-3 m-0">
                                 <label for="cName" class="mb-2 mr-sm-2"
                                   >Template Url:</label
                                 >

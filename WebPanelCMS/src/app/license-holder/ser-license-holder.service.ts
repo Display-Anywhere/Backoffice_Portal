@@ -343,4 +343,27 @@ GetKpnChannelDetails(channelid) {
   return this.http.post(this.cApi.GetKpnChannelDetail, params, { headers: headers })
     .pipe((data => { return data; }))
 }
+GetJoanDeviceStatus() {
+  let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+  return this.http.get(this.cApi.GetJoanDeviceStatus, { headers: headers })
+    .pipe((data => { return data; }))
+}
+UpdateRoomsPaxOccupancy(json) {
+  let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+  var params = json;
+  return this.http.post(this.cApi.UpdateRoomsPaxOccupancy, params, { headers: headers })
+    .pipe((data => { return data; }))
+}
+SaveRoomEvent(json) {
+  let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+  var params = json;
+  return this.http.post(this.cApi.SaveRoomEvent, params, { headers: headers })
+    .pipe((data => { return data; }))
+}
+DeleteRoomEvent(id) {
+  let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+  var params = JSON.stringify({ pschid: id});
+  return this.http.post(this.cApi.DeleteRoomEvent, params, { headers: headers })
+    .pipe((data => { return data; }))
+}
 }

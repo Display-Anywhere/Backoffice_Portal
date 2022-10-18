@@ -48,11 +48,11 @@
                       </a>
                       
                       <a class="dropdown-item" href="javascript:;" (click)="SetIndicator(true)" 
-                      *ngIf="((this.auth.chkEventMeeting$.value ==false))">
+                      *ngIf="((this.auth.chkEventMeeting$.value ==false) && (ShowIndicator))">
                         Show Indicator
                       </a>
                       <a class="dropdown-item" href="javascript:;" (click)="SetIndicator(false)" 
-                      *ngIf="((this.auth.chkEventMeeting$.value ==false))">
+                      *ngIf="((this.auth.chkEventMeeting$.value ==false) && (!ShowIndicator))">
                         Disable Indicator
                       </a>
                       <a class="dropdown-item" href="javascript:;" (click)="ForceUpdateModal(modalForceUpdate)"
@@ -113,7 +113,7 @@
                   padding: 0.475rem 0.6rem"
                 />
               </div>
-              <div *ngIf="((this.auth.chkEventMeeting$.value ==false))" class="form-group col-sm-1 m-0">
+              <div *ngIf="((this.auth.chkEventMeeting$.value ==false) && (!ShowIndicator))" class="form-group col-sm-1 m-0">
                 <label for="btnIndi" class="d-none d-xl-block mb-2 mr-sm-2"
                   >&nbsp;</label
                 >
@@ -126,7 +126,7 @@
                   style="width: 100%;width: 100%;font-size: 14px;padding: 0.475rem 0.60rem;"
                 />
               </div>
-              <div *ngIf="((this.auth.chkEventMeeting$.value ==false))" class="form-group col-sm-1 m-0">
+              <div *ngIf="((this.auth.chkEventMeeting$.value ==false) && (ShowIndicator))" class="form-group col-sm-1 m-0">
                 <label for="btnIndi" class="d-none d-xl-block mb-2 mr-sm-2"
                   >&nbsp;</label
                 >
@@ -160,7 +160,7 @@
                   type="button"
                   id="btnExport"
                   class="btn btn-primary mb-2 mr-sm-2 mr-1"
-                  (click)="BulkActivation(modalUploadExcel)"
+                  (click)="BulkActivation(modalUploadBulkCommon)"
                   value="Bulk"
                   style="width: 100%;font-size: 14px;
                   padding: 0.475rem 0.6rem"
@@ -313,6 +313,15 @@
             <li [ngbNavItem]="9">
               <a
                 ngbNavLink
+                (click)="FilterTokenList('WhiteBoard')"
+                class="form-control-Tab mt-1"
+                >E-link</a
+              >
+              <ng-template ngbNavContent> </ng-template>
+            </li>
+            <li [ngbNavItem]="10">
+              <a
+                ngbNavLink
                 (click)="FilterTokenList('UnRegsiter')"
                 class="form-control-Tab mt-1"
                 >Un-Registered</a
@@ -320,7 +329,7 @@
               <ng-template ngbNavContent> </ng-template>
             </li>
              
-            <li [ngbNavItem]="10" *ngIf="((this.auth.chkEventMeeting$.value ==false))">
+            <li [ngbNavItem]="11" *ngIf="((this.auth.chkEventMeeting$.value ==false))">
               <a
                 ngbNavLink
                 (click)="OpenGroupsModal(modalManageGroups)"
@@ -329,7 +338,7 @@
               >
               <ng-template ngbNavContent> </ng-template>
             </li>
-            <li [ngbNavItem]="11" *ngIf="((this.auth.chkEventMeeting$.value ==false))">
+            <li [ngbNavItem]="12" *ngIf="((this.auth.chkEventMeeting$.value ==false))">
               <a
                 ngbNavLink
                 (click)="OpenOpeningHoursModal(modalManageOpeningHours)"
@@ -338,10 +347,10 @@
               >
               <ng-template ngbNavContent> </ng-template>
             </li>
-            <li [ngbNavItem]="12" *ngIf="((this.auth.chkEventMeeting$.value ==false))">
+            <li [ngbNavItem]="13" *ngIf="((this.auth.chkEventMeeting$.value ==false))" class="d-none">
               <a
                 ngbNavLink
-                (click)="OpenUpdateInfo(modalUpdateInfo)"
+                (click)="OpenUpdateInfo(modalUploadBulkCommon)"
                 class="form-control-Tab mt-1"
                 >Player Info</a
               >
@@ -1433,7 +1442,145 @@
            
         </ng-template>
       </li>
-      <li [ngbNavItem]="2" class="pr-2">
+      <li [ngbNavItem]="2" class="pr-2" *ngIf="!IschkViewOnly">
+        <a ngbNavLink>Add Events</a>
+        <ng-template ngbNavContent>
+          <div class="container-fluid">
+          <form [formGroup]="frmEvent" class="p-0">
+            <div class="form-row">
+              <div class="form-group col-sm-3 pb-1 m-0"  >
+                <label for="SearchFromDate" class="mb-2 mr-sm-2">Event Date:</label>
+                <input
+                  id="SearchFromDate"
+                  class="form-control mb-2 mr-sm-2"
+                  [owlDateTimeTrigger]="dtFromDate"
+                  formControlName="edate"
+                  [owlDateTime]="dtFromDate"
+                  readonly
+                />
+                <owl-date-time
+                  [pickerType]="'calendar'"
+                  (afterPickerClosed)="CheckEventDateDays()"
+                  #dtFromDate
+                ></owl-date-time>
+
+            </div>
+              <div class="form-group col-sm-4 pb-1 m-0">
+                <label for="token" class="mb-2 mr-sm-2" #flocation>Display Name:</label>
+                <input
+                  type="text" 
+                  formControlName="dname"
+                  class="form-control mb-2 mr-sm-2"
+                  id="location"
+                />
+              </div>
+              <div class="form-group col-sm-4 pb-1 m-0">
+                <label for="cName" class="mb-2 mr-sm-2" #flocation
+                    >Room:</label
+                  >
+                  <select formControlName="mid"
+                  class="custom-select mb-3"
+                  id="cName"
+                >
+                  <option selected value="0"></option>
+                  <option *ngFor="let cLst of MeetingRoomList" [value]="cLst.id">
+                    {{ cLst.roomname }}
+                  </option>
+                </select>
+              </div>
+              <div class="form-group col-sm-4 pb-1 m-0">
+                <label for="acti" class="mb-2 mr-sm-2" #flocation>Activity:</label>
+                <select formControlName="activity" class="custom-select mb-3" id="acti">
+                  <option selected value=""></option>
+                  <option *ngFor="let cLst of RoomActivityList" [value]="cLst.Id">
+                    {{ cLst.DisplayName }}
+                  </option>
+                </select>
+                
+              </div>
+            <div class="form-group col-sm-4 pb-1 m-0"  >
+              <div class="col-lg-5 p-0 m-0 pull-left">
+                <label class="mb-2 mr-sm-2" for="sTime"
+                  >Start time:
+                </label>
+                <ngb-timepicker
+                  formControlName="stime"
+                ></ngb-timepicker>
+              </div>
+              <div class="col-lg-5 p-0 m-0 pull-right">
+                <label class="mb-2 mr-sm-2" for="sTime"
+                  >End time:
+                </label>
+                <ngb-timepicker
+                  formControlName="etime"
+                ></ngb-timepicker>
+              </div>
+            </div>
+            <div class="form-group col-sm-4 pb-1 m-0 pt-1"  >
+              <button class="btn btn-primary mt-4 ml-3" type="button" (click)="SaveRoomCustomerEvent()">
+                Save
+              </button>
+              <button class="btn btn-primary mt-4 ml-3" type="button" (click)="ResetEventFrm()">
+                Cancel
+              </button>
+            </div>
+            </div>
+
+          </form>
+          <hr class="mt-0 mb-2">
+          <div class="form-row">
+            <div class="form-group col-sm-12 m-0">Search</div>
+          </div>
+          <hr class="mt-2 mb-0">
+          <div class="form-row">
+            <div class="form-group col-sm-3 pb-1 m-0"  >
+              <label for="SearchEventDate" class="mb-2 mr-sm-2">Event Date:</label>
+              <input
+                id="SearchEventDate"
+                class="form-control mb-2 mr-sm-2"
+                [owlDateTimeTrigger]="dtEventSearchDate"
+                [(ngModel)]="dtpEventSearchDate"
+                [owlDateTime]="dtEventSearchDate"
+                readonly
+              />
+              <owl-date-time
+                [pickerType]="'calendar'"
+                (afterPickerClosed)="SearchEvent()"
+                #dtEventSearchDate
+              ></owl-date-time>
+
+          </div>
+          </div>
+          <div class="table-responsive">
+            <table class="table data-table table-striped table-bordered mydatatable">
+              <thead class="bg-primary">
+                <tr>
+                  <th scope="col" style="width: 25rem;">Name</th>
+                  <th scope="col">Room</th>
+                  <th scope="col">Activity</th>
+                  <th scope="col">Start Time</th>
+                  <th scope="col">End Time</th>
+                  <th class="Link-Center_Width"></th>
+                  <th class="Link-Center_Width"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let ev of SavedEventList">
+                  <td>{{ev.cName}}</td>
+                  <td>{{ev.rName}}</td>
+                  <td>{{ev.activity}}</td>
+                  <td>{{ev.fromtime | date:'HH:mm'}}</td>
+                  <td>{{ev.totime | date:'HH:mm'}}</td>
+                  <td (click)="FetchEditInfo(ev)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></td>
+                  <td class="text-danger" (click)="openDeleteModal(EventDeleteModal, ev.id)"><i class="fa fa-trash" aria-hidden="true"></i></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          </div>
+        </ng-template>
+      </li>
+      <li [ngbNavItem]="3" class="pr-2">
         <a ngbNavLink>Event List</a>
         <ng-template ngbNavContent>
           <div class="table-responsive">
@@ -1456,9 +1603,93 @@
           </div>
         </ng-template>
       </li>
+      <li [ngbNavItem]="4" class="pr-2" *ngIf="!IschkViewOnly">
+        <a ngbNavLink>Pax occupancy</a>
+        <ng-template ngbNavContent>
+        <div class="col-sm-12">
+          <div class="form-row mb-2 ">
+            <div class="form-group col-sm-4 m-0">
+              <label for="cmbMeeting"  class="mb-2 mr-sm-2">Rooms:</label>
+          <select
+                  class="custom-select mb-3"
+                  (change)="onChangeMeetingRoom($event.target.value)"
+                  id="cmbMeeting"
+                  [(ngModel)]="cmbMeetingId"
+                >
+                  <option selected value="0"></option>
+                  <option *ngFor="let cLst of MeetingRoomList" [value]="cLst.id">
+                    {{ cLst.roomname }}
+                  </option>
+                </select>
+                </div>
+                <div class="form-group col-sm-2 m-0">
+                  <button 
+                  type="button"
+                  class="btn btn-primary btn-s mt-5"
+                  (click)="UpdateRoomsPaxOccupancy()"
+                >
+                  Save
+                </button>
+                </div>
+                </div>
+<div class="form-row mb-2 ">
+              <div class="form-group col-hlf-2 m-0">
+                <img src="assets/images/cp2/cp2-6-default.png" alt="" class="imgCenter">
+              </div>
+              <div class="form-group col-hlf-2 m-0">
+                <img src="assets/images/cp2/cp2-0-default.png" alt="" class="imgCenter">
+              </div>
+              <div class="form-group col-hlf-2 m-0">
+                <img src="assets/images/cp2/cp2-1-default.png" alt="" class="imgCenter">
+              </div>
+              <div class="form-group col-hlf-2 m-0">
+                <img src="assets/images/cp2/cp2-2-default.png" alt="" class="imgCenter">
+              </div>
+              <div class="form-group col-hlf-2 m-0">
+                <img src="assets/images/cp2/cp2-3-default.png" alt="" class="imgCenter">
+              </div>
+              <div class="form-group col-hlf-2 m-0">
+                <img src="assets/images/cp2/cp2-4-default.png" alt="" class="imgCenter">
+              </div>
+              <div class="form-group col-hlf-2 m-0">
+                <img src="assets/images/cp2/cp2-5-default.png" alt="" class="imgCenter">
+              </div>
+              <div class="form-group col-hlf-2 m-0">
+                <img src="assets/images/cp2/cp2-7-default.png" alt="" class="imgCenter">
+              </div>
+            </div>
+            <div class="form-row ">
+              <div class="form-group col-hlf-2 m-0">
+                <input type="number" [(ngModel)]="MeetingRoomDetail['r1']" class="form-control mb-2 mr-sm-2"/>
+              </div>
+              <div class="form-group col-hlf-2 m-0">
+                <input type="number" [(ngModel)]="MeetingRoomDetail['r2']" class="form-control mb-2 mr-sm-2"/>
+              </div>
+              <div class="form-group col-hlf-2 m-0">
+                <input type="number" [(ngModel)]="MeetingRoomDetail['r3']" class="form-control mb-2 mr-sm-2"/>
+              </div>
+              <div class="form-group col-hlf-2 m-0">
+                <input type="number" [(ngModel)]="MeetingRoomDetail['r4']" class="form-control mb-2 mr-sm-2"/>
+              </div>
+              <div class="form-group col-hlf-2 m-0">
+                <input type="number" [(ngModel)]="MeetingRoomDetail['r5']" class="form-control mb-2 mr-sm-2"/>
+              </div>
+              <div class="form-group col-hlf-2 m-0">
+                <input type="number" [(ngModel)]="MeetingRoomDetail['r6']" class="form-control mb-2 mr-sm-2"/>
+              </div>
+              <div class="form-group col-hlf-2 m-0">
+                <input type="number" [(ngModel)]="MeetingRoomDetail['r7']" class="form-control mb-2 mr-sm-2"/>
+              </div>
+              <div class="form-group col-hlf-2 m-0">
+                <input type="number" [(ngModel)]="MeetingRoomDetail['r8']" class="form-control mb-2 mr-sm-2"/>
+              </div>
+            </div>                
+
+        </div>
+      </ng-template>
+      </li>      
       
-      
-      <li [ngbNavItem]="3" class="pr-2" *ngIf="!IschkViewOnly">
+      <li [ngbNavItem]="5" class="pr-2" *ngIf="!IschkViewOnly">
         <a ngbNavLink>Upload Logo</a>
         <ng-template ngbNavContent>
         <div class="col-sm-12">
@@ -1536,7 +1767,7 @@
       </div>
       </ng-template>
     </li>
-<li [ngbNavItem]="4" class="pr-2" *ngIf="!IschkViewOnly">
+<li [ngbNavItem]="6" class="pr-2" *ngIf="!IschkViewOnly">
   <a ngbNavLink>Set Signage Playlist</a>
         <ng-template ngbNavContent>
           <div class="col-sm-12">
@@ -1621,58 +1852,7 @@
               </button>
               </div>
             </div>
-            <div class="form-row mb-2 d-none">
-              <div class="form-group col-hlf-2 m-0">
-                <img src="assets/images/cp2/cp2-6-default.png" alt="" class="imgCenter">
-              </div>
-              <div class="form-group col-hlf-2 m-0">
-                <img src="assets/images/cp2/cp2-0-default.png" alt="" class="imgCenter">
-              </div>
-              <div class="form-group col-hlf-2 m-0">
-                <img src="assets/images/cp2/cp2-1-default.png" alt="" class="imgCenter">
-              </div>
-              <div class="form-group col-hlf-2 m-0">
-                <img src="assets/images/cp2/cp2-2-default.png" alt="" class="imgCenter">
-              </div>
-              <div class="form-group col-hlf-2 m-0">
-                <img src="assets/images/cp2/cp2-3-default.png" alt="" class="imgCenter">
-              </div>
-              <div class="form-group col-hlf-2 m-0">
-                <img src="assets/images/cp2/cp2-4-default.png" alt="" class="imgCenter">
-              </div>
-              <div class="form-group col-hlf-2 m-0">
-                <img src="assets/images/cp2/cp2-5-default.png" alt="" class="imgCenter">
-              </div>
-              <div class="form-group col-hlf-2 m-0">
-                <img src="assets/images/cp2/cp2-7-default.png" alt="" class="imgCenter">
-              </div>
-            </div>
-            <div class="form-row d-none">
-              <div class="form-group col-hlf-2 m-0">
-                <input type="number" [(ngModel)]="MeetingRoomDetail['r1']" class="form-control mb-2 mr-sm-2"/>
-              </div>
-              <div class="form-group col-hlf-2 m-0">
-                <input type="number" [(ngModel)]="MeetingRoomDetail['r2']" class="form-control mb-2 mr-sm-2"/>
-              </div>
-              <div class="form-group col-hlf-2 m-0">
-                <input type="number" [(ngModel)]="MeetingRoomDetail['r3']" class="form-control mb-2 mr-sm-2"/>
-              </div>
-              <div class="form-group col-hlf-2 m-0">
-                <input type="number" [(ngModel)]="MeetingRoomDetail['r4']" class="form-control mb-2 mr-sm-2"/>
-              </div>
-              <div class="form-group col-hlf-2 m-0">
-                <input type="number" [(ngModel)]="MeetingRoomDetail['r5']" class="form-control mb-2 mr-sm-2"/>
-              </div>
-              <div class="form-group col-hlf-2 m-0">
-                <input type="number" [(ngModel)]="MeetingRoomDetail['r6']" class="form-control mb-2 mr-sm-2"/>
-              </div>
-              <div class="form-group col-hlf-2 m-0">
-                <input type="number" [(ngModel)]="MeetingRoomDetail['r7']" class="form-control mb-2 mr-sm-2"/>
-              </div>
-              <div class="form-group col-hlf-2 m-0">
-                <input type="number" [(ngModel)]="MeetingRoomDetail['r8']" class="form-control mb-2 mr-sm-2"/>
-              </div>
-            </div>
+            
           </div>
           <div class="col-sm-12">
             <div class="table-responsive">
@@ -1696,7 +1876,7 @@
           </div>
         </ng-template>
       </li>
-      <li [ngbNavItem]="5" class="pr-2" *ngIf="!IschkViewOnly">
+      <li [ngbNavItem]="7" class="pr-2" *ngIf="!IschkViewOnly">
         <a ngbNavLink>Promo Logo</a>
         <ng-template ngbNavContent>
           <div class="col-12 p-0">
@@ -1745,7 +1925,7 @@
             </div>
           </div>
            <div class="row mt-3">
-            <div class="col-sm-3 mb-2" *ngFor="let songLst of PromoLogoList">
+            <div class="col-sm-2 mb-2" *ngFor="let songLst of PromoLogoList">
               <div class="card">
                 <img
                   class="card-img-top p-1"
@@ -2048,5 +2228,88 @@
          
        
     
+  </div>
+</ng-template>
+
+<ng-template #modalUploadBulkCommon let-c="close" let-d="dismiss">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Bulk</h5>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row mb-4">
+      <div class="col-lg-12">
+        <input
+          type="button"
+          id="btnExport"
+          class="btn btn-primary"
+          (click)="BulkActivation(modalUploadExcel)" (click)="d('Cross click')"
+          value="Bulk Activation"
+          style="width: 100%"
+        />
+      </div>
+    </div>
+    <div class="row mb-2">
+      <div class="col-lg-12">
+        <input
+          type="button"
+          id="btnUp"
+          class="btn btn-primary"
+          (click)="OpenUpdateInfo(modalUpdateInfo)" (click)="d('Cross click')"
+          value="Player Information" 
+          style="width: 100%"
+        />
+      </div>
+    </div>
+ 
+  </div>
+</ng-template>
+
+
+
+<ng-template #EventDeleteModal let-c="close" let-d="dismiss">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Delete Event</h5>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12">
+          <p>Are you sure to delete?</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <button
+            class="btn btn-primary col-sm-2 pull-right"
+            (click)="d('Cross click')"
+          >
+            <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+          </button>
+          <button
+            class="btn btn-danger col-sm-2 pull-right mr-2"
+            (click)="DeleteEvent()"
+            (click)="d('Cross click')"
+          >
+            <i class="fa fa-check fa-lg" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </ng-template>

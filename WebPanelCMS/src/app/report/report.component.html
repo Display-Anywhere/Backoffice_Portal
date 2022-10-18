@@ -57,6 +57,15 @@
                     >H-Info Played Content</a
                   >
                 </li>
+                <li class="nav-item" *ngIf="IsAdminLogin">
+                  <a
+                    class="nav-link"
+                    data-toggle="tab"
+                    href="#JoanDevice"
+                    >E-link</a
+                  >
+                </li>
+                
               </ul>
             </div>
           </div>
@@ -139,6 +148,17 @@
                   <app-hoteltv-played-logs></app-hoteltv-played-logs>
                 </div>
               </div>
+              <div
+                id="JoanDevice"
+                role="tabpanel"
+                class="col-lg-12 tab-pane fade"
+                style="padding: 0 0 0 0; margin: 0 0 0 0"
+              >
+                <div class="container-fluid">
+                  <app-joan-devices></app-joan-devices>
+                </div>
+              </div>
+
             </div>
           </div>
         </div>

@@ -166,7 +166,7 @@
                   scope="col"
                   sortable="city"
                   (sort)="onSort($event)"
-                  style="width: 450px"
+                  style="width: 400px"
                 >
                   City
                 </th>
@@ -174,7 +174,7 @@
                   scope="col"
                   sortable="location"
                   (sort)="onSort($event)"
-                  style="width: 450px"
+                  style="width: 400px"
                 >
                   Location
                 </th>
@@ -186,6 +186,7 @@
                 >
                   Token Code
                 </th>
+                <th scope="col">Media Type</th>
                 <th scope="col">Player Last Status</th>
                 <th scope="col">Device Last Status</th>
                 <!--<th scope="col">Playlist</th>-->
@@ -214,6 +215,9 @@
                 </td>
                 <td data-label="Token Code">
                   {{ cLst.tokenCode }}
+                </td>
+                <td data-label="Device Type">
+                 {{ cLst.MediaType }}
                 </td>
                 <td data-label="Last Status">
                   {{ cLst.lStatus }}

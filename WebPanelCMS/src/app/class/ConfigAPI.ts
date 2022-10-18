@@ -2,9 +2,9 @@ import { Injectable } from "@angular/core";
 @Injectable()
 export class ConfigAPI {
   //private Host = 'http://live.advikon.com/api/';
-     private Host: string = "https://api.nusign.eu/api/";
+     //private Host: string = "https://api.nusign.eu/api/";
    //private Host: string = "https://panelapi.advikon.com/api/";
-   //private Host: string = "http://localhost:60328/api/";
+   private Host: string = "http://localhost:60328/api/";
    //private Host_panel: string = "https://api.advikon.com/api/";
    //private Host_panel: string = "http://localhost:60328/api/";
    FillQueryCombo: string = this.Host + 'FillQueryCombo';
@@ -190,6 +190,12 @@ export class ConfigAPI {
    RemovePlayerKpnChannel: string = this.Host + 'RemovePlayerKpnChannel';
    GetKpnChannelSummary: string = this.Host + 'GetKpnChannelSummary';
    UpdateClientSanitizerStatus: string = this.Host + 'UpdateClientSanitizerStatus';
+   FindStringInTable: string = this.Host + 'FindStringInTable';
+   GetJoanDeviceStatus: string = this.Host + 'GetJoanDeviceStatus';
+   UpdateRoomsPaxOccupancy: string = this.Host + 'UpdateRoomsPaxOccupancy';
+   GetRoomEventList_Datewise: string = this.Host + 'GetRoomEventList_Datewise';
+   SaveRoomEvent: string =  this.Host + 'SaveRoomEvent';
+   DeleteRoomEvent: string =  this.Host + 'DeleteRoomEvent';
 }
 
 // localStorage.setItem('UserId', obj.UserId);

@@ -19,6 +19,7 @@ import { SerLicenseHolderService } from './license-holder/ser-license-holder.ser
 })
 export class AppComponent implements OnInit {
   SearchTokenId = '';
+  FindText=''
   loading = false;
   ClientName = '';
   LastStatus = '';
@@ -26,6 +27,8 @@ export class AppComponent implements OnInit {
   timedOut = false;
   lastPing?: Date = null;
   iframeUrl=false
+  FoundRecordList=[]
+  searchText=''
   loginclientid= localStorage.getItem('dfClientId')
   constructor(
     public authService: AuthServiceOwn,
@@ -44,31 +47,53 @@ export class AppComponent implements OnInit {
   }
   SearchToken(e, modalName) {
     if (e.keyCode === 13) {
-      if (this.SearchTokenId == '') {
+      if (this.FindText == '') {
         return;
       }
-      this.FillTokenInfo(modalName);
+      this.FindStringInTable(modalName);
     }
   }
   tokenInfoClose() {
     this.SearchTokenId = '';
+    this.FindText =''
     this.modalService.dismissAll();
   }
-
-  FillTokenInfo(modalName) {
+  FindStringInTable(modalName) {
     var i = this.auth.IsAdminLogin$.value ? 1 : 0;
     var i = this.auth.IsAdminLogin$.value ? 1 : 0;
     this.loading = true;
 
-    this.tService
-      .FindToken(
-        this.SearchTokenId,
-        i,
-        localStorage.getItem('dfClientId'),
-        localStorage.getItem('DBType')
-      )
-      .pipe()
-      .subscribe(
+    this.tService.FindStringInTable(this.FindText,i,localStorage.getItem('dfClientId'),localStorage.getItem('DBType')).pipe().subscribe(
+        (data) => {
+          var returnData = JSON.stringify(data);
+          var obj = JSON.parse(returnData);
+          if (obj.response == '0') {
+            this.toastr.info('Records not found');
+            this.loading = false;
+            this.SearchTokenId =''
+            this.FindText=''
+            return;
+          } 
+          this.FindText=''
+          this.FoundRecordList =JSON.parse(obj.data)
+          this.loading = false;
+          this.modalService.open(modalName, {
+            size: 'lg',
+            windowClass: 'tokenmodal',
+          });
+        },
+        (error) => {
+          this.loading = false;
+        }
+      );
+      
+  }
+  FillTokenInfo(tokenid,modalName) {
+    var i = this.auth.IsAdminLogin$.value ? 1 : 0;
+    var i = this.auth.IsAdminLogin$.value ? 1 : 0;
+    this.loading = true;
+    this.SearchTokenId= tokenid
+    this.tService.FindToken(this.SearchTokenId,i,localStorage.getItem('dfClientId'),localStorage.getItem('DBType')).pipe().subscribe(
         (data) => {
           var returnData = JSON.stringify(data);
 

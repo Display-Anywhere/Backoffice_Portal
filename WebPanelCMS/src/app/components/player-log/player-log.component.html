@@ -65,7 +65,8 @@
                     <tr>
                       <th scope="col" style="width: 200px;">Date Time</th>
                       <th scope="col">Title</th>
-                      <th scope="col" style="width: 300px;">Artist</th>
+                      <th scope="col" style="width: 200px;">Artist</th>
+                      <th scope="col" style="width: 150px;">Media Type</th>
                       <th scope="col" style="width: 300px;">Playlist</th>
                     </tr>
                   </thead>
@@ -80,8 +81,12 @@
                       "
                     >
                       <td data-label="Date Time">{{ sgLst.PlayedDateTime }}</td>
-                      <td data-label="Title ">{{ sgLst.Name }}</td>
+                      <td data-label="Title ">
+                        <a href="javascript:;" (click)="OpenViewContent(viewcontent, sgLst.titleUrl,sgLst.GenreId,sgLst.MediaType, sgLst.PlayedDateTime)">
+                          {{ sgLst.Name }}
+                        </a></td>
                       <td data-label="Artist">{{ sgLst.ArtistName }}</td>
+                      <td data-label="Media Type">{{ sgLst.MediaType }}</td>
                       <td data-label="Playlist">{{ sgLst.SplPlaylistName }}</td>
                     </tr>
                   </tbody>
@@ -309,3 +314,19 @@
   </ul>
   <div [ngbNavOutlet]="tPlayerLog" class="mt-2"></div>
 </div>
+
+<ng-template class="tokenmodal" #viewcontent let-c="close" let-d="dismiss">
+  
+  <button
+    type="button"
+    class="close text-right"
+    aria-label="Close"
+    (click)="d('Cross click')"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+ 
+<div class="modal-body p-0">
+  <app-view-content></app-view-content>
+</div>
+</ng-template>

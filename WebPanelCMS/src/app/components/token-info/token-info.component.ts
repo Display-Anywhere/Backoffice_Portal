@@ -65,6 +65,7 @@ export class TokenInfoComponent implements OnInit {
   chkScreen: boolean = false;
   chkSanitizer: boolean = false;
   chkHotelTv= false
+  chkWhiteBoard=false
   chkTTL: boolean = false;
   chkKeyboard: boolean = false;
   chkKeyboardScreen: boolean = false;
@@ -502,6 +503,7 @@ this.submitted = true;this.loading = true;
           var obj = JSON.parse(returnData);
           this.chkSanitizer = false;
           this.chkHotelTv= false
+          this.chkWhiteBoard = false
           this.chkScreen = false;
           this.chkTTL = false;
           this.chkKeyboard = false;
@@ -617,6 +619,7 @@ this.submitted = true;this.loading = true;
             this.chkSanitizer = true;
             this.chkScreen = false;
             this.chkHotelTv = false
+            this.chkWhiteBoard = false
           }
           if (
             objTokenData[0].chkMediaType == 'Signage' &&
@@ -625,6 +628,7 @@ this.submitted = true;this.loading = true;
             this.chkSanitizer = false;
             this.chkScreen = true;
             this.chkHotelTv = false
+            this.chkWhiteBoard = false
           }
           if (
             objTokenData[0].chkMediaType == 'Signage' &&
@@ -633,6 +637,16 @@ this.submitted = true;this.loading = true;
             this.chkSanitizer = false;
             this.chkScreen = false;
             this.chkHotelTv = true
+            this.chkWhiteBoard = false
+          }
+          if (
+            objTokenData[0].chkMediaType == 'Signage' &&
+            objTokenData[0].DeviceType == 'WhiteBoard'
+          ) {
+            this.chkSanitizer = false;
+            this.chkScreen = false;
+            this.chkHotelTv = false
+            this.chkWhiteBoard = true
           }
 
           if (

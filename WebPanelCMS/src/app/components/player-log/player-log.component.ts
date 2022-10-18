@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { PlayerlogsService } from './playerlogs.service';
 @Component({
@@ -8,7 +9,8 @@ import { PlayerlogsService } from './playerlogs.service';
 })
 export class PlayerLogComponent implements OnInit {
 
-  constructor(public toastr: ToastrService, vcr: ViewContainerRef, private plService: PlayerlogsService) {
+  constructor(public toastr: ToastrService, vcr: ViewContainerRef, 
+    private plService: PlayerlogsService,private modalService: NgbModal) {
      
   }
   PlayedSongList = [];
@@ -93,4 +95,34 @@ export class PlayerLogComponent implements OnInit {
           this.loading = false;
         })
   }
+  OpenViewContent(modalName, url,oType,MediaType, dt){
+    try {
+    if (MediaType!="Url"){
+      window.open(url, '_blank'); 
+      return
+    }
+    let urldt= new Date(dt)
+    let split_Url = url.toString().split("?")
+    let splt_Url_param = split_Url[1].split("&")
+    if (splt_Url_param[0]=="templateId=CP32"){
+      url=""
+      url= split_Url[0]+"?"+splt_Url_param[0]+ "&"+splt_Url_param[1]+ "&ct="+ urldt.getHours() + ":" + urldt.getMinutes()
+    }
+    console.log(url)
+        localStorage.setItem("ViewContent",url)
+        localStorage.setItem("oType",oType)
+        if (oType=="496"){
+          this.modalService.open(modalName, {
+            size: 'Template',
+          }); 
+        }
+        if (oType=="495"){
+          this.modalService.open(modalName,{
+            size: 'PT-Template'
+          }); 
+        }
+      } catch (error ) {
+      
+      }
+      }
 }

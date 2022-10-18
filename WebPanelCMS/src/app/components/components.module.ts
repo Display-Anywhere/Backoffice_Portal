@@ -64,6 +64,7 @@ import { LoginSbitComponent } from './login-sbit/login-sbit.component';
 import { KpnChannelsComponent } from './kpn-channels/kpn-channels.component';
 import { SanitizerLogsComponent } from './sanitizer-logs/sanitizer-logs.component';
 import { KpnSummaryComponent } from './kpn-summary/kpn-summary.component';
+import { JoanDevicesComponent } from './joan-devices/joan-devices.component';
 export const MY_CUSTOM_FORMATS = {
   parseInput: 'LL LT',
   fullPickerInput: 'LL LT',
@@ -120,7 +121,8 @@ HoteltvPlayedLogsComponent,
 LoginSbitComponent,
 KpnChannelsComponent,
 SanitizerLogsComponent,
-KpnSummaryComponent
+KpnSummaryComponent,
+JoanDevicesComponent
 ],
  
   exports: [
@@ -165,7 +167,8 @@ PlayeractivationlogComponent,
 HoteltvPlayedLogsComponent,
 LoginSbitComponent,
 SanitizerLogsComponent,
-KpnSummaryComponent
+KpnSummaryComponent,
+JoanDevicesComponent
   ],
     imports: [
     CommonModule,

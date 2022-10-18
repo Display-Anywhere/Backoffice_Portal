@@ -723,7 +723,10 @@ this.preventAbuse = true;
         "refersh": "${this.TemplateSelected[index].Refersh}",
         "urlLink": "https://templates.nusign.eu?id=${this.TemplateSelected[index].id}",
         "dbType": "Nusign",
-        "IsAnnouncement": false
+        "IsAnnouncement": false,
+        "duration_min":1,
+        "refershtime_min":1,
+        "Url_Time_With_Min": false
     }`
     await this.serviceLicense.SaveTemplateUrl(body).pipe()
     .subscribe(data => {

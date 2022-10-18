@@ -62,6 +62,12 @@
                     >KPN Channels</a
                   >
                 </li>
+                <li class="nav-item d-none" *ngIf="((loginclientId=='95') || (loginclientId=='183'))">
+                  <a class="nav-link" data-toggle="tab" (click)="ReloadComponent('Joan')"
+                  href="#JoanDevice"
+                    >Joan Devices</a
+                  >
+                </li>
                 
               </ul>
             </div>
@@ -576,6 +582,14 @@
               >
                 <app-kpn-channels  *ngIf="ComponentName=='kpnChannel'" ></app-kpn-channels>
               </div>
+              <div
+              id="JoanDevice"
+              role="tabpanel"
+              class="col-lg-12 tab-pane fade p-0 m-0"
+              
+            >
+              <app-joan-devices  *ngIf="ComponentName=='Joan'" ></app-joan-devices>
+            </div>
               <div
                 id="CreateTemplate"
                 role="tabpanel"

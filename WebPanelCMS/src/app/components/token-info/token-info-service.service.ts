@@ -96,5 +96,11 @@ FillSearchAds(customerId,cDate,tokenid){
   var params = JSON.stringify({ customerId: customerId ,cDate:cDate, TokenId:tokenid});
   return this.http.post(this.cApi.FillSearchAds,params,{headers:headers})
    .pipe((data=>{return data;}))
+}
+FindStringInTable(filterText, IsAdmin,ClientId,DbType){
+  let headers = new HttpHeaders({ 'Content-Type':'application/json' });
+  var params = JSON.stringify({ filterText: filterText,IsAdmin:IsAdmin,ClientId:ClientId,DbType:DbType });
+  return this.http.post(this.cApi.FindStringInTable,params,{headers:headers})
+   .pipe((data=>{return data;}))
 }  
 }

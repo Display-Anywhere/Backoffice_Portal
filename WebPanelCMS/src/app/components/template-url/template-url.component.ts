@@ -49,7 +49,9 @@ export class TemplateUrlComponent implements OnInit {
   });
 
   }
-
+  get frmU() {
+    return this.frmUrl.controls;
+  }
  initUrlForm(){
   this.frmUrl = this.formBuilder.group({
     id: [0],
@@ -58,10 +60,13 @@ export class TemplateUrlComponent implements OnInit {
     cmbGenre:[0],
     urlName: ["", Validators.required],
     duration: [20],
-    refersh: [20],
+    refersh: [40],
     urlLink: ['', Validators.required],
     dbType:[localStorage.getItem('DBType')],
-    IsAnnouncement:[false]
+    IsAnnouncement:[false],
+    Url_Time_With_Min:[false],
+    duration_min: [1],
+    refershtime_min: [2]
   });
  }
   async FillClientList() {
@@ -109,9 +114,13 @@ export class TemplateUrlComponent implements OnInit {
     if (this.frmUrl.invalid) {
       return;
     }
-     
+    let frm = this.frmUrl.value
+    if (frm['Url_Time_With_Min'] == true){
+      frm['duration']= parseFloat(frm['duration_min'])*60
+      frm['refersh']= parseFloat(frm['refershtime_min'])*60
+    }
     this.loading = true;
-    await this.serviceLicense.SaveTemplateUrl(this.frmUrl.value).pipe()
+    await this.serviceLicense.SaveTemplateUrl(frm).pipe()
     .subscribe(data => {
       var returnData = JSON.stringify(data);
       var obj = JSON.parse(returnData);
@@ -149,7 +158,10 @@ export class TemplateUrlComponent implements OnInit {
       refersh: [data.refersh],
       urlLink: [data.urlLink],
       dbType:[localStorage.getItem('DBType')],
-      IsAnnouncement:[data.IsAnnouncement]
+      IsAnnouncement:[data.IsAnnouncement],
+      Url_Time_With_Min:[data.Url_Time_With_Min],
+      duration_min: [data.duration_min],
+      refershtime_min: [data.refershtime_min]
     });
     
   }

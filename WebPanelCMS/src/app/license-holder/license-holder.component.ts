@@ -25,6 +25,7 @@ export class LicenseHolderComponent
     @ViewChildren(NgbdSortableHeaderOpening) headers: QueryList<NgbdSortableHeaderOpening>;
     compare = (v1: string | number, v2: string | number) => v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
   Adform: FormGroup;
+  frmEvent: FormGroup;
   TokenList = [];
   CustomerList: any[];
   FolderList: any[];
@@ -103,8 +104,8 @@ export class LicenseHolderComponent
   MeetingSettings = {};
   SelectedMeetingArray = []
   RoomSignagePlaylist=[]
- // templateHost ='http://localhost:4201'
-  templateHost ='https://templates.nusign.eu'
+  templateHost ='http://localhost:4202'
+ // templateHost ='https://templates.nusign.eu'
 dtPromoStartDate = new Date()
 dtPromoEndDate = new Date()
 dtTokenExpiryDate = new Date()
@@ -113,6 +114,10 @@ ActivePlayerListlength=0;
   PlayerSearchList=[]
   pagePlayer: number = 1;
   pageSizePlayer: number = 50;
+  ShowIndicator= false
+  dtpEventSearchDate
+  SavedEventList=[]
+  RoomActivityList=[]
   @ViewChild('flocation') flocationElement: ElementRef;
   constructor(
     config: NgbModalConfig,
@@ -155,6 +160,8 @@ ActivePlayerListlength=0;
     this.Adform = this.formBuilder.group({
       FilePathNew: [''],
     });
+    this.inEventfrm()
+
 
     this.LogoId = 0;
     this.TokenList = [];
@@ -261,7 +268,19 @@ ActivePlayerListlength=0;
       retrieve: true,
     };
   }
-
+inEventfrm(){
+  const cd= new Date()
+  this.frmEvent = this.formBuilder.group({
+    id:['0'],
+    dname: [''],
+    edate: [cd],
+    stime: [''],
+    etime: [''],
+    mid:['0'],
+    activity:[''],
+    dfclientid:[this.cmbCustomerId]
+  });
+}
   ngAfterViewInit(): void {
     this.dtTrigger.next();
   }
@@ -346,6 +365,7 @@ ActivePlayerListlength=0;
       this.cid = '0';
       this.MainTokenList = [];
       this.ActivePlayerListlength=0
+      this.ShowIndicator= false
       return;
     }
     const obj= this.CustomerList.filter(o => o.Id == this.cmbCustomerId)
@@ -423,9 +443,12 @@ ActivePlayerListlength=0;
       );
   }
   minutes_interval:any
+  CET_today:any
+  deviceStatus:any
   FillData(data) {
     var returnData = JSON.stringify(data);
     const objData = JSON.parse(returnData);
+    this.ShowIndicator = false
     objData.forEach(item => {
       const obj =  this.TokenContentMatchDownload.filter(o => o.tokenid === Number(item['tokenid']))
       if (item['Version'] === '2.0'){
@@ -443,17 +466,27 @@ ActivePlayerListlength=0;
       else{
         item['IsDownloadAll']= 'false'
       }
-      
+      if (item['IsIndicatorActive']=='1'){
+        this.ShowIndicator = true
+      }
+
       let obj_device= this.DeviceStatusList.filter(d => d.Id === item['tokenid'].toString())
       if (obj_device.length>0){
-        const today = new Date();
-        const deviceStatus =new Date(obj_device[0]['DisplayName'])
+        
+        let today = new Date();
+        this.deviceStatus =new Date(obj_device[0]['DisplayName'])
+        
         let CETDateTime = today.toLocaleString("en-US", {timeZone: "CET"  });
         const cet = CETDateTime.split(',')
         const CET_DateTime = cet[0] + ' ' + cet[1]
-        const CET_today = new Date(CET_DateTime);
-        this.minutes_interval = Math.abs(deviceStatus.getTime() - CET_today.getTime()) / (1000 * 60) % 60;
-        if (parseInt(this.minutes_interval)<15 ){
+        this.CET_today = new Date(CET_DateTime);
+         
+        //this.minutes_interval = Math.abs(deviceStatus.getTime() - CET_today.getTime()) / (1000 * 60) % 60;
+        var diffMs = (this.CET_today - this.deviceStatus); // milliseconds between now & Christmas
+        var diffDays = Math.floor(diffMs / 86400000); // days
+        var diffHrs = Math.floor((diffMs % 86400000) / 3600000); // hours
+        var diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000); // minutes
+        if ((diffDays==0 ) && (diffHrs==0) && (diffMins <15)){
           item['IshotelTvOnline']='1'
         }
         else{
@@ -504,6 +537,11 @@ ActivePlayerListlength=0;
     if (this.FilterValue_For_Reload == 'HotelTv') {
       this.TokenList = this.MainTokenList.filter(
         (order) => order.DeviceType === 'HotelTv'
+      );
+    }
+    if (this.FilterValue_For_Reload == 'WhiteBoard') {
+      this.TokenList = this.MainTokenList.filter(
+        (order) => order.DeviceType === 'WhiteBoard'
       );
     }
     if (this.FilterValue_For_Reload == 'UnRegsiter') {
@@ -1555,7 +1593,7 @@ async RefreshTokenList(){
           var jsonParse = JSON.parse(obj.data)
           jsonParse.forEach(item => {
             var ar ={}
-            ar['Id'] = item['eventdate']
+            ar['Id'] = item['edate']
             this.EventList.push(ar)
           });
           this.loading = false;
@@ -1566,7 +1604,7 @@ async RefreshTokenList(){
         }
       );
   }
-  openEventModal(modalContant) {
+  async openEventModal(modalContant) {
     if (this.cid == '0') {
       this.toastr.info('Please select a customer name');
       return;
@@ -1575,18 +1613,23 @@ async RefreshTokenList(){
       this.toastr.info('This feature is not available in view only');
       return;
     }
+    this.inEventfrm()
     this.CustomerEventList = []
+    this.MeetingRoomDetail ={}
     var EventDate = new Date()
     this.dtPromoStartDate= new Date()
     this.dtPromoEndDate= new Date()
     this.dtpUploadSheetEventDate= EventDate
     this.dtpLogoEventDate = EventDate
-    this.GetMeetingRooms()
-    this.GetFutureEventDetails()
-    this.GetCurrentEventDetails(EventDate)
-    this.FillFormat()
+    await this.FillRoomActivity()
+    await this.GetMeetingRooms()
+    await this.GetFutureEventDetails()
+    await this.GetCurrentEventDetails(EventDate)
+    await this.FillFormat()
+    this.dtpEventSearchDate = new Date()
+    await this.SearchEvent()
     this.modalService.open(modalContant, {
-      size: 'lg',
+      size: 'lg-900',
       windowClass: 'fade',
     });
     this.flocationElement.nativeElement.focus();  
@@ -1708,7 +1751,7 @@ async RefreshTokenList(){
   onChangeMeetingRoom(deviceValue) {
     var obj = this.MeetingRoomList.filter(o => o.id == deviceValue)
     this.MeetingRoomDetail = obj[0]
-    this.cmbFormatId = this.MeetingRoomDetail['signageFormatid']
+    /*this.cmbFormatId = this.MeetingRoomDetail['signageFormatid']
     if ((this.cmbFormatId =="0") || (this.cmbFormatId ==null)){
       this.PlaylistList =[]
       this.cmbPlaylistId ='0'
@@ -1716,7 +1759,7 @@ async RefreshTokenList(){
     else{
       this.FillPlaylist(this.cmbFormatId)
       this.cmbPlaylistId= this.MeetingRoomDetail['signagesplId']
-    }
+    }*/
   }
   UpdateMeetingInfo(modalName) {
     this.MeetingRoomDetail['signagesplId']= this.cmbPlaylistId
@@ -2236,4 +2279,186 @@ async RefreshTokenList(){
     this.ActivePlayerListlength =total
   }
 
+  UpdateRoomsPaxOccupancy() {
+    this.loading = true;
+    this.serviceLicense.UpdateRoomsPaxOccupancy(this.MeetingRoomDetail).pipe().subscribe((data) => {
+      var returnData = JSON.stringify(data);
+      var objRes = JSON.parse(returnData);
+      this.loading = false;
+      if (objRes.response == "1"){
+        this.toastr.info('Saved');
+        //this.OpenRoomViewContent(modalName)
+      }
+    },
+    (error) => {
+      this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
+      this.loading = false;
+    }
+  );
+  }
+  FillRoomActivity() {
+    this.loading = true;
+    var qry = 'select activityname as id , activityname as displayname from tbRoomActivity order by activityname';
+    this.pService.FillCombo(qry).pipe().subscribe((data) => {
+          var returnData = JSON.stringify(data);
+          this.RoomActivityList = JSON.parse(returnData);
+          this.loading = false;
+        },
+        (error) => {
+          this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
+          this.loading = false;
+        }
+      );
+  }
+  CheckEventDateDays(){
+    let ct
+    ct= new Date()
+    let selectDate
+    const frm = this.frmEvent.value
+    selectDate= new Date(frm["edate"])
+    let diffMs = (ct - selectDate); // milliseconds between now & Christmas
+    var diffDays = Math.floor(diffMs / 86400000); // days
+    if (diffDays >0){
+      this.toastr.info('Event date not be less than current date.','');
+      this.frmEvent.patchValue({
+        edate: new Date()
+      })
+      return
+    }
+  }
+  SearchEvent(){
+    this.inEventfrm()
+    this.SavedEventList=[]
+    let ct
+    ct= new Date()
+    let diffMs = (ct - this.dtpEventSearchDate);  
+    var diffDays = Math.floor(diffMs / 86400000);  
+    if (diffDays >0){
+      this.toastr.info('Event search date not be less than current date.','');
+      return
+    }
+    this.loading = true;
+    this.pService.GetRoomEventList_Datewise(this.dtpEventSearchDate, this.cmbCustomerId).pipe().subscribe((data) => {
+          var returnData = JSON.stringify(data);
+          var obj = JSON.parse(returnData);
+          if (obj.data !=''){
+            this.SavedEventList = JSON.parse(obj.data)
+            this.SavedEventList.forEach(item => {
+              var objRoom = this.MeetingRoomList.filter(o => o.id == item["mid"]) 
+              item["rName"]= objRoom[0].roomname
+              
+            });
+            console.log(this.SavedEventList)
+          }
+          this.loading = false;
+        },
+        (error) => {
+          this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
+          this.loading = false;
+        }
+      );
+  }
+  FetchEditInfo(e){
+    var dt= new Date(e.fromtime)
+    var dt2= new Date(e.totime)
+    var time: NgbTimeStruct = { hour: dt.getHours(), minute: dt.getMinutes(), second: 0 };
+    var time2: NgbTimeStruct = { hour: dt2.getHours(), minute: dt2.getMinutes(), second: 0 };
+    this.frmEvent.patchValue({
+      dname: e.cName,
+    edate: new Date(e.eDate),
+    stime: time,
+    etime: time2,
+    mid: e.mid,
+    activity: e.activity,
+    id:e.id
+    })
+  }
+  ResetEventFrm(){
+    this.frmEvent.reset();
+    this.frmEvent.patchValue({
+    edate: new Date(),
+    id:"0",
+    dfclientid:this.cmbCustomerId
+    })
+  }
+  async SaveRoomCustomerEvent() {
+    var sTime = this.frmEvent.value.stime;
+    var eTime = this.frmEvent.value.etime;
+    var dt = new Date(
+      'Mon Mar 09 2020 ' + sTime['hour'] + ':' + sTime['minute'] + ':00'
+    );
+    var dt2 = new Date(
+      'Mon Mar 09 2020 ' + eTime['hour'] + ':' + eTime['minute'] + ':00'
+    );
+    this.frmEvent.get('stime').setValue(dt.toTimeString().slice(0, 5));
+    this.frmEvent.get('etime').setValue(dt2.toTimeString().slice(0, 5));
+
+    var payload = this.frmEvent.value
+   
+    this.loading = true;
+   
+    
+    this.serviceLicense.SaveRoomEvent(payload).pipe().subscribe(async (data) => {
+      var returnData = JSON.stringify(data);
+      var objRes = JSON.parse(returnData);
+      this.loading = false;
+      if (objRes.Responce == "1"){
+        this.toastr.info('Event schedule is saved', '');
+        await this.SearchEvent()
+        await this.GetFutureEventDetails()
+        /*
+        var currentd = new Date();
+        var cd = new Date(currentd.getFullYear(),currentd.getMonth(),currentd.getDate());
+        var putDate = new Date(eventDate);
+        if (cd == putDate) {
+        if (this.cmbCustomerId == "10") {
+          this.publishEventPLayer(payloadPublish)
+        }
+      }
+      */
+        
+      }
+     
+    },
+    (error) => {
+      this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
+      this.loading = false;
+    }
+  );
+  }
+  DeleteEventId
+  openDeleteModal(content, id) {
+    if (this.IschkViewOnly==1){
+      this.toastr.info('This feature is not available in view only');
+      return;
+    }
+    this.DeleteEventId = id;
+    this.modalService.open(content, { centered: true });
+  }
+  DeleteEvent(){
+    this.loading = true;
+    this.serviceLicense.DeleteRoomEvent(this.DeleteEventId).pipe().subscribe((data) => {
+          var returnData = JSON.stringify(data);
+          var obj = JSON.parse(returnData);
+          if (obj.Responce == '1') {
+            this.toastr.info('Deleted', 'Success!');
+            this.loading = false;
+            this.SearchEvent();
+          } else {
+            this.toastr.error(
+              'Apologies for the inconvenience.The error is recorded.',
+              ''
+            );
+          }
+          this.loading = false;
+        },
+        (error) => {
+          this.toastr.error(
+            'Apologies for the inconvenience.The error is recorded.',
+            ''
+          );
+          this.loading = false;
+        }
+      );
+  }
 }

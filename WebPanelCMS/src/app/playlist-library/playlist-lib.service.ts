@@ -226,4 +226,10 @@ export class PlaylistLibService {
     return this.http.post(this.cApi.GetDefaultPlaylistHotelTV, params, { headers })
       .pipe((data => data));
   }
+  GetRoomEventList_Datewise(cd, dfclientId) {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const params = JSON.stringify({ cd: cd, dfclientId:dfclientId });
+    return this.http.post(this.cApi.GetRoomEventList_Datewise, params, { headers })
+      .pipe((data => data));
+  }
 }

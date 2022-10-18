@@ -1,0 +1,115 @@
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' , fullScreenBackdrop: true }">
+</ngx-loading>
+<div class="col-lg-12 p-0">
+     
+        <div class="row">
+            <div class="col-sm-12 pt-3 pb-3"><h4>Paired devices: {{DevicesList_count}}</h4></div>
+        </div>
+        <span></span> <span></span>
+     
+    <div class="table-responsive">
+        <table class="table data-table table-striped table-bordered mydatatable">
+            <thead class="bg-primary">
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Wifi</th>
+                    <th scope="col">Battery</th>
+                    <th scope="col">Size</th>
+                    <th scope="col">Interface</th>
+                    <th scope="col">Timezone</th>
+                    <th class="Link-Center_Width"></th>
+                  </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor=" let adLst of DevicesList| slice: (page - 1) * pageSize: (page - 1) * pageSize + pageSize">
+                    <td data-label="Advt Name">
+                          {{ adLst.calendar_name }}
+                      </td>
+                      <td  data-label="Orientation">
+                        {{ adLst.wifi }}
+                    </td>
+                      <td  data-label="Duration">{{adLst.battery}}</td>
+                      <td  data-label="Refersh Time">{{adLst.size}}</td>
+                      <td  data-label="Refersh Time">{{adLst.interface}}</td>
+                      <td  data-label="Refersh Time">{{adLst.timezone}}</td>
+                      <td class="cursor-pointer Link-Center_Width">
+                        <i *ngIf="adLst.roomResources.length >0" (click)="OpenRoomInfo(roomResources,adLst.roomResources)"
+                class="fa fa-info-circle"
+                aria-hidden="true"
+              ></i>
+                      </td>
+                </tr>
+            </tbody>
+        </table>
+        <ngb-pagination
+        [collectionSize]="DevicesList.length"
+        [(page)]="page"
+        [pageSize]="pageSize"
+        [boundaryLinks]="true"
+      size="sm"
+      ></ngb-pagination>
+    </div>
+</div>
+
+
+<!-- modal start -->
+<ng-template class="tokenmodal" #roomResources let-c="close" let-d="dismiss">
+    <div class="modal-header bg-primary">
+      <div class="col-lg-6 m-0 p-0" style="float: left">
+        <h5 class="text-white">Room Resources</h5>
+      </div>
+      <button
+        type="button"
+        class="close text-white"
+        aria-label="Close"
+        (click)="d('Cross click')"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body p-1">
+      
+      <div class="table-responsive">
+        <table
+          class="table data-table table-striped table-bordered mydatatable"
+        >
+          <thead class="bg-primary">
+            <tr>
+              <th class="sticky-top ">Name</th>
+              <th class="sticky-top ">Email</th>
+              <th class="sticky-top ">Status</th>
+              <th class="sticky-top ">Capacity</th>
+              <th class="sticky-top ">Sync</th>
+              <th class="sticky-top ">First Failed Sync</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let r of roomResourcesList ">
+              <td data-label="Client">
+                  {{ r.name }}
+              </td>
+              <td data-label="Token Id">
+                {{ r.email }}
+              </td>
+              <td data-label="Country">
+                {{ r.status }}
+              </td>
+              <td data-label="State">
+                {{ r.capacity }}
+              </td>
+              <td data-label="City">
+                {{ r.sync }}
+              </td>
+              <td data-label="Location">
+                {{ r.first_failed_sync | date:'dd/MMM/yyyy, hh:mm:ss a' }}
+              </td>
+               
+            </tr>
+          </tbody>
+        </table>
+      </div>
+  
+      
+    </div>
+  </ng-template>
+  <!-- modal end -->
