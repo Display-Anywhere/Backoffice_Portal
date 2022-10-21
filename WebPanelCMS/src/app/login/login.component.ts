@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit,OnDestroy {
   ipAddress;
   emailText = '';
   loginpage = 'Nusign';
-  IsSbit = 'No';
+  IsSbit = 'Yes';
   IsTwoWayActive= "0"
   randomNumber = ''
   EnterOTPCode = ''

@@ -42,7 +42,7 @@
                       *ngIf="this.auth.IsAdminLogin$.value===false && this.auth.chkEventMeeting$.value === false ">
                         Set Default
                       </a>
-                      <a class="dropdown-item" href="javascript:;" (click)="SetSignage(modalSignage)"
+                      <a class="d-none dropdown-item" href="javascript:;" (click)="SetSignage(modalSignage)"
                       *ngIf="((this.auth.chkEventMeeting$.value ==false))">
                         Set Signage App Logo
                       </a>
@@ -99,7 +99,7 @@
                   padding: 0.475rem 0.6rem"
                 />
               </div>
-              <div *ngIf="((this.auth.chkEventMeeting$.value ==false))" class="form-group col-sm-1 m-0">
+              <div *ngIf="((this.auth.chkEventMeeting$.value ==false))" class="d-none form-group col-sm-1 m-0">
                 <label for="btnSig" class="d-none d-xl-block mb-2 mr-sm-2"
                   >&nbsp;</label
                 >
@@ -1375,7 +1375,7 @@
     </button>
   </div>
   <div class="modal-body">
-    <ul ngbNav #tEvents="ngbNav" (activeId)="1" class="nav-tabs">
+    <ul ngbNav #tEvents="ngbNav" (activeId)="1" class="nav-tabs" (navChange)="onNavChange($event)">
       <li [ngbNavItem]="1" class="pr-2" *ngIf="!IschkViewOnly">
         <a ngbNavLink>Upload Events</a>
         <ng-template ngbNavContent>
@@ -1466,7 +1466,7 @@
 
             </div>
               <div class="form-group col-sm-4 pb-1 m-0">
-                <label for="token" class="mb-2 mr-sm-2" #flocation>Display Name:</label>
+                <label for="token" class="mb-2 mr-sm-2" #flocation>Company Name:</label>
                 <input
                   type="text" 
                   formControlName="dname"
@@ -1489,7 +1489,7 @@
                 </select>
               </div>
               <div class="form-group col-sm-4 pb-1 m-0">
-                <label for="acti" class="mb-2 mr-sm-2" #flocation>Activity:</label>
+                <label for="acti" class="mb-2 mr-sm-2" #flocation>Venue:</label>
                 <select formControlName="activity" class="custom-select mb-3" id="acti">
                   <option selected value=""></option>
                   <option *ngFor="let cLst of RoomActivityList" [value]="cLst.Id">
@@ -1556,8 +1556,8 @@
               <thead class="bg-primary">
                 <tr>
                   <th scope="col" style="width: 25rem;">Name</th>
-                  <th scope="col">Room</th>
-                  <th scope="col">Activity</th>
+                  <th scope="col">Venue</th>
+                  <th scope="col">Event</th>
                   <th scope="col">Start Time</th>
                   <th scope="col">End Time</th>
                   <th class="Link-Center_Width"></th>
@@ -1567,7 +1567,7 @@
               <tbody>
                 <tr *ngFor="let ev of SavedEventList">
                   <td>{{ev.cName}}</td>
-                  <td>{{ev.rName}}</td>
+                  <td>{{ev.roomname}}</td>
                   <td>{{ev.activity}}</td>
                   <td>{{ev.fromtime | date:'HH:mm'}}</td>
                   <td>{{ev.totime | date:'HH:mm'}}</td>
@@ -1683,7 +1683,37 @@
               <div class="form-group col-hlf-2 m-0">
                 <input type="number" [(ngModel)]="MeetingRoomDetail['r8']" class="form-control mb-2 mr-sm-2"/>
               </div>
-            </div>                
+            </div> 
+             
+            <div class="form-row ">
+              <div class="form-group col-12 m-0">
+                Default Room Pax Occupancy
+              </div>
+              <div class="form-group col-hlf-2 m-0">
+                <input type="number" [(ngModel)]="DefaultRoomsDetail['r1']" class="form-control mb-2 mr-sm-2" disabled=""/>
+              </div>
+              <div class="form-group col-hlf-2 m-0">
+                <input type="number" [(ngModel)]="DefaultRoomsDetail['r2']" class="form-control mb-2 mr-sm-2" disabled=""/>
+              </div>
+              <div class="form-group col-hlf-2 m-0">
+                <input type="number" [(ngModel)]="DefaultRoomsDetail['r3']" class="form-control mb-2 mr-sm-2" disabled=""/>
+              </div>
+              <div class="form-group col-hlf-2 m-0">
+                <input type="number" [(ngModel)]="DefaultRoomsDetail['r4']" class="form-control mb-2 mr-sm-2" disabled=""/>
+              </div>
+              <div class="form-group col-hlf-2 m-0">
+                <input type="number" [(ngModel)]="DefaultRoomsDetail['r5']" class="form-control mb-2 mr-sm-2" disabled=""/>
+              </div>
+              <div class="form-group col-hlf-2 m-0">
+                <input type="number" [(ngModel)]="DefaultRoomsDetail['r6']" class="form-control mb-2 mr-sm-2" disabled=""/>
+              </div>
+              <div class="form-group col-hlf-2 m-0">
+                <input type="number" [(ngModel)]="DefaultRoomsDetail['r7']" class="form-control mb-2 mr-sm-2" disabled=""/>
+              </div>
+              <div class="form-group col-hlf-2 m-0">
+                <input type="number" [(ngModel)]="DefaultRoomsDetail['r8']" class="form-control mb-2 mr-sm-2" disabled=""/>
+              </div>
+            </div>                 
 
         </div>
       </ng-template>
@@ -1750,15 +1780,16 @@
                 <th class="bg-primary sticky-top" >Time</th>
                 <th class="bg-primary sticky-top">Location</th>
                 <th class="bg-primary sticky-top">Activity</th>
-                <th class="bg-primary sticky-top"style="max-width: 7%;width: 7%;"></th>
+                <!--<th class="bg-primary sticky-top"style="max-width: 7%;width: 7%;"></th>-->
               </tr>
             </thead>
             <tbody>
-              <tr class="cursor-pointer" *ngFor="let eLst of CustomerEventList; let i = index">
-                <td>{{eLst.eventtime}}</td>
-                <td>{{eLst.eventvenue}}</td>
-                <td>{{eLst.eventdtl}}</td>
-                <td style="max-width: 7%;width: 7%;"><a href="javascript:;" (click)="OpenViewEventContent(viewcontent, eLst)"><i class="fa fa-eye" aria-hidden="true"></i></a> </td>
+              <tr class="cursor-pointer" *ngFor="let eLst of UploadLogoCustomerEventList; let i = index">
+                <td>{{eLst.fromtime | date:'HH:mm'}} - {{eLst.totime | date:'HH:mm'}}</td>
+                   
+                <td>{{eLst.roomname}}</td>
+                <td>{{eLst.activity}}</td>
+                <!--<td style="max-width: 7%;width: 7%;"><a href="javascript:;" (click)="OpenViewEventContent(viewcontent, eLst)"><i class="fa fa-eye" aria-hidden="true"></i></a> </td>-->
 
               </tr>
             </tbody>
@@ -1953,6 +1984,9 @@
             </div>
           </div>
         </ng-template>
+      </li>
+      <li [ngbNavItem]="8" class="pr-2" *ngIf="!IschkViewOnly">
+        <a ngbNavLink (click)="ForceUpdateModal(modalForceUpdate)" (click)="d('Cross click')">Publish</a>
       </li>
     </ul>
     <div [ngbNavOutlet]="tEvents" class="mt-2"></div>

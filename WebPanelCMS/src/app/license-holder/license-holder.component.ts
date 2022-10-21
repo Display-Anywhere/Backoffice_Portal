@@ -72,7 +72,7 @@ export class LicenseHolderComponent
   StateList = [];
   CityList = [];
   cmbCustomerId = '0';
-  
+  DefaultRoomsPaxOccupancy =[]
   FilterValue_For_Reload = 'Regsiter';
   @ViewChild(DataTableDirective)
   dtElement: DataTableDirective;
@@ -90,6 +90,7 @@ export class LicenseHolderComponent
   cmbMeetingId ='0'
   cmbRoomStatus =''
   MeetingRoomDetail ={}
+  DefaultRoomsDetail={}
   cmbEventCustomer ="0"
   EventCustomerList=[]
   eventListjson= []
@@ -101,11 +102,12 @@ export class LicenseHolderComponent
     titleid: "0"
   }
   CustomerEventList =[]
+  UploadLogoCustomerEventList=[]
   MeetingSettings = {};
   SelectedMeetingArray = []
   RoomSignagePlaylist=[]
-  templateHost ='http://localhost:4202'
- // templateHost ='https://templates.nusign.eu'
+ // templateHost ='http://localhost:4202'
+  templateHost ='https://templates.nusign.eu'
 dtPromoStartDate = new Date()
 dtPromoEndDate = new Date()
 dtTokenExpiryDate = new Date()
@@ -144,7 +146,7 @@ ActivePlayerListlength=0;
     });
   }
   public onNavChange(changeEvent: NgbNavChangeEvent) {
-    if (changeEvent.nextId === 1) {
+    if (changeEvent.nextId === 8) {
       changeEvent.preventDefault();
     }
   }
@@ -1590,12 +1592,14 @@ async RefreshTokenList(){
     this.serviceLicense.GetFutureDateEventDetails(EventDate.toDateString(), this.cmbCustomerId).pipe().subscribe((data) => {
       var returnData = JSON.stringify(data);
       var obj  = JSON.parse(returnData);
+      if (obj.response=="1"){
           var jsonParse = JSON.parse(obj.data)
           jsonParse.forEach(item => {
             var ar ={}
             ar['Id'] = item['edate']
             this.EventList.push(ar)
           });
+        }
           this.loading = false;
         },
         (error) => {
@@ -1628,6 +1632,7 @@ async RefreshTokenList(){
     await this.FillFormat()
     this.dtpEventSearchDate = new Date()
     await this.SearchEvent()
+    await this.GetDefaultRoomsPaxOccupancy()
     this.modalService.open(modalContant, {
       size: 'lg-900',
       windowClass: 'fade',
@@ -1650,7 +1655,7 @@ async RefreshTokenList(){
     formData.append('profile', this.Adform.get('FilePathNew').value);
 
     this.serviceLicense.uploadevent(formData).subscribe(
-      (res) => {
+      async (res) => {
         this.fileUpload = res;
         var returnData = JSON.stringify(res);
         var obj = JSON.parse(returnData);
@@ -1659,6 +1664,7 @@ async RefreshTokenList(){
           this.loading = false;
           this.isUploadEventSheet="Yes"
           this.GetCurrentEventDetails(eventDate)
+          await this.SearchEvent()
           var currentd = new Date();
           var cd = new Date(currentd.getFullYear(),currentd.getMonth(),currentd.getDate());
           var putDate = new Date(eventDate);
@@ -1751,6 +1757,8 @@ async RefreshTokenList(){
   onChangeMeetingRoom(deviceValue) {
     var obj = this.MeetingRoomList.filter(o => o.id == deviceValue)
     this.MeetingRoomDetail = obj[0]
+    var obj2 = this.DefaultRoomsPaxOccupancy.filter(o => o.id == deviceValue)
+    this.DefaultRoomsDetail = obj2[0]
     /*this.cmbFormatId = this.MeetingRoomDetail['signageFormatid']
     if ((this.cmbFormatId =="0") || (this.cmbFormatId ==null)){
       this.PlaylistList =[]
@@ -1811,7 +1819,7 @@ async RefreshTokenList(){
   }
   GetCurrentEventDetails (EventDate) {
     this.CustomerEventList = []
-    this.EventCustomerList =[]
+    
     this.cmbEventCustomer="0"
     this.loading = true;
     var str = '';
@@ -1835,10 +1843,7 @@ async RefreshTokenList(){
 
             this.CustomerEventList.push(item)
           }
-          var arr = {}
-          this.EventCustomerList = this.EventCustomerList.filter(o => o.companyname != item['companyname'])
-          arr['companyname']= item['companyname']
-          this.EventCustomerList.push(arr)
+          
         });
         this.eventListjson= eventjson
         if (this.isUploadEventSheet == "No"){
@@ -1919,7 +1924,8 @@ async RefreshTokenList(){
   onChangeEventCustomer (e){
     // Meeting Lounge
     this.ResetCompanylogo()
-    this.CustomerEventList = this.eventListjson.filter(o => o.companyname == e && o.mid != 0)
+    console.log(this.SavedEventList)
+    this.UploadLogoCustomerEventList = this.SavedEventList.filter(o => o.cName == e && o.mid != 0)
   }
   OpenViewEventContent (modalName, event) {
     var url =`${this.templateHost}?templateId=CP32&mid=${event.mid}&imgSrc=${this.EventCustomerdata.logoimgurl}&title=${event.companyname.replace('&','amp')}&desc=${event.eventvenue}&text1=${event.eventtime}&text2=${event.eventdtl}`
@@ -1934,8 +1940,50 @@ async RefreshTokenList(){
     this.CommonSaveRoomCustomerEvent(eventDate)
   }
   SaveRoomCustomerEventWithButtonClick () {
-    var eventDate
-    this.CommonSaveRoomCustomerEvent(eventDate)
+    var payload =[]
+    let payloadPublish = []
+    if (this.EventCustomerdata.logoimgurl == ""){
+      this.toastr.info('Please set logo','');
+      return
+    }
+    this.loading = true;
+    var EventDate = new Date(this.dtpLogoEventDate);
+
+      var arr ={}
+      arr['cName'] = this.cmbEventCustomer
+      arr['logoUrl'] = this.EventCustomerdata.logoimgurl
+      arr['titleid'] = this.EventCustomerdata.titleid 
+      arr['dfclientid'] =this.cmbCustomerId
+      arr['eventDate'] = EventDate.toDateString()
+      payload.push(arr)
+    
+    this.serviceLicense.SaveCustomerEventLogo(payload).pipe().subscribe((data) => {
+      var returnData = JSON.stringify(data);
+      var objRes = JSON.parse(returnData);
+      this.loading = false;
+      if (objRes.Responce == "1"){
+        this.toastr.info('Saved', '');
+        this.ResetCompanylogo()
+        /*this.toastr.info('Event schedule is saved', '');
+        var currentd = new Date();
+        var cd = new Date(currentd.getFullYear(),currentd.getMonth(),currentd.getDate());
+        var putDate = new Date(eventDate);
+        if (cd == putDate) {
+        if (this.cmbCustomerId == "10") {
+          this.publishEventPLayer(payloadPublish)
+        }
+      }
+
+        this.CustomerEventList=[]
+        this.ResetCompanylogo(); */
+      }
+     
+    },
+    (error) => {
+      this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
+      this.loading = false;
+    }
+  );
   }
   CommonSaveRoomCustomerEvent(eventDate) {
     
@@ -2329,26 +2377,28 @@ async RefreshTokenList(){
   SearchEvent(){
     this.inEventfrm()
     this.SavedEventList=[]
+    this.EventCustomerList=[]
     let ct
     ct= new Date()
     let diffMs = (ct - this.dtpEventSearchDate);  
     var diffDays = Math.floor(diffMs / 86400000);  
     if (diffDays >0){
       this.toastr.info('Event search date not be less than current date.','');
-      return
+      this.dtpEventSearchDate= new Date()
     }
+    this.dtpEventSearchDate= new Date(this.dtpEventSearchDate)
     this.loading = true;
-    this.pService.GetRoomEventList_Datewise(this.dtpEventSearchDate, this.cmbCustomerId).pipe().subscribe((data) => {
+    this.pService.GetRoomEventList_Datewise(this.dtpEventSearchDate.toDateString(), this.cmbCustomerId).pipe().subscribe((data) => {
           var returnData = JSON.stringify(data);
           var obj = JSON.parse(returnData);
           if (obj.data !=''){
             this.SavedEventList = JSON.parse(obj.data)
             this.SavedEventList.forEach(item => {
-              var objRoom = this.MeetingRoomList.filter(o => o.id == item["mid"]) 
-              item["rName"]= objRoom[0].roomname
-              
+              var arr = {}
+              this.EventCustomerList = this.EventCustomerList.filter(o => o.companyname != item['cName'])
+              arr['companyname']= item['cName']
+              this.EventCustomerList.push(arr)
             });
-            console.log(this.SavedEventList)
           }
           this.loading = false;
         },
@@ -2392,6 +2442,8 @@ async RefreshTokenList(){
     );
     this.frmEvent.get('stime').setValue(dt.toTimeString().slice(0, 5));
     this.frmEvent.get('etime').setValue(dt2.toTimeString().slice(0, 5));
+    var startDate = new Date(this.frmEvent.value.edate);
+    this.frmEvent.get('edate').setValue(startDate.toDateString());
 
     var payload = this.frmEvent.value
    
@@ -2457,6 +2509,23 @@ async RefreshTokenList(){
             'Apologies for the inconvenience.The error is recorded.',
             ''
           );
+          this.loading = false;
+        }
+      );
+  }
+  GetDefaultRoomsPaxOccupancy() {
+    this.DefaultRoomsPaxOccupancy =[]
+    this.loading = true;
+    this.serviceLicense.GetDefaultRoomsPaxOccupancy(this.cmbCustomerId).pipe().subscribe((data) => {
+      var returnData = JSON.stringify(data);
+      var obj = JSON.parse(returnData);
+      if (obj.data !=''){
+        this.DefaultRoomsPaxOccupancy = JSON.parse(obj.data)
+      }
+          this.loading = false;
+        },
+        (error) => {
+          this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
           this.loading = false;
         }
       );

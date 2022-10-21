@@ -291,6 +291,12 @@ SaveRoomCustomerEvent(json) {
   return this.http.post(this.cApi.SaveRoomCustomerEvent, params, { headers: headers })
     .pipe((data => { return data; }))
 }
+SaveCustomerEventLogo(json) {
+  let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+  var params = json;
+  return this.http.post(this.cApi.SaveCustomerEventLogo, params, { headers: headers })
+    .pipe((data => { return data; }))
+}
 AppendSignagePlaylistRoom(cd, dfclientid) {
   let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
   var params = JSON.stringify({ cd, dfclientid });
@@ -364,6 +370,12 @@ DeleteRoomEvent(id) {
   let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
   var params = JSON.stringify({ pschid: id});
   return this.http.post(this.cApi.DeleteRoomEvent, params, { headers: headers })
+    .pipe((data => { return data; }))
+}
+GetDefaultRoomsPaxOccupancy(clientid) {
+  let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+  var params = JSON.stringify({ clientid: clientid, _id:"0" });
+  return this.http.post(this.cApi.GetDefaultRoomsPaxOccupancy, params, { headers: headers })
     .pipe((data => { return data; }))
 }
 }
