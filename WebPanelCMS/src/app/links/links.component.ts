@@ -40,7 +40,7 @@ SignageVideo0="";
 SignageVideo90="";
 viewsonic="";
 UserId = localStorage.getItem('UserId');
-IsSbit= localStorage.getItem('IsSbit')
+PortalName= localStorage.getItem('PortalName')
 SmartTv="https://bit.ly/3vl4Gqm"
   constructor(private serviceLicense: SerLicenseHolderService,
      public toastr: ToastrService, vcr: ViewContainerRef, public auth:AuthServiceOwn,private sanitizer: DomSanitizer) {
@@ -73,7 +73,7 @@ this.VideoLink0="https://bit.ly/31yZLD4";
     //================================== Nusign ==========================
      
     this.IsAdvikon= false;
-if ((localStorage.getItem('IsSbit') == 'Yes')){
+if ((localStorage.getItem('PortalName') == 'sbit')){
 
   this.SignageVideo0="";
   this.VideoLink90=""; 

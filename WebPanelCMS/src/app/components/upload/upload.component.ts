@@ -44,7 +44,7 @@ export class UploadComponent implements OnInit {
   ComponentName="NormalUpload"
   ready = "";
   thumb=[];
-  IsSbit= localStorage.getItem('IsSbit')
+  PortalName= localStorage.getItem('PortalName')
   resetFormSubject: Subject<boolean> = new Subject<boolean>();
   resetFormSubject_Url: Subject<boolean> = new Subject<boolean>();
   resetFormSubject_ConvertUrl: Subject<boolean> = new Subject<boolean>();

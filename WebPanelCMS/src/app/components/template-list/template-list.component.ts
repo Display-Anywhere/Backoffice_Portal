@@ -11,7 +11,7 @@ export class TemplateListComponent implements OnInit {
   TemplatListType="LS"
   IsEditTemplateOpen=false
   clientid= localStorage.getItem('dfClientId')
-  IsSbit= localStorage.getItem('IsSbit')
+  PortalName= localStorage.getItem('PortalName')
   constructor(private router: Router, public auth:AuthServiceOwn) { 
     this.auth.IsEditTemplateOpen$.subscribe((res: boolean) => {
       this.IsEditTemplateOpen=res

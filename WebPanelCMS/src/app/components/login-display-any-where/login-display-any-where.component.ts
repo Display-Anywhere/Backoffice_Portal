@@ -1,30 +1,30 @@
 import { Component, OnInit, ViewContainerRef, Inject, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { UloginService } from '../login/ulogin.service';
-import { VisitorsService } from '../visitors.service';
 import { ToastrService } from 'ngx-toastr';
-import { AuthServiceOwn } from '../auth/auth.service';
 import { AuthService } from '@auth0/auth0-angular';
 import { MsalService, MsalBroadcastService, MSAL_GUARD_CONFIG, MsalGuardConfiguration } from '@azure/msal-angular';
 import { AuthenticationResult, InteractionStatus, InteractionType, PopupRequest, RedirectRequest , EventMessage, EventType} from '@azure/msal-browser';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
+import { UloginService } from 'src/app/login/ulogin.service';
+import { VisitorsService } from 'src/app/visitors.service';
+import { AuthServiceOwn } from 'src/app/auth/auth.service';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
+  selector: 'app-login-display-any-where',
+  templateUrl: './login-display-any-where.component.html',
+  styleUrls: ['./login-display-any-where.component.css']
 })
-export class LoginComponent implements OnInit,OnDestroy {
+export class LoginDisplayAnyWhereComponent implements OnInit {
   loginform: FormGroup;
   submitted = false;
   public loading = false;
   ipAddress;
   emailText = '';
   loginpage = 'Nusign';
-  PortalName="nusign" //nusign sbit display
+  PortalName="display" //nusign sbit display
   IsTwoWayActive= "0"
   randomNumber = ''
   EnterOTPCode = ''
@@ -43,7 +43,9 @@ export class LoginComponent implements OnInit,OnDestroy {
   ) {}
 
   ngOnInit() {
-    
+     
+      
+     
     this.msalBroadcastService.inProgress$
         .pipe(
           filter((status: InteractionStatus) => status === InteractionStatus.None),
@@ -60,13 +62,14 @@ export class LoginComponent implements OnInit,OnDestroy {
         this.setLoginDisplay();
       });
     this.authService.logout();
+    localStorage.setItem('host', 'https://applicationaddons.com/api/');
     localStorage.setItem('DBType', 'Nusign');
     localStorage.setItem('code','')
     localStorage.setItem('PortalName', this.PortalName);
-    localStorage.setItem('host', 'https://api.nusign.eu/api/')
-    //localStorage.setItem('host', 'http://localhost:60328/api/')
-    if (localStorage.getItem('DBType') === 'Advikon') {
-      this.emailText = 'jan@advikon.eu';
+
+    localStorage.setItem('loginpage', this.loginpage);
+    if (localStorage.getItem('PortalName') === 'display') {
+      this.emailText = 'j.rooijakkers@display-anywhere.com';
     } else {
       this.emailText = 'jan@advikon.eu';
     }

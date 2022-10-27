@@ -23,7 +23,7 @@ export class LoginSbitComponent implements OnInit, OnDestroy {
   ipAddress;
   emailText=''
   loginpage='Nusign'
-  IsSbit='Yes'
+  PortalName='sbit' //nusign sbit display
 
   loginDisplay = false;
   IsTwoWayActive= "0"
@@ -114,6 +114,7 @@ export class LoginSbitComponent implements OnInit, OnDestroy {
       }
 
       ngOnInit() {
+         
         this.msalBroadcastService.inProgress$
         .pipe(
           filter((status: InteractionStatus) => status === InteractionStatus.None),
@@ -131,8 +132,8 @@ export class LoginSbitComponent implements OnInit, OnDestroy {
       });
         this.authService.logout();
         localStorage.setItem('DBType', 'Nusign');
-        localStorage.setItem('IsSbit', this.IsSbit);
-    
+        localStorage.setItem('PortalName', this.PortalName);
+        localStorage.setItem('host', 'https://api.nusign.eu/api/');
         
         if (localStorage.getItem('DBType')==="Advikon"){
           this.emailText='jan@advikon.eu'

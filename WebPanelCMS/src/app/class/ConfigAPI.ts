@@ -2,7 +2,8 @@ import { Injectable } from "@angular/core";
 @Injectable()
 export class ConfigAPI {
   //private Host = 'http://live.advikon.com/api/';
-    private Host: string = "https://api.nusign.eu/api/";
+  //Host=localStorage.getItem('host')
+  private Host: string = "https://api.nusign.eu/api/";
    //private Host: string = "https://panelapi.advikon.com/api/";
    //private Host: string = "http://localhost:60328/api/";
    //private Host_panel: string = "https://api.advikon.com/api/";

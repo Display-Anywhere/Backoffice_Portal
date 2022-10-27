@@ -1439,7 +1439,24 @@
                 </div>
               </div>
             </div>
-           
+            <div class="table-responsive">
+              <table class="table data-table table-striped table-bordered mydatatable">
+                <thead>
+                  <tr>
+                    <th class="bg-primary sticky-top" style="max-width: 40%;width: 40%;">Event Date</th>
+                    <th class="bg-primary sticky-top Link-Center_Width"></th>
+                    <!--<th class="bg-primary sticky-top Link-Center_Width"></th>-->
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="cursor-pointer" *ngFor="let eLst of EventList; let i = index">
+                    <td>{{eLst.Id | date:'dd-MMM-yyyy'}}</td>
+                    <td class="Link-Center_Width"><a href="javascript:;" (click)="OpenViewContent(viewcontent, eLst.Id,'N')"><i class="fa fa-eye" aria-hidden="true"></i></a> </td>
+                    <!--<td class="Link-Center_Width"><a href="javascript:;" (click)="OpenViewContent(viewcontent, eLst.Id,'O')"><i class="fa fa-eye" aria-hidden="true"></i></a> </td>-->
+                  </tr>
+                </tbody>
+              </table>
+            </div>
         </ng-template>
       </li>
       <li [ngbNavItem]="2" class="pr-2" *ngIf="!IschkViewOnly">
@@ -1580,29 +1597,115 @@
           </div>
         </ng-template>
       </li>
-      <li [ngbNavItem]="3" class="pr-2">
-        <a ngbNavLink>Event List</a>
-        <ng-template ngbNavContent>
-          <div class="table-responsive">
-            <table class="table data-table table-striped table-bordered mydatatable">
-              <thead>
-                <tr>
-                  <th class="bg-primary sticky-top" style="max-width: 40%;width: 40%;">Event Date</th>
-                  <th class="bg-primary sticky-top Link-Center_Width"></th>
-                  <!--<th class="bg-primary sticky-top Link-Center_Width"></th>-->
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="cursor-pointer" *ngFor="let eLst of EventList; let i = index">
-                  <td>{{eLst.Id | date:'dd-MMM-yyyy'}}</td>
-                  <td class="Link-Center_Width"><a href="javascript:;" (click)="OpenViewContent(viewcontent, eLst.Id,'N')"><i class="fa fa-eye" aria-hidden="true"></i></a> </td>
-                  <!--<td class="Link-Center_Width"><a href="javascript:;" (click)="OpenViewContent(viewcontent, eLst.Id,'O')"><i class="fa fa-eye" aria-hidden="true"></i></a> </td>-->
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </ng-template>
-      </li>
+      <li [ngbNavItem]="3" class="pr-2" *ngIf="!IschkViewOnly">
+        <a ngbNavLink>Set Playlist</a>
+              <ng-template ngbNavContent>
+                <div class="col-sm-12">
+                  <div class="form-row">
+                    <div class="form-group col-sm-4 m-0">
+                      <label for="cmbMeeting"  class="mb-2 mr-sm-2">Rooms:</label>
+                      <ng-multiselect-dropdown
+                      id="cmbMeeting"
+                      [placeholder]="' '"
+                      [settings]="MeetingSettings"
+                      [data]="MeetingRoomList"
+                      [(ngModel)]="SelectedMeetingArray"
+                      [ngModelOptions]="{ standalone: true }"
+                    >
+                    </ng-multiselect-dropdown>
+      
+      
+      
+                      <!--<select
+                        class="custom-select mb-3"
+                        (change)="onChangeMeetingRoom($event.target.value)"
+                        id="cmbMeeting"
+                        [(ngModel)]="cmbMeetingId"
+                      >
+                        <option selected value="0"></option>
+                        <option *ngFor="let cLst of MeetingRoomList" [value]="cLst.id">
+                          {{ cLst.roomname }}
+                        </option>
+                      </select>-->
+                    </div>
+                    <div class="form-group col-sm-3 m-0">
+                      <label for="cmbFormat"  class="mb-2 mr-sm-2"
+                        >Campaign Name:</label
+                      >
+                      <select
+                        class="custom-select mb-3"
+                        (change)="onChangeFormat($event.target.value)"
+                        id="cmbFormat"
+                        [(ngModel)]="cmbFormatId"
+                      >
+                        <option selected value="0"></option>
+                        <option *ngFor="let fLst of FormatList" [value]="fLst.Id">
+                          {{ fLst.DisplayName }}
+                        </option>
+                      </select>
+                    </div>
+                    <div class="form-group col-sm-3 m-0">
+                      <label for="cmbPlaylist"  class="mb-2 mr-sm-2"
+                        >Playlist Name:</label
+                      >
+                      <select
+                        class="custom-select mb-3"
+                        id="cmbPlaylist"
+                        [(ngModel)]="cmbPlaylistId"
+                      >
+                        <option selected value="0"></option>
+                        <option *ngFor="let fLst of PlaylistList" [value]="fLst.Id">
+                          {{ fLst.DisplayName }}
+                        </option>
+                      </select>
+                    </div>
+                    <div class="form-group col-sm-3 m-0 d-none">
+                      <label for="cmbRoomStatus"  class="mb-2 mr-sm-2"  
+                        >Room Status:</label
+                      >
+                      <select
+                        class="custom-select mb-3"
+                        id="cmbRoomStatus"
+                        [(ngModel)]="MeetingRoomDetail['roomstatus']"
+                      >
+                        <option selected value="available">Available</option>
+                        <option selected value="not available">Not Available</option>
+                      </select>
+                    </div>
+                    <div class="form-group col-sm-2 m-0">
+                      <button 
+                      type="button"
+                      class="btn btn-primary btn-s mt-5"
+                      (click)="UpdateMeetingInfo(viewcontent)"
+                    >
+                      Save
+                    </button>
+                    </div>
+                  </div>
+                  
+                </div>
+                <div class="col-sm-12">
+                  <div class="table-responsive">
+                    <table class="table data-table table-striped table-bordered mydatatable">
+                      <thead>
+                        <tr>
+                          <th class="bg-primary sticky-top" >Room Name</th>
+                          <th class="bg-primary sticky-top">Campaign Name</th>
+                          <th class="bg-primary sticky-top">Playlist Name</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr class="cursor-pointer" *ngFor="let eLst of RoomSignagePlaylist; let i = index">
+                          <td>{{eLst.roomname}}</td>
+                          <td>{{eLst.FormatName}}</td>
+                          <td>{{eLst.splPlaylistName}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </ng-template>
+            </li>
       <li [ngbNavItem]="4" class="pr-2" *ngIf="!IschkViewOnly">
         <a ngbNavLink>Pax occupancy</a>
         <ng-template ngbNavContent>
@@ -1798,116 +1901,8 @@
       </div>
       </ng-template>
     </li>
-<li [ngbNavItem]="6" class="pr-2" *ngIf="!IschkViewOnly">
-  <a ngbNavLink>Set Signage Playlist</a>
-        <ng-template ngbNavContent>
-          <div class="col-sm-12">
-            <div class="form-row">
-              <div class="form-group col-sm-4 m-0">
-                <label for="cmbMeeting"  class="mb-2 mr-sm-2">Rooms:</label>
-                <ng-multiselect-dropdown
-                id="cmbMeeting"
-                [placeholder]="' '"
-                [settings]="MeetingSettings"
-                [data]="MeetingRoomList"
-                [(ngModel)]="SelectedMeetingArray"
-                [ngModelOptions]="{ standalone: true }"
-              >
-              </ng-multiselect-dropdown>
 
-
-
-                <!--<select
-                  class="custom-select mb-3"
-                  (change)="onChangeMeetingRoom($event.target.value)"
-                  id="cmbMeeting"
-                  [(ngModel)]="cmbMeetingId"
-                >
-                  <option selected value="0"></option>
-                  <option *ngFor="let cLst of MeetingRoomList" [value]="cLst.id">
-                    {{ cLst.roomname }}
-                  </option>
-                </select>-->
-              </div>
-              <div class="form-group col-sm-3 m-0">
-                <label for="cmbFormat"  class="mb-2 mr-sm-2"
-                  >Campaign Name:</label
-                >
-                <select
-                  class="custom-select mb-3"
-                  (change)="onChangeFormat($event.target.value)"
-                  id="cmbFormat"
-                  [(ngModel)]="cmbFormatId"
-                >
-                  <option selected value="0"></option>
-                  <option *ngFor="let fLst of FormatList" [value]="fLst.Id">
-                    {{ fLst.DisplayName }}
-                  </option>
-                </select>
-              </div>
-              <div class="form-group col-sm-3 m-0">
-                <label for="cmbPlaylist"  class="mb-2 mr-sm-2"
-                  >Playlist Name:</label
-                >
-                <select
-                  class="custom-select mb-3"
-                  id="cmbPlaylist"
-                  [(ngModel)]="cmbPlaylistId"
-                >
-                  <option selected value="0"></option>
-                  <option *ngFor="let fLst of PlaylistList" [value]="fLst.Id">
-                    {{ fLst.DisplayName }}
-                  </option>
-                </select>
-              </div>
-              <div class="form-group col-sm-3 m-0 d-none">
-                <label for="cmbRoomStatus"  class="mb-2 mr-sm-2"  
-                  >Room Status:</label
-                >
-                <select
-                  class="custom-select mb-3"
-                  id="cmbRoomStatus"
-                  [(ngModel)]="MeetingRoomDetail['roomstatus']"
-                >
-                  <option selected value="available">Available</option>
-                  <option selected value="not available">Not Available</option>
-                </select>
-              </div>
-              <div class="form-group col-sm-2 m-0">
-                <button 
-                type="button"
-                class="btn btn-primary btn-s mt-5"
-                (click)="UpdateMeetingInfo(viewcontent)"
-              >
-                Save
-              </button>
-              </div>
-            </div>
-            
-          </div>
-          <div class="col-sm-12">
-            <div class="table-responsive">
-              <table class="table data-table table-striped table-bordered mydatatable">
-                <thead>
-                  <tr>
-                    <th class="bg-primary sticky-top" >Room Name</th>
-                    <th class="bg-primary sticky-top">Campaign Name</th>
-                    <th class="bg-primary sticky-top">Playlist Name</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr class="cursor-pointer" *ngFor="let eLst of RoomSignagePlaylist; let i = index">
-                    <td>{{eLst.roomname}}</td>
-                    <td>{{eLst.FormatName}}</td>
-                    <td>{{eLst.splPlaylistName}}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </ng-template>
-      </li>
-      <li [ngbNavItem]="7" class="pr-2" *ngIf="!IschkViewOnly">
+      <li [ngbNavItem]="6" class="pr-2" *ngIf="!IschkViewOnly">
         <a ngbNavLink>Promo Logo</a>
         <ng-template ngbNavContent>
           <div class="col-12 p-0">
@@ -1985,7 +1980,7 @@
           </div>
         </ng-template>
       </li>
-      <li [ngbNavItem]="8" class="pr-2" *ngIf="!IschkViewOnly">
+      <li [ngbNavItem]="7" class="pr-2" *ngIf="!IschkViewOnly">
         <a ngbNavLink (click)="ForceUpdateModal(modalForceUpdate)" (click)="d('Cross click')">Publish</a>
       </li>
     </ul>

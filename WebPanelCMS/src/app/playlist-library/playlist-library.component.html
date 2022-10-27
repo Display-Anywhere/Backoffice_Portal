@@ -33,7 +33,7 @@
         </div>
         <div class="row m-0 p-0">
           <div class="col-lg-6 ml-0 pl-0" >
-            <button *ngIf="((IsSbit == 'No') && (OtherKey !=''))"
+            <button *ngIf="((PortalName != 'sbit') && (OtherKey !=''))"
             class="btn btn-primary w-100 custombutton d-none"
             (click)="OpenEditTemplates('')">
             Edit Templates
@@ -1494,9 +1494,9 @@
            (click)="VolumeLevelSetting(modalTokenInfo)" (click)="d('Cross click')">Volume Level
         </button>
       </div>
-        <div *ngIf="IsSbit == 'Yes'" class="col-sm-4 p-0" style="max-width: 27%;flex: 0 0 27%;">
+        <div *ngIf="PortalName == 'sbit'" class="col-sm-4 p-0" style="max-width: 27%;flex: 0 0 27%;">
           <button class="btn btn-primary" style="font-size: 13px;" (click)="SetDefaultHotelTvPlaylist()">
-            Default Hotel TV
+            Default H-Info
           </button>
        </div>
       </div>

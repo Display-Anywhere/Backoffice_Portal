@@ -1,8 +1,6 @@
 <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }">
 </ngx-loading>
-<app-login-sbit *ngIf="PortalName=='sbit'"></app-login-sbit>
-<app-login-display-any-where *ngIf="PortalName=='display'"></app-login-display-any-where>
-<div class="wrapper" *ngIf="PortalName=='nusign'">
+<div class="wrapper">
   <section class="logincontent">
     
     <img *ngIf="loginpage=='Nusign1'" src="assets/images/login/02.png" class="lb-img" alt="" />
@@ -30,7 +28,7 @@
             </div>
             <div class="col-lg-4 order-1 order-xl-2"  [ngClass]="(loginpage ==='PPDS') ? 'logindivcenter':''">
               <div class="text-center">
-                 <img *ngIf="loginpage=='Nusign'" class="logo" src="assets/img/logo.png" alt="" /> 
+                 <img *ngIf="loginpage=='Nusign'" class="logo" src="assets/img/display_logo.png" alt="" /> 
                  
                 <span *ngIf="loginpage=='PPDS'"  class="img-fluid w-80">
                   <div class="col-12  text-center mb-3">

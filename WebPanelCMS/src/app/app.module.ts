@@ -27,7 +27,7 @@ export function loggerCallback(logLevel: LogLevel, message: string) {
 
 export function MSALInstanceFactory(): IPublicClientApplication {
   let redirectUrl = "https://nusign.eu"
-  if (localStorage.getItem('IsSbit')=="Yes"){
+  if (localStorage.getItem('PortalName')=="sbit"){
     redirectUrl ="https://signage.sbit-hospitality.com"
   }
   return new PublicClientApplication({

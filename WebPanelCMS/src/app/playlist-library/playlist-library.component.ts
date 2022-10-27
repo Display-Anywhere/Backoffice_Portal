@@ -163,7 +163,7 @@ export class PlaylistLibraryComponent implements OnInit {
   IschkViewOnly=0;
   PlaylistExpiryList=[];
   cmbPublishId=""
-  IsSbit= localStorage.getItem('IsSbit')
+  PortalName= localStorage.getItem('PortalName')
   isSanitizerActive=false
   async ngOnInit() {
     localStorage.setItem('IsAnnouncement', '0');

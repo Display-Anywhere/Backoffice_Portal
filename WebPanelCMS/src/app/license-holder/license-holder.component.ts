@@ -1712,7 +1712,7 @@ async RefreshTokenList(){
     if (t =="N"){
       tid="CP4"
     }
-    if (localStorage.getItem('IsSbit')=='Yes'){
+    if (localStorage.getItem('PortalName')=='sbit'){
       tid="sbit1"
     }
     var url =`${this.templateHost}?templateId=${tid}&cpd=${evtDate}&dfd=${this.cmbCustomerId}`
@@ -2458,6 +2458,8 @@ async RefreshTokenList(){
         this.toastr.info('Event schedule is saved', '');
         await this.SearchEvent()
         await this.GetFutureEventDetails()
+        var payloadPublish=[]
+        await this.AppendSignagePlaylistRoom(startDate,payloadPublish)
         /*
         var currentd = new Date();
         var cd = new Date(currentd.getFullYear(),currentd.getMonth(),currentd.getDate());
