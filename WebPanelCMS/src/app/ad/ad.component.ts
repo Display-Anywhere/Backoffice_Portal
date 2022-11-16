@@ -478,6 +478,12 @@ export class AdComponent implements OnInit {
     var sTime = this.Adform.value.sTime;
     const dt = new Date('Mon Mar 09 2020 ' + sTime.hour + ':' + sTime.minute + ':00');
     this.Adform.get('sTime').setValue(dt.toTimeString().slice(0, 5));
+    
+    var startDate = new Date(this.Adform.value.sDate);
+    this.Adform.get('sDate').setValue(startDate.toDateString());
+
+    var endDate = new Date(this.Adform.value.eDate);
+    this.Adform.get('eDate').setValue(endDate.toDateString());
 
     formData.append('fcom', JSON.stringify(this.Adform.value));
     formData.append('profile', this.Adform.get('FilePathNew').value);
@@ -616,6 +622,13 @@ export class AdComponent implements OnInit {
     var sTime = this.Adform.value.sTime;
     const dt = new Date('Mon Mar 09 2020 ' + sTime.hour + ':' + sTime.minute + ':00');
     this.Adform.get('sTime').setValue(dt.toTimeString().slice(0, 5));
+
+    var startDate = new Date(this.Adform.value.sDate);
+    this.Adform.get('sDate').setValue(startDate.toDateString());
+
+    var endDate = new Date(this.Adform.value.eDate);
+    this.Adform.get('eDate').setValue(endDate.toDateString());
+
     this.aService.UpdateAds(this.Adform.value).pipe()
       .subscribe(data => {
         var returnData = JSON.stringify(data);
@@ -670,7 +683,9 @@ export class AdComponent implements OnInit {
         this.Adform.get('pMode').setValue(obj.pMode);
         this.Adform.get('TotalFrequancy').setValue(obj.TotalFrequancy);
         this.Adform.get('type').setValue(obj.type);
-        this.Adform.get('sTime').setValue(st);
+
+        var time: NgbTimeStruct = { hour: st.getHours(), minute: st.getMinutes(), second: 0 };
+        this.Adform.get('sTime').setValue(time);
         this.fPath = obj.FilePath;
         this.Adform.get('CustomerLst').setValue(this.CustomerSelected);
         this.Adform.get('TokenLst').setValue(this.TokenSelected);

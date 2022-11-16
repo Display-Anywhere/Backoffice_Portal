@@ -64,7 +64,16 @@ export class LicenseHolderComponent
   tokenid;
   TokenPlaylistList = [];
   dropdownSettings = {};
-
+  ModifyGroupName=""
+  cmbRoomGroup="0"
+  cmbRoomGroup_search="0"
+  Group_List=[]
+  futureSchList=[]
+  FutureSchFind="No"
+  GroupVenueList=[]
+  GroupAllVenueList=[]
+  cmbRoomSchedule="0"
+  GroupVenueSelected = [];
   dropdownList = [];
   selectedItems = [];
   searchTextPublish="";
@@ -104,8 +113,11 @@ export class LicenseHolderComponent
   CustomerEventList =[]
   UploadLogoCustomerEventList=[]
   MeetingSettings = {};
+  GroupSettings = {};
   SelectedMeetingArray = []
+  Group_Active=1
   RoomSignagePlaylist=[]
+  RoomSignagePlaylist_Main=[]
  // templateHost ='http://localhost:4202'
   templateHost ='https://templates.nusign.eu'
 dtPromoStartDate = new Date()
@@ -120,6 +132,8 @@ ActivePlayerListlength=0;
   dtpEventSearchDate
   SavedEventList=[]
   RoomActivityList=[]
+  rType_Playlist="Room"
+  Schedule_Active=1
   @ViewChild('flocation') flocationElement: ElementRef;
   constructor(
     config: NgbModalConfig,
@@ -146,7 +160,7 @@ ActivePlayerListlength=0;
     });
   }
   public onNavChange(changeEvent: NgbNavChangeEvent) {
-    if (changeEvent.nextId === 8) {
+    if (changeEvent.nextId === 9) {
       changeEvent.preventDefault();
     }
   }
@@ -1627,12 +1641,14 @@ async RefreshTokenList(){
     this.dtpLogoEventDate = EventDate
     await this.FillRoomActivity()
     await this.GetMeetingRooms()
+    await this.FillAllGroupVenue()
     await this.GetFutureEventDetails()
     await this.GetCurrentEventDetails(EventDate)
     await this.FillFormat()
     this.dtpEventSearchDate = new Date()
     await this.SearchEvent()
     await this.GetDefaultRoomsPaxOccupancy()
+    await this.FillGroup()
     this.modalService.open(modalContant, {
       size: 'lg-900',
       windowClass: 'fade',
@@ -1733,6 +1749,15 @@ async RefreshTokenList(){
       unSelectAllText: 'UnSelect All',
       itemsShowLimit: 1,
     };
+    this.GroupSettings = {
+      singleSelection: false,
+      text: '',
+      idField: 'Id',
+      textField: 'DisplayName',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 1,
+    };
     this.loading = true;
     this.MeetingRoomList = []
     this.SelectedMeetingArray = []
@@ -1769,10 +1794,84 @@ async RefreshTokenList(){
       this.cmbPlaylistId= this.MeetingRoomDetail['signagesplId']
     }*/
   }
+  onItemSelectGroup(e){
+    this.RoomSignagePlaylist=[]
+    this.SelectedMeetingArray.forEach(item => {
+      let obj = this.RoomSignagePlaylist_Main.filter(o => o.id == item["Id"])
+      if (obj.length >0){
+        this.RoomSignagePlaylist.push(obj[0])
+      }
+    });
+  }
+  onSelectAllGroup(e){
+    console.log(e)
+    this.RoomSignagePlaylist=[]
+    console.log(this.SelectedMeetingArray)
+    e.forEach(item => {
+      let obj = this.RoomSignagePlaylist_Main.filter(o => o.id == item["Id"])
+      if (obj.length >0){
+        this.RoomSignagePlaylist.push(obj[0])
+      }
+    });
+  }
+  onItemDeSelectGroup(e){
+    this.RoomSignagePlaylist=[]
+    this.SelectedMeetingArray.forEach(item => {
+      let obj = this.RoomSignagePlaylist_Main.filter(o => o.id == item["Id"])
+      if (obj.length >0){
+        this.RoomSignagePlaylist.push(obj[0])
+      }
+    });
+  }
+  onDeSelectAllGroup(e){
+    this.RoomSignagePlaylist=[]
+  }
+  DisplayGroupRoomsList=[]
+  DisplayGroupRooms(mdl){
+    this.DisplayGroupRoomsList=[]
+    this.SelectedMeetingArray.forEach(item => {
+      let obj = this.GroupAllVenueList.filter(o => o.DisplayName == item["Id"])
+      obj.forEach(element => {
+        let rName = this.MeetingRoomList.filter(o => o.id == element["Id"])
+        this.DisplayGroupRoomsList.push({
+          roomname:rName[0]["roomname"],
+          groupname: item["DisplayName"]
+        })
+      });
+    });
+    
+    this.modalService.open(mdl)
+  }
+  onChangerType(){
+    this.SelectedMeetingArray =[]
+    this.RoomSignagePlaylist=[]
+    if (this.rType_Playlist=="Room"){
+      this.RoomSignagePlaylist = this.RoomSignagePlaylist_Main
+    }
+  }
   UpdateMeetingInfo(modalName) {
+    if (this.SelectedMeetingArray.length==0){
+      return
+    }
+    let SelectedMeetingRoomArray=[]
+    if (this.rType_Playlist =='Group'){
+    this.SelectedMeetingArray.forEach(item => {
+      let obj = this.GroupAllVenueList.filter(o => o.DisplayName == item["Id"])
+      obj.forEach(element => {
+        SelectedMeetingRoomArray.push({
+          id:element["Id"],
+          roomname:""
+        })
+      });
+    });
+  }
+  else{
+    SelectedMeetingRoomArray = this.SelectedMeetingArray
+  }
+    
     this.MeetingRoomDetail['signagesplId']= this.cmbPlaylistId
     this.MeetingRoomDetail['signageFormatid']= this.cmbFormatId
-    this.MeetingRoomDetail['lstRoom'] = this.SelectedMeetingArray
+    this.MeetingRoomDetail['lstRoom'] = SelectedMeetingRoomArray
     this.loading = true;
     this.serviceLicense.UpdateMeetingRoomsInfo(this.MeetingRoomDetail).pipe().subscribe((data) => {
       var returnData = JSON.stringify(data);
@@ -1800,6 +1899,7 @@ async RefreshTokenList(){
       var objRes = JSON.parse(returnData);
       if (objRes.response == "1"){
         this.RoomSignagePlaylist = JSON.parse(objRes.data);
+        this.RoomSignagePlaylist_Main  = JSON.parse(objRes.data);
       }
       this.loading = false;
     },
@@ -2094,7 +2194,7 @@ async RefreshTokenList(){
       'select max(sf.Formatid) as id , sf.formatname as displayname from tbSpecialFormat sf left join tbSpecialPlaylistSchedule_Token st on st.formatid= sf.formatid';
     qry =
       qry +
-      ' left join tbSpecialPlaylistSchedule sp on sp.pschid= st.pschid  where ';
+      ' left join tbSpecialPlaylistSchedule sp on sp.pschid= st.pschid  where isnull(LinkWithEvent,0)=0 and ';
     qry =
       qry +
       " (dbtype='" +
@@ -2528,6 +2628,287 @@ async RefreshTokenList(){
         },
         (error) => {
           this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
+          this.loading = false;
+        }
+      );
+  }
+
+  FillGroup() {
+    this.loading = true;
+    this.GroupVenueList=[]
+    this.GroupVenueSelected =[]
+    const qry ='select  id, gname as displayname  from tbRoomGroup where dfClientId = ' + this.cmbCustomerId +' order by gname';
+    this.serviceLicense.FillCombo(qry).pipe().subscribe((data) => {
+          const returnData = JSON.stringify(data);
+          this.Group_List = JSON.parse(returnData);
+          this.loading = false;
+        },
+        (error) => {
+          this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
+          this.loading = false;
+        }
+      );
+  }
+
+  SelectGroupVenue(fileid, event) {
+    if (event.target.checked) {
+      this.GroupVenueSelected.push(fileid);
+    } else {
+      const index: number = this.GroupVenueSelected.indexOf(fileid);
+      if (index !== -1) {
+        this.GroupVenueSelected.splice(index, 1);
+      }
+    }
+  }
+  OpenDeleteGroupModal(modal){
+    if (this.cmbRoomGroup === '0') {
+      this.toastr.info('Please select a group');
+      return;
+    }
+    this.modalService.open(modal);
+  }
+  UpdateRoomGroups(){
+    if (this.cmbRoomGroup === '0') {
+      this.toastr.info('Please select a group');
+      return;
+    }
+    if (this.GroupVenueSelected.length === 0) {
+      this.toastr.info('Please select atleast one room');
+      return;
+    }
+    this.loading = true;
+    this.serviceLicense.UpdateVenueGroups(this.GroupVenueSelected, this.cmbRoomGroup,false).pipe().subscribe((data) => {
+          const returnData = JSON.stringify(data);
+          const obj = JSON.parse(returnData);
+          if (obj.Responce === '1') {
+            this.GroupVenueSelected = [];
+            this.GroupVenueList = [];
+            this.toastr.info('Saved', 'Success!');
+            this.loading = false;
+            this.cmbRoomGroup = '0';
+          } else {
+            this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
+            this.loading = false;
+            return;
+          }
+          this.cmbRoomGroup = '0';
+          this.ModifyGroupName = '';
+        },
+        (error) => {
+          this.toastr.error(
+            'Apologies for the inconvenience.The error is recorded.',
+            ''
+          );
+          this.loading = false;
+        }
+      );
+  }
+  openCommonModal(modal) {
+    this.modalService.open(modal);
+  }
+  GroupVenueAssignedList=[]
+  async onChangeRoomGroup_search(id) {
+    this.GroupVenueAssignedList=[]
+    if (id != "0"){
+      this.loading = true;
+    const qry ='select  mid as id, mid as displayname  from tbRoomGroupDetail where groupid = ' + this.cmbRoomGroup_search +' ';
+    this.serviceLicense.FillCombo(qry).pipe().subscribe((data) => {
+          const returnData = JSON.stringify(data);
+          var lstVenue = JSON.parse(returnData);
+          let obj_GroupVenueList = this.MeetingRoomList
+          obj_GroupVenueList.forEach(item => {
+            item["check"]= false
+            let fList = lstVenue.filter((order) => order.Id == item["id"])
+            if (fList.length > 0){
+              item["check"]= true
+              this.GroupVenueAssignedList.push(item);
+            }
+          });
+          this.loading = false;
+          console.log(this.GroupVenueAssignedList)
+        },
+        (error) => {
+          this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
+          this.loading = false;
+        }
+      );
+    }
+  }
+  async onChangeRoomGroup(id) {
+    let NewFilterList = [];
+    this.GroupVenueList=[]
+    this.GroupVenueSelected =[]
+    NewFilterList = this.Group_List.filter((order) => order.Id === id);
+    if (NewFilterList.length > 0) {
+      console.log(this.GroupAllVenueList)
+      console.log(this.MeetingRoomList)
+      this.MeetingRoomList.forEach(item => {
+        var obj = this.GroupAllVenueList.filter(o => o.Id == item["id"])
+        if (obj.length ==0){
+          this.GroupVenueList.push(item)
+        }
+      });
+      this.ModifyGroupName = NewFilterList[0].DisplayName;
+      await this.FillGroupVenue()
+    }
+    else{
+      this.ModifyGroupName = '';
+      this.cmbRoomGroup = '0';
+    }
+  }
+  FillGroupVenue() {
+    this.loading = true;
+    const qry ='select  mid as id, mid as displayname  from tbRoomGroupDetail where groupid = ' + this.cmbRoomGroup +' ';
+    this.serviceLicense.FillCombo(qry).pipe().subscribe((data) => {
+          const returnData = JSON.stringify(data);
+          var lstVenue = JSON.parse(returnData);
+          this.GroupVenueList.forEach(item => {
+            item["check"]= false
+            let fList = lstVenue.filter((order) => order.Id == item["id"])
+            if (fList.length > 0){
+              this.GroupVenueSelected.push(item["id"]);
+              item["check"]= true
+            }
+          });
+          this.loading = false;
+        },
+        (error) => {
+          this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
+          this.loading = false;
+        }
+      );
+  }
+
+
+  onSubmitRoomGroup(){
+    this.loading = true;
+    this.tService.SaveRoomGroup(this.cmbRoomGroup,this.ModifyGroupName,this.cmbCustomerId).pipe().subscribe((data) => {
+          var returnData = JSON.stringify(data);
+          var obj = JSON.parse(returnData);
+          if (obj.Responce == '1') {
+            this.toastr.info('Saved', 'Success!');
+            this.loading = false;
+            this.FillGroup();
+          } else if (obj.Responce == '-2') {
+            this.toastr.info('Name is already exixts', '');
+            this.loading = false;
+          } else {
+            this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
+            this.loading = false;
+            return;
+          }
+          this.cmbRoomGroup = '0';
+          this.ModifyGroupName = '';
+        },
+        (error) => {
+          this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
+          this.loading = false;
+        }
+      );
+  }
+  DeleteGroup(){
+    this.loading = true;
+    this.serviceLicense.DeleteRoomGroup(this.cmbRoomGroup).pipe().subscribe(async (data) => {
+          const returnData = JSON.stringify(data);
+          const obj = JSON.parse(returnData);
+          if (obj.Responce === '1') {
+            this.toastr.info('Saved', 'Success!');
+            this.loading = false;
+            this.GroupVenueSelected = [];
+            this.GroupVenueList = [];
+            await this.FillGroup();
+          } else {
+            this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
+            this.loading = false;
+            return;
+          }
+          this.cmbRoomGroup = '0';
+          this.ModifyGroupName = '';
+        },
+        (error) => {
+          this.toastr.error(
+            'Apologies for the inconvenience.The error is recorded.',
+            ''
+          );
+          this.loading = false;
+        }
+      );
+
+  }
+  FillAllGroupVenue() {
+    this.loading = true;
+    const qry ='select  mid as id, groupid as displayname from tbRoomGroupDetail where groupid in (select id from tbRoomGroup where dfClientId=' + this.cmbCustomerId +')  ';
+    this.serviceLicense.FillCombo(qry).pipe().subscribe((data) => {
+          const returnData = JSON.stringify(data);
+          this.GroupAllVenueList = JSON.parse(returnData);
+          this.loading = false;
+        },
+        (error) => {
+          this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
+          this.loading = false;
+        }
+      );
+  }
+  onChangeRoomSchedule(id){
+    let obj = this.MeetingRoomList.filter(o => o.id == id)
+    this.futureSchList =[]
+    this.FutureSchFind= "No"
+    if (obj[0].tokenid == null){
+      return
+    }
+    this.loading = true;
+    this.tService.FillTokenContent(obj[0].tokenid).pipe().subscribe((data) => {
+          var returnData = JSON.stringify(data);
+          var obj = JSON.parse(returnData);
+          if (obj.lstfutureSchList.length >0){
+            this.futureSchList = obj.lstfutureSchList
+            this.FutureSchFind= "Yes"
+          }
+          else{
+            this.futureSchList = obj.lstPlaylistSch;
+            this.FutureSchFind= "No"
+          }
+          if (obj.lstTokenData == null) {
+            this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
+            this.loading = false;
+            return;
+          }
+          this.loading = false;
+        },
+        (error) => {
+          this.toastr.error(
+            'Apologies for the inconvenience.The error is recorded.',
+            ''
+          );
+          this.loading = false;
+        }
+      );
+  }
+  ResetList(){
+    this.cmbRoomSchedule ="0"
+    this.futureSchList =[]
+  }
+  openUnAssignRoomGroupModal(id){
+    this.loading = true;
+    this.serviceLicense.UnAssignVenueGroups(id).pipe().subscribe(async (data) => {
+          const returnData = JSON.stringify(data);
+          const obj = JSON.parse(returnData);
+          if (obj.Responce === '1') {
+            this.toastr.info('Room Un-Assigned', 'Success!');
+            this.loading = false;
+            await this.onChangeRoomGroup_search(this.cmbRoomGroup_search);
+          } else {
+            this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
+            this.loading = false;
+            return;
+          }
+           
+        },
+        (error) => {
+          this.toastr.error(
+            'Apologies for the inconvenience.The error is recorded.',
+            ''
+          );
           this.loading = false;
         }
       );

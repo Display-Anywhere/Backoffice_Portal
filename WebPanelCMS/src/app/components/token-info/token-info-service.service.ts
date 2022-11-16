@@ -102,5 +102,11 @@ FindStringInTable(filterText, IsAdmin,ClientId,DbType){
   var params = JSON.stringify({ filterText: filterText,IsAdmin:IsAdmin,ClientId:ClientId,DbType:DbType });
   return this.http.post(this.cApi.FindStringInTable,params,{headers:headers})
    .pipe((data=>{return data;}))
+}
+SaveRoomGroup(id,name, dfClientId){
+  let headers = new HttpHeaders({ 'Content-Type':'application/json' });
+  var params = JSON.stringify({id:id,name:name,dfClientId:dfClientId});
+  return this.http.post(this.cApi.SaveRoomGroup,params,{headers:headers})
+   .pipe((data=>{return data;}))
 }  
 }

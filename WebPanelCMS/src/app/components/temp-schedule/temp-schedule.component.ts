@@ -450,7 +450,7 @@ if (errorFound==="Yes"){
       'select max(sf.Formatid) as id , sf.formatname as displayname from tbSpecialFormat sf left join tbSpecialPlaylistSchedule_Token st on st.formatid= sf.formatid';
     q =
       q +
-      " left join tbSpecialPlaylistSchedule sp on sp.pschid= st.pschid  where (dbtype='" +
+      " left join tbSpecialPlaylistSchedule sp on sp.pschid= st.pschid  where   (dbtype='" +
       localStorage.getItem('DBType') +
       "' or dbtype='Both') and  (st.dfclientid=" +
       id +
@@ -603,7 +603,7 @@ if (errorFound==="Yes"){
       'select max(sf.Formatid) as id , sf.formatname as displayname from tbSpecialFormat sf left join tbSpecialPlaylistSchedule_Token st on st.formatid= sf.formatid';
     qry =
       qry +
-      ' left join tbSpecialPlaylistSchedule sp on sp.pschid= st.pschid  where ';
+      ' left join tbSpecialPlaylistSchedule sp on sp.pschid= st.pschid  where  ';
     qry =
       qry +
       " (dbtype='" +
@@ -736,7 +736,6 @@ if (errorFound==="Yes"){
       this.sfService.FillSF(this.cmbSearchCustomer,this.cmbSearchFormat,this.cmbSearchPlaylist).pipe().subscribe((data) => {
         var returnData = JSON.stringify(data);
         this.ScheduleList = JSON.parse(returnData);
-        console.log(this.cmbSearchMediaType)
         if (this.cmbSearchMediaType != 0) {
           this.ScheduleList= this.ScheduleList.filter(p => trim(p.mediatype) === this.cmbSearchMediaType)
         }
@@ -884,11 +883,11 @@ if (errorFound==="Yes"){
     var qry=""
     if (this.sType_Search=="Regular"){
       qry ='select max(sf.Formatid) as id , sf.formatname as displayname from tbSpecialFormat sf inner join tbSpecialPlaylistSchedule_Token st on st.formatid= sf.formatid';
-      qry =qry + ' inner join tbSpecialPlaylistSchedule sp on sp.pschid= st.pschid  where ';
+      qry =qry + ' inner join tbSpecialPlaylistSchedule sp on sp.pschid= st.pschid  where   ';
     }
     if (this.sType_Search=="Future"){
       qry ='select max(sf.Formatid) as id , sf.formatname as displayname from tbSpecialFormat sf inner join tbSpecialTempPlaylistSchedule_Token st on st.formatid= sf.formatid';
-      qry =qry + ' inner join tbSpecialTempPlaylistSchedule sp on sp.pschid= st.pschid  where ';
+      qry =qry + ' inner join tbSpecialTempPlaylistSchedule sp on sp.pschid= st.pschid  where  ';
     }
     qry =qry +" (dbtype='" + localStorage.getItem('DBType') + "' or dbtype='Both') and  (st.dfclientid=" + this.cmbSearchCustomer + ' OR sf.dfclientid=' + this.cmbSearchCustomer +") and sf.mediatype='" + this.cmbSearchMediaType +"' group by  sf.formatname";
     this.loading = true;

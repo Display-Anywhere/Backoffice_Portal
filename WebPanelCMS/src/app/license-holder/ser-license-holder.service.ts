@@ -378,4 +378,22 @@ GetDefaultRoomsPaxOccupancy(clientid) {
   return this.http.post(this.cApi.GetDefaultRoomsPaxOccupancy, params, { headers: headers })
     .pipe((data => { return data; }))
 }
+DeleteRoomGroup(id) {
+  const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+  const params = JSON.stringify({ id });
+  return this.http.post(this.cApi.DeleteRoomGroup, params, { headers })
+    .pipe((data => data));
+}
+UpdateVenueGroups(tokenIds, GroupId,IsCheckGroupSchedule) {
+  const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+  const params = JSON.stringify({ tokenIds, GroupId ,IsCheckGroupSchedule});
+  return this.http.post(this.cApi.UpdateVenueGroups, params, { headers })
+    .pipe((data => data));
+}
+UnAssignVenueGroups(id) {
+  const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+  const params = JSON.stringify({ id });
+  return this.http.post(this.cApi.UnAssignVenueGroups, params, { headers })
+    .pipe((data => data));
+}
 }

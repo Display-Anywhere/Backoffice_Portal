@@ -130,6 +130,7 @@
                   <th scope="col" style="width: 190px">Campaign Name</th>
                   <th scope="col">Playlist Name</th>
                   <th scope="col">Token Code</th>
+                  <th scope="col">City</th>
                   <th scope="col">Location</th>
                   <th scope="col" style="width: 120px" *ngIf="sType_Search=='Future'" >Start Date</th>
                   <th scope="col" style="width: 120px" *ngIf="sType_Search=='Future'" >End Date</th>
@@ -159,6 +160,7 @@
                     {{ schLst.playlistName }}
                   </td>
                   <td data-label="Token Code">{{ schLst.token }}</td>
+                  <td data-label="City">{{ schLst.city }}</td>
                   <td data-label="Location">{{ schLst.location }}</td>
                   <td data-label="Start Date" *ngIf="sType_Search=='Future'" >{{ schLst.sDate }}</td>
                   <td data-label="End Date" *ngIf="sType_Search=='Future'" >{{ schLst.eDate }}</td>

@@ -310,7 +310,7 @@
               >
               <ng-template ngbNavContent> </ng-template>
             </li>
-            <li [ngbNavItem]="9">
+            <li [ngbNavItem]="14">
               <a
                 ngbNavLink
                 (click)="FilterTokenList('WhiteBoard')"
@@ -356,7 +356,7 @@
               >
               <ng-template ngbNavContent> </ng-template>
             </li> 
-           
+            
           </ul>
           <div class="tab-content">
             <div class="table-responsive">
@@ -392,9 +392,10 @@
                       Avail. Space
                     </th>
                     <th scope="col" style="width: 50px !important" data-toggle="tooltip" data-placement="top" title="Player Version">V.</th>
+                    <th scope="col" style="width: 35px !important" data-toggle="tooltip" data-placement="top" title="Player Status">PS</th>
                     <th scope="col" style="width: 30px !important" data-toggle="tooltip" data-placement="top" title="Publish Status">S.</th>
                     <th scope="col" style="width: 30px !important" data-toggle="tooltip" data-placement="top" title="Content Download Status">D.</th>
-                    <th scope="col" style="width: 35px !important" data-toggle="tooltip" data-placement="top" title="Online Indicator">OI</th>
+                    <th scope="col" style="width: 35px !important" data-toggle="tooltip" data-placement="top" title="Indicator">OI</th>
                     <th scope="col" style="width: 30px !important" data-toggle="tooltip" data-placement="top" title="Hotel Tv Indicator">HI</th>
                     <th scope="col" style="width: 30px !important"></th>
                   </tr>
@@ -456,6 +457,11 @@
                     <td data-label="">
                       {{ cLst.Version }}
                     </td>
+                    <td data-label="">
+                      <i *ngIf="cLst.pStatus != 'Online'" class="fa fa-lg fa-square text-danger" aria-hidden="true"  data-toggle="tooltip" data-placement="top" title="Player Offline"></i>
+                      <i *ngIf="cLst.pStatus == 'Online'" class="fa fa-lg fa-square text-success" aria-hidden="true"  data-toggle="tooltip" data-placement="top" title="Player Online"></i>
+                    </td>
+
                     <td data-label="" class="text-center" >
                       <i *ngIf="cLst.PublishUpdate == 'True'" class="fa fa-lg fa-square text-danger" aria-hidden="true"  data-toggle="tooltip" data-placement="top" title="Update"></i>
                       <i *ngIf="cLst.PublishUpdate == 'False'" class="fa fa-lg fa-square text-success" aria-hidden="true"  data-toggle="tooltip" data-placement="top" title="Updated"></i>
@@ -945,8 +951,8 @@
                     (click)="ForceUpdateAll('Now')"
                   />
                 </div>
-                <div class="col-sm-12 font-weight-bold mb-3 p-0" >
-                  <p style="margin: 0 !important">You can use any keyword from media type, city , location,token no. For Example: Audio, Video, Signage etc.</p>
+                <div class="col-sm-12 font-weight-bold mb-3" >
+                  <p style="margin: 0 !important">You can use any keyword for search.</p>
                 </div>
                     <div class="col-lg-12 m-0 p-0">
                   <div class="table-responsive">
@@ -1361,6 +1367,41 @@
   </div>
 </ng-template>
 
+<ng-template #modalGroupRoominfo let-c="close" let-d="dismiss">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Group Rooms</h5>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body m-0 p-0">
+    <div class="row m-0 p-0">
+      <div class="col-lg-12 m-0 p-0">
+        <div class="table-responsive">
+          <table class="table data-table table-striped table-bordered mydatatable">
+            <thead>
+              <tr>
+                <th class="bg-primary sticky-top" >Group Name</th>
+                <th class="bg-primary sticky-top">Room Name</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="cursor-pointer" *ngFor="let eLst of DisplayGroupRoomsList; let i = index">
+                <td>{{eLst.groupname}}</td>
+                <td>{{eLst.roomname}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
 
 <ng-template #modalEvent let-c="close" let-d="dismiss">
   <div class="modal-header bg-primary">
@@ -1474,7 +1515,7 @@
                   formControlName="edate"
                   [owlDateTime]="dtFromDate"
                   readonly
-                />
+                /> 
                 <owl-date-time
                   [pickerType]="'calendar'"
                   (afterPickerClosed)="CheckEventDateDays()"
@@ -1597,12 +1638,143 @@
           </div>
         </ng-template>
       </li>
-      <li [ngbNavItem]="3" class="pr-2" *ngIf="!IschkViewOnly">
-        <a ngbNavLink>Set Playlist</a>
+      <li [ngbNavItem]="3" class="pr-2" *ngIf="((!IschkViewOnly) )">
+        <a ngbNavLink>Groups</a>
+        <ng-template ngbNavContent>
+          <div class="row">
+            <div class="col-lg-12">
+              <ul ngbNav #t_Groups="ngbNav" [(activeId)]="Group_Active" class="nav-tabs">
+                <li [ngbNavItem]="1" class="pr-2">
+                  <a ngbNavLink>Search</a>
+                  <ng-template ngbNavContent>
+                    <div class="form-row">
+                      <div class="form-group col-sm-6 pb-0 m-0">
+                        <div class="col-sm-6 p-0 pr-1 m-0 pull-left">
+                          <label for="GroupId1">Groups:</label>
+                          <select name="GroupId1" [(ngModel)]="cmbRoomGroup_search" class="custom-select" (change)="onChangeRoomGroup_search($event.target.value)" id="GroupId1">
+                            <option selected value="0"></option>
+                            <option *ngFor="let grpLst of Group_List" [value]="grpLst.Id">
+                              {{ grpLst.DisplayName }}
+                            </option>
+                          </select>
+                        </div>
+                        
+                      </div>
+                    </div>
+                    <div class="col-lg-12 m-0 p-0 mt-3">
+                      <div class="table-responsive">
+                        <table class="table data-table table-striped table-bordered mydatatable">
+                          <thead class="bg-primary">
+                            <tr>
+                              <th>Room</th>
+                              <th scope="col" style="width: 100px"></th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor=" let r of GroupVenueAssignedList; let i = index">
+                              <td >{{ r.roomname }}</td>
+                              <td  data-label="" class="text-center m-0 p-0" (click)="openUnAssignRoomGroupModal(r.id)">
+                                  <button class="btn btn-sm btn-danger rounded-pill">
+                                    Un-Assign
+                                  </button>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </ng-template>
+                </li>
+                <li [ngbNavItem]="2" class="pr-2">
+                  <a ngbNavLink >Add New  (Rooms not assigned)</a>
+                  <ng-template ngbNavContent>
+                    <div class="form-row">
+                      <div class="form-group col-sm-6 pb-0 m-0">
+                        <div class="col-sm-6 p-0 pr-1 m-0 pull-left">
+                          <label for="GroupId">Groups:</label>
+                          <select name="GroupId" [(ngModel)]="cmbRoomGroup" class="custom-select" (change)="onChangeRoomGroup($event.target.value)" id="GroupId">
+                            <option selected value="0"></option>
+                            <option *ngFor="let grpLst of Group_List" [value]="grpLst.Id">
+                              {{ grpLst.DisplayName }}
+                            </option>
+                          </select>
+                        </div>
+                        <div class="col-sm-6 p-0 pull-left mt-5">
+                          <button id="btnGroup" class="btn btn-primary mr-2" (click)="openCommonModal(modalCommon)" style="padding: 0.2rem 0.5rem">
+                            <i class="fa fa-bars" aria-hidden="true"></i>
+                          </button>
+                          <button id="btnGroup2" class="btn btn-primary mr-2" (click)="UpdateRoomGroups()" style="padding: 0.2rem 0.5rem">
+                            <i class="fa fa-floppy-o fa-lg" aria-hidden="true"></i>
+                          </button>
+                          <button id="btnGroup3" class="btn btn-danger" (click)="OpenDeleteGroupModal(DeleteGroupModal)" style="padding: 0.2rem 0.5rem">
+                            <i class="fa fa-trash-o fa-lg" aria-hidden="true"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-12 m-0 p-0 mt-3">
+                      <div class="table-responsive">
+                        <table class="table data-table table-striped table-bordered mydatatable">
+                          <thead class="bg-primary">
+                            <tr>
+                              <th scope="col" style="width: 60px"></th>
+                              <th>Room</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor=" let v of GroupVenueList; let i = index">
+                              <td data-label="" class="">
+                                <div class="custom-control custom-checkbox">
+                                  <input
+                                    (change)="SelectGroupVenue(v.id, $event)"
+                                    type="checkbox"
+                                    class="custom-control-input"
+                                    id="{{ v.id }}{{ i }}"
+                                    [checked]="v.check"
+                                    name="chkgrpVenueList"
+                                  />
+                                  <label
+                                    class="custom-control-label cursor-pointer"
+                                    for="{{ v.id }}{{ i }}"
+                                  ></label>
+                                </div>
+                              </td>
+                              <td>{{ v.roomname }}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </ng-template>
+                </li>
+              </ul>
+              <div [ngbNavOutlet]="t_Groups" class="mt-2"></div>
+            </div>
+          </div>
+
+          
+        </ng-template>
+      </li>
+      <li [ngbNavItem]="4" class="pr-2" *ngIf="((!IschkViewOnly) )">
+        <a ngbNavLink (click)="FillAllGroupVenue()">Set Playlist</a>
               <ng-template ngbNavContent>
                 <div class="col-sm-12">
                   <div class="form-row">
-                    <div class="form-group col-sm-4 m-0">
+                    <div class="form-group col-sm-2 m-0">
+                      <label class="mb-2 mr-sm-2" for="schSType"
+                      >Type:
+                    </label>
+                    <select name="Type" [(ngModel)]="rType_Playlist" [ngModelOptions]="{standalone: true}" class="custom-select"
+                    (change)="onChangerType()" id="schSType">
+                      <option selected value="Room">
+                        Rooms
+                      </option>
+                      <option value="Group">
+                        Groups
+                      </option>
+                    </select>
+                    </div>
+                    <div class="form-group col-sm-3 m-0" *ngIf="rType_Playlist =='Room'">
                       <label for="cmbMeeting"  class="mb-2 mr-sm-2">Rooms:</label>
                       <ng-multiselect-dropdown
                       id="cmbMeeting"
@@ -1611,6 +1783,36 @@
                       [data]="MeetingRoomList"
                       [(ngModel)]="SelectedMeetingArray"
                       [ngModelOptions]="{ standalone: true }"
+                    >
+                    </ng-multiselect-dropdown>
+      
+      
+      
+                      <!--<select
+                        class="custom-select mb-3"
+                        (change)="onChangeMeetingRoom($event.target.value)"
+                        id="cmbMeeting"
+                        [(ngModel)]="cmbMeetingId"
+                      >
+                        <option selected value="0"></option>
+                        <option *ngFor="let cLst of MeetingRoomList" [value]="cLst.id">
+                          {{ cLst.roomname }}
+                        </option>
+                      </select>-->
+                    </div>
+                    <div class="form-group col-sm-3 m-0" *ngIf="rType_Playlist =='Group'">
+                      <label for="cmbMeeting"  class="mb-2 mr-sm-2">Groups: </label> <!-- <i *ngIf="this.SelectedMeetingArray.length > 0" class="fa fa-eye text-primary cursor-pointer" (click)="DisplayGroupRooms(modalGroupRoominfo)" aria-hidden="true"></i> -->
+                      <ng-multiselect-dropdown
+                      id="cmbMeeting"
+                      [placeholder]="' '"
+                      [settings]="GroupSettings"
+                      [data]="Group_List"
+                      [(ngModel)]="SelectedMeetingArray"
+                      [ngModelOptions]="{ standalone: true }"
+                      (onSelect)="onItemSelectGroup($event)"
+                    (onSelectAll)="onSelectAllGroup($event)"
+                    (onDeSelect)="onItemDeSelectGroup($event)"
+                    (onDeSelectAll)="onDeSelectAllGroup($event)"
                     >
                     </ng-multiselect-dropdown>
       
@@ -1672,7 +1874,7 @@
                         <option selected value="not available">Not Available</option>
                       </select>
                     </div>
-                    <div class="form-group col-sm-2 m-0">
+                    <div class="form-group col-sm-1 m-0">
                       <button 
                       type="button"
                       class="btn btn-primary btn-s mt-5"
@@ -1689,7 +1891,7 @@
                     <table class="table data-table table-striped table-bordered mydatatable">
                       <thead>
                         <tr>
-                          <th class="bg-primary sticky-top" >Room Name</th>
+                          <th class="bg-primary sticky-top" >Room</th>
                           <th class="bg-primary sticky-top">Campaign Name</th>
                           <th class="bg-primary sticky-top">Playlist Name</th>
                         </tr>
@@ -1705,8 +1907,266 @@
                   </div>
                 </div>
               </ng-template>
-            </li>
-      <li [ngbNavItem]="4" class="pr-2" *ngIf="!IschkViewOnly">
+      </li>
+      <li [ngbNavItem]="5" class="pr-2" *ngIf="!IschkViewOnly">
+        <a ngbNavLink (click)="ResetList()">Schedule</a>
+        <ng-template ngbNavContent>
+          <div class="row">
+            <div class="col-lg-12">
+              <ul ngbNav #t_Schedule="ngbNav" [(activeId)]="Schedule_Active" class="nav-tabs">
+                <li [ngbNavItem]="1" class="pr-2">
+                  <a ngbNavLink>Search</a>
+                  <ng-template ngbNavContent>
+                    <div class="form-row">
+                      <div class="form-group col-sm-6 pb-0 m-0">
+                        <div class="col-sm-6 p-0 pr-1 m-0 pull-left">
+                          <label for="GroupId">Room:</label>
+                          <select  [(ngModel)]="cmbRoomSchedule" class="custom-select" (change)="onChangeRoomSchedule($event.target.value)" id="cName">
+                            <option selected value="0"></option>
+                            <option *ngFor="let cLst of MeetingRoomList" [value]="cLst.id">
+                              {{ cLst.roomname }}
+                            </option>
+                          </select>
+                        </div>
+                         
+                      </div>
+                    </div>
+                    <div class="col-lg-12 m-0 p-0 mt-3">
+                      <div class="table-responsive">
+                        <table
+                    class="table data-table table-striped table-bordered mydatatable"
+                  >
+                    <thead class="bg-primary">
+                      <tr>
+                        <th scope="col">Campaign Name</th>
+                        <th scope="col">Playlist Name</th>
+                        <th  scope="col" *ngIf="FutureSchFind=='Yes'">
+                          Start Date
+                        </th>
+                        <th scope="col" *ngIf="FutureSchFind=='Yes'">
+                          End Date
+                        </th>
+                        <th  scope="col">
+                          Start Time
+                        </th>
+                        <th scope="col">
+                          End Time
+                        </th>
+                        <th style="width: 13rem;">
+                          Week Day
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let fuSchLst of futureSchList">
+                        <td data-label="Campaign Name">
+                          {{ fuSchLst.formatName }}
+                        </td>
+                        <td data-label="Playlist Name">
+                          {{ fuSchLst.playlistName }}
+                        </td>
+                        <td data-label="Start Date" *ngIf="FutureSchFind=='Yes'">
+                          {{ fuSchLst.sDate }}
+                        </td>
+                        <td data-label="End Date" *ngIf="FutureSchFind=='Yes'">
+                          {{ fuSchLst.eDate }}
+                        </td>
+                        <td
+                          data-label="Start Time"
+                        >
+                          {{ fuSchLst.StartTime }}
+                        </td>
+                        <td
+                          data-label="End Time"
+                        >
+                          {{ fuSchLst.EndTime }}
+                        </td>
+                        <td
+                          data-label="Week Day"
+                        >
+                          {{ fuSchLst.WeekDay }}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                      </div>
+                    </div>
+                  </ng-template>
+                </li>
+                <li [ngbNavItem]="2" class="pr-2">
+                  <a ngbNavLink routerLink="/StoreAndForward" (click)="d('Cross click')" >Add New</a>
+                  <ng-template ngbNavContent>
+                  </ng-template>
+                  </li>
+
+              </ul>
+              <div [ngbNavOutlet]="t_Schedule" class="mt-2"></div>
+            </div>
+          </div>
+
+
+          
+        </ng-template>
+      </li>
+      <li [ngbNavItem]="6" class="pr-2" *ngIf="!IschkViewOnly">
+        <a ngbNavLink>Upload Logo</a>
+        <ng-template ngbNavContent>
+        <div class="col-sm-12">
+          <div class="form-row">
+            <div class="form-group col-sm-2 m-0">
+              <label for="SearchEvtDate" class="ml-3 mb-2 mr-sm-2">Date:</label>
+              <input
+              id="SearchEvtDate"
+              class="form-control mb-2 mr-sm-2"
+              [owlDateTimeTrigger]="dtLogoEventDate"
+              [(ngModel)]="dtpLogoEventDate"
+              [owlDateTime]="dtLogoEventDate"
+              readonly
+            />
+            <owl-date-time
+              [pickerType]="'calendar'"
+              (afterPickerClosed)="GetEvent()"
+              #dtLogoEventDate
+            ></owl-date-time>
+            </div>
+            <div class="form-group col-sm-4 m-0">
+              <label for="cmbEventCust"  class="mb-2 mr-sm-2"  
+                >Customer:</label
+              >
+              <select
+                class="custom-select mb-3"
+                (change)="onChangeEventCustomer($event.target.value)"
+                id="cmbEventCust"
+                [(ngModel)]="cmbEventCustomer"
+              >
+                <option selected value="0"></option>
+                <option *ngFor="let cLst of EventCustomerList" [value]="cLst.companyname">
+                  {{ cLst.companyname }}
+                </option>
+              </select>
+            </div>
+            <div class="form-group col-sm-5 m-0">
+              <label for="bkLogo1" class="mb-2 mr-sm-2 w-100">Logo: <span style="cursor: pointer;"><i *ngIf="EventCustomerdata.selected_logoName !=''" (click)="ResetCompanylogo()" class="text-danger fa fa-times-circle" aria-hidden="true"></i></span> </label>
+                    <input  id="bkLogo" type="button" (click)="openLibrary(modalCustomerLogo)" class="btn btn-primary  mb-2 mr-sm-2"   value="Logo Library" />
+                    <span style="font-size: 11px;"><strong>{{EventCustomerdata.selected_logoName}}</strong></span>
+            </div>
+            <div class="form-group col-sm-1 m-0 text-right">
+              <button 
+              type="button"
+              class="btn btn-primary btn-s mt-5"
+              (click)="SaveRoomCustomerEventWithButtonClick()"
+            >
+              Save
+            </button>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12">
+        <div class="table-responsive">
+          <table class="table data-table table-striped table-bordered mydatatable">
+            <thead>
+              <tr>
+                <th class="bg-primary sticky-top" >Time</th>
+                <th class="bg-primary sticky-top">Location</th>
+                <th class="bg-primary sticky-top">Activity</th>
+                <!--<th class="bg-primary sticky-top"style="max-width: 7%;width: 7%;"></th>-->
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="cursor-pointer" *ngFor="let eLst of UploadLogoCustomerEventList; let i = index">
+                <td>{{eLst.fromtime | date:'HH:mm'}} - {{eLst.totime | date:'HH:mm'}}</td>
+                   
+                <td>{{eLst.roomname}}</td>
+                <td>{{eLst.activity}}</td>
+                <!--<td style="max-width: 7%;width: 7%;"><a href="javascript:;" (click)="OpenViewEventContent(viewcontent, eLst)"><i class="fa fa-eye" aria-hidden="true"></i></a> </td>-->
+
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      </ng-template>
+      </li>
+      <li [ngbNavItem]="7" class="pr-2" *ngIf="!IschkViewOnly">
+        <a ngbNavLink>Promo Logo</a>
+        <ng-template ngbNavContent>
+          <div class="col-12 p-0">
+            <div class="form-row">
+            <div class="form-group col-sm-6 m-0">
+              <label for="chooseFile2" class="mb-2 mr-sm-2">Upload Promo Logo:</label>
+              <input
+              type="file"
+              name="profile"
+              #myEventLogoInput
+              (change)="onSelectedFile($event)"
+              id="chooseFile2"
+              accept="image/jpeg, image/x-png"
+              class="btn btn-default border"
+              style="width: 100%"
+            />
+            </div>
+            <div class="form-group col-sm-3 m-0">
+              <button 
+              type="button"
+              class="btn btn-primary btn-s mt-5"
+              (click)="UploadPromoLogo()"
+              (click)="myEventLogoInput.value = ''"
+            >
+              <span class="fa fa-cloud-upload"></span> Upload
+            </button>
+            </div>
+          </div>
+          </div>
+          <div class="row mt-2">
+            <div class="col-lg-12">
+              <div *ngIf="fileUpload.status === 'progress'">
+                <div class="progress" style="height: 20px; margin-bottom: 20px">
+                  <div
+                    class="progress-bar"
+                    role="progressbar"
+                    [style.width.%]="fileUpload.message"
+                    aria-valuenow="25"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                  >
+                    {{ fileUpload.message }}%
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+           <div class="row mt-3">
+            <div class="col-sm-2 mb-2" *ngFor="let songLst of PromoLogoList">
+              <div class="card">
+                <img
+                  class="card-img-top p-1"
+                  src="{{ songLst.TitleIdLink }}"
+                  alt="Card image"
+                  style="height: 100px; object-fit: contain"
+                />
+                <div class="card-body p-1 border-top">
+                  <a *ngIf="songLst.IsFindPromo=='0'" href="javascript:;" (click)="OpenPromoLogoDate(modalPromoLogoDate,songLst.id, songLst.IsFindPromo)"
+                    class="btn btn-primary btn-sm">Set</a>
+                    <a *ngIf="songLst.IsFindPromo=='1'" href="javascript:;" (click)="SetUnsetPromoLogo(songLst.id, songLst.IsFindPromo)"
+                    class="btn btn-primary btn-sm">UnSet</a>
+                    <a href="javascript:;" (click)="DeleteLogoModal(LogoDeleteModal, songLst.id)" class="btn btn-danger btn-sm"
+              style="padding: 7px; margin: 0px; float: right">
+              <i class="fa fa-trash-o float-right p-0 m-0" aria-hidden="true"></i>
+            </a>
+
+            <a *ngIf="songLst.IsFindPromo=='1'" href="javascript:;" class="btn btn-success btn-sm"
+            style="padding: 7px; margin: 0px; float: right;margin-right: 3px;">
+          <i class="fa fa-check-circle float-right p-0 m-0" aria-hidden="true"></i>
+          </a>
+            
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </li>
+      
+      <li [ngbNavItem]="8" class="pr-2" *ngIf="!IschkViewOnly">
         <a ngbNavLink>Pax occupancy</a>
         <ng-template ngbNavContent>
         <div class="col-sm-12">
@@ -1820,167 +2280,8 @@
 
         </div>
       </ng-template>
-      </li>      
-      
-      <li [ngbNavItem]="5" class="pr-2" *ngIf="!IschkViewOnly">
-        <a ngbNavLink>Upload Logo</a>
-        <ng-template ngbNavContent>
-        <div class="col-sm-12">
-          <div class="form-row">
-            <div class="form-group col-sm-2 m-0">
-              <label for="SearchEvtDate" class="ml-3 mb-2 mr-sm-2">Date:</label>
-              <input
-              id="SearchEvtDate"
-              class="form-control mb-2 mr-sm-2"
-              [owlDateTimeTrigger]="dtLogoEventDate"
-              [(ngModel)]="dtpLogoEventDate"
-              [owlDateTime]="dtLogoEventDate"
-              readonly
-            />
-            <owl-date-time
-              [pickerType]="'calendar'"
-              (afterPickerClosed)="GetEvent()"
-              #dtLogoEventDate
-            ></owl-date-time>
-            </div>
-            <div class="form-group col-sm-4 m-0">
-              <label for="cmbEventCust"  class="mb-2 mr-sm-2"  
-                >Customer:</label
-              >
-              <select
-                class="custom-select mb-3"
-                (change)="onChangeEventCustomer($event.target.value)"
-                id="cmbEventCust"
-                [(ngModel)]="cmbEventCustomer"
-              >
-                <option selected value="0"></option>
-                <option *ngFor="let cLst of EventCustomerList" [value]="cLst.companyname">
-                  {{ cLst.companyname }}
-                </option>
-              </select>
-            </div>
-            <div class="form-group col-sm-5 m-0">
-              <label for="bkLogo1" class="mb-2 mr-sm-2 w-100">Logo: <span style="cursor: pointer;"><i *ngIf="EventCustomerdata.selected_logoName !=''" (click)="ResetCompanylogo()" class="text-danger fa fa-times-circle" aria-hidden="true"></i></span> </label>
-                    <input  id="bkLogo" type="button" (click)="openLibrary(modalCustomerLogo)" class="btn btn-primary  mb-2 mr-sm-2"   value="Logo Library" />
-                    <span style="font-size: 11px;"><strong>{{EventCustomerdata.selected_logoName}}</strong></span>
-            </div>
-            <div class="form-group col-sm-1 m-0 text-right">
-              <button 
-              type="button"
-              class="btn btn-primary btn-s mt-5"
-              (click)="SaveRoomCustomerEventWithButtonClick()"
-            >
-              Save
-            </button>
-            </div>
-          </div>
-        </div>
-        <div class="col-sm-12">
-        <div class="table-responsive">
-          <table class="table data-table table-striped table-bordered mydatatable">
-            <thead>
-              <tr>
-                <th class="bg-primary sticky-top" >Time</th>
-                <th class="bg-primary sticky-top">Location</th>
-                <th class="bg-primary sticky-top">Activity</th>
-                <!--<th class="bg-primary sticky-top"style="max-width: 7%;width: 7%;"></th>-->
-              </tr>
-            </thead>
-            <tbody>
-              <tr class="cursor-pointer" *ngFor="let eLst of UploadLogoCustomerEventList; let i = index">
-                <td>{{eLst.fromtime | date:'HH:mm'}} - {{eLst.totime | date:'HH:mm'}}</td>
-                   
-                <td>{{eLst.roomname}}</td>
-                <td>{{eLst.activity}}</td>
-                <!--<td style="max-width: 7%;width: 7%;"><a href="javascript:;" (click)="OpenViewEventContent(viewcontent, eLst)"><i class="fa fa-eye" aria-hidden="true"></i></a> </td>-->
-
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      </ng-template>
-    </li>
-
-      <li [ngbNavItem]="6" class="pr-2" *ngIf="!IschkViewOnly">
-        <a ngbNavLink>Promo Logo</a>
-        <ng-template ngbNavContent>
-          <div class="col-12 p-0">
-            <div class="form-row">
-            <div class="form-group col-sm-6 m-0">
-              <label for="chooseFile2" class="mb-2 mr-sm-2">Upload Promo Logo:</label>
-              <input
-              type="file"
-              name="profile"
-              #myEventLogoInput
-              (change)="onSelectedFile($event)"
-              id="chooseFile2"
-              accept="image/jpeg, image/x-png"
-              class="btn btn-default border"
-              style="width: 100%"
-            />
-            </div>
-            <div class="form-group col-sm-3 m-0">
-              <button 
-              type="button"
-              class="btn btn-primary btn-s mt-5"
-              (click)="UploadPromoLogo()"
-              (click)="myEventLogoInput.value = ''"
-            >
-              <span class="fa fa-cloud-upload"></span> Upload
-            </button>
-            </div>
-          </div>
-          </div>
-          <div class="row mt-2">
-            <div class="col-lg-12">
-              <div *ngIf="fileUpload.status === 'progress'">
-                <div class="progress" style="height: 20px; margin-bottom: 20px">
-                  <div
-                    class="progress-bar"
-                    role="progressbar"
-                    [style.width.%]="fileUpload.message"
-                    aria-valuenow="25"
-                    aria-valuemin="0"
-                    aria-valuemax="100"
-                  >
-                    {{ fileUpload.message }}%
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-           <div class="row mt-3">
-            <div class="col-sm-2 mb-2" *ngFor="let songLst of PromoLogoList">
-              <div class="card">
-                <img
-                  class="card-img-top p-1"
-                  src="{{ songLst.TitleIdLink }}"
-                  alt="Card image"
-                  style="height: 100px; object-fit: contain"
-                />
-                <div class="card-body p-1 border-top">
-                  <a *ngIf="songLst.IsFindPromo=='0'" href="javascript:;" (click)="OpenPromoLogoDate(modalPromoLogoDate,songLst.id, songLst.IsFindPromo)"
-                    class="btn btn-primary btn-sm">Set</a>
-                    <a *ngIf="songLst.IsFindPromo=='1'" href="javascript:;" (click)="SetUnsetPromoLogo(songLst.id, songLst.IsFindPromo)"
-                    class="btn btn-primary btn-sm">UnSet</a>
-                    <a href="javascript:;" (click)="DeleteLogoModal(LogoDeleteModal, songLst.id)" class="btn btn-danger btn-sm"
-              style="padding: 7px; margin: 0px; float: right">
-              <i class="fa fa-trash-o float-right p-0 m-0" aria-hidden="true"></i>
-            </a>
-
-            <a *ngIf="songLst.IsFindPromo=='1'" href="javascript:;" class="btn btn-success btn-sm"
-            style="padding: 7px; margin: 0px; float: right;margin-right: 3px;">
-          <i class="fa fa-check-circle float-right p-0 m-0" aria-hidden="true"></i>
-          </a>
-            
-                </div>
-              </div>
-            </div>
-          </div>
-        </ng-template>
-      </li>
-      <li [ngbNavItem]="7" class="pr-2" *ngIf="!IschkViewOnly">
+      </li> 
+      <li [ngbNavItem]="9" class="pr-2" *ngIf="!IschkViewOnly">
         <a ngbNavLink (click)="ForceUpdateModal(modalForceUpdate)" (click)="d('Cross click')">Publish</a>
       </li>
     </ul>
@@ -2333,6 +2634,90 @@
           <button
             class="btn btn-danger col-sm-2 pull-right mr-2"
             (click)="DeleteEvent()"
+            (click)="d('Cross click')"
+          >
+            <i class="fa fa-check fa-lg" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+
+
+
+<ng-template #modalCommon let-c="close" let-d="dismiss">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Groups</h5>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12">
+          <label for="State" class="mb-2 mr-sm-2">Name:</label>
+          <input
+            type="text"
+            [(ngModel)]="ModifyGroupName"
+            class="form-control mb-2 mr-sm-2"
+            id="fName"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <button
+            class="btn btn-primary col-sm-2 pull-right"
+            type="button"
+            (click)="onSubmitRoomGroup()"
+            (click)="d('Cross click')"
+          >
+            <i class="fa fa-floppy-o fa-lg" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #DeleteGroupModal let-c="close" let-d="dismiss">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Delete Group</h5>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12">
+          <p>Are you sure to delete?</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <button
+            class="btn btn-primary col-sm-2 pull-right"
+            (click)="d('Cross click')"
+          >
+            <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+          </button>
+          <button
+            class="btn btn-danger col-sm-2 pull-right mr-2"
+            (click)="DeleteGroup()"
             (click)="d('Cross click')"
           >
             <i class="fa fa-check fa-lg" aria-hidden="true"></i>

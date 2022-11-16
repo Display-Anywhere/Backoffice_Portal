@@ -1130,7 +1130,7 @@ export class PlaylistLibraryComponent implements OnInit {
       qry = qry + ' and IsRoyaltyFree = ' + localStorage.getItem('IsRf') + ' ';
     }
     if (this.auth.ContentType$ == 'Signage') {
-      qry = qry + ' and titles.GenreId in(303,297, 325,324) ';
+      qry = qry + ' and titles.GenreId in(303,297, 325,324,326) ';
     }
     if (
       this.chkMediaRadio == 'Image' &&
@@ -1174,7 +1174,7 @@ export class PlaylistLibraryComponent implements OnInit {
     }
 
     if (this.chkMediaRadio == 'Image') {
-      qry = qry + ' and tbGenre.GenreId in(325,324) ';
+      qry = qry + ' and tbGenre.GenreId in(325,324,326) ';
     }
     else if (this.chkMediaRadio == 'Url') {
       qry = qry + ' and tbGenre.GenreId in(495,496) ';
@@ -1231,7 +1231,7 @@ export class PlaylistLibraryComponent implements OnInit {
         qry + ' and tit.IsRoyaltyFree = ' + localStorage.getItem('IsRf') + ' ';
     }
     if (this.chkMediaRadio == 'Image') {
-      qry = qry + ' and tit.GenreId in(325,324) ';
+      qry = qry + ' and tit.GenreId in(325,324,326) ';
     }
     if ((this.cmbCustomerMediaType == 'Signage') && (this.chkMediaRadio == 'Video')) {
       qry = qry + ' and tit.GenreId in(303,297) ';
@@ -1478,7 +1478,7 @@ if (id=="0"){
       'select max(sf.Formatid) as id , sf.formatname as displayname from tbSpecialFormat sf left join tbSpecialPlaylistSchedule_Token st on st.formatid= sf.formatid';
     qry =
       qry +
-      ' left join tbSpecialPlaylistSchedule sp on sp.pschid= st.pschid  where ';
+      ' left join tbSpecialPlaylistSchedule sp on sp.pschid= st.pschid  where isnull(LinkWithEvent,0)=0 and ';
     qry =
       qry +
       " (dbtype='" +
@@ -2602,7 +2602,7 @@ if (id=="0"){
       qry = qry + ' and IsRoyaltyFree = ' + localStorage.getItem('IsRf') + ' ';
     }
     if (this.auth.ContentType$ == 'Signage') {
-      qry = qry + ' and titles.GenreId in(303,297, 325,324) ';
+      qry = qry + ' and titles.GenreId in(303,297, 325,324,326) ';
     }
     if (
       this.chkMediaRadio == 'Image' &&
@@ -2876,7 +2876,7 @@ if (id=="0"){
       'select max(sf.Formatid) as id , sf.formatname as displayname from tbSpecialFormat sf left join tbSpecialPlaylistSchedule_Token st on st.formatid= sf.formatid';
     qry =
       qry +
-      ' left join tbSpecialPlaylistSchedule sp on sp.pschid= st.pschid  where ';
+      ' left join tbSpecialPlaylistSchedule sp on sp.pschid= st.pschid  where isnull(LinkWithEvent,0)=0 and  ';
     qry =
       qry +
       " (dbtype='" +

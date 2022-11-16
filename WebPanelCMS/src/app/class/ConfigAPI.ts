@@ -199,6 +199,10 @@ export class ConfigAPI {
    DeleteRoomEvent: string =  this.Host + 'DeleteRoomEvent';
    GetDefaultRoomsPaxOccupancy: string =  this.Host + 'GetDefaultRoomsPaxOccupancy';
    SaveCustomerEventLogo: string =  this.Host + 'SaveCustomerEventLogo';
+   SaveRoomGroup: string = this.Host + 'SaveRoomGroup';
+   DeleteRoomGroup: string = this.Host + 'DeleteRoomGroup';
+   UpdateVenueGroups: string = this.Host + 'UpdateVenueGroups';
+   UnAssignVenueGroups: string = this.Host + 'UnAssignVenueGroups';
 }
 
 // localStorage.setItem('UserId', obj.UserId);
