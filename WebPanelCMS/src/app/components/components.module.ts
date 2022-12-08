@@ -66,6 +66,7 @@ import { SanitizerLogsComponent } from './sanitizer-logs/sanitizer-logs.componen
 import { KpnSummaryComponent } from './kpn-summary/kpn-summary.component';
 import { JoanDevicesComponent } from './joan-devices/joan-devices.component';
 import { LoginDisplayAnyWhereComponent } from './login-display-any-where/login-display-any-where.component';
+import { EventScheduleComponent } from './event-schedule/event-schedule.component';
 export const MY_CUSTOM_FORMATS = {
   parseInput: 'LL LT',
   fullPickerInput: 'LL LT',
@@ -124,7 +125,8 @@ KpnChannelsComponent,
 SanitizerLogsComponent,
 KpnSummaryComponent,
 JoanDevicesComponent,
-LoginDisplayAnyWhereComponent
+LoginDisplayAnyWhereComponent,
+EventScheduleComponent
 ],
  
   exports: [
@@ -171,7 +173,8 @@ LoginSbitComponent,
 SanitizerLogsComponent,
 KpnSummaryComponent,
 JoanDevicesComponent,
-LoginDisplayAnyWhereComponent
+LoginDisplayAnyWhereComponent,
+EventScheduleComponent
   ],
     imports: [
     CommonModule,

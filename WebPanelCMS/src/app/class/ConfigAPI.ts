@@ -5,7 +5,7 @@ export class ConfigAPI {
   //Host=localStorage.getItem('host')
   private Host: string = "https://api.nusign.eu/api/";
    //private Host: string = "https://panelapi.advikon.com/api/";
-   //private Host: string = "http://localhost:60328/api/";
+  // private Host: string = "http://localhost:60328/api/";
    //private Host_panel: string = "https://api.advikon.com/api/";
    //private Host_panel: string = "http://localhost:60328/api/";
    FillQueryCombo: string = this.Host + 'FillQueryCombo';
@@ -203,6 +203,7 @@ export class ConfigAPI {
    DeleteRoomGroup: string = this.Host + 'DeleteRoomGroup';
    UpdateVenueGroups: string = this.Host + 'UpdateVenueGroups';
    UnAssignVenueGroups: string = this.Host + 'UnAssignVenueGroups';
+   UpdateServiceStatus: string = this.Host + 'UpdateServiceStatus';
 }
 
 // localStorage.setItem('UserId', obj.UserId);

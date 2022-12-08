@@ -59,6 +59,10 @@ export class LicenseHolderComponent
   InfoTokenList = [];
   active = 3;
   isSanitizerActive=false
+  h_info_Active=false
+  Indicator_Active=false
+  E_Link_Active=false
+  Meeting_Active=false
   txtDelPer;
   cmbPlaylist = '0';
   tokenid;
@@ -386,6 +390,10 @@ inEventfrm(){
     }
     const obj= this.CustomerList.filter(o => o.Id == this.cmbCustomerId)
     this.isSanitizerActive= obj[0].isSanitizerActive
+    this.h_info_Active= obj[0].h_info_Active
+    this.Indicator_Active= obj[0].Indicator_Active
+    this.E_Link_Active= obj[0].E_Link_Active  
+    this.Meeting_Active= obj[0].Meeting_Active  
     await this.FillDeviceLastStatus(deviceValue)
   }
   
@@ -1057,7 +1065,7 @@ async RefreshTokenList(){
             direction: 'asc'
            }
            setTimeout(() => { 
-            this.onSort(obj);
+            this.onSort(obj,'Active');
           }, 500);
           if (this.ActiveTokenList.length != 0) {
             this.modalService.open(modalContant, { size: 'lg' });
@@ -1485,7 +1493,7 @@ async RefreshTokenList(){
     this.FilterValue_For_Reload = 'Regsiter';
     this.modalService.open(gModal, { size: 'lgx' });
   }
-  onSort({column, direction}: SortEvent) {
+  onSort({column, direction}: SortEvent,type) {
     
     // resetting other headers
     this.headers.forEach(header => {
@@ -1496,6 +1504,8 @@ async RefreshTokenList(){
     });
 
     // sorting countries
+    console.log(direction + " " + column + " " + type)
+    if (type=="Active"){
     if (direction === '' || column === '') {
       this.ActiveTokenList = this.MainActiveTokenList;
     } else {
@@ -1504,6 +1514,17 @@ async RefreshTokenList(){
         return direction === 'asc' ? res : -res;
       });
     }
+  }
+  else{
+    if (direction === '' || column === '') {
+      this.TokenList = this.TokenList;
+    } else {
+      this.TokenList = [...this.TokenList].sort((a, b) => {
+        const res = this.compare(a[column], b[column]);
+        return direction === 'asc' ? res : -res;
+      });
+    }
+  }
   }
   onChangeEvent(){
     this.PublishSearchList = this.ActiveTokenList.filter(country => this.serviceLicense.matches(country, this.searchTextPublish, this.pipe));
@@ -1656,6 +1677,8 @@ async RefreshTokenList(){
     this.flocationElement.nativeElement.focus();  
     this.GetRoomSignagePlaylist()
     this.FillPromoLogo("777")
+    localStorage.setItem('eventdfClientId',this.cid)
+    localStorage.setItem('eventmType','Signage')
   }
   isUploadEventSheet="No"
   UploadEventSheet() {
@@ -1850,6 +1873,7 @@ async RefreshTokenList(){
     }
   }
   UpdateMeetingInfo(modalName) {
+     
     if (this.SelectedMeetingArray.length==0){
       return
     }
@@ -1872,6 +1896,7 @@ async RefreshTokenList(){
     this.MeetingRoomDetail['signagesplId']= this.cmbPlaylistId
     this.MeetingRoomDetail['signageFormatid']= this.cmbFormatId
     this.MeetingRoomDetail['lstRoom'] = SelectedMeetingRoomArray
+    this.MeetingRoomDetail['dfclientid']= this.cmbCustomerId
     this.loading = true;
     this.serviceLicense.UpdateMeetingRoomsInfo(this.MeetingRoomDetail).pipe().subscribe((data) => {
       var returnData = JSON.stringify(data);
@@ -1884,6 +1909,17 @@ async RefreshTokenList(){
         this.cmbPlaylistId="0"
         //this.OpenRoomViewContent(modalName)
         this.GetRoomSignagePlaylist()
+        let payload =[]
+        if (this.cmbCustomerId == "10") {
+          this.MeetingRoomList.forEach(item => {
+            if ((item["tokenid"] != null) && (item["tokenid"] != 0)){
+              payload.push(item["tokenid"])
+            }
+          });
+          if (payload.length>0){
+            this.publishEventPLayer(payload)
+          }
+        }
       }
     },
     (error) => {
@@ -2043,14 +2079,13 @@ async RefreshTokenList(){
     var payload =[]
     let payloadPublish = []
     if (this.EventCustomerdata.logoimgurl == ""){
-      this.toastr.info('Please set logo','');
+     // this.toastr.info('Please set logo','');
       return
     }
     this.loading = true;
-    var EventDate = new Date(this.dtpLogoEventDate);
-
+    var EventDate = new Date(this.frmEvent.value.edate);
       var arr ={}
-      arr['cName'] = this.cmbEventCustomer
+      arr['cName'] = this.frmEvent.value.dname
       arr['logoUrl'] = this.EventCustomerdata.logoimgurl
       arr['titleid'] = this.EventCustomerdata.titleid 
       arr['dfclientid'] =this.cmbCustomerId
@@ -2062,7 +2097,7 @@ async RefreshTokenList(){
       var objRes = JSON.parse(returnData);
       this.loading = false;
       if (objRes.Responce == "1"){
-        this.toastr.info('Saved', '');
+        //this.toastr.info('Saved', '');
         this.ResetCompanylogo()
         /*this.toastr.info('Event schedule is saved', '');
         var currentd = new Date();
@@ -2194,7 +2229,7 @@ async RefreshTokenList(){
       'select max(sf.Formatid) as id , sf.formatname as displayname from tbSpecialFormat sf left join tbSpecialPlaylistSchedule_Token st on st.formatid= sf.formatid';
     qry =
       qry +
-      ' left join tbSpecialPlaylistSchedule sp on sp.pschid= st.pschid  where isnull(LinkWithEvent,0)=0 and ';
+      ' left join tbSpecialPlaylistSchedule sp on sp.pschid= st.pschid  where isnull(LinkWithHotel,0)!=1 and ';
     qry =
       qry +
       " (dbtype='" +
@@ -2530,6 +2565,7 @@ async RefreshTokenList(){
     id:"0",
     dfclientid:this.cmbCustomerId
     })
+    this.ResetCompanylogo()
   }
   async SaveRoomCustomerEvent() {
     var sTime = this.frmEvent.value.stime;
@@ -2556,6 +2592,7 @@ async RefreshTokenList(){
       this.loading = false;
       if (objRes.Responce == "1"){
         this.toastr.info('Event schedule is saved', '');
+        await this.SaveRoomCustomerEventWithButtonClick()
         await this.SearchEvent()
         await this.GetFutureEventDetails()
         var payloadPublish=[]
@@ -2912,5 +2949,43 @@ async RefreshTokenList(){
           this.loading = false;
         }
       );
+  }
+  DeleteSchPlaylist() {
+    if (this.IschkViewOnly==1){
+      this.toastr.info('This feature is not available in view only');
+      return;
+    }
+    this.loading = true;
+      
+      this.tService
+      .DeleteTokenSch_future(this.DeleteEventId)
+      .pipe()
+      .subscribe(
+        (data) => {
+          var returnData = JSON.stringify(data);
+          var obj = JSON.parse(returnData);
+          if (obj.Responce == '1') {
+            this.toastr.info('Deleted', 'Success!');
+             
+            this.loading = false;
+            this.onChangeRoomSchedule(this.cmbRoomSchedule);
+          } else {
+            this.toastr.error(
+              'Apologies for the inconvenience.The error is recorded.',
+              ''
+            );
+          }
+          this.loading = false;
+        },
+        (error) => {
+          this.toastr.error(
+            'Apologies for the inconvenience.The error is recorded.',
+            ''
+          );
+          this.loading = false;
+        }
+      );
+    
+    
   }
 }

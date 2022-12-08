@@ -731,4 +731,26 @@ this.PrvTotalToken=0;
         this.Regform.controls.expiryDate.setValue(cd)
       }
     }
+    UpdateServiceStatus(status,ClientId,sericeName){
+      this.loading = true;
+      this.cService.UpdateServiceStatus(status,ClientId,sericeName).pipe()
+        .subscribe(data => {
+          var returnData = JSON.stringify(data);
+          var obj = JSON.parse(returnData);
+          if (obj.response == "1") {
+            this.toastr.info("Saved", 'Success!');
+            this.loading = false;
+            this.FillCustomer();
+          }
+          else {
+            this.toastr.error("Apologies for the inconvenience.The error is recorded.", '');
+            this.loading = false;
+            return;
+          }
+        },
+          error => {
+            this.toastr.error("Apologies for the inconvenience.The error is recorded.", '');
+            this.loading = false;
+          })
+    } 
 }

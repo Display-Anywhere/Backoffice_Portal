@@ -474,6 +474,22 @@
                             <span *ngIf="cLst.isSanitizerActive === '0'" class="cursor-pointer text-primary" (click)="UpdateSanitizerStatus('1',cLst.id)">Activate Sanitizer</span>
                             <span *ngIf="cLst.isSanitizerActive === '1'" class="cursor-pointer text-danger" (click)="UpdateSanitizerStatus('0',cLst.id)">Deactivate Sanitizer</span>
                           </a>
+                          <a class="dropdown-item" href="javascript:;">
+                            <span *ngIf="cLst.Meeting_Active === '0'" class="cursor-pointer text-primary" (click)="UpdateServiceStatus('1',cLst.id,'MR')">Activate Meeting Rooms</span>
+                            <span *ngIf="cLst.Meeting_Active === '1'" class="cursor-pointer text-danger" (click)="UpdateServiceStatus('0',cLst.id,'MR')">Deactivate Meeting Rooms</span>
+                          </a>
+                          <a class="dropdown-item" href="javascript:;">
+                            <span *ngIf="cLst.h_info_Active === '0'" class="cursor-pointer text-primary" (click)="UpdateServiceStatus('1',cLst.id,'hinfo')">Activate H-Info</span>
+                            <span *ngIf="cLst.h_info_Active === '1'" class="cursor-pointer text-danger" (click)="UpdateServiceStatus('0',cLst.id,'hinfo')">Deactivate H-Info</span>
+                          </a>
+                          <a class="dropdown-item" href="javascript:;">
+                            <span *ngIf="cLst.E_Link_Active === '0'" class="cursor-pointer text-primary" (click)="UpdateServiceStatus('1',cLst.id,'elink')">Activate E-Link</span>
+                            <span *ngIf="cLst.E_Link_Active === '1'" class="cursor-pointer text-danger" (click)="UpdateServiceStatus('0',cLst.id,'elink')">Deactivate E-Link</span>
+                          </a>
+                          <a class="dropdown-item" href="javascript:;">
+                            <span *ngIf="cLst.Indicator_Active === '0'" class="cursor-pointer text-primary" (click)="UpdateServiceStatus('1',cLst.id,'indicator')">Activate Online Indicator</span>
+                            <span *ngIf="cLst.Indicator_Active === '1'" class="cursor-pointer text-danger" (click)="UpdateServiceStatus('0',cLst.id,'indicator')">Deactivate Online Indicator</span>
+                          </a>
 
 
                           <a class="dropdown-item d-none" href="javascript:;" *ngIf="PortalName != 'sbit'">

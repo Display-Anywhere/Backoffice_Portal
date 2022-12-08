@@ -85,6 +85,9 @@ export class TokenInfoComponent implements OnInit {
   HotelTvDefaultPlaylist =[]
   Client_IsKpnActive='0'
   isSanitizerActive=false
+  h_info_Active=false
+  E_Link_Active= false
+  Indicator_Active=false
   @ViewChild('flocation') flocationElement: ElementRef;
   constructor(
     private router: Router,
@@ -586,6 +589,9 @@ this.submitted = true;this.loading = true;
           this.chkIsKpnActive = objTokenData[0].IsKpnActive;
           this.Client_IsKpnActive=objTokenData[0].Client_IsKpnActive;
           this.isSanitizerActive=objTokenData[0].isSanitizerActive;
+          this.h_info_Active=objTokenData[0].h_info_Active;
+          this.E_Link_Active=objTokenData[0].E_Link_Active;
+          this.Indicator_Active=objTokenData[0].Indicator_Active;
           this.chkShowKeyboard = objTokenData[0].isShowKeyboardToast;
           this.ClientId = objTokenData[0].ClientId;
           this.ModifyStateId = objTokenData[0].state;

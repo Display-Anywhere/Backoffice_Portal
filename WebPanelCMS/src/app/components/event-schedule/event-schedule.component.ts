@@ -15,12 +15,11 @@ import { trim } from 'jquery';
 import { PlaylistLibService } from 'src/app/playlist-library/playlist-lib.service';
 import { DecimalPipe } from '@angular/common';
 @Component({
-  selector: 'app-temp-schedule',
-  templateUrl: './temp-schedule.component.html',
-  styleUrls: ['./temp-schedule.component.css'],
-  providers: [DecimalPipe]
+  selector: 'app-event-schedule',
+  templateUrl: './event-schedule.component.html',
+  styleUrls: ['./event-schedule.component.css']
 })
-export class TempScheduleComponent implements OnInit {
+export class EventScheduleComponent implements OnInit {
   ScheduleList = [];
   dropdownSettings = {};
   dropdownList = [];
@@ -49,7 +48,8 @@ export class TempScheduleComponent implements OnInit {
   cmbSearchPlaylist = 0;
   frmTokenInfoModifyPlaylist: FormGroup;
   pSchid = 0;
-
+  SavedEventList = []
+  dtpEventSearchDate
   cid;
   CountryList = [];
   CountrySettings = {};
@@ -68,7 +68,7 @@ export class TempScheduleComponent implements OnInit {
   SearchMediaTypeList = [];
   CustomSchedulePlaylist = [];
   TotalPercentageValue = 0;
-  sType="Regular"
+  sType="Future"
   sType_Search="Regular"
   IschkViewOnly = this.auth.chkViewOnly$.value ? 1 : 0;
   dtDate = new Date()
@@ -80,6 +80,7 @@ export class TempScheduleComponent implements OnInit {
   HoteltvPlaylistSize =0
   ShowLimitSubmitButton= false
   cmbDeviceType=""
+  templateHost ='https://templates.nusign.eu'
   constructor(
     private formBuilder: FormBuilder,
     public toastrSF: ToastrService,
@@ -181,7 +182,7 @@ export class TempScheduleComponent implements OnInit {
   }
 
   onSubmitSF(UpdateModel, ReducePlaylist) {
-    this.modalService.dismissAll()
+    
     var errorFound ="No"
     this.submitted = true;
     if (this.SFform.value.CustomerId == '0') {
@@ -341,7 +342,7 @@ if (errorFound==="Yes"){
             this.selectedItems=[];
             this.TokenSelected=[];
             this.TokenList=[];
-            this.sType="Regular"
+            this.sType="Future"
             this.SFform = this.formBuilder.group({
               CustomerId: ['0', Validators.required],
               FormatId: ['0', Validators.required],
@@ -365,7 +366,8 @@ if (errorFound==="Yes"){
             this.SFform.get('EndTime').setValue(eTime);
 
             this.ForceUpdateType = 'New';
-            this.modalService.open(UpdateModel, { centered: true });
+            this.ForceUpdateAll()
+            //this.modalService.open(UpdateModel, { centered: true });
           } else {
             this.toastrSF.error(
               'Apologies for the inconvenience.The error is recorded.',
@@ -412,7 +414,7 @@ if (errorFound==="Yes"){
       'FillCustomer ' +
       i +
       ', ' +
-      localStorage.getItem('dfClientId') +
+      localStorage.getItem('eventdfClientId') +
       ',' +
       localStorage.getItem('DBType');
 
@@ -421,18 +423,19 @@ if (errorFound==="Yes"){
       .FillCombo(q)
       .pipe()
       .subscribe(
-        (data) => {
+        async (data) => {
           var returnData = JSON.stringify(data);
           this.CustomerList = JSON.parse(returnData);
           this.loading = false;
-          if (this.auth.IsAdminLogin$.value == false) {
+          
             this.SFform.get('CustomerId').setValue(
-              localStorage.getItem('dfClientId')
+              localStorage.getItem('eventdfClientId')
             );
-            this.onChangeCustomer(localStorage.getItem('dfClientId'));
-            this.cmbSearchCustomer=localStorage.getItem('dfClientId')
-          this.onChangeSearchCustomer(localStorage.getItem('dfClientId'))
-          }
+           await this.onChangeCustomer(localStorage.getItem('eventdfClientId'));
+           this.cmbSearchCustomer=localStorage.getItem('eventdfClientId')
+           await this.onChangeSearchCustomer(localStorage.getItem('eventdfClientId'))
+           this.dtpEventSearchDate = new Date()
+           await this.SearchEvent()
         },
         (error) => {
           this.toastrSF.error(
@@ -450,7 +453,7 @@ if (errorFound==="Yes"){
       'select max(sf.Formatid) as id , sf.formatname as displayname from tbSpecialFormat sf left join tbSpecialPlaylistSchedule_Token st on st.formatid= sf.formatid';
     q =
       q +
-      " left join tbSpecialPlaylistSchedule sp on sp.pschid= st.pschid  where isnull(LinkWithEvent,0)=0 and  (dbtype='" +
+      " left join tbSpecialPlaylistSchedule sp on sp.pschid= st.pschid  where isnull(sf.LinkWithHotel,0)!=1 and   (dbtype='" +
       localStorage.getItem('DBType') +
       "' or dbtype='Both') and  (st.dfclientid=" +
       id +
@@ -563,7 +566,7 @@ if (errorFound==="Yes"){
       .subscribe(
         (data) => {
           var returnData = JSON.stringify(data);
-          var mType= localStorage.getItem('mType')
+          var mType= localStorage.getItem('eventmType')
           if (type == 'New') {
             this.MediaTypeList = JSON.parse(returnData);
             if(mType!=null){
@@ -603,7 +606,7 @@ if (errorFound==="Yes"){
       'select max(sf.Formatid) as id , sf.formatname as displayname from tbSpecialFormat sf left join tbSpecialPlaylistSchedule_Token st on st.formatid= sf.formatid';
     qry =
       qry +
-      ' left join tbSpecialPlaylistSchedule sp on sp.pschid= st.pschid  where isnull(LinkWithEvent,0)=0 and ';
+      ' left join tbSpecialPlaylistSchedule sp on sp.pschid= st.pschid  where  isnull(sf.LinkWithHotel,0)!=1 and ';
     qry =
       qry +
       " (dbtype='" +
@@ -883,11 +886,11 @@ if (errorFound==="Yes"){
     var qry=""
     if (this.sType_Search=="Regular"){
       qry ='select max(sf.Formatid) as id , sf.formatname as displayname from tbSpecialFormat sf inner join tbSpecialPlaylistSchedule_Token st on st.formatid= sf.formatid';
-      qry =qry + ' inner join tbSpecialPlaylistSchedule sp on sp.pschid= st.pschid  where  isnull(LinkWithEvent,0)=0 and ';
+      qry =qry + ' inner join tbSpecialPlaylistSchedule sp on sp.pschid= st.pschid  where   ';
     }
     if (this.sType_Search=="Future"){
       qry ='select max(sf.Formatid) as id , sf.formatname as displayname from tbSpecialFormat sf inner join tbSpecialTempPlaylistSchedule_Token st on st.formatid= sf.formatid';
-      qry =qry + ' inner join tbSpecialTempPlaylistSchedule sp on sp.pschid= st.pschid  where isnull(LinkWithEvent,0)=0 and ';
+      qry =qry + ' inner join tbSpecialTempPlaylistSchedule sp on sp.pschid= st.pschid  where  ';
     }
     qry =qry +" (dbtype='" + localStorage.getItem('DBType') + "' or dbtype='Both') and  (st.dfclientid=" + this.cmbSearchCustomer + ' OR sf.dfclientid=' + this.cmbSearchCustomer +") and sf.mediatype='" + this.cmbSearchMediaType +"' group by  sf.formatname";
     this.loading = true;
@@ -1860,5 +1863,53 @@ OpenViewContent(modalName, url,oType,MediaType){
       if (this.searchText === ""){
         this.chkAll = false
       }
+    }
+    SearchEvent(){
+      this.SavedEventList=[]
+      let ct
+      ct= new Date()
+      let diffMs = (ct - this.dtpEventSearchDate);  
+      var diffDays = Math.floor(diffMs / 86400000);  
+      if (diffDays >0){
+        this.toastrSF.info('Event search date not be less than current date.','');
+        this.dtpEventSearchDate= new Date()
+      }
+      this.dtpEventSearchDate= new Date(this.dtpEventSearchDate)
+      this.loading = true;
+      this.pService.GetRoomEventList_Datewise(this.dtpEventSearchDate.toDateString(), this.cid).pipe().subscribe((data) => {
+            var returnData = JSON.stringify(data);
+            var obj = JSON.parse(returnData);
+            if (obj.data !=''){
+              this.SavedEventList = JSON.parse(obj.data)
+            }
+            this.loading = false;
+          },
+          (error) => {
+            this.toastrSF.error('Apologies for the inconvenience.The error is recorded.','');
+            this.loading = false;
+          }
+        );
+    }
+    OpenEventViewContent(modalName, evtDate, t){
+      var tid= "CP1"
+      if (t =="N"){
+        tid="CP4"
+      }
+      if (localStorage.getItem('PortalName')=='sbit'){
+        tid="sbit1"
+      }
+      var url =`${this.templateHost}?templateId=${tid}&cpd=${evtDate}&dfd=${this.cid}`
+      console.log(url)
+      localStorage.setItem("ViewContent",url)
+      localStorage.setItem("oType","496")
+        this.modalService.open(modalName, {
+          size: 'Template',
+        }); 
+    }
+    openEventListModal(mContent) {
+      this.modalService.open(mContent, {
+        size: 'lgx',
+      });
+      this.flocationElement.nativeElement.focus();
     }
 }

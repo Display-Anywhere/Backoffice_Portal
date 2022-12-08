@@ -48,11 +48,11 @@
                       </a>
                       
                       <a class="dropdown-item" href="javascript:;" (click)="SetIndicator(true)" 
-                      *ngIf="((this.auth.chkEventMeeting$.value ==false) && (ShowIndicator))">
+                      *ngIf="((this.auth.chkEventMeeting$.value ==false) && (ShowIndicator) && (Indicator_Active))">
                         Show Indicator
                       </a>
                       <a class="dropdown-item" href="javascript:;" (click)="SetIndicator(false)" 
-                      *ngIf="((this.auth.chkEventMeeting$.value ==false) && (!ShowIndicator))">
+                      *ngIf="((this.auth.chkEventMeeting$.value ==false) && (!ShowIndicator) && (Indicator_Active))">
                         Disable Indicator
                       </a>
                       <a class="dropdown-item" href="javascript:;" (click)="ForceUpdateModal(modalForceUpdate)"
@@ -113,7 +113,7 @@
                   padding: 0.475rem 0.6rem"
                 />
               </div>
-              <div *ngIf="((this.auth.chkEventMeeting$.value ==false) && (!ShowIndicator))" class="form-group col-sm-1 m-0">
+              <div *ngIf="((this.auth.chkEventMeeting$.value ==false) && (!ShowIndicator) && (Indicator_Active))" class="form-group col-sm-1 m-0">
                 <label for="btnIndi" class="d-none d-xl-block mb-2 mr-sm-2"
                   >&nbsp;</label
                 >
@@ -126,7 +126,7 @@
                   style="width: 100%;width: 100%;font-size: 14px;padding: 0.475rem 0.60rem;"
                 />
               </div>
-              <div *ngIf="((this.auth.chkEventMeeting$.value ==false) && (ShowIndicator))" class="form-group col-sm-1 m-0">
+              <div *ngIf="((this.auth.chkEventMeeting$.value ==false) && (ShowIndicator) && (Indicator_Active))" class="form-group col-sm-1 m-0">
                 <label for="btnIndi" class="d-none d-xl-block mb-2 mr-sm-2"
                   >&nbsp;</label
                 >
@@ -180,7 +180,7 @@
                   padding: 0.475rem 0.6rem"
                 />
               </div>
-              <div class="form-group col-sm-1 m-0">
+              <div class="form-group col-sm-1 m-0" *ngIf="Meeting_Active">
                 <label for="btnUploadEvent" class="d-none d-xl-block mb-2 mr-sm-2"
                   >&nbsp;</label
                 >
@@ -301,7 +301,7 @@
               >
               <ng-template ngbNavContent> </ng-template>
             </li>
-            <li [ngbNavItem]="8">
+            <li [ngbNavItem]="8" *ngIf="h_info_Active">
               <a
                 ngbNavLink
                 (click)="FilterTokenList('HotelTv')"
@@ -310,7 +310,7 @@
               >
               <ng-template ngbNavContent> </ng-template>
             </li>
-            <li [ngbNavItem]="14">
+            <li [ngbNavItem]="14" *ngIf="E_Link_Active">
               <a
                 ngbNavLink
                 (click)="FilterTokenList('WhiteBoard')"
@@ -368,18 +368,18 @@
                     <!--<th scope="col" [appSort]="TokenList" data-order="asc" data-name="tokenCode">Token Code</th>
                   <th scope="col" [appSort]="TokenList" data-order="asc" data-name="location">Location </th>
                   -->
-                    <th scope="col" style="width: 120px !important">City</th>
-                    <th scope="col" style="width: 190px !important">
+                    <th scope="col" sortable="city" (sort)="onSort($event,'Main')" style="width: 120px !important">City</th>
+                    <th scope="col" style="width: 190px !important" sortable="location" (sort)="onSort($event,'Main')">
                       Location
                     </th>
                     <!--
     <th scope="col" style="width:120px !important;">Player Type </th>
                   -->
-                    <th scope="col" style="width: 110px !important">
+                    <th scope="col" sortable="MediaType" (sort)="onSort($event,'Main')" style="width: 120px !important">
                       Media Type
                     </th>
-                    <th scope="col" style="width: 190px !important">Group</th>
-                    <th scope="col" style="width: 210px !important">
+                    <th scope="col" sortable="gName" (sort)="onSort($event,'Main')" style="width: 190px !important">Group</th>
+                    <th scope="col" sortable="tokenCode" (sort)="onSort($event,'Main')" style="width: 210px !important">
                       Token Code
                     </th>
                     <th scope="col" style="width: 90px !important">
@@ -395,8 +395,8 @@
                     <th scope="col" style="width: 35px !important" data-toggle="tooltip" data-placement="top" title="Player Status">PS</th>
                     <th scope="col" style="width: 30px !important" data-toggle="tooltip" data-placement="top" title="Publish Status">S.</th>
                     <th scope="col" style="width: 30px !important" data-toggle="tooltip" data-placement="top" title="Content Download Status">D.</th>
-                    <th scope="col" style="width: 35px !important" data-toggle="tooltip" data-placement="top" title="Indicator">OI</th>
-                    <th scope="col" style="width: 30px !important" data-toggle="tooltip" data-placement="top" title="Hotel Tv Indicator">HI</th>
+                    <th scope="col" style="width: 35px !important" data-toggle="tooltip" data-placement="top" title="Indicator" *ngIf="Indicator_Active">OI</th>
+                    <th scope="col" style="width: 30px !important" data-toggle="tooltip" data-placement="top" title="Hotel Tv Indicator" *ngIf="h_info_Active">HI</th>
                     <th scope="col" style="width: 30px !important"></th>
                   </tr>
                 </thead>
@@ -569,7 +569,7 @@
                       />
                     </td>
  -->
-                    <td data-label="" *ngIf="IsIndicatorShow == true">
+                    <td data-label="" *ngIf="((IsIndicatorShow == true) &&(Indicator_Active))">
                       <img
                         src="/assets/img/green.png"
                         alt="green"
@@ -593,7 +593,7 @@
                         " data-toggle="tooltip" data-placement="top" title="Online Indicator"
                       />
                     </td>
-                    <td data-label="" *ngIf="IsIndicatorShow == false">
+                    <td data-label="" *ngIf="((IsIndicatorShow == false) && (Indicator_Active))">
                       <img
                         src="/assets/img/red.png"
                         alt="green"
@@ -605,7 +605,7 @@
                         " data-toggle="tooltip" data-placement="top" title="Online Indicator"
                       />
                     </td>
-                    <td data-label="">
+                    <td data-label="" *ngIf="h_info_Active">
                       <span *ngIf="cLst.DeviceType == 'HotelTv'">
                       <i *ngIf="cLst.IshotelTvOnline == '0'" class="fa fa-lg fa-square text-danger" aria-hidden="true"  data-toggle="tooltip" data-placement="top" title="H-Info Indicator"></i>
                       <i *ngIf="cLst.IshotelTvOnline == '1'" class="fa fa-lg fa-square text-success" aria-hidden="true"  data-toggle="tooltip" data-placement="top" title="H-Info Indicator"></i>
@@ -978,9 +978,9 @@
                               >
                             </div>
                           </th>
-                          <th scope="col" sortable="city" (sort)="onSort($event)">City</th>
-                          <th scope="col" sortable="location" (sort)="onSort($event)">Location</th>
-                          <th scope="col" sortable="tokenCode" (sort)="onSort($event)">Token No</th>
+                          <th scope="col" sortable="city" (sort)="onSort($event,'Active')">City</th>
+                          <th scope="col" sortable="location" (sort)="onSort($event,'Active')">Location</th>
+                          <th scope="col" sortable="tokenCode" (sort)="onSort($event,'Active')">Token No</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -1523,7 +1523,7 @@
                 ></owl-date-time>
 
             </div>
-              <div class="form-group col-sm-4 pb-1 m-0">
+              <div class="form-group col-sm-5 pb-1 m-0">
                 <label for="token" class="mb-2 mr-sm-2" #flocation>Company Name:</label>
                 <input
                   type="text" 
@@ -1546,7 +1546,7 @@
                   </option>
                 </select>
               </div>
-              <div class="form-group col-sm-4 pb-1 m-0">
+              <div class="form-group col-sm-3 pb-1 m-0">
                 <label for="acti" class="mb-2 mr-sm-2" #flocation>Venue:</label>
                 <select formControlName="activity" class="custom-select mb-3" id="acti">
                   <option selected value=""></option>
@@ -1574,7 +1574,12 @@
                 ></ngb-timepicker>
               </div>
             </div>
-            <div class="form-group col-sm-4 pb-1 m-0 pt-1"  >
+            <div class="form-group col-sm-3 m-0">
+              <label for="bkLogo1" class="mb-2 mr-sm-2 w-100">Logo: <span style="cursor: pointer;"><i *ngIf="EventCustomerdata.selected_logoName !=''" (click)="ResetCompanylogo()" class="text-danger fa fa-times-circle" aria-hidden="true"></i></span> </label>
+                    <input  id="bkLogo" type="button" (click)="openLibrary(modalCustomerLogo)" class="btn btn-primary  mb-2 mr-sm-2"   value="Logo Library" />
+                    <span style="font-size: 11px;"><strong>{{EventCustomerdata.selected_logoName}}</strong></span>
+            </div>
+            <div class="form-group col-sm-2 pb-1 m-0 pt-1"  >
               <button class="btn btn-primary mt-4 ml-3" type="button" (click)="SaveRoomCustomerEvent()">
                 Save
               </button>
@@ -1908,7 +1913,7 @@
                 </div>
               </ng-template>
       </li>
-      <li [ngbNavItem]="5" class="pr-2" *ngIf="!IschkViewOnly">
+      <li [ngbNavItem]="5" class="pr-2 " *ngIf="!IschkViewOnly">
         <a ngbNavLink (click)="ResetList()">Schedule</a>
         <ng-template ngbNavContent>
           <div class="row">
@@ -1952,9 +1957,10 @@
                         <th scope="col">
                           End Time
                         </th>
-                        <th style="width: 13rem;">
+                        <!--<th style="width: 13rem;">
                           Week Day
                         </th>
+                        <th scope="col" class="Link-Center_Width"></th>-->
                       </tr>
                     </thead>
                     <tbody>
@@ -1981,11 +1987,18 @@
                         >
                           {{ fuSchLst.EndTime }}
                         </td>
-                        <td
+                        <!--<td
                           data-label="Week Day"
                         >
                           {{ fuSchLst.WeekDay }}
                         </td>
+                        <td
+                data-label=""
+                class="text-danger m-0 p-0"
+                (click)="openDeleteModal(SchDeleteModal, fuSchLst.id)"
+              >
+                <i class="fa fa-trash" aria-hidden="true"></i>
+              </td>-->
                       </tr>
                     </tbody>
                   </table>
@@ -1993,9 +2006,10 @@
                     </div>
                   </ng-template>
                 </li>
-                <li [ngbNavItem]="2" class="pr-2">
-                  <a ngbNavLink routerLink="/StoreAndForward" (click)="d('Cross click')" >Add New</a>
+                <li [ngbNavItem]="2" class="pr-2 d-none">
+                  <a ngbNavLink>Add New</a>
                   <ng-template ngbNavContent>
+                    <app-event-schedule></app-event-schedule>
                   </ng-template>
                   </li>
 
@@ -2008,7 +2022,7 @@
           
         </ng-template>
       </li>
-      <li [ngbNavItem]="6" class="pr-2" *ngIf="!IschkViewOnly">
+      <li [ngbNavItem]="6" class="pr-2 d-none" *ngIf="!IschkViewOnly">
         <a ngbNavLink>Upload Logo</a>
         <ng-template ngbNavContent>
         <div class="col-sm-12">
@@ -2511,9 +2525,9 @@
                               >
                             </div>
                           </th>
-                          <th scope="col" sortable="city" (sort)="onSort($event)">City</th>
-                          <th scope="col" sortable="location" (sort)="onSort($event)">Location</th>
-                          <th scope="col" sortable="tokenCode" (sort)="onSort($event)">Token No</th>
+                          <th scope="col" sortable="city" (sort)="onSort($event,'Active')">City</th>
+                          <th scope="col" sortable="location" (sort)="onSort($event,'Active')">Location</th>
+                          <th scope="col" sortable="tokenCode" (sort)="onSort($event,'Active')">Token No</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -2718,6 +2732,46 @@
           <button
             class="btn btn-danger col-sm-2 pull-right mr-2"
             (click)="DeleteGroup()"
+            (click)="d('Cross click')"
+          >
+            <i class="fa fa-check fa-lg" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #SchDeleteModal let-c="close" let-d="dismiss">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Delete Schedule Playlist</h5>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12">
+          <p>Are you sure to delete?</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <button
+            class="btn btn-primary col-sm-2 pull-right"
+            (click)="d('Cross click')"
+          >
+            <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+          </button>
+          <button
+            class="btn btn-danger col-sm-2 pull-right mr-2"
+            (click)="DeleteSchPlaylist()"
             (click)="d('Cross click')"
           >
             <i class="fa fa-check fa-lg" aria-hidden="true"></i>

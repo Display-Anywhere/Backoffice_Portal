@@ -285,17 +285,17 @@
           </option>
           <option
           [selected]="chkHotelTv"
-          *ngIf="f.chkMediaType.value == 'Signage'"
+          *ngIf="((f.chkMediaType.value == 'Signage') && (h_info_Active))"
           value="HotelTv"
         >
           H-Info
         </option>
         <option
           [selected]="chkWhiteBoard"
-          *ngIf="f.chkMediaType.value == 'Signage'"
+          *ngIf="((f.chkMediaType.value == 'Signage') &&(E_Link_Active))"
           value="WhiteBoard"
         >
-        E-link
+        E-Link
         </option>
 
           <!--
@@ -450,7 +450,7 @@
        <div
        class="form-group col-sm-3 pb-1 m-0"
      >
-     <div class="custom-control custom-checkbox mt-3">
+     <div *ngIf="Indicator_Active" class="custom-control custom-checkbox mt-3">
        <input
          type="checkbox"
          class="custom-control-input"
@@ -501,7 +501,7 @@
     <div
         class="form-group col-sm-3 pb-1 m-0 mb-2 custom-control custom-checkbox"
         *ngIf="
-        Client_IsKpnActive == '1' && f.DeviceType.value == 'HotelTv'
+        Client_IsKpnActive == '1' && f.chkMediaType.value == 'Signage'
         "
       >
         <input
@@ -682,7 +682,7 @@
           >Instant Mobile Playlist</a
         >
       </li>
-      <li *ngIf="f.DeviceType.value === 'HotelTv'">
+      <li *ngIf="((f.DeviceType.value === 'HotelTv') && (h_info_Active))">
         <a data-toggle="tab" href="#HotelTvDefault" class="nav-link"
           >Default H-Info</a
         >
