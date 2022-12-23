@@ -88,6 +88,7 @@ export class TokenInfoComponent implements OnInit {
   h_info_Active=false
   E_Link_Active= false
   Indicator_Active=false
+  PlayerChannelList=[]
   @ViewChild('flocation') flocationElement: ElementRef;
   constructor(
     private router: Router,
@@ -688,6 +689,9 @@ this.submitted = true;this.loading = true;
           this.GetKeyboardAnnouncement();
           this.GetFireAlert();
           this.GetDefaultHotelTvPlaylist();
+          if (this.chkIsKpnActive== true){
+            this.GetKPNChannels()
+          }
         },
         (error) => {
           this.toastr.error(
@@ -1254,4 +1258,21 @@ SaveSchedule() {
             );
       }
 
+      GetKPNChannels(){
+        this.PlayerChannelList=[]
+        this.loading = true;
+        this.mService.GetPlayerKpnChannels(this.tid).pipe()
+          .subscribe(data => {
+            var returnData = JSON.stringify(data);
+            var obj = JSON.parse(returnData);
+            if (obj.data !=''){
+              this.PlayerChannelList = JSON.parse(obj.data)
+            }
+            this.loading = false;
+          },
+            error => {
+              this.toastr.error("Apologies for the inconvenience.The error is recorded.", '');
+              this.loading = false;
+            })
+      }
 }

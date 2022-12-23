@@ -63,6 +63,7 @@ export class LicenseHolderComponent
   Indicator_Active=false
   E_Link_Active=false
   Meeting_Active=false
+  KPN_Active=false
   txtDelPer;
   cmbPlaylist = '0';
   tokenid;
@@ -394,6 +395,8 @@ inEventfrm(){
     this.Indicator_Active= obj[0].Indicator_Active
     this.E_Link_Active= obj[0].E_Link_Active  
     this.Meeting_Active= obj[0].Meeting_Active  
+    this.KPN_Active= obj[0].KPN_Active  
+    
     await this.FillDeviceLastStatus(deviceValue)
   }
   
@@ -472,9 +475,11 @@ inEventfrm(){
   FillData(data) {
     var returnData = JSON.stringify(data);
     const objData = JSON.parse(returnData);
+    console.log(objData)
     this.ShowIndicator = false
     objData.forEach(item => {
       const obj =  this.TokenContentMatchDownload.filter(o => o.tokenid === Number(item['tokenid']))
+      item['pContent']= 0
       if (item['Version'] === '2.0'){
         item['IsDownloadAll']= 'true'  
       }
@@ -483,12 +488,14 @@ inEventfrm(){
       }
       else if (obj[0].pContent < 0){
         item['IsDownloadAll']= 'false'
+        item['pContent']= obj[0].pContent
       }
       else if (obj[0].pContent == 0){
         item['IsDownloadAll']= 'true'
       }
       else{
         item['IsDownloadAll']= 'false'
+        item['pContent']= obj[0].pContent
       }
       if (item['IsIndicatorActive']=='1'){
         this.ShowIndicator = true
@@ -545,27 +552,27 @@ inEventfrm(){
     }
     if (this.FilterValue_For_Reload == 'Audio') {
       this.TokenList = this.MainTokenList.filter(
-        (order) => order.MediaType === 'Audio'
+        (order) => order.MediaType === 'Audio' && order.token === 'used'
       );
     }
     if (this.FilterValue_For_Reload == 'Video') {
       this.TokenList = this.MainTokenList.filter(
-        (order) => order.MediaType === 'Video'
+        (order) => order.MediaType === 'Video' && order.token === 'used'
       );
     }
     if (this.FilterValue_For_Reload == 'Signage') {
       this.TokenList = this.MainTokenList.filter(
-        (order) => order.MediaType === 'Signage' && order.DeviceType != 'HotelTv'
+        (order) => order.MediaType === 'Signage' && order.DeviceType != 'HotelTv'  && order.token === 'used'
       );
     }
     if (this.FilterValue_For_Reload == 'HotelTv') {
       this.TokenList = this.MainTokenList.filter(
-        (order) => order.DeviceType === 'HotelTv'
+        (order) => order.DeviceType === 'HotelTv'  && order.token === 'used'
       );
     }
     if (this.FilterValue_For_Reload == 'WhiteBoard') {
       this.TokenList = this.MainTokenList.filter(
-        (order) => order.DeviceType === 'WhiteBoard'
+        (order) => order.DeviceType === 'WhiteBoard' && order.token === 'used'
       );
     }
     if (this.FilterValue_For_Reload == 'UnRegsiter') {
@@ -575,7 +582,12 @@ inEventfrm(){
     }
     if (this.FilterValue_For_Reload == 'Sanitizer') {
       this.TokenList = this.MainTokenList.filter(
-        (order) => order.DeviceType === 'Sanitizer'
+        (order) => order.DeviceType === 'Sanitizer' && order.token === 'used'
+      );
+    }
+    if (this.FilterValue_For_Reload == 'KPN') {
+      this.TokenList = this.MainTokenList.filter(
+        (order) => order.IsKpnActive === '1' && order.token === 'used'
       );
     }
     this.ActivePlayerListlength= this.TokenList.length
@@ -2969,6 +2981,47 @@ async RefreshTokenList(){
              
             this.loading = false;
             this.onChangeRoomSchedule(this.cmbRoomSchedule);
+          } else {
+            this.toastr.error(
+              'Apologies for the inconvenience.The error is recorded.',
+              ''
+            );
+          }
+          this.loading = false;
+        },
+        (error) => {
+          this.toastr.error(
+            'Apologies for the inconvenience.The error is recorded.',
+            ''
+          );
+          this.loading = false;
+        }
+      );
+    
+    
+  }
+
+  DeleteDefaultPlaylist() {
+    if (this.IschkViewOnly==1){
+      this.toastr.info('This feature is not available in view only');
+      return;
+    }
+    this.loading = true;
+      
+      this.tService
+      .DeleteDefaultPlaylist(this.DeleteEventId)
+      .pipe()
+      .subscribe(
+        async (data) => {
+          this.DeleteEventId="0"
+          var returnData = JSON.stringify(data);
+          var obj = JSON.parse(returnData);
+          if (obj.Responce == '1') {
+            this.toastr.info('Deleted', 'Success!');
+            this.loading = false;
+            this.RoomSignagePlaylist = []
+            this.RoomSignagePlaylist_Main=[]
+            await this.GetRoomSignagePlaylist()
           } else {
             this.toastr.error(
               'Apologies for the inconvenience.The error is recorded.',

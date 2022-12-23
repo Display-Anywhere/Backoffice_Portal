@@ -513,7 +513,7 @@
           name="chkKpnActive"
         />
         <label class="custom-control-label ml-4" for="chkKpnActive"
-          >Activate KPN</label
+          >Activate H-IPTV</label
         >
       </div>
 
@@ -653,15 +653,15 @@
   </form>
   <div class="mt-2 col-md-12 p-0" style="background: #fff; color: #000">
     <ul class="nav nav-tabs">
-      <li class="active">
+      <li *ngIf="(!chkIsKpnActive)" class="active">
         <a data-toggle="tab" href="#home" class="nav-link active"
           >Normal Schedule</a
         >
       </li>
-      <li>
+      <li *ngIf="(!chkIsKpnActive)">
         <a data-toggle="tab" href="#menu5" class="nav-link">Future Schedule</a>
       </li>
-      <li *ngIf="isSanitizerActive">
+      <li *ngIf="isSanitizerActive && (!chkIsKpnActive)">
         <a data-toggle="tab" href="#menu3" class="nav-link"
           >Sanitizer Announcement
         </a>
@@ -670,26 +670,29 @@
       <li class="d-none">
         <a data-toggle="tab" href="#menu6" class="nav-link">Emergency Alert </a>
       </li>
-      <li>
+      <li *ngIf="(!chkIsKpnActive)">
         <a data-toggle="tab" href="#menu1" class="nav-link">Normal Ads </a>
       </li>
       
-      <li>
+      <li *ngIf="(!chkIsKpnActive)">
         <a data-toggle="tab" href="#playlistAds" class="nav-link">Playlist Ads </a>
       </li>
-      <li>
+      <li *ngIf="(!chkIsKpnActive)">
         <a data-toggle="tab" href="#menu4" class="nav-link"
           >Instant Mobile Playlist</a
         >
       </li>
-      <li *ngIf="((f.DeviceType.value === 'HotelTv') && (h_info_Active))">
+      <li *ngIf="((f.DeviceType.value === 'HotelTv') && (h_info_Active) && (!chkIsKpnActive))">
         <a data-toggle="tab" href="#HotelTvDefault" class="nav-link"
           >Default H-Info</a
         >
       </li>
+      <li *ngIf="(chkIsKpnActive)" class="active">
+        <a data-toggle="tab" href="#menuKPNChannel" class="nav-link active">Channels</a>
+      </li>
     </ul>
     <div class="tab-content">
-      <div id="home" class="tab-pane in active">
+      <div id="home" *ngIf="(!chkIsKpnActive)" class="tab-pane in active">
         <table
           class="table data-table table-striped table-bordered mydatatable"
         >
@@ -1066,6 +1069,32 @@
             </tbody>
           </table>
         </div>
+      </div>
+      <div *ngIf="(chkIsKpnActive)" id="menuKPNChannel" class="tab-pane in active">
+        <div class="table-responsive">
+          <table class="table data-table table-striped table-bordered mydatatable">
+              <thead class="bg-primary">
+                  <tr>
+                    <th scope="col">Label</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Notes</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let cLst of PlayerChannelList; let i = index">
+                      <td data-label="Label">
+                            {{ cLst.channellabel }}
+                        </td>
+                        <td data-label="Name">
+                            {{ cLst.channelname }}
+                        </td>
+                        <td data-label="Notes">
+                          {{ cLst.channeldesc }}
+                      </td>
+                </tr>
+                </tbody>
+          </table>
+      </div>
       </div>
     </div>
   </div>

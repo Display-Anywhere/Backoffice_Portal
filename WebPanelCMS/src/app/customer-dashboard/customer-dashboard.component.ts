@@ -31,7 +31,7 @@ export class CustomerDashboardComponent implements OnInit {
   cmbCustomerId = "";
   ActiveTokenListlength=0;
   PublishSearchList=[]
-  
+  isSanitizerActive="0"
   timeLeft: number = 300;
   interval;
 
@@ -40,7 +40,7 @@ export class CustomerDashboardComponent implements OnInit {
 
   constructor(public toastr: ToastrService, vcr: ViewContainerRef, private dService: DashboardService,
     config: NgbModalConfig, private modalService: NgbModal, private auth: AuthServiceOwn,
-    private pipe: DecimalPipe) {
+    private pipe: DecimalPipe,private serviceLicense: SerLicenseHolderService) {
     config.backdrop = 'static';
     config.keyboard = false;
     console.log("Dashboard");
@@ -81,7 +81,7 @@ export class CustomerDashboardComponent implements OnInit {
     var str = "";
     var i = this.auth.IsAdminLogin$.value ? 1 : 0;
     str = "FillCustomer " + i + ", " + localStorage.getItem('dfClientId') + "," + localStorage.getItem('DBType');
-    this.dService.FillCombo(str).pipe()
+    this.serviceLicense.FillCustomerWithKey(str).pipe()
       .subscribe(data => {
         var returnData = JSON.stringify(data);
         this.CustomerList = JSON.parse(returnData);
@@ -124,6 +124,11 @@ export class CustomerDashboardComponent implements OnInit {
     this.timeLeft = 300
     this.cmbCustomerId = deviceValue;
     this.GetCustomerTokenDetail('Total', deviceValue);
+    const obj= this.CustomerList.filter(o => o.Id == this.cmbCustomerId)
+    this.isSanitizerActive= "0"
+    if (obj[0].isSanitizerActive == true){
+      this.isSanitizerActive= "1"
+    }
   }
   RefershClick() {
     var cid;
@@ -219,6 +224,7 @@ export class CustomerDashboardComponent implements OnInit {
   openModal(content, tid, location, city) {
     this.TokenInfo = tid + "-" + location + "-" + city;
     localStorage.setItem("tokenid", tid);
+    localStorage.setItem("isSanitizerActive", this.isSanitizerActive);
     this.modalService.open(content, { size: 'lgp' });
 
   }

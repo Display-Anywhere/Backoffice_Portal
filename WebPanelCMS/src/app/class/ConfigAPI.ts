@@ -204,6 +204,8 @@ export class ConfigAPI {
    UpdateVenueGroups: string = this.Host + 'UpdateVenueGroups';
    UnAssignVenueGroups: string = this.Host + 'UnAssignVenueGroups';
    UpdateServiceStatus: string = this.Host + 'UpdateServiceStatus';
+   DeleteDefaultPlaylist: string = this.Host + 'DeleteDefaultPlaylist';
+   FillPlayedAdSummary: string = this.Host + 'FillPlayedAdSummary';
 }
 
 // localStorage.setItem('UserId', obj.UserId);

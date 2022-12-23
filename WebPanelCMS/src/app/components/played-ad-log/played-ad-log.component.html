@@ -1,0 +1,229 @@
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }">
+</ngx-loading>
+<div class="container-fluid p-0">
+  <div class="col-12 p-0">
+    <div class="row">
+      <div class="col-12">
+        <div class="w-100">
+          <div class="card-header mt-0 pt-0">
+            <div class="col-lg-12 p-0">
+              <ul class="nav nav-pills" role="tablist" style="background: #fff; color: #000">
+                <li class="nav-item"  >
+                  <a class="nav-link active" data-toggle="tab" href="#palog"
+                    >Played Ads Logs</a
+                  >
+                </li>
+                 
+                  <li class="nav-item"  >
+                    <a class="nav-link" data-toggle="tab" href="#pas"
+                      >Played Ads Summary</a
+                    >
+                  </li>
+              </ul>
+            </div>
+          </div>
+          <div class="card-body m-0 p-0">
+            <div class="tab-content">
+              <div id="palog" role="tabpanel" class="tab-pane active m-0 p-0">
+                <div   class="container-fluid p-0 m-0">
+                  <div class="row">
+                      <div class="col-sm-12 mt-2">
+                          <div class="form-row">
+                              <div class="form-group col-sm-3 m-0">
+                                  <label for="cmbCustomer" class="mb-2 mr-sm-2">Customer Name:</label>
+                                  <select
+                                    name="CustomerName"
+                                    class="custom-select mb-3"
+                                    (change)="onChangeCustomer($event.target.value,'Normal')"
+                                    id="cmbCustomer"
+                                  >
+                                    <option selected value="0"></option>
+                                    <option *ngFor="let cLst of CustomerList" [value]="cLst.Id">
+                                      {{ cLst.DisplayName }}
+                                    </option>
+                                  </select>
+                                </div>
+                                <div class="form-group col-sm-3 m-0">
+                                  <label for="cmbPlayer" class="mb-2 mr-sm-2">Player:</label>
+                                  <select
+                                    name="PlayerName"
+                                    class="custom-select mb-3"
+                                    (change)="onChangePlayer($event.target.value)"
+                                    id="cmbPlayer"
+                                  >
+                                    <option selected value="0"></option>
+                                    <option *ngFor="let tLst of TokenList" [value]="tLst.tokenid">
+                                      {{ tLst.tokenid }}-{{tLst.location}}-{{ tLst.city }}
+                                    </option>
+                                  </select>
+                                </div>
+                                <div class="form-group col-sm-3 m-0">
+                                  <label for="SearchAdsDate" class="mb-2 mr-sm-2">&nbsp;</label>
+                                  <input
+                                  id="SearchAdsDate"
+                                  class="form-control mb-2 mr-sm-2"
+                                  [owlDateTimeTrigger]="dtAdsDate"
+                                  [(ngModel)]="SearchAdsDate"
+                                  [owlDateTime]="dtAdsDate"
+                                  readonly
+                                />
+                                <owl-date-time
+                                  [pickerType]="'calendar'"
+                                  (afterPickerClosed)="SearchPlayedAds()"
+                                  #dtAdsDate
+                                ></owl-date-time>
+                                </div>
+                          </div>
+                       
+              </div>
+                       </div>
+                        <div class="row">
+                          <div class="table-responsive">
+                            <table
+                              class="table data-table table-striped table-bordered mydatatable"
+                            >
+                              <thead>
+                                <tr>
+                                  <th scope="col">Date Time</th>
+                                  <th scope="col">Name</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr
+                                  *ngFor="
+                                    let adLst of PlayedAdsList
+                                      | filter: searchAdsText
+                                      | slice
+                                        : (pageAds - 1) * pageSizeAds
+                                        : (pageAds - 1) * pageSizeAds + pageSizeAds
+                                  "
+                                >
+                                  <td data-label="Date Time">{{ adLst.PlayedDateTime }}</td>
+                                  <td data-label="Name">{{ adLst.Name }}</td>
+              
+                                  <!--  | slice: (pageAds-1) * pageAdsSize : (pageAds-1) * pageAdsSize + pageAdsSize -->
+                                </tr>
+                              </tbody>
+                            </table>
+                            <ngb-pagination
+                              [collectionSize]="PlayedAdsList.length"
+                              [(page)]="pageAds"
+                              [pageSize]="pageSizeAds"
+                              [boundaryLinks]="true"
+                              size="sm"
+                            ></ngb-pagination>
+                          </div>
+                        </div>
+                      
+                    
+              </div>
+              </div>
+              <div id="pas" role="tabpanel" class="tab-pane fade m-0 p-0">
+                <div   class="container-fluid p-0 m-0">
+                  <div class="row">
+                    <div class="col-sm-12 mt-2">
+                        <div class="form-row">
+                            <div class="form-group col-sm-3 m-0">
+                                <label for="cmbCustomer" class="mb-2 mr-sm-2">Customer Name:</label>
+                                <select
+                                  name="CustomerName"
+                                  class="custom-select mb-3"
+                                  (change)="onChangeCustomer($event.target.value,'summary')"
+                                  id="cmbCustomer" [(ngModel)]="cid"
+                                >
+                                  <option selected value="0"></option>
+                                  <option *ngFor="let cLst of CustomerList" [value]="cLst.Id">
+                                    {{ cLst.DisplayName }}
+                                  </option>
+                                </select>
+                              </div>
+                              <div class="form-group col-sm-3 m-0">
+                                <label for="cmbPlayer" class="mb-2 mr-sm-2">Player:</label>
+                                <select
+                                  name="PlayerName"
+                                  class="custom-select mb-3"
+                                  (change)="onChangePlayer($event.target.value)"
+                                  id="cmbPlayer"
+                                >
+                                  <option selected value="0">All</option>
+                                  <option *ngFor="let tLst of TokenList" [value]="tLst.tokenid">
+                                    {{ tLst.tokenid }}-{{tLst.location}}-{{ tLst.city }}
+                                  </option>
+                                </select>
+                              </div>
+                              <div class="form-group col-sm-2 m-0">
+                                <label for="SearchAdsDate" class="mb-2 mr-sm-2">From Date</label>
+                                <input
+                                id="SearchAdsDate"
+                                class="form-control mb-2 mr-sm-2"
+                                [owlDateTimeTrigger]="dtAdsFromDate"
+                                [(ngModel)]="SearchAdsDate"
+                                [owlDateTime]="dtAdsFromDate"
+                                readonly
+                              />
+                              <owl-date-time
+                                [pickerType]="'calendar'"
+                                (afterPickerClosed)="SearchPlayedAdSummary()"
+                                #dtAdsFromDate
+                              ></owl-date-time>
+                              </div>
+
+                              <div class="form-group col-sm-2 m-0">
+                                <label for="SearchAdsToDate" class="mb-2 mr-sm-2">To Date</label>
+                                <input
+                                id="SearchAdsToDate"
+                                class="form-control mb-2 mr-sm-2"
+                                [owlDateTimeTrigger]="dtAdsToDate"
+                                [(ngModel)]="SearchAdsToDate"
+                                [owlDateTime]="dtAdsToDate"
+                                readonly
+                              />
+                              <owl-date-time
+                                [pickerType]="'calendar'"
+                                (afterPickerClosed)="SearchPlayedAdSummary()"
+                                #dtAdsToDate
+                              ></owl-date-time>
+                              </div>
+                        </div>
+                     
+            </div>
+            <div class="col-sm-12 font-weight-bold m-0 p-0" >
+              <p style="margin: 0 !important">The ads summary is only available for the previous and current month to avoid overload on the server. If you require a larger month summary for an advertiser or a rights organisation just send us a mail and we will generate this information for you.  </p>
+            </div>
+            <div class="col-12 p-0">
+              <div class="table-responsive">
+                <table
+                  datatable
+                  [dtOptions]="dtOptions"
+                  [dtTrigger]="dtTrigger"
+                  class="table data-table table-striped table-bordered mydatatable"
+                >
+                  <thead class="bg-primary">
+                    <tr>
+                      <th class="text-white" scope="col">Name</th>
+                      <th class="text-white" scope="col">Total Played</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let sgLst of PlayedAdsListSummary">
+                      <td data-label="Title">{{ sgLst.Name }}</td>
+                      <td data-label="Total Played">{{ sgLst.TotalPlayed }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+                     </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+            
+ 

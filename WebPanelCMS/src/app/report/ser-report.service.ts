@@ -39,4 +39,10 @@ export class SerReportService {
     return this.http.post(this.cApi.FillMachineLogs,params,{headers:headers})
      .pipe((data=>{return data;}))
   }
+  FillPlayedAdSummary(fromDate, Todate,tokenid, ClientId){
+    let headers = new HttpHeaders({ 'Content-Type':'application/json' });
+    var params = JSON.stringify({ cDate: fromDate, tokenid:tokenid ,ToDate:Todate,ClientId:ClientId});
+    return this.http.post(this.cApi.FillPlayedAdSummary,params,{headers:headers})
+     .pipe((data=>{return data;}))
+  }
 }

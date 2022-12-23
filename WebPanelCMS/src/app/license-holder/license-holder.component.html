@@ -180,6 +180,11 @@
                   padding: 0.475rem 0.6rem"
                 />
               </div>
+              <div class="form-group col-sm-1 m-0 d-none">
+                
+                <span data-design-type="A4Document" data-button-size="default" data-button-theme="default" data-api-key="aa17239af8c8f2d93f668208"
+  class="canva-design-button" style="display:none;">Design on Canva</span>
+              </div>
               <div class="form-group col-sm-1 m-0" *ngIf="Meeting_Active">
                 <label for="btnUploadEvent" class="d-none d-xl-block mb-2 mr-sm-2"
                   >&nbsp;</label
@@ -316,6 +321,15 @@
                 (click)="FilterTokenList('WhiteBoard')"
                 class="form-control-Tab mt-1"
                 >E-link</a
+              >
+              <ng-template ngbNavContent> </ng-template>
+            </li>
+            <li [ngbNavItem]="15" *ngIf="KPN_Active">
+              <a
+                ngbNavLink
+                (click)="FilterTokenList('KPN')"
+                class="form-control-Tab mt-1"
+                >H-IPTV</a
               >
               <ng-template ngbNavContent> </ng-template>
             </li>
@@ -466,9 +480,13 @@
                       <i *ngIf="cLst.PublishUpdate == 'True'" class="fa fa-lg fa-square text-danger" aria-hidden="true"  data-toggle="tooltip" data-placement="top" title="Update"></i>
                       <i *ngIf="cLst.PublishUpdate == 'False'" class="fa fa-lg fa-square text-success" aria-hidden="true"  data-toggle="tooltip" data-placement="top" title="Updated"></i>
                   </td>
-                  <td data-label="" class="text-center">
-                    <i *ngIf="cLst.IsDownloadAll == 'false'" class="fa fa-lg fa-square text-primary" aria-hidden="true"  data-toggle="tooltip" data-placement="top" title="Download not completed" ></i>
+                  <td data-label="" class="text-center" *ngIf="cLst.IsKpnActive=='0'">
+                    <i *ngIf="cLst.IsDownloadAll == 'false' && cLst.pContent > 0" class="fa fa-lg fa-square text-primary" aria-hidden="true"  data-toggle="tooltip" data-placement="top" title="{{cLst.pContent}} content are pending to download" ></i>
+                    <i *ngIf="cLst.IsDownloadAll == 'false' && cLst.pContent < 0" class="fa fa-lg fa-square text-primary" aria-hidden="true"  data-toggle="tooltip" data-placement="top" title="Download  not completed" ></i>
                     <i *ngIf="cLst.IsDownloadAll == 'true'" class="fa fa-lg fa-square text-success" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Download  Completed"></i>
+                </td>
+                <td class="text-center" *ngIf="cLst.IsKpnActive=='1'">
+                    <i class="fa fa-lg fa-square text-muted" aria-hidden="true"  data-toggle="tooltip" data-placement="top" title="Not active"></i>
                 </td>
 
 <!-- 
@@ -1899,6 +1917,7 @@
                           <th class="bg-primary sticky-top" >Room</th>
                           <th class="bg-primary sticky-top">Campaign Name</th>
                           <th class="bg-primary sticky-top">Playlist Name</th>
+                          <th class="bg-primary sticky-top Link-Center_Width" ></th>
                         </tr>
                       </thead>
                       <tbody>
@@ -1906,6 +1925,9 @@
                           <td>{{eLst.roomname}}</td>
                           <td>{{eLst.FormatName}}</td>
                           <td>{{eLst.splPlaylistName}}</td>
+                          <td data-label="" class="text-danger m-0 p-0" (click)="openDeleteModal(DefaultDeleteModal, eLst.id)" >
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                          </td>
                         </tr>
                       </tbody>
                     </table>
@@ -2772,6 +2794,46 @@
           <button
             class="btn btn-danger col-sm-2 pull-right mr-2"
             (click)="DeleteSchPlaylist()"
+            (click)="d('Cross click')"
+          >
+            <i class="fa fa-check fa-lg" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #DefaultDeleteModal let-c="close" let-d="dismiss">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Delete Default Playlist</h5>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12">
+          <p>Are you sure to delete?</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <button
+            class="btn btn-primary col-sm-2 pull-right"
+            (click)="d('Cross click')"
+          >
+            <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+          </button>
+          <button
+            class="btn btn-danger col-sm-2 pull-right mr-2"
+            (click)="DeleteDefaultPlaylist()"
             (click)="d('Cross click')"
           >
             <i class="fa fa-check fa-lg" aria-hidden="true"></i>

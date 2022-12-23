@@ -109,4 +109,10 @@ SaveRoomGroup(id,name, dfClientId){
   return this.http.post(this.cApi.SaveRoomGroup,params,{headers:headers})
    .pipe((data=>{return data;}))
 }  
+DeleteDefaultPlaylist(id){
+  let headers = new HttpHeaders({ 'Content-Type':'application/json' });
+  var params = JSON.stringify({pschid:id});
+  return this.http.post(this.cApi.DeleteDefaultPlaylist,params,{headers:headers})
+   .pipe((data=>{return data;}))
+}
 }

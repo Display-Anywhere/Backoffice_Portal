@@ -162,6 +162,9 @@ export class KpnChannelsComponent implements OnInit {
   this.ChannelList=[]
   if (res.resultCode ==0 ){
     this.ChannelList = res.resultObj
+    this.ChannelList.forEach(item => {
+      item["iChecked"]=false
+    });
   }
         this.loading = false;
       },
@@ -216,6 +219,7 @@ export class KpnChannelsComponent implements OnInit {
     }); 
   }
   SelectChannel(fileid, event) {
+    
     if (event.target.checked) {
       this.ChannelSelected.push(fileid);
     }
@@ -225,6 +229,12 @@ export class KpnChannelsComponent implements OnInit {
         this.ChannelSelected.splice(index, 1);
       }
     }
+   /* this.ChannelList.forEach(item => {
+      item["iChecked"]=false
+      if (item["id"]== fileid){
+        item["iChecked"]=true
+      }
+    });*/
   }
   SaveChannels(){
     if (this.cmbToken.length == '0') {
@@ -252,18 +262,26 @@ export class KpnChannelsComponent implements OnInit {
       ]
     }
     this.mService.AssignKpnChannels(this.cmbToken, channel).pipe()
-      .subscribe(data => {
+      .subscribe(async data => {
         var returnData = JSON.stringify(data);
         var obj = JSON.parse(returnData);
         this.loading = false;
 
         if (obj.Responce == "1") {
+          
           this.toastr.info("Saved", '');
+          var payload=[]
+          this.cmbToken.forEach(item => {
+            payload.push(item["tokenid"])
+          });
+          await this.publishPlayer(payload)
+          
           this.cmbCustomer ='0';
           this.TokenList= [];
           this.cmbToken =[]
           this.ChannelSelected = [];
           channel=[]
+          await this.onChangeToken(this.cmbSearchToken)
           this.FillChannelList()
         }
         else {
@@ -278,4 +296,22 @@ export class KpnChannelsComponent implements OnInit {
           this.loading = false;
         })
   }
+
+  publishPlayer(payload) {
+    this.serviceLicense.ForceUpdate(payload).pipe().subscribe((data) => {
+      var returnData = JSON.stringify(data);
+      var obj = JSON.parse(returnData);
+      if (obj.Responce == '1') {
+        this.toastr.info("Changes are published", '');
+        this.loading = false;
+      } else {
+      }
+      this.loading = false;
+    },
+    (error) => {
+      this.loading = false;
+    }
+  );
+  
+    }
 }

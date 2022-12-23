@@ -35,6 +35,7 @@ export class PlayerLogComponent implements OnInit {
   pageSizeSanitiser: number = 30;
   searchSanitiserText;
   PlayerLogActiveTabId=1
+  isSanitizerActive= localStorage.getItem("isSanitizerActive")
   ngOnInit() {
     var cd = new Date();
     this.SearchSongDate = cd;

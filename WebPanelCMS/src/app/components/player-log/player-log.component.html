@@ -209,7 +209,7 @@
       </ng-template>
     </li>
 
-    <li [ngbNavItem]="3" class="pr-2">
+    <li [ngbNavItem]="3" class="pr-2" *ngIf="isSanitizerActive =='1'">
       <a ngbNavLink (click)="SearchPlayedSanitiser()">Played Sanitiser Logs</a>
       <ng-template ngbNavContent>
         <div class="row">

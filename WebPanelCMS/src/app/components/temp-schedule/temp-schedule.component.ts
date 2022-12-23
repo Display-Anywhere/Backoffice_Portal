@@ -599,6 +599,10 @@ if (errorFound==="Yes"){
     this.CustomSchedulePlaylist=[];
     this.SFform.get('FormatId').setValue('0');
     this.SFform.get('PlaylistId').setValue('0');
+    this.SFform.get('volume').setValue('90');
+    if (this.cmbMediaType =="Signage"){
+      this.SFform.get('volume').setValue('0');
+    }
     var qry =
       'select max(sf.Formatid) as id , sf.formatname as displayname from tbSpecialFormat sf left join tbSpecialPlaylistSchedule_Token st on st.formatid= sf.formatid';
     qry =
