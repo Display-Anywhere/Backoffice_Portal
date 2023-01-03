@@ -206,6 +206,7 @@ export class ConfigAPI {
    UpdateServiceStatus: string = this.Host + 'UpdateServiceStatus';
    DeleteDefaultPlaylist: string = this.Host + 'DeleteDefaultPlaylist';
    FillPlayedAdSummary: string = this.Host + 'FillPlayedAdSummary';
+   CopyClonePlaylist: string = this.Host + 'CopyClonePlaylist';
 }
 
 // localStorage.setItem('UserId', obj.UserId);

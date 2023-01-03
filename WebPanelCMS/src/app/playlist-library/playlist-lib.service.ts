@@ -232,4 +232,10 @@ export class PlaylistLibService {
     return this.http.post(this.cApi.GetRoomEventList_Datewise, params, { headers })
       .pipe((data => data));
   }
+  CopyClonePlaylist(pid,pname,toformatid,clientid) {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const params = JSON.stringify({ id: pid, pname:pname,toformatid:toformatid, clientid:clientid });
+    return this.http.post(this.cApi.CopyClonePlaylist, params, { headers })
+      .pipe((data => data));
+  }
 }

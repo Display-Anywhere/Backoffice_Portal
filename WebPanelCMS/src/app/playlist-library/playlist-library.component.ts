@@ -165,6 +165,8 @@ export class PlaylistLibraryComponent implements OnInit {
   cmbPublishId=""
   PortalName= localStorage.getItem('PortalName')
   isSanitizerActive=false
+  CopyPlaylistName=""
+  CopyCloneFormatId="0"
   async ngOnInit() {
     localStorage.setItem('IsAnnouncement', '0');
     $('#dis').attr('unselectable', 'on');
@@ -3671,6 +3673,63 @@ GetPlaylistContenSize_spl(id) {
       },
       (error) => {
         this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
+        this.loading = false;
+      }
+    );
+}
+copyClonePlaylistId="0"
+onPlaylistCloneClick(id, pname, mContent) {
+  var plName = pname.split('(');
+  this.copyClonePlaylistId= id
+  this.CopyPlaylistName=plName[0].trim()
+  this.CopyCloneFormatId="0"
+  this.modalService.open(mContent);
+}
+onSubmitCopyClonePlaylist() {
+  if (this.CopyPlaylistName == "") {
+    this.toastr.info('Playlist name cannot be empty');
+    return;
+  }
+  if (this.CopyCloneFormatId == '0') {
+    this.toastr.info('Please select a campaign name');
+    return;
+  }
+
+  this.loading = true;
+  this.pService
+    .CopyClonePlaylist(this.copyClonePlaylistId,this.CopyPlaylistName,this.CopyCloneFormatId, this.cmbCustomer)
+    .pipe()
+    .subscribe(
+      (data) => {
+        var returnData = JSON.stringify(data);
+        var obj = JSON.parse(returnData);
+        if (obj.Responce == '1') {
+          this.toastr.info('Saved', 'Success!');
+          this.loading = false;
+          this.SaveModifyInfo(
+            0,
+            'Playlist is create with name ' +
+              this.CopyPlaylistName
+          );
+          this.onChangeFormat(this.formatid, this.txtDeletedFormatName);
+          this.PlaylistSongsList = [];
+          this.MainPlaylistSongsList = [];
+        } else if (obj.Responce == '2') {
+          this.toastr.info('Playlist name already exists', 'Success!');
+          this.loading = false;
+        } else {
+          this.toastr.error(
+            'Apologies for the inconvenience.The error is recorded.',
+            ''
+          );
+          this.loading = false;
+        }
+      },
+      (error) => {
+        this.toastr.error(
+          'Apologies for the inconvenience.The error is recorded.',
+          ''
+        );
         this.loading = false;
       }
     );
