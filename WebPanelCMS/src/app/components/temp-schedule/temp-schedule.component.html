@@ -129,7 +129,7 @@
                 <tr>
                   <th scope="col" style="width: 190px">Campaign Name</th>
                   <th scope="col">Playlist Name</th>
-                  <th scope="col">Token Code</th>
+                  <th scope="col">Token No</th>
                   <th scope="col">City</th>
                   <th scope="col">Location</th>
                   <th scope="col" style="width: 120px" *ngIf="sType_Search=='Future'" >Start Date</th>
@@ -159,7 +159,7 @@
                   <td data-label="PlayList Name">
                     {{ schLst.playlistName }}
                   </td>
-                  <td data-label="Token Code">{{ schLst.token }}</td>
+                  <td data-label="Token No">{{ schLst.token }}</td>
                   <td data-label="City">{{ schLst.city }}</td>
                   <td data-label="Location">{{ schLst.location }}</td>
                   <td data-label="Start Date" *ngIf="sType_Search=='Future'" >{{ schLst.sDate }}</td>
@@ -414,6 +414,7 @@
                                 >Volume:</label
                               >
                               <select name="cmbVolume" class="custom-select" formControlName="volume" id="cmbVolume">
+                                <option  value="100">100</option>
                                 <option selected value="90">90</option>
                                 <option  value="80">80</option>
                                 <option  value="70">70</option>
@@ -776,6 +777,67 @@
             </form>
           </div>
 
+        </ng-template>
+      </li>
+      <li [ngbNavItem]="3" class="pr-2">
+        <a ngbNavLink>Signage Content Search</a>
+        <ng-template ngbNavContent>
+          <div class="col-sm-12 p-0 mb-0">
+            <div class="form-row">
+              <div class="form-group col-sm-2 m-0">
+                <label for="SearchcName" class="mb-2 mr-sm-2">Customer Name:</label>
+                <select name="SearchcName" class="custom-select mb-0" [(ngModel)]="cmbSearch_SignageCustomer"
+                  (change)="onChangeSearch_SignageCustomer($event.target.value)" id="SearchcName" >
+                  <option selected value="0"></option>
+                  <option *ngFor="let cLst of CustomerList" [value]="cLst.Id">
+                    {{ cLst.DisplayName }}
+                  </option>
+                </select>
+              </div>
+              
+              <div class="form-group col-sm-3 m-0">
+                <label for="SearchfName" class="mb-2 mr-sm-2">Signage Content:</label>
+                <select class="custom-select mb-0" [(ngModel)]="cmbSignageContentId"
+                  (change)="onChangeSignageContent($event.target.value)" id="SearchfName">
+                  <option selected value="0"></option>
+                  <option *ngFor="let fLst of SignageContentList" [value]="fLst.TitleID">
+                    {{ fLst.Title }}
+                  </option>
+                </select>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table
+              class="table data-table table-striped table-bordered mydatatable"
+            >
+              <thead class="bg-primary">
+                <tr>
+                  <th scope="col">City</th>
+                  <th scope="col">Token No</th>
+                  <th scope="col">Location</th>
+                  <th scope="col">Campaign Name</th>
+                  <th scope="col">Playlist Name</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let schLst of SignageContentPlayerList">
+                  <td data-label="City">{{ schLst.city }}</td>
+                  <td data-label="Token No">{{ schLst.tokenId }}</td>
+                  <td data-label="Location">{{ schLst.Location }}</td>
+                  <td data-label="Campaign Name">
+                    {{ schLst.FormatName }}
+                  </td>
+                  <td data-label="PlayList Name">
+                    {{ schLst.splPlaylistName }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          
         </ng-template>
       </li>
     </ul>

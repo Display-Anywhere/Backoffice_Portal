@@ -105,7 +105,7 @@
           </option>
         </select>
       </div>
-      <div class="form-group col-sm-5 m-0">
+      <div class="form-group col-sm-4 m-0">
         <label for="SearchTName" class="mb-2 mr-sm-2">Token :</label>
         <ng-multiselect-dropdown
           id="Dispenser"
@@ -117,6 +117,23 @@
         </ng-multiselect-dropdown>
       </div>
       <div class="form-group col-sm-3 m-0">
+        <div class="custom-control custom-checkbox  pt-4 mt-2">
+          <input
+             
+            type="checkbox"
+            class="custom-control-input"
+            name="OverightAssignAssign"
+            id="OverightAssignAssign"
+            [(ngModel)]="chk_Overight_Assign"
+          />
+          <label
+            class="custom-control-label cursor-pointer"
+            for="OverightAssignAssign"
+            >Override previous assgined channels</label
+          >
+        </div>
+      </div>
+      <div class="form-group col-sm-2 m-0">
         <button
         class="btn btn-primary mt-5 mb-2"
         type="button"
@@ -136,7 +153,23 @@
         <table class="table data-table table-striped table-bordered mydatatable">
             <thead class="bg-primary">
                 <tr>
-                  <th></th>
+                  <th scope="col" style="width: 60px">
+                    <div class="custom-control custom-checkbox">
+                      <input
+                        (change)="allToken_KPN_Assign($event)"
+                        type="checkbox"
+                        class="custom-control-input"
+                        name="AllActiveTokenAssign"
+                        id="AllActiveTokenAssign"
+                        [(ngModel)]="chkAll_KPN_Assign"
+                      />
+                      <label
+                        class="custom-control-label cursor-pointer pt-1 text-white"
+                        for="AllActiveTokenAssign"
+                        >All</label
+                      >
+                    </div>
+                  </th>
                   <th scope="col">Label</th>
                   <th scope="col">Name</th>
                   <th scope="col">Notes</th>
@@ -152,7 +185,7 @@
                         class="custom-control-input"
                         id="{{ cLst.id }}{{ i }}"
                         name="chkTokenList"
-                         
+                        [checked]="cLst.check"
                       />
                       <label
                         class="custom-control-label cursor-pointer"

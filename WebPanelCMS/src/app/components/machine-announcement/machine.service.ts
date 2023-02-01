@@ -119,9 +119,9 @@ export class MachineService {
       .pipe((data => { return data; }))
   }
 
-  AssignKpnChannels(TokenId,channel){
+  AssignKpnChannels(TokenId,channel,Overight_Assign){
     let headers = new HttpHeaders({ 'Content-Type':'application/json' });
-    var params = JSON.stringify({ TokenId: TokenId,channel:channel});
+    var params = JSON.stringify({ TokenId: TokenId,channel:channel,Overight_Assign:Overight_Assign});
     
     return this.http.post(this.cApi.AssignKpnChannels,params,{headers:headers})
      .pipe((data=>{return data;}))

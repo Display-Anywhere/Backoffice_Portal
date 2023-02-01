@@ -33,7 +33,7 @@
         </div>
         <div class="row m-0 p-0">
           <div class="col-lg-6 ml-0 pl-0" >
-            <button *ngIf="((PortalName != 'sbit') && (OtherKey !=''))"
+            <button *ngIf="((PortalName != 'sbit') && (OtherKey !='') && (cmbCustomerMediaType == 'Signage'))"
             class="btn btn-primary w-100 custombutton"
             (click)="OpenEditTemplates('')">
             Edit Templates
@@ -153,7 +153,7 @@
                   >Playlists</a
                 >
               </li>
-              <li *ngIf="cmbCustomerMediaType == 'Audio Copyright'" class="nav-item" (click)="onClickSpecialPlaylists()">
+              <li *ngIf="cmbCustomerMediaType == 'Audio Copyright'" class="nav-item d-none" (click)="onClickSpecialPlaylists()">
                 <a class="nav-link" data-toggle="tab" href="#top50"
                   >Top 50</a
                 >
@@ -161,6 +161,11 @@
               <li *ngIf="cmbCustomerMediaType == 'Audio Copyright'" class="nav-item" (click)="onClickSpecialPlaylists()">
                 <a class="nav-link" data-toggle="tab" href="#SpecialPlaylists"
                   >Special Playlists</a
+                >
+              </li>
+              <li *ngIf="((cmbCustomerMediaType == 'Audio Copyright') && (cmbCustomer=='204'))" class="nav-item" (click)="onClickSpecialPlaylists()">
+                <a class="nav-link" data-toggle="tab" href="#DJMixPlaylists"
+                  >DJ Mix</a
                 >
               </li>
               <li class="nav-item d-none">
@@ -376,6 +381,48 @@
                 </div>
               </div>
             </div>
+            
+            <div
+              id="DJMixPlaylists"
+              role="tabpanel"
+              class="container tab-pane fade p-0 m-0" *ngIf="((cmbCustomerMediaType == 'Audio Copyright') && (cmbCustomer=='204'))"
+            >
+              <div class="col-lg-12 p-0 pull-left">
+                <div class="table-responsive search-results" style="height: 31.5rem !important;">
+                  <table
+                    class="table data-table table-striped table-bordered mydatatable"
+                  >
+                     
+                    <tbody>
+                      <tr
+                        class="cursor-pointer"
+                        *ngFor="let splLst of DL_Mix_PlaylistList"
+                      >
+                        <td
+                          
+                          (click)="
+                            FillPlaylistSongs(splLst.Id, 'Yes', 'No', '')
+                          "
+                        >
+                          {{ splLst.DisplayName }}
+                        </td>
+                        <td
+                          (click)="
+                            AddFormat(splLst.Id, splLst.DisplayName, '1')
+                          "
+                        >
+                          <a class="text-primary"
+                            >Add to Campaign</a
+                          >
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+
             <div
             id="top50"
             role="tabpanel"

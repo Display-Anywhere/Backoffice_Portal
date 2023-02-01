@@ -25,6 +25,8 @@ export class KpnChannelsComponent implements OnInit {
   cmbSearchToken
   PlayerChannelList=[]
   chid="";
+  chkAll_KPN_Assign= false
+  chk_Overight_Assign= false
   constructor(private serviceLicense: SerLicenseHolderService, public toastr: ToastrService,
     private modalService: NgbModal,public auth:AuthServiceOwn, 
     private mService:MachineService) { }
@@ -39,10 +41,11 @@ export class KpnChannelsComponent implements OnInit {
     q = "FillCustomer " + i + ", " + localStorage.getItem('dfClientId') + "," + localStorage.getItem('DBType');
 
     this.loading = true;
-    this.mService.FillCombo(q).pipe()
+    this.serviceLicense.FillCustomerWithKey(q).pipe()
       .subscribe(async data => {
         var returnData = JSON.stringify(data);
         this.CustomerList = JSON.parse(returnData);
+        this.CustomerList = this.CustomerList.filter(o => o.KPN_Active== true)
         this.loading = false;
         if ((this.auth.IsAdminLogin$.value == false)) {
 
@@ -261,7 +264,7 @@ export class KpnChannelsComponent implements OnInit {
         }
       ]
     }
-    this.mService.AssignKpnChannels(this.cmbToken, channel).pipe()
+    this.mService.AssignKpnChannels(this.cmbToken, channel, this.chk_Overight_Assign).pipe()
       .subscribe(async data => {
         var returnData = JSON.stringify(data);
         var obj = JSON.parse(returnData);
@@ -280,6 +283,8 @@ export class KpnChannelsComponent implements OnInit {
           this.TokenList= [];
           this.cmbToken =[]
           this.ChannelSelected = [];
+          this.chk_Overight_Assign= false
+          this.chkAll_KPN_Assign= false
           channel=[]
           await this.onChangeToken(this.cmbSearchToken)
           this.FillChannelList()
@@ -313,5 +318,18 @@ export class KpnChannelsComponent implements OnInit {
     }
   );
   
+    }
+    allToken_KPN_Assign(event){
+      const checked = event.target.checked;
+      this.ChannelSelected = [];
+      
+      this.ChannelList.forEach((item) => {
+        item.check = checked;
+        this.ChannelSelected.push(item.id);
+      });
+     
+      if (checked == false) {
+        this.ChannelSelected = [];
+      }
     }
 }

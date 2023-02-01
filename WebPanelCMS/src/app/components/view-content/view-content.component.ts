@@ -10,9 +10,11 @@ export class ViewContentComponent implements OnInit {
   url: string = "";
   urlSafe: SafeResourceUrl;
   oType="";
+  mViewType="";
   constructor(public sanitizer: DomSanitizer,private modalService: NgbModal,)  {
     this.url=  localStorage.getItem("ViewContent")
     this.oType= localStorage.getItem("oType")
+    this.mViewType= localStorage.getItem("mViewType")
    }
 
   ngOnInit(): void {

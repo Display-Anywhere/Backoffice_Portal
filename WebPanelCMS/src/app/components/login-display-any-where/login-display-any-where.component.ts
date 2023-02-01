@@ -174,7 +174,7 @@ export class LoginDisplayAnyWhereComponent implements OnInit {
     this.authService.login();
     if (
       obj.dfClientId === '6' ||
-      obj.dfClientId === '95' ||
+      obj.dfClientId === '201' ||
       obj.dfClientId === '6'
     ) {
       this.authService.IsAdminLogin();

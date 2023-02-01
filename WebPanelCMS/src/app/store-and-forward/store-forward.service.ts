@@ -115,4 +115,16 @@ SaveModifyLogs(tokenid, ModifyData:string){
     return this.http.post(this.cApi.DeleteTokenSch_future,params,{headers:headers})
      .pipe((data=>{return data;}))
   }
+  GetClientSignageContent(clientId){
+    let headers = new HttpHeaders({ 'Content-Type':'application/json' });
+    var params= JSON.stringify({dfclientId:clientId,cd:""})
+    return this.http.post(this.cApi.GetClientSignageContent,params,{headers:headers})
+     .pipe((data=>{return data;}))
+  }
+  GetSignageContentPlayers(id){
+    let headers = new HttpHeaders({ 'Content-Type':'application/json' });
+    var params= JSON.stringify({_id:id})
+    return this.http.post(this.cApi.GetSignageContentPlayers,params,{headers:headers})
+     .pipe((data=>{return data;}))
+  }
 }

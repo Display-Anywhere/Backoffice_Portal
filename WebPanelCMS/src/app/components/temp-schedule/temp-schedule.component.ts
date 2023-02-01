@@ -80,6 +80,10 @@ export class TempScheduleComponent implements OnInit {
   HoteltvPlaylistSize =0
   ShowLimitSubmitButton= false
   cmbDeviceType=""
+  cmbSearch_SignageCustomer = "0";
+  cmbSignageContentId=0
+  SignageContentList = [];
+  SignageContentPlayerList = [];
   constructor(
     private formBuilder: FormBuilder,
     public toastrSF: ToastrService,
@@ -1864,5 +1868,58 @@ OpenViewContent(modalName, url,oType,MediaType){
       if (this.searchText === ""){
         this.chkAll = false
       }
+    }
+    async onChangeSearch_SignageCustomer(id) {
+      this.cmbSearch_SignageCustomer= id
+      this.cmbSignageContentId=0
+      this.SignageContentList = [];
+      await this.GetSignageContent();
+    }
+    GetSignageContent() {
+      if (this.cmbSearch_SignageCustomer == "0") {
+        this.toastrSF.error('Select a customer', '');
+        return;
+      }
+      this.loading = true;
+      this.SignageContentList=[]
+        this.sfService.GetClientSignageContent(this.cmbSearch_SignageCustomer).pipe().subscribe((data) => {
+          var returnData = JSON.stringify(data);
+          var obj = JSON.parse(returnData);
+          if (obj.data !=''){
+            this.SignageContentList = JSON.parse(obj.data)
+          }
+          this.loading = false;
+        },
+        (error) => {
+          this.toastrSF.error('Apologies for the inconvenience.The error is recorded.','');
+          this.loading = false;
+        }
+      );
+    }
+    async onChangeSignageContent(id) {
+      this.cmbSignageContentId= id
+      this.SignageContentPlayerList = [];
+      await this.GetSignageContentPlayerList();
+    }
+    GetSignageContentPlayerList() {
+      if (this.cmbSignageContentId == 0) {
+        this.toastrSF.error('Select a Content', '');
+        return;
+      }
+      this.loading = true;
+      this.SignageContentPlayerList=[]
+        this.sfService.GetSignageContentPlayers(this.cmbSignageContentId).pipe().subscribe((data) => {
+          var returnData = JSON.stringify(data);
+          var obj = JSON.parse(returnData);
+          if (obj.data !=''){
+            this.SignageContentPlayerList = JSON.parse(obj.data)
+          }
+          this.loading = false;
+        },
+        (error) => {
+          this.toastrSF.error('Apologies for the inconvenience.The error is recorded.','');
+          this.loading = false;
+        }
+      );
     }
 }

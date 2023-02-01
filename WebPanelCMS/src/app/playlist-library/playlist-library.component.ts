@@ -66,6 +66,7 @@ export class PlaylistLibraryComponent implements OnInit {
   PlaylistList = [];
   MainPlaylistList = [];
   SpecialPlaylistList = [];
+  DL_Mix_PlaylistList = [];
   Top50PlaylistList = [];
   PlaylistLibrary = [];
   PlaylistSelected = [];
@@ -224,6 +225,7 @@ export class PlaylistLibraryComponent implements OnInit {
     this.SongsList = [];
     this.MainSongsList = [];
     await this.FillsplPlaylist()
+    await this.FillDJ_Mix_Playlist()
     await this.FillClientList();
     this.chkTitle = true;
     this.IschkViewOnly = this.auth.chkViewOnly$.value ? 1 : 0;
@@ -1118,6 +1120,27 @@ export class PlaylistLibraryComponent implements OnInit {
       );
   }
 
+  FillDJ_Mix_Playlist() {
+    this.loading = true;
+    var qry = "select PlaylistID as Id , name  as DisplayName from Playlists where isPredefined=1 and Description='DJ-Mix' order by name"
+    this.pService
+      .FillCombo(qry)
+      .pipe()
+      .subscribe(
+        (data) => {
+          var returnData = JSON.stringify(data);
+          this.DL_Mix_PlaylistList = JSON.parse(returnData);
+          this.loading = false;
+        },
+        (error) => {
+          this.toastr.error(
+            'Apologies for the inconvenience.The error is recorded.',
+            ''
+          );
+          this.loading = false;
+        }
+      );
+  }
   FillBitRate() {
     this.loading = true;
     var qry = 'select  bitrate as DisplayName, bitrate as Id from titles ';
@@ -3223,20 +3246,24 @@ if (id=="0"){
 
     // sorting countries
   }
-  OpenViewContent(modalName, url,oType,MediaType){
-if (MediaType!="Url"){
-  window.open(url, '_blank'); 
-  return
-}
-console.log(url)
+  OpenViewContent(modalName, url,genreId,MediaType){
+  let oType="LS"
+  if (genreId =="303"){
+    oType="PT"
+  }
+  if (genreId =="324"){
+    oType="PT"
+  }
     localStorage.setItem("ViewContent",url)
     localStorage.setItem("oType",oType)
-    if (oType=="496"){
+    localStorage.setItem("mViewType",MediaType)
+    
+    if (oType=="LS"){
       this.modalService.open(modalName, {
         size: 'Template',
       }); 
     }
-    if (oType=="495"){
+    if (oType=="PT"){
       this.modalService.open(modalName,{
         size: 'PT-Template'
       }); 

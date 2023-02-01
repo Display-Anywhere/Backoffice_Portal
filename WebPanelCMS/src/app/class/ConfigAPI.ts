@@ -3,9 +3,9 @@ import { Injectable } from "@angular/core";
 export class ConfigAPI {
   //private Host = 'http://live.advikon.com/api/';
   //Host=localStorage.getItem('host')
-  private Host: string = "https://api.nusign.eu/api/";
+  //private Host: string = "https://api.nusign.eu/api/";
    //private Host: string = "https://panelapi.advikon.com/api/";
-  // private Host: string = "http://localhost:60328/api/";
+   private Host: string = "http://localhost:60328/api/";
    //private Host_panel: string = "https://api.advikon.com/api/";
    //private Host_panel: string = "http://localhost:60328/api/";
    FillQueryCombo: string = this.Host + 'FillQueryCombo';
@@ -207,6 +207,8 @@ export class ConfigAPI {
    DeleteDefaultPlaylist: string = this.Host + 'DeleteDefaultPlaylist';
    FillPlayedAdSummary: string = this.Host + 'FillPlayedAdSummary';
    CopyClonePlaylist: string = this.Host + 'CopyClonePlaylist';
+   GetClientSignageContent: string = this.Host + 'GetClientSignageContent';
+   GetSignageContentPlayers: string = this.Host + 'GetSignageContentPlayers';
 }
 
 // localStorage.setItem('UserId', obj.UserId);

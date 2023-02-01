@@ -96,28 +96,35 @@ export class PlayerLogComponent implements OnInit {
           this.loading = false;
         })
   }
-  OpenViewContent(modalName, url,oType,MediaType, dt){
+  OpenViewContent(modalName, url,genreId,MediaType, dt){
     try {
-    if (MediaType!="Url"){
-      window.open(url, '_blank'); 
-      return
-    }
-    let urldt= new Date(dt)
-    let split_Url = url.toString().split("?")
-    let splt_Url_param = split_Url[1].split("&")
-    if (splt_Url_param[0]=="templateId=CP32"){
-      url=""
-      url= split_Url[0]+"?"+splt_Url_param[0]+ "&"+splt_Url_param[1]+ "&ct="+ urldt.getHours() + ":" + urldt.getMinutes()
+      console.log(url)
+      let oType="LS"
+      if (genreId =="303"){
+        oType="PT"
+      }
+      if (genreId =="324"){
+        oType="PT"
+      }
+     if (MediaType=="Url"){
+      let urldt= new Date(dt)
+      let split_Url = url.toString().split("?")
+      let splt_Url_param = split_Url[1].split("&")
+      if (splt_Url_param[0]=="templateId=CP32"){
+        url=""
+        url= split_Url[0]+"?"+splt_Url_param[0]+ "&"+splt_Url_param[1]+ "&ct="+ urldt.getHours() + ":" + urldt.getMinutes()
+      }
     }
     console.log(url)
         localStorage.setItem("ViewContent",url)
         localStorage.setItem("oType",oType)
-        if (oType=="496"){
+        localStorage.setItem("mViewType",MediaType)
+        if (oType=="LS"){
           this.modalService.open(modalName, {
             size: 'Template',
           }); 
         }
-        if (oType=="495"){
+        if (oType=="PT"){
           this.modalService.open(modalName,{
             size: 'PT-Template'
           }); 

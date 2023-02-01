@@ -1,9 +1,22 @@
 <div class="row p-0 m-0">
     <div class="col-lg-12 p-0">
         <!--<iframe *ngIf="oType==='495'" class="PT" [src]="urlSafe"></iframe>
-        <iframe *ngIf="oType==='496'" class="LS" [src]="urlSafe"></iframe>-->
-        <iframe *ngIf="oType==='496'" [src]="urlSafe" title="Template 8" scrolling="no" frameborder="0" width="820" height="470"></iframe> 
-        <iframe *ngIf="oType==='495'"   [src]="urlSafe" title="Template 4" scrolling="no" frameborder="0" width="450" height="768"></iframe> 
-    
+        <iframe *ngIf="oType==='496'" class="LS" [src]="urlSafe"></iframe>Image-->
+        <iframe *ngIf="((oType==='LS') && (mViewType=='Url'))" [src]="urlSafe" title="Template 8" scrolling="no" frameborder="0" width="820" height="470" ></iframe> 
+        <iframe *ngIf=" ((oType==='PT')  && (mViewType=='Url'))"   [src]="urlSafe" title="Template 4" scrolling="no" frameborder="0" width="450" height="768"></iframe> 
+
+        <video *ngIf="((oType==='PT') && ((mViewType=='Video') || (mViewType=='Audio')))" width="450" height="768" controls controlsList="nodownload" autoplay class="bg-dark">
+            <source [src]="urlSafe" >
+           </video>
+        <video *ngIf="((oType==='LS') && ((mViewType=='Video')|| (mViewType=='Audio')))" width="820" height="470" controls controlsList="nodownload" autoplay class="bg-dark">
+            <source [src]="urlSafe" >
+        </video>
+
+        <img  *ngIf="((mViewType=='Image'))" [src]="urlSafe" style="
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+    ">
+
     </div>
 </div>
