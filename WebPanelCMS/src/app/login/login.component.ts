@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit,OnDestroy {
   ipAddress;
   emailText = '';
   loginpage = 'Nusign';
-  PortalName="nusign" //nusign sbit display
+  PortalName="nusign" //nusign sbit DM
   IsTwoWayActive= "0"
   randomNumber = ''
   EnterOTPCode = ''
@@ -66,9 +66,9 @@ export class LoginComponent implements OnInit,OnDestroy {
     localStorage.setItem('host', 'https://api.nusign.eu/api/')
     //localStorage.setItem('host', 'http://localhost:60328/api/')
     if (localStorage.getItem('DBType') === 'Advikon') {
-      this.emailText = 'jan@advikon.eu';
+      this.emailText = 'info@display-anywhere.com';
     } else {
-      this.emailText = 'jan@advikon.eu';
+      this.emailText = 'info@display-anywhere.com';
     }
     localStorage.setItem('IsAnnouncement', '0');
     this.loginform = this.formBuilder.group({
@@ -187,7 +187,7 @@ export class LoginComponent implements OnInit,OnDestroy {
     if (localStorage.getItem('UserId') === '-1') {
       this.router.navigate(['DJPlaylistLibrary']);
     } else {
-      this.router.navigate(['LicenseHolderControl']);
+      this.router.navigate(['Dashboard']);
       // this.router.navigate(['DJPlaylistLibrary']);
     }
   }

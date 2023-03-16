@@ -8,6 +8,9 @@ import { SerLicenseHolderService } from 'src/app/license-holder/ser-license-hold
 import { AuthServiceOwn } from 'src/app/auth/auth.service';
 import { MachineService } from '../machine-announcement/machine.service';
 import { Subject } from "rxjs";
+import { PlaylistLibService } from 'src/app/playlist-library/playlist-lib.service';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { StoreForwardService } from 'src/app/store-and-forward/store-forward.service';
 @Component({
   selector: 'app-upload',
   templateUrl: './upload.component.html',
@@ -15,14 +18,17 @@ import { Subject } from "rxjs";
 })
 export class UploadComponent implements OnInit {
   cmbGenre = "0";
+  cmbGenreEdit = "0";
   GenreName = "";
   FolderName = "";
   cmbFolder = "0";
+  cmbTransferToFolder="0";
   CustomerId = "0";
   TemplateCustomerId = "0";
   CustomerList: any[];
   GenreList: any[];
   FolderList:any[];
+  TransferToFolderList=[]
   FolderContentList=[];
   public loading = false;
   IsAnnouncement="0";
@@ -44,6 +50,17 @@ export class UploadComponent implements OnInit {
   ComponentName="NormalUpload"
   ready = "";
   thumb=[];
+  enableEdit = false;
+  enableEditIndex = null;
+  IschkViewOnly = 0
+  txtTitle: string;
+  LoginDfClientId
+  TransferFolderTitleSelected=[];
+  chkAll_Folder=false
+  CDform: FormGroup;
+  enableEdit_genre = false;
+  enableEditIndex_genre = null;
+
   PortalName= localStorage.getItem('PortalName')
   resetFormSubject: Subject<boolean> = new Subject<boolean>();
   resetFormSubject_Url: Subject<boolean> = new Subject<boolean>();
@@ -53,8 +70,9 @@ export class UploadComponent implements OnInit {
     itemAlias: 'photo',
   });
   constructor(public toastr: ToastrService, vcr: ViewContainerRef, private cf: ConfigAPI,
-    private serviceLicense: SerLicenseHolderService, config: NgbModalConfig,
-     private modalService: NgbModal, public auth:AuthServiceOwn, private sanitizer: DomSanitizer,private mService:MachineService) {
+    private serviceLicense: SerLicenseHolderService, config: NgbModalConfig,private sfService: StoreForwardService,
+     private modalService: NgbModal, public auth:AuthServiceOwn, private sanitizer: DomSanitizer,
+     private mService:MachineService,private pService: PlaylistLibService,private formBuilder: FormBuilder) {
     config.backdrop = 'static';
     config.keyboard = false;
      this.uploader.onCompleteAll = () => {
@@ -179,8 +197,9 @@ export class UploadComponent implements OnInit {
   tempdfClientId=""
   ngOnInit() {
     
-    
+    this.IschkViewOnly = this.auth.chkViewOnly$.value ? 1 : 0;
     this.tempdfClientId = localStorage.getItem('dfClientId')
+    this.LoginDfClientId = localStorage.getItem('dfClientId');
     var cd = new Date();
     this.dtpDeleteDate = cd;
     this.IsAnnouncement= localStorage.getItem('IsAnnouncement');
@@ -260,7 +279,12 @@ var Item_TitleId="";
     });
     reader.readAsDataURL(image_file);
     }
-
+    this.CDform = this.formBuilder.group({
+      FolderId: [""],
+      TitleList: [""],
+      dfClientId: [""],
+      FromFolderId:[""]
+    });
   }
 
   AddSong(id){
@@ -576,6 +600,13 @@ openViewContent(mdl){
     return
   }
   this.FolderContentList=[];
+  this.TransferFolderTitleSelected=[];
+  this.chkAll_Folder=false
+  this.enableEdit=false
+  this.enableEdit_genre=false
+  this.TransferToFolderList=[]
+  this.cmbTransferToFolder= "0"
+  this.TransferToFolderList= this.FolderList.filter(o => o.Id != this.cmbFolder)
   this.GetFolderContent(mdl);
   
 }
@@ -585,8 +616,11 @@ GetFolderContent(mdl){
       .subscribe(data => {
         var returnData = JSON.stringify(data);
         this.FolderContentList = JSON.parse(returnData);
+        this.FolderContentList= this.FolderContentList.filter(o=> o.MediaType !='Url')
         this.loading = false;
-        this.modalService.open(mdl,{ size: 'lg' });
+        if (mdl !="null"){
+          this.modalService.open(mdl,{ size: 'lg' });
+        }
       },
         error => {
           this.toastr.error("Apologies for the inconvenience.The error is recorded.", '');
@@ -595,27 +629,207 @@ GetFolderContent(mdl){
 
 }
 
-OpenViewContent(modalName, url,oType,MediaType){
-  if (MediaType!="Url"){
-    window.open(url, '_blank'); 
-    return
+OpenViewContent(modalName, url,genreId,MediaType){
+  let oType="LS"
+  if (genreId =="303"){
+    oType="PT"
   }
-  
-      localStorage.setItem("ViewContent",url)
-      localStorage.setItem("oType",oType)
-      if (oType=="496"){
-        this.modalService.open(modalName, {
-          size: 'lgx',
-        }); 
-      }
-      if (oType=="495"){
-        this.modalService.open(modalName,{
-          size: 'smg'
-        }); 
-      }
+  if (genreId =="324"){
+    oType="PT"
+  }
+    localStorage.setItem("ViewContent",url)
+    localStorage.setItem("oType",oType)
+    localStorage.setItem("mViewType",MediaType)
+    
+    if (oType=="LS"){
+      this.modalService.open(modalName, {
+        size: 'Template',
+      }); 
+    }
+    if (oType=="PT"){
+      this.modalService.open(modalName,{
+        size: 'PT-Template'
+      }); 
+    }
       
     }
+    EditImage(e, i, tName) {
+      if (this.IschkViewOnly==1){
+        this.toastr.info('This feature is not available in view only');
+        return;
+      }
+      this.enableEdit = true;
+      this.enableEditIndex = i;
+      this.txtTitle = tName;
+    }
+    UpdateTitleName(id) {
+      if (this.IschkViewOnly==1){
+        this.toastr.info('This feature is not available in view only');
+        return;
+      }
+      this.loading = true;
+      this.pService
+        .UpdateContent(id, this.txtTitle,"")
+        .pipe()
+        .subscribe(
+          (data) => {
+            var returnData = JSON.stringify(data);
+            var obj = JSON.parse(returnData);
+            if (obj.Responce == '1') {
+              for (var i = 0; i < this.FolderContentList.length; i++) {
+                if (this.FolderContentList[i].id == id) {
+                  this.FolderContentList[i].title = this.txtTitle;
+                  break;
+                }
+              }
+              this.toastr.info('Saved', 'Success!');
+              this.loading = false;
+              this.enableEdit = false;
+            } else {
+              this.toastr.error(
+                'Apologies for the inconvenience.The error is recorded.',
+                ''
+              );
+              this.loading = false;
+              this.enableEdit = false;
+            }
+          },
+          (error) => {
+            this.toastr.error(
+              'Apologies for the inconvenience.The error is recorded.',
+              ''
+            );
+            this.loading = false;
+            this.enableEdit = false;
+          }
+        );
+    }
+    UpdateCancleTitleName() {
+      this.enableEdit = false;
+    }
+    allFolderContent(event){
+      const checked = event.target.checked;
+      this.TransferFolderTitleSelected=[];
+      this.FolderContentList.forEach(item=>{
+        item.check = checked;
+        this.TransferFolderTitleSelected.push(item.id)
+      });
+      if (checked==false){
+        this.TransferFolderTitleSelected=[];
+      }
+    }
+    SelectFolderContent(fileid, event) {
+      this.chkAll_Folder=false
+      if (event.target.checked) {
+        this.TransferFolderTitleSelected.push(fileid);
+      }
+      else {
+        const index: number = this.TransferFolderTitleSelected.indexOf(fileid);
+        if (index !== -1) {
+          this.TransferFolderTitleSelected.splice(index, 1);
+        }
+      }
+    }
     
+    SaveTransferContent(){
+      
+      if (this.TransferFolderTitleSelected.length == 0) {
+        this.toastr.info("Please select a content");
+        return;
+      }
+  
+      if (this.CustomerId == "0") {
+        this.toastr.info("Please select a customer name");
+        return;
+      }
+      if (this.cmbTransferToFolder == "0") {
+        this.toastr.info("Please select a folder name");
+        return;
+      }
+      this.CDform.get('FromFolderId').setValue(this.cmbFolder); 
+      this.CDform.get('FolderId').setValue(this.cmbTransferToFolder);
+      this.CDform.get('dfClientId').setValue(this.CustomerId);
+      this.CDform.get('TitleList').setValue(this.TransferFolderTitleSelected);
+   
+      this.loading = true;
+      this.sfService.SaveTransferContent(this.CDform.value).pipe()
+        .subscribe(data => {
+          var returnData = JSON.stringify(data);
+          var obj = JSON.parse(returnData);
+          if (obj.Responce == "1") {
+            this.toastr.info("Saved", 'Success!');
+            this.loading = false;
+            this.TransferFolderTitleSelected=[];
+            this.chkAll_Folder=false
+            this.enableEdit=false
+            this.cmbTransferToFolder= "0"
+            this.FolderContentList=[];
+            this.GetFolderContent("null");
+          }
+          this.loading = false;
+        },
+          error => {
+            this.toastr.error("Apologies for the inconvenience.The error is recorded.", '');
+            this.loading = false;
+          })
+    }
+
+    EditGenre(e, i, genreId) {
+      if (this.IschkViewOnly==1){
+        this.toastr.info('This feature is not available in view only');
+        return;
+      }
+      this.enableEdit_genre = true;
+      this.enableEditIndex_genre = i;
+      this.cmbGenreEdit = genreId;
+    }
+    UpdateCancleGenreName() {
+      this.enableEdit_genre = false;
+    }
+    UpdateGenreId(id) {
+      if (this.IschkViewOnly==1){
+        this.toastr.info('This feature is not available in view only');
+        return;
+      }
+      var gObj= this.GenreList.filter(o => o.Id == this.cmbGenreEdit)
+      this.loading = true;
+      this.pService
+        .UpdateContent(id, "Genre",this.cmbGenreEdit)
+        .pipe()
+        .subscribe(
+          (data) => {
+            var returnData = JSON.stringify(data);
+            var obj = JSON.parse(returnData);
+            if (obj.Responce == '1') {
+              for (var i = 0; i < this.FolderContentList.length; i++) {
+                if (this.FolderContentList[i].id == id) {
+                  this.FolderContentList[i].genreId = this.cmbGenreEdit
+                  this.FolderContentList[i].genreName = gObj[0].DisplayName
+                  break;
+                }
+              }
+              this.toastr.info('Saved', 'Success!');
+              this.loading = false;
+              this.enableEdit_genre = false;
+            } else {
+              this.toastr.error(
+                'Apologies for the inconvenience.The error is recorded.',
+                ''
+              );
+              this.loading = false;
+              this.enableEdit_genre = false;
+            }
+          },
+          (error) => {
+            this.toastr.error(
+              'Apologies for the inconvenience.The error is recorded.',
+              ''
+            );
+            this.loading = false;
+            this.enableEdit_genre = false;
+          }
+        );
+    }
 }
 
 

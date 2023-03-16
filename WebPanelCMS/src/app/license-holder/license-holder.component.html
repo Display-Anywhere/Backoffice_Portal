@@ -355,9 +355,17 @@
             <li [ngbNavItem]="12" *ngIf="((this.auth.chkEventMeeting$.value ==false))">
               <a
                 ngbNavLink
+                (click)="OpenOpeningHoursModal(modalOfflineAlert)"
+                class="form-control-Tab mt-1"
+                >Offline Alert</a>
+              <ng-template ngbNavContent> </ng-template>
+            </li>
+            <li [ngbNavItem]="12" *ngIf="((this.auth.chkEventMeeting$.value ==false))">
+              <a
+                ngbNavLink
                 (click)="OpenOpeningHoursModal(modalManageOpeningHours)"
                 class="form-control-Tab mt-1"
-                >Opening/Reboot Time</a
+                >Reboot Time</a
               >
               <ng-template ngbNavContent> </ng-template>
             </li>
@@ -408,7 +416,7 @@
                     <th scope="col" style="width: 50px !important" data-toggle="tooltip" data-placement="top" title="Player Version">V.</th>
                     <th scope="col" style="width: 35px !important" data-toggle="tooltip" data-placement="top" title="Player Status">PS</th>
                     <th scope="col" style="width: 30px !important" data-toggle="tooltip" data-placement="top" title="Publish Status">S.</th>
-                    <th scope="col" style="width: 30px !important" data-toggle="tooltip" data-placement="top" title="Content Download Status">D.</th>
+                    <th *ngIf="FilterValue_For_Reload != 'KPN'" scope="col" style="width: 30px !important" data-toggle="tooltip" data-placement="top" title="Content Download Status">D.</th>
                     <th scope="col" style="width: 35px !important" data-toggle="tooltip" data-placement="top" title="Indicator" *ngIf="Indicator_Active">OI</th>
                     <th scope="col" style="width: 30px !important" data-toggle="tooltip" data-placement="top" title="Hotel Tv Indicator" *ngIf="h_info_Active">HI</th>
                     <th scope="col" style="width: 30px !important"></th>
@@ -480,14 +488,12 @@
                       <i *ngIf="cLst.PublishUpdate == 'True'" class="fa fa-lg fa-square text-danger" aria-hidden="true"  data-toggle="tooltip" data-placement="top" title="Update"></i>
                       <i *ngIf="cLst.PublishUpdate == 'False'" class="fa fa-lg fa-square text-success" aria-hidden="true"  data-toggle="tooltip" data-placement="top" title="Updated"></i>
                   </td>
-                  <td data-label="" class="text-center" *ngIf="cLst.IsKpnActive=='0'">
+                  <td data-label="" class="text-center" *ngIf="FilterValue_For_Reload != 'KPN'">
                     <i *ngIf="cLst.IsDownloadAll == 'false' && cLst.pContent > 0" class="fa fa-lg fa-square text-primary" aria-hidden="true"  data-toggle="tooltip" data-placement="top" title="{{cLst.pContent}} content are pending to download" ></i>
                     <i *ngIf="cLst.IsDownloadAll == 'false' && cLst.pContent < 0" class="fa fa-lg fa-square text-primary" aria-hidden="true"  data-toggle="tooltip" data-placement="top" title="Download  not completed" ></i>
                     <i *ngIf="cLst.IsDownloadAll == 'true'" class="fa fa-lg fa-square text-success" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Download  Completed"></i>
                 </td>
-                <td class="text-center" *ngIf="cLst.IsKpnActive=='1'">
-                    <i class="fa fa-lg fa-square text-muted" aria-hidden="true"  data-toggle="tooltip" data-placement="top" title="Not active"></i>
-                </td>
+               
 
 <!-- 
                     <td
@@ -1222,7 +1228,7 @@
 
 <ng-template #modalManageOpeningHours let-c="close" let-d="dismiss">
   <div class="modal-header bg-primary">
-    <h5 class="text-white">Manage Opening Hours/Reboot Time</h5>
+    <h5 class="text-white">Manage Reboot Time</h5>
     <button
       type="button"
       class="close text-white"
@@ -1235,6 +1241,24 @@
   </div>
   <div class="modal-body">
     <app-openinghour></app-openinghour>
+  </div>
+</ng-template>
+
+<ng-template #modalOfflineAlert let-c="close" let-d="dismiss">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Offline Alert</h5>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="t.select(3)"
+      (click)="tokenInfoClose()"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-offline-alert></app-offline-alert>
   </div>
 </ng-template>
 

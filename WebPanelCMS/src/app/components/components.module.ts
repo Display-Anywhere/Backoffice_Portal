@@ -68,6 +68,7 @@ import { JoanDevicesComponent } from './joan-devices/joan-devices.component';
 import { LoginDisplayAnyWhereComponent } from './login-display-any-where/login-display-any-where.component';
 import { EventScheduleComponent } from './event-schedule/event-schedule.component';
 import { PlayedAdLogComponent } from './played-ad-log/played-ad-log.component';
+import { LoginDMComponent } from './login-dm/login-dm.component';
 export const MY_CUSTOM_FORMATS = {
   parseInput: 'LL LT',
   fullPickerInput: 'LL LT',
@@ -128,7 +129,8 @@ KpnSummaryComponent,
 JoanDevicesComponent,
 LoginDisplayAnyWhereComponent,
 EventScheduleComponent,
-PlayedAdLogComponent
+PlayedAdLogComponent,
+LoginDMComponent
 ],
  
   exports: [
@@ -177,7 +179,8 @@ KpnSummaryComponent,
 JoanDevicesComponent,
 LoginDisplayAnyWhereComponent,
 EventScheduleComponent,
-PlayedAdLogComponent
+PlayedAdLogComponent,
+LoginDMComponent
   ],
     imports: [
     CommonModule,

@@ -2680,7 +2680,7 @@ if (id=="0"){
     }
     this.loading = true;
     this.pService
-      .UpdateContent(id, this.txtTitle)
+      .UpdateContent(id, this.txtTitle,"")
       .pipe()
       .subscribe(
         (data) => {

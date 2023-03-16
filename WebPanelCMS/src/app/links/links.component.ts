@@ -41,6 +41,8 @@ SignageVideo90="";
 viewsonic="";
 UserId = localStorage.getItem('UserId');
 PortalName= localStorage.getItem('PortalName')
+H_Sign_BG="http://bit.ly/40k6Pjp"
+H_Sound_BG="http://bit.ly/3HoV4PT"
 SmartTv="https://bit.ly/3vl4Gqm"
   constructor(private serviceLicense: SerLicenseHolderService,
      public toastr: ToastrService, vcr: ViewContainerRef, public auth:AuthServiceOwn,private sanitizer: DomSanitizer) {

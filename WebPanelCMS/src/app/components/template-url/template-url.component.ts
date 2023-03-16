@@ -206,21 +206,29 @@ export class TemplateUrlComponent implements OnInit {
           this.loading = false;
         })
   }
-  OpenViewContent(modalName, url,oType){
+  OpenViewContent(modalName, url,genreId){
 
-
-    localStorage.setItem("ViewContent",url)
-    localStorage.setItem("oType",oType)
-    if (oType=="496"){
-      this.modalService.open(modalName, {
-        size: 'Template',
-      }); 
+    let oType="LS"
+    if (genreId =="303"){
+      oType="PT"
     }
-    if (oType=="495"){
-      this.modalService.open(modalName,{
-        size: 'PT-Template'
-      }); 
+    if (genreId =="324"){
+      oType="PT"
     }
+      localStorage.setItem("ViewContent",url)
+      localStorage.setItem("oType",oType)
+      localStorage.setItem("mViewType","Url")
+      
+      if (oType=="LS"){
+        this.modalService.open(modalName, {
+          size: 'Template',
+        }); 
+      }
+      if (oType=="PT"){
+        this.modalService.open(modalName,{
+          size: 'PT-Template'
+        }); 
+      }
     
   }
   CloseModal(){

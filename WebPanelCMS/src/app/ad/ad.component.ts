@@ -920,5 +920,24 @@ export class AdComponent implements OnInit {
         (error) => {}
       );
   }
+  OpenViewContent(modalName, url,MediaType){
+    let oType="LS"
+     
+      localStorage.setItem("ViewContent",url)
+      localStorage.setItem("oType",oType)
+      localStorage.setItem("mViewType",MediaType)
+      
+      if (oType=="LS"){
+        this.modalService.open(modalName, {
+          size: 'Template',
+        }); 
+      }
+      if (oType=="PT"){
+        this.modalService.open(modalName,{
+          size: 'PT-Template'
+        }); 
+      }
+      
+    }
 }
 //https://www.truecodex.com/course/angular-6/file-upload-in-angular-6-7-with-progress-bar-using-web-api

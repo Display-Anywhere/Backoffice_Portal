@@ -14,6 +14,7 @@ import { SerLicenseHolderService } from 'src/app/license-holder/ser-license-hold
 import { trim } from 'jquery';
 import { PlaylistLibService } from 'src/app/playlist-library/playlist-lib.service';
 import { DecimalPipe } from '@angular/common';
+import { ConfigAPI } from 'src/app/class/ConfigAPI';
 @Component({
   selector: 'app-temp-schedule',
   templateUrl: './temp-schedule.component.html',
@@ -90,7 +91,7 @@ export class TempScheduleComponent implements OnInit {
     private vcr: ViewContainerRef,
     config: NgbModalConfig,
     private modalService: NgbModal,
-    private sfService: StoreForwardService,
+    private sfService: StoreForwardService, public confapi:ConfigAPI,
     public auth:AuthServiceOwn,private pService: PlaylistLibService,
     private serviceLicense: SerLicenseHolderService,private pipe: DecimalPipe,
     configTime: NgbTimepickerConfig
@@ -171,7 +172,7 @@ export class TempScheduleComponent implements OnInit {
       textField: 'itemName',
       selectAllText: 'Week',
       unSelectAllText: 'Week',
-      itemsShowLimit: 4,
+      itemsShowLimit: 1,
     };
 
     this.FillClient();
@@ -1903,7 +1904,7 @@ OpenViewContent(modalName, url,oType,MediaType){
     }
     GetSignageContentPlayerList() {
       if (this.cmbSignageContentId == 0) {
-        this.toastrSF.error('Select a Content', '');
+       // this.toastrSF.error('Select a Content', '');
         return;
       }
       this.loading = true;
@@ -1922,4 +1923,98 @@ OpenViewContent(modalName, url,oType,MediaType){
         }
       );
     }
+  lblUpperMsg = '';
+  ForceAction = 'No';
+  openTitleDeleteModalOwn(mContent) {
+    if (this.IschkViewOnly==1){
+      this.toastrSF.info('This feature is not available in view only');
+      return;
+    }
+    this.lblUpperMsg = 'Are you sure to delete?';
+    this.ForceAction = 'No';
+    this.modalService.open(mContent);
+  }
+  DeleteTitleOwn(ForceDelete) {
+    this.loading = true;
+    this.pService
+      .DeleteTitleOwn(this.cmbSignageContentId.toString(), ForceDelete)
+      .pipe()
+      .subscribe(
+        async (data) => {
+          var returnData = JSON.stringify(data);
+          var obj = JSON.parse(returnData);
+          if (obj.Responce == '1') {
+            this.toastrSF.info('Deleted', 'Success!');
+            this.loading = false;
+            this.ForceAction = 'No';
+            this.modalService.dismissAll();
+            this.cmbSignageContentId=0
+            this.SignageContentPlayerList=[]
+            await this.GetSignageContent();
+          } else if (obj.Responce == '2') {
+            this.lblUpperMsg =
+              'This title is assigned to playlists. Would you like contiue delete ?';
+            this.loading = false;
+            this.ForceAction = 'Yes';
+          } else {
+            this.toastrSF.error(
+              'Apologies for the inconvenience.The error is recorded.',
+              ''
+            );
+          }
+          this.loading = false;
+        },
+        (error) => {
+          this.toastrSF.error(
+            'Apologies for the inconvenience.The error is recorded.',
+            ''
+          );
+          this.loading = false;
+        }
+      );
+  }
+  SignageContent_OpenViewContent(modalName){
+    let obj= this.SignageContentList.filter(o=> o.TitleID==this.cmbSignageContentId)
+    let url,genreId= obj[0].GenreId.toString(),MediaType= obj[0].MediaType.toString(), ext=".mp4"
+
+    let oType="LS"
+  if (genreId =="303"){
+    oType="PT"
+  }
+  if (genreId =="324"){
+    oType="PT"
+  }
+  if (MediaType == "Audio")
+  {
+    ext = ".mp3";
+  }
+  if (MediaType == "Video")
+  {
+    ext = ".mp4";
+  }
+  if (MediaType == "Image")
+  {
+    ext = ".jpg";
+  }
+  url =  "https://applicationaddons.com/mp3files/" + this.cmbSignageContentId  + ext;
+  if (MediaType == "Url")
+  {
+    url=obj[0].url.toString()
+  }
+    localStorage.setItem("ViewContent",url)
+    localStorage.setItem("oType",oType)
+    localStorage.setItem("mViewType",MediaType)
+    
+    if (oType=="LS"){
+      this.modalService.open(modalName, {
+        size: 'Template',
+      }); 
+    }
+    if (oType=="PT"){
+      this.modalService.open(modalName,{
+        size: 'PT-Template'
+      }); 
+    }
+        
+      }
 }

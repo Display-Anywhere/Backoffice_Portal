@@ -27,10 +27,11 @@
   white-space: nowrap;
 }
 .WidthCategoryPL {
-  max-width: 50px !important;
+  max-width: 10rem !important;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  width: 10rem;
 }
 .WidthAlbumPL {
   max-width: 200px !important;

@@ -190,6 +190,14 @@
                       >
                       <i class="fa fa-eye" aria-hidden="true"></i>
                       </button>
+                      <button
+                        *ngIf="IsAnnouncement === '0'"
+                        class="btn btn-primary mb-2 mr-1 mt-n1 mt-2"
+                        data-toggle="tooltip" data-placement="top" title="View Content"
+                        (click)="openViewContent(EditFolderContent)"
+                      >
+                      <i class="fa fa-exchange" aria-hidden="true"></i>
+                      </button>
                     </div>
                   </div>
                   <div class="row m-0 p-0" *ngIf="InputAccept != ''">
@@ -445,7 +453,9 @@
                               class="custom-control-label"
                               for="chkPromoCheck"
                               >Is promo folder</label
-                            >
+                            ><i class="fa fa-info-circle " aria-hidden="true"  data-toggle="tooltip" data-placement="top" title="New content replace all old content in all locations" ></i>
+
+                            
                           </div>
                         </div>
                       </div>
@@ -509,20 +519,18 @@
                             <table class="table data-table table-striped table-bordered mydatatable" id="eventtable">
                               <thead class="">
                                 <tr>
+                                 
                                   <th class="WidthTitlePL bg-primary sticky-top" style="z-index: 1;">Title</th>
-                                  <th class="WidthArtistPL bg-primary sticky-top" style="z-index: 1;">Artist</th>
-                                  <th class="WidthCategoryPL bg-primary sticky-top" style="z-index: 1;">Genre</th>
+                                  <th class="WidthCategoryPL bg-primary sticky-top" style="z-index: 1;">Orientation</th>
                                 </tr>
                               </thead>
                               <tbody>
-                                <tr class="cursor-pointer" *ngFor="let plSongLst of FolderContentList">
+                                <tr class="cursor-pointer" *ngFor="let plSongLst of FolderContentList; let i = index">
+                                  
                                   <td class="WidthTitlePL">
                                     <a href="javascript:;" (click)="OpenViewContent(viewcontent, plSongLst.TitleIdLink,plSongLst.genreId,plSongLst.MediaType)">
                                       {{ plSongLst.title }}
-                                    </a>
-                                  </td>
-                                  <td class="WidthArtistPL">
-                                    {{ plSongLst.Artist }}
+                                    </a> 
                                   </td>
                                   <td class="WidthCategoryPL">
                                     {{ plSongLst.genreName }}
@@ -700,5 +708,230 @@
         </div>
       </div>
     </div>
+  </div>
+</ng-template>
+
+
+<ng-template #EditFolderContent let-c="close" let-d="dismiss">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Folder Content</h5>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body m-0 p-0">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-inline pl-2">
+          <label for="cmbToFolder" class="mt-1 mb-2 mr-sm-2 pr-1">Transfer To Folder Name:</label>
+      <select name="cmbToFolder" class="custom-select mb-2 col-sm-4 col-12 mt-2"
+        [(ngModel)]="cmbTransferToFolder" id="cmbToFolder">
+        <option value="0"></option>
+        <option *ngFor="let fLst of TransferToFolderList" [value]="fLst.Id" >
+          {{ fLst.DisplayName }}
+        </option>
+      </select>
+      <button class="btn btn-primary  mb-0 ml-sm-3" (click)="SaveTransferContent()">
+        <i class="fa fa-floppy-o" aria-hidden="true"></i>
+      </button>
+        </div>
+      </div>
+    </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <div id="disPL" class="table-responsive search-results">
+            <table class="table data-table table-striped table-bordered mydatatable" id="eventtable">
+              <thead class="">
+                <tr>
+                  <th class="bg-primary sticky-top" style="width: 60px;">
+                    <div class="custom-control custom-checkbox">
+                      <input
+                        (change)="allFolderContent($event)"
+                        type="checkbox"
+                        class="custom-control-input"
+                        name="allContentTF"
+                        id="AllContentTF"
+                        [(ngModel)]="chkAll_Folder"
+                      />
+                      <label
+                        class="custom-control-label cursor-pointer pt-1 text-white"
+                        for="AllContentTF"
+                        >All</label
+                      >
+                    </div>
+                  </th>
+                  <th class="WidthTitlePL bg-primary sticky-top" style="z-index: 1;">Title</th>
+                  <th class="WidthCategoryPL bg-primary sticky-top" style="z-index: 1;">Orientation</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="cursor-pointer" *ngFor="let plSongLst of FolderContentList; let i = index">
+                  <td data-label="" class="">
+                    <div class="custom-control custom-checkbox">
+                      <input
+                        (change)="SelectFolderContent(plSongLst.id, $event)"
+                        type="checkbox"
+                        class="custom-control-input"
+                        id="{{ plSongLst.id }}{{ i }}"
+                        [checked]="plSongLst.check"
+                        name="chkTokenList"
+                      />
+                      <label
+                        class="custom-control-label cursor-pointer"
+                        for="{{ plSongLst.id }}{{ i }}"
+                      ></label>
+                    </div>
+                  </td>
+                  <td class="WidthTitlePL">
+                    <div class="row m-0 p-0">
+      <div
+        *ngIf="!enableEdit"
+        class="col-lg-11 m-0 p-0"
+        style="
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        "
+      >
+        <a href="javascript:;"
+        (click)="OpenViewContent(viewcontent, plSongLst.TitleIdLink,plSongLst.genreId,plSongLst.MediaType)">
+          {{ plSongLst.title }}
+        </a>
+      </div>
+      <div
+        *ngIf="!enableEdit_genre && !enableEdit && LoginDfClientId == CustomerId
+        "
+        class="col-lg-1 p-0 mt-1"
+      >
+        <i
+          class="fa fa-pencil-square fa-2x text-primary"
+          aria-hidden="true"
+          (click)="EditImage($event, i, plSongLst.title)"
+        ></i>
+      </div>
+
+      <div
+        class="col-lg-9 m-0 p-0"
+        style="
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        "
+        *ngIf="enableEdit && enableEditIndex == i"
+      >
+        <a
+          *ngIf="!enableEdit"
+          href="javascript:;"
+          (click)="OpenViewContent(viewcontent, plSongLst.TitleIdLink,plSongLst.genreId,plSongLst.MediaType)"
+        >
+          {{ plSongLst.title }}
+        </a>
+        <input
+          class="form-control"
+          [(ngModel)]="txtTitle"
+          type="text"
+          value="{{ plSongLst.title }}"
+        />
+      </div>
+      <div
+        class="col-lg-3 p-0 mt-1"
+        *ngIf="enableEdit && enableEditIndex == i"
+      >
+        <i
+          aria-hidden="true"
+          class="fa fa-check-square fa-2x text-primary"
+          (click)="UpdateTitleName(plSongLst.id)"
+        ></i>
+        <i
+          aria-hidden="true"
+          class="fa fa-window-close fa-2x text-danger"
+          (click)="UpdateCancleTitleName()"
+        ></i>
+      </div>
+                    </div>
+                   <!-- <a href="javascript:;" (click)="OpenViewContent(viewcontent, plSongLst.TitleIdLink,plSongLst.genreId,plSongLst.MediaType)">
+                      {{ plSongLst.title }}
+                    </a>-->
+                  </td>
+                  
+                  <td class="WidthCategoryPL">
+                    <div class="row m-0 p-0">
+                      <div
+                        *ngIf="!enableEdit_genre"
+                        class="col-lg-10 m-0 p-0"
+                        style="
+                          overflow: hidden;
+                          text-overflow: ellipsis;
+                          white-space: nowrap;
+                        "
+                      >
+                          {{ plSongLst.genreName }}
+                      </div>
+                      <div
+                        *ngIf="
+                          !enableEdit && !enableEdit_genre && LoginDfClientId == CustomerId
+                        "
+                        class="col-lg-2 "
+                      >
+                        <i
+                          class="fa fa-pencil-square fa-2x text-primary"
+                          aria-hidden="true"
+                          (click)="EditGenre($event, i, plSongLst.genreId)"
+                        ></i>
+                      </div>
+                
+                      <div
+                        class="col-lg-9 m-0 p-0"
+                        style="
+                          overflow: hidden;
+                          text-overflow: ellipsis;
+                          white-space: nowrap;
+                        "
+                        *ngIf="enableEdit_genre && enableEditIndex_genre == i"
+                      >
+                        
+                      
+                      <select name="cmbGenreEdit" class="custom-select col-sm-12" [(ngModel)]="cmbGenreEdit" id="cmbGenreEdit">
+                        <option *ngFor="let gLst of GenreList" [value]="gLst.Id">
+                          {{ gLst.DisplayName }}
+                        </option>
+                      </select>
+
+                        
+                      </div>
+                      <div
+                        class="col-lg-3 p-0 mt-1"
+                        *ngIf="enableEdit_genre && enableEditIndex_genre == i"
+                      >
+                        <i
+                          aria-hidden="true"
+                          class="fa fa-check-square fa-2x text-primary"
+                          (click)="UpdateGenreId(plSongLst.id)"
+                        ></i>
+                        <i
+                          aria-hidden="true"
+                          class="fa fa-window-close fa-2x text-danger"
+                          (click)="UpdateCancleGenreName()"
+                        ></i>
+                      </div>
+                  </div>
+
+
+                  </td>
+
+                </tr>
+              </tbody>
+            </table>
+          </div>
+           
+        </div>
+      </div>
+      
+    
   </div>
 </ng-template>

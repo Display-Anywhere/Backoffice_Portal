@@ -148,9 +148,9 @@ export class PlaylistLibService {
     return this.http.post(this.cApi.UpdateEnergyLevel, params, { headers })
       .pipe((data => data));
   }
-  UpdateContent(TitleId, titleName) {
+  UpdateContent(TitleId, titleName,GenreId) {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    const params = JSON.stringify({ TitleId, titleName });
+    const params = JSON.stringify({ TitleId, titleName,GenreId });
     return this.http.post(this.cApi.UpdateContent, params, { headers })
       .pipe((data => data));
   }

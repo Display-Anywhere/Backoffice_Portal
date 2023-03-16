@@ -2,7 +2,18 @@
 </ngx-loading>
 <app-login-sbit *ngIf="PortalName=='sbit'"></app-login-sbit>
 <app-login-display-any-where *ngIf="PortalName=='display'"></app-login-display-any-where>
-<div class="wrapper" *ngIf="PortalName=='nusign'">
+<app-login-dm *ngIf="PortalName=='DM'"></app-login-dm>
+  <div class="container" *ngIf="PortalName=='nusign'" style="
+  margin-bottom: 4em !important; margin-top: -3em !important;
+  ">
+    <div class="row">
+      <div class="col-lg-2">
+        <img src="assets/images/login/cropped-logo1-189x42.png"   alt="" />
+      </div>
+      <div class="col-lg-10"></div>
+    </div>
+  </div>
+<div class="wrapper " *ngIf="PortalName=='nusign'" style="background: #F14710;  margin-right: -15px;margin-left: -15px;">
   <section class="logincontent">
     
     <img *ngIf="loginpage=='Nusign1'" src="assets/images/login/02.png" class="lb-img" alt="" />
@@ -13,24 +24,11 @@
 
     <div class="container h-100">
       <div class="row align-items-center justify-content-center h-100">
-        <div class="col-12">
+        <div class="col-12 pt-4 pb-4">
           <div class="row align-items-center">
-            <div *ngIf="loginpage=='Nusign'"
-              class="col-lg-6 mb-lg-0 mb-4 mt-lg-0 mt-4 mt-2e order-2 order-xl-1"
-            >
-              <img  
-                src="assets/images/login/01.png"
-                class="img-fluid w-80"
-                alt=""
-              />
-              
-             
-           
-              
-            </div>
-            <div class="col-lg-4 order-1 order-xl-2"  [ngClass]="(loginpage ==='PPDS') ? 'logindivcenter':''">
+            <div class="col-lg-4  shadow-lg"  [ngClass]="(loginpage ==='PPDS') ? 'logindivcenter':''" >
               <div class="text-center">
-                 <img *ngIf="loginpage=='Nusign'" class="logo" src="assets/img/logo.png" alt="" /> 
+                 <!--<img *ngIf="loginpage=='Nusign'" class="logo" src="assets/img/logo.png" alt="" />  -->
                  
                 <span *ngIf="loginpage=='PPDS'"  class="img-fluid w-80">
                   <div class="col-12  text-center mb-3">
@@ -41,8 +39,8 @@
                 </div>
                 </span>
               </div>
-              <h2 class="mb-2">Sign In</h2>
-              <p>
+              <h2 class="mb-2 text-white">Sign In</h2>
+              <p class="text-white">
                 To keep connected with us please login with your personal info.
               </p>
               <form [formGroup]="loginform" (ngSubmit)="onSubmit()" *ngIf="IsTwoWayActive=='0'">
@@ -76,10 +74,10 @@
                     </div>
                   </div>
                 </div>
-                <button type="submit" class="btn btn-primary mb-3">Sign In</button>
-                <span class="text-right pull-right">
+                <button type="submit" class="btn btn-primary mb-3 text-white">Sign In</button>
+                <span class="text-right pull-right text-white">
                   SSO Login: 
-                  <a href="javascript:;" (click)="loginSSO()" class="text-primary">Sign In</a>
+                  <a href="javascript:;" (click)="loginSSO()" class="text-white"><b>Sign In</b></a>
                 </span>
                 <!-- <p class="mt-3">
                   Create an Account
@@ -109,16 +107,16 @@
                 </p> -->
               </form>
             </div>
+            <div *ngIf="loginpage=='Nusign'" class="col-lg-8 text-center">
+              <img  src="assets/images/login/01.png" class="img-fluid " alt="" style="width: 65% !important;"/>
+            </div>
           </div>
         </div>
         <!-- banner -->
         <!-- <div class="mt-5 col-sm-12 col-lg-10 ml-lg-4">
           <img src="../assets/images/login/musicbanner2.png" alt="" />
         </div> -->
-        <div *ngIf="loginpage=='Nusign'" class="image_block ml-lg-4 col-12 col-sm-12 col-lg-7 mb-5">
-          <span  class="emailtext pb-4">To obtain a demo account, send an email with your credentials to <strong>{{emailText}}</strong></span>
-          <img src="../assets/images/login/musicbanner2.png" border="0"  class="d-none"/>
-        </div>
+       
         <div  *ngIf="loginpage=='PPDS'" class="image_block ml-lg-4 col-12 col-sm-12 col-lg-7 mb-5 pb-2 text-left">
           <p>Engage, inform and create with ease when you choose a Professional Display or Digital Signage powered by Android. You'll also experience more ways to connect your software for a truly unique experience.
             Infinite possibilities for better management, fast performance with Android System-on-Chip. </p>
@@ -130,4 +128,10 @@
       </div>
     </div>
   </section>
+</div>
+
+<div class="container text-center mt-5" *ngIf="PortalName=='nusign'" >
+  <p style="color: #000000;font-size: 2.625rem;font-weight: 700;font-family: 'Poppins', Sans-serif;">How can we help you?</p>
+  <p>Take your network to new heights with DA</p>
+  <span  class="emailtext">To obtain a demo account, send an email with your credentials to <strong>{{emailText}}</strong></span>
 </div>

@@ -26,7 +26,7 @@ export function loggerCallback(logLevel: LogLevel, message: string) {
 }
 
 export function MSALInstanceFactory(): IPublicClientApplication {
-  let redirectUrl = "https://nusign.eu"
+  let redirectUrl = "https://app.display-anywhere.com"
   //redirectUrl ="https://signage.sbit-hospitality.com"
   if (localStorage.getItem('PortalName')=="sbit"){
     redirectUrl ="https://signage.sbit-hospitality.com"

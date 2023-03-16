@@ -163,11 +163,7 @@
                   >Special Playlists</a
                 >
               </li>
-              <li *ngIf="((cmbCustomerMediaType == 'Audio Copyright') && (cmbCustomer=='204'))" class="nav-item" (click)="onClickSpecialPlaylists()">
-                <a class="nav-link" data-toggle="tab" href="#DJMixPlaylists"
-                  >DJ Mix</a
-                >
-              </li>
+               
               <li class="nav-item d-none">
                 <a class="nav-link" data-toggle="tab" href="#PlaylistLib"
                   >Copy to campaign</a
@@ -637,8 +633,8 @@
                 <tr>
                   <th class="WidthTitlePL bg-primary sticky-top" style="z-index: 1;">Title</th>
 
-                  <th class="WidthArtistPL bg-primary sticky-top" style="z-index: 1;">
-                   <span *ngIf="cmbCustomerMediaType == 'Signage'">Type</span><span *ngIf="cmbCustomerMediaType != 'Signage'">Artist</span></th>
+                  <th *ngIf="cmbCustomerMediaType != 'Signage'" class="WidthArtistPL bg-primary sticky-top" style="z-index: 1;">
+                   Artist</th>
                   <th class="WidthCategoryPL bg-primary sticky-top" style="z-index: 1;">
                     <span *ngIf="cmbCustomerMediaType == 'Signage'">Orientation</span><span *ngIf="cmbCustomerMediaType != 'Signage'">Genre</span></th>
                   <!--<th class="WidthCategoryPL bg-primary sticky-top" style="z-index: 1;">Label</th>-->
@@ -671,7 +667,7 @@
                     </a>
                   </td>
 
-                  <td class="WidthArtistPL" (click)="plChange()">
+                  <td *ngIf="cmbCustomerMediaType != 'Signage'" class="WidthArtistPL" (click)="plChange()">
                     {{ plSongLst.Artist }}
                   </td>
                   <td class="WidthCategoryPL" (click)="plChange()">
@@ -1249,13 +1245,13 @@
                    
                   <th class="WidthTitlePL bg-primary sticky-top" sortable="title"
                   (sort)="onSort_Libray($event)">Title</th>
-                  <th class="WidthArtistPL bg-primary sticky-top"  sortable="Artist"
-                  (sort)="onSort_Libray($event)"><span *ngIf="cmbCustomerMediaType == 'Signage'">Type</span><span *ngIf="cmbCustomerMediaType != 'Signage'">Artist</span></th>
+                  <th *ngIf="cmbCustomerMediaType != 'Signage'" class="WidthArtistPL bg-primary sticky-top"  sortable="Artist"
+                  (sort)="onSort_Libray($event)">Artist</th>
                   <th class="WidthCategoryPL bg-primary sticky-top"  sortable="genreName"
                   (sort)="onSort_Libray($event)"><span *ngIf="cmbCustomerMediaType == 'Signage'">Orientation</span><span *ngIf="cmbCustomerMediaType != 'Signage'">Genre</span></th>
                   <th *ngIf="((chkMediaRadio!='Image') && (chkMediaRadio!='Url'))" class="WidthCategoryPL bg-primary sticky-top"  sortable="genreName"
                   (sort)="onSort_Libray($event)">Length</th>
-                  <th class="WidthCategoryPL bg-primary sticky-top" *ngIf="(chkMediaRadio=='Video') " sortable="Label" (sort)="onSort_Libray($event)">Label</th>
+                  <th class="d-none WidthCategoryPL bg-primary sticky-top" *ngIf="(chkMediaRadio=='Video') " sortable="Label" (sort)="onSort_Libray($event)">Label</th>
                   <!--<th *ngIf="((chkMediaRadio=='Audio') && (IsRF==true)) ||
                   ((chkMediaRadio=='Video')) " class="WidthCategoryPL bg-primary sticky-top">
                     {{ HeaderName }}
@@ -1272,7 +1268,7 @@
                   </th>
                   <th *ngIf="((chkSearchRadio=='NewVibe'))" class="WidthCategoryPL bg-primary sticky-top">Year</th>
                   <th *ngIf="(cmbCustomerMediaType=='Audio Copyright')" class="WidthCategoryPL bg-primary sticky-top">Bit Rate</th>
-                  <th *ngIf="(cmbCustomerMediaType=='Signage')" class="bg-primary sticky-top"></th>
+                  <th *ngIf="(cmbCustomerMediaType=='Signage')" class="Link-Center_Width bg-primary sticky-top"></th>
                 </tr>
               </thead>
               <tbody>
@@ -1369,10 +1365,10 @@
                     </a>
                   </td>
                   <!-- <td class="WidthLength">{{songLst.Length}}</td> -->
-                  <td class="WidthArtistPL">{{ songLst.Artist }}</td>
+                  <td *ngIf="cmbCustomerMediaType != 'Signage'" class="WidthArtistPL">{{ songLst.Artist }}</td>
                   <td class="WidthCategoryPL">{{ songLst.genreName }}</td>
                   <td *ngIf="((chkMediaRadio!='Image') && (chkMediaRadio!='Url'))" class="WidthCategoryPL">{{ songLst.Length }}</td>
-                  <td *ngIf="(chkMediaRadio=='Video') " class="WidthCategoryPL">{{songLst.Label}}</td>
+                  <td *ngIf="(chkMediaRadio=='Video') " class="d-none WidthCategoryPL">{{songLst.Label}}</td>
                   <!--
 
                   

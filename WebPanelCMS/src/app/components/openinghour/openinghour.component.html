@@ -3,8 +3,145 @@
   [config]="{ backdropBorderRadius: '3px', fullScreenBackdrop: true }"
 >
 </ngx-loading>
-
 <div class="row">
+  <div class="col-lg-12">
+    <form [formGroup]="frmRebootTime">
+      <div class="form-row">
+        <div class="form-group col-sm-6 pb-0 m-0">
+          <div class="col-sm-5 p-0 m-0 pull-left">
+            <label class="mb-2 mr-sm-2" for="sTime"
+              >Reboot time:
+            </label>
+            <ngb-timepicker
+              formControlName="startTime"
+            ></ngb-timepicker>
+          </div>
+          <div class="col-sm-5 p-0 mt-5 pull-left ml-3">
+            <button
+              id="btnGroup2"
+              class="btn btn-primary"
+              (click)="UpdateTokenRebootTime()"
+              style="padding: 0.2rem 0.5rem"
+            >
+              <i class="fa fa-floppy-o fa-lg" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="form-group col-sm-6 pb-0 m-0 mt-4">
+          <div class="p-0 pr-1 m-0 pull-right">
+            <div class="iq-search-bar device-search">
+              <div class="searchbox1">
+                <input
+                  type="text"
+                  id="txtSearch"
+                  placeholder="Search"
+                  class="text search-input"
+                  [(ngModel)]="RebootSearchText"
+                  [ngModelOptions]="{ standalone: true }"
+                  (input)="onChangeEvent_Reboot()"
+                />
+                <a class="search-link" href="#"
+                  ><i class="fa fa-search"></i
+                ></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <div class="col-lg-12 m-0 p-0 mt-3">
+      <div class="table-responsive">
+        <table
+          class="table data-table table-striped table-bordered mydatatable"
+        >
+          <thead class="bg-primary">
+            <tr>
+              <th scope="col" style="width: 60px">
+                <div class="custom-control custom-checkbox">
+                  <input
+                    (change)="allActiveToken_Reboot($event)"
+                    type="checkbox"
+                    class="custom-control-input"
+                    name="AllActiveTokenR"
+                    id="AllActiveTokenR"
+                    [(ngModel)]="chkAll_Reboot"
+                  />
+                  <label
+                    class="custom-control-label cursor-pointer pt-1 text-white"
+                    for="AllActiveTokenR"
+                    >All</label
+                  >
+                </div></th>
+                <th scope="col" sortable="city" (sort)="onSort_Reboot($event)">
+                  City
+                </th>
+                <th
+                  scope="col"
+                  sortable="location"
+                  (sort)="onSort_Reboot($event)"
+                >
+                  Location
+                </th>
+                <th
+                  scope="col"
+                  sortable="tokenCode"
+                  (sort)="onSort_Reboot($event)"
+                >
+                  Token No
+                </th>
+              <th scope="col" style="width: 120px">Reboot Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="
+                let tLst of RebootTimePlayerList
+                  | filter: RebootSearchText | slice
+                  : (page_Reboot - 1) * pageSize_Reboot
+                  : (page_Reboot - 1) * pageSize_Reboot + pageSize_Reboot
+                let i = index
+              "
+            >
+              <td data-label="" class="">
+                <div class="custom-control custom-checkbox">
+                  <input
+                    (change)="
+                      SelectRebootTimeToken(tLst.tokenid, $event)
+                    "
+                    type="checkbox"
+                    class="custom-control-input"
+                    id="{{ tLst.tokenid }}{{ i }}"
+                    [checked]="tLst.check"
+                    name="chkgrpTokenList"
+                  />
+                  <label
+                    class="custom-control-label cursor-pointer"
+                    for="{{ tLst.tokenid }}{{ i }}"
+                  ></label>
+                </div>
+              </td>
+              <td data-label="City">{{ tLst.city }}</td>
+              <td data-label="Location">{{ tLst.location }}</td>
+              <td data-label="Token No">{{ tLst.tokenCode }}</td>
+
+              <td data-label="Reboot Time">{{ tLst.RebootTime }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <ngb-pagination
+        [collectionSize]="ActiveTokenListlength_Reboot"
+        [(page)]="page_Reboot"
+        [pageSize]="pageSize_Reboot"
+        [boundaryLinks]="true"
+        size="sm"
+        (click)="GetCheckedToken_Reboot()"
+      ></ngb-pagination>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row d-none">
   <div class="col-lg-12">
     <ul
       ngbNav
@@ -177,144 +314,7 @@
       <li [ngbNavItem]="2" class="pr-2">
         <a ngbNavLink>Reboot Time</a>
         <ng-template ngbNavContent>
-          <div class="row">
-            <div class="col-lg-12">
-              <form [formGroup]="frmRebootTime">
-                <div class="form-row">
-                  <div class="form-group col-sm-6 pb-0 m-0">
-                    <div class="col-sm-5 p-0 m-0 pull-left">
-                      <label class="mb-2 mr-sm-2" for="sTime"
-                        >Reboot time:
-                      </label>
-                      <ngb-timepicker
-                        formControlName="startTime"
-                      ></ngb-timepicker>
-                    </div>
-                    <div class="col-sm-5 p-0 mt-5 pull-left ml-3">
-                      <button
-                        id="btnGroup2"
-                        class="btn btn-primary"
-                        (click)="UpdateTokenRebootTime()"
-                        style="padding: 0.2rem 0.5rem"
-                      >
-                        <i class="fa fa-floppy-o fa-lg" aria-hidden="true"></i>
-                      </button>
-                    </div>
-                  </div>
-
-                  <div class="form-group col-sm-6 pb-0 m-0 mt-4">
-                    <div class="p-0 pr-1 m-0 pull-right">
-                      <div class="iq-search-bar device-search">
-                        <div class="searchbox1">
-                          <input
-                            type="text"
-                            id="txtSearch"
-                            placeholder="Search"
-                            class="text search-input"
-                            [(ngModel)]="RebootSearchText"
-                            [ngModelOptions]="{ standalone: true }"
-                            (input)="onChangeEvent_Reboot()"
-                          />
-                          <a class="search-link" href="#"
-                            ><i class="fa fa-search"></i
-                          ></a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </form>
-              <div class="col-lg-12 m-0 p-0 mt-3">
-                <div class="table-responsive">
-                  <table
-                    class="table data-table table-striped table-bordered mydatatable"
-                  >
-                    <thead class="bg-primary">
-                      <tr>
-                        <th scope="col" style="width: 60px">
-                          <div class="custom-control custom-checkbox">
-                            <input
-                              (change)="allActiveToken_Reboot($event)"
-                              type="checkbox"
-                              class="custom-control-input"
-                              name="AllActiveTokenR"
-                              id="AllActiveTokenR"
-                              [(ngModel)]="chkAll_Reboot"
-                            />
-                            <label
-                              class="custom-control-label cursor-pointer pt-1 text-white"
-                              for="AllActiveTokenR"
-                              >All</label
-                            >
-                          </div></th>
-                          <th scope="col" sortable="city" (sort)="onSort_Reboot($event)">
-                            City
-                          </th>
-                          <th
-                            scope="col"
-                            sortable="location"
-                            (sort)="onSort_Reboot($event)"
-                          >
-                            Location
-                          </th>
-                          <th
-                            scope="col"
-                            sortable="tokenCode"
-                            (sort)="onSort_Reboot($event)"
-                          >
-                            Token No
-                          </th>
-                        <th scope="col" style="width: 120px">Reboot Time</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr
-                        *ngFor="
-                          let tLst of RebootTimePlayerList
-                            | filter: RebootSearchText | slice
-                            : (page_Reboot - 1) * pageSize_Reboot
-                            : (page_Reboot - 1) * pageSize_Reboot + pageSize_Reboot
-                          let i = index
-                        "
-                      >
-                        <td data-label="" class="">
-                          <div class="custom-control custom-checkbox">
-                            <input
-                              (change)="
-                                SelectRebootTimeToken(tLst.tokenid, $event)
-                              "
-                              type="checkbox"
-                              class="custom-control-input"
-                              id="{{ tLst.tokenid }}{{ i }}"
-                              [checked]="tLst.check"
-                              name="chkgrpTokenList"
-                            />
-                            <label
-                              class="custom-control-label cursor-pointer"
-                              for="{{ tLst.tokenid }}{{ i }}"
-                            ></label>
-                          </div>
-                        </td>
-                        <td data-label="City">{{ tLst.city }}</td>
-                        <td data-label="Location">{{ tLst.location }}</td>
-                        <td data-label="Token No">{{ tLst.tokenCode }}</td>
-
-                        <td data-label="Reboot Time">{{ tLst.RebootTime }}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                  <ngb-pagination
-                  [collectionSize]="ActiveTokenListlength_Reboot"
-                  [(page)]="page_Reboot"
-                  [pageSize]="pageSize_Reboot"
-                  [boundaryLinks]="true"
-                  size="sm"
-                  (click)="GetCheckedToken_Reboot()"
-                ></ngb-pagination>
-                </div>
-              </div>
-            </div>
-          </div>
+         
         </ng-template>
       </li>
     </ul>

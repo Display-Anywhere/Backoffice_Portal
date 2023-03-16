@@ -29,7 +29,7 @@ export class OfflineAlertComponent implements OnInit {
   searchText;
   OfflineCustomerList = [];
   did;
-  cmbCustomer;
+  cmbCustomer=localStorage.getItem('tcid');
   nEmail="";
   _id="0";
   dtpFromDate;
@@ -50,7 +50,7 @@ export class OfflineAlertComponent implements OnInit {
     this.dtpFromDate = cd;
     this.dtpToDate = cd;
 
-    this.did = localStorage.getItem('dfClientId');
+    this.did = localStorage.getItem('tcid');
 
     this.FillClientList();
   }
@@ -58,17 +58,16 @@ export class OfflineAlertComponent implements OnInit {
     this.loading = true;
     var str = "";
     var i = this.auth.IsAdminLogin$.value ? 1 : 0;
-    str = "FillCustomer " + i + ", " + localStorage.getItem('dfClientId') + "," + localStorage.getItem('DBType');
+    str = "FillCustomer " + i + ", " + localStorage.getItem('tcid') + "," + localStorage.getItem('DBType');
     this.ipService.FillCombo(str).pipe()
       .subscribe(data => {
         var returnData = JSON.stringify(data);
         this.OfflineCustomerList = JSON.parse(returnData);
         this.loading = false;
-        if ((this.auth.IsAdminLogin$.value == false)) {
-           
-          this.cmbCustomer=localStorage.getItem('dfClientId')
-          this.onCustomerChange(localStorage.getItem('dfClientId'))
-        } 
+        
+          this.cmbCustomer=localStorage.getItem('tcid')
+          this.onCustomerChange(localStorage.getItem('tcid'))
+         
       },
         error => {
           this.toastr.error("Apologies for the inconvenience.The error is recorded.", '');

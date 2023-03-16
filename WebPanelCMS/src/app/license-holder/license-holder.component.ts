@@ -480,8 +480,9 @@ inEventfrm(){
     objData.forEach(item => {
       const obj =  this.TokenContentMatchDownload.filter(o => o.tokenid === Number(item['tokenid']))
       item['pContent']= 0
-      if (item['Version'] === '2.0'){
+      if (item['playerType'] === 'Windows'){
         item['IsDownloadAll']= 'true'  
+        item['pStatus']='Online'
       }
       else if (obj.length==0){
         item['IsDownloadAll']= 'false'  
@@ -1636,6 +1637,7 @@ async RefreshTokenList(){
     this.EventList =[]
     this.loading = true;
     var EventDate = new Date()
+
     this.serviceLicense.GetFutureDateEventDetails(EventDate.toDateString(), this.cmbCustomerId).pipe().subscribe((data) => {
       var returnData = JSON.stringify(data);
       var obj  = JSON.parse(returnData);
@@ -1760,6 +1762,7 @@ async RefreshTokenList(){
   }
   OpenViewContent(modalName, evtDate, t){
     var tid= "CP1"
+    let oType="LS"
     if (t =="N"){
       tid="CP4"
     }
@@ -1767,9 +1770,10 @@ async RefreshTokenList(){
       tid="sbit1"
     }
     var url =`${this.templateHost}?templateId=${tid}&cpd=${evtDate}&dfd=${this.cmbCustomerId}`
-    console.log(url)
+
     localStorage.setItem("ViewContent",url)
-    localStorage.setItem("oType","496")
+    localStorage.setItem("oType",oType)
+    localStorage.setItem("mViewType","Url")
       this.modalService.open(modalName, {
         size: 'Template',
       }); 

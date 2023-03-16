@@ -155,7 +155,7 @@
                               "
                             >
                               <td data-label="Advt Name">
-                                <a href="{{ adLst.adsLink }}" target="_blank">
+                                <a href="javascript:;" (click)="OpenViewContent(viewcontent, adLst.adsLink,adLst.atype)">
                                   {{ adLst.adName }}
                                 </a>
                               </td>
@@ -426,7 +426,7 @@
                                   id="fPath"
                                   type="text"
                                   class="form-control mb-2 mr-sm-2"
-                                  value="{{ this.fPath }}"
+                                  value=""
                                   readonly
                                 />
                               </div>
@@ -873,3 +873,19 @@
     </div>
   </div>
 </div>
+
+<ng-template class="tokenmodal" #viewcontent let-c="close" let-d="dismiss">
+  
+  <button
+    type="button"
+    class="close text-right"
+    aria-label="Close"
+    (click)="d('Cross click')"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+ 
+<div class="modal-body p-0">
+  <app-view-content></app-view-content>
+</div>
+</ng-template>

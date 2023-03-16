@@ -194,7 +194,85 @@
 
         </ng-template>
       </li>
-      <li [ngbNavItem]="2" class="pr-2" *ngIf="!IschkViewOnly">
+      <li [ngbNavItem]="2" class="pr-2">
+        <a ngbNavLink>Search Content</a>
+        <ng-template ngbNavContent>
+          <div class="col-sm-12 p-0 mb-0">
+            <div class="form-row">
+              <div class="form-group col-sm-2 m-0">
+                <label for="SearchcName" class="mb-2 mr-sm-2">Customer Name:</label>
+                <select name="SearchcName" class="custom-select mb-0" [(ngModel)]="cmbSearch_SignageCustomer"
+                  (change)="onChangeSearch_SignageCustomer($event.target.value)" id="SearchcName" >
+                  <option selected value="0"></option>
+                  <option *ngFor="let cLst of CustomerList" [value]="cLst.Id">
+                    {{ cLst.DisplayName }}
+                  </option>
+                </select>
+              </div>
+              
+              <div class="form-group col-sm-3 m-0">
+                <label for="SearchfName" class="mb-2 mr-sm-2">Signage Content:</label>
+                <select class="custom-select mb-0" [(ngModel)]="cmbSignageContentId"
+                  (change)="onChangeSignageContent($event.target.value)" id="SearchfName">
+                  <option selected value="0"></option>
+                  <option *ngFor="let fLst of SignageContentList" [value]="fLst.TitleID">
+                    {{ fLst.Title }}
+                  </option>
+                </select>
+              </div>
+
+              <div class="form-group col-sm-1 m-0">
+                <div class="">
+                  <button
+                    class="btn btn-primary mt-5 mb-2 float-right float-sm-left mr-2"
+                    type="button"
+                    (click)="SignageContent_OpenViewContent(viewcontent)" [disabled]="cmbSignageContentId == 0">
+                    <i class="fa fa-eye"></i>
+                  </button>
+                  <button
+                    class="btn btn-danger mt-5 mb-2 float-right float-sm-left"
+                    type="button"
+                    (click)="openTitleDeleteModalOwn(OwnTitleDeleteModal)" [disabled]="cmbSignageContentId == 0">
+                    <i class="fa fa-trash"></i>
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table
+              class="table data-table table-striped table-bordered mydatatable"
+            >
+              <thead class="bg-primary">
+                <tr>
+                  <th scope="col">City</th>
+                  <th scope="col">Token No</th>
+                  <th scope="col">Location</th>
+                  <th scope="col">Campaign Name</th>
+                  <th scope="col">Playlist Name</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let schLst of SignageContentPlayerList">
+                  <td data-label="City">{{ schLst.city }}</td>
+                  <td data-label="Token No">{{ schLst.tokenId }}</td>
+                  <td data-label="Location">{{ schLst.Location }}</td>
+                  <td data-label="Campaign Name">
+                    {{ schLst.FormatName }}
+                  </td>
+                  <td data-label="PlayList Name">
+                    {{ schLst.splPlaylistName }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          
+        </ng-template>
+      </li>
+      <li [ngbNavItem]="3" class="pr-2" *ngIf="!IschkViewOnly">
         <a ngbNavLink>Add New</a>
         <ng-template ngbNavContent>
           <div class="container-fluid p-0">
@@ -430,12 +508,14 @@
 
                 <div
                   *ngIf="f.ScheduleType.value !== 'PercentageSchedule'"
-                  class="form-group col-sm-3 m-0"
+                  class="form-group col-sm-2 m-0" style="
+                  max-width: 10%;
+              "
                 >
-                  <label class="mb-2 mr-sm-2" for="week">Week Day:</label>
+                  <label class="mb-2 mr-sm-2" for="week">Week Days:</label>
                   <ng-multiselect-dropdown
                     id="week"
-                    [placeholder]="'Week Days'"
+                    [placeholder]="' '"
                     [settings]="dropdownSettings"
                     [data]="dropdownList"
                     formControlName="wList"
@@ -779,67 +859,7 @@
 
         </ng-template>
       </li>
-      <li [ngbNavItem]="3" class="pr-2">
-        <a ngbNavLink>Signage Content Search</a>
-        <ng-template ngbNavContent>
-          <div class="col-sm-12 p-0 mb-0">
-            <div class="form-row">
-              <div class="form-group col-sm-2 m-0">
-                <label for="SearchcName" class="mb-2 mr-sm-2">Customer Name:</label>
-                <select name="SearchcName" class="custom-select mb-0" [(ngModel)]="cmbSearch_SignageCustomer"
-                  (change)="onChangeSearch_SignageCustomer($event.target.value)" id="SearchcName" >
-                  <option selected value="0"></option>
-                  <option *ngFor="let cLst of CustomerList" [value]="cLst.Id">
-                    {{ cLst.DisplayName }}
-                  </option>
-                </select>
-              </div>
-              
-              <div class="form-group col-sm-3 m-0">
-                <label for="SearchfName" class="mb-2 mr-sm-2">Signage Content:</label>
-                <select class="custom-select mb-0" [(ngModel)]="cmbSignageContentId"
-                  (change)="onChangeSignageContent($event.target.value)" id="SearchfName">
-                  <option selected value="0"></option>
-                  <option *ngFor="let fLst of SignageContentList" [value]="fLst.TitleID">
-                    {{ fLst.Title }}
-                  </option>
-                </select>
-              </div>
-
-            </div>
-          </div>
-
-          <div class="table-responsive">
-            <table
-              class="table data-table table-striped table-bordered mydatatable"
-            >
-              <thead class="bg-primary">
-                <tr>
-                  <th scope="col">City</th>
-                  <th scope="col">Token No</th>
-                  <th scope="col">Location</th>
-                  <th scope="col">Campaign Name</th>
-                  <th scope="col">Playlist Name</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let schLst of SignageContentPlayerList">
-                  <td data-label="City">{{ schLst.city }}</td>
-                  <td data-label="Token No">{{ schLst.tokenId }}</td>
-                  <td data-label="Location">{{ schLst.Location }}</td>
-                  <td data-label="Campaign Name">
-                    {{ schLst.FormatName }}
-                  </td>
-                  <td data-label="PlayList Name">
-                    {{ schLst.splPlaylistName }}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          
-        </ng-template>
-      </li>
+      
     </ul>
     <div [ngbNavOutlet]="ttpSch" class="mt-2"></div>
   </div>
@@ -1155,3 +1175,46 @@
     </div>
   </ng-template>
   
+
+  
+<ng-template #OwnTitleDeleteModal let-c="close" let-d="dismiss">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Delete Content</h5>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12 m-0 p-0 mb-3">
+          <p>{{ lblUpperMsg }}</p>
+        </div>
+      </div>
+       
+      <div class="row">
+        <div class="col-sm-12 m-0 p-0">
+         
+
+          <button
+            class="btn btn-primary col-sm-2 pull-right"
+            (click)="d('Cross click')"
+          >
+            <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+          </button>
+          <button
+            class="btn btn-danger col-sm-2 pull-right mr-2"
+            (click)="DeleteTitleOwn(ForceAction)"
+          >
+            <i class="fa fa-check fa-lg" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
