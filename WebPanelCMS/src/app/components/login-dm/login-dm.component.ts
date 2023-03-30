@@ -23,7 +23,7 @@ export class LoginDMComponent implements OnInit, OnDestroy {
   ipAddress;
   emailText=''
   loginpage='Nusign'
-  PortalName='sbit' //nusign sbit display
+  PortalName='DM' //nusign sbit display
 
   loginDisplay = false;
   IsTwoWayActive= "0"

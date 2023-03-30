@@ -375,8 +375,8 @@ export class PlaylistLibraryComponent implements OnInit {
     //this.LoginDfClientId = this.cmbCustomer;
     this.GetDefaultHotelTvPlaylist()
     const obj= this.CustomerList.filter(fId => fId.Id === id)
-    const url='https://content.nusign.eu/api/login?key='+ obj[0].apikey;
-    this.OtherUrl= url+'&redirectUri=https://content.nusign.eu/my-templates/';
+    const url='https://content.display-anywhere.com/api/login?key='+ obj[0].apikey;
+    this.OtherUrl= url+'&redirectUri=https://content.display-anywhere.com/my-templates/';
     this.OtherKey=obj[0].apikey;
     this.isSanitizerActive= obj[0].isSanitizerActive
   }

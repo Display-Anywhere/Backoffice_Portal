@@ -96,13 +96,13 @@
     >
       <input
         type="checkbox"
-        class="custom-control-input"
+        class="custom-control-input d-none"
         name="chkAnc"
         id="chkAnc"
         [(ngModel)]="chkIsAnnouncement"
       />
       <label
-        class="custom-control-label cursor-pointer pt-0"
+        class="custom-control-label cursor-pointer pt-0 d-none"
         for="chkAnc"
         >Is Sensor Announcement</label
       >
@@ -148,7 +148,6 @@
               </div>
             </th>
             <th scope="col">Template Name</th>
-            <th scope="col">Orientation</th>
             <th scope="col">Duration (Seconds)</th>
             <th scope="col">Refersh Time (Seconds)</th>
           </tr>
@@ -174,11 +173,11 @@
               </div>
             </td>
             <td data-label="Template Name">
-              <a href="javascript:;" (click)="OpenViewContent(viewcontent, tLst.url,tLst.orientation)">
+              <a href="javascript:;" (click)="OpenViewContent(viewcontent, tLst.url)">
                 {{ tLst.name }}
               </a>
             </td>
-            <td data-label="Orientation">{{ tLst.orientation }}</td>
+             
             <td data-label="Duration">
               {{ tLst.duration }}
             </td>

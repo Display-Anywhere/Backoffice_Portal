@@ -332,23 +332,28 @@ this.TemplateSelected.forEach(item=>{
   FilterRecord = (orientation): void => {
     this.TemplateList = this.MainTemplateList.filter(order => order.orientation === orientation);
   }
-  OpenViewContent(modalName, url,oType){
+  OpenViewContent(modalName, url){
 
+    let oType="LS"
+    if (this.cmbGenre =="495"){
+      oType="PT"
+    }
+      localStorage.setItem("ViewContent",url)
+      localStorage.setItem("oType",oType)
+      localStorage.setItem("mViewType","Url")
+      
+      if (oType=="LS"){
+        this.modalService.open(modalName, {
+          size: 'Template',
+        }); 
+      }
+      if (oType=="PT"){
+        this.modalService.open(modalName,{
+          size: 'PT-Template'
+        }); 
+      }
 
-    localStorage.setItem("ViewContent",url)
-    
-    if (oType!="portrait"){
-      localStorage.setItem("oType","496")
-      this.modalService.open(modalName, {
-        size: 'lgx',
-      }); 
-    }
-    if (oType=="portrait"){
-      localStorage.setItem("oType","495")
-      this.modalService.open(modalName,{
-        size: 'smg'
-      }); 
-    }
+ 
     
   }
   CloseModal(){
