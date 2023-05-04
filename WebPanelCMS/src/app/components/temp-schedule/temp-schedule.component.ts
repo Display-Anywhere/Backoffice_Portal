@@ -62,6 +62,7 @@ export class TempScheduleComponent implements OnInit {
   GroupSettings = {};
   ForceUpdateType = '';
   searchText: string = '';
+  searchSignageText: string = '';
   chkAll: boolean = false;
   cmbMediaType = '';
   MediaTypeList = [];

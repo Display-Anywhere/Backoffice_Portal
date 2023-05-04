@@ -37,6 +37,12 @@ export class AdsService {
     return this.http.post(this.cApi.FillTokenInfoAds,params,{headers:headers})
      .pipe((data=>{return data;}))
   }
+  FillTokenInfoMain(cid: string) {
+    let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    var params = JSON.stringify({ clientId: cid, UserId: localStorage.getItem('UserId') });
+    return this.http.post(this.cApi.FillTokenInfo, params, { headers: headers })
+      .pipe((data => { return data; }))
+  }
   FillCombo(qry){
     let headers = new HttpHeaders({ 'Content-Type':'application/json' });
     var params = JSON.stringify({ Query: qry });
@@ -71,6 +77,42 @@ export class AdsService {
     let headers = new HttpHeaders({ 'Content-Type':'application/json' });
     var params = JSON.stringify({ advtid: id});
     return this.http.post(this.cApi.FillSavePlaylistAds,params,{headers:headers})
+     .pipe((data=>{return data;}))
+  }
+  FillClientRss(id){
+    let headers = new HttpHeaders({ 'Content-Type':'application/json' });
+    var params = JSON.stringify({ dfclientId: id });
+    return this.http.post(this.cApi.GetClientRss,params,{headers:headers})
+     .pipe((data=>{return data;}))
+  }
+  DeleteClientRss(id){
+    let headers = new HttpHeaders({ 'Content-Type':'application/json' });
+    var params = JSON.stringify({ _id: id });
+    return this.http.post(this.cApi.DeleteClientRss,params,{headers:headers})
+     .pipe((data=>{return data;}))
+  }
+  SaveClientRss(json){
+    let headers = new HttpHeaders({ 'Content-Type':'application/json' });
+    var params = json;
+    return this.http.post(this.cApi.SaveClientRss,params,{headers:headers})
+     .pipe((data=>{return data;}))
+  }
+  GetPlayerAssginRss(id){
+    let headers = new HttpHeaders({ 'Content-Type':'application/json' });
+    var params = JSON.stringify({ _id: id });
+    return this.http.post(this.cApi.GetPlayerAssginRss,params,{headers:headers})
+     .pipe((data=>{return data;}))
+  }
+  SavePlayerRss(json){
+    let headers = new HttpHeaders({ 'Content-Type':'application/json' });
+    var params = json;
+    return this.http.post(this.cApi.SavePlayerRss,params,{headers:headers})
+     .pipe((data=>{return data;}))
+  }
+  DeletePlayerRss(id){
+    let headers = new HttpHeaders({ 'Content-Type':'application/json' });
+    var params = JSON.stringify({ _id: id });
+    return this.http.post(this.cApi.DeletePlayerRss,params,{headers:headers})
      .pipe((data=>{return data;}))
   }
   upload(formData) {

@@ -69,6 +69,8 @@ import { LoginDisplayAnyWhereComponent } from './login-display-any-where/login-d
 import { EventScheduleComponent } from './event-schedule/event-schedule.component';
 import { PlayedAdLogComponent } from './played-ad-log/played-ad-log.component';
 import { LoginDMComponent } from './login-dm/login-dm.component';
+import { SqueezeRssComponent } from './squeeze-rss/squeeze-rss.component';
+import { SqueezeAssginRssComponent } from './squeeze-assgin-rss/squeeze-assgin-rss.component';
 export const MY_CUSTOM_FORMATS = {
   parseInput: 'LL LT',
   fullPickerInput: 'LL LT',
@@ -130,7 +132,9 @@ JoanDevicesComponent,
 LoginDisplayAnyWhereComponent,
 EventScheduleComponent,
 PlayedAdLogComponent,
-LoginDMComponent
+LoginDMComponent,
+SqueezeRssComponent,
+SqueezeAssginRssComponent
 ],
  
   exports: [
@@ -180,7 +184,9 @@ JoanDevicesComponent,
 LoginDisplayAnyWhereComponent,
 EventScheduleComponent,
 PlayedAdLogComponent,
-LoginDMComponent
+LoginDMComponent,
+SqueezeRssComponent,
+SqueezeAssginRssComponent
   ],
     imports: [
     CommonModule,

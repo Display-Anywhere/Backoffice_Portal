@@ -1,7 +1,7 @@
-<!-- <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' , fullScreenBackdrop: true }">
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' , fullScreenBackdrop: true }">
 </ngx-loading>
 
- 
+<!-- main start -->
 <div class="container-fluid p-0">
   <div class="row">
     <div class="col-md-12">
@@ -47,6 +47,11 @@
                   >Emergency Alert</a
                 >
               </li>
+              <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#SqueezeRss"
+                  >Squeeze Rss</a
+                >
+              </li>
 
               <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#Prayer">Prayer</a>
@@ -54,7 +59,8 @@
             </ul>
           </div>
         </div>
-        
+        <!-- card header end -->
+        <!-- card-body start -->
         <div class="card-body pt-0">
           <div class="tab-content">
             <div
@@ -363,7 +369,11 @@
                                 <ngb-timepicker
                                   formControlName="sTime"
                                 ></ngb-timepicker>
-                                 
+                                <!--
+                                            <input id="sTime" class="form-control mb-2 mr-sm-2" formControlName="sTime"
+                                                [owlDateTimeTrigger]="dt" [owlDateTime]="dt" readonly>
+                                            <owl-date-time [pickerType]="'timer'" #dt></owl-date-time>
+        -->
                               </div>
                             </div>
                             <div class="form-group col-sm-3 m-0">
@@ -409,7 +419,12 @@
                                     id="chooseFile1"
                                     accept="{{ this.InputAccept }}"
                                   />
-                                   
+                                  <!--
+                                      <input #myInput type="file" formControlName="FilePath" name="chooseFile2"
+                                          id="chooseFile1" ngFileSelect [options]="options"
+                                          (uploadOutput)="onUploadOutput($event)" [uploadInput]="uploadInput"
+                                          (change)="onChange($event.target.value)" accept="{{ this.InputAccept }}">
+                                       -->
                                 </div>
                                 <input
                                   *ngIf="IsEditClick == 'Yes'"
@@ -729,7 +744,8 @@
                                           >
                                         </div>
                                       </th>
-                                       
+                                      <!-- <th scope="col">Token</th>
+                                                    <th scope="col">Location</th>-->
                                     </tr>
                                   </thead>
                                   <tbody>
@@ -755,7 +771,13 @@
                                           >
                                         </div>
                                       </td>
-                                       
+                                      <!-- <td data-label="tokenCode">
+                                                        {{tLst.tokenCode}}
+                                                    </td>
+
+                                                   <td data-label="Location">
+                                                        {{tLst.location}}
+                                                    </td>-->
                                     </tr>
                                   </tbody>
                                 </table>
@@ -846,12 +868,15 @@
             >
               <app-emergency-alert></app-emergency-alert>
             </div>
+            <div id="SqueezeRss" role="tabpanel" class="col-lg-12 tab-pane m-0 p-0">
+              <app-squeeze-assgin-rss></app-squeeze-assgin-rss>
+            </div>
             <div id="Prayer" role="tabpanel" class="col-lg-12 tab-pane m-0 p-0">
               <app-prayer></app-prayer>
             </div>
           </div>
         </div>
-        
+        <!-- main end -->
       </div>
     </div>
   </div>
@@ -871,4 +896,4 @@
 <div class="modal-body p-0">
   <app-view-content></app-view-content>
 </div>
-</ng-template> -->
+</ng-template>

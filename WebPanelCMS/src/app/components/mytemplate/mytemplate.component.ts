@@ -41,7 +41,7 @@ export class MytemplateComponent implements OnInit {
   preventAbuse = false;
   IframeSRC: SafeResourceUrl
   //templateHost ='http://localhost:4201'
-   templateHost ='https://templates.nusign.eu'
+   templateHost ='https://templates.display-anywhere.com'
   IsLS_URL= true
   DelpSchid="0"
   constructor(private formBuilder: FormBuilder,private dService: SrDownloadTemplateService,  public toastr: ToastrService,private tService: TokenInfoServiceService,
@@ -600,7 +600,7 @@ this.preventAbuse = true;
 
   }
 
-  EditTemplate(id, cnt,genreId,bgcolor, duration, TemplateName){
+  EditTemplate(id, cnt,genreId,bgcolor, duration, TemplateName,data){
     var content = JSON.parse(cnt)
     if (content[0].bgImgColor == undefined){
       content[0].bgImgColor= "000000"
@@ -648,7 +648,13 @@ this.preventAbuse = true;
       selected_imgName6:content[0].selected_imgName6,
       selected_imgName7:content[0].selected_imgName7,
       selected_imgName8:content[0].selected_imgName8,
-      bgImgColor:'#'+content[0].bgImgColor
+      bgImgColor:'#'+content[0].bgImgColor,
+      tvurl:data.tvurl,
+      roomurl:data.roomurl,
+      tstadurl:data.tstadurl,
+      mustseeurl:data.mustseeurl,
+      musteaturl:data.musteaturl,
+      mustshopurl:data.mustshopurl
     }
     console.log(genreId)
     if (genreId=="496"){
@@ -721,7 +727,7 @@ this.preventAbuse = true;
         "urlName": "${this.TemplateSelected[index].TemplateName}",
         "duration": "${this.TemplateSelected[index].duration}",
         "refersh": "${this.TemplateSelected[index].Refersh}",
-        "urlLink": "https://templates.nusign.eu?id=${this.TemplateSelected[index].id}",
+        "urlLink": "https://templates.display-anywhere.com?id=${this.TemplateSelected[index].id}",
         "dbType": "Nusign",
         "IsAnnouncement": false,
         "duration_min":1,

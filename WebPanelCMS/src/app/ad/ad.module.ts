@@ -15,6 +15,7 @@ import {
   OwlNativeDateTimeModule ,OWL_DATE_TIME_FORMATS,OWL_DATE_TIME_LOCALE ,DateTimeAdapter
 } from 'ng-pick-datetime';
 import {  MomentDateTimeAdapter } from 'ng-pick-datetime/date-time/adapter/moment-adapter/moment-date-time-adapter.class';
+import { DComponent } from '../d/d.component';
 export const MY_CUSTOM_FORMATS = {
   parseInput: 'LL LT',
   fullPickerInput: 'LL LT',
@@ -25,8 +26,8 @@ export const MY_CUSTOM_FORMATS = {
   monthYearA11yLabel: 'MMM YYYY',
 };
 @NgModule({
-  declarations: [AdComponent],
-  exports:[AdComponent],
+  declarations: [DComponent],
+  exports:[DComponent],
   imports: [
     RouterModule.forChild(AdRoutes),
     CommonModule,

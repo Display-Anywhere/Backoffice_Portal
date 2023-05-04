@@ -6,6 +6,7 @@ import { AuthServiceOwn } from 'src/app/auth/auth.service';
 import { SerLicenseHolderService } from 'src/app/license-holder/ser-license-holder.service';
 import { PlaylistLibService } from 'src/app/playlist-library/playlist-lib.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { SrDownloadTemplateService } from '../download-template/sr-download-template.service';
 @Component({
   selector: 'app-edit-template',
   templateUrl: './edit-template.component.html',
@@ -60,22 +61,29 @@ export class EditTemplateComponent implements OnInit {
     selected_imgName6:'',
     selected_imgName7:'',
     selected_imgName8:'',
-    bgImgColor:'#000'
+    bgImgColor:'#000',
+    tvurl:'',
+    roomurl:'',
+    tstadurl:'',
+    mustseeurl:'',
+    musteaturl:'',
+    mustshopurl:'',
     }
     MenuList=[]
+    OwnTemplateList=[]
   templateId=  localStorage.getItem("edittemplate")
   isDisabled=true
   txtTemplateName=''
   IsClickPreview= false
   IframeSRC: SafeResourceUrl
-   //templateHost ='http://localhost:4202'
-   templateHost ='https://templates.nusign.eu'
+   //templateHost ='http://localhost:4201'
+   templateHost ='https://templates.display-anywhere.com'
   constructor(private serviceLicense: SerLicenseHolderService,public toastr: ToastrService,
     public auth:AuthServiceOwn,private pService: PlaylistLibService,private modalService: NgbModal,
-    private router: Router,public sanitizer: DomSanitizer) { }
+    private router: Router,public sanitizer: DomSanitizer,private dService: SrDownloadTemplateService) { }
 
-  ngOnInit(): void {
-    this.FillClientList()
+  async ngOnInit() {
+    await this.FillClientList()
     if (this.templateId=="1"){
       this.templatedata.title='Wearing a Face Mask'
       this.templatedata.desc='is required to enter'
@@ -278,7 +286,14 @@ export class EditTemplateComponent implements OnInit {
     if (this.templateId=="15"){
       this.cmbLibraryGenre='324'
     }
-
+    if (this.templateId=="Breakfast"){
+      this.templatedata.title='Breakfast'
+      this.templatedata.desc='Opening Hours'
+      this.templatedata.text1='Monday to Friday : 07:30 AM  -  10:00AM'
+      this.templatedata.text2= 'Saturday & Sunday :8:30Am – 10:30AM'
+      this.templatedata.text3= 'Location: In our Restaurant'
+      this.templatedata.text4='Prefer breakfast in bed? Let us know!'
+    }
     if (this.edittemplategenre === 'LS'){
       this.cmbLibraryGenre='325'
     }
@@ -313,7 +328,9 @@ export class EditTemplateComponent implements OnInit {
       if (this.templateId =='37'){
         this.MenuList = JSON.parse(t_data.text10)
       }
-      
+      console.log(t_data)
+      await this.GetOwnTemplates()
+
       this.OpenViewContent()
     }
   }
@@ -353,6 +370,7 @@ export class EditTemplateComponent implements OnInit {
   }
   onChangeCustomer(){
    this.FillFolder() 
+   this.GetOwnTemplates()
   }
   FillFolder() {
     this.loading = true;
@@ -508,6 +526,7 @@ export class EditTemplateComponent implements OnInit {
     }
   }
   SetImage(url,title, imgCount){
+    if (this.templateId !="tv"){
     if (this.content_Type=='Library'){
       if (imgCount==1){
         this.templatedata.imgurl= url 
@@ -553,6 +572,45 @@ export class EditTemplateComponent implements OnInit {
       }
     }
   }
+  else{
+    if ((imgCount==1) && (this.content_Type=='Library')){
+      this.templatedata.imgurl= url 
+      this.templatedata.selected_imgName =title
+    }
+    if ((imgCount==1) && (this.content_Type=='Logo')){
+      this.templatedata.logoimgurl= url 
+      this.templatedata.selected_logoName= title
+      }
+    if (imgCount==2){
+      this.templatedata.imgurl2= url 
+      this.templatedata.selected_imgName2 =title
+    }
+    if (imgCount==3){
+      this.templatedata.imgurl3= url 
+      this.templatedata.selected_imgName3 =title
+    }
+    if (imgCount==4){
+      this.templatedata.imgurl4= url 
+      this.templatedata.selected_imgName4 =title
+    }
+    if (imgCount==5){
+      this.templatedata.imgurl5= url 
+      this.templatedata.selected_imgName5 =title
+    }
+    if (imgCount==6){
+      this.templatedata.imgurl6= url 
+      this.templatedata.selected_imgName6 =title
+    }
+    if (imgCount==7){
+      this.templatedata.imgurl7= url 
+      this.templatedata.selected_imgName7 =title
+    }
+    if (imgCount==8){
+      this.templatedata.imgurl8= url 
+      this.templatedata.selected_imgName8 =title
+    }
+  }
+  }
   FullImageUrl;
   OpenFullImageModal(ObjModal, url) {
     this.FullImageUrl = url;
@@ -563,6 +621,7 @@ export class EditTemplateComponent implements OnInit {
       this.toastr.info('Please select a customer name');
       return;
     }
+     
     this.content_Type= contentType
     this.FillContent();
     this.modalService.open(ObjModal, { size: 'lg' });
@@ -571,7 +630,9 @@ export class EditTemplateComponent implements OnInit {
     this.auth.SetEditTemplateOpen(false)
   }
   OpenViewContent(){
-    this.templatedata.text10 = JSON.stringify(this.MenuList)
+    if (this.templateId=="37"){
+      this.templatedata.text10 = JSON.stringify(this.MenuList)
+    }
     var textoffer= this.templatedata.text1 
     var offer= textoffer.replace('%','')
     let IframeSRC_Safe = this.templateHost+ '?templateId='+this.templateId+'&title='+this.templatedata.title.replace(/\n\r?/g, '<br />')+'&desc='+this.templatedata.desc.replace(/\n\r?/g, '<br />')+'&logosrc='+this.templatedata.logoimgurl+ '&ngClass='+this.templatedata.bgcolor.replace('#','')+'&imgSrc='+this.templatedata.imgurl+ '&text1='+offer+'&text2='+this.templatedata.text2.replace(/\n\r?/g, '<br />')+'&imgSrc2='+this.templatedata.imgurl2+'&imgSrc3='+this.templatedata.imgurl3+'&imgSrc4='+this.templatedata.imgurl4+'&imgSrc5='+this.templatedata.imgurl5+'&imgSrc6='+this.templatedata.imgurl6+'&imgSrc7='+this.templatedata.imgurl7+'&imgSrc8='+this.templatedata.imgurl8+ '&text3='+this.templatedata.text3+ '&text4='+this.templatedata.text4+ '&text5='+this.templatedata.text5+ '&text6='+this.templatedata.text6+ '&text7='+this.templatedata.text7+ '&text8='+this.templatedata.text8+ '&text9='+this.templatedata.text9+ '&text10='+this.templatedata.text10+'&bgImgColor='+this.templatedata.bgImgColor.replace('#','')+'&logosrc2='+this.templatedata.logoimgurl2
@@ -763,6 +824,44 @@ export class EditTemplateComponent implements OnInit {
     if (this.cmbLibraryGenre=="324"){
       genreId="495"
     }
+    let ttype=""
+    let tgroup=""
+    let thumburl=""
+    if (this.templateId=="hinfo"){
+      ttype="dahome"
+      tgroup="DAINFO"
+      thumburl="https://app.display-anywhere.com/assets/images/daInfo/info-landscape.png"
+    }
+    if (this.templateId=="tv"){
+      ttype="datv"
+      tgroup="DAINFO"
+      thumburl="https://app.display-anywhere.com/assets/images/daInfo/tv-landscape.png"
+    }
+    if (this.templateId=="Breakfast"){
+      ttype="daroom"
+      tgroup="DAINFO"
+      thumburl="https://app.display-anywhere.com/assets/images/daInfo/breakfast-landscape.png"
+    }
+    if (this.templateId=="tsatd"){
+      ttype="datsatd"
+      tgroup="DAINFO"
+      thumburl="https://app.display-anywhere.com/assets/images/daInfo/tsatd-landscape.png"
+    }
+    if (this.templateId=="mustsee"){
+      ttype="datsee"
+      tgroup="DAINFO"
+      thumburl="https://app.display-anywhere.com/assets/images/daInfo/msee-landscape.png"
+    }
+    if (this.templateId=="musteat"){
+      ttype="daeat"
+      tgroup="DAINFO"
+      thumburl="https://app.display-anywhere.com/assets/images/daInfo/msee-landscape.png"
+    }
+    if (this.templateId=="mustshop"){
+      ttype="dashop"
+      tgroup="DAINFO"
+      thumburl="https://app.display-anywhere.com/assets/images/daInfo/msee-landscape.png"
+    }
     let body={
       "id":this.templatedata._Id,
       "tName": this.txtTemplateName,
@@ -772,7 +871,16 @@ export class EditTemplateComponent implements OnInit {
       "tHtml":JSON.stringify(cnt),
       "dfclientId": this.cmbCustomerId,
       "duration": this.templatedata.duration,
-      "bgcolor": this.templatedata.bgcolor.replace('#','')
+      "bgcolor": this.templatedata.bgcolor.replace('#',''),
+      "ttype":ttype,
+      "tgroup":tgroup,
+      "tvurl":this.templatedata.tvurl,
+      "roomurl":this.templatedata.roomurl,
+      "tstadurl":this.templatedata.tstadurl,
+      "mustseeurl":this.templatedata.mustseeurl,
+      "musteaturl":this.templatedata.musteaturl,
+      "mustshopurl":this.templatedata.mustshopurl,
+      "thumburl":thumburl,
     }
     this.pService.SaveOwnTemplates(body).pipe()
         .subscribe((data) => {
@@ -860,6 +968,9 @@ export class EditTemplateComponent implements OnInit {
     else if (this.templateId ==='39'){
       return true
     }
+    else if (this.templateId ==='tv'){
+      return true
+    }
     else{
       return false
     }
@@ -903,5 +1014,28 @@ export class EditTemplateComponent implements OnInit {
   }
   removeMenu(id){
     this.MenuList= this.MenuList.filter(o => o.id != id)
+  }
+
+  GetOwnTemplates() {
+    this.OwnTemplateList=[];
+    this.loading = true;
+    let genreId=''
+    if (this.cmbLibraryGenre=="325"){
+      genreId="496"
+    }
+    if (this.cmbLibraryGenre=="324"){
+      genreId="495"
+    }
+    this.dService.GetOwnTemplates(this.cmbCustomerId, genreId, '', 'DAINFO').pipe()
+      .subscribe(data => {
+        if (data['response']=="1"){
+          this.OwnTemplateList = JSON.parse(data['data']);
+        }
+        this.loading = false;
+      },
+        error => {
+          this.toastr.error("Apologies for the inconvenience.The error is recorded.", '');
+          this.loading = false;
+        })
   }
 }

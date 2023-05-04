@@ -211,6 +211,7 @@
               </div>
               
               <div class="form-group col-sm-3 m-0">
+
                 <label for="SearchfName" class="mb-2 mr-sm-2">Signage Content:</label>
                 <select class="custom-select mb-0" [(ngModel)]="cmbSignageContentId"
                   (change)="onChangeSignageContent($event.target.value)" id="SearchfName">
@@ -237,6 +238,25 @@
                   </button>
                 </div>
               </div>
+              <div class="form-group col-sm-6 m-0">
+                <div class="form-group col-sm-4 m-0 pull-right p-0 mt-5">
+                <div class="iq-search-bar device-search">
+                  <div class="searchbox1">
+                    <input
+                      id="txtSearchExtsearchSignageText"
+                      ngbNavLink
+                      type="text"
+                      [(ngModel)]="searchSignageText"
+                      class="text search-input"
+                      placeholder="Search"
+                    />
+                    <a class="search-link" href="javascript:;" 
+                      ><i class="fa fa-search"></i
+                    ></a>
+            </div>
+                  </div>
+                </div>
+              </div>
 
             </div>
           </div>
@@ -255,7 +275,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let schLst of SignageContentPlayerList">
+                <tr *ngFor="let schLst of SignageContentPlayerList | filter: searchSignageText">
                   <td data-label="City">{{ schLst.city }}</td>
                   <td data-label="Token No">{{ schLst.tokenId }}</td>
                   <td data-label="Location">{{ schLst.Location }}</td>

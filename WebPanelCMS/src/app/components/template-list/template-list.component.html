@@ -31,6 +31,10 @@
                       <a class="nav-link" [ngClass]="TemplatListType==='PT' ? 'active' : ''" data-toggle="tab" href="#PTtemplatlist"
                         (click)="FilterTemplatList('PT')">Portrait</a>
                     </li>
+                    <li class="nav-item">
+                      <a class="nav-link " [ngClass]="TemplatListType==='dainfo' ? 'active' : ''" data-toggle="tab" href="#LStemplatlist"
+                        (click)="FilterTemplatList('dainfo')">DA Info</a>
+                    </li>
                     <li class="nav-item disabled" disabled>
                       <a class="nav-link disabled" disabled data-toggle="tab" 
                         >These templates are multi-functional and can be used for any purpose</a>
@@ -507,6 +511,92 @@
                       </div>
                     </div>
                   </div>
+
+                  
+
+
+
+
+                    </div>
+                    <div class="px-lg-5" *ngIf="TemplatListType=='dainfo'">
+                      <div class="row">
+                        <div class="col-xl-3 col-lg-4 col-md-6 mb-4 cursorpointer">
+                          <div class="bg-white rounded shadow-sm"><img src="assets/images/daInfo/info-thumbnail.png" alt=""
+                              class="img-fluid card-img-top">
+                            <div class="pl-4 pr-4 pb-5 pt-1">
+                              <h5 class="text-dark pull-left">Home</h5>
+                              <div class="badge badge-primary px-3 rounded-pill font-weight-normal mt-1  pull-right"
+                                (click)="editTemplates('hinfo')">Edit</div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 mb-4 cursorpointer">
+                          <div class="bg-white rounded shadow-sm"><img src="assets/images/daInfo/tv-thumbnail.png" alt=""
+                              class="img-fluid card-img-top">
+                            <div class="pl-4 pr-4 pb-5 pt-1">
+                              <h5 class="text-dark pull-left">TV & Radio</h5>
+                              <div class="badge badge-primary px-3 rounded-pill font-weight-normal mt-1  pull-right"
+                                (click)="editTemplates('tv')">Edit</div>
+                            </div>
+    
+                          </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 mb-4 cursorpointer">
+                          <div class="bg-white rounded shadow-sm"><img src="assets/images/daInfo/breakfast-thumbnail.png" alt=""
+                              class="img-fluid card-img-top">
+                            <div class="pl-4 pr-4 pb-5 pt-1">
+                              <h5 class="text-dark pull-left">Room Service</h5>
+                              <div class="badge badge-primary px-3 rounded-pill font-weight-normal mt-1  pull-right"
+                                (click)="editTemplates('Breakfast')">Edit</div>
+                            </div>
+    
+                          </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 mb-4 cursorpointer">
+                          <div class="bg-white rounded shadow-sm"><img src="assets/images/daInfo/tsatd-thumbnail.png" alt=""
+                              class="img-fluid card-img-top">
+                            <div class="pl-4 pr-4 pb-5 pt-1">
+                              <h5 class="text-dark pull-left">'t Stad</h5>
+                              <div class="badge badge-primary px-3 rounded-pill font-weight-normal mt-1  pull-right"
+                                (click)="editTemplates('tsatd')">Edit</div>
+                            </div>
+    
+                          </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 mb-4 cursorpointer">
+                          <div class="bg-white rounded shadow-sm"><img src="assets/images/daInfo/msee-thumbnail.png" alt=""
+                              class="img-fluid card-img-top">
+                            <div class="pl-4 pr-4 pb-5 pt-1">
+                              <h5 class="text-dark pull-left">Must See</h5>
+                              <div class="badge badge-primary px-3 rounded-pill font-weight-normal mt-1  pull-right"
+                                (click)="editTemplates('mustsee')">Edit</div>
+                            </div>
+    
+                          </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 mb-4 cursorpointer">
+                          <div class="bg-white rounded shadow-sm"><img src="assets/images/daInfo/msee-thumbnail.png" alt=""
+                              class="img-fluid card-img-top">
+                            <div class="pl-4 pr-4 pb-5 pt-1">
+                              <h5 class="text-dark pull-left">Must Eat</h5>
+                              <div class="badge badge-primary px-3 rounded-pill font-weight-normal mt-1  pull-right"
+                                (click)="editTemplates('musteat')">Edit</div>
+                            </div>
+    
+                          </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 mb-4 cursorpointer">
+                          <div class="bg-white rounded shadow-sm"><img src="assets/images/daInfo/msee-thumbnail.png" alt=""
+                              class="img-fluid card-img-top">
+                            <div class="pl-4 pr-4 pb-5 pt-1">
+                              <h5 class="text-dark pull-left">Must Shop</h5>
+                              <div class="badge badge-primary px-3 rounded-pill font-weight-normal mt-1  pull-right"
+                                (click)="editTemplates('mustshop')">Edit</div>
+                            </div>
+    
+                          </div>
+                        </div>
+                      </div>
                     </div>
                     <div class="px-lg-5"  *ngIf="TemplatListType=='PT'">
                       <div class="row d-none">

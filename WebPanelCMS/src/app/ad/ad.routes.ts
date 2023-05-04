@@ -1,9 +1,9 @@
 import { Route } from '@angular/router';
-import { AdComponent } from './ad.component';
+import { DComponent } from '../d/d.component';
 
 export const AdRoutes: Route[] = [
   {
     path: '',
-    component: AdComponent
+    component: DComponent
   }
 ];

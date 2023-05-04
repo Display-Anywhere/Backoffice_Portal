@@ -124,7 +124,7 @@ export class LicenseHolderComponent
   RoomSignagePlaylist=[]
   RoomSignagePlaylist_Main=[]
  // templateHost ='http://localhost:4202'
-  templateHost ='https://templates.nusign.eu'
+  templateHost ='https://templates.display-anywhere.com'
 dtPromoStartDate = new Date()
 dtPromoEndDate = new Date()
 dtTokenExpiryDate = new Date()

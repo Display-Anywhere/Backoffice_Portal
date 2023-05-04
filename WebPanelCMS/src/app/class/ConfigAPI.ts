@@ -209,6 +209,12 @@ export class ConfigAPI {
    CopyClonePlaylist: string = this.Host + 'CopyClonePlaylist';
    GetClientSignageContent: string = this.Host + 'GetClientSignageContent';
    GetSignageContentPlayers: string = this.Host + 'GetSignageContentPlayers';
+   GetClientRss: string = this.Host + 'GetClientRss';
+   DeleteClientRss: string = this.Host + 'DeleteClientRss';
+   SaveClientRss: string = this.Host + 'SaveClientRss';
+   GetPlayerAssginRss: string = this.Host + 'GetPlayerAssginRss';
+   SavePlayerRss: string = this.Host + 'SavePlayerRss';
+   DeletePlayerRss: string = this.Host + 'DeletePlayerRss';
 }
 
 // localStorage.setItem('UserId', obj.UserId);

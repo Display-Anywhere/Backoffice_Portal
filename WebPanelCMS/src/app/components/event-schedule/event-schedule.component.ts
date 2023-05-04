@@ -80,7 +80,7 @@ export class EventScheduleComponent implements OnInit {
   HoteltvPlaylistSize =0
   ShowLimitSubmitButton= false
   cmbDeviceType=""
-  templateHost ='https://templates.nusign.eu'
+  templateHost ='https://templates.display-anywhere.com'
   constructor(
     private formBuilder: FormBuilder,
     public toastrSF: ToastrService,

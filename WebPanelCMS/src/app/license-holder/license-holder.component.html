@@ -311,7 +311,7 @@
                 ngbNavLink
                 (click)="FilterTokenList('HotelTv')"
                 class="form-control-Tab mt-1"
-                >H-Info</a
+                >DA-Info</a
               >
               <ng-template ngbNavContent> </ng-template>
             </li>
@@ -329,7 +329,7 @@
                 ngbNavLink
                 (click)="FilterTokenList('KPN')"
                 class="form-control-Tab mt-1"
-                >H-IPTV</a
+                >DA-IPTV</a
               >
               <ng-template ngbNavContent> </ng-template>
             </li>
@@ -390,36 +390,39 @@
                     <!--<th scope="col" [appSort]="TokenList" data-order="asc" data-name="tokenCode">Token Code</th>
                   <th scope="col" [appSort]="TokenList" data-order="asc" data-name="location">Location </th>
                   -->
-                    <th scope="col" sortable="city" (sort)="onSort($event,'Main')" style="width: 120px !important">City</th>
-                    <th scope="col" style="width: 190px !important" sortable="location" (sort)="onSort($event,'Main')">
+                    <th scope="col" sortable="city" (sort)="onSort($event,'Main')" style="width: 120px !important; font-size: 13px !important;">City</th>
+                    <th scope="col" style="width: 190px !important; font-size: 13px !important;" sortable="location" (sort)="onSort($event,'Main')">
                       Location
                     </th>
                     <!--
     <th scope="col" style="width:120px !important;">Player Type </th>
                   -->
-                    <th scope="col" sortable="MediaType" (sort)="onSort($event,'Main')" style="width: 120px !important">
+                    <th scope="col" sortable="MediaType" (sort)="onSort($event,'Main')" style="width: 120px !important; font-size: 13px !important;">
                       Media Type
                     </th>
-                    <th scope="col" sortable="gName" (sort)="onSort($event,'Main')" style="width: 190px !important">Group</th>
-                    <th scope="col" sortable="tokenCode" (sort)="onSort($event,'Main')" style="width: 210px !important">
+                    <th scope="col" sortable="gName" (sort)="onSort($event,'Main')" style="width: 190px !important; font-size: 13px !important;">Group</th>
+                    <th scope="col" sortable="tokenCode" (sort)="onSort($event,'Main')" style="width: 210px !important; font-size: 13px !important;">
                       Token Code
                     </th>
-                    <th scope="col" style="width: 90px !important">
+                    <th scope="col" style="width: 110px !important; font-size: 13px !important;">
+                      Squeeze Type
+                    </th>
+                    <th scope="col" style="width: 90px !important; font-size: 13px !important;">
                       Fix IP
                     </th>
-                    <th scope="col" style="width: 110px !important">
+                    <th scope="col" style="width: 110px !important; font-size: 13px !important;">
                       Time Zone
                     </th>
-                    <th scope="col" style="width: 110px !important">
+                    <th scope="col" style="width: 100px !important; font-size: 13px !important;">
                       Avail. Space
                     </th>
-                    <th scope="col" style="width: 50px !important" data-toggle="tooltip" data-placement="top" title="Player Version">V.</th>
-                    <th scope="col" style="width: 35px !important" data-toggle="tooltip" data-placement="top" title="Player Status">PS</th>
-                    <th scope="col" style="width: 30px !important" data-toggle="tooltip" data-placement="top" title="Publish Status">S.</th>
+                    <th scope="col" style="width: 50px !important; font-size: 13px !important;" data-toggle="tooltip" data-placement="top" title="Player Version">V.</th>
+                    <th scope="col" style="width: 35px !important; font-size: 13px !important;" data-toggle="tooltip" data-placement="top" title="Player Status">PS</th>
+                    <th scope="col" style="width: 30px !important; font-size: 13px !important;" data-toggle="tooltip" data-placement="top" title="Publish Status">S.</th>
                     <th *ngIf="FilterValue_For_Reload != 'KPN'" scope="col" style="width: 30px !important" data-toggle="tooltip" data-placement="top" title="Content Download Status">D.</th>
-                    <th scope="col" style="width: 35px !important" data-toggle="tooltip" data-placement="top" title="Indicator" *ngIf="Indicator_Active">OI</th>
-                    <th scope="col" style="width: 30px !important" data-toggle="tooltip" data-placement="top" title="Hotel Tv Indicator" *ngIf="h_info_Active">HI</th>
-                    <th scope="col" style="width: 30px !important"></th>
+                    <th scope="col" style="width: 35px !important; font-size: 13px !important;" data-toggle="tooltip" data-placement="top" title="Indicator" *ngIf="Indicator_Active">OI</th>
+                    <th scope="col" style="width: 30px !important; font-size: 13px !important;" data-toggle="tooltip" data-placement="top" title="Hotel Tv Indicator" *ngIf="h_info_Active">HI</th>
+                    <th scope="col" style="width: 30px !important; font-size: 13px !important;"></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -446,6 +449,9 @@
                     </td>
                     <td data-label="Token Code" style="font-size: 13px !important;">
                       {{ cLst.tokenCode }}
+                    </td>
+                    <td data-label="Seq Type" style="font-size: 13px !important;">
+                      {{ cLst.seqType }}
                     </td>
                     <td data-label="Token Code" style="font-size: 13px !important;">
                       {{ cLst.FixIp }}
@@ -631,11 +637,11 @@
                     </td>
                     <td data-label="" *ngIf="h_info_Active">
                       <span *ngIf="cLst.DeviceType == 'HotelTv'">
-                      <i *ngIf="cLst.IshotelTvOnline == '0'" class="fa fa-lg fa-square text-danger" aria-hidden="true"  data-toggle="tooltip" data-placement="top" title="H-Info Indicator"></i>
-                      <i *ngIf="cLst.IshotelTvOnline == '1'" class="fa fa-lg fa-square text-success" aria-hidden="true"  data-toggle="tooltip" data-placement="top" title="H-Info Indicator"></i>
+                      <i *ngIf="cLst.IshotelTvOnline == '0'" class="fa fa-lg fa-square text-danger" aria-hidden="true"  data-toggle="tooltip" data-placement="top" title="DA-Info Indicator"></i>
+                      <i *ngIf="cLst.IshotelTvOnline == '1'" class="fa fa-lg fa-square text-success" aria-hidden="true"  data-toggle="tooltip" data-placement="top" title="DA-Info Indicator"></i>
                     </span>
                     <span *ngIf="cLst.DeviceType != 'HotelTv'">
-                      <i class="fa fa-lg fa-square text-muted" aria-hidden="true"  data-toggle="tooltip" data-placement="top" title="H-Info is not active"></i>
+                      <i class="fa fa-lg fa-square text-muted" aria-hidden="true"  data-toggle="tooltip" data-placement="top" title="DA-Info is not active"></i>
                     </span>
                     </td>
                     <td

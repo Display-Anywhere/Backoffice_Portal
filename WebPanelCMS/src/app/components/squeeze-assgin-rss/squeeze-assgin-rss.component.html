@@ -1,0 +1,308 @@
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }">
+</ngx-loading>
+<div class="col-lg-12 p-0">
+    <ul ngbNav #tRss="ngbNav" [(activeId)]="RssTabId" class="nav-tabs">
+        <li [ngbNavItem]="1" class="pr-2">
+            <a ngbNavLink (click)="ClearNewRss()">New Rss</a>
+            <ng-template ngbNavContent>
+                <div class="container-fluid form-row">
+                    <div class="form-group col-sm-3">
+                        <label for="SearchCName" class="mb-2 mr-sm-2">Customer Name:</label>
+                        <select
+                          name="SearchCustomerName"
+                          class="custom-select mb-3"
+                          [(ngModel)]="cmbSearchCustomer"
+                          (change)="onChangeSearchCustomer($event.target.value)"
+                          id="SearchCName"
+                        >
+                          <option selected value="0"></option>
+                          <option *ngFor="let cLst of SearchCustomerList" [value]="cLst.Id">
+                            {{ cLst.DisplayName }}
+                          </option>
+                        </select>
+                      </div>
+                    <div class="form-group col-sm-8">
+                        <label for="SearchCName" class="mb-2 mr-sm-2">Text:</label>
+                        <input type="text" [(ngModel)]="txtRss" id="Duration" class="form-control mb-2 mr-sm-2" />
+                      </div>
+                      <div class="mt-sm-5 ml-sm-2 mr-sm-auto ml-auto" *ngIf="!IschkViewOnly">
+                        <button class="btn btn-primary mt-sm-n4" type="button" (click)="SaveClientRss()">
+                          <i class="fa fa-floppy-o"></i>
+                        </button>
+                      </div>
+                </div>
+                <div class="form-inline" style="padding-top: 10px"></div>
+                <div class="table-responsive">
+                    <table class="table data-table table-striped table-bordered mydatatable">
+                        <thead class="bg-primary">
+                            <tr class="d-flex">
+                              <th class="col">Text</th>
+                              <th class="col-sm-1 Link-Center_Width" *ngIf="!IschkViewOnly"></th>
+                              <th class="col-sm-1 Link-Center_Width" *ngIf="!IschkViewOnly"></th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr class="d-flex" *ngFor="let rLst of RssList">
+                              <td class="col">
+                                {{ rLst.rsstext }}
+                              </td>
+                              <td *ngIf="!IschkViewOnly"
+                              class="col-sm-1 cursor-pointer Link-Center_Width"
+                              (click)="EditClick(rLst)">
+                              <i class="fa fa-pencil-square"  aria-hidden="true"></i>
+                            </td>
+                              <td *ngIf="!IschkViewOnly"
+                                class="col-sm-1 cursor-pointer Link-Center_Width"
+                                (click)="openRssDeleteModal(RssDeleteModal, rLst.id)">
+                                <i class="fa fa-trash" style="color: red" aria-hidden="true"></i>
+                              </td>
+                            </tr>
+                          </tbody>
+                    </table>
+                </div>
+            </ng-template>
+        </li>
+        <li [ngbNavItem]="2" class="pr-2">
+          <a ngbNavLink (click)="ClearSearch()">Search</a>
+          <ng-template ngbNavContent>
+            <div class="container-fluid form-row">
+              <div class="form-group col-sm-3">
+                  <label for="SearchCName" class="mb-2 mr-sm-2">Customer Name:</label>
+                  <select
+                    name="SearchCustomerName"
+                    class="custom-select mb-3"
+                    [(ngModel)]="cmbSearchTokenCustomer"
+                    (change)="onChangeSearchTokenCustomer($event.target.value)"
+                    id="SearchCName"
+                  >
+                    <option selected value="0"></option>
+                    <option *ngFor="let cLst of SearchCustomerList" [value]="cLst.Id">
+                      {{ cLst.DisplayName }}
+                    </option>
+                  </select>
+                </div>
+              <div class="form-group col-sm-3">
+                <label for="SearchtCName" class="mb-2 mr-sm-2">Token :</label>
+                <select
+                  name="SearchtCustomerName"
+                  class="custom-select mb-3"
+                  [(ngModel)]="cmbTokenRss"
+                  (change)="onChangeTokenRss($event.target.value)"
+                  id="SearchtCName"
+                >
+                  <option selected value="0"></option>
+                  <option *ngFor="let cLst of AssignTokenList" [value]="cLst.tokenid">
+                    {{ cLst.tInfo }}
+                  </option>
+                </select>                </div>
+                
+          </div>
+          <div class="form-inline" style="padding-top: 10px"></div>
+          <div class="table-responsive">
+              <table class="table data-table table-striped table-bordered mydatatable">
+                  <thead class="bg-primary">
+                      <tr class="d-flex">
+                        <th class="col">Text</th>
+                        <th style="width: 250px !important;">Playing Mode</th>
+                        <th class="col-sm-1 Link-Center_Width" *ngIf="!IschkViewOnly"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr class="d-flex" *ngFor="let raLst of AssginRssList">
+                        <td class="col">
+                          {{ raLst.rsstext }}
+                        </td>
+                        <td style="width: 250px !important;">
+                          <span *ngIf="raLst.chkDisplaywithads == 1">Display with ads</span>
+                          <span *ngIf="raLst.chkDisplaywithads == 0">Display without ads</span>
+                        </td>
+                         
+                        <td *ngIf="!IschkViewOnly"
+                          class="col-sm-1 cursor-pointer Link-Center_Width"
+                          (click)="openPlayerRssDeleteModal(PlayerRssDeleteModal, raLst.id)">
+                          <i class="fa fa-trash" style="color: red" aria-hidden="true"></i>
+                        </td>
+                      </tr>
+                    </tbody>
+              </table>
+          </div>
+          </ng-template>
+        </li>
+        <li [ngbNavItem]="3" class="pr-2">
+            <a ngbNavLink (click)="ClearAssign()">Assign Players</a>
+            <ng-template ngbNavContent>
+                <div class="container-fluid form-row">
+                  <div class="form-group col-sm-3">
+                    <label for="ACName" class="mb-2 mr-sm-2">Customer Name:</label>
+                    <select
+                      name="ACustomerName"
+                      class="custom-select mb-3"
+                      [(ngModel)]="cmbAssignCustomer"
+                      (change)="onChangeAssignCustomer($event.target.value)"
+                      id="ACName"
+                    >
+                      <option selected value="0"></option>
+                      <option *ngFor="let cLst of SearchCustomerList" [value]="cLst.Id">
+                        {{ cLst.DisplayName }}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="form-group col-sm-4 m-0">
+                    <label for="SearchTName" class="mb-2 mr-sm-2">Token :</label>
+                    <ng-multiselect-dropdown
+                      id="Dispenser"
+                      [placeholder]="' '"
+                      [settings]="dropdownSettings"
+                      [data]="AssignTokenList"
+                      [(ngModel)]="cmbAssignToken"
+                    >
+                    </ng-multiselect-dropdown>
+                  </div>
+                  <div class="form-group col-sm-2 pb-1 m-0 mb-2 custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="chkKpnActive1" [(ngModel)]="chkDisplaywithads" name="chkKpnActive1"/>
+        <label class="custom-control-label ml-4 mt-5" for="chkKpnActive1">Display with Ads</label>
+      </div>
+                  <div class="form-group col-sm-1 m-0">
+                    <div class="mt-sm-5 ml-sm-2 mr-sm-auto ml-auto" *ngIf="!IschkViewOnly">
+                      <button class="btn btn-primary mt-sm-n4" type="button" (click)="SaveAssignPlayerRss()">
+                        <i class="fa fa-floppy-o"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-inline" style="padding-top: 10px"></div>
+                <div class="table-responsive">
+                    <table class="table data-table table-striped table-bordered mydatatable">
+                        <thead class="bg-primary">
+                            <tr class="d-flex">
+                              <th scope="col" style="width: 70px">
+                                <div class="custom-control custom-checkbox">
+                                  <input
+                                    (change)="allRss($event)"
+                                    type="checkbox"
+                                    class="custom-control-input"
+                                    name="allRss"
+                                    id="AllRss"
+                                    [(ngModel)]="chkAll_Rss"
+                                    [ngModelOptions]="{standalone: true}"
+                                  />
+                                  <label
+                                    class="custom-control-label cursor-pointer pt-1 text-white"
+                                    for="AllRss"
+                                    >All</label
+                                  >
+                                </div>
+                              </th>
+                              <th class="col pt-3">Text</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr class="d-flex" *ngFor="let rssLst of RssList_All; let i = index">
+                              <td data-label="" class="" style="width: 70px">
+                                <div class="custom-control custom-checkbox">
+                                  <input
+                                    (change)="SelectRss(rssLst.id, $event)"
+                                    type="checkbox"
+                                    class="custom-control-input"
+                                    id="{{ rssLst.id }}{{ i }}"
+                                    [checked]="rssLst.check"
+                                    name="chkTokenList"
+                                  />
+                                  <label
+                                    class="custom-control-label cursor-pointer"
+                                    for="{{ rssLst.id }}{{ i }}"
+                                  ></label>
+                                </div>
+                              </td>
+                              <td class="col">
+                                {{ rssLst.rsstext }}
+                              </td>
+                            </tr>
+                          </tbody>
+                    </table>
+                </div>
+            </ng-template>
+        </li>
+    </ul>
+    <div [ngbNavOutlet]="tRss" class="mt-2"></div>
+</div>
+
+<ng-template #RssDeleteModal let-c="close" let-d="dismiss">
+    <div class="modal-header bg-primary">
+      <h5 class="text-white">Delete Rss</h5>
+      <button
+        type="button"
+        class="close text-white"
+        aria-label="Close"
+        (click)="d('Cross click')"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-12">
+            <p>Are you sure to delete?</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12">
+            <button
+              class="btn btn-primary col-sm-2 pull-right"
+              (click)="d('Cross click')"
+            >
+              <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+            </button>
+            <button
+              class="btn btn-danger col-sm-2 pull-right mr-2"
+              (click)="DeleteRss()"
+              (click)="d('Cross click')"
+            >
+              <i class="fa fa-check fa-lg" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #PlayerRssDeleteModal let-c="close" let-d="dismiss">
+    <div class="modal-header bg-primary">
+      <h5 class="text-white">Delete Rss</h5>
+      <button
+        type="button"
+        class="close text-white"
+        aria-label="Close"
+        (click)="d('Cross click')"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-12">
+            <p>Are you sure to delete?</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12">
+            <button
+              class="btn btn-primary col-sm-2 pull-right"
+              (click)="d('Cross click')"
+            >
+              <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+            </button>
+            <button
+              class="btn btn-danger col-sm-2 pull-right mr-2"
+              (click)="DeletePlayerRss()"
+              (click)="d('Cross click')"
+            >
+              <i class="fa fa-check fa-lg" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>

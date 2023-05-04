@@ -250,7 +250,6 @@ onChangeEvent(){
   this.PublishSearchList = this.TokenList.filter(country => this.dService.matches(country, this.searchText, this.pipe));
   const total = this.PublishSearchList.length;
   this.ActiveTokenListlength =total
-  console.log(total)
 }
 minutes
 seconds

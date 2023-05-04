@@ -39,7 +39,7 @@
             Edit Templates
           </button>
           </div>
-          <div class="col-lg-6 ml-0 pl-0" *ngIf="cmbCustomerMediaType == 'Signage'">
+          <div class="d-none col-lg-6 ml-0 pl-0" *ngIf="cmbCustomerMediaType == 'Signage'">
             <button
             class="btn btn-primary w-100 custombutton"
             (click)="OpenTemplatesUrl(templateurl)">
@@ -213,10 +213,16 @@
               >
                 Add New Manual Playlist
               </button>
-              <button
+
+                <button *ngIf="cmbCustomerMediaType == 'Signage' && IsOptionButtonHide"
+                class="btn btn-primary pull-right p-2 custombutton"
+                (click)="OpenTemplatesUrl(templateurl)">
+                Edit Slides
+              </button>
+
+              <button *ngIf="cmbCustomerMediaType != 'Signage' && IsOptionButtonHide"
                 class="btn btn-primary pull-right p-2 custombutton"
                 (click)="openModel(NewPlaylistModel)"
-                *ngIf="IsOptionButtonHide"
               >
                 Add New Auto Playlist
               </button>

@@ -178,7 +178,7 @@
           </option>
         </select>
       </div>
-      <div class="form-group col-sm-3 pb-1 m-0">
+      <div class="form-group col-sm-3 pb-1 m-0 d-none">
         <label for="playerType">OS Version:</label>
         <select
           name="pType"
@@ -205,6 +205,20 @@
           <option *ngIf="f.PlayerType.value == 'Desktop'" value="Win10">
             Windows 10
           </option>
+        </select>
+      </div>
+      <div class="form-group col-sm-3 pb-1 m-0">
+        <label for="playerType">Squeeze Type:</label>
+        <select
+          name="pType"
+          formControlName="OsVersion"
+          class="custom-select"
+          id="playerType"
+        >
+          <option value=""></option>
+          <option value="Normal">Normal</option>
+          <option value="Ads">Ads</option>
+          <option value="Rss">Rss</option>
         </select>
       </div>
 
@@ -288,7 +302,7 @@
           *ngIf="((f.chkMediaType.value == 'Signage') && (h_info_Active))"
           value="HotelTv"
         >
-          H-Info
+          DA-Info
         </option>
         <option
           [selected]="chkWhiteBoard"
@@ -416,7 +430,7 @@
 
             </div>-->
 
-      <div class="form-group col-sm-3 pb-1 m-0">
+      <div class="form-group col-sm-3 pb-1 m-0 d-none">
         <label for="uRights">User Rights:</label>
         <select
           name="uRights"
@@ -513,7 +527,7 @@
           name="chkKpnActive"
         />
         <label class="custom-control-label ml-4" for="chkKpnActive"
-          >Activate H-IPTV</label
+          >Activate DA-IPTV</label
         >
       </div>
 
@@ -684,7 +698,7 @@
       </li>
       <li *ngIf="((f.DeviceType.value === 'HotelTv') && (h_info_Active) && (!chkIsKpnActive))">
         <a data-toggle="tab" href="#HotelTvDefault" class="nav-link"
-          >Default H-Info</a
+          >Default DA-Info</a
         >
       </li>
       <li *ngIf="(chkIsKpnActive)" class="active">
