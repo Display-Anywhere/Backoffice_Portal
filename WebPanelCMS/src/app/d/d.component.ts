@@ -104,7 +104,8 @@ export class DComponent implements OnInit {
       sTime: [this.time],
       CountryLst: [this.CountrySelected],
       aid: [this.advtid],
-      FilePathNew: ['']
+      FilePathNew: [''],
+      imagetime:[10]
     });
     this.dropdownList = [
       { "id": "2", "itemName": "Monday" },
@@ -173,6 +174,9 @@ export class DComponent implements OnInit {
     this.Adform.get('TokenLst').setValue(this.TokenSelected);
     this.Adform.get('CountryLst').setValue(this.CountrySelected);
     this.Adform.get('wList').setValue('');
+    this.Adform.get('imagetime').setValue(10);
+    this.InputAccept = ".mp3";
+    
 
     this.checkboxesCountry.forEach((element) => {
       element.nativeElement.checked = false;
@@ -682,6 +686,7 @@ export class DComponent implements OnInit {
         this.Adform.get('pMode').setValue(obj.pMode);
         this.Adform.get('TotalFrequancy').setValue(obj.TotalFrequancy);
         this.Adform.get('type').setValue(obj.type);
+        this.Adform.get('imagetime').setValue(obj.imagetime);
 
         var time: NgbTimeStruct = { hour: st.getHours(), minute: st.getMinutes(), second: 0 };
         this.Adform.get('sTime').setValue(time);
@@ -690,6 +695,17 @@ export class DComponent implements OnInit {
         this.Adform.get('TokenLst').setValue(this.TokenSelected);
         this.Adform.get('CountryLst').setValue(this.CountrySelected);
         this.Adform.get('aid').setValue(this.advtid);
+        this.InputAccept=""
+        if (obj.type == "Audio") {
+          this.InputAccept = ".mp3";
+        }
+        if (obj.type == "Video") {
+          this.InputAccept = ".mp4";
+        }
+        if (obj.type == "Picture") {
+          this.InputAccept = "image/x-png,image/jpeg";
+        }
+
         this.FillState();
         this.FillGroup();
       },
@@ -921,7 +937,9 @@ export class DComponent implements OnInit {
   }
   OpenViewContent(modalName, url,MediaType){
     let oType="LS"
-     
+     if (MediaType=="Picture"){
+      MediaType="Image"
+     }
       localStorage.setItem("ViewContent",url)
       localStorage.setItem("oType",oType)
       localStorage.setItem("mViewType",MediaType)

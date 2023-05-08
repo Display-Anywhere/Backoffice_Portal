@@ -376,7 +376,7 @@
         -->
                               </div>
                             </div>
-                            <div class="form-group col-sm-3 m-0">
+                            <div class="form-group  m-0" [ngClass]="InputAccept=='image/x-png,image/jpeg'?'col-sm-2': 'col-sm-3'">
                               <label for="Type" class="mb-2 mr-sm-2"
                                 >Type:</label
                               >
@@ -389,8 +389,26 @@
                               >
                                 <option value="Audio">Audio</option>
                                 <option value="Video">Video</option>
+                                <option value="Picture">Image</option>
                               </select>
                             </div>
+                             
+                              <div *ngIf="InputAccept=='image/x-png,image/jpeg'" class="form-group col-sm-1 m-0">
+                                <label for="pType" class="mb-2 mr-sm-2"
+                                  >Image Time:
+                                </label>
+
+                                <input
+                                  type="number"
+                                  max="100"
+                                  min="1"
+                                  id="pType"
+                                  formControlName="imagetime"
+                                  autocomplete="off"
+                                  class="form-control mb-2 mr-sm-2"
+                                />
+                              </div>
+                             
                             <div class="form-group col-sm-3 m-0">
                               <label class="control-label" for="customFile"
                                 >File</label

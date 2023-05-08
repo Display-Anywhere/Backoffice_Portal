@@ -84,13 +84,14 @@
               >
                 <div class="container-fluid m-0 p-0">
                   <div class="row m-0 p-0">
-                    <div class="form-inline col-lg-12 p-0">
-                      <label for="cmbCustomer" class="mt-1 mb-2 pr-1"
+                    <div class="form-row col-lg-12 p-0 mt-2">
+                      <div class="form-group col-sm-2 m-0">
+                      <label for="cmbCustomer" class="mb-2 mr-sm-2"
                         >Customer Name:</label
                       >
                       <select
                         name="CustomerName"
-                        class="custom-select col-sm-2 col-12"
+                        class="custom-select col-12"
                         [(ngModel)]="CustomerId"
                         (change)="onChangeCustomer($event.target.value)"
                         id="cmbCustomer"
@@ -103,13 +104,14 @@
                           {{ cLst.DisplayName }}
                         </option>
                       </select>
-
-                      <label for="cmbGenre" class="mt-1 mb-2 pr-1"
+                    </div>
+                    <div class="form-group col-sm-2 m-0">
+                      <label for="cmbGenre" class="mb-2 mr-sm-2"
                         >Orientation:</label
                       >
                       <select
                         name="cmbGenre"
-                        class="custom-select col-sm-2 col-12"
+                        class="custom-select col-12"
                         [(ngModel)]="cmbGenre"
                         (change)="onChangeGenre($event.target.value)"
                         id="cmbGenre"
@@ -122,11 +124,12 @@
                           {{ gLst.DisplayName }}
                         </option>
                       </select>
-
+                      </div>
+                      <div class="form-group col-sm-2 m-0" *ngIf="IsAnnouncement === '1'">
                       <label
-                        *ngIf="IsAnnouncement === '1'"
+                        
                         for="cmbFolder"
-                        class="mt-1 mb-2 pr-1"
+                        class="mb-2 mr-sm-2"
                         >Token:</label
                       >
                       <ng-multiselect-dropdown
@@ -135,21 +138,22 @@
                         [placeholder]="' '"
                         [settings]="dropdownSettings"
                         [data]="SearchTokenList"
-                        class="mt-2 mb-2 mr-sm-2 col-sm-3 col-12"
+                        class="col-12"
                         [(ngModel)]="cmbSearchToken"
                       >
                       </ng-multiselect-dropdown>
-
+                      </div>
+                      <div class="form-group col-sm-2 m-0" *ngIf="IsAnnouncement === '0'">
                       <label
-                        *ngIf="IsAnnouncement === '0'"
+                        
                         for="cmbFolder"
-                        class="mt-1 mb-2 mr-sm-2 pr-1"
+                        class="mb-2 mr-sm-2"
                         >Folder Name:</label
                       >
                       <select
                         *ngIf="IsAnnouncement === '0'"
                         name="cmbFolder"
-                        class="custom-select mb-3 col-sm-2 col-12 mt-2"
+                        class="custom-select col-12"
                         [(ngModel)]="cmbFolder"
                         (change)="onChangeFolder($event.target.value)"
                         id="cmbFolder"
@@ -162,11 +166,15 @@
                           {{ fLst.DisplayName }}
                         </option>
                       </select>
-                      <p *ngIf="((IsAnnouncement === '0') && (cmbFolder != '0'))" class="ml-2">
+                      </div>
+                      <div class="form-group col-sm-2 m-0" *ngIf="((IsAnnouncement === '0') && (cmbFolder != '0'))">
+                      <p  class="ml-2">
                         <span>Is promo folder: <i *ngIf="resIsPromoFolder" class="fa fa-check-square text-primary" aria-hidden="true"></i> <i *ngIf="!resIsPromoFolder" class="text-danger fa fa-times-circle" aria-hidden="true"></i> </span> <br>
                         <span>Auto delete content: <i *ngIf="resIsAutoDelete" class="fa fa-check-square text-primary" aria-hidden="true"></i> <i *ngIf="!resIsAutoDelete" class="text-danger fa fa-times-circle" aria-hidden="true"></i> </span><br>
                         <span *ngIf="resIsAutoDelete" >Delete Date: <strong>{{dtpDeleteDate | date : 'dd/MMM/yyyy'}}</strong></span>
                        </p>
+                       </div>
+                       <div class="form-group col-sm-2 mt-5">
                       <button
                         *ngIf="IsAnnouncement === '0'"
                         class="btn btn-primary mb-2 mr-1 mt-n1 ml-sm-3 mt-2"
@@ -198,6 +206,7 @@
                       >
                       <i class="fa fa-exchange" aria-hidden="true"></i>
                       </button>
+                      </div>
                     </div>
                   </div>
                   <div class="row m-0 p-0" *ngIf="InputAccept != ''">
