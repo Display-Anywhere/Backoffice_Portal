@@ -18,6 +18,10 @@ import { IPublicClientApplication, PublicClientApplication, InteractionType, Bro
 import { MsalGuard, MsalInterceptor, MsalBroadcastService, MsalInterceptorConfiguration, MsalModule, MsalService, MSAL_GUARD_CONFIG, MSAL_INSTANCE, MSAL_INTERCEPTOR_CONFIG, MsalGuardConfiguration, MsalRedirectComponent } from '@azure/msal-angular';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { GridModule } from '@progress/kendo-angular-grid';
+import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
+
+
 
 const isIE = window.navigator.userAgent.indexOf("MSIE ") > -1 || window.navigator.userAgent.indexOf("Trident/") > -1;
 
@@ -96,7 +100,9 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     FormsModule,
     NgxLoadingModule.forRoot({}),
     MsalModule,
-    Ng2SearchPipeModule
+    Ng2SearchPipeModule,
+    GridModule,
+    DropDownsModule
       ],
       
   providers: [AuthGuard,

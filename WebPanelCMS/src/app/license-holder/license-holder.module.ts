@@ -12,10 +12,15 @@ import { ComponentsModule } from '../components/components.module';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { DataTablesModule } from 'angular-datatables';  
 import { NgbdSortableHeaderOpening } from './opensortable.directive';
+import { ExcelModule, GridModule, PDFModule } from '@progress/kendo-angular-grid';
+import { InputsModule } from '@progress/kendo-angular-inputs';
+import { DropDownsModule } from "@progress/kendo-angular-dropdowns";
+import { ButtonsModule } from "@progress/kendo-angular-buttons";
 import { 
   OwlDateTimeModule, 
   OwlNativeDateTimeModule ,OWL_DATE_TIME_FORMATS,OWL_DATE_TIME_LOCALE ,DateTimeAdapter
 } from 'ng-pick-datetime';
+import { ClientPlayerListComponent } from './client-player-list/client-player-list.component';
 export const MY_CUSTOM_FORMATS = {
   parseInput: 'LL LT',
   fullPickerInput: 'LL LT',
@@ -26,7 +31,7 @@ export const MY_CUSTOM_FORMATS = {
   monthYearA11yLabel: 'MMM YYYY',
 };
 @NgModule({
-  declarations: [LicenseHolderComponent, NgbdSortableHeaderOpening],
+  declarations: [LicenseHolderComponent, NgbdSortableHeaderOpening, ClientPlayerListComponent],
   exports:[LicenseHolderComponent],
   imports: [
     RouterModule.forChild(LicenseHolderRoutes),
@@ -38,7 +43,12 @@ export const MY_CUSTOM_FORMATS = {
     //MenuListModule, 
     //TokenInfoModule
     //PlayerLogModule
-     
+    GridModule,
+    PDFModule,
+    ExcelModule,
+    DropDownsModule,
+    ButtonsModule,
+    InputsModule,
     ComponentsModule,
     ReactiveFormsModule,
     FormsModule,
