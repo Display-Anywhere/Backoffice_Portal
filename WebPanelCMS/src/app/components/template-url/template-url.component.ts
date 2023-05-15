@@ -115,10 +115,13 @@ export class TemplateUrlComponent implements OnInit {
       return;
     }
     let frm = this.frmUrl.value
+    let refershtime 
     if (frm['Url_Time_With_Min'] == true){
       frm['duration']= parseFloat(frm['duration_min'])*60
-      frm['refersh']= parseFloat(frm['refershtime_min'])*60
+      frm['refershtime_min']= parseFloat(frm['duration_min'])*2
     }
+    refershtime= parseFloat(frm['duration'])*2
+    frm['refersh']= refershtime
     this.loading = true;
     await this.serviceLicense.SaveTemplateUrl(frm).pipe()
     .subscribe(data => {
