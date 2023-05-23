@@ -869,7 +869,7 @@
               </div>
             </div>
             <div class="col-md-3 mt-2 m-0 p-0">
-              <div class="col-sm-10 m-0 p-sm-0 float-left colInput">
+              <div class="col-sm-10 m-0 p-0 float-left colInput1">
                 <form (keydown)="keyDownFunction($event)">
                   <input
                     *ngIf="Search"
@@ -906,7 +906,7 @@
                   >Clear Search</label
                 >
               </div>
-              <div class="col-sm-1 m-0 p-0 ml-1 float-left colBtn">
+              <div class="col-sm-2 m-0 p-0 float-left colBtn1">
                 <button
                   class="btn btn-secondary mr-1 mb-1 d-none d-md-block"
                   (click)="SearchContent()"
@@ -915,8 +915,8 @@
                 </button>
               </div>
             </div>
-            <div class=" mt-1 ml-3 colFilter p-0" [ngClass]="cmbCustomerMediaType == 'Signage'? 'col-md-5':'col-md-8'">
-              <div class="">
+            <div class=" mt-1 colFilter p-0" [ngClass]="cmbCustomerMediaType == 'Signage'? 'col-md-4':'col-md-8'">
+              <div class="pl-3">
                 <div
                  
                   class="custom-control custom-radio custom-control-inline mb-2 mr-1"
@@ -1222,16 +1222,25 @@
                 </div>
               </div>
             </div>
-            <div class="m-0 p-1 col-sm-1 mb-1" style="max-width: 5% !important;">
+            <div class="m-0 p-1 mb-1" [ngClass]="cmbCustomerMediaType == 'Signage'? 'col-md-2':'col-md-1'">
+              <button *ngIf="((cmbCustomerMediaType=='Signage') && (ShowMultipleDeleteButton))"
+                class="btn btn-danger float-right ml-2"
+                (click)="openTitleDeleteModalOwn(OwnTitleDeleteModal,'0')"
+              >
+              <i class="fa fa-trash" aria-hidden="true"></i>
+              </button>
               <button
                 class="btn btn-primary float-right"
                 (click)="AddSong(ForceUpdate)"
               >
                 <i class="fa fa-upload"></i>
               </button>
+               
+              
             </div>
           </div>
-
+          
+         
           <div
             id="dis"
             class="table-responsive search-results"
@@ -1410,7 +1419,7 @@
 
 
                   <td *ngIf="(cmbCustomerMediaType=='Signage')">
-                    <i *ngIf="LoginDfClientId==songLst.dfClientId" (click)="openTitleDeleteModalOwn(OwnTitleDeleteModal,songLst.id)" class="fa fa-trash text-danger" aria-hidden="true"></i>
+                    <i *ngIf="showdeleteicon(songLst.dfClientId)" (click)="openTitleDeleteModalOwn(OwnTitleDeleteModal,songLst.id)" class="fa fa-trash text-danger" aria-hidden="true"></i>
                   </td>
                 </tr>
               </tbody>

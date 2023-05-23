@@ -168,6 +168,7 @@ export class PlaylistLibraryComponent implements OnInit {
   isSanitizerActive=false
   CopyPlaylistName=""
   CopyCloneFormatId="0"
+  ShowMultipleDeleteButton=false
   async ngOnInit() {
     localStorage.setItem('IsAnnouncement', '0');
     $('#dis').attr('unselectable', 'on');
@@ -3083,8 +3084,12 @@ if (id=="0"){
   TitlePlaylists = [];
   DeleteTitleOwn(ForceDelete) {
     this.loading = true;
+    this.getSelectedRows()
+    if (this.SongsSelected.length==0){
+      this.SongsSelected.push(this.titleDeleteIdOwn)
+    }
     this.pService
-      .DeleteTitleOwn(this.titleDeleteIdOwn, ForceDelete)
+      .DeleteTitleOwn(this.SongsSelected, ForceDelete)
       .pipe()
       .subscribe(
         (data) => {
@@ -3100,6 +3105,8 @@ if (id=="0"){
               (order) => order.id !== this.titleDeleteIdOwn
             );
             this.titleDeleteIdOwn = '0';
+            this.SongsSelected=[]
+            this.FillSearch()
             this.modalService.dismissAll();
           } else if (obj.Responce == '2') {
             this.lblUpperMsg =
@@ -3760,6 +3767,16 @@ onSubmitCopyClonePlaylist() {
         this.loading = false;
       }
     );
+}
+showdeleteicon(dfClientId){
+  if (this.LoginDfClientId==dfClientId){
+    this.ShowMultipleDeleteButton=true
+    return true
+  }
+  else{
+    this.ShowMultipleDeleteButton=false
+    return false
+  }
 }
 }
 
