@@ -294,7 +294,7 @@ export class EditTemplateComponent implements OnInit {
       this.templatedata.text3= 'Location: In our Restaurant'
       this.templatedata.text4='Prefer breakfast in bed? Let us know!'
     }
-    if (this.edittemplategenre === 'LS'){
+    if ((this.edittemplategenre === 'LS') || (this.edittemplategenre === 'dainfo')){
       this.cmbLibraryGenre='325'
     }
     if (this.edittemplategenre === 'PT'){
@@ -441,6 +441,13 @@ export class EditTemplateComponent implements OnInit {
             this.SongsList = obj.filter(o=>o.genreId==or);
           }
           else if (this.templateId=="2"){
+            let or="324"
+            if (this.cmbLibraryGenre=="325"){
+              or="324"
+            }
+            this.SongsList = obj.filter(o=>o.genreId==or);
+          }
+          else if ((this.templateId=="mustsee") || (this.templateId=="mustshop") || (this.templateId=="musteat")){
             let or="324"
             if (this.cmbLibraryGenre=="325"){
               or="324"
