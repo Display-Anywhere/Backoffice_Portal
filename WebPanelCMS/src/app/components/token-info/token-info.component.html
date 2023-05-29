@@ -208,7 +208,7 @@
         </select>
       </div>
       <div class="form-group col-sm-3 pb-1 m-0">
-        <label for="playerType">Squeeze Type:</label>
+        <label for="playerType">Services:</label>
         <select
           name="pType"
           formControlName="OsVersion"
@@ -216,9 +216,8 @@
           id="playerType"
         >
           <option value=""></option>
-          <option value="Normal">Normal</option>
-          <option value="Ads">Ads</option>
-          <option value="Rss">Rss</option>
+          <option value="Squeeze">Activete Squeeze</option>
+          <option value="Iptv" *ngIf="Client_IsKpnActive == '1'">Activate DA-IPTV</option>
         </select>
       </div>
 
@@ -513,7 +512,7 @@
 
 
     <div
-        class="form-group col-sm-3 pb-1 m-0 mb-2 custom-control custom-checkbox"
+        class="d-none form-group col-sm-3 pb-1 m-0 mb-2 custom-control custom-checkbox"
         *ngIf="
         Client_IsKpnActive == '1' && f.chkMediaType.value == 'Signage'
         "

@@ -31,6 +31,7 @@ export class SqueezeAssginRssComponent implements OnInit {
   cmbSearchTokenCustomer="0"
   cmbTokenRss="0"
   chkDisplaywithads=false
+  cmbTextSpeed="27000"
   IschkViewOnly = this.auth.chkViewOnly$.value ? 1 : 0;
   constructor(public auth:AuthServiceOwn,config: NgbModalConfig,private modalService: NgbModal,
     private aService: AdsService, public toastr: ToastrService,) { 
@@ -234,7 +235,8 @@ this.loading = true;
     const payload={
       rssId:this.RssSelected,
       tokenid:tokenId,
-      chkDisplaywithads:this.chkDisplaywithads
+      chkDisplaywithads:false,
+      textspeed:this.cmbTextSpeed
     }
     this.aService.SavePlayerRss(payload).pipe()
       .subscribe(data => {
