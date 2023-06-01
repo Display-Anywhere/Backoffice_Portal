@@ -89,6 +89,7 @@ export class TokenInfoComponent implements OnInit {
   E_Link_Active= false
   Indicator_Active=false
   PlayerChannelList=[]
+  PublishHitFrom=""
   @ViewChild('flocation') flocationElement: ElementRef;
   constructor(
     private router: Router,
@@ -193,7 +194,7 @@ export class TokenInfoComponent implements OnInit {
     return this.TokenInfo.controls;
   }
 
-  onSubmitTokenInfo = function () {
+  onSubmitTokenInfo = function (UpdateModel) {
 
     
     if (this.IschkViewOnly==1){
@@ -262,7 +263,9 @@ this.submitted = true;this.loading = true;
               ''
             );
           }
-          this.auth.isTokenInfoClose$.next(true);
+          this.PublishHitFrom="Info"
+          this.modalService.open(UpdateModel, { centered: true });
+          
           this.loading = false;
           if ((this.prvGroupId != frm['GroupId']) && (obj.lstPlaylistSch.length!=0)){
             this.ScheduleList= obj.lstPlaylistSch
@@ -270,7 +273,7 @@ this.submitted = true;this.loading = true;
           }
           else{
             this.toastr.info('Saved', 'Success!');
-            this.modalService.dismissAll('Cross click');
+           // this.modalService.dismissAll('Cross click');
           }
         },
         (error) => {
@@ -344,6 +347,7 @@ this.submitted = true;this.loading = true;
             );
 
             this.FillTokenInfo();
+            this.PublishHitFrom=""
             this.modalService.open(UpdateModel, { centered: true });
           } else {
             this.toastr.error(
@@ -1186,7 +1190,7 @@ this.submitted = true;this.loading = true;
 
     this.loading = true;
     this.serviceLicense
-      .ForceUpdate(tSelected)
+      .ForceUpdateWithRestart(tSelected)
       .pipe()
       .subscribe(
         (data) => {
@@ -1195,6 +1199,9 @@ this.submitted = true;this.loading = true;
           if (obj.Responce == '1') {
             this.toastr.info('Update request is submit', 'Success!');
             this.loading = false;
+            if (this.PublishHitFrom=="Info"){
+              this.auth.isTokenInfoClose$.next(true);
+            }
           } else {
           }
           this.loading = false;
@@ -1206,6 +1213,12 @@ this.submitted = true;this.loading = true;
   }
 
   CrossClick(){
+    if (this.PublishHitFrom=="Info"){
+      this.auth.isTokenInfoClose$.next(true);
+    }
+    this.modalService.dismissAll('Cross click');
+  }
+  CrossClickGroup(){
     this.modalService.dismissAll('Cross click');
   }
   

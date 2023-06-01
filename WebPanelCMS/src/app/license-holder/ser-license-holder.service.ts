@@ -52,6 +52,12 @@ export class SerLicenseHolderService {
     return this.http.post(this.cApi.ForceUpdate, params, { headers: headers })
       .pipe((data => { return data; }))
   }
+  ForceUpdateWithRestart(tokenid) {
+    let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    var params = JSON.stringify({ tokenid: tokenid , playerrestart:"1"});
+    return this.http.post(this.cApi.ForceUpdate, params, { headers: headers })
+      .pipe((data => { return data; }))
+  }
   DeleteLogo(logoId) {
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     var params = JSON.stringify({ logoId: logoId });
