@@ -208,7 +208,7 @@
         </select>
       </div>
       <div class="form-group col-sm-3 pb-1 m-0">
-        <label for="playerType">Squeeze Type:</label>
+        <label for="playerType">Services:</label>
         <select
           name="pType"
           formControlName="OsVersion"
@@ -216,9 +216,8 @@
           id="playerType"
         >
           <option value=""></option>
-          <option value="Normal">Normal</option>
-          <option value="Ads">Ads</option>
-          <option value="Rss">Rss</option>
+          <option value="Squeeze">Activate Squeeze</option>
+          <option value="Iptv" *ngIf="Client_IsKpnActive == '1'">Activate DA-IPTV</option>
         </select>
       </div>
 
@@ -334,9 +333,20 @@
           min="0"
         />
       </div>
-      <div class="form-group col-sm-3 pb-1 m-0" *ngIf="f.DeviceType.value != 'HotelTv'">
-        <label for="ComType">Communication Type:</label>
+      <div class="form-group col-sm-3 pb-1 m-0">
+        <label for="ComType">Rotation:</label>
         <select
+        name="pType"
+        formControlName="Rotation"
+        class="custom-select"
+        id="ComType"
+      >
+        <option value="0">Landscape</option>
+        <option  value="90">Portrait Right</option>
+        <option  value="180">Inverse Landscape</option>
+        <option  value="270">Portrait left</option>
+      </select>
+       <!--  <select
           name="pType"
           formControlName="CommunicationType"
           class="custom-select"
@@ -381,7 +391,7 @@
           >
             Keyboard Events
           </option>
-        </select>
+        </select> -->
       </div>
       <div class="form-group col-sm-3 pb-1 m-0">
         <label for="deviceid">Device Id(UUID):</label>
@@ -513,7 +523,7 @@
 
 
     <div
-        class="form-group col-sm-3 pb-1 m-0 mb-2 custom-control custom-checkbox"
+        class="d-none form-group col-sm-3 pb-1 m-0 mb-2 custom-control custom-checkbox"
         *ngIf="
         Client_IsKpnActive == '1' && f.chkMediaType.value == 'Signage'
         "
@@ -657,7 +667,7 @@
         <button
           class="btn btn-primary mr-2 pull-right"
           type="button"
-          (click)="onSubmitTokenInfo()"
+          (click)="onSubmitTokenInfo(ForceUpdate)"
         >
           Save
         </button>
@@ -1818,7 +1828,7 @@
     <button
       type="button"
       class="close text-white"
-      aria-label="Close"
+      aria-label="Close" (click)="CrossClick()"
       (click)="d('Cross click')"
     >
       <span aria-hidden="true">&times;</span>
@@ -1840,7 +1850,7 @@
       <div class="row">
         <div class="col-sm-12">
           <button
-            class="btn btn-primary col-sm-2 pull-right"
+            class="btn btn-primary col-sm-2 pull-right" (click)="CrossClick()"
             (click)="d('Cross click')"
           >
             <i class="fa fa-times fa-lg" aria-hidden="true"></i>
@@ -1881,7 +1891,7 @@
         <div class="col-sm-12">
           <button
             class="btn btn-primary col-sm-2 pull-right"
-            (click)="CrossClick()"
+            (click)="CrossClickGroup()"
           >
             <i class="fa fa-times fa-lg" aria-hidden="true"></i>
           </button>

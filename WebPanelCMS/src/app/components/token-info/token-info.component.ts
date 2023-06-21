@@ -89,6 +89,7 @@ export class TokenInfoComponent implements OnInit {
   E_Link_Active= false
   Indicator_Active=false
   PlayerChannelList=[]
+  PublishHitFrom=""
   @ViewChild('flocation') flocationElement: ElementRef;
   constructor(
     private router: Router,
@@ -193,7 +194,7 @@ export class TokenInfoComponent implements OnInit {
     return this.TokenInfo.controls;
   }
 
-  onSubmitTokenInfo = function () {
+  onSubmitTokenInfo = function (UpdateModel) {
 
     
     if (this.IschkViewOnly==1){
@@ -237,6 +238,10 @@ if (frm['country']==='0'){
 if (frm['state']==='0'){
   frm['city']="0";
 }
+if (frm['OsVersion']=="Iptv"){
+  frm['IsKpnActive']=true
+}
+
 this.submitted = true;this.loading = true;
     this.tService
       .SaveTokenInfo(this.TokenInfo.value)
@@ -258,7 +263,9 @@ this.submitted = true;this.loading = true;
               ''
             );
           }
-          this.auth.isTokenInfoClose$.next(true);
+          this.PublishHitFrom="Info"
+          this.modalService.open(UpdateModel, { centered: true });
+          
           this.loading = false;
           if ((this.prvGroupId != frm['GroupId']) && (obj.lstPlaylistSch.length!=0)){
             this.ScheduleList= obj.lstPlaylistSch
@@ -266,7 +273,7 @@ this.submitted = true;this.loading = true;
           }
           else{
             this.toastr.info('Saved', 'Success!');
-            this.modalService.dismissAll('Cross click');
+           // this.modalService.dismissAll('Cross click');
           }
         },
         (error) => {
@@ -340,6 +347,7 @@ this.submitted = true;this.loading = true;
             );
 
             this.FillTokenInfo();
+            this.PublishHitFrom=""
             this.modalService.open(UpdateModel, { centered: true });
           } else {
             this.toastr.error(
@@ -546,7 +554,14 @@ this.submitted = true;this.loading = true;
           this.selectedItems = objTokenData[0].DispenserAlert;
           this.ClientContentType = objTokenData[0].ClientContentType;
           this.prvGroupId=objTokenData[0].GroupId
-
+          let Services=""
+          if (objTokenData[0].IsKpnActive==true){
+            Services="Iptv"
+          }
+          else{
+            Services =objTokenData[0].OsVersion
+          }
+          this.Client_IsKpnActive=objTokenData[0].Client_IsKpnActive;
           setTimeout(() => {  this.TokenInfo = this.formBuilder.group({
             Tokenid: [this.tid],
             token: [objTokenData[0].token],
@@ -576,7 +591,7 @@ this.submitted = true;this.loading = true;
             AlertMail: [objTokenData[0].AlertMail],
             IsShowShotToast: [objTokenData[0].IsShowShotToast],
             IsKpnActive: [objTokenData[0].IsKpnActive],
-            OsVersion:[objTokenData[0].OsVersion],
+            OsVersion:[Services],
             isShowKeyboardToast: [objTokenData[0].isShowKeyboardToast],
             dfclientid: [objTokenData[0].ClientId],
             IsCheckGroupSchedule:[false],
@@ -588,7 +603,7 @@ this.submitted = true;this.loading = true;
           this.chkIndicatorBox = objTokenData[0].Indicator;
           this.chkShotMsg = objTokenData[0].IsShowShotToast;
           this.chkIsKpnActive = objTokenData[0].IsKpnActive;
-          this.Client_IsKpnActive=objTokenData[0].Client_IsKpnActive;
+          
           this.isSanitizerActive=objTokenData[0].isSanitizerActive;
           this.h_info_Active=objTokenData[0].h_info_Active;
           this.E_Link_Active=objTokenData[0].E_Link_Active;
@@ -602,6 +617,7 @@ this.submitted = true;this.loading = true;
 
           this.ModifyGroupId = objTokenData[0].GroupId;
           this.ModifyGroupName = objTokenData[0].GroupName;
+          
 
           this.FillGroup();
           this.loading = false;
@@ -1174,7 +1190,7 @@ this.submitted = true;this.loading = true;
 
     this.loading = true;
     this.serviceLicense
-      .ForceUpdate(tSelected)
+      .ForceUpdateWithRestart(tSelected)
       .pipe()
       .subscribe(
         (data) => {
@@ -1183,6 +1199,9 @@ this.submitted = true;this.loading = true;
           if (obj.Responce == '1') {
             this.toastr.info('Update request is submit', 'Success!');
             this.loading = false;
+            if (this.PublishHitFrom=="Info"){
+              this.auth.isTokenInfoClose$.next(true);
+            }
           } else {
           }
           this.loading = false;
@@ -1194,6 +1213,12 @@ this.submitted = true;this.loading = true;
   }
 
   CrossClick(){
+    if (this.PublishHitFrom=="Info"){
+      this.auth.isTokenInfoClose$.next(true);
+    }
+    this.modalService.dismissAll('Cross click');
+  }
+  CrossClickGroup(){
     this.modalService.dismissAll('Cross click');
   }
   

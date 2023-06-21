@@ -31,7 +31,12 @@ export class TemplateListComponent implements OnInit {
     this.ComponentName= componentName
   }
   editTemplates(id){
-    localStorage.setItem("edittemplategenre",'LS')
+    if (this.TemplatListType=="dainfo"){
+      localStorage.setItem("edittemplategenre",'dainfo')
+    }
+    else{
+      localStorage.setItem("edittemplategenre",'LS')
+    }
     localStorage.setItem("edittemplate",id)
     this.auth.SetEditTemplateOpen(true)
     this.IsEditTemplateOpen=true

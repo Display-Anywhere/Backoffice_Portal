@@ -467,8 +467,8 @@
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                           <a class="dropdown-item" href="javascript:;" (click)="SendMail(cLst.id)">Send email</a>
                           <a class="dropdown-item" href="javascript:;">
-                            <span *ngIf="cLst.IsKpnActive === '0'" class="cursor-pointer text-primary" (click)="UpdateKPNStatus('1',cLst.id)">Activate H-IPTV</span>
-                            <span *ngIf="cLst.IsKpnActive === '1'" class="cursor-pointer text-danger" (click)="UpdateKPNStatus('0',cLst.id)">Deactivate H-IPTV</span>
+                            <span *ngIf="cLst.IsKpnActive === '0'" class="cursor-pointer text-primary" (click)="UpdateKPNStatus('1',cLst.id)">Activate DA-IPTV</span>
+                            <span *ngIf="cLst.IsKpnActive === '1'" class="cursor-pointer text-danger" (click)="UpdateKPNStatus('0',cLst.id)">Deactivate DA-IPTV</span>
                           </a>
                           <a class="dropdown-item" href="javascript:;">
                             <span *ngIf="cLst.isSanitizerActive === '0'" class="cursor-pointer text-primary" (click)="UpdateSanitizerStatus('1',cLst.id)">Activate Sanitizer</span>
@@ -479,8 +479,8 @@
                             <span *ngIf="cLst.Meeting_Active === '1'" class="cursor-pointer text-danger" (click)="UpdateServiceStatus('0',cLst.id,'MR')">Deactivate Meeting Rooms</span>
                           </a>
                           <a class="dropdown-item" href="javascript:;">
-                            <span *ngIf="cLst.h_info_Active === '0'" class="cursor-pointer text-primary" (click)="UpdateServiceStatus('1',cLst.id,'hinfo')">Activate H-Info</span>
-                            <span *ngIf="cLst.h_info_Active === '1'" class="cursor-pointer text-danger" (click)="UpdateServiceStatus('0',cLst.id,'hinfo')">Deactivate H-Info</span>
+                            <span *ngIf="cLst.h_info_Active === '0'" class="cursor-pointer text-primary" (click)="UpdateServiceStatus('1',cLst.id,'hinfo')">Activate DA-Info</span>
+                            <span *ngIf="cLst.h_info_Active === '1'" class="cursor-pointer text-danger" (click)="UpdateServiceStatus('0',cLst.id,'hinfo')">Deactivate DA-Info</span>
                           </a>
                           <a class="dropdown-item" href="javascript:;">
                             <span *ngIf="cLst.E_Link_Active === '0'" class="cursor-pointer text-primary" (click)="UpdateServiceStatus('1',cLst.id,'elink')">Activate E-Link</span>

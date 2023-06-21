@@ -4,6 +4,8 @@ import { ToastrService } from 'ngx-toastr';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthServiceOwn } from 'src/app/auth/auth.service';
 import { AdsService } from 'src/app/ad/ads.service';
+import { SerLicenseHolderService } from 'src/app/license-holder/ser-license-holder.service';
+import { PlaylistLibService } from 'src/app/playlist-library/playlist-lib.service';
 
 @Component({
   selector: 'app-squeeze-assgin-rss',
@@ -31,9 +33,11 @@ export class SqueezeAssginRssComponent implements OnInit {
   cmbSearchTokenCustomer="0"
   cmbTokenRss="0"
   chkDisplaywithads=false
+  cmbTextSpeed="27000"
   IschkViewOnly = this.auth.chkViewOnly$.value ? 1 : 0;
   constructor(public auth:AuthServiceOwn,config: NgbModalConfig,private modalService: NgbModal,
-    private aService: AdsService, public toastr: ToastrService,) { 
+    private aService: AdsService, public toastr: ToastrService,private serviceLicense: SerLicenseHolderService,
+    private pService: PlaylistLibService) { 
     config.backdrop = 'static';
     config.keyboard = false;
   }
@@ -156,7 +160,8 @@ this.loading = true;
       this.aService.FillTokenInfoMain(this.cmbAssignCustomer).pipe()
         .subscribe(data => {
           var returnData = JSON.stringify(data);
-          this.AssignTokenList = JSON.parse(returnData);
+          const obj = JSON.parse(returnData);
+          this.AssignTokenList= obj.filter(o => o.seqType=="Squeeze")
           this.loading = false;
           this.dropdownSettings = {
             singleSelection: false,
@@ -234,14 +239,16 @@ this.loading = true;
     const payload={
       rssId:this.RssSelected,
       tokenid:tokenId,
-      chkDisplaywithads:this.chkDisplaywithads
+      chkDisplaywithads:false,
+      textspeed:this.cmbTextSpeed
     }
     this.aService.SavePlayerRss(payload).pipe()
-      .subscribe(data => {
+      .subscribe(async data => {
         var returnData = JSON.stringify(data);
         var obj = JSON.parse(returnData);
         if (obj.Responce == "1") {
           this.toastr.info("Saved", '');
+          await this.PublishNow(tokenId)
           this.RssSelected=[]
           this.cmbAssignToken=[]
           this.RssList_All=[]
@@ -263,7 +270,8 @@ this.loading = true;
       this.aService.FillTokenInfoMain(this.cmbSearchTokenCustomer).pipe()
         .subscribe(data => {
           var returnData = JSON.stringify(data);
-          this.AssignTokenList = JSON.parse(returnData);
+          const obj = JSON.parse(returnData);
+          this.AssignTokenList= obj.filter(o => o.seqType=="Squeeze")
           this.loading = false;
         },
           error => {
@@ -339,5 +347,39 @@ this.loading = true;
         this.RssList_All=[]
         this.RssSelected=[]
         this.dropdownSettings={}
+      }
+      PublishNow(TokenSelected){
+        this.loading = true;
+        this.serviceLicense.ForceUpdate(TokenSelected).pipe().subscribe((data) => {
+              var returnData = JSON.stringify(data);
+              var obj = JSON.parse(returnData);
+              if (obj.Responce == '1') {
+                this.toastr.info('Update request is submit', 'Success!');
+                this.loading = false;
+                this.SaveModifyInfo(
+                  0,
+                  'Publish request is submit for '+JSON.stringify(TokenSelected)+' '
+                );
+              } else {
+                this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
+              }
+              this.loading = false;
+            },
+            (error) => {
+              this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
+              this.loading = false;
+            }
+          );
+      }
+      SaveModifyInfo(tokenid, ModifyText) {
+        this.pService
+          .SaveModifyLogs(tokenid, ModifyText)
+          .pipe()
+          .subscribe(
+            (data) => {
+              var returnData = JSON.stringify(data);
+            },
+            (error) => {}
+          );
       }
 }

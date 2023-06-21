@@ -21,8 +21,8 @@
                   <div [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="d-none form-group pb-1 m-0">
                     <label for="MediaType">Orientation:</label>
                     <select name="lType" class="custom-select" id="MediaType" [(ngModel)]="cmbLibraryGenre" (change)="onChangeLibraryGenre()">
-                      <option value="325" *ngIf="edittemplategenre==='LS'"> Landscape</option>
-                      <option value="324" *ngIf="edittemplategenre==='PT'"> Portrait</option>
+                      <option value="325" *ngIf="((edittemplategenre=='LS') || (edittemplategenre=='dainfo'))"> Landscape</option>
+                      <option value="324" *ngIf="edittemplategenre=='PT'"> Portrait</option>
                     </select>
                   </div>
                   <div [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0 d-none">
@@ -41,17 +41,17 @@
                     <span><strong>{{templatedata.selected_imgName2}}</strong></span>
                   </div>
                   <div *ngIf="templateId==='tsatd'" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0">
-                    <label for="bkImage2" class="mb-2 mr-sm-2 w-100">Must See:</label>
+                    <label for="bkImage2" class="mb-2 mr-sm-2 w-100">Must See Image:</label>
                     <input type="button" (click)="openLibrary(modalSignage2,'Library')" class="btn btn-primary  mb-2 mr-sm-2" id="bkImage2" value="Open Library" />
                     <span><strong>{{templatedata.selected_imgName2}}</strong></span>
                   </div>
                   <div *ngIf="templateId==='tsatd'" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0">
-                    <label for="bkImage2" class="mb-2 mr-sm-2 w-100">Must Eat:</label>
+                    <label for="bkImage2" class="mb-2 mr-sm-2 w-100">Must Eat Image:</label>
                     <input type="button" (click)="openLibrary(modalSignage3,'Library')" class="btn btn-primary  mb-2 mr-sm-2" id="bkImage2" value="Open Library" />
                     <span><strong>{{templatedata.selected_imgName3}}</strong></span>
                   </div>
                   <div *ngIf="templateId==='tsatd'" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0">
-                    <label for="bkImage2" class="mb-2 mr-sm-2 w-100">Must Shop:</label>
+                    <label for="bkImage2" class="mb-2 mr-sm-2 w-100">Must Shop Image:</label>
                     <input type="button" (click)="openLibrary(modalSignage4,'Library')" class="btn btn-primary  mb-2 mr-sm-2" id="bkImage2" value="Open Library" />
                     <span><strong>{{templatedata.selected_imgName4}}</strong></span>
                   </div>
@@ -535,6 +535,9 @@
                       </label>
                     <input type="text" class="form-control mb-2 mr-sm-2" id="tdesc" [(ngModel)]="templatedata.text10"  />
                   </div>
+                  <div *ngIf="((templateId=='hinfo'))"  [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0">
+                    &nbsp;
+                  </div>
 
                   <div *ngIf="((templateId=='hinfo'))"  [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0">
                     <label for="token" class="mb-2 mr-sm-2">TV & Radio Url:</label>
@@ -547,6 +550,11 @@
                   </select>
                   </div>
                   <div *ngIf="((templateId=='hinfo'))"  [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0">
+                    <label for="bkImage2" class="mb-2 mr-sm-2 w-100">TV & Radio Image:</label>
+                    <input type="button" (click)="openLibrary(modalSignage2,'Library')" class="btn btn-primary  mb-2 mr-sm-2" id="bkImage2" value="Open Library" />
+                    <span><strong>{{templatedata.selected_imgName2}}</strong></span>
+                  </div>
+                  <div *ngIf="((templateId=='hinfo'))"  [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0">
                     <label for="token" class="mb-2 mr-sm-2">Room Service Url:</label>
                     <select class="custom-select mb-3"
                     id="cmbCustomer" [(ngModel)]="templatedata.roomurl">
@@ -555,6 +563,12 @@
                       {{ TLst.tname }}
                     </option>
                   </select>
+                  </div>
+                
+                  <div *ngIf="((templateId=='hinfo'))"  [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0">
+                    <label for="bkImage2" class="mb-2 mr-sm-2 w-100">Room Service Image:</label>
+                    <input type="button" (click)="openLibrary(modalSignage3,'Library')" class="btn btn-primary  mb-2 mr-sm-2" id="bkImage2" value="Open Library" />
+                    <span><strong>{{templatedata.selected_imgName3}}</strong></span>
                   </div>
 
                   <div *ngIf="((templateId=='hinfo'))"  [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0">
@@ -567,6 +581,13 @@
                     </option>
                   </select>
                   </div>
+                  <div *ngIf="((templateId=='hinfo'))"  [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0">
+                    <label for="bkImage2" class="mb-2 mr-sm-2 w-100">'t Stad Image:</label>
+                    <input type="button" (click)="openLibrary(modalSignage4,'Library')" class="btn btn-primary  mb-2 mr-sm-2" id="bkImage2" value="Open Library" />
+                    <span><strong>{{templatedata.selected_imgName4}}</strong></span>
+                  </div>
+                  
+
                   <div *ngIf="((templateId=='tsatd'))"  [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0">
                     <label for="token" class="mb-2 mr-sm-2">Must See Url:</label>
                     <select class="custom-select mb-3"
@@ -608,6 +629,16 @@
                     <label for="bkLogo21" class="mb-2 mr-sm-2 w-100">Company Logo 2: <span style="cursor: pointer;"><i *ngIf="templatedata.selected_logoName2 !=''" (click)="ResetCompanylogo2()" class="text-danger fa fa-times-circle" aria-hidden="true"></i></span> </label>
                     <input  id="bkLogo2" type="button" (click)="openLibrary(modalSignage9,'Logo')" class="btn btn-primary  mb-2 mr-sm-2"   value="Open Library" />
                     <span><strong>{{templatedata.selected_logoName2}}</strong></span>
+                  </div>
+                  <div *ngIf="((templateId=='mustsee') ||(templateId=='mustshop'))" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0">
+                    <label for="bkImage2" class="mb-2 mr-sm-2 w-100">Location Image:</label>
+                    <input type="button" (click)="openLibrary(modalSignage2,'Library')" class="btn btn-primary  mb-2 mr-sm-2" id="bkImage2" value="Open Library" />
+                    <span><strong>{{templatedata.selected_imgName2}}</strong></span>
+                  </div>
+                  <div *ngIf="(templateId=='musteat')" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0">
+                    <label for="bkImage2" class="mb-2 mr-sm-2 w-100">Food Image:</label>
+                    <input type="button" (click)="openLibrary(modalSignage2,'Library')" class="btn btn-primary  mb-2 mr-sm-2" id="bkImage2" value="Open Library" />
+                    <span><strong>{{templatedata.selected_imgName2}}</strong></span>
                   </div>
 
                   <div *ngIf="((templateId=='mustsee') || (templateId=='musteat') || (templateId=='mustshop'))" [ngClass]="cmbLibraryGenre === '325'?'col-sm-6': 'col-sm-6'" class="form-group pb-1 m-0">

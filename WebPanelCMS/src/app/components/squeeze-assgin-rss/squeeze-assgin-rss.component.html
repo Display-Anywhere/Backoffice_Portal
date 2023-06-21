@@ -103,7 +103,7 @@
                   <thead class="bg-primary">
                       <tr class="d-flex">
                         <th class="col">Text</th>
-                        <th style="width: 250px !important;">Playing Mode</th>
+                        <th style="width: 250px !important;">Text Speed</th>
                         <th class="col-sm-1 Link-Center_Width" *ngIf="!IschkViewOnly"></th>
                       </tr>
                     </thead>
@@ -113,8 +113,10 @@
                           {{ raLst.rsstext }}
                         </td>
                         <td style="width: 250px !important;">
-                          <span *ngIf="raLst.chkDisplaywithads == 1">Display with ads</span>
-                          <span *ngIf="raLst.chkDisplaywithads == 0">Display without ads</span>
+                          <span *ngIf="raLst.textspeed == '27000'">Speed 1</span>
+                          <span *ngIf="raLst.textspeed == '29000'">Speed 2</span>
+                          <span *ngIf="raLst.textspeed == '31000'">Speed 3</span>
+                          <span *ngIf="raLst.textspeed == '33000'">Speed 4</span>
                         </td>
                          
                         <td *ngIf="!IschkViewOnly"
@@ -158,7 +160,25 @@
                     >
                     </ng-multiselect-dropdown>
                   </div>
-                  <div class="form-group col-sm-2 pb-1 m-0 mb-2 custom-control custom-checkbox">
+                  <div class="form-group col-sm-4 m-0">
+                    <label class="mb-2 mr-sm-2" for="sTime">Text Speed:
+                    </label>
+                    <select name="ScheduleType" class="custom-select" [(ngModel)]="cmbTextSpeed" id="ScheduleType">
+                      <option selected value="27000">
+                        Speed 1
+                      </option>
+                      <!--<option value="29000">
+                        Speed 2
+                      </option>
+                      <option value="31000">
+                        Speed 3
+                      </option>
+                      <option value="33000">
+                        Speed 4
+                      </option>-->
+                    </select>
+                  </div>
+                  <div class="d-none form-group col-sm-2 pb-1 m-0 mb-2 custom-control custom-checkbox">
         <input type="checkbox" class="custom-control-input" id="chkKpnActive1" [(ngModel)]="chkDisplaywithads" name="chkKpnActive1"/>
         <label class="custom-control-label ml-4 mt-5" for="chkKpnActive1">Display with Ads</label>
       </div>
