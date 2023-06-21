@@ -24,11 +24,10 @@
       type="button"
       (click)="RefershClick()"
     >
-      {{ PlayerFillType }}
       <i class="fa fa-refresh" aria-hidden="true"></i>
     </button>
     
-    <label class="ml-2" *ngIf="seconds">This page will auto refresh in <div class="mr-1 ml-1"><b>{{minutes}} </b></div> Min <div class="mr-1 ml-1"><b>{{seconds}}</b></div> Sec</label>
+    <label class="ml-2 d-none" *ngIf="seconds">This page will auto refresh in <div class="mr-1 ml-1"><b>{{minutes}} </b></div> Min <div class="mr-1 ml-1"><b>{{seconds}}</b></div> Sec</label>
     
 
   </div>
@@ -36,7 +35,7 @@
 <hr />
 <div class="row">
   <!-- start -->
-  <div class="col-12 col-lg-4" (click)="GetCustomerTokenDetailFilter('Total')">
+  <div class="col-12 col-lg-4 d-none" (click)="GetCustomerTokenDetailFilter('Total')">
     <div class="card radius-15 bg-voilet" [ngClass]="PlayerFillType == 'Total Players'? 'boxActive':'boxUnactive'">
       <div class="card-body">
         <div class="d-flex align-items-center">
@@ -64,11 +63,11 @@
     </div>
   </div>
   <!-- end -->
-  <!-- start -->
-  <div class="col-12 col-lg-4">
+  <!-- start (click)="GetCustomerTokenDetailFilter('Online')" -->
+  <div class="col-12 col-lg-2">
     <div
       class="card radius-15 bg-success"
-      (click)="GetCustomerTokenDetailFilter('Online')" [ngClass]="PlayerFillType == 'Online Players'? 'boxActive':'boxUnactive'"
+       [ngClass]="PlayerFillType == 'Online Players'? 'boxActive':'boxUnactive'"
     >
       <div class="card-body">
         <div class="d-flex align-items-center">
@@ -90,17 +89,21 @@
       </div>
       <div class="card-footer">
         <p class="text-right text-white custom-text cursor">
-          View Players <i class="fa fa-angle-right mt-1"></i>
+          &nbsp;
+          <!--View Players <i class="fa fa-angle-right mt-1"></i>-->
         </p>
       </div>
     </div>
   </div>
   <!-- end -->
-  <!-- start -->
-  <div class="col-12 col-lg-4">
+  <div class="col-12 col-lg-8">
+
+  </div>
+  <!-- start (click)="GetCustomerTokenDetailFilter('Away')"-->
+  <div class="col-12 col-lg-2">
     <div
       class="card radius-15 bg-danger"
-      (click)="GetCustomerTokenDetailFilter('Away')"  [ngClass]="PlayerFillType == 'Offline Players'? 'boxActive':'boxUnactive'"
+        [ngClass]="PlayerFillType == 'Offline Players'? 'boxActive':'boxUnactive'"
     >
       <div class="card-body">
         <div class="d-flex align-items-center">
@@ -122,15 +125,46 @@
       </div>
       <div class="card-footer">
         <p class="text-right text-white custom-text cursor">
-          View Players <i class="fa fa-angle-right mt-1"></i>
+          &nbsp;
+          <!--View Players <i class="fa fa-angle-right mt-1"></i>-->
         </p>
       </div>
     </div>
   </div>
   <!-- end -->
 </div>
-
 <div class="row col-sm-12 m-0 p-0 mt-0">
+  <div class="card col-sm-12 p-0 m-0">
+    <div class="card-body p-0 m-0">
+      <div class="col-sm-12 p-0 m-0">
+        <div class="table-responsive">
+          <kendo-grid
+            [kendoGridBinding]="gridViewList"
+            [pageSize]="50"
+            [pageable]="true"
+            [sortable]="true">
+            <ng-template kendoGridToolbarTemplate>
+              <kendo-textbox
+            placeholder="Search"
+            kendoTextBox
+            (valueChange)="onFilter($event)"
+        >
+        </kendo-textbox>
+        <kendo-grid-spacer></kendo-grid-spacer>
+        <kendo-dropdownlist [data]="RecordsFilterCityList" [value]='FilterCityDropdownDefaultValue' (valueChange)="CityvalueChange($event)"
+        textField="text"
+        valueField="value"></kendo-dropdownlist>
+            </ng-template>
+            <kendo-grid-column field="location" title="Location" [width]="130"  class="gridrowfont" [headerClass]="'bg-primary'"></kendo-grid-column>
+            <kendo-grid-column field="tokenCode" [width]="230" title="Player No." class="gridrowfont" [headerClass]="'bg-primary'"></kendo-grid-column>
+          </kendo-grid>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="d-none row col-sm-12 m-0 p-0 mt-0">
   <div  class="col-sm-12 p-0 m-0">
     <div class="iq-search-bar device-search">
       <div class="searchbox">

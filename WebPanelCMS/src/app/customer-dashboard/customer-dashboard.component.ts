@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewContainerRef,ViewChildren, QueryList } from '@angular/core';
+import { Component, OnInit, ViewContainerRef,ViewChildren, QueryList, ViewChild } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { DashboardService } from '../customer-dashboard/dashboard.service';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -7,6 +7,8 @@ import { Subject } from 'rxjs';
 import { NgbdSortableHeader_Dashboard,SortEvent } from './dashboard_sortable.directive';
 import { SerLicenseHolderService } from '../license-holder/ser-license-holder.service';
 import { DecimalPipe } from '@angular/common';
+import { SortDescriptor, process } from '@progress/kendo-data-query';
+import { DataBindingDirective, PageChangeEvent } from '@progress/kendo-angular-grid';
 @Component({
   selector: 'app-customer-dashboard',
   templateUrl: './customer-dashboard.component.html',
@@ -23,6 +25,7 @@ export class CustomerDashboardComponent implements OnInit {
   OnlinePlayers = 0;
   OfflinePlayer = 0;
   DeviceStatusList = [];
+  gridViewList=[]
   PlayerFillType = "Total Players";
   TokenInfo;
   searchText;
@@ -34,7 +37,9 @@ export class CustomerDashboardComponent implements OnInit {
   isSanitizerActive="0"
   timeLeft: number = 300;
   interval;
-
+  RecordsFilterCityList=[]
+  FilterCityDropdownDefaultValue={}
+  @ViewChild(DataBindingDirective) dataBinding?: DataBindingDirective;
   @ViewChildren(NgbdSortableHeader_Dashboard) headers: QueryList<NgbdSortableHeader_Dashboard>;
   compare = (v1: string | number, v2: string | number) => v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
 
@@ -174,6 +179,8 @@ export class CustomerDashboardComponent implements OnInit {
     this.OfflinePlayer = 0;
     this.TokenList =[];
     this.MainTokenList =[];
+    this.RecordsFilterCityList=[]
+    this.FilterCityDropdownDefaultValue={}
     this.loading = true;
     await this.FillDeviceLastStatus()
 
@@ -197,6 +204,19 @@ export class CustomerDashboardComponent implements OnInit {
           });
           this.TokenList = obj.lstToken;
           this.MainTokenList = obj.lstToken;
+          this.MainTokenList.forEach(item => {
+            let arr={}
+            arr["value"]=item["city"]
+            arr["text"]=item["city"]
+            this.RecordsFilterCityList = this.RecordsFilterCityList.filter(od=> od.value != item["city"])
+            this.RecordsFilterCityList.push(arr)
+          });
+          if (this.RecordsFilterCityList.length>0){
+            this.FilterCityDropdownDefaultValue={
+              value:this.RecordsFilterCityList[0].value,
+              text:this.RecordsFilterCityList[0].text
+            }
+          }
 
           this.ActiveTokenListlength =this.TokenList.length;
           this.loading = false;
@@ -208,6 +228,7 @@ export class CustomerDashboardComponent implements OnInit {
             this.onSort(objSort);
           }, 500);
           this.GetCustomerTokenDetailFilter('Total');
+          this.CityvalueChange(this.FilterCityDropdownDefaultValue)
         }
         else {
           this.loading = false;
@@ -219,7 +240,7 @@ export class CustomerDashboardComponent implements OnInit {
           this.toastr.error("Apologies for the inconvenience.The error is recorded.", '');
           this.loading = false;
         })
-        this.startTimer();
+        //this.startTimer();
   }
   openModal(content, tid, location, city) {
     this.TokenInfo = tid + "-" + location + "-" + city;
@@ -266,5 +287,30 @@ this.seconds = Math.floor(this.timeLeft - this.minutes * 60);
       }
     }
   },1000)
+}
+public getField = (args: any) => {
+  return `${args.city}_${args.location}_${args.MediaType}_${args.gName}_${args.tokenCode}`;
+}
+public onFilter(inputValue: string): void {
+  this.gridViewList = process(this.TokenList, {
+      filter: {
+          logic: 'or',
+          filters: [
+              {
+                  field: this.getField,
+                  operator: 'contains',
+                  value: inputValue
+              }
+          ]
+      }
+  }).data;
+
+  this.dataBinding? this.dataBinding.skip = 0 : null;
+}
+CityvalueChange(e){
+  this.gridViewList=[]
+  this.TokenList=[]
+  this.gridViewList = this.MainTokenList.filter(od=> od.city == e.value)
+  this.TokenList = this.MainTokenList.filter(od=> od.city == e.value)
 }
 }

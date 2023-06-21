@@ -1,7 +1,7 @@
 .banner {
-    background: #4788ff;
-    background: -webkit-linear-gradient(to right, #4788ff, #4788ff, #fdb99b);
-    background: linear-gradient(to right, #4788ff, #4788ff, #fdb99b);
+    background: #f44611;
+    background: -webkit-linear-gradient(to right, #f44611, #f44611, #fdb99b);
+    background: linear-gradient(to right, #f44611, #f44611, #fdb99b);
   }
   .cursorpointer{
       cursor: pointer;

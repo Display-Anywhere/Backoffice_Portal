@@ -1,5 +1,5 @@
 .refreshIcon{
-  background-color: #4788ff;
+  background-color: #f44611;
     color: #fff;
     padding: 9px;
     top: 0px;
@@ -230,7 +230,7 @@ table {
 .bg-primary,
 thead {
   color: #fff !important;
-  background-color: #4788ff !important;
+  background-color: #f44611 !important;
 }
 .card1 {
   background: #fff;

@@ -11,6 +11,11 @@ import {ReactiveFormsModule,FormsModule  } from '@angular/forms';
 
 import { ComponentsModule } from '../components/components.module';
 import { NgbdSortableHeader_Dashboard } from './dashboard_sortable.directive';
+import { ExcelModule, GridModule, PDFModule } from '@progress/kendo-angular-grid';
+import { InputsModule } from '@progress/kendo-angular-inputs';
+import { DropDownsModule } from "@progress/kendo-angular-dropdowns";
+import { ButtonsModule } from "@progress/kendo-angular-buttons";
+
 @NgModule({
   declarations: [CustomerDashboardComponent,NgbdSortableHeader_Dashboard],
   exports:[CustomerDashboardComponent],
@@ -24,6 +29,12 @@ import { NgbdSortableHeader_Dashboard } from './dashboard_sortable.directive';
     //TokenInfoModule
     //PlayerLogModule
     ReactiveFormsModule,FormsModule,
+    GridModule,
+    PDFModule,
+    ExcelModule,
+    DropDownsModule,
+    ButtonsModule,
+    InputsModule,
     ComponentsModule
   ]
 })

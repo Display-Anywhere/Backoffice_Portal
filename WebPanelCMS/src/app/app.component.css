@@ -34,7 +34,7 @@
   text-transform: capitalize;
 }
 a {
-  color: #4788ff;
+  color: #f44611;
   text-decoration: none;
   background-color: transparent;
 }
@@ -80,7 +80,7 @@ a {
 }
 
 li.active {
-  background: #4788ff !important;
+  background: #f44611 !important;
   color: #fff !important;
 }
 @media screen and (max-width: 1120px) {

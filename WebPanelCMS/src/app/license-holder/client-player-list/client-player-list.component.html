@@ -225,37 +225,37 @@
         <kendo-button *ngIf="((this.auth.chkEventMeeting$.value ==false))" (click)="OpenOpeningHoursModal(modalOfflineAlert)">Offline Alert</kendo-button>
         <kendo-button *ngIf="((this.auth.chkEventMeeting$.value ==false))" (click)="OpenOpeningHoursModal(modalManageOpeningHours)">Reboot Time</kendo-button>
     </ng-template>
-    <kendo-grid-column field="city" title="City" [width]="130"  class="gridrowfont"></kendo-grid-column>
-    <kendo-grid-column field="location" title="Location" class="gridrowfont" [width]="190"></kendo-grid-column>
-    <kendo-grid-column field="MediaType" title="M. Type" [width]="88" class="gridrowfont"></kendo-grid-column>
-    <kendo-grid-column field="gName" title="Group" [width]="190" class="gridrowfont"></kendo-grid-column>
-    <kendo-grid-column field="tokenCode" [width]="230" title="Token" class="gridrowfont"></kendo-grid-column>
-    <kendo-grid-column field="seqType" [width]="99" title="Seq Type"></kendo-grid-column>
-    <kendo-grid-column field="FixIp" title="IP" [width]="100" class="gridrowfont" [filterable]="false" [sortable]="false"></kendo-grid-column>
+    <kendo-grid-column field="city" title="City" [width]="130"  class="gridrowfont" [headerClass]="'bg-primary'"></kendo-grid-column>
+    <kendo-grid-column field="location" title="Location" class="gridrowfont" [headerClass]="'bg-primary'" [width]="190"></kendo-grid-column>
+    <kendo-grid-column field="MediaType" title="M. Type" [width]="88" class="gridrowfont" [headerClass]="'bg-primary'"></kendo-grid-column>
+    <kendo-grid-column field="gName" title="Group" [width]="190" class="gridrowfont" [headerClass]="'bg-primary'"></kendo-grid-column>
+    <kendo-grid-column field="tokenCode" [width]="230" title="Token" class="gridrowfont" [headerClass]="'bg-primary'"></kendo-grid-column>
+    <kendo-grid-column field="seqType" [width]="99" title="Seq Type" [headerClass]="'bg-primary'"></kendo-grid-column>
+    <kendo-grid-column field="FixIp" title="IP" [width]="100" class="gridrowfont" [headerClass]="'bg-primary'" [filterable]="false" [sortable]="false"></kendo-grid-column>
     
-    <kendo-grid-column field="tZone" title="Time Zone" class="gridrowfont" [width]="100" [filterable]="false" [sortable]="false"></kendo-grid-column>
-    <kendo-grid-column field="fSpace" title="Avail. Space" class="gridrowfont" [width]="105" [filterable]="false" [sortable]="false"></kendo-grid-column>
-    <kendo-grid-column field="Version" title="V." class="gridrowfont" [width]="55" [filterable]="false" [sortable]="false"></kendo-grid-column>
-    <kendo-grid-column field="pStatus" title="PS" [width]="43" [filterable]="false" [sortable]="false">
+    <kendo-grid-column field="tZone" title="Time Zone" class="gridrowfont" [headerClass]="'bg-primary'" [width]="100" [filterable]="false" [sortable]="false"></kendo-grid-column>
+    <kendo-grid-column field="fSpace" title="Avail. Space" class="gridrowfont" [headerClass]="'bg-primary'" [width]="105" [filterable]="false" [sortable]="false"></kendo-grid-column>
+    <kendo-grid-column field="Version" title="V." class="gridrowfont" [headerClass]="'bg-primary'" [width]="55" [filterable]="false" [sortable]="false"></kendo-grid-column>
+    <kendo-grid-column field="pStatus" title="PS" [width]="43" [filterable]="false" [headerClass]="'bg-primary'" [sortable]="false">
         <ng-template kendoGridCellTemplate let-dataItem>
             <i *ngIf="dataItem.pStatus != 'Online'" class="fa fa-lg fa-square text-danger" aria-hidden="true"  data-toggle="tooltip" data-placement="top" title="Player Offline"></i>
             <i *ngIf="dataItem.pStatus == 'Online'" class="fa fa-lg fa-square text-success" aria-hidden="true"  data-toggle="tooltip" data-placement="top" title="Player Online"></i>
         </ng-template>
     </kendo-grid-column>
-    <kendo-grid-column field="PublishUpdate" title="S." [width]="40" [filterable]="false" [sortable]="false">
+    <kendo-grid-column field="PublishUpdate" title="S." [width]="40" [filterable]="false" [headerClass]="'bg-primary'" [sortable]="false">
         <ng-template kendoGridCellTemplate let-dataItem>
             <i *ngIf="dataItem.PublishUpdate == 'True'" class="fa fa-lg fa-square text-danger" aria-hidden="true"  data-toggle="tooltip" data-placement="top" title="Update"></i>
             <i *ngIf="dataItem.PublishUpdate == 'False'" class="fa fa-lg fa-square text-success" aria-hidden="true"  data-toggle="tooltip" data-placement="top" title="Updated"></i>
         </ng-template>
     </kendo-grid-column>
-    <kendo-grid-column field="IsDownloadAll" title="D." [width]="40" [filterable]="false" [sortable]="false" *ngIf="FilterValue_For_Reload != 'KPN'">
+    <kendo-grid-column field="IsDownloadAll" title="D." [width]="40" [filterable]="false" [sortable]="false" [headerClass]="'bg-primary'" *ngIf="FilterValue_For_Reload != 'KPN'">
         <ng-template kendoGridCellTemplate let-dataItem>
             <i *ngIf="dataItem.IsDownloadAll == 'false' && dataItem.pContent > 0" class="fa fa-lg fa-square text-primary" aria-hidden="true"  data-toggle="tooltip" data-placement="top" title="{{dataItem.pContent}} content are pending to download" ></i>
             <i *ngIf="dataItem.IsDownloadAll == 'false' && dataItem.pContent < 0" class="fa fa-lg fa-square text-primary" aria-hidden="true"  data-toggle="tooltip" data-placement="top" title="Download  not completed" ></i>
             <i *ngIf="dataItem.IsDownloadAll == 'true'" class="fa fa-lg fa-square text-success" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Download  Completed"></i>
 </ng-template>
     </kendo-grid-column>
-    <kendo-grid-column field="IsIndicatorActive" [filterable]="false" [sortable]="false" [width]="40" title="OI" *ngIf="((IsIndicatorShow == true) &&(Indicator_Active))">
+    <kendo-grid-column field="IsIndicatorActive" [filterable]="false" [sortable]="false" [width]="40" title="OI" [headerClass]="'bg-primary'" *ngIf="((IsIndicatorShow == true) &&(Indicator_Active))">
         <ng-template kendoGridCellTemplate let-dataItem>
             <img
             src="/assets/img/green.png"
@@ -269,7 +269,7 @@
           />
         </ng-template>
     </kendo-grid-column>
-    <kendo-grid-column field="IsIndicatorActive" [filterable]="false" [sortable]="false" [width]="40" title="OI" *ngIf="((IsIndicatorShow == false) && (Indicator_Active))">
+    <kendo-grid-column field="IsIndicatorActive" [filterable]="false" [sortable]="false" [width]="40" title="OI" [headerClass]="'bg-primary'" *ngIf="((IsIndicatorShow == false) && (Indicator_Active))">
         <ng-template kendoGridCellTemplate let-dataItem>
             <img
                         src="/assets/img/red.png"
@@ -283,7 +283,7 @@
                       />
         </ng-template>
     </kendo-grid-column>
-    <kendo-grid-column field="IshotelTvOnline" [filterable]="false" [sortable]="false" [width]="40" title="HI" *ngIf="h_info_Active">
+    <kendo-grid-column field="IshotelTvOnline" [filterable]="false" [sortable]="false" [width]="40" title="HI" [headerClass]="'bg-primary'" *ngIf="h_info_Active">
         <ng-template kendoGridCellTemplate let-dataItem>
             <span *ngIf="dataItem.DeviceType == 'HotelTv'">
                 <i *ngIf="dataItem.IshotelTvOnline == '0'" class="fa fa-lg fa-square text-danger" aria-hidden="true"  data-toggle="tooltip" data-placement="top" title="DA-Info Indicator"></i>
@@ -294,7 +294,7 @@
               </span>
         </ng-template>
     </kendo-grid-column>
-    <kendo-grid-column field="tokenid" [filterable]="false" [sortable]="false" [width]="40" title="">
+    <kendo-grid-column field="tokenid" [filterable]="false" [headerClass]="'bg-primary'" [sortable]="false" [width]="40" title="">
         <ng-template kendoGridCellTemplate let-dataItem>
             <i (click)="open(content, dataItem.tokenid)" class="fa fa-pencil-square-o" aria-hidden="true"></i>            
         </ng-template>
