@@ -650,7 +650,7 @@
       <div class="col-12 float-right p-0 mt-0 pr-1">
         <a href="javascript:;"
           class="btn btn-primary ml-2 pull-left"
-          (click)="PlaylistContentStatus(playlistcontent)"
+          (click)="PlaylistContentStatus(Downloadplaylistcontent)"
         >
           Download Status 
       </a>
@@ -747,7 +747,7 @@
                 {{ schLst.formatName }}
               </td>
               <td data-label="Playlist Name">
-                {{ schLst.playlistName }}
+                <a href="javascript:;" (click)="openPlaylistContent(playlistcontent, schLst.splPlaylistId,schLst.playlistName)">{{ schLst.playlistName }}</a>
               </td>
               <td
                 *ngIf="ScheduleType !== 'PercentageSchedule'"
@@ -1907,7 +1907,7 @@
   </div>
 </ng-template>
 
-<ng-template class="tokenmodal" #playlistcontent let-c="close" let-d="dismiss">
+<ng-template class="tokenmodal" #Downloadplaylistcontent let-c="close" let-d="dismiss">
   <div class="modal-header bg-primary">
     <h5 class="text-white">Download Status</h5>
     <button
@@ -1922,4 +1922,70 @@
   <div class="modal-body">
     <app-playlists-titles-download-status></app-playlists-titles-download-status>
   </div>
+</ng-template>
+
+
+<ng-template class="tokenmodal" #playlistcontent let-c="close" let-d="dismiss">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">{{playlist_Name}}</h5>
+    <button
+    type="button"
+    class="close text-white"
+    aria-label="Close"
+    (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body p-0 pt-3">
+    <div id="disPL" class="table-responsive search-results">
+      <table
+        class="table data-table table-striped table-bordered mydatatable"
+        id="eventtable"
+      >
+        <thead class="">
+          <tr>
+            <th class="WidthTitlePL bg-primary sticky-top" style="z-index: 1;">Title</th>
+
+            <th *ngIf="f.chkMediaType.value != 'Signage'" class="WidthArtistPL bg-primary sticky-top" style="z-index: 1;">
+             Artist</th>
+            <th class="WidthCategoryPL bg-primary sticky-top" style="z-index: 1;">
+              <span *ngIf="f.chkMediaType.value == 'Signage'">Orientation</span><span *ngIf="f.chkMediaType.value != 'Signage'">Genre</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let plCLst of PlaylistContentList">
+            <td class="WidthTitlePL">
+              <a href="javascript:;" (click)="OpenViewContent(viewcontent, plCLst.TitleIdLink,plCLst.genreId,plCLst.MediaType)">
+                {{ plCLst.title }}
+              </a>
+            </td>
+
+            <td *ngIf="f.chkMediaType.value != 'Signage'" class="WidthArtistPL">
+              {{ plCLst.Artist }}
+            </td>
+            <td class="WidthCategoryPL">
+              {{ plCLst.GenreName }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</ng-template>
+<ng-template class="tokenmodal" #viewcontent let-c="close" let-d="dismiss">
+  
+  <button
+    type="button"
+    class="close text-right"
+    aria-label="Close"
+    (click)="d('Cross click')"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+ 
+<div class="modal-body p-0">
+  <app-view-content></app-view-content>
+</div>
 </ng-template>

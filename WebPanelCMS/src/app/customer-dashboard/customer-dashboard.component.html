@@ -144,19 +144,26 @@
             [pageable]="true"
             [sortable]="true">
             <ng-template kendoGridToolbarTemplate>
+              <kendo-dropdownlist [data]="RecordsFilterCityList" [value]='FilterCityDropdownDefaultValue' (valueChange)="CityvalueChange($event)"
+              textField="text"
+              valueField="value"></kendo-dropdownlist>
+              <kendo-grid-spacer></kendo-grid-spacer>
               <kendo-textbox
             placeholder="Search"
             kendoTextBox
             (valueChange)="onFilter($event)"
         >
         </kendo-textbox>
-        <kendo-grid-spacer></kendo-grid-spacer>
-        <kendo-dropdownlist [data]="RecordsFilterCityList" [value]='FilterCityDropdownDefaultValue' (valueChange)="CityvalueChange($event)"
-        textField="text"
-        valueField="value"></kendo-dropdownlist>
+        
             </ng-template>
-            <kendo-grid-column field="location" title="Location" [width]="130"  class="gridrowfont" [headerClass]="'bg-primary'"></kendo-grid-column>
-            <kendo-grid-column field="tokenCode" [width]="230" title="Player No." class="gridrowfont" [headerClass]="'bg-primary'"></kendo-grid-column>
+            <kendo-grid-column field="location" title="Location" [width]="400"  class="gridrowfont" [headerClass]="'bg-primary'"></kendo-grid-column>
+            <kendo-grid-column field="tokenCode" [width]="530" title="Player No." class="gridrowfont" [headerClass]="'bg-primary'"></kendo-grid-column>
+            <kendo-grid-column field="tokenid" [filterable]="false" [headerClass]="'bg-primary'" [sortable]="false" [width]="40" title="">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                  <i (click)="open(content, dataItem.tokenid)" class="fa fa-align-justify" aria-hidden="true"></i>            
+              </ng-template>
+          </kendo-grid-column>
+      
           </kendo-grid>
         </div>
       </div>
@@ -307,6 +314,22 @@
 </div>
 
 <!-- modal start -->
+ 
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="tokenInfoClose()"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body p-1">
+    <app-info-main></app-info-main>
+  </div>
+</ng-template>
 
 <ng-template #contentPlayerLog let-c="close" let-d="dismiss">
   <div class="modal-header bg-primary">

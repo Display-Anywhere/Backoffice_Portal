@@ -127,6 +127,11 @@ export class CustomerDashboardComponent implements OnInit {
 
   onChangeCustomer(deviceValue) {
     this.timeLeft = 300
+    this.TokenList =[];
+    this.MainTokenList =[];
+    this.RecordsFilterCityList=[]
+    this.FilterCityDropdownDefaultValue={}
+    this.gridViewList=[]
     this.cmbCustomerId = deviceValue;
     this.GetCustomerTokenDetail('Total', deviceValue);
     const obj= this.CustomerList.filter(o => o.Id == this.cmbCustomerId)
@@ -312,5 +317,14 @@ CityvalueChange(e){
   this.TokenList=[]
   this.gridViewList = this.MainTokenList.filter(od=> od.city == e.value)
   this.TokenList = this.MainTokenList.filter(od=> od.city == e.value)
+}
+Token_Id_App = '0';
+open(content, tid) {
+  this.Token_Id_App = tid;
+  localStorage.setItem('tokenid', tid);
+  this.modalService.open(content, { size: 'lg', windowClass: 'infomain' });
+}
+async tokenInfoClose() {
+  this.modalService.dismissAll();
 }
 }

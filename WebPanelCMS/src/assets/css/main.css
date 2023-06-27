@@ -30018,6 +30018,11 @@ table.dataTable th {
   max-width: 1200px !important;
   margin-top: 0.25rem !important;
 }
+.infomain .modal-lg {
+  width: 98% !important;
+  max-width: 100% !important;
+  margin-top: 0.25rem !important;
+}
 .modal-eventlg{
   max-width: 1200px !important;
 }

@@ -71,6 +71,10 @@ import { PlayedAdLogComponent } from './played-ad-log/played-ad-log.component';
 import { LoginDMComponent } from './login-dm/login-dm.component';
 import { SqueezeRssComponent } from './squeeze-rss/squeeze-rss.component';
 import { SqueezeAssginRssComponent } from './squeeze-assgin-rss/squeeze-assgin-rss.component';
+import { InfoMainComponent } from './info-main/info-main.component';
+import { PlaylistLibraryModule } from '../playlist-library/playlist-library.module';
+import { PlaylistLibraryComponent } from './playlist-library/playlist-library.component';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 export const MY_CUSTOM_FORMATS = {
   parseInput: 'LL LT',
   fullPickerInput: 'LL LT',
@@ -134,7 +138,9 @@ EventScheduleComponent,
 PlayedAdLogComponent,
 LoginDMComponent,
 SqueezeRssComponent,
-SqueezeAssginRssComponent
+SqueezeAssginRssComponent,
+InfoMainComponent,
+PlaylistLibraryComponent
 ],
  
   exports: [
@@ -186,7 +192,9 @@ EventScheduleComponent,
 PlayedAdLogComponent,
 LoginDMComponent,
 SqueezeRssComponent,
-SqueezeAssginRssComponent
+SqueezeAssginRssComponent,
+InfoMainComponent,
+PlaylistLibraryComponent
   ],
     imports: [
     CommonModule,
@@ -201,7 +209,8 @@ SqueezeAssginRssComponent
     DataTablesModule,
     NgMultiSelectDropDownModule.forRoot(),
     FileUploadModule,
-    ColorPickerModule
+    ColorPickerModule,
+    InfiniteScrollModule
   ],
   providers:[{provide: DateTimeAdapter, useClass: MomentDateTimeAdapter, deps: [OWL_DATE_TIME_LOCALE]},
   {provide: OWL_DATE_TIME_FORMATS, useValue: MY_CUSTOM_FORMATS}]

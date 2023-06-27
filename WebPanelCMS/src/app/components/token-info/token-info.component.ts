@@ -822,6 +822,7 @@ this.submitted = true;this.loading = true;
     this.ScheduleType= schType;
     this.loading = true;
     this.ModifySchList = [];
+    console.log(this.scheduleList)
     if (schType == 'Normal') {
       this.scheduleList.forEach((item) => {
         schItem = {};
@@ -833,6 +834,7 @@ this.submitted = true;this.loading = true;
         schItem['id'] = item.id;
         schItem['PercentageValue'] = item.PercentageValue;
         schItem['volume'] = item.volume;
+        schItem['splPlaylistId'] = item.splPlaylistId;
         this.ModifySchList.push(schItem);
       });
     }
@@ -847,6 +849,7 @@ this.submitted = true;this.loading = true;
         schItem['id'] = item.id;
         schItem['PercentageValue'] = item.PercentageValue;
         schItem['volume'] = item.volume;
+        schItem['splPlaylistId'] = item.splPlaylistId;
         this.ModifySchList.push(schItem);
       });
     }
@@ -861,6 +864,7 @@ this.submitted = true;this.loading = true;
         schItem['id'] = item.id;
         schItem['PercentageValue'] = item.PercentageValue;
         schItem['volume'] = item.volume;
+        schItem['splPlaylistId'] = item.splPlaylistId;
         this.ModifySchList.push(schItem);
       });
     }
@@ -1300,4 +1304,51 @@ SaveSchedule() {
               this.loading = false;
             })
       }
+      OpenViewContent(modalName, url,genreId,MediaType){
+        let oType="LS"
+        if (genreId =="303"){
+          oType="PT"
+        }
+        if (genreId =="324"){
+          oType="PT"
+        }
+          localStorage.setItem("ViewContent",url)
+          localStorage.setItem("oType",oType)
+          localStorage.setItem("mViewType",MediaType)
+          
+          if (oType=="LS"){
+            this.modalService.open(modalName, {
+              size: 'Template',
+            }); 
+          }
+          if (oType=="PT"){
+            this.modalService.open(modalName,{
+              size: 'PT-Template'
+            }); 
+          }
+          
+        }      
+        PlaylistContentList=[]
+        playlist_Name=""
+
+        async openPlaylistContent(modalName,id,pname){
+          this.playlist_Name=pname
+          await this.FillPlaylistSongs(id)
+          this.modalService.open(modalName,{ size: 'lg'})
+        }
+        FillPlaylistSongs(id) {
+          this.PlaylistContentList=[];
+          this.loading = true;
+          this.pService.PlaylistSong(id, 'No').pipe().subscribe((data) => {
+                var returnData = JSON.stringify(data);
+                var obj = JSON.parse(returnData);
+                this.PlaylistContentList = obj;
+                this.loading = false;
+              },
+              (error) => {
+                this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
+                this.loading = false;
+              }
+            );
+        }        
 }
