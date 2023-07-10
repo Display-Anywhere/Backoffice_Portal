@@ -20,6 +20,10 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
+import { ScrollViewModule } from '@progress/kendo-angular-scrollview';
+import { LabelModule } from '@progress/kendo-angular-label';
+
+
 
 
 
@@ -102,7 +106,9 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     MsalModule,
     Ng2SearchPipeModule,
     GridModule,
-    DropDownsModule
+    DropDownsModule,
+    ScrollViewModule,
+    LabelModule
       ],
       
   providers: [AuthGuard,

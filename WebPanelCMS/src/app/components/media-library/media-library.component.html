@@ -1,0 +1,87 @@
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' , fullScreenBackdrop: true }">
+</ngx-loading>
+<div class="row">
+    <div class="col-12">
+        <div class="card card-navy">
+            <div class="card-header">
+                <h3 class="card-title">Media Library</h3>
+            </div>
+            <div class="card-body">
+                <kendo-expansionpanel title="Video">
+                    <div class="row align-items-center" style="margin-bottom:10px;">
+                        <div class="col-md-3">
+                            <kendo-textbox  placeholder="Search"
+                            kendoTextBox
+                            (valueChange)="onFilter($event)"></kendo-textbox>
+                        </div>
+                        <div class="col-md-3 d-none">
+                            <button kendoButton style="padding: 3px 7px;"><i class="fas fa-search"></i></button>
+                            <kendo-label
+                                class="k-radio-label me-2 ms-5"
+                                [for]="searchCategory"
+                                text="Genre"
+                            ></kendo-label>
+                        
+                            <input type="radio" class="me-2" name="cat" #searchCategory kendoRadioButton checked/>
+                            
+                          
+                            
+                            <kendo-label
+                                class="k-radio-label me-2"
+                                [for]="searchCategory"
+                                text="Album"
+                            ></kendo-label>
+                            <input type="radio" class="me-2"  name="cat" #searchCategory kendoRadioButton />
+                            <kendo-label
+                                class="k-radio-label me-2"
+                                [for]="searchCategory"
+                                text="Artist"
+                            ></kendo-label>
+                            <input type="radio" class="me-2"  name="cat" #searchCategory kendoRadioButton />
+                            <kendo-label
+                                class="k-radio-label me-2"
+                                [for]="searchCategory"
+                                text="Title"
+                            ></kendo-label>
+                            <input type="radio" name="cat" #searchCategory kendoRadioButton />
+                        </div>
+                        <div class="col-md-9">
+                            <kendo-breadcrumb
+                                style="justify-content: end;"
+                                [items]="breadCrumbItems" (itemClick)="onbreadCrumbItemClick($event)"
+                            ></kendo-breadcrumb>
+                        </div>
+                    </div>
+                    <kendo-scrollview *ngIf="LibraryGenreScrollViewData.length>0"
+                    [data]="LibraryGenreScrollViewData"
+                    [width]="width"
+                    [height]="height"
+                    [arrows]="true"
+                    [endless]="true"
+
+                    >
+                    <ng-template let-itemPage="item">    
+                        <kendo-gridlayout
+                            [align]="{ horizontal: hAlign, vertical: vAlign }"
+                            [rows]="[100, 100, 100, 100, 100]"
+                            [cols]="['12.25%'  ,'12.25%', '12.25%', '12.25%', '12.25%', '12.25%','12.25%','12.25%']"
+                            [gap]="5"
+                        >
+                        <kendo-gridlayout-item
+                            *ngFor="let item of LibraryGenreItems[itemPage.page]; let i = index"
+                            class="box box-{{ i }} "
+                            [ngStyle]="{backgroundColor: LibraryGenreItems[0][i].color }"
+                            style="cursor: pointer; display:flex; justify-content: center; align-items: center; border-radius: 5px"
+                            (click)="GetLibrarySubGenre(item.id)"
+                            >
+                                <h3 style="vertical-align:middle;color: white; font-size: 17px;">{{item.title}}</h3>
+                            </kendo-gridlayout-item>
+                        </kendo-gridlayout>
+
+                    </ng-template>
+                    </kendo-scrollview>
+                </kendo-expansionpanel>
+            </div>
+        </div>
+    </div>
+</div>

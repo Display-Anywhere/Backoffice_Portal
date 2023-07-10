@@ -144,4 +144,14 @@ export class MachineService {
     return this.http.post(this.cApi.GetKpnChannelSummary, params, { headers: headers })
       .pipe((data => { return data; }))
   }
+  GetLibraryGenre(){
+    return this.http.get(this.cApi.GetLibraryGenre)
+     .pipe((data=>{return data;}))
+  }
+  GetLibrarySubGenre(id) {
+    let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    var params = JSON.stringify({ _id: id });
+    return this.http.post(this.cApi.GetLibrarySubGenre, params, { headers: headers })
+      .pipe((data => { return data; }))
+  }
 }

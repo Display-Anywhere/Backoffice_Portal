@@ -75,6 +75,13 @@ import { InfoMainComponent } from './info-main/info-main.component';
 import { PlaylistLibraryModule } from '../playlist-library/playlist-library.module';
 import { PlaylistLibraryComponent } from './playlist-library/playlist-library.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { MediaLibraryComponent } from './media-library/media-library.component';
+import { LayoutModule } from "@progress/kendo-angular-layout";
+import { ScrollViewModule } from '@progress/kendo-angular-scrollview';
+import { InputsModule } from "@progress/kendo-angular-inputs";
+import { LabelModule } from "@progress/kendo-angular-label";
+import { ButtonsModule } from "@progress/kendo-angular-buttons";
+import { NavigationModule } from "@progress/kendo-angular-navigation";
 export const MY_CUSTOM_FORMATS = {
   parseInput: 'LL LT',
   fullPickerInput: 'LL LT',
@@ -140,7 +147,8 @@ LoginDMComponent,
 SqueezeRssComponent,
 SqueezeAssginRssComponent,
 InfoMainComponent,
-PlaylistLibraryComponent
+PlaylistLibraryComponent,
+MediaLibraryComponent
 ],
  
   exports: [
@@ -194,7 +202,8 @@ LoginDMComponent,
 SqueezeRssComponent,
 SqueezeAssginRssComponent,
 InfoMainComponent,
-PlaylistLibraryComponent
+PlaylistLibraryComponent,
+MediaLibraryComponent
   ],
     imports: [
     CommonModule,
@@ -210,7 +219,13 @@ PlaylistLibraryComponent
     NgMultiSelectDropDownModule.forRoot(),
     FileUploadModule,
     ColorPickerModule,
-    InfiniteScrollModule
+    InfiniteScrollModule,
+    ScrollViewModule,
+    LayoutModule,
+    InputsModule,
+    LabelModule,
+    ButtonsModule,
+    NavigationModule
   ],
   providers:[{provide: DateTimeAdapter, useClass: MomentDateTimeAdapter, deps: [OWL_DATE_TIME_LOCALE]},
   {provide: OWL_DATE_TIME_FORMATS, useValue: MY_CUSTOM_FORMATS}]
