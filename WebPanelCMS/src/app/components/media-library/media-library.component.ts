@@ -23,6 +23,8 @@ export class MediaLibraryComponent implements OnInit {
   public letters: string = "0123456789ABCDEF";
   breadCrumbItems: BreadCrumbItem[]=[{text: "Genres",title: "0"}]
   LibraryGenreList=[]
+  selectedLibraryGenre=""
+  selectedLibrarySubGenre=""
   constructor(private mService:MachineService,public toastr: ToastrService) {
    }
 
@@ -82,10 +84,11 @@ export class MediaLibraryComponent implements OnInit {
       this.GetLibraryGenre()
     }
   }
-  GetLibrarySubGenre(id) {
+  GetLibrarySubGenre(id,genrename) {
     if (this.breadCrumbItems.length>1){
       return
     }
+    
     this.loading = true;
     this.LibraryGenreList=[]
     let objLibraryGenreList=[]
@@ -93,7 +96,10 @@ export class MediaLibraryComponent implements OnInit {
     let objLibraryGenreItems=[]
     let scrolLimit=24
     this.LibraryGenreScrollViewData=[]
-    this.breadCrumbItems =[...this.breadCrumbItems,
+    const index = this.breadCrumbItems.findIndex((e) => e.text === "Genres");
+    this.breadCrumbItems = this.breadCrumbItems.slice(0, index + 1);
+
+    this.breadCrumbItems =[{text: genrename,title: "0"},
       {text: "Sub Genre",title: id.toString()}
     ]
     this.mService.GetLibrarySubGenre(id).pipe()
@@ -133,9 +139,6 @@ export class MediaLibraryComponent implements OnInit {
           this.toastr.error("Apologies for the inconvenience.The error is recorded.", '');
           this.loading = false;
         })
-  }
-  public getField = (args: any) => {
-    return `${args.city}_${args.location}_${args.MediaType}_${args.gName}_${args.tokenCode}`;
   }
   public onFilter(inputValue: string): void {
     let scrolLimit=24

@@ -72,7 +72,7 @@
                             class="box box-{{ i }} "
                             [ngStyle]="{backgroundColor: LibraryGenreItems[0][i].color }"
                             style="cursor: pointer; display:flex; justify-content: center; align-items: center; border-radius: 5px"
-                            (click)="GetLibrarySubGenre(item.id)"
+                            (click)="GetLibrarySubGenre(item.id,item.title)"
                             >
                                 <h3 style="vertical-align:middle;color: white; font-size: 17px;">{{item.title}}</h3>
                             </kendo-gridlayout-item>
