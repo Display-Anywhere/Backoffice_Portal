@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewChild } from '@angular/core';
 import { HorizontalAlign, VerticalAlign } from '@progress/kendo-angular-layout';
 import { MachineService } from '../machine-announcement/machine.service';
 import { ToastrService } from 'ngx-toastr';
 import { BreadCrumbItem } from "@progress/kendo-angular-navigation";
 import { SortDescriptor, process } from '@progress/kendo-data-query';
+import { PlaylistLibService } from 'src/app/playlist-library/playlist-lib.service';
+import { DataBindingDirective, PageChangeEvent } from '@progress/kendo-angular-grid';
 @Component({
   selector: 'app-media-library',
   templateUrl: './media-library.component.html',
@@ -25,13 +27,23 @@ export class MediaLibraryComponent implements OnInit {
   LibraryGenreList=[]
   selectedLibraryGenre=""
   selectedLibrarySubGenre=""
-  constructor(private mService:MachineService,public toastr: ToastrService) {
+  chkMediaRadio="Video"
+  cmbCustomer=localStorage.getItem('dfClientId')
+  MainContentList=[]
+  ContentList=[]
+  ContentPageNo=1
+  ShowContent=false
+
+  @ViewChild(DataBindingDirective) dataBinding?: DataBindingDirective;
+
+  constructor(private mService:MachineService,public toastr: ToastrService,private pService: PlaylistLibService,) {
    }
 
   async ngOnInit(){
     await this.GetLibraryGenre()
   }
   GetLibraryGenre() {
+    this.breadCrumbItems=[{text: "Genres",title: "0"}]
     this.loading = true;
     let objLibraryGenreList=[]
     let objLibraryGenreItems=[]
@@ -77,15 +89,20 @@ export class MediaLibraryComponent implements OnInit {
           this.loading = false;
         })
   }
-  public onbreadCrumbItemClick(item: BreadCrumbItem): void {
+  public async onbreadCrumbItemClick(item: BreadCrumbItem): Promise<void> {
     const index = this.breadCrumbItems.findIndex((e) => e.text === item.text);
     this.breadCrumbItems = this.breadCrumbItems.slice(0, index + 1);
     if (this.breadCrumbItems.length==1){
-      this.GetLibraryGenre()
+      await this.GetLibraryGenre()
     }
+    this.MainContentList=[]
+    this.ContentList=[]
+    this.ShowContent=false
   }
-  GetLibrarySubGenre(id,genrename) {
+  async GetLibrarySubGenre(id,genrename) {
     if (this.breadCrumbItems.length>1){
+      this.selectedLibrarySubGenre=genrename
+      await this.FillSearch()
       return
     }
     
@@ -191,4 +208,54 @@ export class MediaLibraryComponent implements OnInit {
     }
     return color;
   }
+  FillSearch() {
+    this.ContentPageNo = 1;
+    this.MainContentList=[]
+    this.ContentList=[]
+    this.loading = true;
+    let SubGenereId=""
+    let CrumbItems=[]
+    this.breadCrumbItems.forEach(item => {
+      if (item['text']=="Sub Genre"){
+        item['text']=this.selectedLibrarySubGenre
+        SubGenereId=item['title']
+      }
+      CrumbItems.push(item)
+    });
+    CrumbItems.push({text: "Content",title: "Content"})
+    this.breadCrumbItems=CrumbItems
+    this.pService.CommanSearch('Genre',SubGenereId,this.chkMediaRadio,false,'1',this.cmbCustomer).pipe().subscribe((data) => {
+          var returnData = JSON.stringify(data);
+          var obj = JSON.parse(returnData);
+          this.ContentList = obj;
+          this.MainContentList =obj
+          this.ShowContent=true
+          this.loading = false;
+        },
+        (error) => {
+          this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
+          this.loading = false;
+        }
+      );
+  }
+  
+public getField = (args: any) => {
+  return `${args.title}_${args.genreName}_${args.Artist}`;
+}
+public onContentFilter(inputValue: string): void {
+  this.ContentList = process(this.MainContentList, {
+      filter: {
+          logic: 'or',
+          filters: [
+              {
+                  field: this.getField,
+                  operator: 'contains',
+                  value: inputValue
+              }
+          ]
+      }
+  }).data;
+
+  this.dataBinding? this.dataBinding.skip = 0 : null;
+}
 }

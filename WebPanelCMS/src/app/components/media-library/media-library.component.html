@@ -9,7 +9,7 @@
             <div class="card-body">
                 <kendo-expansionpanel title="Video">
                     <div class="row align-items-center" style="margin-bottom:10px;">
-                        <div class="col-md-3">
+                        <div class="col-md-3" *ngIf="!ShowContent">
                             <kendo-textbox  placeholder="Search"
                             kendoTextBox
                             (valueChange)="onFilter($event)"></kendo-textbox>
@@ -45,14 +45,14 @@
                             ></kendo-label>
                             <input type="radio" name="cat" #searchCategory kendoRadioButton />
                         </div>
-                        <div class="col-md-9">
+                        <div [ngClass]="ShowContent?'col-sm-12': 'col-sm-9'">
                             <kendo-breadcrumb
                                 style="justify-content: end;"
                                 [items]="breadCrumbItems" (itemClick)="onbreadCrumbItemClick($event)"
                             ></kendo-breadcrumb>
                         </div>
                     </div>
-                    <kendo-scrollview *ngIf="LibraryGenreScrollViewData.length>0"
+                    <kendo-scrollview *ngIf="LibraryGenreScrollViewData.length>0 && !ShowContent"
                     [data]="LibraryGenreScrollViewData"
                     [width]="width"
                     [height]="height"
@@ -80,6 +80,27 @@
 
                     </ng-template>
                     </kendo-scrollview>
+
+                    <kendo-grid *ngIf="ShowContent"
+                    [kendoGridBinding]="ContentList"
+                    [pageSize]="50"
+                    [pageable]="true"
+                    [sortable]="true">
+                    <ng-template kendoGridToolbarTemplate>
+                      <kendo-textbox
+                    placeholder="Search"
+                    kendoTextBox
+                    (valueChange)="onContentFilter($event)"
+                >
+                </kendo-textbox>
+                
+                    </ng-template>
+                    <kendo-grid-column field="title" title="Title"   class="gridrowfont" [headerClass]="'bg-primary'"></kendo-grid-column>
+                    <kendo-grid-column field="Artist"   title="Artist" class="gridrowfont" [headerClass]="'bg-primary'"></kendo-grid-column>
+                    <kendo-grid-column field="genreName"   title="Genre" class="gridrowfont" [headerClass]="'bg-primary'"></kendo-grid-column>
+                    <kendo-grid-column field="Length"   title="Length" class="gridrowfont" [headerClass]="'bg-primary'"></kendo-grid-column>
+                  </kendo-grid>
+                            
                 </kendo-expansionpanel>
             </div>
         </div>

@@ -82,6 +82,7 @@ import { InputsModule } from "@progress/kendo-angular-inputs";
 import { LabelModule } from "@progress/kendo-angular-label";
 import { ButtonsModule } from "@progress/kendo-angular-buttons";
 import { NavigationModule } from "@progress/kendo-angular-navigation";
+import { ExcelModule, GridModule, PDFModule } from '@progress/kendo-angular-grid';
 export const MY_CUSTOM_FORMATS = {
   parseInput: 'LL LT',
   fullPickerInput: 'LL LT',
@@ -225,7 +226,10 @@ MediaLibraryComponent
     InputsModule,
     LabelModule,
     ButtonsModule,
-    NavigationModule
+    NavigationModule,
+    GridModule,
+    PDFModule,
+    ExcelModule,
   ],
   providers:[{provide: DateTimeAdapter, useClass: MomentDateTimeAdapter, deps: [OWL_DATE_TIME_LOCALE]},
   {provide: OWL_DATE_TIME_FORMATS, useValue: MY_CUSTOM_FORMATS}]
