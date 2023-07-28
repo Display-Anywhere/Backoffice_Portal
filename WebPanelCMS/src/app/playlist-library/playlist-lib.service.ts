@@ -45,10 +45,16 @@ export class PlaylistLibService {
     return this.http.post(this.cApi.DeleteTitle, params, { headers })
       .pipe((data => data));
   }
-  SavePlaylist(json: JSON) {
+  SavePlaylist(json) {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     const params = json;
     return this.http.post(this.cApi.SavePlaylist, params, { headers })
+      .pipe((data => data));
+  }
+  SavePlaylistWithPlaylistType(json) {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const params = json;
+    return this.http.post(this.cApi.SavePlaylistWithPlaylistType, params, { headers })
       .pipe((data => data));
   }
   SavePlaylistFromBestOf(id, plName, formatid, isBestOff) {

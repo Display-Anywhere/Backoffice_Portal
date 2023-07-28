@@ -100,7 +100,7 @@
                     <kendo-grid-column field="id"   title="" class="gridrowfont" [headerClass]="'bg-primary'" [width]="50">
                         <ng-template kendoGridCellTemplate let-dataItem>
                             <span #target class="k-icon k-i-more-vertical"></span>
-                              <kendo-contextmenu [target]="target" [items]="items" showOn="click" (select)="onSelect($event,modalNewPlaylist)">
+                              <kendo-contextmenu [target]="target" [items]="PlaylistContextMenu" showOn="click" (select)="onSelect($event,modalNewPlaylist,dataItem.id)">
                                 <ng-template kendoMenuItemTemplate let-item="item">
                                   {{ item.text }}
                                 </ng-template>
@@ -207,7 +207,7 @@
                     <kendo-grid-column field="id"   title="" class="gridrowfont" [headerClass]="'bg-primary'" [width]="50">
                         <ng-template kendoGridCellTemplate let-dataItem>
                             <span #target class="k-icon k-i-more-vertical"></span>
-                              <kendo-contextmenu [target]="target" [items]="items" showOn="click" (select)="onSelect($event,modalNewPlaylist)">
+                              <kendo-contextmenu [target]="target" [items]="PlaylistContextMenu" showOn="click" (select)="onSelect($event,modalNewPlaylist,dataItem.id)">
                                 <ng-template kendoMenuItemTemplate let-item="item">
                                   {{ item.text }}
                                 </ng-template>
@@ -227,22 +227,26 @@
                     [pageSize]="50"
                     [pageable]="false"
                     [sortable]="true">
-                    <kendo-grid-column field="playlistName" title="Name"   class="gridrowfont" [headerClass]="'bg-primary'"></kendo-grid-column>
+                    <kendo-grid-column field="splPlaylistName" title="Name"   class="gridrowfont" [headerClass]="'bg-primary'">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                           <a herf="javascript:;" class="text-primary" (click)="FillPlaylistSongs(dataItem.splPlaylistId,dataItem.splPlaylistName)">{{dataItem.splPlaylistName}}</a> 
+                          </ng-template>
+                    </kendo-grid-column>
                   </kendo-grid>
                         </div>
                         <div class="col-lg-9">
-                            <h5>Playlist 1</h5>
+                            <h5>{{SelectedPlaylistName}}</h5>
                             <kendo-grid class="mt-2"
                     [kendoGridBinding]="PlaylistContentLists"
                     [pageSize]="50"
                     [pageable]="true"
                     [sortable]="true">
                     <kendo-grid-column field="title" title="Title"   class="gridrowfont" [headerClass]="'bg-primary'"></kendo-grid-column>
-                    <kendo-grid-column field="artist" title="Artist"   class="gridrowfont" [headerClass]="'bg-primary'"></kendo-grid-column>
-                    <kendo-grid-column field="genre" title="Genre"   class="gridrowfont" [headerClass]="'bg-primary'"></kendo-grid-column>
+                    <kendo-grid-column field="Artist" title="Artist"   class="gridrowfont" [headerClass]="'bg-primary'"></kendo-grid-column>
+                    <kendo-grid-column field="GenreName" title="Genre"   class="gridrowfont" [headerClass]="'bg-primary'"></kendo-grid-column>
                     <kendo-grid-column field="id"   title="" class="gridrowfont" [headerClass]="'bg-primary'" [width]="50">
                         <ng-template kendoGridCellTemplate let-dataItem>
-                            <span  class="k-icon k-i-trash text-danger"></span>
+                            <span  class="k-icon k-i-trash text-danger" (click)="openTitleDeleteModal(TitleDeleteModal, dataItem.sId)"></span>
                           </ng-template>
 
                     </kendo-grid-column>
@@ -258,22 +262,26 @@
                     [pageSize]="50"
                     [pageable]="false"
                     [sortable]="true">
-                    <kendo-grid-column field="playlistName" title="Name"   class="gridrowfont" [headerClass]="'bg-primary'"></kendo-grid-column>
-                  </kendo-grid>
+                    <kendo-grid-column field="splPlaylistName" title="Name"   class="gridrowfont" [headerClass]="'bg-primary'">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                           <a herf="javascript:;" class="text-primary" (click)="FillPlaylistSongs(dataItem.splPlaylistId,dataItem.splPlaylistName)">{{dataItem.splPlaylistName}}</a> 
+                          </ng-template>
+                    </kendo-grid-column>
+                </kendo-grid>
                         </div>
                         <div class="col-lg-9">
-                            <h5>Playlist 1</h5>
+                            <h5>{{SelectedPlaylistName}}</h5>
                             <kendo-grid class="mt-2"
                     [kendoGridBinding]="PlaylistContentLists"
                     [pageSize]="50"
                     [pageable]="true"
                     [sortable]="true">
                     <kendo-grid-column field="title" title="Title"   class="gridrowfont" [headerClass]="'bg-primary'"></kendo-grid-column>
-                    <kendo-grid-column field="artist" title="Artist"   class="gridrowfont" [headerClass]="'bg-primary'"></kendo-grid-column>
-                    <kendo-grid-column field="genre" title="Genre"   class="gridrowfont" [headerClass]="'bg-primary'"></kendo-grid-column>
+                    <kendo-grid-column field="Artist" title="Artist"   class="gridrowfont" [headerClass]="'bg-primary'"></kendo-grid-column>
+                    <kendo-grid-column field="GenreName" title="Genre"   class="gridrowfont" [headerClass]="'bg-primary'"></kendo-grid-column>
                     <kendo-grid-column field="id"   title="" class="gridrowfont" [headerClass]="'bg-primary'" [width]="50">
                         <ng-template kendoGridCellTemplate let-dataItem>
-                            <span  class="k-icon k-i-trash text-danger"></span>
+                            <span  class="k-icon k-i-trash text-danger" (click)="openTitleDeleteModal(TitleDeleteModal, dataItem.sId)"></span>
                           </ng-template>
 
                     </kendo-grid-column>
@@ -289,22 +297,26 @@
                     [pageSize]="50"
                     [pageable]="false"
                     [sortable]="true">
-                    <kendo-grid-column field="playlistName" title="Name"   class="gridrowfont" [headerClass]="'bg-primary'"></kendo-grid-column>
+                    <kendo-grid-column field="splPlaylistName" title="Name"   class="gridrowfont" [headerClass]="'bg-primary'">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                           <a herf="javascript:;" class="text-primary" (click)="FillPlaylistSongs(dataItem.splPlaylistId,dataItem.splPlaylistName)">{{dataItem.splPlaylistName}}</a> 
+                          </ng-template>
+                    </kendo-grid-column>
                   </kendo-grid>
                         </div>
                         <div class="col-lg-9">
-                            <h5>Playlist 1</h5>
+                            <h5>{{SelectedPlaylistName}}</h5>
                             <kendo-grid class="mt-2"
                     [kendoGridBinding]="PlaylistContentLists"
                     [pageSize]="50"
                     [pageable]="true"
                     [sortable]="true">
                     <kendo-grid-column field="title" title="Title"   class="gridrowfont" [headerClass]="'bg-primary'"></kendo-grid-column>
-                    <kendo-grid-column field="artist" title="Artist"   class="gridrowfont" [headerClass]="'bg-primary'"></kendo-grid-column>
-                    <kendo-grid-column field="genre" title="Genre"   class="gridrowfont" [headerClass]="'bg-primary'"></kendo-grid-column>
+                    <kendo-grid-column field="Artist" title="Artist"   class="gridrowfont" [headerClass]="'bg-primary'"></kendo-grid-column>
+                    <kendo-grid-column field="GenreName" title="Genre"   class="gridrowfont" [headerClass]="'bg-primary'"></kendo-grid-column>
                     <kendo-grid-column field="id"   title="" class="gridrowfont" [headerClass]="'bg-primary'" [width]="50">
                         <ng-template kendoGridCellTemplate let-dataItem>
-                            <span  class="k-icon k-i-trash text-danger"></span>
+                            <span  class="k-icon k-i-trash text-danger" (click)="openTitleDeleteModal(TitleDeleteModal, dataItem.sId)"></span>
                           </ng-template>
 
                     </kendo-grid-column>
@@ -336,18 +348,19 @@
                 <div class="row">
                   <div class="col-lg-6">
                     <kendo-label text="Playlist Name">
-                        <kendo-textbox></kendo-textbox>
+                        <kendo-textbox [(ngModel)]="txtplaylistname"></kendo-textbox>
                     </kendo-label>
                   </div>
                   <div class="col-lg-6">
                     <kendo-label text="Type">
                         <br />
-                        <kendo-dropdownlist [data]="PlaylistTypeListItems" value="Regular">
+                        <kendo-dropdownlist [data]="PlaylistTypeListItems" [value]='FilterPlaylistTypeDropdownDefaultValue' textField="text"
+                        valueField="value" [(ngModel)]="cmbPlaylistType">
                         </kendo-dropdownlist>
                       </kendo-label>
                   </div>
                   <div class="col-lg-12 text-right mt-3">
-                        <kendo-button>
+                        <kendo-button (click)="SaveNewPlaylist()">
                             <span class="k-icon k-i-save"></span>
                         </kendo-button>
                   
@@ -361,3 +374,44 @@
       
     </div>
   </ng-template>
+
+  <ng-template #TitleDeleteModal let-c="close" let-d="dismiss">
+    <div class="modal-header bg-primary">
+      <h5 class="text-white">Delete Title</h5>
+      <button
+        type="button"
+        class="close text-white"
+        aria-label="Close"
+        (click)="d('Cross click')"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-12">
+            <p>Are you sure to delete?</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12">
+            <button
+              class="btn btn-primary col-sm-2 pull-right"
+              (click)="d('Cross click')"
+            >
+              <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+            </button>
+            <button
+              class="btn btn-danger col-sm-2 pull-right mr-2"
+              (click)="DeleteTitle()"
+              (click)="d('Cross click')"
+            >
+              <i class="fa fa-check fa-lg" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  

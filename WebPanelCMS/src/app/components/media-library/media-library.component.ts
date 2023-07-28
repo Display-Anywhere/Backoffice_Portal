@@ -7,7 +7,6 @@ import { SortDescriptor, process } from '@progress/kendo-data-query';
 import { PlaylistLibService } from 'src/app/playlist-library/playlist-lib.service';
 import { DataBindingDirective, PageChangeEvent } from '@progress/kendo-angular-grid';
 import { ExpansionPanelComponent } from "@progress/kendo-angular-layout";
-import { files } from './file';
 import {
   SVGIcon,
   saveIcon,
@@ -25,10 +24,11 @@ export class MediaLibraryComponent implements OnInit {
   @ViewChildren(ExpansionPanelComponent)
   panels: QueryList<ExpansionPanelComponent>;
   loading = false;
+  tid=[]
   ExpansionPanelMediaType
   public svgCart: SVGIcon = saveIcon;
   public LibraryGenreItems = [];
-  public items: any[] = files;
+  public PlaylistContextMenu=[]
   public LibraryGenreScrollViewData = [];
   public width = "100%";
   public height = "320px";
@@ -40,27 +40,22 @@ export class MediaLibraryComponent implements OnInit {
   LibraryGenreList=[]
   selectedLibraryGenre=""
   selectedLibrarySubGenre=""
+  selectedLibrarySubGenreId=""
   chkMediaRadio="Video"
   cmbCustomer=localStorage.getItem('dfClientId')
   MainContentList=[]
   ContentList=[]
   ContentPageNo=1
   ShowContent=false
-  public PlaylistTypeListItems: Array<string> = [
-    "Regular",
-    "Advertisement",
-    "Special"
-  ];
-  PlaylistLists=[
-    {playlistName:"Playlsit 1", id:"1"},
-    {playlistName:"Playlsit 2", id:"2"},
-    {playlistName:"Playlsit 3", id:"3"}
-  ]
-  PlaylistContentLists=[
-    {title:"Content 1", id:"1",artist:"artist",genre:"genre"},
-    {title:"Content 2", id:"2",artist:"artist",genre:"genre"},
-    {title:"Content 3", id:"3",artist:"artist",genre:"genre"}
-  ]
+  PlaylistTypeListItems=[]
+  FilterPlaylistTypeDropdownDefaultValue={}
+  txtplaylistname=""
+  cmbPlaylistType
+  selectedContentId
+  PlaylistLists= []
+  PlaylistContentLists=[]
+  SelectedPlaylistName=""
+  PlaylistSelectedForContent
   @ViewChild(DataBindingDirective) dataBinding?: DataBindingDirective;
 
   constructor(private mService:MachineService,public toastr: ToastrService,private pService: PlaylistLibService,
@@ -77,8 +72,19 @@ export class MediaLibraryComponent implements OnInit {
       }
     });
     this.ExpansionPanelMediaType = mediaType
+    this.SelectedPlaylistName=""
+    this.PlaylistContentLists=[];
     if ((index ==0) || (index ==1)){
       await this.GetLibraryGenre()
+    }
+    if (index ==2){
+      await this.GetLibraryPlaylists(1)
+    }
+    if (index ==3){
+      await this.GetLibraryPlaylists(2)
+    }
+    if (index ==4){
+      await this.GetLibraryPlaylists(3)
     }
   }
   GetLibraryGenre() {
@@ -90,7 +96,8 @@ export class MediaLibraryComponent implements OnInit {
     this.LibraryGenreList=[]
     this.LibraryGenreScrollViewData=[]
     let scrolLimit=24
-    this.mService.GetLibraryGenre().pipe()
+    this.ShowContent=false
+    this.mService.GetLibraryGenre(this.ExpansionPanelMediaType).pipe()
       .subscribe(data => {
         var returnData = JSON.stringify(data);
         var obj = JSON.parse(returnData);
@@ -131,18 +138,28 @@ export class MediaLibraryComponent implements OnInit {
   public async onbreadCrumbItemClick(item: BreadCrumbItem): Promise<void> {
     const index = this.breadCrumbItems.findIndex((e) => e.text === item.text);
     this.breadCrumbItems = this.breadCrumbItems.slice(0, index + 1);
+    console.log(this.breadCrumbItems)
     if (this.breadCrumbItems.length==1){
       await this.GetLibraryGenre()
     }
+    if (this.breadCrumbItems.length==2){
+      const id=this.breadCrumbItems[0].title
+      const genrename=this.breadCrumbItems[0].text
+      this.breadCrumbItems =[{text: genrename,title: id},
+        {text: "Sub Genre",title: ""}
+      ] 
+     // await this.GetLibrarySubGenre(id, genrename)
+  }
     this.MainContentList=[]
     this.ContentList=[]
     this.ShowContent=false
   }
   async GetLibrarySubGenre(id,genrename) {
-    if (this.breadCrumbItems.length>1){
+    if (this.breadCrumbItems.length==2){
       this.selectedLibrarySubGenre=genrename
+      this.selectedLibrarySubGenreId=id
       await this.FillSearch()
-      return
+      return 
     }
     
     this.loading = true;
@@ -155,10 +172,11 @@ export class MediaLibraryComponent implements OnInit {
     const index = this.breadCrumbItems.findIndex((e) => e.text === "Genres");
     this.breadCrumbItems = this.breadCrumbItems.slice(0, index + 1);
 
-    this.breadCrumbItems =[{text: genrename,title: "0"},
-      {text: "Sub Genre",title: id.toString()}
-    ]
-    this.mService.GetLibrarySubGenre(id).pipe()
+     this.breadCrumbItems =[{text: genrename,title: id},
+      {text: "Sub Genre",title: ""}
+    ] 
+    console.log(this.breadCrumbItems)
+    this.mService.GetLibrarySubGenre(id,this.ExpansionPanelMediaType).pipe()
       .subscribe(data => {
         var returnData = JSON.stringify(data);
         var obj = JSON.parse(returnData);
@@ -257,19 +275,22 @@ export class MediaLibraryComponent implements OnInit {
     this.breadCrumbItems.forEach(item => {
       if (item['text']=="Sub Genre"){
         item['text']=this.selectedLibrarySubGenre
+        item['title']=this.selectedLibrarySubGenreId
         SubGenereId=item['title']
       }
       CrumbItems.push(item)
     });
     CrumbItems.push({text: "Content",title: "Content"})
     this.breadCrumbItems=CrumbItems
-    this.pService.CommanSearch('Genre',SubGenereId,this.chkMediaRadio,false,'1',this.cmbCustomer).pipe().subscribe((data) => {
+    console.log(this.breadCrumbItems)
+    this.pService.CommanSearch('Genre',SubGenereId,this.ExpansionPanelMediaType,false,'1',this.cmbCustomer).pipe().subscribe(async (data) => {
           var returnData = JSON.stringify(data);
           var obj = JSON.parse(returnData);
           this.ContentList = obj;
           this.MainContentList =obj
           this.ShowContent=true
           this.loading = false;
+          await this.GetSpecialPlayListType()
         },
         (error) => {
           this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
@@ -297,9 +318,8 @@ public onContentFilter(inputValue: string): void {
 
   this.dataBinding? this.dataBinding.skip = 0 : null;
 } 
-onSelect(e,modelName){
-  console.log(e.item.text)
-  console.log(e.item.value)
+  async onSelect(e,modelName,titleid){
+  this.selectedContentId=titleid.toString()
   const text=e.item.text
   const value=e.item.value
   if (value=="NewPl"){
@@ -309,7 +329,240 @@ onSelect(e,modelName){
     });
   }
   else{
-    this.toastr.info("Content added in playlist.", '');
+    await this.AddContentInPlaylist(this.selectedContentId,value)
   }
 }
+GetSpecialPlayListType() {
+  this.loading = true;
+  this.PlaylistTypeListItems=[]
+  this.mService.GetSpecialPlayListType().pipe()
+    .subscribe(data => {
+      var returnData = JSON.stringify(data);
+      var obj = JSON.parse(returnData);
+      if (obj.data !=''){
+        let objres = JSON.parse(obj.data)
+        objres.forEach(async item => {
+          let arr={}
+          arr["value"]=item["Id"]
+          arr["text"]=item["Name"]
+          this.PlaylistTypeListItems.push(arr)
+          await this.GetLibraryPlaylists(item["Id"])
+        });
+        if (this.PlaylistTypeListItems.length>0){
+          this.FilterPlaylistTypeDropdownDefaultValue={
+            value:this.PlaylistTypeListItems[0].value,
+            text:this.PlaylistTypeListItems[0].text
+          }
+          this.cmbPlaylistType={
+            value:this.PlaylistTypeListItems[0].value,
+            text:this.PlaylistTypeListItems[0].text
+          }
+        }
+      }
+      this.loading = false;
+    },
+      error => {
+        this.toastr.error("Apologies for the inconvenience.The error is recorded.", '');
+        this.loading = false;
+      })
+}
+GetLibraryPlaylists(PlaylistTypeId) {
+  this.PlaylistContextMenu=[]
+  this.PlaylistLists=[]
+  let arr={
+    text: 'New Playlist',
+    value:'NewPl',
+    }
+  this.PlaylistContextMenu.push(arr)
+  this.loading = true;
+  this.mService.GetLibraryPlaylists(this.cmbCustomer.toString(),PlaylistTypeId.toString()).pipe()
+    .subscribe(data => {
+      var returnData = JSON.stringify(data);
+      var obj = JSON.parse(returnData);
+      if (obj.data !=''){
+        let objres = JSON.parse(obj.data)
+        this.PlaylistLists=objres
+        let arrInner={
+          text:"Playlist – " +objres[0].Name,
+          items:[]
+        }
+        objres.forEach(item => {
+          let arrChild={}
+          arrChild["text"] = item["splPlaylistName"]
+          arrChild["value"] = item["splPlaylistId"]
+          arrInner["items"].push(arrChild)
+        });
+        this.PlaylistContextMenu.push(arrInner)
+      }
+      this.loading = false;
+    },
+      error => {
+        this.toastr.error("Apologies for the inconvenience.The error is recorded.", '');
+        this.loading = false;
+      })
+}
+  SaveNewPlaylist(){
+    if (this.txtplaylistname == '') {
+      return;
+    }
+    let payload={
+      id:null,
+      plName:this.txtplaylistname,
+      formatid:0
+    }
+    this.loading = true;
+    this.pService.SavePlaylist(payload).pipe().subscribe(async (data) => {
+          var returnData = JSON.stringify(data);
+          var obj = JSON.parse(returnData);
+          if (obj.Responce == '1') {
+            this.loading = false;
+            if (obj.MediaType=="New"){
+              await this.SaveNewPlaylistWithType(obj.message)
+            }
+            else{
+              this.toastr.info('Saved', 'Success!');
+            }
+          } else if (obj.Responce == '2') {
+            this.toastr.info('Playlist name already exists', 'Success!');
+            this.loading = false;
+          } else {
+            this.toastr.error(
+              'Apologies for the inconvenience.The error is recorded.',
+              ''
+            );
+            this.loading = false;
+          }
+        },
+        (error) => {
+          this.toastr.error(
+            'Apologies for the inconvenience.The error is recorded.',
+            ''
+          );
+          this.loading = false;
+        }
+      );
+
+  }
+  SaveNewPlaylistWithType(playlistid){
+    let payload={
+      splPlaylistId:playlistid,
+      DfClientId:this.cmbCustomer,
+      tbSpecialPlaylistTypeId:this.cmbPlaylistType.value.toString()
+    }
+    this.loading = true;
+    this.pService.SavePlaylistWithPlaylistType(payload).pipe().subscribe(async (data) => {
+          var returnData = JSON.stringify(data);
+          var obj = JSON.parse(returnData);
+          if (obj.Responce == '1') {
+            this.loading = false;
+            this.toastr.info('Saved', 'Success!');
+            await this.AddContentInPlaylist(this.selectedContentId,playlistid)
+            this.modalService.dismissAll()
+          } else {
+            this.toastr.error(
+              'Apologies for the inconvenience.The error is recorded.',
+              ''
+            );
+            this.loading = false;
+          }
+        },
+        (error) => {
+          this.toastr.error(
+            'Apologies for the inconvenience.The error is recorded.',
+            ''
+          );
+          this.loading = false;
+        }
+      );
+
+  }
+  AddContentInPlaylist(contentid,splPlaylistId) {
+    var NewList = [];
+    let PlaylistSelected=[]
+    PlaylistSelected.push(splPlaylistId)
+    let SongsSelected=[]
+    SongsSelected.push(contentid)
+    this.loading = true;
+    this.pService.AddPlaylistSong(PlaylistSelected,SongsSelected,'SFPlaylist',false).pipe().subscribe((data) => {
+          var returnData = JSON.stringify(data);
+          var obj = JSON.parse(returnData);
+          this.loading = false;
+          if (obj.Responce == '1') {
+            this.toastr.info('Content added in playlist', 'Success!');
+          } else {
+            this.toastr.error(
+              'Apologies for the inconvenience.The error is recorded.',
+              ''
+            );
+            this.loading = false;
+          }
+        },
+        (error) => {
+          this.toastr.error(
+            'Apologies for the inconvenience.The error is recorded.',
+            ''
+          );
+          this.loading = false;
+        }
+      );
+  }
+
+  FillPlaylistSongs(splPlaylistId,playlistname) {
+    this.SelectedPlaylistName=playlistname
+    this.PlaylistSelectedForContent=splPlaylistId
+    this.PlaylistContentLists=[];
+    this.loading = true;
+    this.pService.PlaylistSong(splPlaylistId, "No").pipe().subscribe((data) => {
+          var returnData = JSON.stringify(data);
+          var obj = JSON.parse(returnData);
+          this.PlaylistContentLists = obj;
+          this.loading = false;
+        },
+        (error) => {
+          this.toastr.error(
+            'Apologies for the inconvenience.The error is recorded.',
+            ''
+          );
+          this.loading = false;
+        }
+      );
+  }
+  openTitleDeleteModal(mContent,id) {
+    if (id == 0) {
+      this.toastr.info('Please select a title', '');
+      return;
+    }
+    this.tid.push(id.toString());
+     
+    console.log(this.tid)
+    this.modalService.open(mContent);
+  }
+  DeleteTitle() {
+    this.loading = true;
+    this.pService.DeleteTitle(this.PlaylistSelectedForContent, this.tid, 'No').pipe().subscribe(
+        async (data) => {
+          var returnData = JSON.stringify(data);
+          var obj = JSON.parse(returnData);
+          if (obj.Responce == '1') {
+            this.toastr.info('Deleted', 'Success!');
+            this.loading = false;
+            this.tid = [];
+            await this.FillPlaylistSongs(this.PlaylistSelectedForContent,this.SelectedPlaylistName)
+          } else {
+            this.toastr.error(
+              'Apologies for the inconvenience.The error is recorded.',
+              ''
+            );
+          }
+          this.loading = false;
+        },
+        (error) => {
+          this.toastr.error(
+            'Apologies for the inconvenience.The error is recorded.',
+            ''
+          );
+          this.loading = false;
+        }
+      );
+  }
 } 

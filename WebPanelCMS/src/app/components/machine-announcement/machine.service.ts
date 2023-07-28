@@ -144,14 +144,24 @@ export class MachineService {
     return this.http.post(this.cApi.GetKpnChannelSummary, params, { headers: headers })
       .pipe((data => { return data; }))
   }
-  GetLibraryGenre(){
-    return this.http.get(this.cApi.GetLibraryGenre)
-     .pipe((data=>{return data;}))
-  }
-  GetLibrarySubGenre(id) {
+  GetLibraryGenre(mediatype){
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    var params = JSON.stringify({ _id: id });
+    var params = JSON.stringify({ mediatype: mediatype });
+    return this.http.post(this.cApi.GetLibraryGenre, params, { headers: headers })
+      .pipe((data => { return data; }))
+  }
+  GetLibrarySubGenre(id,mediatype) {
+    let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    var params = JSON.stringify({ _id: id, mediatype:mediatype });
     return this.http.post(this.cApi.GetLibrarySubGenre, params, { headers: headers })
+      .pipe((data => { return data; }))
+  }
+  GetSpecialPlayListType(){
+    return this.http.get(this.cApi.GetSpecialPlayListType)
+      .pipe((data => { return data; }))
+  }
+  GetLibraryPlaylists(DfClientId, PlaylistTypeId){
+    return this.http.get(this.cApi.GetLibraryPlaylists+'/'+DfClientId+'/'+PlaylistTypeId)
       .pipe((data => { return data; }))
   }
 }
