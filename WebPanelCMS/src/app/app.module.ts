@@ -22,6 +22,8 @@ import { GridModule } from '@progress/kendo-angular-grid';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { ScrollViewModule } from '@progress/kendo-angular-scrollview';
 import { LabelModule } from '@progress/kendo-angular-label';
+import { MenuModule } from '@progress/kendo-angular-menu';
+
 
 
 
@@ -108,7 +110,8 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     GridModule,
     DropDownsModule,
     ScrollViewModule,
-    LabelModule
+    LabelModule,
+    MenuModule
       ],
       
   providers: [AuthGuard,

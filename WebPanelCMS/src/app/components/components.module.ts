@@ -83,6 +83,9 @@ import { LabelModule } from "@progress/kendo-angular-label";
 import { ButtonsModule } from "@progress/kendo-angular-buttons";
 import { NavigationModule } from "@progress/kendo-angular-navigation";
 import { ExcelModule, GridModule, PDFModule } from '@progress/kendo-angular-grid';
+import { MenusModule } from "@progress/kendo-angular-menu";
+import { ICON_SETTINGS } from "@progress/kendo-angular-icons";
+import { DropDownsModule } from "@progress/kendo-angular-dropdowns";
 export const MY_CUSTOM_FORMATS = {
   parseInput: 'LL LT',
   fullPickerInput: 'LL LT',
@@ -230,9 +233,12 @@ MediaLibraryComponent
     GridModule,
     PDFModule,
     ExcelModule,
+    MenusModule,
+    DropDownsModule
   ],
   providers:[{provide: DateTimeAdapter, useClass: MomentDateTimeAdapter, deps: [OWL_DATE_TIME_LOCALE]},
-  {provide: OWL_DATE_TIME_FORMATS, useValue: MY_CUSTOM_FORMATS}]
+  {provide: OWL_DATE_TIME_FORMATS, useValue: MY_CUSTOM_FORMATS},
+  { provide: ICON_SETTINGS, useValue: { type: "font", size: "medium" } }]
 })
 export class ComponentsModule { }
 /*

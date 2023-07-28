@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewChild } from '@angular/core';
+import { Component, OnInit,ViewChild,ViewChildren,QueryList } from '@angular/core';
 import { HorizontalAlign, VerticalAlign } from '@progress/kendo-angular-layout';
 import { MachineService } from '../machine-announcement/machine.service';
 import { ToastrService } from 'ngx-toastr';
@@ -6,6 +6,15 @@ import { BreadCrumbItem } from "@progress/kendo-angular-navigation";
 import { SortDescriptor, process } from '@progress/kendo-data-query';
 import { PlaylistLibService } from 'src/app/playlist-library/playlist-lib.service';
 import { DataBindingDirective, PageChangeEvent } from '@progress/kendo-angular-grid';
+import { ExpansionPanelComponent } from "@progress/kendo-angular-layout";
+import { files } from './file';
+import {
+  SVGIcon,
+  saveIcon,
+  anchorIcon,
+  codeIcon,
+} from "@progress/kendo-svg-icons";
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-media-library',
   templateUrl: './media-library.component.html',
@@ -13,9 +22,13 @@ import { DataBindingDirective, PageChangeEvent } from '@progress/kendo-angular-g
 })
 
 export class MediaLibraryComponent implements OnInit {
+  @ViewChildren(ExpansionPanelComponent)
+  panels: QueryList<ExpansionPanelComponent>;
   loading = false;
+  ExpansionPanelMediaType
+  public svgCart: SVGIcon = saveIcon;
   public LibraryGenreItems = [];
-
+  public items: any[] = files;
   public LibraryGenreScrollViewData = [];
   public width = "100%";
   public height = "320px";
@@ -33,14 +46,40 @@ export class MediaLibraryComponent implements OnInit {
   ContentList=[]
   ContentPageNo=1
   ShowContent=false
-
+  public PlaylistTypeListItems: Array<string> = [
+    "Regular",
+    "Advertisement",
+    "Special"
+  ];
+  PlaylistLists=[
+    {playlistName:"Playlsit 1", id:"1"},
+    {playlistName:"Playlsit 2", id:"2"},
+    {playlistName:"Playlsit 3", id:"3"}
+  ]
+  PlaylistContentLists=[
+    {title:"Content 1", id:"1",artist:"artist",genre:"genre"},
+    {title:"Content 2", id:"2",artist:"artist",genre:"genre"},
+    {title:"Content 3", id:"3",artist:"artist",genre:"genre"}
+  ]
   @ViewChild(DataBindingDirective) dataBinding?: DataBindingDirective;
 
-  constructor(private mService:MachineService,public toastr: ToastrService,private pService: PlaylistLibService,) {
+  constructor(private mService:MachineService,public toastr: ToastrService,private pService: PlaylistLibService,
+    private modalService: NgbModal,) {
    }
 
   async ngOnInit(){
-    await this.GetLibraryGenre()
+    
+  }
+  public async onAction(index: number,mediaType): Promise<void> {
+    this.panels.forEach((panel, idx) => {
+      if (idx !== index && panel.expanded) {
+        panel.toggle();
+      }
+    });
+    this.ExpansionPanelMediaType = mediaType
+    if ((index ==0) || (index ==1)){
+      await this.GetLibraryGenre()
+    }
   }
   GetLibraryGenre() {
     this.breadCrumbItems=[{text: "Genres",title: "0"}]
@@ -257,5 +296,20 @@ public onContentFilter(inputValue: string): void {
   }).data;
 
   this.dataBinding? this.dataBinding.skip = 0 : null;
+} 
+onSelect(e,modelName){
+  console.log(e.item.text)
+  console.log(e.item.value)
+  const text=e.item.text
+  const value=e.item.value
+  if (value=="NewPl"){
+    this.modalService.open(modelName, {
+      centered: true,
+      windowClass: 'fade',
+    });
+  }
+  else{
+    this.toastr.info("Content added in playlist.", '');
+  }
 }
-}
+} 
