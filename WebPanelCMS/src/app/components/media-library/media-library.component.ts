@@ -14,6 +14,7 @@ import {
   codeIcon,
 } from "@progress/kendo-svg-icons";
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AuthServiceOwn } from 'src/app/auth/auth.service';
 @Component({
   selector: 'app-media-library',
   templateUrl: './media-library.component.html',
@@ -42,7 +43,7 @@ export class MediaLibraryComponent implements OnInit {
   selectedLibrarySubGenre=""
   selectedLibrarySubGenreId=""
   chkMediaRadio="Video"
-  cmbCustomer=localStorage.getItem('dfClientId')
+  cmbCustomer="0"
   MainContentList=[]
   ContentList=[]
   ContentPageNo=1
@@ -51,21 +52,76 @@ export class MediaLibraryComponent implements OnInit {
   FilterPlaylistTypeDropdownDefaultValue={}
   txtplaylistname=""
   cmbPlaylistType
-  selectedContentId
+  selectedContentId=[]
   PlaylistLists= []
   PlaylistContentLists=[]
   SelectedPlaylistName=""
   PlaylistSelectedForContent
+  CustomerList=[]
+  expansionpanelIndex
+  SelectionTitle
   @ViewChild(DataBindingDirective) dataBinding?: DataBindingDirective;
 
   constructor(private mService:MachineService,public toastr: ToastrService,private pService: PlaylistLibService,
-    private modalService: NgbModal,) {
+    private modalService: NgbModal,public auth:AuthServiceOwn) {
    }
 
   async ngOnInit(){
-    
+    await this.FillClient()
+  }
+  FillClient() {
+    var q = '';
+    var i = this.auth.IsAdminLogin$.value ? 1 : 0;
+    q =
+      'FillCustomer ' +
+      i +
+      ', ' +
+      localStorage.getItem('dfClientId') +
+      ',' +
+      localStorage.getItem('DBType');
+
+    this.loading = true;
+    this.pService.FillCombo(q).pipe().subscribe((data) => {
+          var returnData = JSON.stringify(data);
+          this.CustomerList = JSON.parse(returnData);
+          this.loading = false;
+          if (this.auth.IsAdminLogin$.value == false) {
+            this.onChangeCustomer(localStorage.getItem('dfClientId'));
+            this.cmbCustomer=localStorage.getItem('dfClientId')
+          }
+        },
+        (error) => {
+          this.toastr.error(
+            'Apologies for the inconvenience.The error is recorded.',
+            ''
+          );
+          this.loading = false;
+        }
+      );
+  }
+  async onChangeCustomer(id) {
+    this.panels.forEach((panel, idx) => {
+      if (panel.expanded){
+        panel.toggle();
+      }
+    });
+    if (this.expansionpanelIndex ==2){
+      await this.GetLibraryPlaylists(1)
+    }
+    if (this.expansionpanelIndex ==3){
+      await this.GetLibraryPlaylists(2)
+    }
+    if (this.expansionpanelIndex ==4){
+      await this.GetLibraryPlaylists(3)
+    }
   }
   public async onAction(index: number,mediaType): Promise<void> {
+    if (this.cmbCustomer=="0"){
+      this.toastr.info("Please select customer.", '');
+      
+      return
+    }
+  
     this.panels.forEach((panel, idx) => {
       if (idx !== index && panel.expanded) {
         panel.toggle();
@@ -74,6 +130,7 @@ export class MediaLibraryComponent implements OnInit {
     this.ExpansionPanelMediaType = mediaType
     this.SelectedPlaylistName=""
     this.PlaylistContentLists=[];
+    this.expansionpanelIndex=index
     if ((index ==0) || (index ==1)){
       await this.GetLibraryGenre()
     }
@@ -282,7 +339,9 @@ export class MediaLibraryComponent implements OnInit {
     });
     CrumbItems.push({text: "Content",title: "Content"})
     this.breadCrumbItems=CrumbItems
-    console.log(this.breadCrumbItems)
+    if (this.cmbCustomer=="0"){
+      return
+    }
     this.pService.CommanSearch('Genre',SubGenereId,this.ExpansionPanelMediaType,false,'1',this.cmbCustomer).pipe().subscribe(async (data) => {
           var returnData = JSON.stringify(data);
           var obj = JSON.parse(returnData);
@@ -319,7 +378,17 @@ public onContentFilter(inputValue: string): void {
   this.dataBinding? this.dataBinding.skip = 0 : null;
 } 
   async onSelect(e,modelName,titleid){
-  this.selectedContentId=titleid.toString()
+    if (titleid=="0"){
+      this.selectedContentId=[]
+      this.selectedContentId=this.SelectionTitle
+    }
+    else{
+      this.selectedContentId.push(titleid.toString())
+    }
+    if (this.selectedContentId.length==0){
+      this.toastr.info("Please select content.", '');
+      return
+    }
   const text=e.item.text
   const value=e.item.value
   if (value=="NewPl"){
@@ -367,6 +436,10 @@ GetSpecialPlayListType() {
       })
 }
 GetLibraryPlaylists(PlaylistTypeId) {
+  if (this.cmbCustomer=="0"){
+    this.toastr.info("Please select customer.", '');
+    return
+  }
   this.PlaylistContextMenu=[]
   this.PlaylistLists=[]
   let arr={
@@ -444,6 +517,11 @@ GetLibraryPlaylists(PlaylistTypeId) {
 
   }
   SaveNewPlaylistWithType(playlistid){
+    if (this.cmbCustomer=="0"){
+      this.toastr.info("Please select customer.", '');
+      return
+    }
+  
     let payload={
       splPlaylistId:playlistid,
       DfClientId:this.cmbCustomer,
@@ -481,7 +559,7 @@ GetLibraryPlaylists(PlaylistTypeId) {
     let PlaylistSelected=[]
     PlaylistSelected.push(splPlaylistId)
     let SongsSelected=[]
-    SongsSelected.push(contentid)
+    SongsSelected= contentid
     this.loading = true;
     this.pService.AddPlaylistSong(PlaylistSelected,SongsSelected,'SFPlaylist',false).pipe().subscribe((data) => {
           var returnData = JSON.stringify(data);
@@ -489,6 +567,8 @@ GetLibraryPlaylists(PlaylistTypeId) {
           this.loading = false;
           if (obj.Responce == '1') {
             this.toastr.info('Content added in playlist', 'Success!');
+            this.selectedContentId=[]
+            this.SelectionTitle=[]
           } else {
             this.toastr.error(
               'Apologies for the inconvenience.The error is recorded.',

@@ -5,6 +5,32 @@
         <div class="card card-navy">
             
             <div class="card-body">
+              <div class="row mb-3">
+                <div class="col-12">
+                  <div class="form-row">
+                    <div class="form-group col-sm-2 m-0">
+                      <label for="SearchcName" class="mb-2 mr-sm-2"
+                        >Customer Name:</label
+                      >
+                      <select
+                        name="SearchcName"
+                        class="custom-select mb-0"
+                        [(ngModel)]="cmbCustomer"
+                        (change)="onChangeCustomer($event.target.value)"
+                        id="SearchcName"
+                      >
+                        <option selected value="0"></option>
+                        <option
+                          *ngFor="let cLst of CustomerList"
+                          [value]="cLst.Id"
+                        >
+                          {{ cLst.DisplayName }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
                 <kendo-expansionpanel title="Audio" (action)="onAction(0,'Audio')">
                     <div class="row align-items-center" style="margin-bottom:10px;">
                         <div class="col-md-3" *ngIf="!ShowContent">
@@ -83,7 +109,9 @@
                     [kendoGridBinding]="ContentList"
                     [pageSize]="50"
                     [pageable]="true"
-                    [sortable]="true">
+                    [sortable]="true"
+                    kendoGridSelectBy="id"
+                    [(selectedKeys)]="SelectionTitle">
                     <ng-template kendoGridToolbarTemplate>
                       <kendo-textbox
                     placeholder="Search"
@@ -91,8 +119,19 @@
                     (valueChange)="onContentFilter($event)"
                 >
                 </kendo-textbox>
-                
+                <kendo-grid-spacer></kendo-grid-spacer>
+                <kendo-button  #targetPlaylistContextMenu>
+                  <span class="k-icon k-i-align-justify"></span>
+              </kendo-button>
+              <kendo-contextmenu [target]="targetPlaylistContextMenu" [items]="PlaylistContextMenu" showOn="click" (select)="onSelect($event,modalNewPlaylist,'0')">
+                <ng-template kendoMenuItemTemplate let-item="item">
+                  {{ item.text }}
+                </ng-template>
+              </kendo-contextmenu>
                     </ng-template>
+                    <kendo-grid-checkbox-column class="gridrowfont" [headerClass]="'bg-primary'" [width]="50"
+        [showSelectAll]="true"
+      ></kendo-grid-checkbox-column>
                     <kendo-grid-column field="title" title="Title"   class="gridrowfont" [headerClass]="'bg-primary'"></kendo-grid-column>
                     <kendo-grid-column field="Artist"   title="Artist" class="gridrowfont" [headerClass]="'bg-primary'"></kendo-grid-column>
                     <kendo-grid-column field="genreName"   title="Genre" class="gridrowfont" [headerClass]="'bg-primary'"></kendo-grid-column>
@@ -190,7 +229,10 @@
                     [kendoGridBinding]="ContentList"
                     [pageSize]="50"
                     [pageable]="true"
-                    [sortable]="true">
+                    [sortable]="true"
+                    [selectable]="true"
+                    kendoGridSelectBy="id"
+                    [(selectedKeys)]="SelectionTitle">
                     <ng-template kendoGridToolbarTemplate>
                       <kendo-textbox
                     placeholder="Search"
@@ -198,8 +240,20 @@
                     (valueChange)="onContentFilter($event)"
                 >
                 </kendo-textbox>
-                
+                <kendo-grid-spacer></kendo-grid-spacer>
+                <kendo-button  #targetPlaylistContextMenu>
+                  <span class="k-icon k-i-align-justify"></span>
+              </kendo-button>
+              <kendo-contextmenu [target]="targetPlaylistContextMenu" [items]="PlaylistContextMenu" showOn="click" (select)="onSelect($event,modalNewPlaylist,'0')">
+                <ng-template kendoMenuItemTemplate let-item="item">
+                  {{ item.text }}
+                </ng-template>
+              </kendo-contextmenu>
+
                     </ng-template>
+                    <kendo-grid-checkbox-column class="gridrowfont" [headerClass]="'bg-primary'" [width]="50"
+        [showSelectAll]="true"
+      ></kendo-grid-checkbox-column>
                     <kendo-grid-column field="title" title="Title"   class="gridrowfont" [headerClass]="'bg-primary'"></kendo-grid-column>
                     <kendo-grid-column field="Artist"   title="Artist" class="gridrowfont" [headerClass]="'bg-primary'"></kendo-grid-column>
                     <kendo-grid-column field="genreName"   title="Genre" class="gridrowfont" [headerClass]="'bg-primary'"></kendo-grid-column>

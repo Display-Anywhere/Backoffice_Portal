@@ -70,7 +70,7 @@ const routes: Routes = [
     canActivate:[AuthGuard]
    },
    { 
-    path: 'Upload', 
+    path: 'medialibrary', 
     loadChildren: () => import('./upload-content/upload-content.module').then(m => m.UploadContentModule),
     canActivate:[AuthGuard]
    },
