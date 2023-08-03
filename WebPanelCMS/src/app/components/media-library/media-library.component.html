@@ -119,6 +119,31 @@
                     (valueChange)="onContentFilter($event)"
                 >
                 </kendo-textbox>
+                
+    <input
+      type="radio"
+      name="SearchFilter"
+      value="album"
+      #album
+      [(ngModel)]="rdoSearchFilter" (change)="onChangeSearchFilter()"
+      kendoRadioButton
+    />
+    <kendo-label [for]="album" text="Album"></kendo-label>
+
+    
+    <input
+      type="radio"
+      name="SearchFilter"
+      value="artist"
+      #artist
+      [(ngModel)]="rdoSearchFilter" (change)="onChangeSearchFilter()"
+      kendoRadioButton
+    />
+    <kendo-label [for]="artist" text="Artist"></kendo-label>
+
+    <kendo-dropdownlist *ngIf="rdoSearchFilter!=null" [data]="rdoSearchFilterList" textField="name"
+                        valueField="id" [(ngModel)]="cmdrdoSearchFilter" class="w-25" (valueChange)="onChangeFilterdropdown($event)">
+                        </kendo-dropdownlist>
                 <kendo-grid-spacer></kendo-grid-spacer>
                 <kendo-button  #targetPlaylistContextMenu>
                   <span class="k-icon k-i-align-justify"></span>

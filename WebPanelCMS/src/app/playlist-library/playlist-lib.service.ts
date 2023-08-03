@@ -244,4 +244,8 @@ export class PlaylistLibService {
     return this.http.post(this.cApi.CopyClonePlaylist, params, { headers })
       .pipe((data => data));
   }
+  getRadioAlbumArtistFilter(url) {
+    return this.http.get(url)
+      .pipe((data => data));
+  }
 }

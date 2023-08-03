@@ -15,6 +15,7 @@ import {
 } from "@progress/kendo-svg-icons";
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthServiceOwn } from 'src/app/auth/auth.service';
+import { ConfigAPI } from 'src/app/class/ConfigAPI';
 @Component({
   selector: 'app-media-library',
   templateUrl: './media-library.component.html',
@@ -60,10 +61,13 @@ export class MediaLibraryComponent implements OnInit {
   CustomerList=[]
   expansionpanelIndex
   SelectionTitle
+  rdoSearchFilter=null
+  rdoSearchFilterList=[]
+  cmdrdoSearchFilter
   @ViewChild(DataBindingDirective) dataBinding?: DataBindingDirective;
 
   constructor(private mService:MachineService,public toastr: ToastrService,private pService: PlaylistLibService,
-    private modalService: NgbModal,public auth:AuthServiceOwn) {
+    private modalService: NgbModal,public auth:AuthServiceOwn,private cApi: ConfigAPI) {
    }
 
   async ngOnInit(){
@@ -130,6 +134,7 @@ export class MediaLibraryComponent implements OnInit {
     this.ExpansionPanelMediaType = mediaType
     this.SelectedPlaylistName=""
     this.PlaylistContentLists=[];
+    this.rdoSearchFilter= null
     this.expansionpanelIndex=index
     if ((index ==0) || (index ==1)){
       await this.GetLibraryGenre()
@@ -210,11 +215,13 @@ export class MediaLibraryComponent implements OnInit {
     this.MainContentList=[]
     this.ContentList=[]
     this.ShowContent=false
+    this.rdoSearchFilter= null
   }
   async GetLibrarySubGenre(id,genrename) {
     if (this.breadCrumbItems.length==2){
       this.selectedLibrarySubGenre=genrename
       this.selectedLibrarySubGenreId=id
+      this.rdoSearchFilter= null
       await this.FillSearch()
       return 
     }
@@ -333,7 +340,10 @@ export class MediaLibraryComponent implements OnInit {
       if (item['text']=="Sub Genre"){
         item['text']=this.selectedLibrarySubGenre
         item['title']=this.selectedLibrarySubGenreId
-        SubGenereId=item['title']
+        SubGenereId=this.selectedLibrarySubGenreId
+      }
+      else{
+        SubGenereId= this.selectedLibrarySubGenreId
       }
       CrumbItems.push(item)
     });
@@ -644,5 +654,65 @@ GetLibraryPlaylists(PlaylistTypeId) {
           this.loading = false;
         }
       );
+  }
+  async onChangeSearchFilter(){
+    let functionname=""
+    let SubGenereId=""
+    this.breadCrumbItems.forEach(item => {
+      if (item['text']=="Sub Genre"){
+        SubGenereId=item['title']
+      }
+    });
+    
+    if(this.rdoSearchFilter=="album")(
+      functionname=this.cApi.GetGenreAlbum
+    )
+    if(this.rdoSearchFilter=="artist")(
+      functionname=this.cApi.GetGenreArtists
+    )
+    let url=functionname+"/"+this.selectedLibrarySubGenreId+"/"+this.ExpansionPanelMediaType
+    await this.getRadioAlbumArtistFilter(url)
+  }
+  async getRadioAlbumArtistFilter(url){
+    this.loading = true;
+    this.cmdrdoSearchFilter= null
+    await this.pService.getRadioAlbumArtistFilter(url).pipe().subscribe(async (data) => {
+      var returnData = JSON.stringify(data);
+      var obj = JSON.parse(returnData);
+      this.rdoSearchFilterList=JSON.parse(obj.data)
+      this.loading = false;
+    },
+    (error) => {
+      this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
+      this.loading = false;
+    }
+  );
+  }
+  onChangeFilterdropdown(e){
+    this.MainContentList=[]
+    this.ContentList=[]
+    this.loading = true;
+    let searchText=""
+    if(this.rdoSearchFilter=="album")(
+      searchText=e.id
+    )
+    if(this.rdoSearchFilter=="artist")(
+      searchText=e.name
+    )
+    this.pService.CommanSearch(this.rdoSearchFilter,searchText,this.ExpansionPanelMediaType,false,'1',this.cmbCustomer).pipe().subscribe(async (data) => {
+      var returnData = JSON.stringify(data);
+      var obj = JSON.parse(returnData);
+      this.ContentList = obj;
+      this.MainContentList =obj
+      this.ShowContent=true
+      this.loading = false;
+      await this.GetSpecialPlayListType()
+    },
+    (error) => {
+      this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
+      this.loading = false;
+    }
+  );
+
   }
 } 
