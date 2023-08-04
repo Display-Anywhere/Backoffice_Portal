@@ -27,14 +27,14 @@ export class PlaylistLibService {
     return this.http.post(this.cApi.PlaylistSong, params, { headers })
       .pipe((data => data));
   }
-  CommanSearch(type, text, mediaType, IsExplicit, PageNo, ClientId) {
+  CommanSearch(type, text, mediaType, IsExplicit, PageNo, ClientId,id) {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     const params = JSON.stringify({
       searchType: type, searchText: text, mediaType,
       IsRf: localStorage.getItem('IsRf'), ClientId,
       IsExplicit, IsAdmin: this.auth.IsAdminLogin$.value, DBType: localStorage.getItem('DBType'),
       ContentType: localStorage.getItem('ContentType'), PageNo,
-      LoginClientId: localStorage.getItem('dfClientId'),IsAnnouncement:localStorage.getItem('IsAnnouncement')
+      LoginClientId: localStorage.getItem('dfClientId'),IsAnnouncement:localStorage.getItem('IsAnnouncement'),id:id
     });
     return this.http.post(this.cApi.CommanSearch, params, { headers })
       .pipe((data => data));

@@ -352,7 +352,7 @@ export class MediaLibraryComponent implements OnInit {
     if (this.cmbCustomer=="0"){
       return
     }
-    this.pService.CommanSearch('Genre',SubGenereId,this.ExpansionPanelMediaType,false,'1',this.cmbCustomer).pipe().subscribe(async (data) => {
+    this.pService.CommanSearch('Genre',SubGenereId,this.ExpansionPanelMediaType,false,'1',this.cmbCustomer,"0").pipe().subscribe(async (data) => {
           var returnData = JSON.stringify(data);
           var obj = JSON.parse(returnData);
           this.ContentList = obj;
@@ -672,6 +672,14 @@ GetLibraryPlaylists(PlaylistTypeId) {
     )
     let url=functionname+"/"+this.selectedLibrarySubGenreId+"/"+this.ExpansionPanelMediaType
     await this.getRadioAlbumArtistFilter(url)
+    this.MainContentList=[]
+    this.ContentList=[]
+  }
+  async ResetSearch(){
+    this.rdoSearchFilter= null
+    this.cmdrdoSearchFilter=null
+    this.rdoSearchFilterList=[]
+    await this.FillSearch()
   }
   async getRadioAlbumArtistFilter(url){
     this.loading = true;
@@ -693,13 +701,16 @@ GetLibraryPlaylists(PlaylistTypeId) {
     this.ContentList=[]
     this.loading = true;
     let searchText=""
-    if(this.rdoSearchFilter=="album")(
+    let searchType=""
+    if(this.rdoSearchFilter=="album"){
       searchText=e.id
-    )
-    if(this.rdoSearchFilter=="artist")(
+      searchType="genrealbum"
+    }
+    if(this.rdoSearchFilter=="artist"){
       searchText=e.name
-    )
-    this.pService.CommanSearch(this.rdoSearchFilter,searchText,this.ExpansionPanelMediaType,false,'1',this.cmbCustomer).pipe().subscribe(async (data) => {
+      searchType="genreartist"
+    }
+    this.pService.CommanSearch(searchType,searchText,this.ExpansionPanelMediaType,false,'1',this.cmbCustomer,this.selectedLibrarySubGenreId).pipe().subscribe(async (data) => {
       var returnData = JSON.stringify(data);
       var obj = JSON.parse(returnData);
       this.ContentList = obj;

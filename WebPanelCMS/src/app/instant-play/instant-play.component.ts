@@ -244,7 +244,7 @@ export class InstantPlayComponent implements OnInit {
       return;
     }
     this.loading = true;
-    this.pService.CommanSearch(this.chkSearchRadio, this.SearchText, this.chkMediaRadio,false,1,this.SelectedClientId).pipe()
+    this.pService.CommanSearch(this.chkSearchRadio, this.SearchText, this.chkMediaRadio,false,1,this.SelectedClientId,'0').pipe()
       .subscribe(data => {
         var returnData = JSON.stringify(data);
         var obj = JSON.parse(returnData);

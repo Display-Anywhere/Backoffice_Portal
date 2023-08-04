@@ -515,7 +515,7 @@ export class EditTemplateComponent implements OnInit {
     );
     }
     else{
-    this.pService.CommanSearch('Folder',this.cmbLibraryFolder,'Image',false,'1',this.cmbCustomerId).pipe()
+    this.pService.CommanSearch('Folder',this.cmbLibraryFolder,'Image',false,'1',this.cmbCustomerId,'0').pipe()
         .subscribe((data) => {
           var returnData = JSON.stringify(data);
           var obj = JSON.parse(returnData);

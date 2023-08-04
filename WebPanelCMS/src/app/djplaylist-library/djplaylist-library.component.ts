@@ -569,7 +569,7 @@ export class DJplaylistLibraryComponent implements OnInit {
   }
   
     this.loading = true;
-    this.pService.CommanSearch(this.chkSearchRadio, this.SearchText, this.chkMediaRadio, this.chkExplicit,"1",localStorage.getItem('dfClientId')).pipe()
+    this.pService.CommanSearch(this.chkSearchRadio, this.SearchText, this.chkMediaRadio, this.chkExplicit,"1",localStorage.getItem('dfClientId'),"0").pipe()
       .subscribe(data => {
         var returnData = JSON.stringify(data);
 
@@ -1331,7 +1331,7 @@ export class DJplaylistLibraryComponent implements OnInit {
     this.selectedRowsIndexes = [];
 
     this.loading = true;
-    this.pService.CommanSearch(this.chkSearchRadio, this.SearchText, this.chkMediaRadio, this.chkExplicit,this.PageNo,localStorage.getItem('dfClientId')).pipe()
+    this.pService.CommanSearch(this.chkSearchRadio, this.SearchText, this.chkMediaRadio, this.chkExplicit,this.PageNo,localStorage.getItem('dfClientId'),"0").pipe()
       .subscribe(data => {
         var returnData = JSON.stringify(data);
         var obj = JSON.parse(returnData);

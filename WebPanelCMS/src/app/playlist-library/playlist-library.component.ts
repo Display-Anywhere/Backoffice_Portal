@@ -1431,7 +1431,7 @@ if (id=="0"){
         this.chkMediaRadio,
         this.chkExplicit,
         '1',
-        this.cmbCustomer
+        this.cmbCustomer,"0"
       )
       .pipe()
       .subscribe(
@@ -2736,7 +2736,7 @@ if (id=="0"){
         this.chkMediaRadio,
         this.chkExplicit,
         this.PageNo,
-        this.cmbCustomer
+        this.cmbCustomer,"0"
       )
       .pipe()
       .subscribe(
