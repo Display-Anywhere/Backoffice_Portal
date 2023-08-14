@@ -238,6 +238,7 @@ if (frm['country']==='0'){
 if (frm['state']==='0'){
   frm['city']="0";
 }
+frm['IsKpnActive']=false
 if (frm['OsVersion']=="Iptv"){
   frm['IsKpnActive']=true
 }

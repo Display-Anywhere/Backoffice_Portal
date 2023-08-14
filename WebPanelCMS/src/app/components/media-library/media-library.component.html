@@ -33,43 +33,46 @@
               </div>
                 <kendo-expansionpanel title="Audio" (action)="onAction(0,'Audio')">
                     <div class="row align-items-center" style="margin-bottom:10px;">
-                        <div class="col-md-2" *ngIf="!ShowContent">
+                        <div class="col-md-2 pr-0" *ngIf="rdoSearchFilterList.length==0">
                             <kendo-textbox  placeholder="Search"
-                            kendoTextBox
-                            (valueChange)="onFilter($event)"></kendo-textbox>
+                            kendoTextBox [(ngModel)]="txtCommonSearch" (valueChange)="onFilter($event)"></kendo-textbox>
                         </div>
-                        <div class="col-md-3">
-                            <button kendoButton style="padding: 3px 7px;"><i class="fas fa-search"></i></button>
+                        <div class="col-md-2 pr-0" *ngIf="rdoSearchFilterList.length>0">
+                          <kendo-dropdownlist  [data]="rdoSearchFilterList" textField="DisplayName"
+                        valueField="Id" [(ngModel)]="cmdrdoSearchFilter" class="w-full" (valueChange)="onChangeFilterdropdown($event)">
+                        </kendo-dropdownlist>
+                        </div>
+                        <div class="col-md-3 m-0 p-0">
+                            <button kendoButton class="mr-3" (click)="SearchContent()"><i class="fas fa-search"></i></button>
+                            <input type="radio" name="cat" #searchTitle value="title" [(ngModel)]="rdoSearchFilter" (change)="SearchRadioClick()" kendoRadioButton/>
                             <kendo-label
-                                class="k-radio-label me-2 ms-5"
-                                [for]="searchCategory"
-                                text="Genre"
-                            ></kendo-label>
-                        
-                            <input type="radio" class="me-2" name="cat" #searchCategory kendoRadioButton checked/>
-                            
-                          
-                            
-                            <kendo-label
-                                class="k-radio-label me-2"
-                                [for]="searchCategory"
-                                text="Album"
-                            ></kendo-label>
-                            <input type="radio" class="me-2"  name="cat" #searchCategory kendoRadioButton />
-                            <kendo-label
-                                class="k-radio-label me-2"
-                                [for]="searchCategory"
+                            class="k-radio-label me-2 mr-3"
+                            [for]="searchTitle"
+                            text="Title"
+                        ></kendo-label>
+                        <input type="radio" class="me-2"  name="cat" #searchArtist value="artist" [(ngModel)]="rdoSearchFilter" (change)="SearchRadioClick()" kendoRadioButton/>
+                        <kendo-label
+                                class="k-radio-label me-2 mr-3"
+                                [for]="searchArtist"
                                 text="Artist"
                             ></kendo-label>
-                            <input type="radio" class="me-2"  name="cat" #searchCategory kendoRadioButton />
+                           
+                        
+                            <input type="radio" class="me-2"  name="cat" #searchAlbum value="album" kendoRadioButton [(ngModel)]="rdoSearchFilter" (change)="SearchRadioClick()"/>
                             <kendo-label
-                                class="k-radio-label me-2"
-                                [for]="searchCategory"
-                                text="Title"
+                                class="k-radio-label me-2 mr-3"
+                                [for]="searchAlbum"
+                                text="Album"
                             ></kendo-label>
-                            <input type="radio" name="cat" #searchCategory kendoRadioButton />
+                            <input type="radio" class="me-2"  name="cat" #searchGenre value="Genre" kendoRadioButton [(ngModel)]="rdoSearchFilter" (change)="SearchRadioClick()"/>
+                            <kendo-label
+                                class="k-radio-label me-2 mr-3"
+                                [for]="searchGenre"
+                                text="Genre"
+                            ></kendo-label>
+                            
                         </div>
-                        <div [ngClass]="ShowContent?'col-sm-12': 'col-sm-9'">
+                        <div [ngClass]="ShowContent?'col-sm-12': 'col-sm-7'">
                             <kendo-breadcrumb
                                 style="justify-content: end;"
                                 [items]="breadCrumbItems" (itemClick)="onbreadCrumbItemClick($event)"
@@ -120,7 +123,7 @@
                 >
                 </kendo-textbox>
                 
-    <input
+   <!--  <input class="hidden"
       type="radio"
       name="SearchFilter"
       value="album"
@@ -128,10 +131,10 @@
       [(ngModel)]="rdoSearchFilter" (change)="onChangeSearchFilter()"
       kendoRadioButton
     />
-    <kendo-label [for]="album" text="Album"></kendo-label>
+    <kendo-label class="hidden" [for]="album" text="Album"></kendo-label>
 
     
-    <input
+    <input class="hidden"
       type="radio"
       name="SearchFilter"
       value="artist"
@@ -139,14 +142,14 @@
       [(ngModel)]="rdoSearchFilter" (change)="onChangeSearchFilter()"
       kendoRadioButton
     />
-    <kendo-label [for]="artist" text="Artist"></kendo-label>
+    <kendo-label class="hidden" [for]="artist" text="Artist"></kendo-label>
 
     <kendo-dropdownlist *ngIf="rdoSearchFilter!=null" [data]="rdoSearchFilterList" textField="name"
-                        valueField="id" [(ngModel)]="cmdrdoSearchFilter" class="w-25 pe-2" (valueChange)="onChangeFilterdropdown($event)">
+                        valueField="id" [(ngModel)]="cmdrdoSearchFilter" class="w-25 pe-2 hidden" (valueChange)="onChangeFilterdropdown($event)">
                         </kendo-dropdownlist>
-                        <kendo-button *ngIf="rdoSearchFilter!=null" (click)="ResetSearch()" class="text-danger">
+                        <kendo-button *ngIf="rdoSearchFilter!=null" (click)="ResetSearch()" class="text-danger hidden">
                           <span class="k-icon k-i-cancel"></span>
-                      </kendo-button>
+                      </kendo-button> -->
                 <kendo-grid-spacer></kendo-grid-spacer>
                 <kendo-button  #targetPlaylistContextMenu>
                   <span class="k-icon k-i-align-justify"></span>

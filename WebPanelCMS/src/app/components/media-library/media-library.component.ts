@@ -61,9 +61,11 @@ export class MediaLibraryComponent implements OnInit {
   CustomerList=[]
   expansionpanelIndex
   SelectionTitle
-  rdoSearchFilter=null
+  rdoSearchFilter="Genre"
   rdoSearchFilterList=[]
-  cmdrdoSearchFilter
+  cmdrdoSearchFilter=null
+  txtCommonSearch=""
+  
   @ViewChild(DataBindingDirective) dataBinding?: DataBindingDirective;
 
   constructor(private mService:MachineService,public toastr: ToastrService,private pService: PlaylistLibService,
@@ -71,6 +73,7 @@ export class MediaLibraryComponent implements OnInit {
    }
 
   async ngOnInit(){
+    localStorage.setItem('IsRf', '0');
     await this.FillClient()
   }
   FillClient() {
@@ -125,7 +128,8 @@ export class MediaLibraryComponent implements OnInit {
       
       return
     }
-  
+    this.txtCommonSearch=""
+    this.rdoSearchFilterList=[]
     this.panels.forEach((panel, idx) => {
       if (idx !== index && panel.expanded) {
         panel.toggle();
@@ -134,7 +138,7 @@ export class MediaLibraryComponent implements OnInit {
     this.ExpansionPanelMediaType = mediaType
     this.SelectedPlaylistName=""
     this.PlaylistContentLists=[];
-    this.rdoSearchFilter= null
+    this.rdoSearchFilter= "Genre"
     this.expansionpanelIndex=index
     if ((index ==0) || (index ==1)){
       await this.GetLibraryGenre()
@@ -279,6 +283,9 @@ export class MediaLibraryComponent implements OnInit {
         })
   }
   public onFilter(inputValue: string): void {
+    if (this.rdoSearchFilter !='Genre'){
+      return
+    }
     let scrolLimit=24
     let objLibraryGenreItems=[]
     this.LibraryGenreScrollViewData=[]
@@ -696,7 +703,7 @@ GetLibraryPlaylists(PlaylistTypeId) {
     }
   );
   }
-  onChangeFilterdropdown(e){
+  async onChangeFilterdropdown_old(e){
     this.MainContentList=[]
     this.ContentList=[]
     this.loading = true;
@@ -710,12 +717,19 @@ GetLibraryPlaylists(PlaylistTypeId) {
       searchText=e.name
       searchType="genreartist"
     }
-    this.pService.CommanSearch(searchType,searchText,this.ExpansionPanelMediaType,false,'1',this.cmbCustomer,this.selectedLibrarySubGenreId).pipe().subscribe(async (data) => {
+    await this.CommanSearch(searchType,searchText,this.selectedLibrarySubGenreId)
+  }
+  CommanSearch(searchType,searchText,SubGenreId){
+    this.loading = true;
+    this.MainContentList=[]
+    this.ContentList=[]
+    this.pService.CommanSearch(searchType,searchText,this.ExpansionPanelMediaType,false,'1',this.cmbCustomer,SubGenreId).pipe().subscribe(async (data) => {
       var returnData = JSON.stringify(data);
       var obj = JSON.parse(returnData);
       this.ContentList = obj;
       this.MainContentList =obj
       this.ShowContent=true
+      this.selectedContentId=[]
       this.loading = false;
       await this.GetSpecialPlayListType()
     },
@@ -726,4 +740,66 @@ GetLibraryPlaylists(PlaylistTypeId) {
   );
 
   }
+  SearchRadioClick(){
+    this.txtCommonSearch=""
+    this.cmdrdoSearchFilter =null
+    this.rdoSearchFilterList=[]
+  }
+  async SearchContent(){
+    this.breadCrumbItems=[]
+    if (this.rdoSearchFilter !='Genre'){
+      if (this.rdoSearchFilter.toLowerCase() =='album'){
+        await this.FillAlbum()
+      }
+      else{
+        await this.CommanSearch(this.rdoSearchFilter.toLowerCase(),this.txtCommonSearch,"")
+      }
+    }
+    if (this.rdoSearchFilter =='Genre'){
+      this.txtCommonSearch=""
+      this.ShowContent=false
+      this.breadCrumbItems=[{text: "Genres",title: "0"}]
+      this.onFilter("")
+    }
+  }
+  FillAlbum() {
+    this.loading = true;
+    this.rdoSearchFilterList=[]
+    var qry =
+      "spSearch_Album_Copyright '" +
+      this.txtCommonSearch +
+      "', " +
+      localStorage.getItem('IsRf') +
+      ",'" +
+      this.ExpansionPanelMediaType +
+      "','" +
+      localStorage.getItem('DBType') +
+      "'";
+
+    this.pService
+      .FillCombo(qry)
+      .pipe()
+      .subscribe(
+        (data) => {
+          var returnData = JSON.stringify(data);
+          this.rdoSearchFilterList = JSON.parse(returnData);
+          this.loading = false;
+        },
+        (error) => {
+          this.toastr.error(
+            'Apologies for the inconvenience.The error is recorded.',
+            ''
+          );
+          this.loading = false;
+        }
+      );
+  }
+  async onChangeFilterdropdown(e){
+    let searchText=""
+    let searchType=""
+    searchText=e.Id
+    searchType="album"
+    await this.CommanSearch(searchType,searchText,"")
+  }
+
 } 
