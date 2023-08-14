@@ -248,4 +248,12 @@ export class PlaylistLibService {
     return this.http.get(url)
       .pipe((data => data));
   }
+  SaveMasterScheduleName(id, name, dfclientId) {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const params = JSON.stringify({
+      id, name,dfclientId
+    });
+    return this.http.post(this.cApi.SaveMasterScheduleName, params, { headers })
+      .pipe((data => data));
+  }
 }

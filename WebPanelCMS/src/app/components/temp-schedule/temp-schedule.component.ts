@@ -51,7 +51,7 @@ export class TempScheduleComponent implements OnInit {
   frmTokenInfoModifyPlaylist: FormGroup;
   pSchid = 0;
 
-  cid;
+  cid='0';
   CountryList = [];
   CountrySettings = {};
   StateList = [];
@@ -65,6 +65,9 @@ export class TempScheduleComponent implements OnInit {
   searchSignageText: string = '';
   chkAll: boolean = false;
   cmbMediaType = '';
+  cmbMasterSchedule='0'
+  MasterSchedulelist=[]
+  MasterSchedulelist_Overview=[]
   MediaTypeList = [];
   cmbSearchMediaType;
   SearchMediaTypeList = [];
@@ -86,6 +89,10 @@ export class TempScheduleComponent implements OnInit {
   cmbSignageContentId=0
   SignageContentList = [];
   SignageContentPlayerList = [];
+  NewMasterScheduleName=''
+  NewMasterScheduleNameId='0'
+  cmbCustomer_MasterSchedule='0'
+  ngbNavActiveTabId=1
   constructor(
     private formBuilder: FormBuilder,
     public toastrSF: ToastrService,
@@ -133,6 +140,8 @@ export class TempScheduleComponent implements OnInit {
       ScheduleType: ['Normal', Validators.required],
       PercentageValue: ['0'],
       volume: ['90'],
+      MasterScheduleId:['0'],
+      mediatype: ['']
     });
     this.time = {
       hour: this.dt.getHours(),
@@ -259,6 +268,9 @@ if (errorFound==="Yes"){
         return;
       }
     }
+    this.SFform.get('MasterScheduleId').setValue(this.cmbMasterSchedule);
+    this.SFform.get('mediatype').setValue(this.cmbMediaType);
+    
     this.TokenSelected_publish=[];
     this.TokenSelected_publish= this.TokenSelected
     this.loading = true;
@@ -525,7 +537,7 @@ if (errorFound==="Yes"){
         }
       );
   }
-  onChangeCustomer(deviceValue) {
+  async onChangeCustomer(deviceValue) {
     this.cid = deviceValue;
     this.TokenSelected = [];
     this.SelectedGroupArray = [];
@@ -541,7 +553,7 @@ if (errorFound==="Yes"){
     this.TotalPercentageValue = 0;
     this.SFform.get('FormatId').setValue('0');
     this.SFform.get('PlaylistId').setValue('0');
-    this.GetPublishSchedule()
+    await this.GetPublishSchedule()
     this.time = {
       hour: this.dt.getHours(),
       minute: this.dt.getMinutes(),
@@ -557,7 +569,9 @@ if (errorFound==="Yes"){
 
     this.SFform.get('wList').setValue(this.selectedItems);
     this.chkAll = false;
-    this.GetCustomerMediaType(deviceValue, 'New');
+    await this.GetCustomerMediaType(deviceValue, 'New');
+    await this.FillMasterSchedule(this.cid)
+    
   }
   GetCustomerMediaType(cid, type) {
     this.loading = true;
@@ -687,7 +701,6 @@ if (errorFound==="Yes"){
               this.isHotelTvFind="Yes"
               return
             }
-            
           });
 
           this.TokenList = objList;
@@ -1542,7 +1555,9 @@ if (errorFound==="Yes"){
         wId: ObjWeekId,
         wName: ObjWeekName,
         PercentageValue: obj['PercentageValue'],
-        volume :obj['volume']
+        volume :obj['volume'],
+        FormatId :obj['FormatId']
+
       },
     ];
     this.SFform.controls['PlaylistId'].setValue('0');
@@ -2018,4 +2033,174 @@ OpenViewContent(modalName, url,oType,MediaType){
     }
         
       }
+    openMasterScheduleModal(modalName){
+      if (this.cid=="0"){
+        return
+      }
+      this.modalService.open(modalName);
+      
+    }
+    onSubmitNewMasterSchedule(){
+      if (this.NewMasterScheduleName == '') {
+        this.toastrSF.info('Schedule name cannot be blank', '');
+        return;
+      }
+  
+      this.pService
+        .SaveMasterScheduleName(this.cmbMasterSchedule,this.NewMasterScheduleName,this.cid)
+        .pipe()
+        .subscribe(
+          async (data) => {
+            var returnData = JSON.stringify(data);
+            var obj = JSON.parse(returnData);
+            if (obj.Responce != '-2') {
+              this.toastrSF.info('Saved', 'Success!');
+              this.loading = false;
+              this.cmbMasterSchedule = '0';
+              this.NewMasterScheduleName = '';
+              await this.FillMasterSchedule(this.cid);
+              this.modalService.dismissAll()
+            } else if (obj.Responce == '-2') {
+              this.toastrSF.info('This schedule name already exists', '');
+            } else {
+              this.toastrSF.error(
+                'Apologies for the inconvenience.The error is recorded.',
+                ''
+              );
+              this.loading = false;
+            }
+          },
+          (error) => {
+            this.toastrSF.error(
+              'Apologies for the inconvenience.The error is recorded.',
+              ''
+            );
+            this.loading = false;
+          }
+        );
+  
+    }
+    FillMasterSchedule(id) {
+      this.MasterSchedulelist=[]
+      this.MasterSchedulelist_Overview=[]
+      var q = '';
+      var q ='select id as id , name as displayname  from tbMasterSchedule where dfclientid='+id+' order by id'
+      this.loading = true;
+      this.sfService.FillCombo(q).pipe().subscribe((data) => {
+            var returnData = JSON.stringify(data);
+            this.MasterSchedulelist = JSON.parse(returnData);
+            this.MasterSchedulelist_Overview = JSON.parse(returnData);
+            this.loading = false;
+          },
+          (error) => {
+            this.toastrSF.error(
+              'Apologies for the inconvenience.The error is recorded.',
+              ''
+            );
+            this.loading = false;
+          }
+        );
+    }
+    async onChangeCustomer_MasterSchedule(id){
+      await this.FillMasterSchedule(id)
+    }
+    async openMasterScheduleDetail(id){
+      this.ngbNavActiveTabId=4
+      this.cmbMasterSchedule = id
+      await this.onChangeCustomer(this.cmbCustomer_MasterSchedule)
+      this.SFform.get('CustomerId').setValue(this.cmbCustomer_MasterSchedule);
+      this.CustomSchedulePlaylist=[]
+      await this.GetMasterScheduleDetail(id)
+    }
+    GetMasterScheduleDetail(id){
+      this.loading = true;
+      let mediatype=""
+      let SchedulePlaylist=[]
+      let player
+      this.sfService.GetMasterScheduleDetail(id,this.cmbCustomer_MasterSchedule).pipe().subscribe(async (data) => {
+            var returnData = JSON.stringify(data);
+            var objData = JSON.parse(returnData);
+            let obj = JSON.parse(objData.data)
+            obj.forEach(item => {
+              let arr={}
+              let wid=""
+              let wname=""
+              let week= JSON.parse(item["week"])
+              week.forEach(itemWeek => {
+                if (wid==""){
+                  wid=itemWeek["wId"]
+                  wname=this.getWeekName(itemWeek["wId"])
+                }
+                else{
+                  wid= wid+","+itemWeek["wId"]
+                  wname= wname+","+this.getWeekName(itemWeek["wId"])
+                }
+              });
+              let schedule= JSON.parse(item["schedule"])
+              player= JSON.parse(item["player"])
+              
+              mediatype=schedule[0].mediatype
+              arr["Id"]= schedule[0].pSchId
+              arr["pName"]= schedule[0].splplaylistname
+              arr["splId"]= schedule[0].splPlaylistId
+              arr["sTime"]= new Date(schedule[0].StartTime).toTimeString().slice(0, 5)
+              arr["eTime"]= new Date(schedule[0].EndTime).toTimeString().slice(0, 5)
+              arr["wId"]= wid,
+              arr["wName"]= wname,
+              arr["PercentageValue"]= schedule[0].PercentageValue
+              arr["volume"]=schedule[0].volume
+              arr["FormatId"]=schedule[0].FormatId
+
+              SchedulePlaylist.push(arr)
+            });
+            console.log(player)
+
+            this.loading = false;
+            this.cmbMediaType=mediatype
+           
+            await this.onChangeMediaType(mediatype)
+            this.CustomSchedulePlaylist= SchedulePlaylist
+            player.forEach(item => {
+              let tokenItem={}
+              tokenItem['tokenId'] = item["tokenid"];
+              tokenItem['schType'] = this.f.ScheduleType.value;
+              this.removeDuplicateRecord(tokenItem);
+              this.TokenSelected.push(tokenItem);
+            });
+            this.getSelectedRows();
+
+
+          },
+          (error) => {
+            this.toastrSF.error(
+              'Apologies for the inconvenience.The error is recorded.',
+              ''
+            );
+            this.loading = false;
+          }
+        );
+    }
+    getWeekName(id){
+      if (id== '1'){
+        return 'Mon'
+      }
+      if (id== '2'){
+        return 'Tue'
+      }
+      if (id== '3'){
+        return 'Wed'
+      }
+      if (id== '4'){
+        return 'Thu'
+      }
+      if (id== '5'){
+        return 'Fri'
+      }
+      if (id== '6'){
+        return 'Sat'
+      }
+      if (id== '7'){
+        return 'Sun'
+      }
+    }
 }

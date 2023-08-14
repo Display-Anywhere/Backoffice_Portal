@@ -1,0 +1,311 @@
+<ngx-loading
+  [show]="loading"
+  [config]="{ backdropBorderRadius: '3px', fullScreenBackdrop: true }"
+>
+</ngx-loading>
+<div class="col-lg-12 p-0">
+    <ul ngbNav #masSch="ngbNav" (activeId)="1" class="nav-tabs">
+        <li [ngbNavItem]="1" class="pr-2">
+            <a ngbNavLink>Search</a>
+            <ng-template ngbNavContent>
+                <div class="col-sm-12 p-0 mb-0">
+                    <div class="form-row">
+                        <div class="form-group col-sm-2 m-0">
+                            <label for="SearchcName" class="mb-2 mr-sm-2"
+                              >Customer Name:</label
+                            >
+                            <select
+                              name="SearchcName"
+                              class="custom-select mb-0"
+                              [(ngModel)]="cmbSearchCustomer"
+                              (change)="onChangeSearchCustomer($event.target.value)"
+                              id="SearchcName"
+                            >
+                              <option selected value="0"></option>
+                              <option
+                                *ngFor="let cLst of CustomerList"
+                                [value]="cLst.Id"
+                              >
+                                {{ cLst.DisplayName }}
+                              </option>
+                            </select>
+                        </div>
+                        <div class="form-group col-sm-3 m-0">
+                            <label for="SearchfName" class="mb-2 mr-sm-2"
+                              >Master Schedule:</label
+                            >
+                            <select
+                              class="custom-select mb-0"
+                              [(ngModel)]="cmbSearchMasterSchedule"
+                              (change)="onChangeSearchMasterSchedule($event.target.value)"
+                              id="SearchfName"
+                            >
+                              <option selected value="0"></option>
+                              <option
+                                *ngFor="let fLst of SearchMasterScheduleList"
+                                [value]="fLst.Id"
+                              >
+                                {{ fLst.DisplayName }}
+                              </option>
+                            </select>
+                          </div>
+                        
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <kendo-grid
+            [kendoGridBinding]="gridViewSearchMasterScheuleList"
+            [pageSize]="50"
+            [pageable]="true"
+            [sortable]="true">
+            <kendo-grid-column field="formatname" title="Campaign Name" class="gridrowfont" [headerClass]="'bg-primary'"></kendo-grid-column>
+            <kendo-grid-column field="splplaylistname" title="Playlist Name" class="gridrowfont" [headerClass]="'bg-primary'"></kendo-grid-column>
+            <kendo-grid-column field="stime" title="Start Time" class="gridrowfont" [headerClass]="'bg-primary'"></kendo-grid-column>
+            <kendo-grid-column field="etime" title="End Time" class="gridrowfont" [headerClass]="'bg-primary'"></kendo-grid-column>
+            <kendo-grid-column field="week" title="Week" class="gridrowfont" [headerClass]="'bg-primary'"></kendo-grid-column>
+        </kendo-grid>
+                </div>
+            </ng-template>
+        </li>
+        <li [ngbNavItem]="2" class="pr-2" *ngIf="!IschkViewOnly">
+            <a ngbNavLink>Add New</a>
+            <ng-template ngbNavContent>
+                <div class="container-fluid p-0">
+                    <form [formGroup]="MSform">
+                        <div class="form-row">
+                           
+                            <div class="form-group col-sm-3 m-0">
+                                <label for="cName" class="mb-2 mr-sm-2" #flocation
+                                  >Customer Name:</label
+                                >
+                                <select
+                                  class="custom-select mb-0"
+                                  formControlName="CustomerId"
+                                  (change)="onChangeCustomer($event.target.value)"
+                                  id="cName"
+                                >
+                                  <option selected value="0"></option>
+                                  <option
+                                    *ngFor="let cLst of CustomerList"
+                                    [value]="cLst.Id"
+                                  >
+                                    {{ cLst.DisplayName }}
+                                  </option>
+                                </select>
+                              </div>
+                              <div class="form-group col-sm-3 m-0">
+                                <label for="cName" class="mb-2 mr-sm-2" 
+                                  >Schedule Name:</label
+                                >
+                                <input
+          type="text" 
+          formControlName="ScheduleName"
+          class="form-control mb-2 mr-sm-2"
+          id="schame"
+        />
+                                
+                              </div>
+                              <div class="form-group col-sm-3 m-0" >
+                                    <label for="mName" class="mb-2 mr-sm-2"
+                                      >Media Type:</label
+                                    >
+                                    <select
+                                      class="custom-select mb-0"
+                                      [(ngModel)]="cmbMasterScheduleMediaType"
+                                      [ngModelOptions]="{ standalone: true }"
+                                      (change)="onChangeMediaType($event.target.value)"
+                                      id="mName"
+                                    >
+                                      <option selected value="0"></option>
+                                      <option
+                                        *ngFor="let fLst of MediaTypeList"
+                                        [value]="fLst.Id"
+                                      >
+                                        {{ fLst.DisplayName }}
+                                      </option>
+                                    </select>
+                              </div>
+                              <div class="form-group col-sm-3 m-0">
+                                <label for="fName" class="mb-2 mr-sm-2"
+                                  >Campaign Name:</label
+                                >
+                                <select
+                                  class="custom-select mb-0"
+                                  formControlName="FormatId"
+                                  (change)="onChangeFormat($event.target.value)"
+                                  id="fName"
+                                >
+                                  <option selected value="0"></option>
+                                  <option
+                                    *ngFor="let fLst of FormatList"
+                                    [value]="fLst.Id"
+                                  >
+                                    {{ fLst.DisplayName }}
+                                  </option>
+                                </select>
+                              </div>
+                           
+            </div>
+            <div class="form-row">
+                <div class="form-group col-sm-3 m-0">
+                    <label for="pName" class="mb-2 mr-sm-2"
+                      >Playlist Name:</label
+                    >
+                    <select
+                      class="custom-select mb-0"
+                      formControlName="PlaylistId"
+                      id="pName"
+                    >
+                      <option selected value="0"></option>
+                      <option
+                        *ngFor="let pLst of PlaylistList"
+                        [value]="pLst.Id"
+                      >
+                        {{ pLst.DisplayName }}
+                      </option>
+                    </select>
+                     
+                  </div>
+                            <div class="form-group col-sm-3 m-0">
+                              <div class="col-lg-5 p-0 m-0 pull-left">
+                                <label class="mb-2 mr-sm-2" for="sTime"
+                                  >Start time:
+                                </label>
+                                <ngb-timepicker
+                                  formControlName="startTime"
+                                ></ngb-timepicker>
+                              </div>
+                              <div class="col-lg-5 p-0 m-0 pull-right">
+                                <label class="mb-2 mr-sm-2" for="sTime"
+                                  >End time:
+                                </label>
+                                <ngb-timepicker
+                                  formControlName="EndTime"
+                                ></ngb-timepicker>
+                              </div>
+                            </div>
+
+                            <div class="form-group col-sm-2 m-0">
+                            <label class="mb-2 mr-sm-2" for="week">Week Days:</label>
+                            <ng-multiselect-dropdown
+                              id="week"
+                              [placeholder]="' '"
+                              [settings]="WeekdropdownSettings"
+                              [data]="WeekdropdownList"
+                              formControlName="wList"
+                              (onSelect)="onItemSelect($event)"
+                              (onSelectAll)="onSelectAll($event)"
+                            >
+                            </ng-multiselect-dropdown>
+                          </div>
+                          <div class="form-group col-sm-1 m-0">
+                            <button
+                              class="btn btn-primary"
+                              type="button"
+                              style="margin-top: 32px"
+                              (click)="AddMasterScheduleItem()"
+                            >
+                              <i
+                                class="fa fa-plus-circle fa-lg"
+                                aria-hidden="true"
+                              ></i>
+                            </button>
+                          </div>
+                          <div class="form-group col-sm-3 m-0 text-right">
+                            <button class="btn btn-primary" type="button" style="margin-top: 1.8rem !important;" 
+                            (click)="SaveMasterSchedule()">
+                            Save
+                          </button>
+                          </div>
+                                      
+                        </div>
+                        <div class="table-responsive custom_scroll" style="height: 290px !important;">
+                            <table
+                              class="table data-table table-striped table-bordered mydatatable"
+                            >
+                              <thead>
+                                <tr class="bg-primary">
+                                  <th>Playlist Name</th>
+                                  <th
+                                    *ngIf="
+                                      f.ScheduleType.value !== 'PercentageSchedule'
+                                    "
+                                  >
+                                    Start Time
+                                  </th>
+                                  <th
+                                    *ngIf="
+                                      f.ScheduleType.value !== 'PercentageSchedule'
+                                    "
+                                  >
+                                    End Time
+                                  </th>
+                                  <th
+                                    *ngIf="
+                                      f.ScheduleType.value !== 'PercentageSchedule'
+                                    "
+                                  >
+                                    Week
+                                  </th>
+                                  <th
+                                    *ngIf="
+                                      f.ScheduleType.value === 'PercentageSchedule'
+                                    "
+                                  >
+                                    Percentage Value
+                                  </th>
+                                  <th style="width: 30px"></th>
+                                </tr>
+                                <tr
+                                  *ngFor="
+                                    let lstP of CustomMasterSchedulePlaylist;
+                                    let i = index
+                                  "
+                                >
+                                  <td>{{ lstP.pName }}</td>
+                                  <td
+                                    *ngIf="
+                                      f.ScheduleType.value !== 'PercentageSchedule'
+                                    "
+                                  >
+                                    {{ lstP.sTime }}
+                                  </td>
+                                  <td
+                                    *ngIf="
+                                      f.ScheduleType.value !== 'PercentageSchedule'
+                                    "
+                                  >
+                                    {{ lstP.eTime }}
+                                  </td>
+                                  <td
+                                    *ngIf="
+                                      f.ScheduleType.value !== 'PercentageSchedule'
+                                    "
+                                  >
+                                    {{ lstP.wName }}
+                                  </td>
+                                  <td
+                                    *ngIf="
+                                      f.ScheduleType.value === 'PercentageSchedule'
+                                    "
+                                  >
+                                    {{ lstP.PercentageValue }}
+                                  </td>
+                                  <td (click)="RemoveItem(lstP.Id)">
+                                    <i
+                                      class="fa fa-minus-circle"
+                                      aria-hidden="true"
+                                    ></i>
+                                  </td>
+                                </tr>
+                              </thead>
+                            </table>
+                          </div>
+
+                    </form>
+                </div>
+            </ng-template>
+        </li>
+    </ul>
+    <div [ngbNavOutlet]="masSch" class="mt-2"></div>
+</div>

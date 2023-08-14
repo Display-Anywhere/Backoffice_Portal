@@ -127,4 +127,16 @@ SaveModifyLogs(tokenid, ModifyData:string){
     return this.http.post(this.cApi.GetSignageContentPlayers,params,{headers:headers})
      .pipe((data=>{return data;}))
   }
+  SaveMasterSchedule(json:JSON){
+    let headers = new HttpHeaders({ 'Content-Type':'application/json' });
+    var params = json
+    return this.http.post(this.cApi.SaveMasterSchedule,params,{headers:headers})
+     .pipe((data=>{return data;}))
+  }
+  GetMasterScheduleDetail(masterscheduleid,dfclientid){
+    let headers = new HttpHeaders({ 'Content-Type':'application/json' });
+    var params = JSON.stringify({ masterscheduleid: masterscheduleid,dfclientid:dfclientid });
+    return this.http.post(this.cApi.GetMasterScheduleDetail,params,{headers:headers})
+     .pipe((data=>{return data;}))
+  }
 }

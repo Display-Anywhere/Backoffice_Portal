@@ -222,6 +222,10 @@ export class ConfigAPI {
    GetLibraryPlaylists: string = this.Host + 'GetLibraryPlaylists';
    GetGenreArtists: string = this.Host + 'GetGenreArtists';
    GetGenreAlbum: string = this.Host + 'GetGenreAlbum';
+   SaveMasterSchedule: string = this.Host + 'SaveMasterSchedule';
+   GetMasterScheduleDetail: string = this.Host + 'GetMasterScheduleDetail';
+   SaveMasterScheduleName: string = this.Host + 'SaveMasterScheduleName';
+
 }
 
 // localStorage.setItem('UserId', obj.UserId);

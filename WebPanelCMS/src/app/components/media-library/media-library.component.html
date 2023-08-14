@@ -33,12 +33,12 @@
               </div>
                 <kendo-expansionpanel title="Audio" (action)="onAction(0,'Audio')">
                     <div class="row align-items-center" style="margin-bottom:10px;">
-                        <div class="col-md-3" *ngIf="!ShowContent">
+                        <div class="col-md-2" *ngIf="!ShowContent">
                             <kendo-textbox  placeholder="Search"
                             kendoTextBox
                             (valueChange)="onFilter($event)"></kendo-textbox>
                         </div>
-                        <div class="col-md-3 d-none">
+                        <div class="col-md-3">
                             <button kendoButton style="padding: 3px 7px;"><i class="fas fa-search"></i></button>
                             <kendo-label
                                 class="k-radio-label me-2 ms-5"
