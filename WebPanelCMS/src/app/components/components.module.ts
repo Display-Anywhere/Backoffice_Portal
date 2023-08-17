@@ -87,6 +87,7 @@ import { MenusModule } from "@progress/kendo-angular-menu";
 import { ICON_SETTINGS } from "@progress/kendo-angular-icons";
 import { DropDownsModule } from "@progress/kendo-angular-dropdowns";
 import { MasterscheduleComponent } from './masterschedule/masterschedule.component';
+import { SignageContentUploadComponent } from './signage-content-upload/signage-content-upload.component';
 export const MY_CUSTOM_FORMATS = {
   parseInput: 'LL LT',
   fullPickerInput: 'LL LT',
@@ -154,7 +155,8 @@ SqueezeAssginRssComponent,
 InfoMainComponent,
 PlaylistLibraryComponent,
 MediaLibraryComponent,
-MasterscheduleComponent
+MasterscheduleComponent,
+SignageContentUploadComponent
 ],
  
   exports: [
@@ -209,7 +211,8 @@ SqueezeRssComponent,
 SqueezeAssginRssComponent,
 InfoMainComponent,
 PlaylistLibraryComponent,
-MediaLibraryComponent
+MediaLibraryComponent,
+SignageContentUploadComponent
   ],
     imports: [
     CommonModule,

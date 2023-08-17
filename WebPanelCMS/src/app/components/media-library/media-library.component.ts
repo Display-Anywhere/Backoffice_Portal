@@ -43,7 +43,7 @@ export class MediaLibraryComponent implements OnInit {
   selectedLibraryGenre=""
   selectedLibrarySubGenre=""
   selectedLibrarySubGenreId=""
-  chkMediaRadio="Video"
+  chkSignageMediaType="Video"
   cmbCustomer="0"
   MainContentList=[]
   ContentList=[]
@@ -112,14 +112,18 @@ export class MediaLibraryComponent implements OnInit {
         panel.toggle();
       }
     });
+    this.selectedContentId=[]
+    this.SelectionTitle=[]
+    this.ExpansionPanelMediaType =""
+    localStorage.setItem('selecteddfClientId',id)
     if (this.expansionpanelIndex ==3){
-      await this.GetLibraryPlaylists(1)
+     // await this.GetLibraryPlaylists(1)
     }
     if (this.expansionpanelIndex ==4){
-      await this.GetLibraryPlaylists(2)
+     // await this.GetLibraryPlaylists(2)
     }
     if (this.expansionpanelIndex ==5){
-      await this.GetLibraryPlaylists(3)
+     // await this.GetLibraryPlaylists(3)
     }
   }
   public async onAction(index: number,mediaType): Promise<void> {
@@ -138,11 +142,28 @@ export class MediaLibraryComponent implements OnInit {
     this.ExpansionPanelMediaType = mediaType
     this.SelectedPlaylistName=""
     this.PlaylistContentLists=[];
-    this.rdoSearchFilter= "Genre"
     this.expansionpanelIndex=index
+    if (this.ExpansionPanelMediaType=='Signage'){
+      localStorage.setItem('ContentType', 'Signage')
+      this.rdoSearchFilter="title"
+      this.rdoSearchFilterList=[]
+      this.cmdrdoSearchFilter=null
+      this.txtCommonSearch=""
+    }
+    else{
+      localStorage.setItem('ContentType', 'MusicMedia')
+      this.rdoSearchFilter="Genre"
+      this.rdoSearchFilterList=[]
+      this.cmdrdoSearchFilter=null
+      this.txtCommonSearch=""
+    }
     if ((index ==0) || (index ==1)){
       await this.GetLibraryGenre()
     }
+    if (index ==2){
+      await this.FillSongList()
+    }
+    
     if (index ==3){
       await this.GetLibraryPlaylists(1)
     }
@@ -709,6 +730,7 @@ GetLibraryPlaylists(PlaylistTypeId) {
     this.loading = true;
     let searchText=""
     let searchType=""
+    let mediaType=this.ExpansionPanelMediaType
     if(this.rdoSearchFilter=="album"){
       searchText=e.id
       searchType="genrealbum"
@@ -717,13 +739,13 @@ GetLibraryPlaylists(PlaylistTypeId) {
       searchText=e.name
       searchType="genreartist"
     }
-    await this.CommanSearch(searchType,searchText,this.selectedLibrarySubGenreId)
+    await this.CommanSearch(searchType,searchText,this.selectedLibrarySubGenreId,mediaType)
   }
-  CommanSearch(searchType,searchText,SubGenreId){
+  CommanSearch(searchType,searchText,SubGenreId,MediaType){
     this.loading = true;
     this.MainContentList=[]
     this.ContentList=[]
-    this.pService.CommanSearch(searchType,searchText,this.ExpansionPanelMediaType,false,'1',this.cmbCustomer,SubGenreId).pipe().subscribe(async (data) => {
+    this.pService.CommanSearch(searchType,searchText,MediaType,false,'1',this.cmbCustomer,SubGenreId).pipe().subscribe(async (data) => {
       var returnData = JSON.stringify(data);
       var obj = JSON.parse(returnData);
       this.ContentList = obj;
@@ -740,19 +762,48 @@ GetLibraryPlaylists(PlaylistTypeId) {
   );
 
   }
-  SearchRadioClick(){
+  async SearchRadioClick(){
     this.txtCommonSearch=""
     this.cmdrdoSearchFilter =null
     this.rdoSearchFilterList=[]
+    if (this.ExpansionPanelMediaType=='Signage'){
+      this.ContentList = []
+      this.MainContentList =[]
+      if (this.rdoSearchFilter=='title'){
+        await this.FillSongList()
+      }
+      if (this.rdoSearchFilter=='orientation'){
+        this.rdoSearchFilterList=[]
+        this.rdoSearchFilterList=[
+          {
+              "DisplayName": "Landscape MP4",
+              "Id": "297",
+              "check": false
+          },
+          {
+              "DisplayName": "Portrait MP4",
+              "Id": "303",
+              "check": false
+          }
+      ]
+      }
+      if (this.rdoSearchFilter=='folder'){
+        await this.FillFolder()
+      }
+    }
   }
   async SearchContent(){
     this.breadCrumbItems=[]
+    let mediaType=this.ExpansionPanelMediaType
+    if (this.ExpansionPanelMediaType=='Signage'){
+      mediaType= this.chkSignageMediaType
+    }
     if (this.rdoSearchFilter !='Genre'){
       if (this.rdoSearchFilter.toLowerCase() =='album'){
         await this.FillAlbum()
       }
       else{
-        await this.CommanSearch(this.rdoSearchFilter.toLowerCase(),this.txtCommonSearch,"")
+        await this.CommanSearch(this.rdoSearchFilter.toLowerCase(),this.txtCommonSearch,"",mediaType)
       }
     }
     if (this.rdoSearchFilter =='Genre'){
@@ -797,9 +848,107 @@ GetLibraryPlaylists(PlaylistTypeId) {
   async onChangeFilterdropdown(e){
     let searchText=""
     let searchType=""
+    let mediaType=this.ExpansionPanelMediaType
     searchText=e.Id
     searchType="album"
-    await this.CommanSearch(searchType,searchText,"")
+    if (this.ExpansionPanelMediaType=='Signage'){
+      mediaType= this.chkSignageMediaType
+      if (this.rdoSearchFilter=='orientation'){
+        searchType="Genre"
+      }
+      if (this.rdoSearchFilter=='folder'){
+        searchType="Folder"
+      }
+    }
+    await this.CommanSearch(searchType,searchText,"",mediaType)
   }
 
+  FillSongList() {
+    
+       this.loading = true;
+       this.pService
+         .FillSongList(this.chkSignageMediaType, false, this.cmbCustomer)
+         .pipe()
+         .subscribe(
+           async (data) => {
+             var returnData = JSON.stringify(data);
+             var obj = JSON.parse(returnData);
+             this.ContentList = obj;
+             this.MainContentList =obj
+             this.ShowContent=true
+             this.selectedContentId=[]
+             this.loading = false;
+             await this.GetSpecialPlayListType()
+           },
+           (error) => {
+             this.toastr.error(
+               'Apologies for the inconvenience.The error is recorded.',
+               ''
+             );
+             this.loading = false;
+           }
+         );
+     //}
+   }
+   FillFolder() {
+    this.rdoSearchFilterList=[]
+    this.loading = true;
+    var qry =
+      'select tbFolder.folderId as Id, tbFolder.foldername as DisplayName  from tbFolder ';
+    qry = qry + ' inner join Titles tit on tit.folderId= tbFolder.folderId ';
+
+    qry = qry + " where tit.mediatype='" + this.chkSignageMediaType + "' ";
+    if (this.auth.IsAdminLogin$.value == false) {
+      qry =
+        qry +
+        ' and (tit.dfclientid= ' +
+        this.cmbCustomer +
+        ' or tit.dfclientid= ' +
+        localStorage.getItem('dfClientId') +
+        ')';
+    } else {
+      qry = qry + ' and tit.dfclientid= ' + this.cmbCustomer + '';
+    }
+    qry =
+      qry +
+      " and (tit.dbtype='" +
+      localStorage.getItem('DBType') +
+      "' or tit.dbtype='Both') ";
+    if (this.chkSignageMediaType != 'Image') {
+      qry =
+        qry + ' and tit.IsRoyaltyFree = ' + localStorage.getItem('IsRf') + ' ';
+    }
+    if (this.chkSignageMediaType == 'Image') {
+      qry = qry + ' and tit.GenreId in(325,324,326) ';
+    }
+    if ((this.ExpansionPanelMediaType == 'Signage') && (this.chkSignageMediaType == 'Video')) {
+      qry = qry + ' and tit.GenreId in(303,297) ';
+    }
+    if (this.chkSignageMediaType == 'Url') {
+      qry = qry + ' and tit.GenreId in(496,495) ';
+    }
+    qry = qry + ' group by tbFolder.folderId,tbFolder.foldername ';
+    qry = qry + ' order by tbFolder.foldername ';
+    this.pService
+      .FillCombo(qry)
+      .pipe()
+      .subscribe(
+        (data) => {
+          var returnData = JSON.stringify(data);
+          this.rdoSearchFilterList = JSON.parse(returnData);
+          this.loading = false;
+        },
+        (error) => {
+          this.toastr.error(
+            'Apologies for the inconvenience.The error is recorded.',
+            ''
+          );
+          this.loading = false;
+        }
+      );
+  }
+  async onChangeSignageMediaType(){
+    this.rdoSearchFilter="title"
+    await this.FillSongList()
+  }
 } 
