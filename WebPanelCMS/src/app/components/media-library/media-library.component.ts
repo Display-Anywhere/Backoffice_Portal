@@ -112,13 +112,13 @@ export class MediaLibraryComponent implements OnInit {
         panel.toggle();
       }
     });
-    if (this.expansionpanelIndex ==2){
+    if (this.expansionpanelIndex ==3){
       await this.GetLibraryPlaylists(1)
     }
-    if (this.expansionpanelIndex ==3){
+    if (this.expansionpanelIndex ==4){
       await this.GetLibraryPlaylists(2)
     }
-    if (this.expansionpanelIndex ==4){
+    if (this.expansionpanelIndex ==5){
       await this.GetLibraryPlaylists(3)
     }
   }
@@ -143,13 +143,13 @@ export class MediaLibraryComponent implements OnInit {
     if ((index ==0) || (index ==1)){
       await this.GetLibraryGenre()
     }
-    if (index ==2){
+    if (index ==3){
       await this.GetLibraryPlaylists(1)
     }
-    if (index ==3){
+    if (index ==4){
       await this.GetLibraryPlaylists(2)
     }
-    if (index ==4){
+    if (index ==5){
       await this.GetLibraryPlaylists(3)
     }
   }
