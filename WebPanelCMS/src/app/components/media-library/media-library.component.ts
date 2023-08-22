@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewChild,ViewChildren,QueryList } from '@angular/core';
+import { Component, OnInit,ViewChild,ViewChildren,QueryList,ElementRef } from '@angular/core';
 import { HorizontalAlign, VerticalAlign } from '@progress/kendo-angular-layout';
 import { MachineService } from '../machine-announcement/machine.service';
 import { ToastrService } from 'ngx-toastr';
@@ -55,6 +55,7 @@ export class MediaLibraryComponent implements OnInit {
   cmbPlaylistType
   selectedContentId=[]
   PlaylistLists= []
+  MainPlaylistLists= []
   PlaylistContentLists=[]
   SelectedPlaylistName=""
   PlaylistSelectedForContent
@@ -65,7 +66,20 @@ export class MediaLibraryComponent implements OnInit {
   rdoSearchFilterList=[]
   cmdrdoSearchFilter=null
   txtCommonSearch=""
-  
+  cmbFormat
+  NewFormatName=""
+  txtDeletedFormatName=""
+  FormatList=[]
+  CopyFormatList = []
+  CopyFormatListClone=[] 
+  FilterFormatDropdownDefaultValue={}
+  IschkViewOnly=0;
+  txtCommonMsg=""
+  txtMsg=""
+  DeleteFormatid
+  NewPlaylistName=""
+  UpdatePlaylistId="0"
+  @ViewChild('flocation') flocationElement: ElementRef;
   @ViewChild(DataBindingDirective) dataBinding?: DataBindingDirective;
 
   constructor(private mService:MachineService,public toastr: ToastrService,private pService: PlaylistLibService,
@@ -75,6 +89,7 @@ export class MediaLibraryComponent implements OnInit {
   async ngOnInit(){
     localStorage.setItem('IsRf', '0');
     await this.FillClient()
+    this.IschkViewOnly = this.auth.chkViewOnly$.value ? 1 : 0;
   }
   FillClient() {
     var q = '';
@@ -163,15 +178,18 @@ export class MediaLibraryComponent implements OnInit {
     if (index ==2){
       await this.FillSongList()
     }
-    
+    await this.FillFormat()    
     if (index ==3){
       await this.GetLibraryPlaylists(1)
+      this.PlaylistLists=[]
     }
     if (index ==4){
       await this.GetLibraryPlaylists(2)
+      this.PlaylistLists=[]
     }
     if (index ==5){
       await this.GetLibraryPlaylists(3)
+      this.PlaylistLists=[]
     }
   }
   GetLibraryGenre() {
@@ -430,6 +448,8 @@ public onContentFilter(inputValue: string): void {
   const text=e.item.text
   const value=e.item.value
   if (value=="NewPl"){
+    this.txtplaylistname=""
+    await this.FillFormat()
     this.modalService.open(modelName, {
       centered: true,
       windowClass: 'fade',
@@ -473,26 +493,31 @@ GetSpecialPlayListType() {
         this.loading = false;
       })
 }
-GetLibraryPlaylists(PlaylistTypeId) {
+  async GetLibraryPlaylists(PlaylistTypeId) {
   if (this.cmbCustomer=="0"){
     this.toastr.info("Please select customer.", '');
     return
   }
   this.PlaylistContextMenu=[]
   this.PlaylistLists=[]
+  this.MainPlaylistLists=[]
   let arr={
     text: 'New Playlist',
     value:'NewPl',
     }
   this.PlaylistContextMenu.push(arr)
   this.loading = true;
-  this.mService.GetLibraryPlaylists(this.cmbCustomer.toString(),PlaylistTypeId.toString()).pipe()
+  await this.mService.GetLibraryPlaylists(this.cmbCustomer.toString(),PlaylistTypeId.toString()).pipe()
     .subscribe(data => {
       var returnData = JSON.stringify(data);
       var obj = JSON.parse(returnData);
       if (obj.data !=''){
         let objres = JSON.parse(obj.data)
-        this.PlaylistLists=objres
+
+        if (this.ExpansionPanelMediaType !='Regular'){
+          this.PlaylistLists=objres
+        }
+        this.MainPlaylistLists=objres
         let arrInner={
           text:"Playlist – " +objres[0].Name,
           items:[]
@@ -513,13 +538,17 @@ GetLibraryPlaylists(PlaylistTypeId) {
       })
 }
   SaveNewPlaylist(){
+    if (this.cmbFormat.Id == '0') {
+      this.toastr.info('Please select a campaign name');
+      return;
+    }
     if (this.txtplaylistname == '') {
       return;
     }
     let payload={
       id:null,
       plName:this.txtplaylistname,
-      formatid:0
+      formatid: this.cmbFormat.Id
     }
     this.loading = true;
     this.pService.SavePlaylist(payload).pipe().subscribe(async (data) => {
@@ -573,6 +602,7 @@ GetLibraryPlaylists(PlaylistTypeId) {
             this.loading = false;
             this.toastr.info('Saved', 'Success!');
             await this.AddContentInPlaylist(this.selectedContentId,playlistid)
+            await this.GetSpecialPlayListType()
             this.modalService.dismissAll()
           } else {
             this.toastr.error(
@@ -951,4 +981,282 @@ GetLibraryPlaylists(PlaylistTypeId) {
     this.rdoSearchFilter="title"
     await this.FillSongList()
   }
+  onSubmitNewFormat() {
+    if (this.NewFormatName == '') {
+      this.toastr.info('Campaign name cannot be blank', '');
+      return;
+    }
+
+    this.pService
+      .SaveFormat(
+        this.cmbFormat.Id,
+        this.NewFormatName,
+        this.cmbCustomer,
+        this.ExpansionPanelMediaType
+      )
+      .pipe()
+      .subscribe(
+        (data) => {
+          var returnData = JSON.stringify(data);
+          var obj = JSON.parse(returnData);
+          if (obj.Responce != '-2') {
+            this.toastr.info('Saved', 'Success!');
+
+            this.loading = false;
+            if (this.txtDeletedFormatName == '') {
+              this.SaveModifyInfo(
+                0,
+                'New campaign is create with name ' + this.NewFormatName
+              );
+            } else {
+              this.SaveModifyInfo(
+                0,
+                'Campaign is modify. Now New name is ' + this.NewFormatName
+              );
+            }
+            this.txtDeletedFormatName = '';
+            this.FillFormat();
+          } else if (obj.Responce == '-2') {
+            this.toastr.info('This campaign name already exists', '');
+          } else {
+            this.toastr.error(
+              'Apologies for the inconvenience.The error is recorded.',
+              ''
+            );
+            this.loading = false;
+          }
+        },
+        (error) => {
+          this.toastr.error(
+            'Apologies for the inconvenience.The error is recorded.',
+            ''
+          );
+          this.loading = false;
+        }
+      );
+  }
+  SaveModifyInfo(tokenid, ModifyText) {
+    this.pService
+      .SaveModifyLogs(tokenid, ModifyText)
+      .pipe()
+      .subscribe(
+        (data) => {
+          var returnData = JSON.stringify(data);
+        },
+        (error) => {}
+      );
+  }
+  FillFormat() {
+    this.FilterFormatDropdownDefaultValue={}
+    this.cmbFormat={}
+    this.FormatList=[]
+    this.CopyFormatList = []
+    this.CopyFormatListClone=[] 
+    this.loading = true;
+    var qry = '';
+    
+    if (this.auth.IsAdminLogin$.value == true) {
+      qry = "FillFormat 0,'" + localStorage.getItem('DBType') + "'";
+    } else {
+    }
+    qry = '';
+    qry =
+      'select max(sf.Formatid) as id , sf.formatname as displayname from tbSpecialFormat sf left join tbSpecialPlaylistSchedule_Token st on st.formatid= sf.formatid';
+    qry =
+      qry +
+      ' left join tbSpecialPlaylistSchedule sp on sp.pschid= st.pschid  where isnull(LinkWithEvent,0)=0 and ';
+    qry =
+      qry +
+      " (dbtype='" +
+      localStorage.getItem('DBType') +
+      "' or dbtype='Both') and  (st.dfclientid=" +
+      this.cmbCustomer +
+      ' OR sf.dfclientid=' +
+      this.cmbCustomer +
+      ")  group by  sf.formatname";
+      
+    this.pService
+      .FillCombo(qry)
+      .pipe()
+      .subscribe(
+        (data) => {
+          var returnData = JSON.stringify(data);
+          let obj = JSON.parse(returnData);
+          let objArr={
+            "DisplayName": "",
+            "Id": "0",
+            "check": false
+          }
+          this.FormatList.push(objArr)
+          obj.forEach(item => {
+            this.FormatList.push(item)
+          })
+          this.CopyFormatList = this.FormatList;
+          this.CopyFormatListClone = this.FormatList;
+          this.loading = false;
+          if (this.ExpansionPanelMediaType =='Regular'){
+            this.PlaylistLists=[]
+            this.SelectedPlaylistName=""
+            this.PlaylistContentLists=[];
+          }
+        },
+        (error) => {
+          this.toastr.error(
+            'Apologies for the inconvenience.The error is recorded.',
+            ''
+          );
+          this.loading = false;
+        }
+      );
+  }
+  openDeleteFormatModal(content) {
+    if (this.cmbFormat.Id == '0') {
+      this.toastr.info('Please select a campaign name');
+      return;
+    }
+    if (this.IschkViewOnly==1){
+      this.toastr.info('This feature is not available in view only');
+      return;
+    }
+    this.txtCommonMsg = 'Are you sure to delete?';
+    this.txtMsg = '';
+    this.DeleteFormatid = this.cmbFormat.Id;
+    this.modalService.open(content);
+    this.flocationElement.nativeElement.focus();
+  }
+  openFormatModal(mContent) {
+    if (this.cmbCustomer === '0') {
+      this.toastr.info('Please select customer name', '');
+      return;
+    }
+    if (this.IschkViewOnly==1){
+      this.toastr.info('This feature is not available in view only');
+      return;
+    }
+    this.NewFormatName = '';
+    this.NewFormatName = this.cmbFormat.DisplayName;
+    this.modalService.open(mContent);
+    this.flocationElement.nativeElement.focus();
+  }
+  onChangeFormat(e){
+    this.txtDeletedFormatName = e.DisplayName
+  }
+  DeleteFormat(IsForceDelete) {
+    this.loading = true;
+    this.pService
+      .DeleteFormat(this.DeleteFormatid, IsForceDelete)
+      .pipe()
+      .subscribe(
+        (data) => {
+          var returnData = JSON.stringify(data);
+          var obj = JSON.parse(returnData);
+          if (obj.Responce == '1') {
+            this.toastr.info('Deleted', 'Success!');
+            this.loading = false;
+            this.SaveModifyInfo(
+              0,
+              'Campaign is deleted. CampaignName: ' +
+                this.txtDeletedFormatName +
+                ' and unique id :' +
+                this.cmbFormat.Id
+            );
+            this.DeleteFormatid = '0';
+            this.txtMsg = '';
+            this.FillFormat();
+            this.modalService.dismissAll('Cross click');
+          } else if (obj.Responce == '2') {
+            this.txtMsg =
+              'This campaign cannot be deleted, as it is assigned to tokens';
+            this.txtCommonMsg = '';
+            this.loading = false;
+          } else {
+            this.toastr.error(
+              'Apologies for the inconvenience.The error is recorded.',
+              ''
+            );
+          }
+          this.loading = false;
+        },
+        (error) => {
+          this.toastr.error(
+            'Apologies for the inconvenience.The error is recorded.',
+            ''
+          );
+          this.loading = false;
+        }
+      );
+  }
+  async onChangeFormatPlaylist(e){
+    if (this.expansionpanelIndex ==3){
+       this.PlaylistLists=[]
+       this.PlaylistLists= this.MainPlaylistLists.filter(o => o.Formatid == parseInt(e.Id))
+     }
+     if (this.expansionpanelIndex ==4){
+       this.PlaylistLists=[]
+       this.PlaylistLists= this.MainPlaylistLists.filter(o => o.Formatid == parseInt(e.Id))
+     }
+     if (this.expansionpanelIndex ==5){
+       this.PlaylistLists=[]
+       this.PlaylistLists= this.MainPlaylistLists.filter(o => o.Formatid == parseInt(e.Id))
+     }
+ 
+  }
+  openEditPlaylistModal(content,id,playlistName) {
+    if (this.IschkViewOnly==1){
+      this.toastr.info('This feature is not available in view only');
+      return;
+    }
+    this.UpdatePlaylistId=id
+    this.NewPlaylistName=playlistName
+    this.modalService.open(content);
+    this.flocationElement.nativeElement.focus();
+  }
+  onSubmitUpdatePlaylistName(){
+    this.loading = true;
+    let payload={
+      plName:this.NewPlaylistName,
+      id:this.UpdatePlaylistId,
+      formatid:this.cmbFormat.Id
+    }
+    this.pService
+      .SavePlaylist(payload)
+      .pipe()
+      .subscribe(
+        (data) => {
+          var returnData = JSON.stringify(data);
+          var obj = JSON.parse(returnData);
+          if (obj.Responce == '1') {
+            this.toastr.info('Saved', 'Success!');
+            this.loading = false;
+            this.PlaylistLists.forEach(item => {
+              if (item["splPlaylistId"]==this.UpdatePlaylistId){
+                item["splPlaylistName"]=this.NewPlaylistName
+              }
+            })
+            this.SaveModifyInfo(
+              0,
+              'Playlist is create/modify with name ' +
+              this.NewPlaylistName
+            );
+          } else if (obj.Responce == '2') {
+            this.toastr.info('Playlist name already exists', 'Success!');
+          } else {
+            this.toastr.error(
+              'Apologies for the inconvenience.The error is recorded.',
+              ''
+            );
+            this.loading = false;
+          }
+        },
+        (error) => {
+          this.toastr.error(
+            'Apologies for the inconvenience.The error is recorded.',
+            ''
+          );
+          this.loading = false;
+        }
+      );    
+    
+  }
+
 } 

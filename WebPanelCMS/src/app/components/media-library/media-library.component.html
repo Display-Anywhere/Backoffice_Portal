@@ -10,7 +10,7 @@
                   <div class="form-row">
                     <div class="form-group col-sm-2 m-0">
                       <label for="SearchcName" class="mb-2 mr-sm-2"
-                        >Customer Name:</label
+                      #flocation>Customer Name:</label
                       >
                       <select
                         name="SearchcName"
@@ -446,7 +446,33 @@
 
                 <kendo-expansionpanel title="Playlist – Regular" (action)="onAction(3,'Regular')">
                     <div class="row" *ngIf="ExpansionPanelMediaType=='Regular'">
-                        <div class="col-lg-3 mt-5">
+                        <div class="col-lg-3">
+                          <div class="row">
+                            <div class="col-lg-9">
+                              <kendo-label text="Campaign Name">
+                                  <br />
+                                  <kendo-dropdownlist [data]="FormatList" [value]='FilterFormatDropdownDefaultValue' textField="DisplayName"
+                                  valueField="Id" [(ngModel)]="cmbFormat"
+                                  (valueChange)="onChangeFormatPlaylist($event)">
+                                  </kendo-dropdownlist>
+                                </kendo-label>
+                            </div>
+                            <div class="col-lg-3 p-0 m-0 mt-3 mtbtn pt-1">
+                              <button
+                              class="btn btn-sm btn-primary mb-0 mr-1"
+                              (click)="openFormatModal(modalFormat)"
+                            >
+                              <i class="fa fa-bars" aria-hidden="true"></i>
+                            </button>
+                              <button
+                                class="btn btn-sm btn-danger mb-0 mr-1"
+                                (click)="openDeleteFormatModal(modalDeleteFormat)"
+                              >
+                                <i class="fa fa-trash" aria-hidden="true"></i>
+                              </button>
+                             
+                            </div>
+                          </div>
                             <kendo-grid 
                     [kendoGridBinding]="PlaylistLists"
                     [pageSize]="50"
@@ -457,10 +483,16 @@
                            <a herf="javascript:;" class="text-primary" (click)="FillPlaylistSongs(dataItem.splPlaylistId,dataItem.splPlaylistName)">{{dataItem.splPlaylistName}}</a> 
                           </ng-template>
                     </kendo-grid-column>
+                    <kendo-grid-column field="id"   title="" class="gridrowfont" [headerClass]="'bg-primary'" [width]="50">
+                      <ng-template kendoGridCellTemplate let-dataItem>
+                          <span  class="k-icon k-i-pencil" (click)="openEditPlaylistModal(modalPlaylist, dataItem.splPlaylistId,dataItem.splPlaylistName)"></span>
+                        </ng-template>
+
+                  </kendo-grid-column>
                   </kendo-grid>
                         </div>
                         <div class="col-lg-9">
-                            <h5>{{SelectedPlaylistName}}</h5>
+                          <h5 class="pt-4" style="height: 2.7rem;">{{SelectedPlaylistName}}</h5>
                             <kendo-grid class="mt-2"
                     [kendoGridBinding]="PlaylistContentLists"
                     [pageSize]="50"
@@ -495,7 +527,7 @@
                 </kendo-grid>
                         </div>
                         <div class="col-lg-9">
-                            <h5>{{SelectedPlaylistName}}</h5>
+                            <h5 style="height: 1.5rem;">{{SelectedPlaylistName}}</h5>
                             <kendo-grid class="mt-2"
                     [kendoGridBinding]="PlaylistContentLists"
                     [pageSize]="50"
@@ -530,7 +562,7 @@
                   </kendo-grid>
                         </div>
                         <div class="col-lg-9">
-                            <h5>{{SelectedPlaylistName}}</h5>
+                          <h5 style="height: 1.5rem;">{{SelectedPlaylistName}}</h5>
                             <kendo-grid class="mt-2"
                     [kendoGridBinding]="PlaylistContentLists"
                     [pageSize]="50"
@@ -571,6 +603,30 @@
       
          
                 <div class="row">
+                  <div class="col-lg-9">
+                    <kendo-label text="Campaign Name">
+                        <br />
+                        <kendo-dropdownlist [data]="FormatList" [value]='FilterFormatDropdownDefaultValue' textField="DisplayName"
+                        valueField="Id" [(ngModel)]="cmbFormat"
+                        (valueChange)="onChangeFormat($event)">
+                        </kendo-dropdownlist>
+                      </kendo-label>
+                  </div>
+                  <div class="col-lg-3 p-0 m-0 mt-3 mtbtn">
+                    <button
+                    class="btn btn-sm btn-primary mb-2 mr-1"
+                    (click)="openFormatModal(modalFormat)"
+                  >
+                    <i class="fa fa-bars" aria-hidden="true"></i>
+                  </button>
+                    <button
+                      class="btn btn-sm btn-danger mb-2 mr-1"
+                      (click)="openDeleteFormatModal(modalDeleteFormat)"
+                    >
+                      <i class="fa fa-trash" aria-hidden="true"></i>
+                    </button>
+                   
+                  </div>
                   <div class="col-lg-6">
                     <kendo-label text="Playlist Name">
                         <kendo-textbox [(ngModel)]="txtplaylistname"></kendo-textbox>
@@ -640,3 +696,130 @@
     </div>
   </ng-template>
   
+  <ng-template #modalFormat let-c="close" let-d="dismiss">
+    <div class="modal-header bg-primary">
+      <h5 class="text-white">Campaign</h5>
+      <button
+        type="button"
+        class="close text-white"
+        aria-label="Close"
+        (click)="d('Cross click')"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-12">
+            <label for="State" class="mb-2 mr-sm-2">Campaign Name:</label>
+            <input
+              type="text"
+              [(ngModel)]="NewFormatName"
+              class="form-control mb-2 mr-sm-2"
+              id="fName"
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12">
+            <button
+              class="btn btn-primary col-sm-2 pull-right"
+              type="button"
+              (click)="onSubmitNewFormat()"
+              (click)="d('Cross click')"
+            >
+              Save
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  
+  
+<ng-template #modalDeleteFormat let-c="close" let-d="dismiss">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Delete Campaign</h5>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12">
+          <p class="smalltext">{{ txtCommonMsg }}</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12" *ngIf="txtMsg != ''">
+          <p class="btn btn-danger">{{ txtMsg }}</p>
+        </div>
+        <div class="col-sm-12">
+          <button
+            class="btn btn-primary col-sm-2 pull-right"
+            (click)="d('Cross click')"
+          >
+            <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+          </button>
+          <button
+            *ngIf="txtMsg == ''"
+            class="btn btn-danger col-sm-2 pull-right mr-2"
+            (click)="DeleteFormat('No')"
+          >
+            <i class="fa fa-check fa-lg" aria-hidden="true"></i>
+          </button>
+
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #modalPlaylist let-c="close" let-d="dismiss">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Playlist</h5>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12">
+          <label for="State" class="mb-2 mr-sm-2">Playlist Name:</label>
+          <input
+            type="text"
+            [(ngModel)]="NewPlaylistName"
+            class="form-control mb-2 mr-sm-2"
+            id="fName"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <button
+            class="btn btn-primary col-sm-2 pull-right"
+            type="button"
+            (click)="onSubmitUpdatePlaylistName()"
+            (click)="d('Cross click')"
+          >
+            Save
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
