@@ -1,0 +1,8 @@
+@media (min-width: 767px) and (max-width: 768px) {
+    label {
+      font-size: 0.91em;
+    }
+    span {
+      font-size: 0.91em !important;
+    }
+  }

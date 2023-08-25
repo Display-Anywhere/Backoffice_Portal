@@ -2047,7 +2047,7 @@ OpenViewContent(modalName, url,oType,MediaType){
       }
   
       this.pService
-        .SaveMasterScheduleName(this.cmbMasterSchedule,this.NewMasterScheduleName,this.cid)
+        .SaveMasterScheduleName(this.cmbMasterSchedule,this.NewMasterScheduleName,this.cid,false)
         .pipe()
         .subscribe(
           async (data) => {

@@ -212,7 +212,8 @@ SqueezeAssginRssComponent,
 InfoMainComponent,
 PlaylistLibraryComponent,
 MediaLibraryComponent,
-SignageContentUploadComponent
+SignageContentUploadComponent,
+MasterscheduleComponent
   ],
     imports: [
     CommonModule,

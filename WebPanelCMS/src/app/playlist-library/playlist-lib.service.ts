@@ -248,10 +248,10 @@ export class PlaylistLibService {
     return this.http.get(url)
       .pipe((data => data));
   }
-  SaveMasterScheduleName(id, name, dfclientId) {
+  SaveMasterScheduleName(id, name, dfclientId,chkOverwritemanual) {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     const params = JSON.stringify({
-      id, name,dfclientId
+      id, name,dfclientId,chkOverwritemanual
     });
     return this.http.post(this.cApi.SaveMasterScheduleName, params, { headers })
       .pipe((data => data));
