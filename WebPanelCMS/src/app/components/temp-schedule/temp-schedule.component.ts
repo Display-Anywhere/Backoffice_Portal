@@ -2117,7 +2117,7 @@ OpenViewContent(modalName, url,oType,MediaType){
       let mediatype=""
       let SchedulePlaylist=[]
       let player
-      this.sfService.GetMasterScheduleDetail(id,this.cmbCustomer_MasterSchedule).pipe().subscribe(async (data) => {
+      this.sfService.GetMasterScheduleDetail(id,this.cmbCustomer_MasterSchedule,localStorage.getItem('UserId')).pipe().subscribe(async (data) => {
             var returnData = JSON.stringify(data);
             var objData = JSON.parse(returnData);
             let obj = JSON.parse(objData.data)

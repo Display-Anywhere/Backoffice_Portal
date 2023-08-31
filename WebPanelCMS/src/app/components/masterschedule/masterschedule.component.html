@@ -58,7 +58,7 @@
                         <kendo-button class="bg-primary mr-2" (click)="openMasterScheduleDetail(dataItem.Id,dataItem.DisplayName)">
                           <span class="k-icon k-i-pencil"></span>
                       </kendo-button>
-                      <kendo-button class="bg-danger">
+                      <kendo-button class="bg-danger" (click)="openDeleteModal(SchDeleteContent, dataItem.Id,'Master')">
                         <span class="k-icon k-i-trash"></span>
                     </kendo-button>
                         </ng-template>
@@ -234,7 +234,7 @@
                 
                   <td
                     data-label=""
-                    (click)="openDeleteModal(SchDeleteContent, schLst.id)"
+                    (click)="openDeleteModal(SchDeleteContent, schLst.id,'')"
                   >
                     <i
                       class="fa fa-trash"
@@ -354,8 +354,8 @@
           
         </ng-template>
       </li>
-      <li [ngbNavItem]="4" class="pr-2" *ngIf="!IschkViewOnly">
-        <a ngbNavLink>Add New</a>
+      <li [ngbNavItem]="4" class="pr-2" *ngIf="ngbNavActiveTabId==4">
+        <a ngbNavLink>Details</a>
         <ng-template ngbNavContent>
           <div class="container-fluid p-0">
             <form [formGroup]="SFform">
@@ -398,26 +398,7 @@
                       </option>
                     </select>
                 </div>
-                <div class="form-group col-sm-2 m-0">
-                  <label for="mName" class="mb-2 mr-sm-2"
-                    >Media Type:</label
-                  >
-                  <select
-                    class="custom-select mb-0"
-                    [(ngModel)]="cmbMediaType"
-                    [ngModelOptions]="{ standalone: true }"
-                    (change)="onChangeMediaType($event.target.value)"
-                    id="mName"
-                  >
-                    <option selected value="0"></option>
-                    <option
-                      *ngFor="let fLst of MediaTypeList"
-                      [value]="fLst.Id"
-                    >
-                      {{ fLst.DisplayName }}
-                    </option>
-                  </select>
-                </div>
+              
                 <div class="form-group col-sm-2 m-0">
                    
                     <kendo-label
@@ -482,6 +463,10 @@
                     <kendo-button class="bg-primary">
                       <span class="k-icon k-i-plus"></span>Publish Schedule to devices
                     </kendo-button>
+                    <!-- <kendo-grid-spacer></kendo-grid-spacer>
+                    <kendo-button class="bg-primary" (click)="onSubmitSF(ForceUpdate, ReducePlaylist)">
+                      Save
+                    </kendo-button> -->
                  
                   
                 </ng-template>
@@ -496,320 +481,39 @@
 
                 <kendo-grid-column field="Id"   title="" class="gridrowfont" [headerClass]="'bg-primary'" [width]="100">
                   <ng-template kendoGridCellTemplate let-dataItem>
-                    <kendo-button class="bg-primary mr-2">
-                      <span class="k-icon k-i-pencil"></span>
-                  </kendo-button>
-                  <kendo-button class="bg-danger" (click)="RemoveItem(dataItem.Id)">
+                  <kendo-button class="bg-danger" (click)="openDeleteModal(SchDeleteContent, dataItem.Id,'Playlist')">
                     <span class="k-icon k-i-trash"></span>
                 </kendo-button>
                     </ng-template>
               </kendo-grid-column>
               </kendo-grid>
-
-
-
-
-
-                <table
-                  class="d-none table data-table table-striped table-bordered mydatatable"
-                >
-                  <thead>
-                    <tr class="bg-primary">
-                      <th>Playlist Name</th>
-                      <th
-                        *ngIf="
-                          f.ScheduleType.value !== 'PercentageSchedule'
-                        "
-                      >
-                        Start Time
-                      </th>
-                      <th
-                        *ngIf="
-                          f.ScheduleType.value !== 'PercentageSchedule'
-                        "
-                      >
-                        End Time
-                      </th>
-                      <th *ngIf="((cmbMediaType ==='Audio Copyright') || (cmbMediaType ==='Audio DirectLicence'))">Volume</th>
-                      <th
-                        *ngIf="
-                          f.ScheduleType.value !== 'PercentageSchedule'
-                        "
-                      >
-                        Week
-                      </th>
-                      <th
-                        *ngIf="
-                          f.ScheduleType.value === 'PercentageSchedule'
-                        "
-                      >
-                        Percentage Value
-                      </th>
-                      <th style="width: 30px"></th>
-                    </tr>
-                    <tr
-                      *ngFor="
-                        let lstP of CustomSchedulePlaylist;
-                        let i = index
-                      "
-                    >
-                      <td>{{ lstP.pName }}</td>
-                      <td
-                        *ngIf="
-                          f.ScheduleType.value !== 'PercentageSchedule'
-                        "
-                      >
-                        {{ lstP.sTime }}
-                      </td>
-                      <td
-                        *ngIf="
-                          f.ScheduleType.value !== 'PercentageSchedule'
-                        "
-                      >
-                        {{ lstP.eTime }}
-                      </td>
-                      <td *ngIf="((cmbMediaType ==='Audio Copyright') || (cmbMediaType ==='Audio DirectLicence'))">{{ lstP.volume }}</td>
-                      <td
-                        *ngIf="
-                          f.ScheduleType.value !== 'PercentageSchedule'
-                        "
-                      >
-                        {{ lstP.wName }}
-                      </td>
-                      <td
-                        *ngIf="
-                          f.ScheduleType.value === 'PercentageSchedule'
-                        "
-                      >
-                        {{ lstP.PercentageValue }}
-                      </td>
-                      <td (click)="RemoveItem(lstP.Id)">
-                        <i
-                          class="fa fa-minus-circle"
-                          aria-hidden="true"
-                        ></i>
-                      </td>
-                    </tr>
-                  </thead>
-                </table>
-              </div>
-              <!-- <div class="form-row mb-1">
-                <div
-                  class="form-group col-sm-12 m-0 pt-2 border border-right-0 border-left-0 border-bottom-0 mt-4"
-                >
-                  <h3>Filter Records</h3>
-                </div>
-              </div> -->
-
-              <div class="form-row mb-0 mt-0">
-                <div class="form-group col-sm-2 m-0">
-                  <div class="iq-search-bar device-search">
-                    <div class="searchbox1">
-                      <label class="mb-2 mr-sm-2" for="Search"
-                        >&nbsp;</label
-                      >
-                      <input
-                        type="text"
-                        [(ngModel)]="searchText"
-                        [ngModelOptions]="{ standalone: true }"
-                        class="text search-input"
-                        placeholder="Search"
-                        (input)="onChangeEvent_TokenSearch()"
-                      />
-                      <!-- <a class="search-link" href="#"
-                        ><i class="fa fa-search"></i
-                      ></a> -->
-                    </div>
-                  </div>
-                </div>
-                <div class="form-group col-sm-2 m-0" *ngIf="isHotelTvFind==='Yes'" >
-                  <label class="mb-2 mr-sm-2" for="dType">Device Type:</label>
-                  <select name="pType" class="custom-select" id="dType" [(ngModel)]="cmbDeviceType"
-                  [ngModelOptions]="{ standalone: true }" (change)="onChangeDeviceType($event.target.value)">
-                  <option selected value="All"></option>
-                  <option value="Screen">Screen</option>
-                  <option value="Sanitizer">Sanitizer</option>
-                  <option value="HotelTv">H-Info</option>
-                </select>
-                </div>
-                <div class="form-group col-sm-2 m-0 d-none">
-                  <label class="mb-2 mr-sm-2" for="country">Country:</label>
-                  <ng-multiselect-dropdown
-                    id="country"
-                    [placeholder]="'Country'"
-                    [settings]="CountrySettings"
-                    [data]="CountryList"
-                    (onSelect)="onItemSelectCountry($event)"
-                    (onSelectAll)="onSelectAllCountry($event)"
-                    (onDeSelect)="onItemDeSelectCountry($event)"
-                    (onDeSelectAll)="onDeSelectAllCountry($event)"
-                    [(ngModel)]="SelectedCountryArray"
-                    [ngModelOptions]="{ standalone: true }"
-                  >
-                  </ng-multiselect-dropdown>
-                </div>
-                <div class="form-group col-sm-2 m-0 d-none">
-                  <label class="mb-2 mr-sm-2" for="State">State:</label>
-                  <ng-multiselect-dropdown
-                    id="State"
-                    [placeholder]="'State'"
-                    [settings]="StateSettings"
-                    [data]="StateList"
-                    (onSelect)="onItemSelectState($event)"
-                    (onSelectAll)="onSelectAllState($event)"
-                    (onDeSelect)="onItemDeSelectState($event)"
-                    (onDeSelectAll)="onDeSelectAllState($event)"
-                    [(ngModel)]="SelectedStateArray"
-                    [ngModelOptions]="{ standalone: true }"
-                  >
-                  </ng-multiselect-dropdown>
-                </div>
-                <div class="form-group col-sm-2 m-0 d-none">
-                  <label class="mb-2 mr-sm-2" for="City">City:</label>
-                  <ng-multiselect-dropdown
-                    id="City"
-                    [placeholder]="'City'"
-                    [settings]="CitySettings"
-                    [data]="CityList"
-                    (onSelect)="onItemSelectCity($event)"
-                    (onSelectAll)="onSelectAllCity($event)"
-                    (onDeSelect)="onItemDeSelectCity($event)"
-                    (onDeSelectAll)="onDeSelectAllCity($event)"
-                    [(ngModel)]="SelectedCityArray"
-                    [ngModelOptions]="{ standalone: true }"
-                  >
-                  </ng-multiselect-dropdown>
-                </div>
-                <div class="form-group col-sm-3 m-0 ">
-                  <label class="mb-2 mr-sm-2" for="City">Groups:</label>
-                  <ng-multiselect-dropdown
-                    id="GroupId"
-                    [placeholder]="'Groups'"
-                    [settings]="GroupSettings"
-                    [data]="GroupList"
-                    (onSelect)="onItemSelectGroup($event)"
-                    (onSelectAll)="onSelectAllGroup($event)"
-                    (onDeSelect)="onItemDeSelectGroup($event)"
-                    (onDeSelectAll)="onDeSelectAllGroup($event)"
-                    [(ngModel)]="SelectedGroupArray"
-                    [ngModelOptions]="{ standalone: true }"
-                  >
-                  </ng-multiselect-dropdown>
-                </div>
-                <div class="form-group m-0" [ngClass]="isHotelTvFind==='Yes' ? 'col-sm-5' : 'col-sm-7' ">
-                  <!--*ngIf="this.CustomSchedulePlaylist.length != 0"-->
-                  <button
-                    class="btn btn-primary"
-                    
-                    type="button"
-                    style="margin-top: 1.8rem !important;"
-                    (click)="onSubmitSF(ForceUpdate, ReducePlaylist)"
-                  >
-                    Save
-                  </button>
-                </div>
-              </div>
-
-              <div class="table-responsive1">
-                <table
-                  class="table data-table table-striped table-bordered mydatatable"
-                >
-                  <thead class="bg-primary">
-                    <tr>
-                      <th scope="col" style="width: 60px">
-                        <div class="custom-control custom-checkbox">
-                          <input
-                            (change)="allToken($event)"
-                            type="checkbox"
-                            class="custom-control-input"
-                            name="aToken"
-                            id="AToken"
-                            [checked]="chkAll"
-                          />
-                          <label
-                            class="custom-control-label cursor-pointer pt-1 text-white"
-                            for="AToken"
-                            >All</label
-                          >
-                        </div>
-                      </th>
-                      <th scope="col">Country</th>
-                      <th scope="col">City</th>
-                      <th scope="col">Location</th>
-                      <th scope="col">Media Type</th>
-                      <th scope="col">Token No</th>
-                      <th scope="col" *ngIf="isHotelTvFind==='Yes'"  style="width: 100px">Size Limit</th>
-                      <th scope="col" style="width: 30px"></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr
-                      *ngFor="
-                        let TokenLst of TokenList
-                          | filter: searchText
-                          | slice
-                            : (page - 1) * pageSize
-                            : (page - 1) * pageSize + pageSize;
-                        let i = index
-                      "
-                    >
-                      <td data-label="" class="">
-                        <div class="custom-control custom-checkbox">
-                          <input
-                            (change)="
-                              SelectToken(
-                                TokenLst.tokenid,
-                                $event,
-                                TokenLst.ScheduleType
-                              )
-                            "
-                            type="checkbox"
-                            class="custom-control-input"
-                            id="{{ TokenLst.tokenid }}{{ i }}"
-                            [checked]="TokenLst.check"
-                            name="chkTokenList"
-                          />
-                          <label
-                            class="custom-control-label cursor-pointer"
-                            for="{{ TokenLst.tokenid }}{{ i }}"
-                          ></label>
-                        </div>
-                      </td>
-                      <td data-label="Country ">
-                        {{ TokenLst.countryName }}
-                      </td>
-                      <td data-label="City">{{ TokenLst.city }}</td>
-                      <td data-label="Location">{{ TokenLst.location }}</td>
-                      <td data-label="Station Name">
-                        {{ TokenLst.MediaType }}
-                      </td>
-                      <td data-label="Token No">
-                        {{ TokenLst.tokenCode }}
-                      </td>
-                      <td data-label="Size Limit" *ngIf="isHotelTvFind==='Yes'" >
-                        <span *ngIf="TokenLst.DeviceType==='HotelTv'">{{TokenLst.playlistlimit}} MB </span>
-                        <span *ngIf="TokenLst.DeviceType!=='HotelTv'"></span>
-                      </td>
-                      <td
-                        data-label=""
-                        (click)="open(content, TokenLst.tokenid)"
-                      >
-                        <i
-                          class="fa fa-pencil-square-o"
-                          aria-hidden="true"
-                        ></i>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-                <ngb-pagination
-                  [collectionSize]="TokenList.length"
-                  [(page)]="page"
-                  [pageSize]="pageSize"
-                  [boundaryLinks]="true"
-                  size="sm"
-                  (pageChange)="loadPage($event)"
-                ></ngb-pagination>
+               </div>
+              <div class="table-responsive mt-4">
+                <kendo-grid
+                [kendoGridBinding]="MasterScheduleTokenInfoList"
+                [pageSize]="15"
+                [pageable]="true"
+                [sortable]="true"
+                [selectable]="false">
+                <ng-template kendoGridToolbarTemplate>
+                   
+                  <kendo-button class="bg-primary" (click)="openAssignScheduleModal(modalAssignScheduleToPlayers)">
+                    <span class="k-icon k-i-plus"></span>Add new devices
+                  </kendo-button>
+              </ng-template>
+                <kendo-grid-column field="CountryName" title="Country"   class="gridrowfont" [headerClass]="'bg-primary'" [width]="100"></kendo-grid-column>
+                <kendo-grid-column field="CityName"   title="City" class="gridrowfont" [headerClass]="'bg-primary'"></kendo-grid-column>
+                <kendo-grid-column field="Location"   title="Location" class="gridrowfont" [headerClass]="'bg-primary'"></kendo-grid-column>
+                <kendo-grid-column field="mediaType"   title="Media Type" class="gridrowfont" [headerClass]="'bg-primary'" [width]="150"></kendo-grid-column>
+                <kendo-grid-column field="tno"   title="Token No" class="gridrowfont" [headerClass]="'bg-primary'" [width]="250"></kendo-grid-column>
+                <kendo-grid-column field="TokenID"   title="" class="gridrowfont" [headerClass]="'bg-primary'" [width]="100">
+                  <ng-template kendoGridCellTemplate let-dataItem>
+                    <kendo-button class="bg-danger" (click)="openDeleteModal(SchDeleteContent, dataItem.TokenID,'Player')">
+                      <span class="k-icon k-i-trash"></span>
+                  </kendo-button>
+                  </ng-template>
+              </kendo-grid-column>
+              </kendo-grid>                      
               </div>
             </form>
           </div>
@@ -922,7 +626,7 @@
             </button>
             <button
               class="btn btn-danger col-sm-2 pull-right mr-2"
-              (click)="DeleteTokenSchedule()"
+              (click)="DeleteMasterSchedule()"
               (click)="d('Cross click')"
             >
               <i class="fa fa-check fa-lg" aria-hidden="true"></i>
@@ -1404,5 +1108,200 @@
       </div>
     </form>
     </div>
+  </div>
+</ng-template>
+<ng-template #modalAssignScheduleToPlayers let-c="close" let-d="dismiss">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Add devices</h5>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="form-group col-sm-4 mb-2 ">
+      <label for="mName" class="mb-2 mr-sm-2"
+        >Media Type:</label
+      >
+      <select
+        class="custom-select mb-0"
+        [(ngModel)]="cmbMediaType"
+        [ngModelOptions]="{ standalone: true }"
+        (change)="onChangeMediaType($event.target.value)"
+        id="mName"
+      >
+        <option selected value="0"></option>
+        <option
+          *ngFor="let fLst of MediaTypeList"
+          [value]="fLst.Id"
+        >
+          {{ fLst.DisplayName }}
+        </option>
+      </select>
+    </div>
+      <div class="d-none form-row mb-0 mt-0">
+        <div class="form-group col-sm-2 m-0">
+          <div class="iq-search-bar device-search">
+            <div class="searchbox1">
+              <label class="mb-2 mr-sm-2" for="Search"
+                >&nbsp;</label
+              >
+              <input
+                type="text"
+                [(ngModel)]="searchText"
+                [ngModelOptions]="{ standalone: true }"
+                class="text search-input"
+                placeholder="Search"
+                (input)="onChangeEvent_TokenSearch()"
+              />
+              <!-- <a class="search-link" href="#"
+                ><i class="fa fa-search"></i
+              ></a> -->
+            </div>
+          </div>
+        </div>
+        <div class="form-group col-sm-2 m-0" *ngIf="isHotelTvFind==='Yes'" >
+          <label class="mb-2 mr-sm-2" for="dType">Device Type:</label>
+          <select name="pType" class="custom-select" id="dType" [(ngModel)]="cmbDeviceType"
+          [ngModelOptions]="{ standalone: true }" (change)="onChangeDeviceType($event.target.value)">
+          <option selected value="All"></option>
+          <option value="Screen">Screen</option>
+          <option value="HotelTv">DA-Info</option>
+        </select>
+        </div>
+        <div class="form-group m-0" [ngClass]="isHotelTvFind==='Yes' ? 'col-sm-5' : 'col-sm-7' ">
+          <!--*ngIf="this.CustomSchedulePlaylist.length != 0"-->
+          <button
+            class="btn btn-primary"
+            
+            type="button"
+            style="margin-top: 1.8rem !important;"
+            (click)="onSubmitSF(ForceUpdate, ReducePlaylist)"
+          >
+            Save
+          </button>
+        </div>
+      </div>
+      <div class="col-row">
+      <div class="col-lg-12">
+        <kendo-grid
+        [kendoGridBinding]="TokenList"
+        [pageSize]="50"
+        [pageable]="true"
+        [sortable]="true"
+        [selectable]="true"
+        kendoGridSelectBy="tokenid"
+        [(selectedKeys)]="SelectionToken">
+        <ng-template kendoGridToolbarTemplate>
+          <div class="col-md-3 pr-0">
+            <kendo-textbox  placeholder="Search" class="w-100"
+            kendoTextBox [(ngModel)]="searchText" (valueChange)="onPlayerFilter($event)"></kendo-textbox>
+          </div>
+
+ <kendo-grid-spacer></kendo-grid-spacer>
+ <kendo-button class="bg-primary" (click)="onSubmitSF(ForceUpdate, ReducePlaylist)">
+  Save
+</kendo-button>
+ 
+
+        </ng-template>
+        <kendo-grid-checkbox-column class="gridrowfont" [headerClass]="'bg-primary'" [width]="50"
+[showSelectAll]="true"
+></kendo-grid-checkbox-column>
+        <kendo-grid-column field="countryName" title="Country"   class="gridrowfont" [headerClass]="'bg-primary'" [width]="100"></kendo-grid-column>
+        <kendo-grid-column field="city"   title="City" class="gridrowfont" [headerClass]="'bg-primary'"></kendo-grid-column>
+        <kendo-grid-column field="location"   title="Location" class="gridrowfont" [headerClass]="'bg-primary'"></kendo-grid-column>
+        
+        <kendo-grid-column field="MediaType"   title="Media Type" class="gridrowfont" [headerClass]="'bg-primary'" [width]="150"></kendo-grid-column>
+        <kendo-grid-column field="tokenCode"   title="Token No" class="gridrowfont" [headerClass]="'bg-primary'" [width]="250"></kendo-grid-column>
+
+        <!-- <kendo-grid-column field="tokenid"   title="" class="gridrowfont" [headerClass]="'bg-primary'" [width]="100">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            <kendo-button class="bg-primary mr-2" (click)="open(content, dataItem.tokenid)">
+              <span class="k-icon k-i-pencil"></span>
+          </kendo-button>
+          
+            </ng-template>
+      </kendo-grid-column> -->
+      </kendo-grid>                      
+      </div>
+      </div>
+      <div class="table-responsive d-none">
+       
+
+<!-- 
+        
+       -->
+        <table
+          class="table data-table table-striped table-bordered mydatatable"
+        >
+          <thead class="bg-primary">
+            <tr>
+              <th scope="col" style="width: 60px">
+                <div class="custom-control custom-checkbox">
+                  <input
+                    (change)="allToken($event)"
+                    type="checkbox"
+                    class="custom-control-input"
+                    name="aToken"
+                    id="AToken"
+                    [checked]="chkAll"
+                  />
+                  <label
+                    class="custom-control-label cursor-pointer pt-1 text-white"
+                    for="AToken"
+                    >All</label
+                  >
+                </div>
+              </th>
+             
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="
+                let TokenLst of TokenList
+                  | filter: searchText
+                  | slice
+                    : (page - 1) * pageSize
+                    : (page - 1) * pageSize + pageSize;
+                let i = index
+              "
+            >
+              <td data-label="" class="">
+                <div class="custom-control custom-checkbox">
+                  <input
+                    (change)="
+                      SelectToken(
+                        TokenLst.tokenid,
+                        $event,
+                        TokenLst.ScheduleType
+                      )
+                    "
+                    type="checkbox"
+                    class="custom-control-input"
+                    id="{{ TokenLst.tokenid }}{{ i }}"
+                    [checked]="TokenLst.check"
+                    name="chkTokenList"
+                  />
+                  <label
+                    class="custom-control-label cursor-pointer"
+                    for="{{ TokenLst.tokenid }}{{ i }}"
+                  ></label>
+                </div>
+              </td>
+               
+               
+              
+            </tr>
+          </tbody>
+        </table>
+       
+      </div>
+    
   </div>
 </ng-template>

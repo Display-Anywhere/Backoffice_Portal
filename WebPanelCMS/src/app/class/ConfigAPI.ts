@@ -225,6 +225,7 @@ export class ConfigAPI {
    SaveMasterSchedule: string = this.Host + 'SaveMasterSchedule';
    GetMasterScheduleDetail: string = this.Host + 'GetMasterScheduleDetail';
    SaveMasterScheduleName: string = this.Host + 'SaveMasterScheduleName';
+   DeleteMasterSchedule: string = this.Host + 'DeleteMasterSchedule';
 
 }
 

@@ -133,10 +133,16 @@ SaveModifyLogs(tokenid, ModifyData:string){
     return this.http.post(this.cApi.SaveMasterSchedule,params,{headers:headers})
      .pipe((data=>{return data;}))
   }
-  GetMasterScheduleDetail(masterscheduleid,dfclientid){
+  GetMasterScheduleDetail(masterscheduleid,dfclientid,UserId){
     let headers = new HttpHeaders({ 'Content-Type':'application/json' });
-    var params = JSON.stringify({ masterscheduleid: masterscheduleid,dfclientid:dfclientid });
+    var params = JSON.stringify({ masterscheduleid: masterscheduleid,dfclientid:dfclientid,UserId:UserId });
     return this.http.post(this.cApi.GetMasterScheduleDetail,params,{headers:headers})
+     .pipe((data=>{return data;}))
+  }
+  DeleteMasterSchedule(masterscheduleid,dfclientid,DeleteOption,id){
+    let headers = new HttpHeaders({ 'Content-Type':'application/json' });
+    var params = JSON.stringify({masterscheduleid:masterscheduleid,dfclientid:dfclientid,DeleteOption:DeleteOption,Id:id});
+    return this.http.post(this.cApi.DeleteMasterSchedule,params,{headers:headers})
      .pipe((data=>{return data;}))
   }
 }

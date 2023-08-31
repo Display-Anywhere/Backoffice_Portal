@@ -15,6 +15,8 @@ import { trim } from 'jquery';
 import { PlaylistLibService } from 'src/app/playlist-library/playlist-lib.service';
 import { DecimalPipe } from '@angular/common';
 import { ConfigAPI } from 'src/app/class/ConfigAPI';
+import { process } from '@progress/kendo-data-query';
+import { DataBindingDirective, PageChangeEvent } from '@progress/kendo-angular-grid';
 @Component({
   selector: 'app-masterschedule',
   templateUrl: './masterschedule.component.html',
@@ -50,6 +52,7 @@ export class MasterscheduleComponent implements OnInit {
   cmbSearchPlaylist = 0;
   frmTokenInfoModifyPlaylist: FormGroup;
   pSchid = 0;
+  DeleteOption=""
 
   cid='0';
   CountryList = [];
@@ -73,6 +76,7 @@ export class MasterscheduleComponent implements OnInit {
   cmbSearchMediaType;
   SearchMediaTypeList = [];
   CustomSchedulePlaylist = [];
+  CustomSchedulePlaylist_ForSave = [];
   TotalPercentageValue = 0;
   sType="Regular"
   sType_Search="Regular"
@@ -95,6 +99,10 @@ export class MasterscheduleComponent implements OnInit {
   NewMasterScheduleNameId='0'
   cmbCustomer_MasterSchedule='0'
   ngbNavActiveTabId=1
+  SelectionToken
+  MasterScheduleTokenInfoList=[]
+  MasterScheduleType=""
+  @ViewChild(DataBindingDirective) dataBinding?: DataBindingDirective;
   constructor(
     private formBuilder: FormBuilder,
     public toastrSF: ToastrService,
@@ -198,6 +206,14 @@ export class MasterscheduleComponent implements OnInit {
   }
 
   onSubmitSF(UpdateModel, ReducePlaylist) {
+    this.TokenSelected=[]
+    this.SelectionToken.forEach(item => {
+      var tokenItem = {};
+      tokenItem['tokenId'] = item;
+      tokenItem['schType'] = this.MasterScheduleType;
+      this.TokenSelected.push(tokenItem);
+    });
+     
     this.modalService.dismissAll()
     var errorFound ="No"
     this.submitted = true;
@@ -205,13 +221,13 @@ export class MasterscheduleComponent implements OnInit {
       this.toastrSF.error('Please select a customer name');
       return;
     }
-    if (this.SFform.value.FormatId == '0') {
+    /* if (this.SFform.value.FormatId == '0') {
       this.toastrSF.error('Please select a format name');
       return;
-    }
+    } */
 
     if (this.TokenSelected.length == 0) {
-      this.toastrSF.error('Please select at least one token', '');
+       this.toastrSF.error('Please select at least one player', '');
       errorFound="Yes"
       return;
     }
@@ -289,7 +305,7 @@ if (errorFound==="Yes"){
       .SaveSF(this.SFform.value)
       .pipe()
       .subscribe(
-        (data) => {
+        async (data) => {
           var returnData = JSON.stringify(data);
           var obj = JSON.parse(returnData);
           if (obj.Responce == '1') {
@@ -299,27 +315,28 @@ if (errorFound==="Yes"){
             this.SaveModifyInfo(0, 'New regular schedule is created with these values ' + params);
             this.loading = false;
             this.chkAll = false;
-            this.CustomSchedulePlaylist = [];
+            //this.CustomSchedulePlaylist = [];
             this.TotalPercentageValue = 0;
             this.selectedItems=[];
             this.TokenSelected=[];
             this.TokenList=[];
+            this.SelectionToken=[]
 
             this.sType="Regular"
-            this.SFform.get('CustomerId').setValue('0');
+           //this.SFform.get('CustomerId').setValue('0');
             this.SFform.get('FormatId').setValue('0');
             this.SFform.get('PlaylistId').setValue('0');
             this.SFform.get('TokenList').setValue(this.TokenSelected);
-            this.SFform.get('lstPlaylist').setValue(this.CustomSchedulePlaylist);
+            this.SFform.get('lstPlaylist').setValue([]);
             this.SFform.get('PercentageValue').setValue('0');
-            this.SFform.get('volume').setValue('90');
-            this.SFform.get('ScheduleType').setValue('Normal');
-            this.SFform.get('startTime').setValue(sTime);
-            this.SFform.get('EndTime').setValue(eTime);
-            this.SFform.get('startDate').setValue(this.dtDate);
-            this.SFform.get('EndDate').setValue(this.dtDate);
+            //this.SFform.get('volume').setValue('90');
+            //this.SFform.get('ScheduleType').setValue('Normal');
+            //this.SFform.get('startTime').setValue(sTime);
+            //this.SFform.get('EndTime').setValue(eTime);
+           // this.SFform.get('startDate').setValue(this.dtDate);
+           // this.SFform.get('EndDate').setValue(this.dtDate);
 
-
+           await this.GetMasterScheduleDetail(this.cmbMasterSchedule)
             
             this.ForceUpdateType = 'New';
             this.modalService.open(UpdateModel, { centered: true });
@@ -463,30 +480,29 @@ if (errorFound==="Yes"){
         }
       );
   }
-  FillFormat(id) {
-    var q = '';
-
-    var q =
+  FillFormat() {
+    var qry =
       'select max(sf.Formatid) as id , sf.formatname as displayname from tbSpecialFormat sf left join tbSpecialPlaylistSchedule_Token st on st.formatid= sf.formatid';
-    q =
-      q +
-      " left join tbSpecialPlaylistSchedule sp on sp.pschid= st.pschid  where isnull(LinkWithEvent,0)=0 and  (dbtype='" +
+    qry =
+      qry +
+      ' left join tbSpecialPlaylistSchedule sp on sp.pschid= st.pschid  where isnull(LinkWithEvent,0)=0 and ';
+    qry =
+      qry +
+      " (dbtype='" +
       localStorage.getItem('DBType') +
       "' or dbtype='Both') and  (st.dfclientid=" +
-      id +
+      this.cid +
       ' OR sf.dfclientid=' +
-      id +
-      ') group by  sf.formatname';
-
+      this.cid +
+      ")  group by  sf.formatname";
     this.loading = true;
     this.sfService
-      .FillCombo(q)
+      .FillCombo(qry)
       .pipe()
       .subscribe(
         (data) => {
           var returnData = JSON.stringify(data);
           this.FormatList = JSON.parse(returnData);
-          this.SearchFormatList = JSON.parse(returnData);
           this.loading = false;
         },
         (error) => {
@@ -571,7 +587,7 @@ if (errorFound==="Yes"){
 
     this.SFform.get('wList').setValue(this.selectedItems);
     this.chkAll = false;
-    await this.GetCustomerMediaType(deviceValue, 'New');
+    
     await this.FillMasterSchedule(this.cid)
     
   }
@@ -614,52 +630,19 @@ if (errorFound==="Yes"){
   }
   onChangeMediaType(mtype) {
     this.ScheduleList = [];
-    this.PlaylistList = [];
-    this.FormatList = [];
+    //this.PlaylistList = [];
+    //this.FormatList = [];
     this.TokenSelected = [];
     this.chkAll = false
-    this.CustomSchedulePlaylist=[];
-    this.SFform.get('FormatId').setValue('0');
+    //this.CustomSchedulePlaylist=[];
+/*     this.SFform.get('FormatId').setValue('0');
     this.SFform.get('PlaylistId').setValue('0');
     this.SFform.get('volume').setValue('90');
     if (this.cmbMediaType =="Signage"){
       this.SFform.get('volume').setValue('0');
     }
-    var qry =
-      'select max(sf.Formatid) as id , sf.formatname as displayname from tbSpecialFormat sf left join tbSpecialPlaylistSchedule_Token st on st.formatid= sf.formatid';
-    qry =
-      qry +
-      ' left join tbSpecialPlaylistSchedule sp on sp.pschid= st.pschid  where isnull(LinkWithEvent,0)=0 and ';
-    qry =
-      qry +
-      " (dbtype='" +
-      localStorage.getItem('DBType') +
-      "' or dbtype='Both') and  (st.dfclientid=" +
-      this.cid +
-      ' OR sf.dfclientid=' +
-      this.cid +
-      ") and sf.mediatype='" +
-      this.cmbMediaType +
-      "' group by  sf.formatname";
-    this.loading = true;
-    this.sfService
-      .FillCombo(qry)
-      .pipe()
-      .subscribe(
-        (data) => {
-          var returnData = JSON.stringify(data);
-          this.FormatList = JSON.parse(returnData);
-          this.loading = false;
-          this.FillTokenInfo(this.cid);
-        },
-        (error) => {
-          this.toastrSF.error(
-            'Apologies for the inconvenience.The error is recorded.',
-            ''
-          );
-          this.loading = false;
-        }
-      );
+ */    
+    this.FillTokenInfo(this.cid);
   }
   isHotelTvFind="No"
   FillTokenInfo(deviceValue) {
@@ -703,6 +686,9 @@ if (errorFound==="Yes"){
               this.isHotelTvFind="Yes"
               return
             }
+          });
+          this.MasterScheduleTokenInfoList.forEach(item => {
+            objList= objList.filter(o=> o.tokenid != item["TokenID"].toString())
           });
 
           this.TokenList = objList;
@@ -849,8 +835,9 @@ if (errorFound==="Yes"){
         }
       );
   }
-  openDeleteModal(content, pschid) {
+  openDeleteModal(content, pschid,deleteOption) {
     this.pSchid = pschid;
+    this.DeleteOption=deleteOption
     this.modalService.open(content, { centered: true });
   }
   DeleteTokenSchedule() {
@@ -1442,7 +1429,7 @@ if (errorFound==="Yes"){
       return 0;
     };
   }
-  AddItem() {
+  async AddItem() {
     if (this.IschkViewOnly==1){
       this.toastrSF.info('This feature is not available in view only');
       return;
@@ -1545,7 +1532,22 @@ if (errorFound==="Yes"){
     } else {
       obj['PercentageValue'] = '0';
     }
+    this.CustomSchedulePlaylist_ForSave=[]
+    this.CustomSchedulePlaylist_ForSave=[
+      {
+        Id: this.CustomSchedulePlaylist.length + '' + pname[0].Id,
+        pName: pname[0].DisplayName,
+        splId: pname[0].Id,
+        sTime: dt.toTimeString().slice(0, 5),
+        eTime: dt2.toTimeString().slice(0, 5),
+        wId: ObjWeekId,
+        wName: ObjWeekName,
+        PercentageValue: obj['PercentageValue'],
+        volume :obj['volume'],
+        FormatId :obj['FormatId']
 
+      }
+    ]
     this.CustomSchedulePlaylist = [
       ...this.CustomSchedulePlaylist,
       {
@@ -1566,6 +1568,7 @@ if (errorFound==="Yes"){
     this.SFform.controls['PercentageValue'].setValue('0');
     let wobj=[]
     this.SFform.controls['wList'].setValue(wobj);
+    await this.SaveMasterSchedule()
     /*
     this.PlaylistList =[];
     this.MainPlaylistList.forEach(CSP => {
@@ -2042,10 +2045,11 @@ OpenViewContent(modalName, url,oType,MediaType){
       this.modalService.open(modalName);
       
     }
-    openPlaylistScheduleModal(modalName){
+    async openPlaylistScheduleModal(modalName){
       if (this.cid=="0"){
         return
       }
+      await this.FillFormat()
       this.modalService.open(modalName);
     }
     onSubmitNewMasterSchedule(){
@@ -2127,9 +2131,15 @@ OpenViewContent(modalName, url,oType,MediaType){
       let mediatype=""
       let SchedulePlaylist=[]
       let player
-      this.sfService.GetMasterScheduleDetail(id,this.cmbCustomer_MasterSchedule).pipe().subscribe(async (data) => {
+      this.sfService.GetMasterScheduleDetail(id,this.cmbCustomer_MasterSchedule,localStorage.getItem('UserId')).pipe().subscribe(async (data) => {
             var returnData = JSON.stringify(data);
             var objData = JSON.parse(returnData);
+            if (objData.response=="0"){
+              this.MasterScheduleType=""
+              this.MasterScheduleTokenInfoList=[]
+              this.CustomSchedulePlaylist=[]
+              return
+            }
             let obj = JSON.parse(objData.data)
             obj.forEach(item => {
               let arr={}
@@ -2149,7 +2159,10 @@ OpenViewContent(modalName, url,oType,MediaType){
               let schedule= JSON.parse(item["schedule"])
               player= JSON.parse(item["player"])
               
+              
               mediatype=schedule[0].mediatype
+              this.MasterScheduleType=""
+              this.MasterScheduleType=schedule[0].ScheduleType
               arr["Id"]= schedule[0].pSchId
               arr["pName"]= schedule[0].splplaylistname
               arr["splId"]= schedule[0].splPlaylistId
@@ -2163,23 +2176,12 @@ OpenViewContent(modalName, url,oType,MediaType){
 
               SchedulePlaylist.push(arr)
             });
-            console.log(player)
-
+            this.MasterScheduleTokenInfoList=[]
+            this.MasterScheduleTokenInfoList= player
             this.loading = false;
-            this.cmbMediaType=mediatype
-           
-            await this.onChangeMediaType(mediatype)
+            //this.cmbMediaType=mediatype
             this.CustomSchedulePlaylist= SchedulePlaylist
-            player.forEach(item => {
-              let tokenItem={}
-              tokenItem['tokenId'] = item["tokenid"];
-              tokenItem['schType'] = this.f.ScheduleType.value;
-              this.removeDuplicateRecord(tokenItem);
-              this.TokenSelected.push(tokenItem);
-            });
-            this.getSelectedRows();
-
-
+            this.TokenSelected=[]
           },
           (error) => {
             this.toastrSF.error(
@@ -2212,5 +2214,148 @@ OpenViewContent(modalName, url,oType,MediaType){
       if (id== '7'){
         return 'Sun'
       }
+    }
+    async openAssignScheduleModal(modalName){
+      if (this.cid=="0"){
+        return
+      }
+      if (this.CustomSchedulePlaylist.length==0){
+        return
+      }
+      this.modalService.open(modalName, {
+        size: 'lg',
+        windowClass: 'tokenmodal',
+      });
+      await this.GetCustomerMediaType(this.cid, 'New');
+    }
+    public getField = (args: any) => {
+      return `${args.city}_${args.location}_${args.MediaType}_${args.gName}_${args.tokenCode}`;
+    }
+    public onPlayerFilter(inputValue: string): void {
+      this.TokenList = process(this.MainTokenList, {
+          filter: {
+              logic: 'or',
+              filters: [
+                  {
+                      field: this.getField,
+                      operator: 'contains',
+                      value: inputValue
+                  }
+              ]
+          }
+      }).data;
+    
+      this.dataBinding? this.dataBinding.skip = 0 : null;
+    }
+
+    SaveMasterSchedule(){
+      this.SFform.controls['TokenList'].setValue([]);
+      var sTime = this.SFform.value.startTime;
+      var eTime = this.SFform.value.EndTime;
+  
+      var dt = new Date(
+        'Mon Mar 09 2020 ' + sTime['hour'] + ':' + sTime['minute'] + ':00'
+      );
+      var dt2 = new Date(
+        'Mon Mar 09 2020 ' + eTime['hour'] + ':' + eTime['minute'] + ':00'
+      );
+  
+      this.SFform.get('startTime').setValue(dt.toTimeString().slice(0, 5));
+      this.SFform.get('EndTime').setValue(dt2.toTimeString().slice(0, 5));
+  
+      this.SFform.controls['lstPlaylist'].setValue(this.CustomSchedulePlaylist_ForSave);
+      var startDate = new Date(this.SFform.value.startDate);
+      var EndDate = new Date(this.SFform.value.EndDate);
+  
+      this.SFform.get('startDate').setValue(startDate.toDateString());
+      this.SFform.get('EndDate').setValue(EndDate.toDateString());
+      if (this.SFform.value.ScheduleType === 'PercentageSchedule') {
+        if (this.TotalPercentageValue < 100) {
+          this.toastrSF.error(
+            'Total percentage value should  be greater than or equal to 100'
+          );
+          return;
+        }
+      }
+      this.SFform.get('MasterScheduleId').setValue(this.cmbMasterSchedule);
+      this.SFform.get('mediatype').setValue(this.cmbMediaType);
+      
+      this.TokenSelected_publish=[];
+      this.loading = true;
+      this.sfService
+        .SaveMasterSchedule(this.SFform.value)
+        .pipe()
+        .subscribe(
+          (data) => {
+            var returnData = JSON.stringify(data);
+            var obj = JSON.parse(returnData);
+            if (obj.Responce == '1') {
+              this.toastrSF.info('Saved', 'Success!');
+              this.loading = false;
+              this.chkAll = false;
+              this.CustomSchedulePlaylist_ForSave=[]
+              this.MasterScheduleType=this.SFform.value.ScheduleType
+              this.SFform.get('startTime').setValue(sTime);
+              this.SFform.get('EndTime').setValue(eTime);
+              this.SFform.get('startDate').setValue(this.dtDate);
+              this.SFform.get('EndDate').setValue(this.dtDate);
+  
+            } else {
+              this.toastrSF.error(
+                'Apologies for the inconvenience.The error is recorded.',
+                ''
+              );
+              this.loading = false;
+            }
+          },
+          (error) => {
+            this.toastrSF.error(
+              'Apologies for the inconvenience.The error is recorded.',
+              ''
+            );
+            this.loading = false;
+          }
+        );
+    }
+    
+    DeleteMasterSchedule() {
+      this.loading = true;
+      this.sfService
+        .DeleteMasterSchedule(this.cmbMasterSchedule,this.cmbCustomer_MasterSchedule,this.DeleteOption,this.pSchid)
+        .pipe()
+        .subscribe(
+          (data) => {
+            var returnData = JSON.stringify(data);
+            var obj = JSON.parse(returnData);
+            if (obj.response=="1"){
+              if (this.DeleteOption=="Playlist"){
+                this.CustomSchedulePlaylist = this.CustomSchedulePlaylist.filter(
+                  (d) => d.Id !== this.pSchid
+                );
+              }
+              if (this.DeleteOption=="Player"){
+                this.MasterScheduleTokenInfoList = this.MasterScheduleTokenInfoList.filter(
+                  (d) => d.TokenID !== this.pSchid
+                );
+              }
+              this.pSchid = 0;
+              this.DeleteOption=""
+              this.toastrSF.info("Deleted", '');
+            } else {
+              this.toastrSF.error(
+                'Apologies for the inconvenience.The error is recorded.',
+                ''
+              );
+            }
+            this.loading = false;
+          },
+          (error) => {
+            this.toastrSF.error(
+              'Apologies for the inconvenience.The error is recorded.',
+              ''
+            );
+            this.loading = false;
+          }
+        );
     }
 }
