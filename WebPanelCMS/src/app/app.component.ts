@@ -30,6 +30,7 @@ export class AppComponent implements OnInit {
   FoundRecordList=[]
   searchText=''
   loginclientid= localStorage.getItem('dfClientId')
+  DemoUserActive=false
   constructor(
     public authService: AuthServiceOwn,
     private modalService: NgbModal,
@@ -126,7 +127,8 @@ export class AppComponent implements OnInit {
   logout() {
     //this.auth0.logout()
     this.authService.logout();
-    this.router.navigate(['']);
+    window.location.href="https://uat.display-anywhere.com/"
+    //this.router.navigate(['']);
   }
   OpenManual(){
     this.iframeUrl =true
@@ -160,5 +162,73 @@ export class AppComponent implements OnInit {
           this.loading = false;
         }
       );
+  }
+  DemoUser() {
+    this.DemoUserActive=true
+    localStorage.setItem('chkDashboard', 'true');
+    localStorage.setItem('chkPlayerDetail', 'true');
+    localStorage.setItem('chkPlaylistLibrary', 'true');
+    localStorage.setItem('chkScheduling', 'true');
+    localStorage.setItem('chkAdvertisement', 'false');
+    localStorage.setItem('chkInstantPlay', 'false');
+    localStorage.setItem('chkUpload', 'true');
+    localStorage.setItem('chkCopyData', 'false');
+    localStorage.setItem('chkStreaming', 'false');
+    localStorage.setItem('chkViewOnly', 'false');
+    localStorage.setItem('chkEventMeeting', 'false');
+    localStorage.setItem('isKpnActive','false') 
+    localStorage.setItem('isSanitizerActive','false') 
+    this.authService.IsUserLogin();
+    this.router.navigate(['Dashboard']);
+  }
+  AdminUser(){
+    this.DemoUserActive=false
+    let obj = JSON.parse(localStorage.getItem('ApiObject'))
+    localStorage.setItem('UserId', obj.UserId);
+    localStorage.setItem('dfClientId', obj.dfClientId);
+    localStorage.setItem('IsTwoWayAuthActive', obj.IsTwoWayAuthActive);
+    localStorage.setItem('loginclientid', obj.dfClientId);
+    localStorage.setItem('IsRf', obj.IsRf);
+    localStorage.setItem('chkDashboard', obj.chkDashboard);
+    localStorage.setItem('chkPlayerDetail', obj.chkPlayerDetail);
+    localStorage.setItem('chkPlaylistLibrary', obj.chkPlaylistLibrary);
+    localStorage.setItem('chkScheduling', obj.chkScheduling);
+    localStorage.setItem('chkAdvertisement', obj.chkAdvertisement);
+    localStorage.setItem('chkInstantPlay', obj.chkInstantPlay);
+    localStorage.setItem('ClientContentType', obj.ContentType);
+
+    localStorage.setItem('chkUpload', obj.chkUpload);
+    localStorage.setItem('chkCopyData', obj.chkCopyData);
+    localStorage.setItem('chkStreaming', obj.chkStreaming);
+    localStorage.setItem('chkViewOnly', obj.chkViewOnly);
+    localStorage.setItem('chkEventMeeting', obj.chkEventMeeting);
+    localStorage.setItem('isKpnActive',obj.isKpnActive) 
+    localStorage.setItem('isSanitizerActive',obj.isSanitizerActive) 
+    if (obj.UserId != 0 && obj.chkEventMeeting == true) {
+      localStorage.setItem('chkDashboard', 'false');
+      localStorage.setItem('chkPlayerDetail', 'true');
+    }
+    this.authService.login();
+    if (
+      obj.dfClientId === '6' ||
+      obj.dfClientId === '201' ||
+      obj.dfClientId === '6'
+    ) {
+      this.authService.IsAdminLogin();
+    } else if (obj.dfClientId === '167' && obj.UserId === '112') {
+      localStorage.setItem('UserId', '0');
+      this.authService.IsClienAdminLogin();
+    } else if (obj.dfClientId === '183' && obj.UserId === '0') {
+      this.authService.IsClienAdminLogin();
+    } else {
+      this.authService.IsUserLogin();
+    }
+
+    if (localStorage.getItem('UserId') === '-1') {
+      this.router.navigate(['DJPlaylistLibrary']);
+    } else {
+      this.router.navigate(['Dashboard']);
+      // this.router.navigate(['DJPlaylistLibrary']);
+    }
   }
 }

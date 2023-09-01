@@ -339,7 +339,7 @@ if (errorFound==="Yes"){
            await this.GetMasterScheduleDetail(this.cmbMasterSchedule)
             
             this.ForceUpdateType = 'New';
-            this.modalService.open(UpdateModel, { centered: true });
+            //this.modalService.open(UpdateModel, { centered: true });
           } else {
             this.toastrSF.error(
               'Apologies for the inconvenience.The error is recorded.',
@@ -462,14 +462,16 @@ if (errorFound==="Yes"){
           var returnData = JSON.stringify(data);
           this.CustomerList = JSON.parse(returnData);
           this.loading = false;
-          if (this.auth.IsAdminLogin$.value == false) {
+          
             this.SFform.get('CustomerId').setValue(
               localStorage.getItem('dfClientId')
             );
+            this.cmbCustomer_MasterSchedule=localStorage.getItem('dfClientId')
+            this.cid=localStorage.getItem('dfClientId')
             this.onChangeCustomer(localStorage.getItem('dfClientId'));
             this.cmbSearchCustomer=localStorage.getItem('dfClientId')
-          this.onChangeSearchCustomer(localStorage.getItem('dfClientId'))
-          }
+          //this.onChangeSearchCustomer(localStorage.getItem('dfClientId'))
+           
         },
         (error) => {
           this.toastrSF.error(
@@ -601,9 +603,10 @@ if (errorFound==="Yes"){
       .subscribe(
         (data) => {
           var returnData = JSON.stringify(data);
-          var mType= localStorage.getItem('mType')
+          
           if (type == 'New') {
             this.MediaTypeList = JSON.parse(returnData);
+            var mType= this.MediaTypeList[0].Id
             if(mType!=null){
               this.cmbMediaType=mType
               this.onChangeMediaType(mType)
@@ -2068,10 +2071,10 @@ OpenViewContent(modalName, url,oType,MediaType){
             if (obj.Responce != '-2') {
               this.toastrSF.info('Saved', 'Success!');
               this.loading = false;
-              
-              this.NewMasterScheduleName = '';
               this.chkOverwritemanual=false
               await this.FillMasterSchedule(this.cmbCustomer_MasterSchedule);
+              await this.openMasterScheduleDetail(obj.Responce,this.NewMasterScheduleName)
+              this.NewMasterScheduleName = '';
               this.modalService.dismissAll()
             } else if (obj.Responce == '-2') {
               this.toastrSF.info('This schedule name already exists', '');
@@ -2226,6 +2229,8 @@ OpenViewContent(modalName, url,oType,MediaType){
         size: 'lg',
         windowClass: 'tokenmodal',
       });
+      this.TokenList = [];
+      this.MainTokenList = [];
       await this.GetCustomerMediaType(this.cid, 'New');
     }
     public getField = (args: any) => {

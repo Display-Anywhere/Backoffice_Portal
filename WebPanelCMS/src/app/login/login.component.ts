@@ -144,6 +144,7 @@ export class LoginComponent implements OnInit,OnDestroy {
   }
 
   ApiObject(obj) {
+    localStorage.setItem('ApiObject', JSON.stringify(obj));
     localStorage.setItem('UserId', obj.UserId);
     localStorage.setItem('dfClientId', obj.dfClientId);
     localStorage.setItem('IsTwoWayAuthActive', obj.IsTwoWayAuthActive);

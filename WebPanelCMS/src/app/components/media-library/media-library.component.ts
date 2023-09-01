@@ -107,10 +107,9 @@ export class MediaLibraryComponent implements OnInit {
           var returnData = JSON.stringify(data);
           this.CustomerList = JSON.parse(returnData);
           this.loading = false;
-          if (this.auth.IsAdminLogin$.value == false) {
-            this.onChangeCustomer(localStorage.getItem('dfClientId'));
-            this.cmbCustomer=localStorage.getItem('dfClientId')
-          }
+          this.cmbCustomer=localStorage.getItem('dfClientId')
+          this.onChangeCustomer(localStorage.getItem('dfClientId'));
+           
         },
         (error) => {
           this.toastr.error(

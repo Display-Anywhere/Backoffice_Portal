@@ -368,7 +368,7 @@
                     class="custom-select mb-0"
                     formControlName="CustomerId"
                     (change)="onChangeCustomer($event.target.value)"
-                    id="cName"
+                    id="cName" disabled=""
                   >
                     <option selected value="0"></option>
                     <option
@@ -508,11 +508,19 @@
                 <kendo-grid-column field="tno"   title="Token No" class="gridrowfont" [headerClass]="'bg-primary'" [width]="250"></kendo-grid-column>
                 <kendo-grid-column field="TokenID"   title="" class="gridrowfont" [headerClass]="'bg-primary'" [width]="100">
                   <ng-template kendoGridCellTemplate let-dataItem>
+                    <kendo-button class="bg-primary mr-2" (click)="open(content, dataItem.TokenID)">
+                      <span class="k-icon k-i-pencil"></span>
+                  </kendo-button>
+
                     <kendo-button class="bg-danger" (click)="openDeleteModal(SchDeleteContent, dataItem.TokenID,'Player')">
                       <span class="k-icon k-i-trash"></span>
                   </kendo-button>
                   </ng-template>
               </kendo-grid-column>
+
+
+ 
+
               </kendo-grid>                      
               </div>
             </form>

@@ -156,14 +156,14 @@
           <!--  *ngIf="authService.UserId$ == '0'"-->
           <li
             class="js-scroll-trigger"
-           *ngIf="((authService.UserId$ =='0') && ((authService.chkViewOnly$ | async)==false))"
+           *ngIf="((DemoUserActive==false)&&(authService.UserId$ =='0') && ((authService.chkViewOnly$ | async)==false))"
             routerLinkActive="active"
           >
             <a routerLink="/Users">
               <i class="fa fa-users iq-arrow-left"></i><span>Users</span>
             </a>
           </li>
-          <li *ngIf="(((authService.chkEventMeeting$ | async)==false))" class="js-scroll-trigger" routerLinkActive="active">
+          <li *ngIf="(((authService.chkEventMeeting$ | async)==false) && (DemoUserActive==false))" class="js-scroll-trigger" routerLinkActive="active">
             <a routerLink="/Reports">
               <i class="fa fa-table iq-arrow-left"></i><span>Stats</span>
             </a>
@@ -180,7 +180,7 @@
                 <i class="fa fa-clone iq-arrow-left"></i><span>Copy Data</span>
               </a>
             </li>
-            <li *ngIf="(((authService.chkEventMeeting$ | async)==false))" class="js-scroll-trigger" routerLinkActive="active">
+            <li *ngIf="(((authService.chkEventMeeting$ | async)==false) && (DemoUserActive==false))" class="js-scroll-trigger" routerLinkActive="active">
               <a routerLink="/Links">
                 <i class="fa fa-tasks iq-arrow-left"></i><span>Links</span>
               </a>
@@ -199,13 +199,23 @@
                 ><span>DA-IPTV</span>
               </a>
             </li>
-            <li *ngIf="(((authService.chkEventMeeting$ | async)==false))" class="js-scroll-trigger" routerLinkActive="active">
+           <!--  <li *ngIf="(((authService.chkEventMeeting$ | async)==false))" class="js-scroll-trigger" routerLinkActive="active">
               <a routerLink="/manual">
                 <i class="fa fa-ravelry iq-arrow-left"></i><span>Manual</span>
               </a>
+            </li> -->
+            <li class="js-scroll-trigger" *ngIf="(DemoUserActive==false)">
+              <a href="javascript:;" (click)="DemoUser()">
+                <i class="fa fa-ravelry iq-arrow-left"></i><span>Switch</span>
+              </a>
+            </li>
+            <li class="js-scroll-trigger" *ngIf="(DemoUserActive==true)">
+              <a href="javascript:;" (click)="AdminUser()">
+                <i class="fa fa-ravelry iq-arrow-left"></i><span>Switch</span>
+              </a>
             </li>
             
-            <li *ngIf="(((authService.chkEventMeeting$ | async)==false))" class="js-scroll-trigger" class="d-none d-xl-block">
+            <li *ngIf="(((authService.chkEventMeeting$ | async)==false) && (DemoUserActive==false))" class="js-scroll-trigger" class="d-none d-xl-block">
               <div class="input-group mt-1 search-input">
                 <input
                   type="text"
