@@ -102,6 +102,7 @@ export class MasterscheduleComponent implements OnInit {
   SelectionToken
   MasterScheduleTokenInfoList=[]
   MasterScheduleType=""
+  EditPschId="0"
   @ViewChild(DataBindingDirective) dataBinding?: DataBindingDirective;
   constructor(
     private formBuilder: FormBuilder,
@@ -1433,6 +1434,10 @@ if (errorFound==="Yes"){
     };
   }
   async AddItem() {
+    if (this.EditPschId!="0"){
+      this.toastrSF.info('This feature is not available, We are working on it');
+      return
+    }
     if (this.IschkViewOnly==1){
       this.toastrSF.info('This feature is not available in view only');
       return;
@@ -2048,12 +2053,40 @@ OpenViewContent(modalName, url,oType,MediaType){
       this.modalService.open(modalName);
       
     }
-    async openPlaylistScheduleModal(modalName){
+    async openPlaylistScheduleModal(modalName,id){
       if (this.cid=="0"){
         return
       }
+      const obj= this.CustomSchedulePlaylist.filter(o => o.Id==id)
+      console.log(obj)
+      const sTime= new Date("1900-01-01 "+obj[0].sTime)
+      const etime= new Date("1900-01-01 "+obj[0].eTime)
+      var startime: NgbTimeStruct = { hour: sTime.getHours(), minute: sTime.getMinutes(), second: 0 };
+      var endtime: NgbTimeStruct = { hour: etime.getHours(), minute: etime.getMinutes(), second: 0 };
+
+      this.SFform.get('FormatId').setValue(obj[0].FormatId);
+      await this.onChangeFormat(obj[0].FormatId, '')
+      this.SFform.get('startTime').setValue(startime);
+      this.SFform.get('EndTime').setValue(endtime);
+      this.SFform.get('volume').setValue(obj[0].volume);
+      let week = obj[0].wId.toString().split(",")
+      let wid=[]
+      for (let index = 0; index < week.length; index++) {
+        wid.push(
+          {
+           id: week[index],
+           itemName:this.getWeekName(week[index])
+        })
+      }
+      
+      this.SFform.get('wList').setValue(wid)
+      this.EditPschId=id
       await this.FillFormat()
       this.modalService.open(modalName);
+      this.SFform.get('PlaylistId').setValue(obj[0].splId);
+    }
+    PlaylistScheduleClose(){
+      this.EditPschId ="0"
     }
     onSubmitNewMasterSchedule(){
       if (this.NewMasterScheduleName == '') {

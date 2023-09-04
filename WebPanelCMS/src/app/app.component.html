@@ -41,7 +41,9 @@
         <!-- serach token for m-screen -->
       </div>
 
-      <div class="iq-menu-horizontal">
+      <div class="iq-menu-horizontal w-100" style="
+      border-bottom: 3px solid #f44611;
+  ">
         <nav class="iq-sidebar-menu" *ngIf="authService.isLoggedIn$ | async">
           <div
             class="iq-sidebar-logo d-flex align-items-center justify-content-between"
@@ -203,7 +205,7 @@
               <a routerLink="/manual">
                 <i class="fa fa-ravelry iq-arrow-left"></i><span>Manual</span>
               </a>
-            </li> -->
+            </li> 
             <li class="js-scroll-trigger" *ngIf="(DemoUserActive==false)">
               <a href="javascript:;" (click)="DemoUser()">
                 <i class="fa fa-ravelry iq-arrow-left"></i><span>Switch</span>
@@ -213,9 +215,16 @@
               <a href="javascript:;" (click)="AdminUser()">
                 <i class="fa fa-ravelry iq-arrow-left"></i><span>Switch</span>
               </a>
+            </li>-->
+            <li>
+               
+                <kendo-switch [(ngModel)]="DemoUserActive"  onLabel="User"
+                offLabel="Admin" style="width: 85px;margin-top: 10px;" (valueChange)="onSwitchChange($event)"></kendo-switch>
+               
             </li>
             
-            <li *ngIf="(((authService.chkEventMeeting$ | async)==false) && (DemoUserActive==false))" class="js-scroll-trigger" class="d-none d-xl-block">
+            
+         <!--   <li *ngIf="(((authService.chkEventMeeting$ | async)==false) && (DemoUserActive==false))" class="js-scroll-trigger" class="d-none d-xl-block">
               <div class="input-group mt-1 search-input">
                 <input
                   type="text"
@@ -231,7 +240,7 @@
                 </div>
               </div>
             </li>
-            <!-- library  -->
+             library  -->
             <li
               class="js-scroll-trigger"
               *ngIf="authService.UserId$ == '-1'"

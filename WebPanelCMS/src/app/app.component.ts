@@ -163,6 +163,14 @@ export class AppComponent implements OnInit {
         }
       );
   }
+  onSwitchChange(value){
+    if (value==true){
+      this.DemoUser()
+    }
+    else{
+      this.AdminUser()
+    }
+  }
   DemoUser() {
     this.DemoUserActive=true
     localStorage.setItem('chkDashboard', 'true');

@@ -23,7 +23,7 @@ import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { ScrollViewModule } from '@progress/kendo-angular-scrollview';
 import { LabelModule } from '@progress/kendo-angular-label';
 import { MenuModule } from '@progress/kendo-angular-menu';
-
+import { InputsModule } from "@progress/kendo-angular-inputs";
 
 
 
@@ -111,7 +111,8 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     DropDownsModule,
     ScrollViewModule,
     LabelModule,
-    MenuModule
+    MenuModule,
+    InputsModule
       ],
       
   providers: [AuthGuard,

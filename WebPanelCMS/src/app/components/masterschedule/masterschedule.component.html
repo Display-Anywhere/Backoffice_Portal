@@ -456,7 +456,7 @@
                 [sortable]="true">
                 <ng-template kendoGridToolbarTemplate>
                    
-                    <kendo-button class="bg-primary" (click)="openPlaylistScheduleModal(modalPlaylistSchedule)">
+                    <kendo-button class="bg-primary" (click)="openPlaylistScheduleModal(modalPlaylistSchedule,'0')">
                       <span class="k-icon k-i-plus"></span>Add New Playlist Schedule
                     </kendo-button>
 
@@ -481,6 +481,10 @@
 
                 <kendo-grid-column field="Id"   title="" class="gridrowfont" [headerClass]="'bg-primary'" [width]="100">
                   <ng-template kendoGridCellTemplate let-dataItem>
+                     
+                      <kendo-button class="bg-primary mr-2" (click)="openPlaylistScheduleModal(modalPlaylistSchedule, dataItem.Id)">
+                        <span class="k-icon k-i-pencil"></span>
+                    </kendo-button>
                   <kendo-button class="bg-danger" (click)="openDeleteModal(SchDeleteContent, dataItem.Id,'Playlist')">
                     <span class="k-icon k-i-trash"></span>
                 </kendo-button>
@@ -942,7 +946,7 @@
     <button
       type="button"
       class="close text-white"
-      aria-label="Close"
+      aria-label="Close" (click)="PlaylistScheduleClose()"
       (click)="d('Cross click')"
     >
       <span aria-hidden="true">&times;</span>
