@@ -1434,10 +1434,7 @@ if (errorFound==="Yes"){
     };
   }
   async AddItem() {
-    if (this.EditPschId!="0"){
-      this.toastrSF.info('This feature is not available, We are working on it');
-      return
-    }
+    
     if (this.IschkViewOnly==1){
       this.toastrSF.info('This feature is not available in view only');
       return;
@@ -1463,7 +1460,7 @@ if (errorFound==="Yes"){
 
     const obj = this.SFform.value;
     const pname = this.PlaylistList.filter(
-      (order) => order.Id === obj['PlaylistId']
+      (order) => order.Id == obj['PlaylistId'].toString()
     );
     let sTime = obj['startTime'];
     let eTime = obj['EndTime'];
@@ -1519,10 +1516,10 @@ if (errorFound==="Yes"){
         item['eTime'] === dt2.toTimeString().slice(0, 5) &&
         item['wName'] === ObjWeekName
       ) {
-        IsTimeFind = 'Yes';
+       // IsTimeFind = 'Yes';
       }
     });
-    if (this.SFform.value.ScheduleType === 'Normal') {
+    if (this.SFform.value.ScheduleType == 'Normal') {
       if (IsTimeFind === 'Yes') {
         this.toastrSF.error('Same time schedule is already in list');
         return;
@@ -1576,6 +1573,7 @@ if (errorFound==="Yes"){
     this.SFform.controls['PercentageValue'].setValue('0');
     let wobj=[]
     this.SFform.controls['wList'].setValue(wobj);
+    
     await this.SaveMasterSchedule()
     /*
     this.PlaylistList =[];
@@ -2053,18 +2051,25 @@ OpenViewContent(modalName, url,oType,MediaType){
       this.modalService.open(modalName);
       
     }
+    PublishScheduleToDevices(){
+      this.loading = true;
+      setTimeout(() => { 
+        this.loading = false;
+        this.toastrSF.info("Schedules successfully published to device")
+       }, 5000);
+    }
     async openPlaylistScheduleModal(modalName,id){
       if (this.cid=="0"){
         return
       }
       const obj= this.CustomSchedulePlaylist.filter(o => o.Id==id)
-      console.log(obj)
+      await this.FillFormat()
+      if (obj.length>0){
       const sTime= new Date("1900-01-01 "+obj[0].sTime)
       const etime= new Date("1900-01-01 "+obj[0].eTime)
       var startime: NgbTimeStruct = { hour: sTime.getHours(), minute: sTime.getMinutes(), second: 0 };
       var endtime: NgbTimeStruct = { hour: etime.getHours(), minute: etime.getMinutes(), second: 0 };
 
-      this.SFform.get('FormatId').setValue(obj[0].FormatId);
       await this.onChangeFormat(obj[0].FormatId, '')
       this.SFform.get('startTime').setValue(startime);
       this.SFform.get('EndTime').setValue(endtime);
@@ -2080,10 +2085,15 @@ OpenViewContent(modalName, url,oType,MediaType){
       }
       
       this.SFform.get('wList').setValue(wid)
+      setTimeout(() => { 
+        this.SFform.get('FormatId').setValue(obj[0].FormatId);
+        this.SFform.get('PlaylistId').setValue(obj[0].splId);
+       }, 2000); 
+    }
       this.EditPschId=id
-      await this.FillFormat()
+      
       this.modalService.open(modalName);
-      this.SFform.get('PlaylistId').setValue(obj[0].splId);
+      
     }
     PlaylistScheduleClose(){
       this.EditPschId ="0"
@@ -2324,19 +2334,28 @@ OpenViewContent(modalName, url,oType,MediaType){
         .SaveMasterSchedule(this.SFform.value)
         .pipe()
         .subscribe(
-          (data) => {
+          async (data) => {
             var returnData = JSON.stringify(data);
             var obj = JSON.parse(returnData);
             if (obj.Responce == '1') {
               this.toastrSF.info('Saved', 'Success!');
               this.loading = false;
               this.chkAll = false;
+              
+              
               this.CustomSchedulePlaylist_ForSave=[]
               this.MasterScheduleType=this.SFform.value.ScheduleType
               this.SFform.get('startTime').setValue(sTime);
               this.SFform.get('EndTime').setValue(eTime);
               this.SFform.get('startDate').setValue(this.dtDate);
               this.SFform.get('EndDate').setValue(this.dtDate);
+              await this.GetMasterScheduleDetail(this.cmbMasterSchedule)
+              
+              if (this.EditPschId!="0"){
+                this.modalService.dismissAll()
+              }
+              this.EditPschId="0"
+     
   
             } else {
               this.toastrSF.error(

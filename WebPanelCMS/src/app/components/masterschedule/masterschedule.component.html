@@ -460,7 +460,7 @@
                       <span class="k-icon k-i-plus"></span>Add New Playlist Schedule
                     </kendo-button>
 
-                    <kendo-button class="bg-primary">
+                    <kendo-button class="bg-primary" (click)="PublishScheduleToDevices()">
                       <span class="k-icon k-i-plus"></span>Publish Schedule to devices
                     </kendo-button>
                     <!-- <kendo-grid-spacer></kendo-grid-spacer>
@@ -942,7 +942,8 @@
 
 <ng-template #modalPlaylistSchedule let-c="close" let-d="dismiss">
   <div class="modal-header bg-primary">
-    <h5 class="text-white">Add New Playlist Schedule</h5>
+    <h5 class="text-white" *ngIf="EditPschId=='0'">Add New Playlist Schedule</h5>
+    <h5 class="text-white" *ngIf="EditPschId!='0'">Update Playlist Schedule</h5>
     <button
       type="button"
       class="close text-white"

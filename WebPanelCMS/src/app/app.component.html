@@ -62,7 +62,7 @@
           <ul
             *ngIf="authService.UserId$ != '-1'"
             id="iq-sidebar-toggle"
-            class="iq-menu d-flex"
+            class="iq-menu w-100" style="display: inline-flex !important; justify-content: flex-start;"
           >
             <div class="clear d-none"></div>
             <li
@@ -116,7 +116,7 @@
             </li>
             <li
               class="js-scroll-trigger"
-              *ngIf="authService.chkPlaylistLibrary$ | async"
+              *ngIf="((DemoUserActive==false) && (authService.chkPlaylistLibrary$ | async))"
               routerLinkActive="active"
             >
               <a routerLink="/PlaylistLibrary">
@@ -216,11 +216,14 @@
                 <i class="fa fa-ravelry iq-arrow-left"></i><span>Switch</span>
               </a>
             </li>-->
-            <li>
-               
-                <kendo-switch [(ngModel)]="DemoUserActive"  onLabel="User"
-                offLabel="Admin" style="width: 85px;margin-top: 10px;" (valueChange)="onSwitchChange($event)"></kendo-switch>
-               
+            <li class="w-100" style="
+            padding-top: 23px;
+        ">
+              <kendo-label text="User" style="
+              float: right;
+          ">
+                <kendo-switch [(ngModel)]="DemoUserActive" (valueChange)="onSwitchChange($event)" class="ml-2"></kendo-switch>
+               </kendo-label>
             </li>
             
             
@@ -252,8 +255,10 @@
               </a>
             </li>
             <!-- library -->
-            <li class="js-scroll-trigger" routerLinkActive="active">
-              <a class="cursor" (click)="logout()">
+            <li class="js-scroll-trigger" routerLinkActive="active" style="width: 8rem !important;">
+              <a class="cursor " (click)="logout()" style="
+              float: right;
+          ">
                 <i class="fa fa-sign-out iq-arrow-left"></i><span>Logout
                </span>
               </a>
