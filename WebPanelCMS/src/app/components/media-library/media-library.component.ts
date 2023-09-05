@@ -1081,6 +1081,7 @@ GetSpecialPlayListType() {
         (data) => {
           var returnData = JSON.stringify(data);
           let obj = JSON.parse(returnData);
+          console.log(obj)
           let objArr={
             "DisplayName": "",
             "Id": "0",
@@ -1097,6 +1098,12 @@ GetSpecialPlayListType() {
             this.PlaylistLists=[]
             this.SelectedPlaylistName=""
             this.PlaylistContentLists=[];
+            this.cmbFormat={DisplayName: 'Other Services', Id: '476', check: false}
+            this.FilterFormatDropdownDefaultValue={DisplayName: 'Other Services', Id: '476', check: false}
+            setTimeout(() => { 
+              this.onChangeFormatPlaylist(this.cmbFormat)
+             }, 1000);
+            
           }
         },
         (error) => {
@@ -1189,6 +1196,7 @@ GetSpecialPlayListType() {
     if (this.expansionpanelIndex ==3){
        this.PlaylistLists=[]
        this.PlaylistLists= this.MainPlaylistLists.filter(o => o.Formatid == parseInt(e.Id))
+       this.FillPlaylistSongs(this.PlaylistLists[0].splPlaylistId,this.PlaylistLists[0].splPlaylistName)
      }
      if (this.expansionpanelIndex ==4){
        this.PlaylistLists=[]
