@@ -4,12 +4,8 @@
 >
 </ngx-loading>
 
-<div class="col-lg-12 p-0">
-    <ul ngbNav #ttpSch="ngbNav" [(activeId)]="ngbNavActiveTabId" class="nav-tabs">
-      <li [ngbNavItem]="1" class="pr-2">
-        <a ngbNavLink>Master Schedule</a>
-        <ng-template ngbNavContent>
-          <div class="col-sm-12 p-0 mb-0">
+<div class="row p-0">
+   <div class="col-sm-12 p-0 mb-0">
             <div class="form-row">
               <div class="form-group col-sm-2 m-0">
                 <label for="SearchcName" class="mb-2 mr-sm-2"
@@ -37,7 +33,7 @@
               </div>              
             </div>
           </div>
-          <div class="table-responsive">
+          <div class="table-responsive custom_scroll" style="height: 290px !important;">
             <kendo-grid 
                     [kendoGridBinding]="MasterSchedulelist_Overview"
                     [pageSize]="50"
@@ -45,9 +41,35 @@
                     [sortable]="true">
                     <ng-template kendoGridToolbarTemplate>
                        
-                        <kendo-button class="bg-primary" (click)="openMasterScheduleModal(modalMasterSchedule)">
-                          <span class="k-icon k-i-plus"></span>Add New Master Schedule
-                        </kendo-button>
+                      <div class="form-row w-100">
+                        <div class="form-group col-sm-3 m-0">
+                             
+            <kendo-label text="Master Schedule Name">
+
+            
+            <kendo-textbox placeholder="" class="p-1 ml-2 mb-2 w-50"
+                                  kendoTextBox [(ngModel)]="NewMasterScheduleName" [ngModelOptions]="{standalone: true}"></kendo-textbox>
+                           </kendo-label>
+                          
+                           
+                        </div>
+                        <div class="form-group col-sm-3">
+                          <kendo-label
+                        class="k-checkbox-label mr-2"
+                        [for]="Overwritemanual"
+                        text="Overwrite manual"
+                      ></kendo-label>
+                      <input type="checkbox" size="large"  [(ngModel)]="chkOverwritemanual" [ngModelOptions]="{standalone: true}" #Overwritemanual kendoCheckBox />
+                          <button
+                              class="btn btn-primary ml-5"
+                              type="button"
+                              (click)="onSubmitNewMasterSchedule(cmbMasterSchedule,'Yes')"
+                            >
+                              Save
+                            </button>
+                        </div>
+                           
+                      </div>
                      
                       
                     </ng-template>
@@ -65,388 +87,16 @@
                   </kendo-grid-column>
                   </kendo-grid>
           </div>
-          
-        </ng-template>
-      </li>
-      <li [ngbNavItem]="2" class="pr-2 d-none">
-        <a ngbNavLink>Search</a>
-        <ng-template ngbNavContent>
-          <div class="col-sm-12 p-0 mb-0">
-            <div class="form-row">
-              <div class="form-group col-sm-2 m-0">
-                <label for="SearchcName" class="mb-2 mr-sm-2"
-                  >Customer Name:</label
-                >
-                <select
-                  name="SearchcName"
-                  class="custom-select mb-0"
-                  [(ngModel)]="cmbSearchCustomer"
-                  (change)="onChangeSearchCustomer($event.target.value)"
-                  id="SearchcName"
-                >
-                  <option selected value="0"></option>
-                  <option
-                    *ngFor="let cLst of CustomerList"
-                    [value]="cLst.Id"
-                  >
-                    {{ cLst.DisplayName }}
-                  </option>
-                </select>
-              </div>
-              <div class="form-group col-sm-2 m-0">
-                <label class="mb-2 mr-sm-2" for="schSType"
-                    >Type:
-                  </label>
-                  <select
-                    name="Type"
-                    [(ngModel)]="sType_Search"
-                    [ngModelOptions]="{standalone: true}"
-                    class="custom-select"
-                    id="schSType"
-                    (change)="onChangeSearchCustomer(cmbSearchCustomer)"
-                  >
-                    <option selected value="Regular">
-                      Regular
-                    </option>
-                    <option value="Future">
-                      Future
-                    </option>
-                  </select>
-              </div>
-              <div class="form-group col-sm-2 m-0">
-                <label for="mName" class="mb-2 mr-sm-2">Media Type:</label>
-                <select
-                  class="custom-select mb-0"
-                  [(ngModel)]="cmbSearchMediaType"
-                  [ngModelOptions]="{ standalone: true }"
-                  (change)="onChangeSearchMediaType($event.target.value)"
-                  id="mName"
-                >
-                  <option selected value="0"></option>
-                  <option
-                    *ngFor="let fLst of SearchMediaTypeList"
-                    [value]="fLst.Id"
-                  >
-                    {{ fLst.DisplayName }}
-                  </option>
-                </select>
-              </div>
-              <div class="form-group col-sm-3 m-0">
-                <label for="SearchfName" class="mb-2 mr-sm-2"
-                  >Campaign Name:</label
-                >
-                <select
-                  class="custom-select mb-0"
-                  [(ngModel)]="cmbSearchFormat"
-                  (change)="onChangeFormat($event.target.value, 'Search')"
-                  id="SearchfName"
-                >
-                  <option selected value="0"></option>
-                  <option
-                    *ngFor="let fLst of SearchFormatList"
-                    [value]="fLst.Id"
-                  >
-                    {{ fLst.DisplayName }}
-                  </option>
-                </select>
-              </div>
-              <div class="form-group col-sm-2 m-0">
-                <label for="SearchpName" class="mb-2 mr-sm-2"
-                  >Playlist Name:</label
-                >
-                <select
-                  class="custom-select mb-0"
-                  [(ngModel)]="cmbSearchPlaylist"
-                  (change)="onChangeSearchPlaylist()"
-                  id="SearchpName"
-                >
-                  <option selected value="0"></option>
-                  <option
-                    *ngFor="let pLst of SearchPlaylistList"
-                    [value]="pLst.Id"
-                  >
-                    {{ pLst.DisplayName }}
-                  </option>
-                </select>
-              </div>
-              <div class="form-group col-sm-1 m-0">
-                <div class="">
-                  <button
-                    class="btn btn-secondary mt-5 mb-2 float-right float-sm-left"
-                    type="button"
-                    (click)="SearchContent()"
-                  >
-                    <i class="fa fa-search"></i>
-                  </button>
-                </div>
-              </div>
+          </div>
+      
+      
+       
+          <div class="container-fluid p-0 mt-3" *ngIf="ngbNavActiveTabId==4">
+            <div class="row mt-3 mb-3">
+              <div class="col-lg-12 border p-2 bg-primary"><h4 class="text-white">Playlist Schedules</h4></div>
             </div>
-          </div>
-
-          <div class="table-responsive">
-            <table
-              class="table data-table table-striped table-bordered mydatatable"
-            >
-              <thead class="bg-primary">
-                <tr>
-                  <th scope="col" style="width: 190px">Campaign Name</th>
-                  <th scope="col">Playlist Name</th>
-                  <th scope="col">Token No</th>
-                  <th scope="col">City</th>
-                  <th scope="col">Location</th>
-                  <th scope="col" style="width: 120px" *ngIf="sType_Search=='Future'" >Start Date</th>
-                  <th scope="col" style="width: 120px" *ngIf="sType_Search=='Future'" >End Date</th>
-                  <th scope="col" style="width: 120px">Start Time</th>
-                  <th scope="col" style="width: 120px">End Time</th>
-                  <th scope="col" *ngIf="((cmbSearchMediaType ==='Audio Copyright') || (cmbSearchMediaType ==='Audio DirectLicence') || (cmbSearchMediaType ==='Video'))" >Volume</th>
-                  <th scope="col">Week Day</th>
-                  
-                  <th scope="col" style="width: 30px"></th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr
-                  *ngFor="
-                    let schLst of ScheduleList
-                      | slice
-                        : (pageSearch - 1) * pageSizeSearch
-                        : (pageSearch - 1) * pageSizeSearch +
-                            pageSizeSearch;
-                    let it = index
-                  "
-                >
-                  <td data-label="Campaign Name">
-                    {{ schLst.formatName }}
-                  </td>
-                  <td data-label="PlayList Name">
-                    {{ schLst.playlistName }}
-                  </td>
-                  <td data-label="Token No">{{ schLst.token }}</td>
-                  <td data-label="City">{{ schLst.city }}</td>
-                  <td data-label="Location">{{ schLst.location }}</td>
-                  <td data-label="Start Date" *ngIf="sType_Search=='Future'" >{{ schLst.sDate }}</td>
-                  <td data-label="End Date" *ngIf="sType_Search=='Future'" >{{ schLst.eDate }}</td>
-                  <td data-label="Start Time">{{ schLst.StartTime }}</td>
-                  <td data-label="End Time">{{ schLst.EndTime }}</td>
-                  <td data-label="Volume" *ngIf="((cmbSearchMediaType ==='Audio Copyright') || (cmbSearchMediaType ==='Audio DirectLicence') || (cmbSearchMediaType ==='Video'))">{{ schLst.volume }}</td>
-                  <td data-label="Week Day">{{ schLst.WeekNo }}</td>
-                  
-                
-                  <td
-                    data-label=""
-                    (click)="openDeleteModal(SchDeleteContent, schLst.id,'')"
-                  >
-                    <i
-                      class="fa fa-trash"
-                      style="color: red"
-                      aria-hidden="true"
-                    ></i>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <ngb-pagination
-              [collectionSize]="ScheduleList.length"
-              [(page)]="pageSearch"
-              [pageSize]="pageSizeSearch"
-              [boundaryLinks]="true"
-                  size="sm"
-            ></ngb-pagination>
-          </div>
-
-        </ng-template>
-      </li>
-      <li [ngbNavItem]="3" class="pr-2 d-none">
-        <a ngbNavLink>Search Content</a>
-        <ng-template ngbNavContent>
-          <div class="col-sm-12 p-0 mb-0">
-            <div class="form-row">
-              <div class="form-group col-sm-2 m-0">
-                <label for="SearchcName" class="mb-2 mr-sm-2">Customer Name:</label>
-                <select name="SearchcName" class="custom-select mb-0" [(ngModel)]="cmbSearch_SignageCustomer"
-                  (change)="onChangeSearch_SignageCustomer($event.target.value)" id="SearchcName" >
-                  <option selected value="0"></option>
-                  <option *ngFor="let cLst of CustomerList" [value]="cLst.Id">
-                    {{ cLst.DisplayName }}
-                  </option>
-                </select>
-              </div>
-              
-              <div class="form-group col-sm-3 m-0">
-
-                <label for="SearchfName" class="mb-2 mr-sm-2">Signage Content:</label>
-                <select class="custom-select mb-0" [(ngModel)]="cmbSignageContentId"
-                  (change)="onChangeSignageContent($event.target.value)" id="SearchfName">
-                  <option selected value="0"></option>
-                  <option *ngFor="let fLst of SignageContentList" [value]="fLst.TitleID">
-                    {{ fLst.Title }}
-                  </option>
-                </select>
-              </div>
-
-              <div class="form-group col-sm-1 m-0">
-                <div class="">
-                  <button
-                    class="btn btn-primary mt-5 mb-2 float-right float-sm-left mr-2"
-                    type="button"
-                    (click)="SignageContent_OpenViewContent(viewcontent)" [disabled]="cmbSignageContentId == 0">
-                    <i class="fa fa-eye"></i>
-                  </button>
-                  <button
-                    class="btn btn-danger mt-5 mb-2 float-right float-sm-left"
-                    type="button"
-                    (click)="openTitleDeleteModalOwn(OwnTitleDeleteModal)" [disabled]="cmbSignageContentId == 0">
-                    <i class="fa fa-trash"></i>
-                  </button>
-                </div>
-              </div>
-              <div class="form-group col-sm-6 m-0">
-                <div class="form-group col-sm-4 m-0 pull-right p-0 mt-5">
-                <div class="iq-search-bar device-search">
-                  <div class="searchbox1">
-                    <input
-                      id="txtSearchExtsearchSignageText"
-                      ngbNavLink
-                      type="text"
-                      [(ngModel)]="searchSignageText"
-                      class="text search-input"
-                      placeholder="Search"
-                    />
-                    <a class="search-link" href="javascript:;" 
-                      ><i class="fa fa-search"></i
-                    ></a>
-            </div>
-                  </div>
-                </div>
-              </div>
-
-            </div>
-          </div>
-
-          <div class="table-responsive">
-            <table
-              class="table data-table table-striped table-bordered mydatatable"
-            >
-              <thead class="bg-primary">
-                <tr>
-                  <th scope="col">City</th>
-                  <th scope="col">Token No</th>
-                  <th scope="col">Location</th>
-                  <th scope="col">Campaign Name</th>
-                  <th scope="col">Playlist Name</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let schLst of SignageContentPlayerList | filter: searchSignageText">
-                  <td data-label="City">{{ schLst.city }}</td>
-                  <td data-label="Token No">{{ schLst.tokenId }}</td>
-                  <td data-label="Location">{{ schLst.Location }}</td>
-                  <td data-label="Campaign Name">
-                    {{ schLst.FormatName }}
-                  </td>
-                  <td data-label="PlayList Name">
-                    {{ schLst.splPlaylistName }}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          
-        </ng-template>
-      </li>
-      <li [ngbNavItem]="4" class="pr-2" *ngIf="ngbNavActiveTabId==4">
-        <a ngbNavLink>Details</a>
-        <ng-template ngbNavContent>
-          <div class="container-fluid p-0">
             <form [formGroup]="SFform">
-              <div class="form-row">
-                <div class="form-group col-sm-2 m-0">
-                  <label for="cName" class="mb-2 mr-sm-2" #flocation
-                    >Customer Name:</label
-                  >
-                  <select
-                    class="custom-select mb-0"
-                    formControlName="CustomerId"
-                    (change)="onChangeCustomer($event.target.value)"
-                    id="cName" disabled=""
-                  >
-                    <option selected value="0"></option>
-                    <option
-                      *ngFor="let cLst of CustomerList"
-                      [value]="cLst.Id"
-                    >
-                      {{ cLst.DisplayName }}
-                    </option>
-                  </select>
-                </div>
-                <div class="d-none form-group col-sm-2 m-0">
-                  <label class="mb-2 mr-sm-2" for="schType"
-                      >Type:
-                    </label>
-                    <select
-                      name="Type"
-                      [(ngModel)]="sType"
-                      [ngModelOptions]="{standalone: true}"
-                      class="custom-select"
-                      id="schType"
-                    >
-                      <option selected value="Regular">
-                        Regular
-                      </option>
-                      <option value="Future">
-                        Future
-                      </option>
-                    </select>
-                </div>
-              
-                <div class="form-group col-sm-2 m-0">
-                   
-                    <kendo-label
-      class="k-checkbox-label mb-2"
-      [for]="cmbmasterScheduleName"
-      text="Master Schedule Name"
-    ></kendo-label>
-    <kendo-textbox #cmbmasterScheduleName placeholder="" class="p-1 mb-2" disabled="true"
-                          kendoTextBox [(ngModel)]="txtMasterScheduleName" [ngModelOptions]="{standalone: true}"></kendo-textbox>
-                   
-                  
-                   
-                </div>
-                <div class="form-group col-sm-2 m-0" *ngIf="sType=='Future'" >
-                    <label for="SearchFromDate" class="mb-2 mr-sm-2">From Date:</label>
-        <input
-          id="SearchFromDate"
-          class="form-control mb-2 mr-sm-2"
-          [owlDateTimeTrigger]="dtFromDate"
-          formControlName="startDate"
-          [owlDateTime]="dtFromDate"
-          readonly
-        />
-        <owl-date-time
-          [pickerType]="'calendar'"
-          #dtFromDate
-        ></owl-date-time>
-
-                </div>
-
-                <div class="form-group col-sm-2 m-0" *ngIf="sType=='Future'" >
-                    <label for="SearchToDate" class="mb-2 mr-sm-2">To Date:</label>
-                    <input
-                      id="SearchToDate"
-                      class="form-control mb-2 mr-sm-2"
-                      [owlDateTimeTrigger]="dtToDate"
-                      formControlName="EndDate"
-                      [owlDateTime]="dtToDate"
-                      readonly
-                    />
-                    <owl-date-time
-                      [pickerType]="'calendar'"
-                      #dtToDate
-                    ></owl-date-time>
-                  </div>
-
-              </div>
-
+             
               
               <div class="table-responsive custom_scroll" style="height: 290px !important;">
                 <kendo-grid 
@@ -492,6 +142,9 @@
               </kendo-grid-column>
               </kendo-grid>
                </div>
+               <div class="row mt-3 mb-3">
+                <div class="col-lg-12 border p-2 bg-primary"><h4 class="text-white">Devices</h4></div>
+              </div>
               <div class="table-responsive mt-4">
                 <kendo-grid
                 [kendoGridBinding]="MasterScheduleTokenInfoList"
@@ -530,12 +183,8 @@
             </form>
           </div>
 
-        </ng-template>
-      </li>
-      
-    </ul>
-    <div [ngbNavOutlet]="ttpSch" class="mt-2"></div>
-  </div>
+        
+     
 
 
   <ng-template #SchContent let-c="close" let-d="dismiss">
@@ -930,7 +579,7 @@
           <button
             class="btn btn-primary col-sm-2 pull-right"
             type="button"
-            (click)="onSubmitNewMasterSchedule()"
+            (click)="onSubmitNewMasterSchedule('0','')"
           >
             Save
           </button>
@@ -1103,6 +752,15 @@
             formControlName="PercentageValue"
             class="form-control"
           />
+        </div>
+        <div class="form-group col-sm-6">
+          <kendo-label
+      class="k-checkbox-label mr-2"
+      [for]="Overwritemanual1"
+      text="Overwrite manual"
+    ></kendo-label>
+    <input type="checkbox" size="large"  #Overwritemanual1 kendoCheckBox />
+    
         </div>
         <div class="form-group col-sm-12 text-right">
           <button

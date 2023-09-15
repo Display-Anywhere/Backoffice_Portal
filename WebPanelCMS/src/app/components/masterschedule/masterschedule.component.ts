@@ -68,7 +68,7 @@ export class MasterscheduleComponent implements OnInit {
   searchSignageText: string = '';
   chkAll: boolean = false;
   cmbMediaType = '';
-  txtMasterScheduleName=''
+  
   cmbMasterSchedule="0"
   MasterSchedulelist=[]
   MasterSchedulelist_Overview=[]
@@ -103,6 +103,9 @@ export class MasterscheduleComponent implements OnInit {
   MasterScheduleTokenInfoList=[]
   MasterScheduleType=""
   EditPschId="0"
+  public model = {
+    terms: true,
+  };
   @ViewChild(DataBindingDirective) dataBinding?: DataBindingDirective;
   constructor(
     private formBuilder: FormBuilder,
@@ -940,7 +943,7 @@ if (errorFound==="Yes"){
   }
   open(content, tid) {
     localStorage.setItem('tokenid', tid);
-    this.modalService.open(content, { size: 'lg', windowClass: 'tokenmodal' });
+    this.modalService.open(content, { size: 'lg', windowClass: 'tokenmodal',centered: true });
   }
   tokenInfoClose() {
     this.FillTokenInfo(this.cid);
@@ -1780,11 +1783,13 @@ OpenViewContent(modalName, url,oType,MediaType){
       if (oType=="496"){
         this.modalService.open(modalName, {
           size: 'lgx',
+          centered: true
         }); 
       }
       if (oType=="495"){
         this.modalService.open(modalName,{
-          size: 'smg'
+          size: 'smg',
+          centered: true
         }); 
       }
       
@@ -1828,7 +1833,7 @@ OpenViewContent(modalName, url,oType,MediaType){
           return;
       }
       this.DeleteContentId = id;
-      this.modalService.open(mContent);
+      this.modalService.open(mContent,{centered: true});
       this.flocationElement.nativeElement.focus();
     }
     async DeleteTitle() {
@@ -1959,7 +1964,7 @@ OpenViewContent(modalName, url,oType,MediaType){
     }
     this.lblUpperMsg = 'Are you sure to delete?';
     this.ForceAction = 'No';
-    this.modalService.open(mContent);
+    this.modalService.open(mContent,{centered: true});
   }
   DeleteTitleOwn(ForceDelete) {
     this.loading = true;
@@ -2035,11 +2040,13 @@ OpenViewContent(modalName, url,oType,MediaType){
     if (oType=="LS"){
       this.modalService.open(modalName, {
         size: 'Template',
+        centered: true
       }); 
     }
     if (oType=="PT"){
       this.modalService.open(modalName,{
-        size: 'PT-Template'
+        size: 'PT-Template',
+        centered: true
       }); 
     }
         
@@ -2048,7 +2055,8 @@ OpenViewContent(modalName, url,oType,MediaType){
       if (this.cmbCustomer_MasterSchedule=="0"){
         return
       }
-      this.modalService.open(modalName);
+      this.NewMasterScheduleName=""
+      this.modalService.open(modalName,{centered: true});
       
     }
     PublishScheduleToDevices(){
@@ -2092,20 +2100,19 @@ OpenViewContent(modalName, url,oType,MediaType){
     }
       this.EditPschId=id
       
-      this.modalService.open(modalName);
+      this.modalService.open(modalName,{ centered: true });
       
     }
     PlaylistScheduleClose(){
       this.EditPschId ="0"
     }
-    onSubmitNewMasterSchedule(){
+    onSubmitNewMasterSchedule(id,OpenDetail){
       if (this.NewMasterScheduleName == '') {
         this.toastrSF.info('Schedule name cannot be blank', '');
         return;
       }
-  
       this.pService
-        .SaveMasterScheduleName('0',this.NewMasterScheduleName,this.cmbCustomer_MasterSchedule,this.chkOverwritemanual)
+        .SaveMasterScheduleName(id,this.NewMasterScheduleName,this.cmbCustomer_MasterSchedule,this.chkOverwritemanual)
         .pipe()
         .subscribe(
           async (data) => {
@@ -2114,10 +2121,14 @@ OpenViewContent(modalName, url,oType,MediaType){
             if (obj.Responce != '-2') {
               this.toastrSF.info('Saved', 'Success!');
               this.loading = false;
-              this.chkOverwritemanual=false
               await this.FillMasterSchedule(this.cmbCustomer_MasterSchedule);
-              await this.openMasterScheduleDetail(obj.Responce,this.NewMasterScheduleName)
-              this.NewMasterScheduleName = '';
+              if (OpenDetail=="Yes"){
+                await this.openMasterScheduleDetail(obj.Responce,this.NewMasterScheduleName)
+              }
+              else{
+               // this.chkOverwritemanual=false
+                //this.NewMasterScheduleName = ''
+              }
               this.modalService.dismissAll()
             } else if (obj.Responce == '-2') {
               this.toastrSF.info('This schedule name already exists', '');
@@ -2165,7 +2176,7 @@ OpenViewContent(modalName, url,oType,MediaType){
     }
     async openMasterScheduleDetail(id,name){
       this.ngbNavActiveTabId=4
-      this.txtMasterScheduleName = name
+      this.NewMasterScheduleName = name
       this.cmbMasterSchedule=id
       await this.onChangeCustomer(this.cmbCustomer_MasterSchedule)
       this.SFform.get('CustomerId').setValue(this.cmbCustomer_MasterSchedule);
@@ -2271,6 +2282,7 @@ OpenViewContent(modalName, url,oType,MediaType){
       this.modalService.open(modalName, {
         size: 'lg',
         windowClass: 'tokenmodal',
+        centered: true
       });
       this.TokenList = [];
       this.MainTokenList = [];

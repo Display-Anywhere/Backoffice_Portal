@@ -4,7 +4,7 @@
 >
 </ngx-loading>
 <div class="container-fluid m-0 p-0">
-  <form [formGroup]="TokenInfo" class="p-0">
+  <form [formGroup]="TokenInfo" class="p-0" *ngIf="auth.IsAdminLogin$ | async">
     <div class="form-row">
       <div class="form-group col-sm-3 pb-1 m-0">
         <label for="token" class="mb-2 mr-sm-2" #flocation>Player Location:</label>

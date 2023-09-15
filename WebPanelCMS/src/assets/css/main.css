@@ -9962,16 +9962,23 @@ fieldset:disabled a.btn {
 }
 .btn-primary {
   color: #fff;
+  background-color: #7d8e95;
+  border-color: #7d8e95;
+  box-shadow: unset;
+}
+.btn-primary-login{
+  color: #fff;
   background-color: #f44611;
   border-color: #f44611;
   box-shadow: unset;
+
 }
 .btn-primary.focus,
 .btn-primary:focus,
 .btn-primary:hover {
   color: #fff;
-  background-color: #f44611;
-  border-color: #f44611;
+  background-color: #7d8e95;
+  border-color: #7d8e95;
 }
 .btn-primary.focus,
 .btn-primary:focus {
@@ -12152,8 +12159,8 @@ a.iq-tab-toggle.active .arr-next:before {
   background: #ff4b4b;
 }
 .btn-primary:not(:disabled):not(.disabled):hover {
-  background: #f44611;
-  border-color: #f44611;
+  background: #7d8e95;
+  border-color: #7d8e95;
 }
 .iq-button-one {
   color: #fff;
@@ -12391,7 +12398,7 @@ button.bg-gray-dark:hover {
 }
 .bg-primary {
   color: #fff !important;
-  background-color: #f44611 !important;
+  background-color: #7d8e95 !important;
 }
  
 a.bg-primary:focus,
