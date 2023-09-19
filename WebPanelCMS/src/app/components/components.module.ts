@@ -88,6 +88,8 @@ import { ICON_SETTINGS } from "@progress/kendo-angular-icons";
 import { DropDownsModule } from "@progress/kendo-angular-dropdowns";
 import { MasterscheduleComponent } from './masterschedule/masterschedule.component';
 import { SignageContentUploadComponent } from './signage-content-upload/signage-content-upload.component';
+import { EditmasterscheduleComponent } from './editmasterschedule/editmasterschedule.component';
+import { MediaLibraryWithTabComponent } from './media-library-with-tab/media-library-with-tab.component';
 export const MY_CUSTOM_FORMATS = {
   parseInput: 'LL LT',
   fullPickerInput: 'LL LT',
@@ -156,7 +158,9 @@ InfoMainComponent,
 PlaylistLibraryComponent,
 MediaLibraryComponent,
 MasterscheduleComponent,
-SignageContentUploadComponent
+SignageContentUploadComponent,
+EditmasterscheduleComponent,
+MediaLibraryWithTabComponent
 ],
  
   exports: [
@@ -213,7 +217,9 @@ InfoMainComponent,
 PlaylistLibraryComponent,
 MediaLibraryComponent,
 SignageContentUploadComponent,
-MasterscheduleComponent
+MasterscheduleComponent,
+EditmasterscheduleComponent,
+MediaLibraryWithTabComponent
   ],
     imports: [
     CommonModule,

@@ -11,7 +11,7 @@
                 <label for="SearchcName" class="mb-2 mr-sm-2"
                   >Customer Name:</label
                 >
-                <select
+                <select disabled=""
                   name="SearchcName"
                   class="custom-select mb-0"
                   [(ngModel)]="cmbCustomer_MasterSchedule"
@@ -34,58 +34,42 @@
             </div>
           </div>
           <div class="col-sm-12 mt-2">
-            <kendo-grid 
-                    [kendoGridBinding]="MasterSchedulelist_Overview"
-                    [pageSize]="50"
-                    [pageable]="false"
-                    [sortable]="true">
-                    <ng-template kendoGridToolbarTemplate>
-                       
-                      <div class="form-row w-100">
-                        <div class="form-group col-sm-3 m-0">
-                             
-            <kendo-label text="Master Schedule Name">
-
-            
-            <kendo-textbox placeholder="" class="p-1 w-100"
-                                  kendoTextBox [(ngModel)]="NewMasterScheduleName" [ngModelOptions]="{standalone: true}"></kendo-textbox>
-                           </kendo-label>
-                          
-                           
-                        </div>
-                        <div class="form-group col-sm-3  pt-3 mb-0">
-                          <kendo-label
-                        class="k-checkbox-label mr-2"
-                        [for]="Overwritemanual"
-                        text="Overwrite manual"
-                      ></kendo-label>
-                      <input type="checkbox" size="large"  [(ngModel)]="chkOverwritemanual" [ngModelOptions]="{standalone: true}" #Overwritemanual kendoCheckBox />
-                          <button
-                              class="btn btn-primary ml-5"
-                              type="button"
-                              (click)="onSubmitNewMasterSchedule(cmbMasterSchedule,'Yes')"
-                            >
-                              Save
-                            </button>
-                        </div>
-                           
-                      </div>
+            <div class="form-row w-100">
+                <div class="form-group col-sm-3 m-0">
                      
-                      
-                    </ng-template>
-                    <kendo-grid-column field="DisplayName" title="Master Schedules"   class="gridrowfont" [headerClass]="'bg-primary'">
-                    </kendo-grid-column>
-                    <kendo-grid-column field="Id"   title="" class="gridrowfont" [headerClass]="'bg-primary'" [width]="100">
-                      <ng-template kendoGridCellTemplate let-dataItem>
-                        <kendo-button class="bg-primary mr-2" (click)="openMasterScheduleDetail(dataItem.Id,dataItem.DisplayName)">
-                          <span class="k-icon k-i-pencil"></span>
-                      </kendo-button>
-                      <kendo-button class="bg-danger" (click)="openDeleteModal(SchDeleteContent, dataItem.Id,'Master')">
-                        <span class="k-icon k-i-trash"></span>
-                    </kendo-button>
-                        </ng-template>
-                  </kendo-grid-column>
-                  </kendo-grid>
+    <kendo-label text="Master Schedule Name">
+
+    
+    <kendo-textbox placeholder="" class="p-1 w-100"
+                          kendoTextBox [(ngModel)]="NewMasterScheduleName" [ngModelOptions]="{standalone: true}"></kendo-textbox>
+                   </kendo-label>
+                  
+                   
+                </div>
+                <div class="form-group col-sm-5  pt-3 mb-0">
+                  <kendo-label
+                class="k-checkbox-label mr-2"
+                [for]="Overwritemanual"
+                text="Overwrite manual"
+              ></kendo-label>
+              <input type="checkbox" size="large"  [(ngModel)]="chkOverwritemanual" [ngModelOptions]="{standalone: true}" #Overwritemanual kendoCheckBox />
+                  <button
+                      class="btn btn-primary ml-5"
+                      type="button"
+                      (click)="onSubmitNewMasterSchedule(cmbMasterSchedule,'Yes')"
+                    >
+                      Save
+                    </button>
+                    <button
+                      class="btn btn-light text-white ml-1"
+                      type="button"
+                      (click)="gotbacktoMasters()"
+                    >
+                      Back
+                    </button>
+                </div>
+                   
+              </div>
           </div>
           </div>
         </div>

@@ -99,10 +99,6 @@ li.active {
   margin-top: 5rem !important;
 }
 
-li.js-scroll-trigger:hover {
-  background: #f44611;
-  color: #fff;
-}
 .iq-sidebar-menu .iq-menu li a:hover{
-  color: #fff;
+  color: #f44611;
 }

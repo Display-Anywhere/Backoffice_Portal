@@ -17,14 +17,14 @@ import { DecimalPipe } from '@angular/common';
 import { ConfigAPI } from 'src/app/class/ConfigAPI';
 import { process } from '@progress/kendo-data-query';
 import { DataBindingDirective, PageChangeEvent } from '@progress/kendo-angular-grid';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 @Component({
-  selector: 'app-masterschedule',
-  templateUrl: './masterschedule.component.html',
-  styleUrls: ['./masterschedule.component.css'],
+  selector: 'app-editmasterschedule',
+  templateUrl: './editmasterschedule.component.html',
+  styleUrls: ['./editmasterschedule.component.css'],
   providers: [DecimalPipe]
 })
-export class MasterscheduleComponent implements OnInit {
+export class EditmasterscheduleComponent implements OnInit {
   ScheduleList = [];
   dropdownSettings = {};
   dropdownList = [];
@@ -113,9 +113,9 @@ export class MasterscheduleComponent implements OnInit {
     public toastrSF: ToastrService,
     private vcr: ViewContainerRef,
     config: NgbModalConfig,
-    private modalService: NgbModal,
+    private modalService: NgbModal,private route: ActivatedRoute,private router: Router,
     private sfService: StoreForwardService, public confapi:ConfigAPI,
-    public auth:AuthServiceOwn,private pService: PlaylistLibService,private router: Router,
+    public auth:AuthServiceOwn,private pService: PlaylistLibService,
     private serviceLicense: SerLicenseHolderService,private pipe: DecimalPipe,
     configTime: NgbTimepickerConfig
   ) {
@@ -138,7 +138,7 @@ export class MasterscheduleComponent implements OnInit {
   // public dateTime1 = new Date(this.year,this.month,this.day,this.hr,0,0,0);
   time: NgbTimeStruct = { hour: 0, minute: 0, second: 0 };
   time2: NgbTimeStruct = { hour: 23, minute: 59, second: 0 };
-  ngOnInit() {
+  async ngOnInit() {
      
     this.auth.isTokenInfoClose$.next(false);
     this.SFform = this.formBuilder.group({
@@ -200,8 +200,7 @@ export class MasterscheduleComponent implements OnInit {
       itemsShowLimit: 1,
     };
 
-    this.FillClient();
-    
+    await this.FillClient();
   }
 
   onItemSelect(item: any) {}
@@ -475,6 +474,10 @@ if (errorFound==="Yes"){
             this.cid=localStorage.getItem('dfClientId')
             this.onChangeCustomer(localStorage.getItem('dfClientId'));
             this.cmbSearchCustomer=localStorage.getItem('dfClientId')
+            this.route.params.subscribe(async params => {
+              await this.openMasterScheduleDetail(params.id,params.name)
+           });
+       
           //this.onChangeSearchCustomer(localStorage.getItem('dfClientId'))
            
         },
@@ -2176,8 +2179,6 @@ OpenViewContent(modalName, url,oType,MediaType){
       await this.FillMasterSchedule(id)
     }
     async openMasterScheduleDetail(id,name){
-      this.router.navigate(['/editmasterschedule/' + id+'/'+name]);
-      return
       this.ngbNavActiveTabId=4
       this.NewMasterScheduleName = name
       this.cmbMasterSchedule=id
@@ -2429,5 +2430,8 @@ OpenViewContent(modalName, url,oType,MediaType){
             this.loading = false;
           }
         );
+    }
+    gotbacktoMasters(){
+      this.router.navigate(['/masterschedule/']);
     }
 }

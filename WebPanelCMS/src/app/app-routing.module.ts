@@ -40,7 +40,7 @@ const routes: Routes = [
    },
 
    { 
-    path: 'StoreAndForward', 
+    path: 'masterschedule', 
     loadChildren: () => import('./store-and-forward/store-forward.module').then(m => m.StoreAndForwardModule),
     canActivate:[AuthGuard]
    },

@@ -4,7 +4,7 @@
 >
 </ngx-loading>
 <div class="container-fluid m-0 p-0">
-  <form [formGroup]="TokenInfo" class="p-0" *ngIf="auth.IsAdminLogin$ | async">
+  <form [formGroup]="TokenInfo" class="p-0" >
     <div class="form-row">
       <div class="form-group col-sm-3 pb-1 m-0">
         <label for="token" class="mb-2 mr-sm-2" #flocation>Player Location:</label>
@@ -123,7 +123,7 @@
         />
         <owl-date-time [pickerType]="'calendar'" #dtExpiry></owl-date-time>
       </div>
-      <div class="form-group col-sm-3 pb-1 m-0">
+      <div class="form-group col-sm-3 pb-1 m-0" *ngIf="auth.IsAdminLogin$ | async">
         <label for="MediaType">Media Type:</label>
         <select
           name="lType"
@@ -138,7 +138,7 @@
           <option *ngIf="((ClientContentType=='Both')||(ClientContentType=='Signage'))" value="Signage">Signage</option>
         </select>
       </div>
-      <div class="form-group col-sm-3 pb-1 m-0">
+      <div class="form-group col-sm-3 pb-1 m-0" *ngIf="auth.IsAdminLogin$ | async">
         <label for="LicenceType">Licence Type:</label>
         <select
           name="lType"
@@ -164,7 +164,7 @@
           </option>
         </select>
       </div>
-      <div class="form-group col-sm-3 pb-1 m-0">
+      <div class="form-group col-sm-3 pb-1 m-0" *ngIf="auth.IsAdminLogin$ | async">
         <label for="playerType">OS Type:</label>
         <select
           name="pType"
@@ -207,7 +207,7 @@
           </option>
         </select>
       </div>
-      <div class="form-group col-sm-3 pb-1 m-0">
+      <div class="form-group col-sm-3 pb-1 m-0" *ngIf="auth.IsAdminLogin$ | async">
         <label for="playerType">Services:</label>
         <select
           name="pType"
@@ -221,7 +221,7 @@
         </select>
       </div>
 
-      <div class="form-group col-sm-3 pb-1 m-0">
+      <div class="form-group col-sm-3 pb-1 m-0" *ngIf="auth.IsAdminLogin$ | async">
         <label for="GroupId">Group:</label>
         <select
           name="GroupId"
@@ -248,7 +248,7 @@
         </div>
       </div>
 
-      <div class="d-none form-group col-sm-3 pb-1 m-0">
+      <div class="d-none form-group col-sm-3 pb-1 m-0" *ngIf="auth.IsAdminLogin$ | async">
         <label for="ScheduleType">Schedule Type:</label>
         <select
           name="ScheduleType"
@@ -262,7 +262,7 @@
           <option selected value="PercentageSchedule">% Schedule</option>
         </select>
       </div>
-      <div class="form-group col-sm-3 pb-1 m-0">
+      <div class="form-group col-sm-3 pb-1 m-0" *ngIf="auth.IsAdminLogin$ | async">
         <label for="dType">Device Type:</label>
         <select
           name="pType"
@@ -323,7 +323,7 @@
         </select>
       </div>
 
-      <div class="form-group col-sm-3 pb-1 m-0" *ngIf="f.DeviceType.value === 'HotelTv'">
+      <div  class="form-group col-sm-3 pb-1 m-0" *ngIf="f.DeviceType.value === 'HotelTv' && auth.IsAdminLogin$ | async">
         <label for="limitType">Playlist Size Limit (MB):</label>
         <input
           type="number"
@@ -333,7 +333,7 @@
           min="0"
         />
       </div>
-      <div class="form-group col-sm-3 pb-1 m-0">
+      <div class="form-group col-sm-3 pb-1 m-0" *ngIf="auth.IsAdminLogin$ | async">
         <label for="ComType">Rotation:</label>
         <select
         name="pType"
@@ -393,7 +393,7 @@
           </option>
         </select> -->
       </div>
-      <div class="form-group col-sm-3 pb-1 m-0">
+      <div class="form-group col-sm-3 pb-1 m-0" *ngIf="auth.IsAdminLogin$ | async">
         <label for="deviceid">Device Id(UUID):</label>
         <input
           type="text"
@@ -453,7 +453,7 @@
           <option selected value="UnLock">Un-Lock</option>
         </select>
       </div>
-      <div class="form-group col-sm-3 pb-1 m-0">
+      <div class="form-group col-sm-3 pb-1 m-0" *ngIf="auth.IsAdminLogin$ | async">
         <label for="uchkType">Type:</label>
         <select
           name="uchkType"
@@ -471,7 +471,7 @@
 
 
        <!-- show online indicator -->
-       <div
+       <div *ngIf="auth.IsAdminLogin$ | async"
        class="form-group col-sm-3 pb-1 m-0"
      >
      <div *ngIf="Indicator_Active" class="custom-control custom-checkbox mt-3">
@@ -502,7 +502,7 @@
     </div>
    </div>
      <!-- show online indicator end -->
-     <div class="form-group col-sm-9 pb-1 m-0">
+     <div class="form-group col-sm-9 pb-1 m-0" >
       <label for="token" class="mb-2 mr-sm-2">Map Location:</label>
       <input
         type="text" 
@@ -647,7 +647,7 @@
         <div class="col-sm-12 font-weight-bold" >
           <p style="margin: 0 !important" *ngIf="prvGroupId != f.GroupId.value" >By changing a player to another group, content and scheduling will be adapted from the new group ( If scheduling is available in new group )</p>
         </div>
-      <div class="col-12 float-right p-0 mt-0 pr-1">
+      <div class="col-12 float-right p-0 mt-0 pr-1" *ngIf="auth.IsAdminLogin$ | async">
         <a href="javascript:;"
           class="btn btn-primary ml-2 pull-left"
           (click)="PlaylistContentStatus(Downloadplaylistcontent)"
