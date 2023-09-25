@@ -144,6 +144,7 @@ export class LoginComponent implements OnInit,OnDestroy {
   }
 
   ApiObject(obj) {
+    console.log(obj)
     localStorage.setItem('ApiObject', JSON.stringify(obj));
     localStorage.setItem('UserId', obj.UserId);
     localStorage.setItem('dfClientId', obj.dfClientId);
@@ -170,11 +171,7 @@ export class LoginComponent implements OnInit,OnDestroy {
       localStorage.setItem('chkPlayerDetail', 'true');
     }
     this.authService.login();
-    if (
-      obj.dfClientId === '6' ||
-      obj.dfClientId === '201' ||
-      obj.dfClientId === '6'
-    ) {
+    if ((obj.dfClientId == '201') && (obj.UserId == '0')) {
       this.authService.IsAdminLogin();
     } else if (obj.dfClientId === '167' && obj.UserId === '112') {
       localStorage.setItem('UserId', '0');

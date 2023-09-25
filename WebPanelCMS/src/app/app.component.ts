@@ -128,6 +128,7 @@ export class AppComponent implements OnInit {
     //this.auth0.logout()
     this.authService.logout();
     window.location.href="https://uat.display-anywhere.com/"
+    //window.location.href="http://localhost:4200"
     //this.router.navigate(['']);
   }
   OpenManual(){

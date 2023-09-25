@@ -34,7 +34,7 @@ export class AuthServiceOwn {
     const isLoggedIn = localStorage.getItem('loggedIn') === 'true';
     this.isLoggedIn$ = new BehaviorSubject(isLoggedIn);
     var LoginClientid;
-    if ((localStorage.getItem('dfClientId') == '6') || (localStorage.getItem('dfClientId') == '88') || (localStorage.getItem('dfClientId') == '201') || (localStorage.getItem('dfClientId') == '98')) {
+    if ((localStorage.getItem('UserId')=='0') && ((localStorage.getItem('dfClientId') == '6') || (localStorage.getItem('dfClientId') == '88') || (localStorage.getItem('dfClientId') == '201') || (localStorage.getItem('dfClientId') == '98'))) {
       LoginClientid = true;
     }
     else {

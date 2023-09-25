@@ -102,3 +102,6 @@ li.active {
 .iq-sidebar-menu .iq-menu li a:hover{
   color: #f44611;
 }
+.w-8{
+  width: 8rem !important;
+}
