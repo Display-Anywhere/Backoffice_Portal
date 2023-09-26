@@ -5,7 +5,7 @@
 </ngx-loading>
 <div class="w-100 px-5 py-2">
 <div class="row">
-   <div class="col-sm-12">
+   <div class="col-sm-12" *ngIf="auth.IsAdminLogin$.value == true">
             <div class="form-row">
               <div class="form-group col-sm-2 m-0">
                 <label for="SearchcName" class="mb-2 mr-sm-2"
@@ -635,7 +635,7 @@
 
         <div class="form-group col-sm-6">
             <label for="fName" class="mb-2 mr-sm-2"
-              >Campaign Name:</label
+              >Playlist Group:</label
             >
             <select
               class="custom-select mb-0"

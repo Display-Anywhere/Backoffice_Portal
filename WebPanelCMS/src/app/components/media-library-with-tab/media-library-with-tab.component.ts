@@ -14,7 +14,7 @@ import {
   anchorIcon,
   codeIcon,
 } from "@progress/kendo-svg-icons";
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { AuthServiceOwn } from 'src/app/auth/auth.service';
 import { ConfigAPI } from 'src/app/class/ConfigAPI';
 @Component({
@@ -84,7 +84,10 @@ export class MediaLibraryWithTabComponent implements OnInit {
   @ViewChild(DataBindingDirective) dataBinding?: DataBindingDirective;
 
   constructor(private mService:MachineService,public toastr: ToastrService,private pService: PlaylistLibService,
-    private modalService: NgbModal,public auth:AuthServiceOwn,private cApi: ConfigAPI) {
+    private modalService: NgbModal,public auth:AuthServiceOwn,private cApi: ConfigAPI,    config: NgbModalConfig,
+    ) {
+      config.backdrop = 'static';
+      config.keyboard = false;
    }
 
   async ngOnInit(){
@@ -1216,7 +1219,11 @@ GetSpecialPlayListType() {
     }
     this.UpdatePlaylistId=id
     this.NewPlaylistName=playlistName
-    this.modalService.open(content);
+    this.modalService.open(content,{ centered: true});
+    this.flocationElement.nativeElement.focus();
+  }
+  OpenUploadContentModel(content){
+    this.modalService.open(content,{ centered: true, size: 'lg'});
     this.flocationElement.nativeElement.focus();
   }
   onSubmitUpdatePlaylistName(){

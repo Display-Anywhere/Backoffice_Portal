@@ -1,7 +1,7 @@
 <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px', fullScreenBackdrop: true }">
 </ngx-loading>
 
-<div class="mb-3">
+<div class="mb-3" *ngIf="auth.IsAdminLogin$.value == true">
   <div class="form-inline">
     <label for="cmbCustomer" class="text-left custom-label pr-sm-0"
       >Customer Name:</label

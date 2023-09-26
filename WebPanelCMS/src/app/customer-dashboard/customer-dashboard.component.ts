@@ -44,7 +44,7 @@ export class CustomerDashboardComponent implements OnInit {
   compare = (v1: string | number, v2: string | number) => v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
 
   constructor(public toastr: ToastrService, vcr: ViewContainerRef, private dService: DashboardService,
-    config: NgbModalConfig, private modalService: NgbModal, private auth: AuthServiceOwn,
+    config: NgbModalConfig, private modalService: NgbModal, public auth: AuthServiceOwn,
     private pipe: DecimalPipe,private serviceLicense: SerLicenseHolderService) {
     config.backdrop = 'static';
     config.keyboard = false;

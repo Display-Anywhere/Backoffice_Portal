@@ -5,7 +5,7 @@
 </ngx-loading>
 <div class="container">
 <div class="row">
-   <div class="col-sm-12">
+   <div class="col-sm-12" *ngIf="auth.IsAdminLogin$.value == true">
             <div class="form-row">
               <div class="form-group col-sm-2 m-0">
                 <label for="SearchcName" class="mb-2 mr-sm-2"
