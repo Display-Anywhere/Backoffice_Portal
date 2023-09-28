@@ -3,21 +3,26 @@ import { EditTemplateComponent } from './edit-template/edit-template.component';
 import { KpnChannelsComponent } from './kpn-channels/kpn-channels.component';
 import { PlayeractivationlogComponent } from './playeractivationlog/playeractivationlog.component';
 import { EditmasterscheduleComponent } from './editmasterschedule/editmasterschedule.component';
+import { AuthGuard } from '../auth/auth.guard';
 export const CommonComponentsRoutes: Route[] = [
   {
     path: 'edit-template',
-    component: EditTemplateComponent
+    component: EditTemplateComponent,
+    canActivate:[AuthGuard]
   },
   {
     path: 'template',
-    component: PlayeractivationlogComponent
+    component: PlayeractivationlogComponent,
+    canActivate:[AuthGuard]
   },
   {
     path: 'kpn',
-    component: KpnChannelsComponent
+    component: KpnChannelsComponent,
+    canActivate:[AuthGuard]
   },
   {
     path: 'editmasterschedule/:id/:name',
-    component: EditmasterscheduleComponent
+    component: EditmasterscheduleComponent,
+    canActivate:[AuthGuard]
   }
 ];

@@ -5,7 +5,7 @@ export class ConfigAPI {
   //Host=localStorage.getItem('host')
   //Host: string = "https://applicationaddons.com/api/";
    //private Host: string = "https://panelapi.advikon.com/api/";
-   //private Host: string = "http://localhost:60328/api/";
+ //  private Host: string = "http://localhost:60328/api/";
    //private Host_panel: string = "https://api.advikon.com/api/";
    //private Host_panel: string = "http://localhost:60328/api/";
    FillQueryCombo: string = this.Host + 'FillQueryCombo';

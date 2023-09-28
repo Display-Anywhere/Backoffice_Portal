@@ -230,6 +230,11 @@
     <kendo-grid-column field="MediaType" title="M. Type" [width]="88" class="gridrowfont" [headerClass]="'bg-primary'"></kendo-grid-column>
     <kendo-grid-column field="gName" title="Group" [width]="190" class="gridrowfont" [headerClass]="'bg-primary'"></kendo-grid-column>
     <kendo-grid-column field="tokenCode" [width]="230" title="Token" class="gridrowfont" [headerClass]="'bg-primary'"></kendo-grid-column>
+    <kendo-grid-column field="pName" [width]="220" title="Currently playing playlist" class="gridrowfont" [headerClass]="'bg-primary'">
+      <ng-template kendoGridCellTemplate let-dataItem>
+        <a href="javascript:;" class="cursor-pointer text-primary" (click)="openPlaylistContent(playlistcontent, dataItem.currentPlayingPlaylistId,dataItem.pName)">{{dataItem.pName}}</a>
+      </ng-template>
+    </kendo-grid-column>
     <kendo-grid-column *ngIf="auth.IsAdminLogin$.value == true" field="FixIp" title="IP" [width]="100" class="gridrowfont" [headerClass]="'bg-primary'" [filterable]="false" [sortable]="false"></kendo-grid-column>
     
     <kendo-grid-column *ngIf="auth.IsAdminLogin$.value == true" field="tZone" title="Time Zone" class="gridrowfont" [headerClass]="'bg-primary'" [width]="100" [filterable]="false" [sortable]="false"></kendo-grid-column>
@@ -2510,5 +2515,54 @@
         </div>
       </div>
     </div>
+  </div>
+</ng-template>
+<ng-template class="tokenmodal" #playlistcontent let-c="close" let-d="dismiss">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">{{playlist_Name}}</h5>
+    <button
+    type="button"
+    class="close text-white"
+    aria-label="Close"
+    (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body p-0 pt-3">
+    <div id="disPL" class="table-responsive search-results">
+      <table
+        class="table data-table table-striped table-bordered mydatatable"
+        id="eventtable"
+      >
+        <thead class="">
+          <tr>
+            <th class="WidthTitlePL bg-primary sticky-top" style="z-index: 1;">Title</th>
+
+            <th class="WidthArtistPL bg-primary sticky-top" style="z-index: 1;">
+             Artist</th>
+            <th class="WidthCategoryPL bg-primary sticky-top" style="z-index: 1;">
+              Genre</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let plCLst of PlaylistContentList">
+            <td class="WidthTitlePL">
+              <a href="javascript:;" (click)="OpenViewPlaylistContent(viewcontent, plCLst.TitleIdLink,plCLst.genreId,plCLst.MediaType)">
+                {{ plCLst.title }}
+              </a>
+            </td>
+
+            <td  class="WidthArtistPL">
+              {{ plCLst.Artist }}
+            </td>
+            <td class="WidthCategoryPL">
+              {{ plCLst.GenreName }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
   </div>
 </ng-template>
