@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewContainerRef, EventEmitter, ViewChildren, QueryList, ElementRef, ViewChild, Input } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import * as _moment from 'moment';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -14,7 +14,7 @@ const moment = (_moment as any).default ? (_moment as any).default : _moment;
 })
 export class PrayerComponent implements OnInit {
   PrayerList = [];
-  Prayerform: FormGroup;
+  Prayerform: UntypedFormGroup;
   CustomerList = [];
   TokenList = [];
   CustomerSelected = [];
@@ -32,7 +32,7 @@ UserPrayerTabId =1
 IschkViewOnly = this.auth.chkViewOnly$.value ? 1 : 0;
   @ViewChildren("checkboxesCustomer") checkboxesCustomer: QueryList<ElementRef>;
 
-  constructor(private formBuilder: FormBuilder, public toastr: ToastrService,
+  constructor(private formBuilder: UntypedFormBuilder, public toastr: ToastrService,
     vcr: ViewContainerRef, private pService: PrayerserService,config: NgbModalConfig, 
     private modalService: NgbModal, public auth:AuthServiceOwn) {
     config.backdrop = 'static';

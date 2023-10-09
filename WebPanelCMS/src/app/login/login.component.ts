@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewContainerRef, Inject, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UloginService } from '../login/ulogin.service';
 import { VisitorsService } from '../visitors.service';
@@ -18,7 +18,7 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit,OnDestroy {
-  loginform: FormGroup;
+  loginform: UntypedFormGroup;
   submitted = false;
   public loading = false;
   ipAddress;
@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit,OnDestroy {
   constructor(
     public toastr: ToastrService,
     private router: Router,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private ulService: UloginService,
     private visitorsService: VisitorsService,
     public authService: AuthServiceOwn,private http: HttpClient,

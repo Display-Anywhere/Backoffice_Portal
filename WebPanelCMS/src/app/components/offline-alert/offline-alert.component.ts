@@ -1,6 +1,6 @@
 import { Component, OnInit,QueryList, ViewChildren,ViewContainerRef } from '@angular/core';
 import {NgbdSortableHeader, SortEvent} from '../../components/sortable.directive';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as $ from 'jquery';
 import { ToastrService } from 'ngx-toastr';
@@ -23,7 +23,7 @@ export class OfflineAlertComponent implements OnInit {
   TokenList = [];
   MainTokenList = [];
   AlertList = [];
-  Userform: FormGroup;
+  Userform: UntypedFormGroup;
   TokenSelected = [];
   currentJustify = 'justified';
   searchText;
@@ -38,7 +38,7 @@ export class OfflineAlertComponent implements OnInit {
   SearchList=[];
   chkOfflineAll=false
   OfflineAlertActiveTabId=1
-  constructor(private formBuilder: FormBuilder, public toastr: ToastrService, vcr: ViewContainerRef,
+  constructor(private formBuilder: UntypedFormBuilder, public toastr: ToastrService, vcr: ViewContainerRef,
     config: NgbModalConfig, private modalService: NgbModal, private ipService: IPlayService,
     public auth:AuthServiceOwn, private pService: PlaylistLibService,private serviceLicense: SerLicenseHolderService,private pipe: DecimalPipe) {
     config.backdrop = 'static';

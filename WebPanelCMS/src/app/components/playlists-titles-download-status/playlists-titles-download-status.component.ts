@@ -1,5 +1,5 @@
 import { Component, HostListener, OnInit, ViewContainerRef } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import {
@@ -36,7 +36,7 @@ export class PlaylistsTitlesDownloadStatusComponent implements OnInit {
   // @HostListener('window:beforeunload', ['$event' ])
   constructor(
     private router: Router,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     public toastr: ToastrService,
     vcr: ViewContainerRef,
     config: NgbModalConfig,

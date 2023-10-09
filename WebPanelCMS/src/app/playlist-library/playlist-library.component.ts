@@ -8,7 +8,7 @@ import {
   ViewChild,PipeTransform
 } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PlaylistLibService } from '../playlist-library/playlist-lib.service';
@@ -36,7 +36,7 @@ import { StoreForwardService } from '../store-and-forward/store-forward.service'
 })
 export class PlaylistLibraryComponent implements OnInit {
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     public toastr: ToastrService,
     vcr: ViewContainerRef,
     config: NgbModalConfig,
@@ -72,7 +72,7 @@ export class PlaylistLibraryComponent implements OnInit {
   PlaylistSelected = [];
   SongsList = [];
   MainSongsList = [];
-  playlistform: FormGroup;
+  playlistform: UntypedFormGroup;
   SongsSelected = [];
   submittedPlaylistform = false;
   public loading = false;

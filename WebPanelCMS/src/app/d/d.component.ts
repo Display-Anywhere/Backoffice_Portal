@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewContainerRef, EventEmitter, ViewChildren, QueryList, ElementRef, ViewChild, Input } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbModalConfig, NgbModal, NgbTimepickerConfig, NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
 import { AdsService } from '../ad/ads.service';
@@ -13,7 +13,7 @@ import { StoreForwardService } from '../store-and-forward/store-forward.service'
 })
 export class DComponent implements OnInit {
   DemandsActiveId=1
-  Adform: FormGroup;
+  Adform: UntypedFormGroup;
   submitted = false;
   public loading = false;
   page: number = 1;
@@ -46,7 +46,7 @@ export class DComponent implements OnInit {
   IschkViewOnly = this.auth.chkViewOnly$.value ? 1 : 0;
  
   
-  constructor(private router: Router, private formBuilder: FormBuilder, public toastr: ToastrService, vcr: ViewContainerRef
+  constructor(private router: Router, private formBuilder: UntypedFormBuilder, public toastr: ToastrService, vcr: ViewContainerRef
     , config: NgbModalConfig, private modalService: NgbModal, private aService: AdsService,
     public auth:AuthServiceOwn, configTime: NgbTimepickerConfig,private sfService: StoreForwardService,) {
     config.backdrop = 'static';

@@ -1,5 +1,5 @@
 import { Component, OnInit,Input,ViewContainerRef, ElementRef, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Subject } from "rxjs";
 import {
@@ -26,7 +26,7 @@ export class TempScheduleComponent implements OnInit {
   dropdownSettings = {};
   dropdownList = [];
   selectedItems = [];
-  SFform: FormGroup;
+  SFform: UntypedFormGroup;
   submitted = false;
   public loading = false;
   TokenSelected = [];
@@ -48,7 +48,7 @@ export class TempScheduleComponent implements OnInit {
   cmbSearchCustomer = "0";
   cmbSearchFormat = 0;
   cmbSearchPlaylist = 0;
-  frmTokenInfoModifyPlaylist: FormGroup;
+  frmTokenInfoModifyPlaylist: UntypedFormGroup;
   pSchid = 0;
 
   cid='0';
@@ -94,7 +94,7 @@ export class TempScheduleComponent implements OnInit {
   cmbCustomer_MasterSchedule='0'
   ngbNavActiveTabId=1
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     public toastrSF: ToastrService,
     private vcr: ViewContainerRef,
     config: NgbModalConfig,

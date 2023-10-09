@@ -1,5 +1,5 @@
 import { Component, OnInit,  ViewContainerRef,  Input,  Output, OnDestroy, AfterViewInit,  ElementRef,ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ToastrService, Toast } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { CustomerRegService } from '../customer-registration/customer-reg.service';
@@ -13,7 +13,7 @@ import { DataTableDirective } from 'angular-datatables';
   styleUrls: ['./customer-registration.component.css']
 })
 export class CustomerRegistrationComponent implements AfterViewInit, OnInit, OnDestroy {
-  Regform: FormGroup;
+  Regform: UntypedFormGroup;
   submitted = false;
   CustomerList = [];
   CountryList = [];
@@ -51,7 +51,7 @@ dtTrigger: Subject<any> = new Subject();
    
 
 
-  constructor(private router: Router, private formBuilder: FormBuilder, 
+  constructor(private router: Router, private formBuilder: UntypedFormBuilder, 
     public toastr: ToastrService, vcr: ViewContainerRef, 
     private cService: CustomerRegService, config: NgbModalConfig, 
     private modalService: NgbModal,public auth:AuthServiceOwn) {

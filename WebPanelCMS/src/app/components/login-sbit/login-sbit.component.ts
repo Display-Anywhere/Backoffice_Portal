@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewContainerRef, Inject, OnDestroy  } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '@auth0/auth0-angular';
 import { ToastrService } from 'ngx-toastr';
@@ -17,7 +17,7 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./login-sbit.component.css']
 })
 export class LoginSbitComponent implements OnInit, OnDestroy {
-  loginform: FormGroup;
+  loginform: UntypedFormGroup;
   submitted = false;
   public loading = false;
   ipAddress;
@@ -33,7 +33,7 @@ export class LoginSbitComponent implements OnInit, OnDestroy {
 
   private readonly _destroying$ = new Subject<void>();
 
-  constructor(public toastr: ToastrService, private router: Router, private formBuilder: FormBuilder,
+  constructor(public toastr: ToastrService, private router: Router, private formBuilder: UntypedFormBuilder,
      private ulService: UloginService, private visitorsService: VisitorsService,
       public authService: AuthServiceOwn,private auth0: AuthService,private http: HttpClient,
       @Inject(MSAL_GUARD_CONFIG) private msalGuardConfig: MsalGuardConfiguration,

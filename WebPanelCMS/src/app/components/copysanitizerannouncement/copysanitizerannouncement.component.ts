@@ -2,7 +2,7 @@ import { Component, OnInit, ViewContainerRef,ViewChild,OnDestroy, AfterViewInit 
 import { ToastrService } from 'ngx-toastr';
 import { AuthServiceOwn } from 'src/app/auth/auth.service';
 import { StoreForwardService } from 'src/app/store-and-forward/store-forward.service';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SerLicenseHolderService } from 'src/app/license-holder/ser-license-holder.service';
 import { MachineService } from '../machine-announcement/machine.service';
@@ -15,7 +15,7 @@ import { Subject } from 'rxjs';
 })
 export class CopysanitizerannouncementComponent implements OnInit {
   constructor(public toastr: ToastrService, public auth:AuthServiceOwn, 
-    private sfService: StoreForwardService,private formBuilder: FormBuilder, 
+    private sfService: StoreForwardService,private formBuilder: UntypedFormBuilder, 
     private modalService: NgbModal, private serviceLicense: SerLicenseHolderService,private mService:MachineService) { }
 
   page: number = 1;
@@ -35,7 +35,7 @@ export class CopysanitizerannouncementComponent implements OnInit {
   cmbSearchCustomer: number;
   cmbSearchFolder:number;
   FolderSearchList: any[];
-  CDform: FormGroup;
+  CDform: UntypedFormGroup;
   chkAll:boolean=false;
   NewFolderName: string = "";
   FolderName = "";

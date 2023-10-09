@@ -5,7 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Subject, Observable, Subscription } from 'rxjs';
 import { ExcelServiceService } from '../license-holder/excel-service.service';
 import { ConfigAPI } from '../class/ConfigAPI';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { AuthServiceOwn } from '../auth/auth.service';
 import { DataTableDirective } from 'angular-datatables';
 
@@ -24,8 +24,8 @@ export class LicenseHolderComponent
   implements AfterViewInit, OnInit, OnDestroy {
     @ViewChildren(NgbdSortableHeaderOpening) headers: QueryList<NgbdSortableHeaderOpening>;
     compare = (v1: string | number, v2: string | number) => v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
-  Adform: FormGroup;
-  frmEvent: FormGroup;
+  Adform: UntypedFormGroup;
+  frmEvent: UntypedFormGroup;
   TokenList = [];
   CustomerList: any[];
   FolderList: any[];
@@ -142,7 +142,7 @@ ActivePlayerListlength=0;
   @ViewChild('flocation') flocationElement: ElementRef;
   constructor(
     config: NgbModalConfig,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private modalService: NgbModal,
     private cf: ConfigAPI,
     private serviceLicense: SerLicenseHolderService,

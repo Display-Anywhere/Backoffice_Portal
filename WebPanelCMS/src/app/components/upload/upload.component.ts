@@ -9,7 +9,7 @@ import { AuthServiceOwn } from 'src/app/auth/auth.service';
 import { MachineService } from '../machine-announcement/machine.service';
 import { Subject } from "rxjs";
 import { PlaylistLibService } from 'src/app/playlist-library/playlist-lib.service';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { StoreForwardService } from 'src/app/store-and-forward/store-forward.service';
 @Component({
   selector: 'app-upload',
@@ -57,7 +57,7 @@ export class UploadComponent implements OnInit {
   LoginDfClientId
   TransferFolderTitleSelected=[];
   chkAll_Folder=false
-  CDform: FormGroup;
+  CDform: UntypedFormGroup;
   enableEdit_genre = false;
   enableEditIndex_genre = null;
 
@@ -72,7 +72,7 @@ export class UploadComponent implements OnInit {
   constructor(public toastr: ToastrService, vcr: ViewContainerRef, private cf: ConfigAPI,
     private serviceLicense: SerLicenseHolderService, config: NgbModalConfig,private sfService: StoreForwardService,
      private modalService: NgbModal, public auth:AuthServiceOwn, private sanitizer: DomSanitizer,
-     private mService:MachineService,private pService: PlaylistLibService,private formBuilder: FormBuilder) {
+     private mService:MachineService,private pService: PlaylistLibService,private formBuilder: UntypedFormBuilder) {
     config.backdrop = 'static';
     config.keyboard = false;
      this.uploader.onCompleteAll = () => {

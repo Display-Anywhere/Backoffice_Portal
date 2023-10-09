@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewContainerRef, Inject, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '@auth0/auth0-angular';
@@ -18,7 +18,7 @@ import { AuthServiceOwn } from 'src/app/auth/auth.service';
   styleUrls: ['./login-display-any-where.component.css']
 })
 export class LoginDisplayAnyWhereComponent implements OnInit {
-  loginform: FormGroup;
+  loginform: UntypedFormGroup;
   submitted = false;
   public loading = false;
   ipAddress;
@@ -33,7 +33,7 @@ export class LoginDisplayAnyWhereComponent implements OnInit {
   constructor(
     public toastr: ToastrService,
     private router: Router,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private ulService: UloginService,
     private visitorsService: VisitorsService,
     public authService: AuthServiceOwn,private http: HttpClient,

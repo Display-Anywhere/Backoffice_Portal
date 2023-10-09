@@ -1,6 +1,6 @@
 import { DecimalPipe } from '@angular/common';
 import { Component, OnInit, ViewContainerRef , ViewChildren,  QueryList, PipeTransform, Input } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { UntypedFormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
@@ -38,7 +38,7 @@ export class ClientcontentblockComponent implements OnInit {
   chkAll_Assign=false
   chkAll_Search=false
   ContentSelected_Search = [];
-  constructor(private formBuilder: FormBuilder,public toastr: ToastrService,vcr: ViewContainerRef,
+  constructor(private formBuilder: UntypedFormBuilder,public toastr: ToastrService,vcr: ViewContainerRef,
     config: NgbModalConfig,private modalService: NgbModal,private pService: PlaylistLibService,
     public auth:AuthServiceOwn,private serviceLicense: SerLicenseHolderService,private pipe: DecimalPipe, 
   ) {

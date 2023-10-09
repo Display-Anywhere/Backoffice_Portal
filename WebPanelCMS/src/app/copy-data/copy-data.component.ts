@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewContainerRef,ViewChildren,QueryList } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { StoreForwardService } from '../store-and-forward/store-forward.service';
 
@@ -35,7 +35,7 @@ export class CopyDataComponent implements OnInit {
   MainTransferTokenList: any[];
   TokenSelected = [];
   TransferTokenSelected = [];
-  CDform: FormGroup;
+  CDform: UntypedFormGroup;
   CustomerSelected; 
   cmbCustomer: number;
   cmbSearchCustomer= '0';
@@ -50,7 +50,7 @@ export class CopyDataComponent implements OnInit {
   PlaylistTokenListlength_Change=0
   Playlist_chkAll_Change = false
 
-  constructor(private formBuilder: FormBuilder, public toastr: ToastrService, vcr: ViewContainerRef,
+  constructor(private formBuilder: UntypedFormBuilder, public toastr: ToastrService, vcr: ViewContainerRef,
     private sfService: StoreForwardService, private tService: TokenInfoServiceService,
     private serviceLicense: SerLicenseHolderService, private cService: SerCopyDataService,
     public auth:AuthServiceOwn, private pipe: DecimalPipe) {

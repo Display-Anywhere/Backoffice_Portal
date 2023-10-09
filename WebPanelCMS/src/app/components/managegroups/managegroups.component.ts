@@ -7,7 +7,7 @@ import { TokenInfoServiceService } from '../token-info/token-info-service.servic
 import {NgbdSortableHeader, SortEvent} from '../../components/sortable.directive';
 import { DecimalPipe } from '@angular/common';
 import { SerCopyDataService } from 'src/app/copy-data/ser-copy-data.service';
-import { FormBuilder } from '@angular/forms';
+import { UntypedFormBuilder } from '@angular/forms';
  
 @Component({
   selector: 'app-managegroups',
@@ -54,7 +54,7 @@ export class ManagegroupsComponent implements OnInit {
     compare = (v1: string | number, v2: string | number) => v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
   constructor( public toastr: ToastrService,private serviceLicense: SerLicenseHolderService, 
     private modalService: NgbModal,private tService: TokenInfoServiceService,private pipe: DecimalPipe,
-    private cService: SerCopyDataService,private formBuilder: FormBuilder) { }
+    private cService: SerCopyDataService,private formBuilder: UntypedFormBuilder) { }
 
   async ngOnInit() {
     this.cid=localStorage.getItem('tcid')

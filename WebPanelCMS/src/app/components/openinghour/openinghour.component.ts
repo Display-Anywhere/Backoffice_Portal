@@ -1,6 +1,6 @@
 import { DecimalPipe } from '@angular/common';
 import { Component, OnInit,QueryList, ViewChildren } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import {  NgbModalConfig,NgbModal,NgbNavChangeEvent,NgbTimepickerConfig,NgbTimeStruct,NgbNavModule} from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { SerLicenseHolderService } from 'src/app/license-holder/ser-license-holder.service';
@@ -24,8 +24,8 @@ export class OpeninghourComponent implements OnInit {
   RebootSearchText;
   OpeningHourTokenSelected = [];
   RebotTimeTokenSelected = [];
-  frmOpeningHour: FormGroup;
-  frmRebootTime: FormGroup;
+  frmOpeningHour: UntypedFormGroup;
+  frmRebootTime: UntypedFormGroup;
   time: NgbTimeStruct = {hour: 0, minute: 0, second: 0};
   time2: NgbTimeStruct = {hour: 23, minute: 59, second: 0};
   cid="";
@@ -44,7 +44,7 @@ export class OpeninghourComponent implements OnInit {
   PublishSearchList_Reboot=[]
   chkAll_Reboot: boolean = false;
 
-  constructor(public toastr: ToastrService,private formBuilder: FormBuilder,
+  constructor(public toastr: ToastrService,private formBuilder: UntypedFormBuilder,
     private serviceLicense: SerLicenseHolderService,private pipe: DecimalPipe 
     ) { }
 

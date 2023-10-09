@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Subject } from "rxjs";
 import {
@@ -22,7 +22,7 @@ export class NormalscheduleComponent implements OnInit {
   resetFormSubject_Future: Subject<boolean> = new Subject<boolean>();
   dropdownList = [];
   selectedItems = [];
-  SFform: FormGroup;
+  SFform: UntypedFormGroup;
   submitted = false;
   public loading = false;
   TokenSelected = [];
@@ -42,7 +42,7 @@ export class NormalscheduleComponent implements OnInit {
   cmbSearchCustomer = "0";
   cmbSearchFormat = 0;
   cmbSearchPlaylist = 0;
-  frmTokenInfoModifyPlaylist: FormGroup;
+  frmTokenInfoModifyPlaylist: UntypedFormGroup;
   pSchid = 0;
 
   cid;
@@ -66,7 +66,7 @@ export class NormalscheduleComponent implements OnInit {
   NormalAdsActiveTabId=1
   IschkViewOnly = this.auth.chkViewOnly$.value ? 1 : 0;
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     public toastrSF: ToastrService,
     private vcr: ViewContainerRef,
     config: NgbModalConfig,

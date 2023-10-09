@@ -1,5 +1,5 @@
 import { Component, OnInit ,ViewContainerRef,ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { StoreForwardService } from 'src/app/store-and-forward/store-forward.service';
@@ -21,7 +21,7 @@ export class AdPlaylistsComponent implements OnInit {
   dropdownSettings = {};
   dropdownList = [];
   selectedItems = [];
-  Plform: FormGroup;
+  Plform: UntypedFormGroup;
   submitted = false;
   public loading = false;
   TokenSelected = [];
@@ -40,7 +40,7 @@ export class AdPlaylistsComponent implements OnInit {
   cmbSearchCustomer = "0";
   cmbSearchToken = 0;
   cmbSearchPlaylist = 0;
-  TokenInfoModifyPlaylist: FormGroup;
+  TokenInfoModifyPlaylist: UntypedFormGroup;
   pSchid = 0;
   searchText="";
   aid;
@@ -57,7 +57,7 @@ export class AdPlaylistsComponent implements OnInit {
   chkAll_Token= false
   dtTrigger: Subject<any> = new Subject();
   IschkViewOnly = this.auth.chkViewOnly$.value ? 1 : 0;
-  constructor(private formBuilder: FormBuilder, public toastr: ToastrService, vcr: ViewContainerRef,
+  constructor(private formBuilder: UntypedFormBuilder, public toastr: ToastrService, vcr: ViewContainerRef,
     config: NgbModalConfig, private modalService: NgbModal, private sfService: StoreForwardService,
     private aService: AdsService, public auth:AuthServiceOwn,private serviceLicense: SerLicenseHolderService,private pipe: DecimalPipe) {
     config.backdrop = 'static';

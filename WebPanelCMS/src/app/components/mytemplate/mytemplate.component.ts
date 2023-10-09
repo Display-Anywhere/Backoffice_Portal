@@ -5,7 +5,7 @@ import { AuthServiceOwn } from 'src/app/auth/auth.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subject } from "rxjs";
 import { SrDownloadTemplateService } from '../download-template/sr-download-template.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import {NgbNavChangeEvent} from '@ng-bootstrap/ng-bootstrap';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { TokenInfoServiceService } from '../token-info/token-info-service.service';
@@ -34,7 +34,7 @@ export class MytemplateComponent implements OnInit {
   chkAll:boolean=false;
   SearchCDate;
   chkIsAnnouncement=false
-  frmUrl_Convert: FormGroup;
+  frmUrl_Convert: UntypedFormGroup;
   activeTab =1
   CurrentValue = 0;
   MaxValue = 0;
@@ -44,7 +44,7 @@ export class MytemplateComponent implements OnInit {
    templateHost ='https://templates.display-anywhere.com'
   IsLS_URL= true
   DelpSchid="0"
-  constructor(private formBuilder: FormBuilder,private dService: SrDownloadTemplateService,  public toastr: ToastrService,private tService: TokenInfoServiceService,
+  constructor(private formBuilder: UntypedFormBuilder,private dService: SrDownloadTemplateService,  public toastr: ToastrService,private tService: TokenInfoServiceService,
     private serviceLicense: SerLicenseHolderService, public auth:AuthServiceOwn,private modalService: NgbModal, public sanitizer: DomSanitizer) { 
        }
 

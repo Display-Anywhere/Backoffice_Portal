@@ -1,5 +1,5 @@
 import { Component,  OnInit,  ViewContainerRef,  ViewChildren,  QueryList,  ElementRef,  ViewChild,PipeTransform } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
@@ -19,7 +19,7 @@ import * as Shuffle from 'shuffle';
 })
 export class PlaylistLibraryComponent implements OnInit {
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     public toastr: ToastrService,
     vcr: ViewContainerRef,
     config: NgbModalConfig,
@@ -55,7 +55,7 @@ export class PlaylistLibraryComponent implements OnInit {
   PlaylistSelected = [];
   SongsList = [];
   MainSongsList = [];
-  playlistform: FormGroup;
+  playlistform: UntypedFormGroup;
   SongsSelected = [];
   submittedPlaylistform = false;
   public loading = false;

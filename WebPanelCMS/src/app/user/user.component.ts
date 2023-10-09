@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewContainerRef,ViewChildren,QueryList, } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { IPlayService } from '../instant-play/i-play.service';
 import * as $ from 'jquery';
@@ -21,7 +21,7 @@ export class UserComponent implements OnInit {
   TokenList = [];
   MainTokenList = [];
   UserList = [];
-  Userform: FormGroup;
+  Userform: UntypedFormGroup;
   submitted = false;
   TokenSelected = [];
   currentJustify = 'justified';
@@ -39,7 +39,7 @@ export class UserComponent implements OnInit {
   compare = (v1: string | number, v2: string | number) =>
     v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
 
-  constructor(private formBuilder: FormBuilder, public toastr: ToastrService, vcr: ViewContainerRef,
+  constructor(private formBuilder: UntypedFormBuilder, public toastr: ToastrService, vcr: ViewContainerRef,
     config: NgbModalConfig, private modalService: NgbModal, private ipService: IPlayService,
     public auth:AuthServiceOwn, private pService: PlaylistLibService,private serviceLicense: SerLicenseHolderService,private pipe: DecimalPipe) {
     config.backdrop = 'static';

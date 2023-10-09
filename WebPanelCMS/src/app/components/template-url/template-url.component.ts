@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewContainerRef, Input } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { NgbModal, NgbModalConfig, NgbTimepickerConfig } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { AdsService } from 'src/app/ad/ads.service';
@@ -12,7 +12,7 @@ import { Subject } from "rxjs";
   styleUrls: ['./template-url.component.css']
 })
 export class TemplateUrlComponent implements OnInit {
-  frmUrl: FormGroup;
+  frmUrl: UntypedFormGroup;
   loading = false;
   @Input() resetFormSubject_Url: Subject<boolean> = new Subject<boolean>();
   SearchCustomerList = [];
@@ -25,7 +25,7 @@ export class TemplateUrlComponent implements OnInit {
   FolderList=[]
   UrlActiveTabId=1
   cmbSearchCustomer="0";
-  constructor(private formBuilder: FormBuilder, public toastr: ToastrService, vcr: ViewContainerRef
+  constructor(private formBuilder: UntypedFormBuilder, public toastr: ToastrService, vcr: ViewContainerRef
     , config: NgbModalConfig, private modalService: NgbModal, private aService: AdsService,
     public auth:AuthServiceOwn, configTime: NgbTimepickerConfig,private serviceLicense: SerLicenseHolderService) {
       config.backdrop = 'static';

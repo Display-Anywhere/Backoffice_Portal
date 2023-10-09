@@ -2,7 +2,7 @@ import {  Component,  OnInit,  ViewContainerRef,  Input,  Output,  OnDestroy,  A
 import {  NgbModalConfig,  NgbModal,  NgbNavChangeEvent,  NgbTimepickerConfig,  NgbTimeStruct,  NgbNavModule,} from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { Subject, Observable, Subscription } from 'rxjs';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { DataTableDirective } from 'angular-datatables';
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { NgbdSortableHeaderOpening, SortEvent } from '../opensortable.directive';
@@ -24,8 +24,8 @@ import { DataBindingDirective, PageChangeEvent } from '@progress/kendo-angular-g
 export class ClientPlayerListComponent implements AfterViewInit, OnInit, OnDestroy {
   @ViewChildren(NgbdSortableHeaderOpening) headers: QueryList<NgbdSortableHeaderOpening>;
   compare = (v1: string | number, v2: string | number) => v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
-Adform: FormGroup;
-frmEvent: FormGroup;
+Adform: UntypedFormGroup;
+frmEvent: UntypedFormGroup;
 TokenList = [];
 gridViewList=[]
 CustomerList: any[];
@@ -193,7 +193,7 @@ public skip: number = 0;
 @ViewChild(DataBindingDirective) dataBinding?: DataBindingDirective;
 constructor(
   config: NgbModalConfig,
-  private formBuilder: FormBuilder,
+  private formBuilder: UntypedFormBuilder,
   private modalService: NgbModal,
   private cf: ConfigAPI,
   private serviceLicense: SerLicenseHolderService,

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewContainerRef, ViewChildren, QueryList, ElementRef } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PlaylistLibService } from '../playlist-library/playlist-lib.service';
@@ -21,7 +21,7 @@ export class DJplaylistLibraryComponent implements OnInit {
   PlaylistLibrary = [];
   PlaylistSelected = [];
   SongsList = [];
-  playlistform: FormGroup;
+  playlistform: UntypedFormGroup;
   SongsSelected = [];
   submittedPlaylistform = false;
   public loading = false;
@@ -75,7 +75,7 @@ export class DJplaylistLibraryComponent implements OnInit {
   scrollUpDistance = 2;
 
   @ViewChildren("checkboxes") checkboxes: QueryList<ElementRef>;
-  constructor(private formBuilder: FormBuilder, public toastr: ToastrService,
+  constructor(private formBuilder: UntypedFormBuilder, public toastr: ToastrService,
     vcr: ViewContainerRef, config: NgbModalConfig, private modalService: NgbModal,
     private pService: PlaylistLibService, public auth:AuthServiceOwn, configRating: NgbRatingConfig) {
 

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewContainerRef,ViewChild, ElementRef } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import {
@@ -20,7 +20,7 @@ import { PlaylistLibService } from 'src/app/playlist-library/playlist-lib.servic
   styleUrls: ['./token-info.component.css'],
 })
 export class TokenInfoComponent implements OnInit {
-  TokenInfo: FormGroup;
+  TokenInfo: UntypedFormGroup;
   submitted = false;
   chkIndicatorBox: boolean = false;
   chkShotMsg: boolean = false;
@@ -39,7 +39,7 @@ export class TokenInfoComponent implements OnInit {
   prayerList = [];
   AdsPlaylist = [];
   shortmonths: Array<string>;
-  TokenInfoModifyPlaylist: FormGroup;
+  TokenInfoModifyPlaylist: UntypedFormGroup;
   StateName = '';
   DelpSchid;
   SongsList = [];
@@ -93,7 +93,7 @@ export class TokenInfoComponent implements OnInit {
   @ViewChild('flocation') flocationElement: ElementRef;
   constructor(
     private router: Router,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     public toastr: ToastrService,
     vcr: ViewContainerRef,
     config: NgbModalConfig,

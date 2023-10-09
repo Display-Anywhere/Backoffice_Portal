@@ -5,7 +5,7 @@ import { AuthServiceOwn } from 'src/app/auth/auth.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subject } from "rxjs";
 import { SrDownloadTemplateService } from '../download-template/sr-download-template.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import {NgbNavChangeEvent} from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-converthtmlmp4',
@@ -32,13 +32,13 @@ export class Converthtmlmp4Component implements OnInit {
   chkAll:boolean=false;
   SearchCDate;
   chkIsAnnouncement=false
-  frmUrl_Convert: FormGroup;
+  frmUrl_Convert: UntypedFormGroup;
   activeTab =1
   CurrentValue = 0;
   MaxValue = 0;
   preventAbuse = false;
 
-  constructor(private formBuilder: FormBuilder,private dService: SrDownloadTemplateService,  public toastr: ToastrService,
+  constructor(private formBuilder: UntypedFormBuilder,private dService: SrDownloadTemplateService,  public toastr: ToastrService,
     private serviceLicense: SerLicenseHolderService, public auth:AuthServiceOwn,private modalService: NgbModal) { 
        }
 
