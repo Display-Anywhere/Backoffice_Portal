@@ -69,7 +69,7 @@
     "ng2-search-filter": "^0.5.1",
     "ngx-color-picker": "^12.0.1",
     "ngx-infinite-scroll": "^9.0.0",
-    "ngx-loading": "^13.0.1",
+    
     "ngx-progressbar": "^6.1.1",
     "ngx-toastr": "^12.0.1",
     "pdfmake": "^0.1.65",
