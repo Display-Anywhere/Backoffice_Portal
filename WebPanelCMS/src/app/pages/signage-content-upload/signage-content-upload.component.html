@@ -1,0 +1,686 @@
+
+<div class="flex flex-col flex-auto min-w-0">
+  <div class="flex-auto">
+    <div class="w-full max-w-screen-xl mx-auto">
+        <div class="row">
+          <div class="col-sm-4 ">
+            <kendo-label text="Orientation">
+              <kendo-dropdownlist
+              [data]="GenreList"
+              textField="DisplayName"
+              valueField="Id"
+              [valuePrimitive]="true"
+              fillMode ="outline"
+              [(ngModel)]="cmbGenre" (valueChange)="onChangeGenre($event.value)"
+            >
+            </kendo-dropdownlist>
+          </kendo-label>
+          </div>
+          <div class="col-sm-4 ">
+            <kendo-label text="Folder Name">
+              <kendo-dropdownlist
+              [data]="FolderList"
+              textField="DisplayName"
+              valueField="Id"
+              [valuePrimitive]="true"
+              fillMode ="outline"
+              [(ngModel)]="cmbFolder" (valueChange)="onChangeFolder($event.value)"
+            >
+            </kendo-dropdownlist>
+          </kendo-label>
+          </div>
+          <div class="col-sm-4 m-0" *ngIf="((IsAnnouncement === '0') && (cmbFolder != '0'))">
+            <p  class="ml-2">
+              <span>Is promo folder: <i *ngIf="resIsPromoFolder" class="fa fa-check-square text-primary" aria-hidden="true"></i> <i *ngIf="!resIsPromoFolder" class="text-danger fa fa-times-circle" aria-hidden="true"></i> </span> <br>
+              <span>Auto delete content: <i *ngIf="resIsAutoDelete" class="fa fa-check-square text-primary" aria-hidden="true"></i> <i *ngIf="!resIsAutoDelete" class="text-danger fa fa-times-circle" aria-hidden="true"></i> </span><br>
+              <span *ngIf="resIsAutoDelete" >Delete Date: <strong>{{dtpDeleteDate | date : 'dd/MMM/yyyy'}}</strong></span>
+             </p>
+             </div>
+             <div class="form-group col-sm-12 mb-0 text-right">
+              <kendo-button class="bg-primary mb-2 mr-1 mt-n1 ml-sm-3 mt-2" (click)="openGenreModal(modalGenre)" data-toggle="tooltip" data-placement="top" title="New/Edit Folder">
+                <i class="fa fa-bars" aria-hidden="true"></i>
+            </kendo-button> 
+            <kendo-button class="bg-danger mb-2 mr-1 mt-n1 mt-2" (click)="openFolderDeleteModal(FolderDeleteModal)" data-toggle="tooltip" data-placement="top" title="Delete Folder">
+              <i class="fa fa-trash" aria-hidden="true"></i>
+          </kendo-button> 
+          <kendo-button class="bg-primary mb-2 mr-1 mt-n1 mt-2" data-toggle="tooltip" data-placement="top" title="View Content" (click)="openViewContent(ViewFolderContent)">
+            <i class="fa fa-eye" aria-hidden="true"></i>
+        </kendo-button> 
+        <kendo-button class="bg-primary mb-2 mr-1 mt-n1 mt-2" data-toggle="tooltip" data-placement="top" title="View Content" (click)="openViewContent(EditFolderContent)">
+          <i class="fa fa-exchange" aria-hidden="true"></i>
+      </kendo-button> 
+              </div>
+
+        </div>
+     
+  
+                   
+                  <div class="row" *ngIf="InputAccept != ''">
+                    <div class="col-md-4">
+                      <h7>Select files</h7>
+
+                      <div
+                        ng2FileDrop
+                        [ngClass]="{ 'nv-file-over': hasBaseDropZoneOver }"
+                        (fileOver)="fileOverBase($event)"
+                        [uploader]="uploader"
+                        (onFileDrop)="onFileSelected($event)"
+                        class="well my-drop-zone"
+                        style="border: 1px dashed; height: 250px; width: 100%"
+                      >
+                        <div class="file-upload" id="customFile">
+                          <div
+                            *ngIf="IsAnnouncement === '0'"
+                            class="file-select"
+                          >
+                            <div
+                              class="file-select-button text-dark"
+                              id="fileName1"
+                            >
+                              Choose Files
+                            </div>
+                            <input
+                              type="file"
+                              name="profile"
+                              name="chooseFile2"
+                              id="chooseFile1"
+                              ng2FileSelect
+                              [uploader]="uploader"
+                              multiple
+                              (onFileSelected)="onFileSelected($event)"
+                              accept="{{ this.InputAccept }}"
+                            />
+                          </div>
+                          <div
+                            *ngIf="IsAnnouncement === '1'"
+                            class="file-select"
+                          >
+                            <div
+                              class="file-select-button text-dark"
+                              id="fileName1"
+                            >
+                              Choose File
+                            </div>
+                            <input
+                              type="file"
+                              name="profile"
+                              name="chooseFile2"
+                              id="chooseFile1"
+                              ng2FileSelect
+                              [uploader]="uploader"
+                              (onFileSelected)="onFileSelected($event)"
+                              accept="{{ this.InputAccept }}"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-8">
+                      <h7>Upload queue</h7>
+
+                      <div
+                        class="table-responsive"
+                        style="height: 200px; overflow-y: scroll"
+                      >
+                        <table
+                          class="table data-table table-striped table-bordered mydatatable"
+                        >
+                          <thead class="bg-primary">
+                            <tr>
+                              <!-- <th *ngIf="((cmbGenre!='297') && (cmbGenre!='303'))"
+                              scope="col"
+                              class="sticky-top bg-primary"
+                              style="width: 70px !important;"
+                            > 
+                              
+                            </th>-->
+                              <th
+                                scope="col"
+                                class="sticky-top bg-primary"
+                                 
+                              >
+                                Name
+                              </th>
+                              <!-- <th
+                                scope="col"
+                                class="sticky-top bg-primary"
+                                class="sticky-top"
+                              >
+                                Size
+                              </th> -->
+                              <th
+                                scope="col"
+                                class="sticky-top bg-primary"
+                                
+                              >
+                                Progress
+                              </th>
+                              <!-- <th
+                                scope="col"
+                                class="sticky-top Link-Center_Width bg-primary"
+                              >
+                                Status
+                              </th> -->
+                              <th class="sticky-top Link-Center_Width bg-primary"></th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let item of uploader.queue;let i=index;">
+                              <!-- <td *ngIf="((cmbGenre!='297') && (cmbGenre!='303'))" class="thumb_img">
+                                <img [src]="thumb[i].src" style="width: 70% !important;margin-left: auto;margin-right: auto;display: block;"/>
+                              </td> -->
+                              <td>
+                                <strong>{{ item?.file?.name }}</strong>
+                              </td>
+                              <!-- <td nowrap>
+                                {{
+                                  item?.file?.size / 1024 / 1024 | number: ".2"
+                                }}
+                                MB
+                              </td> -->
+                              <td>
+                                <div class="progress" style="margin-bottom: 0">
+                                  <div
+                                    class="progress-bar"
+                                    role="progressbar"
+                                    [ngStyle]="{ width: item.progress + '%' }"
+                                  ></div>
+                                </div>
+                              </td>
+                              <!-- <td class="text-center Link-Center_Width">
+                                <span *ngIf="item.isSuccess"
+                                  ><i class="fa fa-check-circle"></i
+                                ></span>
+                                <span *ngIf="item.isCancel"
+                                  ><i class="fa fa-ban"></i
+                                ></span>
+                                <span *ngIf="item.isError"
+                                  ><i class="fa fa-times"></i
+                                ></span>
+                              </td> -->
+                              <td nowrap class="Link-Center_Width">
+                                <i
+                                  class="fa fa-trash text-danger"
+                                  (click)="item.remove()"
+                                ></i>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+
+                      <div class="row mt-2 d-none">
+                        <div class="col-lg-12">
+                          <div class="progress">
+                            <div
+                              class="progress-bar"
+                              role="progressbar"
+                              [ngStyle]="{ width: uploader.progress + '%' }"
+                            ></div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row mt-2">
+                        <div class="col-lg-12 text-right">
+                          <button
+                            type="button"
+                            class="btn btn-primary btn-s mr-2 mb-2"
+                            (click)="Upload()"
+                            [disabled]="!uploader.getNotUploadedItems().length"
+                          >
+                            <span class="fa fa-cloud-upload"></span> Upload
+                          </button>
+                          <button
+                            type="button"
+                            class="btn btn-warning btn-s mr-2 mb-2"
+                            (click)="uploader.cancelAll()"
+                            [disabled]="!uploader.isUploading"
+                          >
+                            <span class="fa fa-ban"></span> Cancel
+                          </button>
+                          <button
+                            type="button"
+                            class="btn btn-danger btn-s mr-2 mb-2"
+                            (click)="uploader.clearQueue()"
+                            [disabled]="!uploader.queue.length"
+                          >
+                            <i class="fa fa-trash"></i> Remove
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row" *ngIf="InputAccept == ''">
+                    <div class="col-lg-12">
+                      Please select orientation so upload options will display.
+                    </div>
+                  </div>
+                 
+   
+    </div>
+  </div>
+</div>
+
+                <ng-template #modalGenre let-c="close" let-d="dismiss">
+                  <div class="modal-header bg-primary">
+                    <h5>Folder</h5>
+                    <button
+                      type="button"
+                      class="close text-white"
+                      aria-label="Close"
+                      (click)="d('Cross click')"
+                    >
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body bg-card p-6">
+                    <div class="container-fluid">
+                      <div class="row">
+                        <div class="col-sm-12">
+                          <kendo-label text="Folder Name" #flocation>
+                            <kendo-textbox placeholder="" class="mb-2 mr-sm-2" fillMode ="outline"
+                            kendoTextBox [(ngModel)]="NewFolderName"></kendo-textbox>
+                          </kendo-label>
+                          
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-12">
+                          <div class="custom-control custom-checkbox">
+                            <input
+                              type="checkbox"
+                              class="custom-control-input"
+                              [(ngModel)]="IsPromoFolder"
+                              id="chkPromoCheck"
+                              name="example1"
+                            />
+                            <label
+                              class="custom-control-label"
+                              for="chkPromoCheck"
+                              >Is promo folder</label
+                            ><i class="fa fa-info-circle " aria-hidden="true"  data-toggle="tooltip" data-placement="top" title="New content replace all old content in all locations" ></i>
+
+                            
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row mt-3">
+                        <div class="col-sm-12">
+                          <div class="custom-control custom-checkbox">
+                            <input
+                              type="checkbox"
+                              class="custom-control-input"
+                              [(ngModel)]="IsAutoDelete"
+                              id="chkAutoDelete"
+                              name="example2"
+                            />
+                            <label
+                              class="custom-control-label"
+                              for="chkAutoDelete"
+                              >Set auto delete content</label
+                            >
+                          </div>
+                        </div>
+                        <div class="col-sm-8" *ngIf="IsAutoDelete === true">
+                          <label for="Interval" class="mt-2 mb-2 mr-sm-2">Delete Date</label>
+                          <kendo-datepicker
+            [format]="format"
+          [(value)]="dtpDeleteDate" [fillMode]="fillMode"
+        ></kendo-datepicker>
+                           
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-12">
+                          <kendo-button class="bg-primary mr-2 pull-right" (click)="onSubmitNewGenre()">
+                            Save
+                        </kendo-button> 
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </ng-template>
+
+
+                <ng-template #ViewFolderContent let-c="close" let-d="dismiss">
+                  <div class="modal-header bg-primary">
+                    <h5 class="text-white">Folder Content</h5>
+                    <button
+                      type="button"
+                      class="close text-white"
+                      aria-label="Close"
+                      (click)="d('Cross click')"
+                    >
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body bg-card p-6">
+                    <kendo-grid class="h-128"
+              [kendoGridBinding]="FolderContentList"
+              [pageSize]="25"
+              [pageable]="true"
+              [sortable]="true">
+              <kendo-grid-column field="title" title="Title">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                  <a href="javascript:;" class="cursor-pointer text-primary"  (click)="OpenViewContent(viewcontent, dataItem.TitleIdLink,dataItem.genreId,dataItem.MediaType)">
+                    <i class="fa fa-play-circle mr-1" aria-hidden="true"></i>  {{dataItem.title}}
+                  </a>
+                </ng-template>
+              </kendo-grid-column>
+              <kendo-grid-column field="genreName" title="Orientation"></kendo-grid-column>
+            </kendo-grid>
+                  </div>
+                </ng-template>
+
+                <ng-template class="tokenmodal" #viewcontent let-c="close" let-d="dismiss">
+  
+                  <button
+                    type="button"
+                    class="close text-right"
+                    aria-label="Close"
+                    (click)="d('Cross click')"
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                 
+                <div class="modal-body bg-card p-0">
+                  <app-view-content></app-view-content>
+                </div>
+                </ng-template>
+
+
+              
+
+<ng-template #FolderDeleteModal let-c="close" let-d="dismiss">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Delete folder</h5>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-card p-6">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12">
+          <p>Are you sure to delete?</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <button
+            class="btn btn-primary col-sm-2 pull-right"
+            (click)="d('Cross click')"
+          >
+            <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+          </button>
+          <button
+            class="btn btn-danger col-sm-2 pull-right mr-2"
+            (click)="DeleteFolder()"
+            (click)="d('Cross click')"
+          >
+            <i class="fa fa-check fa-lg" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+
+<ng-template #EditFolderContent let-c="close" let-d="dismiss">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Folder Content</h5>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-card p-6">
+    <div class="row mb-4 mt-2">
+      <div class="col-sm-4">
+          <kendo-label text="Transfer To Folder Name">
+            <kendo-dropdownlist
+            [data]="TransferToFolderList"
+            textField="DisplayName"
+            valueField="Id"
+            [valuePrimitive]="true"
+            fillMode ="outline"
+            [defaultItem]="{ text: '', value: '0' }"
+            [(ngModel)]="cmbTransferToFolder"
+          >
+          </kendo-dropdownlist>
+        </kendo-label>
+</div>
+<div class="col-sm-2 mt-6">
+        <kendo-button class="mb-0 ml-sm-3" (click)="SaveTransferContent()">
+          Save
+      </kendo-button> 
+      
+         
+      </div>
+    </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <kendo-grid class="h-128"
+              [kendoGridBinding]="FolderContentList"
+              [pageSize]="25"
+              [pageable]="true"
+              [sortable]="true"
+              [selectable]="true"
+              kendoGridSelectBy="id"
+              [(selectedKeys)]="TransferFolderTitleSelected"
+              >
+              <kendo-grid-checkbox-column class="gridrowfont"  [width]="70"
+                      [showSelectAll]="true"
+                    ></kendo-grid-checkbox-column>
+              <kendo-grid-column field="title" title="Title">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                  <a href="javascript:;" class="cursor-pointer text-primary"  (click)="OpenViewContent(viewcontent, dataItem.TitleIdLink,dataItem.genreId,dataItem.MediaType)">
+                    <i class="fa fa-play-circle mr-1" aria-hidden="true"></i>  {{dataItem.title}}
+                  </a>
+                </ng-template>
+              </kendo-grid-column>
+              <kendo-grid-column field="genreName" title="Orientation"></kendo-grid-column>
+            </kendo-grid>
+
+          <div id="disPL" class="hidden table-responsive search-results">
+            <table class="table data-table table-striped table-bordered mydatatable" id="eventtable">
+              <thead class="">
+                <tr>
+                  <th class="sticky-top" style="width: 60px;">
+                    <div class="custom-control custom-checkbox">
+                      <input
+                        (change)="allFolderContent($event)"
+                        type="checkbox"
+                        class="custom-control-input"
+                        name="allContentTF"
+                        id="AllContentTF"
+                        [(ngModel)]="chkAll_Folder"
+                      />
+                      <label
+                        class="custom-control-label cursor-pointer pt-1"
+                        for="AllContentTF"
+                        >All</label
+                      >
+                    </div>
+                  </th>
+                  <th class="WidthTitlePL sticky-top" style="z-index: 1;">Title</th>
+                  <th class="WidthCategoryPL sticky-top" style="z-index: 1;">Orientation</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="cursor-pointer" *ngFor="let plSongLst of FolderContentList; let i = index">
+                  <td data-label="" class="">
+                    <div class="custom-control custom-checkbox">
+                      <input
+                        (change)="SelectFolderContent(plSongLst.id, $event)"
+                        type="checkbox"
+                        class="custom-control-input"
+                        id="{{ plSongLst.id }}{{ i }}"
+                        [checked]="plSongLst.check"
+                        name="chkTokenList"
+                      />
+                      <label
+                        class="custom-control-label cursor-pointer"
+                        for="{{ plSongLst.id }}{{ i }}"
+                      ></label>
+                    </div>
+                  </td>
+                  <td class="WidthTitlePL">
+                    <div class="row m-0 p-0">
+      <div
+        *ngIf="!enableEdit"
+        class="col-lg-11 m-0 p-0"
+        style="
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        "
+      >
+        <a href="javascript:;"
+        (click)="OpenViewContent(viewcontent, plSongLst.TitleIdLink,plSongLst.genreId,plSongLst.MediaType)">
+          {{ plSongLst.title }}
+        </a>
+      </div>
+      <div
+        *ngIf="!enableEdit_genre && !enableEdit && LoginDfClientId == CustomerId
+        "
+        class="col-lg-1 p-0 mt-1"
+      >
+        <i
+          class="fa fa-pencil-square fa-2x text-primary"
+          aria-hidden="true"
+          (click)="EditImage($event, i, plSongLst.title)"
+        ></i>
+      </div>
+
+      <div
+        class="col-lg-9 m-0 p-0"
+        style="
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        "
+        *ngIf="enableEdit && enableEditIndex == i"
+      >
+        <a
+          *ngIf="!enableEdit"
+          href="javascript:;"
+          (click)="OpenViewContent(viewcontent, plSongLst.TitleIdLink,plSongLst.genreId,plSongLst.MediaType)"
+        >
+          {{ plSongLst.title }}
+        </a>
+        <input
+          class="form-control"
+          [(ngModel)]="txtTitle"
+          type="text"
+          value="{{ plSongLst.title }}"
+        />
+      </div>
+      <div
+        class="col-lg-3 p-0 mt-1"
+        *ngIf="enableEdit && enableEditIndex == i"
+      >
+        <i
+          aria-hidden="true"
+          class="fa fa-check-square fa-2x text-primary"
+          (click)="UpdateTitleName(plSongLst.id)"
+        ></i>
+        <i
+          aria-hidden="true"
+          class="fa fa-window-close fa-2x text-danger"
+          (click)="UpdateCancleTitleName()"
+        ></i>
+      </div>
+                    </div>
+                   <!-- <a href="javascript:;" (click)="OpenViewContent(viewcontent, plSongLst.TitleIdLink,plSongLst.genreId,plSongLst.MediaType)">
+                      {{ plSongLst.title }}
+                    </a>-->
+                  </td>
+                  
+                  <td class="WidthCategoryPL">
+                    <div class="row m-0 p-0">
+                      <div
+                        *ngIf="!enableEdit_genre"
+                        class="col-lg-10 m-0 p-0"
+                        style="
+                          overflow: hidden;
+                          text-overflow: ellipsis;
+                          white-space: nowrap;
+                        "
+                      >
+                          {{ plSongLst.genreName }}
+                      </div>
+                      <div
+                        *ngIf="
+                          !enableEdit && !enableEdit_genre && LoginDfClientId == CustomerId
+                        "
+                        class="col-lg-2 "
+                      >
+                        <i
+                          class="fa fa-pencil-square fa-2x text-primary"
+                          aria-hidden="true"
+                          (click)="EditGenre($event, i, plSongLst.genreId)"
+                        ></i>
+                      </div>
+                
+                      <div
+                        class="col-lg-9 m-0 p-0"
+                        style="
+                          overflow: hidden;
+                          text-overflow: ellipsis;
+                          white-space: nowrap;
+                        "
+                        *ngIf="enableEdit_genre && enableEditIndex_genre == i"
+                      >
+                        
+                      
+                      <select name="cmbGenreEdit" class="custom-select col-sm-12" [(ngModel)]="cmbGenreEdit" id="cmbGenreEdit">
+                        <option *ngFor="let gLst of GenreList" [value]="gLst.Id">
+                          {{ gLst.DisplayName }}
+                        </option>
+                      </select>
+
+                        
+                      </div>
+                      <div
+                        class="col-lg-3 p-0 mt-1"
+                        *ngIf="enableEdit_genre && enableEditIndex_genre == i"
+                      >
+                        <i
+                          aria-hidden="true"
+                          class="fa fa-check-square fa-2x text-primary"
+                          (click)="UpdateGenreId(plSongLst.id)"
+                        ></i>
+                        <i
+                          aria-hidden="true"
+                          class="fa fa-window-close fa-2x text-danger"
+                          (click)="UpdateCancleGenreName()"
+                        ></i>
+                      </div>
+                  </div>
+
+
+                  </td>
+
+                </tr>
+              </tbody>
+            </table>
+          </div>
+           
+        </div>
+      </div>
+      
+    
+  </div>
+</ng-template>

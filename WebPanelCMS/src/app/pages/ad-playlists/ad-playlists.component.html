@@ -1,0 +1,289 @@
+<div class="row">
+  <div class="col-lg-12">
+      <kendo-tabstrip (tabSelect)="PlaylistAdsonTabSelect($event)">
+          <kendo-tabstrip-tab title="Search"  [selected]="!AddNewTabSelected">
+              <ng-template kendoTabContent>
+                <div class="row">
+                  <div class="col-lg-3">
+                    <kendo-label text="Date"> 
+                        <kendo-datepicker
+                            [format]="format"
+                            [(ngModel)]="SearchAdsDate" [fillMode]="fillMode" (valueChange)="SearchContent()"></kendo-datepicker>
+                      </kendo-label>
+                </div>
+                <div class="col-lg-3">
+                  <kendo-label text="Customer Name">
+                      <kendo-dropdownlist
+                      [data]="CustomerList"
+                      textField="DisplayName"
+                      valueField="Id"
+                      [valuePrimitive]="true"
+                      fillMode ="outline"
+                      [(ngModel)]="cmbSearchCustomer" (valueChange)="onChangeSearchCustomer($event)">
+                  </kendo-dropdownlist>
+                  </kendo-label>
+              </div>
+                </div>
+                <div class="row mt-5">
+                  <div class="col-lg-12">
+                    <kendo-grid class="bg-card"
+                            [kendoGridBinding]="ScheduleList"
+                            [loading]="loading"
+                            [pageSize]="50"
+                            [pageable]="false"
+                            [sortable]="true">
+                            <kendo-grid-column field="formatName" title="Campaign Name"></kendo-grid-column>
+                            <kendo-grid-column field="playlistName" title="Playlist Name"></kendo-grid-column>
+                            <kendo-grid-column field="StartTime" title="Start Time"></kendo-grid-column>
+                            <kendo-grid-column field="EndTime" title="End Time"></kendo-grid-column>
+                            <kendo-grid-column field="WeekNo" title="Week Day"></kendo-grid-column>
+                            <kendo-grid-column *ngIf="!IschkViewOnly" field="id"   title="" class="gridrowfont"  [width]="90">
+                                <ng-template kendoGridCellTemplate let-adLst>
+                                  <i class="fa fa-pencil-square-o mr-4 cursor-pointer" aria-hidden="true" (click)="EditClick(adLst.id,adLst.token)"></i>
+                                  <i class="fa fa-trash text-danger cursor-pointer" aria-hidden="true" (click)="openAdsDeleteModal(AdsDeleteModal, adLst.id,adLst.token)"></i>
+                                  </ng-template>
+                            </kendo-grid-column>
+                        </kendo-grid>
+                  </div>
+                </div>
+              </ng-template>
+          </kendo-tabstrip-tab>
+          <kendo-tabstrip-tab title="Add New" *ngIf="!IschkViewOnly" [selected]="AddNewTabSelected">
+              <ng-template kendoTabContent>
+                <form class="w-full" [formGroup]="Plform">
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <kendo-label text="Customer Name">
+                        <kendo-dropdownlist
+                        [data]="CustomerList"
+                        textField="DisplayName"
+                        valueField="Id"
+                        [valuePrimitive]="true"
+                        fillMode ="outline"
+                        [defaultItem]="{ DisplayName: '', Id: '0' }"
+                        formControlName="CustomerId" (valueChange)="onChangeCustomer($event)"
+                        >
+                        </kendo-dropdownlist> 
+                        </kendo-label>
+                    </div>
+                    <div class="col-sm-3">
+                      <kendo-label text="Media Type">
+                        <kendo-dropdownlist
+                        [data]="CustomerMediaTypeList"
+                        textField="DisplayName"
+                        valueField="Id"
+                        [valuePrimitive]="true"
+                        [defaultItem]="{ DisplayName: '', Id: '' }"
+                        fillMode ="outline" [ngModelOptions]="{ standalone: true }"
+                        [(ngModel)]="cmbCustomerMediaType" (valueChange)="onChangeCustomerMediaType($event)"
+                      >
+                      </kendo-dropdownlist>
+                      </kendo-label>
+                    </div>
+                    <div class="col-sm-3">
+                      <kendo-label text="Campaign Name">
+                        <kendo-dropdownlist
+                        [data]="FormatList"
+                        textField="DisplayName"
+                        valueField="Id"
+                        [valuePrimitive]="true"
+                        fillMode ="outline"
+                        [defaultItem]="{ DisplayName: '', Id: '0' }"
+                        formControlName="FormatId" (valueChange)="onChangeFormat($event)"
+                        >
+                        </kendo-dropdownlist> 
+                        </kendo-label>
+                    </div>
+                    <div class="col-sm-3">
+                      <kendo-label text="Playlist Name">
+                        <kendo-dropdownlist
+                        [data]="PlaylistList"
+                        textField="DisplayName"
+                        valueField="Id"
+                        [valuePrimitive]="true"
+                        fillMode ="outline"
+                        [defaultItem]="{ DisplayName: '', Id: '0' }"
+                        formControlName="PlaylistId" >
+                        </kendo-dropdownlist> 
+                        </kendo-label>
+                    </div>
+                    <div class="col-sm-3">
+                      <kendo-label text="Start Date">
+                        <kendo-datepicker
+                        [format]="format"
+                        formControlName="sDate" [fillMode]="fillMode"
+                    ></kendo-datepicker>
+                    </kendo-label>
+                    </div>
+                    <div class="col-sm-3">
+                      <kendo-label text="End Date">
+                        <kendo-datepicker
+                        [format]="format"
+                        formControlName="eDate" [fillMode]="fillMode"
+                    ></kendo-datepicker>
+                    </kendo-label>
+                    </div>
+                    <div class="col-sm-2">
+                      <kendo-label text="Playing Mode">
+                        <kendo-dropdownlist
+                        [data]="listOfPlayingMode"
+                        textField="DisplayName"
+                        valueField="Id"
+                        [valuePrimitive]="true"
+                        fillMode ="outline"
+                        formControlName="pMode">
+                      </kendo-dropdownlist>
+                    </kendo-label>
+                    </div>
+                    <div class="col-sm-1">
+                      <kendo-label text="Frequency">
+                        <kendo-textbox  placeholder="" class="mb-2 mr-sm-2" fillMode ="outline"
+                        kendoTextBox formControlName="TotalFrequancy"></kendo-textbox>
+                      </kendo-label>
+                    </div>
+                    <div class="col-sm-3">
+                      <kendo-label text="Week Days:">
+                        <kendo-multiselect
+                          [data]="dropdownList"
+                          [kendoMultiSelectSummaryTag]="1"
+                          formControlName="wList"
+                          fillMode ="outline"
+                          [checkboxes]="true"
+                          [autoClose]="false"
+                          textField="itemName"
+                          valueField="id"
+                        ></kendo-multiselect>
+                      </kendo-label>
+                    </div>
+                  </div>
+                  <div class="row mt-3">
+                    <div class="col-sm-2 ml-auto">
+                      <kendo-button class="bg-primary" (click)="onSubmitPL(ForceUpdate)">
+                          Save
+                      </kendo-button>
+                      <kendo-button class="ml-5" (click)="clear()">
+                          Cancel
+                      </kendo-button>
+                  </div>
+                  </div>
+                  <div class="row mt-5">
+                    <div class="col-lg-12">
+                      <kendo-grid
+                                [kendoGridBinding]="TokenList"
+                                [loading]="loading"
+                                [pageSize]="25"
+                                [pageable]="true"
+                                [sortable]="true"
+                                kendoGridSelectBy="tokenid"
+                                [(selectedKeys)]="TokenSelected">
+                                <ng-template kendoGridToolbarTemplate>
+                                    <kendo-textbox
+placeholder="Search"
+kendoTextBox fillMode ="outline"
+(valueChange)="onFilter($event)"
+>
+</kendo-textbox>
+                                </ng-template>
+                                <kendo-grid-checkbox-column class="gridrowfont"  [width]="90"
+                                [showSelectAll]="true"
+                                ></kendo-grid-checkbox-column>
+                                        <kendo-grid-column field="countryName" title="Country"   class="gridrowfont"  [width]="120"></kendo-grid-column>
+                                        <kendo-grid-column field="city"   title="City" class="gridrowfont" ></kendo-grid-column>
+                                        <kendo-grid-column field="location"   title="Location" class="gridrowfont" ></kendo-grid-column>
+                                        
+                                        <kendo-grid-column field="MediaType"   title="Media Type" class="gridrowfont"  [width]="150"></kendo-grid-column>
+                                        <kendo-grid-column field="tokenCode"   title="Token No" class="gridrowfont"  [width]="250"></kendo-grid-column>
+                                
+
+                            </kendo-grid>
+                    </div>
+                  </div>
+                </form>
+              </ng-template>
+          </kendo-tabstrip-tab>
+      </kendo-tabstrip>
+  </div>
+</div>
+
+<ng-template #AdsDeleteModal let-c="close" let-d="dismiss">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Delete Ads</h5>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12">
+          <p>Are you sure to delete?</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <button
+            class="btn btn-primary col-sm-2 pull-right"
+            (click)="d('Cross click')"
+          >
+            <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+          </button>
+          <button
+            class="btn btn-danger col-sm-2 pull-right mr-2"
+            (click)="DeleteAds()"
+            (click)="d('Cross click')"
+          >
+            <i class="fa fa-check fa-lg" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #ForceUpdate let-c="close" let-d="dismiss">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Publish</h5>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12 ">
+          <p style="margin: 0 !important">You want to update locations now?</p>
+        </div>
+        <div class="col-sm-12 mt-1">
+          <p style="font-size: smaller">
+            Note: Have in mind that changes will be implemented immediately with
+            restart of the program.
+          </p>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-sm-4 ml-auto">
+          <button
+            class="btn btn-primary"
+            (click)="ForceUpdateAll()"
+            (click)="d('Cross click')"
+          >
+          Publish Now
+          </button>
+        </div>
+         
+ 
+        
+      </div>
+    </div>
+  </div>
+</ng-template>

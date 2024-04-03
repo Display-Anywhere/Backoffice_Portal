@@ -1,0 +1,1453 @@
+
+<div class="container-fluid m-0 p-0">
+  <form [formGroup]="TokenInfo" class="p-0" >
+    <div class="row">
+      <div class="col-sm-3 pb-1 m-0">
+        <kendo-label text="Player Location" #flocation>
+          <kendo-textbox placeholder="" class="mb-2 mr-sm-2" fillMode ="outline"
+          kendoTextBox formControlName="location"></kendo-textbox>
+        </kendo-label>
+      </div>
+      <div class="col-sm-3 pb-1 m-0">
+        <kendo-label text="Company Name">
+          <kendo-textbox placeholder="" class="mb-2 mr-sm-2" fillMode ="outline"
+                                kendoTextBox formControlName="personName"></kendo-textbox>
+        </kendo-label>
+      </div>
+      <div class="col-sm-3 pb-1 m-0">
+        <kendo-label text="Country Name">
+        <kendo-dropdownlist
+        [data]="CountryList"
+        textField="DisplayName"
+        valueField="Id"
+        [valuePrimitive]="true"
+        fillMode ="outline"
+        [defaultItem]="{ text: '', value: '0' }"
+        formControlName="country" (valueChange)="onChangeCountry($event.value)"
+      >
+      </kendo-dropdownlist>
+    </kendo-label>
+      </div>
+      <div class="col-sm-3 pb-1 m-0">
+        <div class="col-sm-10 p-0 pr-1 m-0 pull-left">
+          <kendo-label text="State Name">
+          <kendo-dropdownlist
+        [data]="StateList"
+        textField="DisplayName"
+        valueField="Id"
+        [valuePrimitive]="true"
+        fillMode ="outline"
+        [defaultItem]="{ text: '', value: '0' }"
+        formControlName="state" (valueChange)="onChangeState($event.value)"
+      >
+      </kendo-dropdownlist>
+    </kendo-label>
+        </div>
+        <div class="col-sm-2 pull-right p-0">
+          <kendo-button class="bg-primary mt-7" (click)="openCommonModal(modalCommon, 'State')"
+          style="padding: 0.2rem 0.5rem">
+          <i class="fa fa-bars" aria-hidden="true"></i>
+        </kendo-button> 
+        </div>
+      </div>
+      <div class="col-sm-3 pb-1 m-0">
+        <div class="col-sm-10 p-0 pr-1 m-0 pull-left">
+          <kendo-label text="City Name">
+            <kendo-dropdownlist
+          [data]="CityList"
+          textField="DisplayName"
+          valueField="Id"
+          [valuePrimitive]="true"
+          fillMode ="outline"
+          [defaultItem]="{ text: '', value: '0' }"
+          formControlName="city" (valueChange)="onChangeCity($event.value)"
+        >
+        </kendo-dropdownlist>
+      </kendo-label>
+        </div>
+        <div class="col-sm-2 pull-right p-0">
+          <kendo-button class="bg-primary mt-7" (click)="openCommonModal(modalCommon, 'City')"
+          style="padding: 0.2rem 0.5rem">
+          <i class="fa fa-bars" aria-hidden="true"></i>
+        </kendo-button> 
+
+          
+        </div>
+      </div>
+      <div class="col-sm-3 pb-1 m-0">
+        <kendo-label text="Street">
+          <kendo-textbox placeholder="" class="mb-2 mr-sm-2" fillMode ="outline"
+          kendoTextBox formControlName="street"></kendo-textbox>
+        </kendo-label>
+      </div>
+      <div class="col-sm-3 pb-1 m-0">
+        <kendo-label text="Contact Person Name">
+          <kendo-textbox placeholder="" class="mb-2 mr-sm-2" fillMode ="outline"
+          kendoTextBox formControlName="token"></kendo-textbox>
+        </kendo-label>
+      </div>
+      <div class="col-sm-3 pb-1 m-0">
+        <kendo-label text="Expiry Date"> 
+        <kendo-datepicker
+            [format]="format"
+            formControlName="ExpiryDate" [fillMode]="fillMode"
+        ></kendo-datepicker>
+      </kendo-label>
+        <!-- <input
+          id="dtExpiry"
+          formControlName="ExpiryDate"
+          class="form-control mb-2 mr-sm-2"
+          [owlDateTimeTrigger]="dtExpiry"
+          [owlDateTime]="dtExpiry"
+          readonly
+        />
+        <owl-date-time [pickerType]="'calendar'" #dtExpiry></owl-date-time> -->
+      </div>
+      <div class="col-sm-3 pb-1 m-0" *ngIf="auth.IsAdminLogin$ | async">
+        <kendo-label text="Media Type">
+          <kendo-dropdownlist
+          [data]="listOfMediaType"
+          textField="DisplayName"
+          valueField="Id"
+          [valuePrimitive]="true"
+          fillMode ="outline"
+          formControlName="chkMediaType" (valueChange)="MediaTypeChange($event.value)"
+        >
+        </kendo-dropdownlist>
+        </kendo-label>
+         
+      </div>
+      <div class="col-sm-3 pb-1 m-0" *ngIf="auth.IsAdminLogin$ | async">
+        <kendo-label text="Licence Type">
+          <kendo-dropdownlist
+          [data]="listOfLicenceType"
+          textField="DisplayName"
+          valueField="Id"
+          [valuePrimitive]="true"
+          fillMode ="outline"
+          formControlName="LicenceType">
+        </kendo-dropdownlist>
+        </kendo-label>
+
+       
+      </div>
+       
+      <div class="col-sm-3 pb-1 m-0" *ngIf="auth.IsAdminLogin$ | async">
+        <kendo-label text="Services">
+          <kendo-dropdownlist
+          [data]="listOfServices"
+          textField="DisplayName"
+          valueField="Id"
+          [valuePrimitive]="true"
+          fillMode ="outline"
+          formControlName="OsVersion" >
+        </kendo-dropdownlist>
+      </kendo-label>
+      </div>
+
+      <div class="col-sm-3 pb-1 m-0" *ngIf="auth.IsAdminLogin$ | async">
+        <kendo-label text="Group">
+          <kendo-dropdownlist
+          [data]="GroupList"
+          textField="DisplayName"
+          valueField="Id"
+          [valuePrimitive]="true"
+          fillMode ="outline"
+          [defaultItem]="{ text: '', value: '0' }"
+          formControlName="GroupId" (valueChange)="onChangeGroup($event.value)"
+        >
+        </kendo-dropdownlist>
+      </kendo-label>
+
+        
+        
+      </div>
+
+     
+      <div class="col-sm-3 pb-1 m-0" *ngIf="auth.IsAdminLogin$ | async">
+        <kendo-label text="Device Type">
+          <kendo-dropdownlist
+          [data]="listOfDeviceType"
+          textField="DisplayName"
+          valueField="Id"
+          [valuePrimitive]="true"
+          fillMode ="outline"
+          formControlName="DeviceType">
+        </kendo-dropdownlist>
+      </kendo-label>
+      </div>
+
+      <div  class="col-sm-3 pb-1 m-0" *ngIf="f.DeviceType.value === 'HotelTv' && auth.IsAdminLogin$ | async">
+        <kendo-label text="Playlist Size Limit (MB)">
+          <kendo-textbox placeholder="" class="mb-2 mr-sm-2" fillMode ="outline"
+          kendoTextBox type="number"  min="0" formControlName="playlistlimit"></kendo-textbox>
+        </kendo-label>
+      </div>
+      <div class="col-sm-3 pb-1 m-0" *ngIf="auth.IsAdminLogin$ | async">
+        <kendo-label text="Rotation">
+          <kendo-dropdownlist
+          [data]="listOfRotation"
+          textField="DisplayName"
+          valueField="Id"
+          [valuePrimitive]="true"
+          fillMode ="outline"
+          [defaultItem]="{ text: '', value: '0' }"
+          formControlName="Rotation">
+        </kendo-dropdownlist>
+      </kendo-label>
+      </div>
+      <div class="col-sm-3 pb-1 m-0" *ngIf="auth.IsAdminLogin$ | async">
+        <kendo-label text="Device Id(UUID)">
+          <kendo-textbox placeholder="" class="mb-2 mr-sm-2" fillMode ="outline"
+           kendoTextBox formControlName="DeviceId" readonly="true" ></kendo-textbox>
+        </kendo-label>
+      </div>
+
+      <div class="col-sm-3 pb-1 m-0">
+        <kendo-label text="Token No">
+          <kendo-textbox placeholder="" class="mb-2 mr-sm-2" fillMode ="outline"
+           kendoTextBox formControlName="TokenNoBkp" readonly="true" ></kendo-textbox>
+        </kendo-label>
+       
+      </div>
+
+     <!-- 
+      <div class="col-sm-3 pb-1 m-0" *ngIf="auth.IsAdminLogin$ | async">
+        <label for="uchkType">Type:</label>
+        <select
+          name="uchkType"
+          formControlName="chkType"
+          class="custom-select"
+          id="uchkType"
+        >
+          <option selected value="SF">Store&amp;Forward</option>
+          <option *ngIf="f.PlayerType.value == 'Desktop'" value="Local">
+            Local Managenent
+          </option>
+          <option selected value="Stream">Stream</option>
+        </select>
+      </div> -->
+
+
+       <!-- show online indicator -->
+       <div *ngIf="auth.IsAdminLogin$ | async"
+       class="col-sm-3 pb-1 m-0"
+     >
+     <div *ngIf="Indicator_Active" class="custom-control custom-checkbox mt-3">
+       <input
+         type="checkbox"
+         class="custom-control-input"
+         id="chkIndicatorID"
+         formControlName="chkIndicator"
+         [checked]="chkIndicatorBox"
+         name="chkToken"
+       />
+       <label class="custom-control-label ml-4" for="chkIndicatorID"
+         >Show Online Indicator</label
+       >
+     </div>
+    
+    <div class="d-none custom-control custom-checkbox mt-2">
+      <input
+        type="checkbox"
+        class="custom-control-input"
+        id="chkKeyID"
+        formControlName="isShowKeyboardToast"
+        [checked]="chkShowKeyboard"
+        name="chkKey"
+      />
+      <label class="custom-control-label ml-4" for="chkKeyID"
+        >Show Keyboard Message</label>
+    </div>
+   </div>
+     <!-- show online indicator end -->
+     <div class="col-sm-12 pb-1 m-0" >
+      <kendo-label text="Map Location">
+        <kendo-textbox placeholder="" class="mb-2 mr-sm-2" fillMode ="outline"
+        kendoTextBox formControlName="Maplocation"></kendo-textbox>
+      </kendo-label>
+    </div>
+    <div class="col-sm-3 pb-1 m-0">
+      <kendo-label text="Fix IP">
+        <kendo-textbox placeholder="" class="mb-2 mr-sm-2" fillMode ="outline"
+        kendoTextBox formControlName="FixIp"></kendo-textbox>
+      </kendo-label>
+       
+    </div>
+
+
+    <div
+        class="d-none col-sm-3 pb-1 m-0 mb-2 custom-control custom-checkbox"
+        *ngIf="
+        Client_IsKpnActive == '1' && f.chkMediaType.value == 'Signage'
+        "
+      >
+        <input
+          type="checkbox"
+          class="custom-control-input"
+          id="chkKpnActive"
+          formControlName="IsKpnActive"
+          [checked]="chkIsKpnActive"
+          name="chkKpnActive"
+        />
+        <label class="custom-control-label ml-4" for="chkKpnActive"
+          >Activate DA-IPTV</label
+        >
+      </div>
+
+
+      <!-- total shots -->
+      <div
+        class="col-sm-3 pb-1 m-0"
+        *ngIf="
+          f.chkMediaType.value == 'Signage' && f.DeviceType.value == 'Sanitizer'
+        "
+      >
+      <kendo-label text="Total Shots">
+        <kendo-textbox placeholder="" class="mb-2 mr-sm-2" fillMode ="outline"
+        kendoTextBox formControlName="TotalShot"  min="0"
+        max="60000"
+        autocomplete="false"></kendo-textbox>
+      </kendo-label>
+      </div>
+
+      <!-- total shots end -->
+      <!-- dispenser alert -->
+      <div
+        class="col-sm-3 pb-1 m-0"
+        *ngIf="
+          f.chkMediaType.value == 'Signage' && f.DeviceType.value == 'Sanitizer'
+        "
+      >
+        <label for="location">Dispenser Alert:</label>
+        <ng-multiselect-dropdown
+          id="Dispenser"
+          [placeholder]="' '"
+          [settings]="dropdownSettings"
+          [data]="dropdownList"
+          formControlName="DispenserAlert"
+        >
+        </ng-multiselect-dropdown>
+      </div>
+
+      <!-- dispenser alert end -->
+
+      <!-- dispensery alert email -->
+      <div
+        class="col-sm-3 pb-1 m-0"
+        *ngIf="
+          f.chkMediaType.value == 'Signage' && f.DeviceType.value == 'Sanitizer'
+        "
+      >
+      <kendo-label text="Dispenser Alert Email">
+        <kendo-textbox placeholder="" class="mb-2 mr-sm-2" fillMode ="outline"
+                              kendoTextBox formControlName="AlertMail"></kendo-textbox>
+      </kendo-label>
+      </div>
+
+      <!-- dispensery alert email end -->
+      <!-- radio buttons show indicator -->
+     
+      <!-- Show Shots Message -->
+      <div
+        class="col-sm-3 pb-1 m-0 mt-sm-3 custom-control custom-checkbox"
+        *ngIf="
+          f.chkMediaType.value == 'Signage' && f.DeviceType.value == 'Sanitizer'
+        "
+      >
+        <input
+          type="checkbox"
+          class="custom-control-input"
+          id="chkToastMsg"
+          formControlName="IsShowShotToast"
+          [checked]="chkShotMsg"
+          name="chkToast"
+        />
+        <label class="custom-control-label ml-4 mt-sm-3" for="chkToastMsg"
+          >Show Shots Message</label
+        >
+      </div>
+
+      <!-- Show Shots Message end -->
+      <!-- radio buttons end -->
+
+      <div
+        class="d-none col-sm-3 pb-1 m-0"
+        *ngIf="
+          f.chkMediaType.value == 'Signage' && f.DeviceType.value == 'Sanitizer'
+        "
+      >
+        <input
+          type="checkbox"
+          class="custom-control-input"
+          id="chkIndicatorID1"
+          formControlName="chkIndicator"
+          [checked]="chkIndicatorBox"
+          name="chkToken2"
+        />
+        <label class="custom-control-label ml-4" for="chkIndicatorID1"
+          >Show Online Indicator 2</label
+        >
+      </div>
+      <!-- button start -->
+        <div class="col-sm-12 font-weight-bold" >
+          <p style="margin: 0 !important" *ngIf="prvGroupId != f.GroupId.value" >By changing a player to another group, content and scheduling will be adapted from the new group ( If scheduling is available in new group )</p>
+        </div>
+      <div class="col-12 float-right p-0 mt-0 pr-1" *ngIf="auth.IsAdminLogin$ | async">
+        <kendo-button class="bg-primary ml-2 pull-left" (click)="PlaylistContentStatus(Downloadplaylistcontent)">
+          Download Status
+      </kendo-button>
+        
+        <div id="btns">
+          <kendo-button class="bg-danger pull-right" (click)="openResetModal(ResetModal)">
+            Reset token
+        </kendo-button> 
+           
+        </div>
+        <kendo-button class="bg-primary mr-2 pull-right" (click)="onSubmitTokenInfo(ForceUpdate)">
+          Save
+      </kendo-button> 
+        
+      </div>
+      <!-- buttons end -->
+    </div>
+  </form>
+  <div class="mt-2 col-md-12 p-0">
+    <kendo-tabstrip>
+      <kendo-tabstrip-tab *ngIf="(!chkIsKpnActive)" title="Normal Schedule" [selected]="true">
+        <ng-template kendoTabContent>
+          <kendo-grid class="bg-card"
+                    [kendoGridBinding]="ModifySchList"
+                    [pageSize]="50"
+                    [pageable]="false"
+                    [sortable]="true">
+                    <kendo-grid-column field="formatName" title="Campaign Name"   class="gridrowfont" >
+                    </kendo-grid-column>
+                    <kendo-grid-column field="splPlaylistId" title="Playlist Name"   class="gridrowfont" >
+                      <ng-template kendoGridCellTemplate let-schLst>
+                        <a href="javascript:;" (click)="openPlaylistContent(playlistcontent, schLst.splPlaylistId,schLst.playlistName)">{{ schLst.playlistName }}</a>
+                      </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column field="StartTime" title="Start Time" *ngIf="ScheduleType !== 'PercentageSchedule'"  class="gridrowfont" >
+                    </kendo-grid-column>
+                    <kendo-grid-column field="EndTime" title="End Time" *ngIf="ScheduleType !== 'PercentageSchedule'"  class="gridrowfont" >
+                    </kendo-grid-column>
+                    <kendo-grid-column field="WeekDay" title="Week Day"  *ngIf="ScheduleType !== 'PercentageSchedule'" class="gridrowfont" >
+                    </kendo-grid-column>
+                    <kendo-grid-column field="PercentageValue" title="Percentage"  *ngIf="ScheduleType == 'PercentageSchedule'" class="gridrowfont" >
+                    </kendo-grid-column>
+                    <kendo-grid-column field="volume" title="Volume"  *ngIf="((f.chkMediaType.value ==='Audio') || (f.chkMediaType.value ==='Video'))" class="gridrowfont" >
+                    </kendo-grid-column>
+                    <kendo-grid-column field="id"   title="" class="p-0"  [width]="50">
+                      <ng-template kendoGridCellTemplate let-schLst>
+                        <i class="fa fa-pencil-square-o mr-2 cursor-pointer" aria-hidden="true" (click)="openModal(
+                          SchContent,
+                          schLst.playlistName,
+                          schLst.id,
+                          schLst.StartTime,
+                          schLst.EndTime,
+                          schLst.PercentageValue
+                        )"></i>
+                        <i class="fa fa-trash text-danger cursor-pointer" aria-hidden="true" (click)="openDeleteModal(SchDeleteModal, schLst.id,'Normal')"></i>
+                        </ng-template>
+                  </kendo-grid-column>
+
+
+          </kendo-grid>
+        </ng-template>
+      </kendo-tabstrip-tab>
+      <kendo-tabstrip-tab *ngIf="(!chkIsKpnActive)" title="Future Schedule">
+        <ng-template kendoTabContent>
+          <kendo-grid class="bg-card"
+                    [kendoGridBinding]="futureSchList"
+                    [pageSize]="50"
+                    [pageable]="false"
+                    [sortable]="true">
+                    <kendo-grid-column field="formatName" title="Campaign Name"   class="gridrowfont" >
+                    </kendo-grid-column>
+                    <kendo-grid-column field="playlistName" title="Playlist Name"   class="gridrowfont" >
+                    </kendo-grid-column>
+                    <kendo-grid-column field="StartTime" title="Start Time" *ngIf="ScheduleType !== 'PercentageSchedule'"  class="gridrowfont" >
+                    </kendo-grid-column>
+                    <kendo-grid-column field="EndTime" title="End Time" *ngIf="ScheduleType !== 'PercentageSchedule'"  class="gridrowfont" >
+                    </kendo-grid-column>
+                    <kendo-grid-column field="WeekDay" title="Week Day"  *ngIf="ScheduleType !== 'PercentageSchedule'" class="gridrowfont" >
+                    </kendo-grid-column>
+                    <kendo-grid-column field="PercentageValue" title="Percentage"  *ngIf="ScheduleType == 'PercentageSchedule'" class="gridrowfont" >
+                    </kendo-grid-column>
+                    <kendo-grid-column field="scheduleType" title="Schedule Type" class="gridrowfont" >
+                    </kendo-grid-column>
+                    <kendo-grid-column field="volume" title="Volume"  *ngIf="((f.chkMediaType.value ==='Audio') || (f.chkMediaType.value ==='Video'))" class="gridrowfont" >
+                    </kendo-grid-column>
+                    <kendo-grid-column field="id"   title="" class="p-0"  [width]="50">
+                      <ng-template kendoGridCellTemplate let-fuSchLst>
+                        <i class="fa fa-trash text-danger cursor-pointer" aria-hidden="true" (click)="openDeleteModal(SchDeleteModal, fuSchLst.id,'Future')"></i>
+                        </ng-template>
+                  </kendo-grid-column>
+
+
+          </kendo-grid>
+        </ng-template>
+      </kendo-tabstrip-tab>
+      <kendo-tabstrip-tab *ngIf="isSanitizerActive && (!chkIsKpnActive)" title="Sanitizer Announcement">
+        <ng-template kendoTabContent>
+          <kendo-grid class="bg-card"
+                    [kendoGridBinding]="PlaylistSongsList"
+                    [pageSize]="50"
+                    [pageable]="false"
+                    [sortable]="true">
+                    <kendo-grid-column field="title" title="Title"   class="gridrowfont" >
+                    </kendo-grid-column>
+                    <kendo-grid-column field="Artist" title="Artist"   class="gridrowfont" >
+                    </kendo-grid-column>
+                    <kendo-grid-column field="Genre" title="Genre" class="gridrowfont" >
+                    </kendo-grid-column>
+                    <kendo-grid-column field="id"   title="" class="p-0"  [width]="50">
+                      <ng-template kendoGridCellTemplate let-plSongLst>
+                        <i class="fa fa-trash text-danger cursor-pointer" aria-hidden="true" (click)="openTitleDeleteModal(TitleDeleteModal, plSongLst.id)"></i>
+                        </ng-template>
+                  </kendo-grid-column>
+
+
+          </kendo-grid>
+        </ng-template>
+      </kendo-tabstrip-tab>
+      <kendo-tabstrip-tab *ngIf="(!chkIsKpnActive)" title="Normal Ads">
+        <ng-template kendoTabContent>
+          <kendo-grid class="bg-card"
+                    [kendoGridBinding]="adList"
+                    [pageSize]="50"
+                    [pageable]="false"
+                    [sortable]="true">
+                    <kendo-grid-column field="adName" title="Advt Name"   class="gridrowfont" >
+                    </kendo-grid-column>
+                    <kendo-grid-column field="atype" title="Type"   class="gridrowfont" >
+                    </kendo-grid-column>
+                    <kendo-grid-column field="startDate" title="Start Date" class="gridrowfont" >
+                    </kendo-grid-column>
+                    <kendo-grid-column field="playingMode" title="Playing Mode" class="gridrowfont" >
+                    </kendo-grid-column>
+
+          </kendo-grid>
+        </ng-template>
+      </kendo-tabstrip-tab>
+      <kendo-tabstrip-tab *ngIf="(!chkIsKpnActive)" title="Playlist Ads">
+        <ng-template kendoTabContent>
+          <kendo-grid class="bg-card"
+                    [kendoGridBinding]="AdsPlaylist"
+                    [pageSize]="50"
+                    [pageable]="false"
+                    [sortable]="true">
+                    <kendo-grid-column field="fName" title="Campaign Name"   class="gridrowfont" >
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pName" title="Playlist Name"   class="gridrowfont" >
+                    </kendo-grid-column>
+                    <kendo-grid-column field="sDate" title="Start Date" class="gridrowfont" >
+                    </kendo-grid-column>
+                    <kendo-grid-column field="eDate" title="End Date" class="gridrowfont" >
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pMode" title="Playing Mode" class="gridrowfont" >
+                    </kendo-grid-column>
+                    <kendo-grid-column field="Fre" title="Frequency" class="gridrowfont" >
+                    </kendo-grid-column>
+                    
+
+          </kendo-grid>
+        </ng-template>
+      </kendo-tabstrip-tab>
+      <kendo-tabstrip-tab *ngIf="(!chkIsKpnActive)" title="Instant Mobile Playlist">
+        <ng-template kendoTabContent>
+          <kendo-grid class="bg-card"
+                    [kendoGridBinding]="APKPlaylist"
+                    [pageSize]="50"
+                    [pageable]="false"
+                    [sortable]="true">
+                    <kendo-grid-column field="formatName" title="Campaign Name"   class="gridrowfont" >
+                    </kendo-grid-column>
+                    <kendo-grid-column field="playlistName" title="Playlist Name"   class="gridrowfont" >
+                    </kendo-grid-column>
+          </kendo-grid>
+        </ng-template>
+      </kendo-tabstrip-tab>
+      <kendo-tabstrip-tab *ngIf="((f.DeviceType.value === 'HotelTv') && (h_info_Active) && (!chkIsKpnActive))" title="Default DA-Info">
+        <ng-template kendoTabContent>
+          <kendo-grid class="bg-card"
+                    [kendoGridBinding]="HotelTvDefaultPlaylist"
+                    [pageSize]="50"
+                    [pageable]="false"
+                    [sortable]="true">
+                    <kendo-grid-column field="splplaylistname" title="Playlist Name"   class="gridrowfont" >
+                    </kendo-grid-column>
+          </kendo-grid>
+        </ng-template>
+      </kendo-tabstrip-tab>
+      <kendo-tabstrip-tab *ngIf="(chkIsKpnActive)" title="Channels">
+        <ng-template kendoTabContent>
+          <kendo-grid class="bg-card"
+                    [kendoGridBinding]="PlayerChannelList"
+                    [pageSize]="50"
+                    [pageable]="false"
+                    [sortable]="true">
+                    <kendo-grid-column field="channellabel" title="Label"   class="gridrowfont" >
+                    </kendo-grid-column>
+                    <kendo-grid-column field="channelname" title="Name"   class="gridrowfont" >
+                    </kendo-grid-column>
+                    <kendo-grid-column field="channeldesc" title="Notes"   class="gridrowfont" >
+                    </kendo-grid-column>
+          </kendo-grid>
+        </ng-template>
+      </kendo-tabstrip-tab>
+
+    </kendo-tabstrip>
+  </div>
+</div>
+
+<ng-template #SchContent let-c="close" let-d="dismiss">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Modify Playlist Time</h5>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-card">
+    <div class="container-fluid">
+      <form [formGroup]="TokenInfoModifyPlaylist">
+        <div class="row">
+          <div class="col-sm-12">
+            <kendo-label text="Playlist Name">
+              <kendo-textbox placeholder="" class="mb-2 mr-sm-2" fillMode ="outline"
+              kendoTextBox formControlName="ModifyPlaylistName" readonly="true"></kendo-textbox>
+            </kendo-label>
+          </div>
+          <div class="col-sm-12" *ngIf="ScheduleType !== 'PercentageSchedule'">
+            <div class="col-sm-6 pull-left" style="padding: 0 0 0 0">
+              <label class="mb-2 mr-sm-2" for="sTime">Start time: </label>
+              <ngb-timepicker
+                formControlName="ModifyStartTime"
+              ></ngb-timepicker>
+
+              <!--<input id="sTime" class="form-control mb-2 mr-sm-2" formControlName="ModifyStartTime"
+                                [owlDateTimeTrigger]="dt1" [owlDateTime]="dt1" readonly>
+                            <owl-date-time [pickerType]="'timer'" #dt1></owl-date-time>
+                            -->
+            </div>
+            <div class="col-sm-6 pull-right" style="padding: 0 0 0 5px">
+              <label class="mb-2 mr-sm-2" for="sTime">End time: </label>
+              <ngb-timepicker formControlName="ModifyEndTime"></ngb-timepicker>
+              <!--
+                            <input id="eTime" class="form-control mb-2 mr-sm-2" formControlName="ModifyEndTime"
+                                [owlDateTimeTrigger]="dt2" [owlDateTime]="dt2" readonly>
+                            <owl-date-time [pickerType]="'timer'" #dt2></owl-date-time>
+                            -->
+            </div>
+          </div>
+          <div class="col-sm-12" *ngIf="ScheduleType === 'PercentageSchedule'">
+            <div class="col-sm-6 pull-left" style="padding: 0 0 0 0">
+              <label class="mb-2 mr-sm-2" for="week">Percentage:</label>
+              <input
+                type="number"
+                min="1"
+                max="100"
+                formControlName="PercentageValue"
+                class="form-control"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12">
+            <kendo-button class="bg-primary col-sm-2 pull-right" (click)="onSubmitTokenInfoModifyPlaylist(ForceUpdate)"
+            (click)="d('Cross click')">
+           Save
+          </kendo-button>
+  
+            
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #ResetModal let-c="close" let-d="dismiss">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Reset Token</h5>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-card">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12">
+          <p>Are you sure to reset the token?</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <button
+            class="btn btn-primary col-sm-2 pull-right"
+            (click)="d('Cross click')"
+          >
+            <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+          </button>
+          <button
+            class="btn btn-danger col-sm-2 pull-right mr-2"
+            (click)="ResetToken()"
+            (click)="d('Cross click')"
+          >
+            <i class="fa fa-check fa-lg" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #modalState let-c="close" let-d="dismiss">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">State</h5>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-card">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12">
+          <kendo-label text="State Name">
+            <kendo-textbox placeholder="" class="mb-2 mr-sm-2" fillMode ="outline"
+            kendoTextBox [(ngModel)]="StateName"></kendo-textbox>
+          </kendo-label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <button
+            class="btn btn-primary col-sm-2 pull-right"
+            type="button"
+            (click)="onSubmitState()"
+            (click)="d('Cross click')"
+          >
+            Save
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #SchDeleteModal let-c="close" let-d="dismiss">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Delete Schedule Playlist</h5>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-card">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12">
+          <p>Are you sure to delete?</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <button
+            class="btn btn-primary col-sm-2 pull-right"
+            (click)="d('Cross click')"
+          >
+            <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+          </button>
+          <button
+            class="btn btn-danger col-sm-2 pull-right mr-2"
+            (click)="DeleteSchPlaylist()"
+            (click)="d('Cross click')"
+          >
+            <i class="fa fa-check fa-lg" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!-- <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+</ngx-loading>
+<div class="container-fluid">
+    <form [formGroup]="TokenInfo" (ngSubmit)="onSubmitTokenInfo()">
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="col-sm-6 pull-left" style="padding: 0 0 0 0px;">
+                    <label for="token" class="mb-2 mr-sm-2">Token:</label>
+                    <input type="text" formControlName="token" class="form-control mb-2 mr-sm-2" id="token">
+
+                </div>
+                <div class="col-sm-6 pull-right" style="padding: 0 0 0 5px;">
+                    <label for="name" class="mb-2 mr-sm-2">Name:</label>
+                    <input type="text" formControlName="personName" class="form-control mb-2 mr-sm-2" id="name">
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="col-sm-6 pull-left" style="padding: 0 0 0 0px;">
+                    <label for="countryName" class="mb-2 mr-sm-2">Country Name:</label>
+                    <select name="countryname" formControlName="country" class="custom-select"
+                    (change)="onChangeCountry($event.target.value)" id="countryName">
+                        <option selected value="0"></option>
+                        <option *ngFor="let cLst of CountryList" [value]="cLst.Id" >{{cLst.DisplayName}}</option>
+                    </select>
+
+                </div>
+                <div class="col-sm-6 pull-right" style="padding: 0 0 0 5px;">
+                    <label for="StateName" class="mb-2 mr-sm-2">State Name:</label>
+                    <select name="sName" formControlName="state" class="custom-select"
+                    (change)="onChangeState($event.target.value)" id="StateName">
+                        <option selected value="0"></option>
+                        <option *ngFor="let stateLst of StateList" [value]="stateLst.Id" >{{stateLst.DisplayName}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="col-sm-6 pull-left" style="padding: 0 0 0 0px;">
+                    <label for="CityName" class="mb-2 mr-sm-2">City Name:</label>
+                    <select name="cityname" formControlName="city" class="custom-select" id="CityName">
+                        <option selected value="0"></option>
+                        <option *ngFor="let cityLst of CityList" [value]="cityLst.Id" >{{cityLst.DisplayName}}</option>
+                    </select>
+                </div>
+                <div class="col-sm-6 pull-right" style="padding: 0 0 0 5px;">
+                    <label for="street" class="mb-2 mr-sm-2">Street:</label>
+                    <input type="text" formControlName="street" class="form-control mb-2 mr-sm-2" id="street">
+
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="col-sm-6 pull-left" style="padding: 0 0 0 0px;">
+                    <label for="location">Loaction:</label>
+                    <input type="text" formControlName="location" class="form-control mb-2 mr-sm-2" id="location">
+                </div>
+                <div class="col-sm-6 pull-right" style="padding: 0 0 0 5px;">
+                    <label for="dtExpiry" class="mb-2 mr-sm-2">Expiry Date:</label>
+                    <input id="dtExpiry" formControlName="ExpiryDate" class="form-control mb-2 mr-sm-2"
+                        [owlDateTimeTrigger]="dtExpiry" [owlDateTime]="dtExpiry" readonly>
+                    <owl-date-time [pickerType]="'calendar'" #dtExpiry></owl-date-time>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="col-sm-6 pull-left" style="padding: 0 0 0 0px;">
+                    <label for="playerType">Player Type:</label>
+                    <select name="pType" formControlName="PlayerType" class="custom-select" id="playerType">
+                        <option selected value="0"></option>
+                        <option selected value="Desktop">Desktop</option>
+                        <option selected value="Android">Android</option>
+                        <option selected value="iPhone">iPhone</option>
+                    </select>
+                </div>
+                <div class="col-sm-6 pull-right" style="padding: 0 0 0 5px;">
+                    <label for="LicenceType">Licence Type:</label>
+                    <select name="lType" formControlName="LicenceType" class="custom-select" id="LicenceType">
+                        <option selected value="0"></option>
+                        <option selected value="Copyright">Copyright</option>
+                        <option selected value="DirectLicence">Direct Licence</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="col-sm-6 pull-left" style="padding: 0 0 0 0px;">
+                    <label for="mType">Media Type:</label>
+
+                    <div class="form-control" id="mType"
+                        [ngClass]="{ 'is-invalid': submitted && f.chkMediaType.errors }"
+                        style="background-image: none;padding-right: 10px;">
+                        <div class="custom-control custom-radio custom-control-inline pull-left">
+                            <input type="radio" formControlName="chkMediaType"
+                                class="custom-control-input cursor-pointer" id="chkAudio" value="Audio"
+                                name="chkMediaType" checked>
+                            <label class="custom-control-label cursor-pointer" for="chkAudio">Audio</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline pull-right">
+                            <input type="radio" formControlName="chkMediaType"
+                                class="custom-control-input cursor-pointer" id="chkVideo" value="Video"
+                                name="chkMediaType">
+                            <label class="custom-control-label cursor-pointer" for="chkVideo">Video</label>
+                        </div>
+                    </div>
+                    <div *ngIf="submitted && f.chkMediaType.errors" class="invalid-feedback"></div>
+                </div>
+                <div class="col-sm-6 pull-right" style="padding: 0 0 0 5px;">
+                    <label for="uRights">User Rights:</label>
+                    <div class="form-control" id="uRights"
+                        [ngClass]="{ 'is-invalid': submitted && f.chkuserRights.errors }"
+                        style="background-image: none;padding-right: 10px;">
+                        <div class="custom-control custom-radio custom-control-inline pull-left ">
+                            <input type="radio" formControlName="chkuserRights" name="chkuserRights" value="Lock"
+                                class="custom-control-input cursor-pointer" id="chkLock">
+                            <label class="custom-control-label cursor-pointer" for="chkLock">Lock</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline pull-right">
+                            <input type="radio" formControlName="chkuserRights" name="chkuserRights" value="UnLock"
+                                class="custom-control-input cursor-pointer" id="chkUnlock" checked>
+                            <label class="custom-control-label cursor-pointer" for="chkUnlock">Un-Lock</label>
+                        </div>
+                    </div>
+                    <div *ngIf="submitted && f.chkuserRights.errors" class="invalid-feedback"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <label for="type">Type:</label>
+
+                <div class="form-control" id="type" [ngClass]="{ 'is-invalid': submitted && f.chkType.errors }"
+                    style="background-image: none;">
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" formControlName="chkType" name="chkType" value="SF"
+                            class="custom-control-input cursor-pointer" id="chkSF" checked>
+                        <label class="custom-control-label cursor-pointer" for="chkSF">Store &amp; Forward</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline ml-2">
+                        <input type="radio" formControlName="chkType" name="chkType" value="Stream"
+                            class="custom-control-input cursor-pointer" id="chkStream">
+                        <label class="custom-control-label cursor-pointer" for="chkStream">Stream</label>
+                    </div>
+                </div>
+                <div *ngIf="submitted && f.chkType.errors" class="invalid-feedback"></div>
+            </div>
+            <div class="col-sm-4">
+                <label for="tokenno">Token No:</label>
+                <input type="text" formControlName="TokenNoBkp" class="form-control mb-2 mr-sm-2" id="tokenno" readonly>
+
+
+            </div>
+            <div class="col-sm-4">
+                <label for="deviceid">Device Id(UUID):</label>
+                <input type="text" formControlName="DeviceId" class="form-control mb-2 mr-sm-2" id="deviceid" readonly>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <button type="button" type="button" (click)="openResetModal(ResetModal)"  class="btn btn-danger pull-right ml-2">Reset token</button>
+                <button class="btn btn-primary col-sm-1  pull-right">
+                    <i class="fa fa-floppy-o fa-lg" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
+    </form>
+    <div class="mt-2 col-md-12 p-0">
+        <ul class="nav nav-tabs">
+            <li class=" active"><a data-toggle="tab" href="#home" class="nav-link active ">S&amp;F Playlist Schedule</a>
+            </li>
+            <li><a data-toggle="tab" href="#menu1" class="nav-link">Advertisemenet </a></li>
+            <li><a data-toggle="tab" href="#menu2" class="nav-link">Player Timing </a></li>
+        </ul>
+        <div class="tab-content">
+            <div id="home" class="tab-pane  in active">
+                <table class="mt-2  table table-hover table table-sm  table-bordered">
+                    <thead class="thead-light">
+                        <tr class="d-flex">
+                            <th class="col">Format Name</th>
+                            <th class="col">Playlist Name</th>
+                            <th class="col">Start Time</th>
+                            <th class="col">End Time</th>
+                            <th class="col">Week Day</th>
+                            <th class="col-sm-1 Link-Center_Width"></th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="d-flex" *ngFor="let schLst of scheduleList;">
+                            <td class="col">
+                                {{schLst.formatName}}
+                            </td>
+                            <td class="col">
+                                {{schLst.playlistName}}
+                            </td>
+                            <td class="col">
+                                {{schLst.StartTime}}
+                            </td>
+                            <td class="col">
+                                {{schLst.EndTime}}
+                            </td>
+                            <td class="col">
+                                {{schLst.WeekDay}}
+                            </td>
+                            <td class="col-sm-1 cursor-pointer Link-Center_Width text-primary"
+                                (click)="openModal(SchContent, schLst.playlistName, schLst.id ,schLst.StartTime,schLst.EndTime )"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="menu1" class="tab-pane fade">
+                <table class="mt-2 table table-hover table table-sm  table-bordered">
+                    <thead class="thead-light">
+                        <tr class="d-flex">
+                            <th class="col">Advt Name</th>
+                            <th class="col">Type</th>
+                            <th class="col">Start Date</th>
+                            <th class="col">Playing Mode</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="d-flex" *ngFor="let adLst of adList;">
+                            <td class="col">{{adLst.adName}}</td>
+                            <td class="col">{{adLst.atype}}</td>
+                            <td class="col">{{adLst.startDate}}</td>
+                            <td class="col">{{adLst.playingMode}}</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+            <div id="menu2" class="tab-pane fade">
+                <table class="mt-2  table table-hover table table-sm  table-bordered">
+                    <thead class="thead-light">
+                        <tr class="d-flex">
+                            <th class="col">Start Date</th>
+                            <th class="col">Time 1</th>
+                            <th class="col">Time 2</th>
+                            <th class="col">Time 3</th>
+                            <th class="col">Time 4</th>
+                            <th class="col">Time 5</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="d-flex" *ngFor="let prayerLst of prayerList;">
+                            <td class="col">{{prayerLst.StartDate}}</td>
+                            <td class="col">{{prayerLst.Time1}}</td>
+                            <td class="col">{{prayerLst.Time2}}</td>
+                            <td class="col">{{prayerLst.Time3}}</td>
+                            <td class="col">{{prayerLst.Time4}}</td>
+                            <td class="col">{{prayerLst.Time5}}</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+<ng-template #SchContent let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h5>Modify Playlist Time</h5>
+        <button type="button" class="close text-white" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body bg-card">
+        <div class="container-fluid">
+            <form [formGroup]="TokenInfoModifyPlaylist">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <label for="mPlaylistName" class="mb-2 mr-sm-2">Playlist Name:</label>
+                        <input type="text" formControlName="ModifyPlaylistName" class="form-control mb-2 mr-sm-2"
+                            id="mPlaylistName" readonly>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="col-sm-6 pull-left" style="padding: 0 0 0 0;">
+                            <label class="mb-2 mr-sm-2" for="sTime">Start time: </label>
+                            <input id="sTime" class="form-control mb-2 mr-sm-2" formControlName="ModifyStartTime"
+                                [owlDateTimeTrigger]="dt1" [owlDateTime]="dt1" readonly>
+                            <owl-date-time [pickerType]="'timer'" #dt1></owl-date-time>
+                        </div>
+                        <div class="col-sm-6 pull-right" style="padding: 0 0 0 5px;">
+                            <label class="mb-2 mr-sm-2" for="sTime">End time: </label>
+                            <input id="eTime" class="form-control mb-2 mr-sm-2" formControlName="ModifyEndTime"
+                                [owlDateTimeTrigger]="dt2" [owlDateTime]="dt2" readonly>
+                            <owl-date-time [pickerType]="'timer'" #dt2></owl-date-time>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <button class="btn btn-primary col-sm-2  pull-right" (click)="onSubmitTokenInfoModifyPlaylist()"
+                            (click)="d('Cross click')">
+                            <i class="fa fa-floppy-o fa-lg" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</ng-template>
+
+<ng-template #ResetModal let-c="close" let-d="dismiss">
+        <div class="modal-header">
+            <h5>Reset Token</h5>
+            <button type="button" class="close text-white" aria-label="Close" (click)="d('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body bg-card">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <p>Are you sure to reset the token?</p>
+                    </div>
+                </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                                <button class="btn btn-primary col-sm-2  pull-right"
+                                (click)="d('Cross click')">
+                                <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+                            </button>
+                            <button class="btn btn-danger col-sm-2  pull-right mr-2" (click)="ResetToken()"
+                                (click)="d('Cross click')">
+                                <i class="fa fa-check fa-lg" aria-hidden="true"></i>
+                            </button>
+
+                        </div>
+                    </div>
+
+            </div>
+        </div>
+
+    </ng-template> -->
+<ng-template #modalCommon let-c="close" let-d="dismiss">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">{{ HeaderText }}</h5>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-card">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12">
+          <kendo-label text="Name">
+            <kendo-textbox placeholder="" class="mb-2 mr-sm-2" fillMode ="outline"
+            kendoTextBox [(ngModel)]="NewName"></kendo-textbox>
+          </kendo-label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <kendo-button class="bg-primary col-sm-2 pull-right" (click)="onSubmitModal()"
+          (click)="d('Cross click')">
+         Save
+        </kendo-button>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #TitleDeleteModal let-c="close" let-d="dismiss">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Delete Title</h5>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-card">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12">
+          <p>Are you sure to delete?</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <button
+            class="btn btn-primary col-sm-2 pull-right"
+            (click)="d('Cross click')"
+          >
+            <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+          </button>
+          <button
+            class="btn btn-danger col-sm-2 pull-right mr-2"
+            (click)="DeleteTitle()"
+            (click)="d('Cross click')"
+          >
+            <i class="fa fa-check fa-lg" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #DeleteKeyboardModal let-c="close" let-d="dismiss">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Delete</h5>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-card">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12">
+          <p>Are you sure to delete?</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <button
+            class="btn btn-primary col-sm-2 pull-right"
+            (click)="d('Cross click')"
+          >
+            <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+          </button>
+          <button
+            class="btn btn-danger col-sm-2 pull-right mr-2"
+            (click)="DeleteKeyboardAnnouncement()"
+            (click)="d('Cross click')"
+          >
+            <i class="fa fa-check fa-lg" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<ng-template #EmergencyDeleteModal let-c="close" let-d="dismiss">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Delete Title</h5>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-card">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12">
+          <p>Are you sure to delete?</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <button
+            class="btn btn-primary col-sm-2 pull-right"
+            (click)="d('Cross click')"
+          >
+            <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+          </button>
+          <button
+            class="btn btn-danger col-sm-2 pull-right mr-2"
+            (click)="DeleteEmergency()"
+            (click)="d('Cross click')"
+          >
+            <i class="fa fa-check fa-lg" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #ForceUpdate let-c="close" let-d="dismiss">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Publish</h5>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close" (click)="CrossClick()"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-card">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12 m-0 p-0">
+          <p style="margin: 0 !important">You want to update locations now?</p>
+        </div>
+        <div class="col-sm-12 m-0 p-0 mt-1">
+          <p style="font-size: smaller; margin: 0 !important">
+            Note: Have in mind that changes will be implemented immediately with
+            restart of the program.
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <button
+            class="btn btn-primary col-sm-2 pull-right" (click)="CrossClick()"
+            (click)="d('Cross click')"
+          >
+            <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+          </button>
+          <button
+            class="btn btn-danger col-sm-2 pull-right mr-2"
+            (click)="ForceUpdateAll()"
+            (click)="d('Cross click')"
+          >
+            <i class="fa fa-check fa-lg" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #GroupChange let-c="close" let-d="dismiss">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Group Change</h5>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-card">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12 m-0 p-0">
+          <p style="margin: 0 !important">By changing a player to another group, content and scheduling will be adapted from the new group.</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <button
+            class="btn btn-primary col-sm-2 pull-right"
+            (click)="CrossClickGroup()"
+          >
+            <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+          </button>
+          <button
+            class="btn btn-danger col-sm-2 pull-right mr-2"
+            (click)="SaveSchedule()"
+          >
+            <i class="fa fa-check fa-lg" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template class="tokenmodal" #Downloadplaylistcontent let-c="close" let-d="dismiss">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Download Status</h5>
+    <button
+    type="button"
+    class="close text-white"
+    aria-label="Close"
+    (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-card">
+    <app-playlists-titles-download-status></app-playlists-titles-download-status>
+  </div>
+</ng-template>
+
+
+<ng-template class="tokenmodal" #playlistcontent let-c="close" let-d="dismiss">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">{{playlist_Name}}</h5>
+    <button
+    type="button"
+    class="close text-white"
+    aria-label="Close"
+    (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-card p-0 pt-3">
+    <div id="disPL" class="table-responsive search-results">
+      <table
+        class="table data-table table-striped table-bordered mydatatable"
+        id="eventtable"
+      >
+        <thead class="">
+          <tr>
+            <th class="WidthTitlePL bg-primary sticky-top" style="z-index: 1;">Title</th>
+
+            <th *ngIf="f.chkMediaType.value != 'Signage'" class="WidthArtistPL bg-primary sticky-top" style="z-index: 1;">
+             Artist</th>
+            <th class="WidthCategoryPL bg-primary sticky-top" style="z-index: 1;">
+              <span *ngIf="f.chkMediaType.value == 'Signage'">Orientation</span><span *ngIf="f.chkMediaType.value != 'Signage'">Genre</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let plCLst of PlaylistContentList">
+            <td class="WidthTitlePL">
+              <a href="javascript:;" (click)="OpenViewContent(viewcontent, plCLst.TitleIdLink,plCLst.genreId,plCLst.MediaType)">
+                {{ plCLst.title }}
+              </a>
+            </td>
+
+            <td *ngIf="f.chkMediaType.value != 'Signage'" class="WidthArtistPL">
+              {{ plCLst.Artist }}
+            </td>
+            <td class="WidthCategoryPL">
+              {{ plCLst.GenreName }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</ng-template>
+<ng-template class="tokenmodal" #viewcontent let-c="close" let-d="dismiss">
+  
+  <button
+    type="button"
+    class="close text-right"
+    aria-label="Close"
+    (click)="d('Cross click')"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+ 
+<div class="modal-body bg-card p-0">
+  <app-view-content></app-view-content>
+</div>
+</ng-template>

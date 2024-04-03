@@ -1,0 +1,36 @@
+<div class="flex flex-col flex-auto min-w-0">
+    <div class="flex-auto p-6 sm:p-10">
+      <div class="w-full max-w-screen-xl mx-auto">
+        <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+            <kendo-tabstrip>
+                <kendo-tabstrip-tab title="Single  Advertisement" [selected]="true">
+                    <ng-template kendoTabContent>
+                        <app-normalad></app-normalad>
+                    </ng-template>
+                </kendo-tabstrip-tab>
+                <kendo-tabstrip-tab title="Multiple  Advertisement">
+                    <ng-template kendoTabContent>
+                        <app-ad-playlists></app-ad-playlists>
+                    </ng-template>
+                </kendo-tabstrip-tab>
+                <!-- <kendo-tabstrip-tab title="Squeeze Rss">
+                    <ng-template kendoTabContent>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <kendo-tabstrip>
+                                    <kendo-tabstrip-tab title="Search" [selected]="true">
+                                        <ng-template kendoTabContent></ng-template>
+                                    </kendo-tabstrip-tab>
+                                    <kendo-tabstrip-tab title="Add New" *ngIf="!IschkViewOnly">
+                                        <ng-template kendoTabContent></ng-template>
+                                    </kendo-tabstrip-tab>
+                                </kendo-tabstrip>
+                            </div>
+                        </div>
+                    </ng-template>
+                </kendo-tabstrip-tab> -->
+            </kendo-tabstrip>
+        </div>
+    </div>
+</div>
+</div>

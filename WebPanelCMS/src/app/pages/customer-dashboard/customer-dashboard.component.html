@@ -1,0 +1,148 @@
+<mat-progress-bar class="inset-x-0 bottom-0 h-0.5"
+*ngIf="loading"
+[mode]="'indeterminate'"></mat-progress-bar>
+<div class="flex flex-col flex-auto min-w-0">
+    <div class="flex-auto p-10">
+         <!-- Header -->
+<div class="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between pb-12 border-b bg-card dark:bg-transparent">
+    <div>
+        <div class="text-2xl font-medium tracking-tight leading-none">Dashboard</div>
+    </div>
+  </div> 
+        <div class="w-full max-w-screen-xl mx-auto">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full min-w-0">
+                <div *ngIf="auth.IsAdminLogin$.value == true" class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden col-span-4 ">
+                    <div class="flex items-start justify-between">
+                         
+                            <kendo-label text="Customer Name">
+                                <kendo-dropdownlist
+                                [data]="CustomerList"
+                                textField="DisplayName"
+                                valueField="Id"
+                                [valuePrimitive]="true"
+                                fillMode ="outline"
+                                [(ngModel)]="cmbCustomer" (valueChange)="onChangeCustomer($event.value)"
+                              >
+                              </kendo-dropdownlist>
+                            </kendo-label>
+                        
+                    </div>
+                </div>
+                <!-- Summary -->
+                <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                    <div class="flex items-start justify-between">
+                        <div class="text-lg font-medium tracking-tight leading-6 truncate">Online Devices</div>
+                       
+                    </div>
+                    <div class="flex flex-col items-center mt-2">
+                        <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-green-500">
+                            {{CustomerTotals.NrOfOnlineDevices ? CustomerTotals.NrOfOnlineDevices : '0'}}
+                        </div>
+                        
+                        
+                    </div>
+                </div>
+                <!-- Overdue -->
+                <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                    <div class="flex items-start justify-between">
+                        <div class="text-lg font-medium tracking-tight leading-6 truncate">Offline Devices</div>
+                       
+                    </div>
+                    <div class="flex flex-col items-center mt-2">
+                        <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-red-500">
+                            {{CustomerTotals.NrOfOfflineDevices ? CustomerTotals.NrOfOfflineDevices : '0'}}
+                        </div>
+                         
+                    </div>
+                </div>
+                <!-- Issues -->
+                <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                    <div class="flex items-start justify-between">
+                        <div class="text-lg font-medium tracking-tight leading-6 truncate">Devices with Scheduling issues</div>
+                         
+                    </div>
+                    <div class="flex flex-col items-center mt-2">
+                        <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-amber-500">
+                            {{CustomerTotals.NrOfSchedulingIssues ? CustomerTotals.NrOfSchedulingIssues : '0'}}
+                        </div>
+                         
+                    </div>
+                </div>
+                <!-- Features -->
+                <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                    <div class="flex items-start justify-between">
+                        <div class="text-lg font-medium tracking-tight leading-6 truncate">Devices with download issues</div>
+                        
+                    </div>
+                    <div class="flex flex-col items-center mt-2">
+                        <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-blue-500">
+                            {{CustomerTotals.NrOfDownloadIssues ? CustomerTotals.NrOfDownloadIssues : '0'}}
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden mt-6">
+                <div class="flex flex-col flex-auto mt-2 overflow-x-auto">
+                    <div class="w-full overflow-y-visible">
+                        <kendo-grid
+                        [kendoGridBinding]="listOfDashboardCustomerCities"
+                        [pageSize]="50"
+                        [pageable]="true"
+                        [sortable]="true"
+                        [loading]="loading">
+                        <kendo-grid-column field="CityName" title="City" class="gridrowfont" >
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                                <a href="javascript:;" class="cursor-pointer text-primary"  (click)="OpenViewDashboardCityDevices(viewDashboardCityDevices, dataItem.CityId)">
+                                  <i class="fa fa-play-circle mr-1" aria-hidden="true"></i>  {{dataItem.CityName}}
+                                </a>
+                              </ng-template>
+                        </kendo-grid-column>
+                        <kendo-grid-column field="NrOfOnlineDevices" title="Online" class="gridrowfont" ></kendo-grid-column>
+                        <kendo-grid-column field="NrOfOfflineDevices" title="Offline" class="gridrowfont" ></kendo-grid-column>
+                        <kendo-grid-column field="NrOfSchedulingIssues" title="Scheduling Issue" class="gridrowfont" ></kendo-grid-column>
+                        <kendo-grid-column field="NrOfDownloadIssues" title="Download Issue" class="gridrowfont" ></kendo-grid-column>
+                         
+                        
+                        </kendo-grid>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<ng-template class="tokenmodal" #viewDashboardCityDevices let-c="close" let-d="dismiss">
+  
+    <button
+      type="button"
+      class="close text-right"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+   
+  <div class="modal-body bg-card p-6">
+    <fuse-loading-bar></fuse-loading-bar>
+    <kendo-grid class="w-full h-128"
+                        [kendoGridBinding]="listOfDashboardCustomerCityDevices"
+                        [pageSize]="25"
+                        [pageable]="true"
+                        [sortable]="true"
+                        [loading]="loading">
+                        <kendo-grid-column field="TokenId" title="Token" class="gridrowfont" >
+                        </kendo-grid-column>
+                        <kendo-grid-column field="PingDateTime" title="Last Status" class="gridrowfont" >
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                                {{dataItem.PingDateTime | date:'dd/MMM/yyyy'}}
+                              </ng-template>
+                        </kendo-grid-column>
+                        <kendo-grid-column field="CityId" title="City" class="gridrowfont" ></kendo-grid-column>
+                        <kendo-grid-column field="StateId" title="State" class="gridrowfont" ></kendo-grid-column>
+                        <kendo-grid-column field="CountryId" title="Country" class="gridrowfont" ></kendo-grid-column>
+                        </kendo-grid>
+  </div>
+  </ng-template>

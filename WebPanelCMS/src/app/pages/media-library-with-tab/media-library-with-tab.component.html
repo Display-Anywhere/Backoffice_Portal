@@ -1,0 +1,1593 @@
+<div class="flex flex-col flex-auto min-w-0">
+  <div class="flex-auto p-6 sm:p-10">
+<!-- Header -->
+<div class="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between pb-12 border-b bg-card dark:bg-transparent">
+  <div>
+      <div class="text-2xl font-medium tracking-tight leading-none">Media Library</div>
+  </div>
+</div>    
+    <div class="w-full max-w-screen-xl mx-auto">
+      <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+      <div class="flex flex-row" *ngIf="auth.IsAdminLogin$.value == true">
+        <div class="form-row px-2 py-2 w-full">
+          <div class="form-group col-sm-3 mb-0">
+            <label for="SearchcName" class="mb-2 mr-sm-2"
+            #flocation>Customer Name:</label
+            >
+            <kendo-dropdownlist
+      [data]="CustomerList"
+      textField="DisplayName"
+      valueField="Id"
+      [valuePrimitive]="true"
+      fillMode ="outline"
+      [(ngModel)]="cmbCustomer" (valueChange)="onChangeCustomer($event)"
+    >
+    </kendo-dropdownlist>
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-row mt-3">
+        <kendo-tabstrip class="w-full"
+      [closable]="false"
+      (tabSelect)="onSelectTab($event)"
+    >
+          <kendo-tabstrip-tab  [selected]="true">
+        <ng-template kendoTabTitle>
+          <kendo-svg-icon [icon]="kIcons['fileTxtIcon']" size="xxlarge" data-toggle="tooltip" data-placement="top" title="Signage"></kendo-svg-icon>
+        </ng-template>
+
+        <ng-template kendoTabContent>
+          <kendo-expansionpanel title="Library" class="bg-card" [expanded]="ExpansionPanelExpanded">
+            <div class="row h-128 overflow-auto" *ngIf="ExpansionPanelMediaType=='Signage'">
+                <div class="col-lg-12">
+                  <kendo-button class="mb-2 mr-sm-2 mr-1" (click)="OpenUploadContentModel(UploadContent)">
+                    Add Signage
+                </kendo-button> 
+                </div>
+                <div class="col-lg-12">
+                  <kendo-grid
+                  [kendoGridBinding]="ContentList"
+                  [pageSize]="50"
+                  [pageable]="true"
+                  [sortable]="true"
+                  [selectable]="true"
+                  kendoGridSelectBy="id"
+                  [(selectedKeys)]="SelectionTitle"
+                  [loading]="loading">
+                  <ng-template kendoGridToolbarTemplate>
+                    <div class="col-md-3 pr-0 pl-0">
+                      <input type="radio" name="rdoSignageMediaTypeSearch" #searchVideoMediaSignage value="Video" [(ngModel)]="chkSignageMediaType" (change)="onChangeSignageMediaType()" kendoRadioButton/>
+                      <kendo-label
+                      class="k-radio-label me-2 mr-1"
+                      [for]="searchVideoMediaSignage"
+                      text="Video"
+                  ></kendo-label>
+                  <input type="radio" class="me-2"  name="rdoSignageMediaTypeSearch" #searchImageMediaSignage value="Image" [(ngModel)]="chkSignageMediaType" (change)="onChangeSignageMediaType()" kendoRadioButton/>
+                  <kendo-label
+                          class="k-radio-label me-2 mr-1"
+                          [for]="searchImageMediaSignage"
+                          text="Image"
+                      ></kendo-label>
+                     
+                  
+                      <input type="radio" class="me-2"  name="rdoSignageMediaTypeSearch" #searchUrlMediaSignage value="Url" kendoRadioButton [(ngModel)]="chkSignageMediaType" (change)="onChangeSignageMediaType()"/>
+                      <kendo-label
+                          class="k-radio-label me-2 mr-1"
+                          [for]="searchUrlMediaSignage"
+                          text="Url"
+                      ></kendo-label>
+                    </div>
+                    <div class="col-md-3 pr-0" *ngIf="rdoSearchFilterList.length==0">
+                      <kendo-textbox  placeholder="Search" class="w-100" fillMode ="outline"
+                      kendoTextBox [(ngModel)]="txtCommonSearch"></kendo-textbox>
+                  </div>
+                  <div class="col-md-3 pr-0" *ngIf="rdoSearchFilterList.length>0">
+                    <kendo-dropdownlist  [data]="rdoSearchFilterList" textField="DisplayName" fillMode ="outline"
+                  valueField="Id" [(ngModel)]="cmdrdoSearchFilter" class="w-100" (valueChange)="onChangeFilterdropdown($event)">
+                  </kendo-dropdownlist>
+                  </div>
+                  <div class="col-md-3 m-0 p-0">
+                      <button kendoButton class="mr-2" (click)="SearchContent()"><i class="fas fa-search"></i></button>
+                      <input type="radio" name="rdoSignageSearch" #searchTitleSignage value="title" [(ngModel)]="rdoSearchFilter" (change)="SearchRadioClick()" kendoRadioButton/>
+                      <kendo-label
+                      class="k-radio-label me-2 mr-2"
+                      [for]="searchTitleSignage"
+                      text="Title"
+                  ></kendo-label>
+                  <input type="radio" class="me-2"  name="rdoSignageSearch" #searchOrientationSignage value="orientation" [(ngModel)]="rdoSearchFilter" (change)="SearchRadioClick()" kendoRadioButton/>
+                  <kendo-label
+                          class="k-radio-label me-2 mr-2"
+                          [for]="searchOrientationSignage"
+                          text="Orientation"
+                      ></kendo-label>
+                     
+                  
+                      <input type="radio" class="me-2"  name="rdoSignageSearch" #searchFolderSignage value="folder" kendoRadioButton [(ngModel)]="rdoSearchFilter" (change)="SearchRadioClick()"/>
+                      <kendo-label
+                          class="k-radio-label me-2 mr-2"
+                          [for]="searchFolderSignage"
+                          text="Folder"
+                      ></kendo-label>
+                      
+                      
+                  </div>
+
+           <kendo-grid-spacer></kendo-grid-spacer>
+              
+            <i class="fa fa-bars cursor-pointer" #targetPlaylistContextMenu aria-hidden="true"></i>
+            <kendo-contextmenu [target]="targetPlaylistContextMenu" [items]="PlaylistContextMenu" showOn="click" (select)="onSelect($event,modalNewPlaylist,'0')">
+              <ng-template kendoMenuItemTemplate let-item="item">
+                {{ item.text }}
+              </ng-template>
+            </kendo-contextmenu>
+
+                  </ng-template>
+                  <kendo-grid-checkbox-column class="gridrowfont"  [width]="70"
+      [showSelectAll]="true"
+    ></kendo-grid-checkbox-column>
+                  <kendo-grid-column field="title" title="Title"   class="gridrowfont" >
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                      <a href="javascript:;" class="cursor-pointer text-primary"  (click)="OpenViewPlaylistContent(viewcontent, dataItem.TitleIdLink,dataItem.genreId,dataItem.MediaType)">
+                        <i class="fa fa-play-circle mr-1" aria-hidden="true"></i>  {{dataItem.title}}
+                      </a>
+                    </ng-template>
+                  </kendo-grid-column>
+                  <kendo-grid-column field="genreName"   title="Orientation" class="gridrowfont" ></kendo-grid-column>
+                  <kendo-grid-column field="Length"   title="Length" class="gridrowfont" ></kendo-grid-column>
+                  <kendo-grid-column field="id"   title="" class="gridrowfont"  [width]="70">
+                      <ng-template kendoGridCellTemplate let-dataItem>
+                        <i class="fa fa-bars cursor-pointer" #target aria-hidden="true"></i>
+                            <kendo-contextmenu [target]="target" [items]="PlaylistContextMenu" showOn="click" (select)="onSelect($event,modalNewPlaylist,dataItem.id)">
+                              <ng-template kendoMenuItemTemplate let-item="item">
+                                {{ item.text }}
+                              </ng-template>
+                            </kendo-contextmenu>
+                          
+                        </ng-template>
+
+                  </kendo-grid-column>
+                </kendo-grid>                      
+                </div>
+              </div>
+            </kendo-expansionpanel>
+
+
+            <kendo-expansionpanel title="Playlist Library" class="bg-card mt-5" [expanded]="ExpansionPanelExpanded">
+              <div class="flex flex-col flex-auto overflow-hidden">
+                <div class="flex flex-col sm:flex-row items-start justify-between border-b">
+                  <div class="row w-full">
+                    <div class="col-lg-4">
+                      <div class="text-lg font-medium tracking-tight leading-6 truncate pb-2">
+                        <i class="fa fa-plus-circle cursor-pointer ml-2" aria-hidden="true"  (click)="openFormatModal(modalNewPlaylist)"> Add New</i> 
+                      </div>
+                    </div>
+                      <div class="col-sm-8">
+                        <kendo-breadcrumb class="bg-card text-lg font-medium tracking-tight leading-6 truncate pb-2"
+                            style="justify-content: end;"
+                            [items]="breadCrumbPlaylistItems" (itemClick)="onbreadCrumbPlaylistFormatClick($event)"
+                        ></kendo-breadcrumb>
+                   
+                    </div>
+                  </div>
+                  
+                </div>
+              </div>
+              <div class="row align-items-center mt-7 mb-10" *ngIf="PlaylistsFormatScrollViewData.length>0 && ExpansionPanelMediaType=='Signage' && !ShowAudoPlaylistContent">
+                <kendo-scrollview [data]="PlaylistsFormatScrollViewData"
+                [width]="width"
+                [height]="height"
+                [arrows]="true"
+                [endless]="true">
+                <ng-template let-itemPage="item">
+                  <kendo-gridlayout class="bg-card"
+                        [align]="{ horizontal: hAlign, vertical: vAlign }"
+                        [rows]="[100, 100, 100, 100, 100]"
+                        [cols]="['12.25%'  ,'12.25%', '12.25%', '12.25%', '12.25%', '12.25%','12.25%','12.25%']"
+                        [gap]="5"
+                    >
+                    <kendo-gridlayout-item
+                        *ngFor="let item of PlaylistsFormatItems[itemPage.page]; let i = index"
+                        class="box box-{{ i }} "
+                        [ngStyle]="{backgroundColor: PlaylistsFormatItems[0][i].color }"
+                        style="cursor: pointer; display:flex; justify-content: center; align-items: center; border-radius: 5px"
+                        (click)="GetFormatPlaylist(item.id,item.title)"
+                        >
+                            <h3 style="vertical-align:middle;color: white; font-size: 14px;">{{item.title}}</h3>
+                        </kendo-gridlayout-item>
+                  </kendo-gridlayout>
+                </ng-template>
+              </kendo-scrollview>
+              </div>
+                <kendo-grid *ngIf="ShowAudoPlaylistContent && ExpansionPanelMediaType=='Signage'"
+                    [kendoGridBinding]="PlaylistContentLists"
+                    [pageSize]="50"
+                    [pageable]="true"
+                    [sortable]="true"
+                    kendoGridSelectBy
+                [(selectedKeys)]="PlaylistContentRowSelection">
+                    <ng-template kendoGridToolbarTemplate>
+                      <kendo-button (click)="PLShuffle()">
+                        <i class="fa fa-random" aria-hidden="true"></i>
+                    </kendo-button> 
+                    <kendo-button (click)="PlaylistSort(PlaylistSortModal)">
+                      <i class="fa fa-sort-amount-asc" aria-hidden="true"></i>
+                  </kendo-button> 
+                  <kendo-button (click)="moveUp()">
+                    <i class="fa fa-arrow-up" aria-hidden="true"></i>
+                </kendo-button> 
+                <kendo-button (click)="moveDown()">
+                  <i class="fa fa-arrow-down" aria-hidden="true"></i>
+              </kendo-button> 
+                  </ng-template>                    
+                    <kendo-grid-column field="title" title="Title"   class="gridrowfont" >
+                      <ng-template kendoGridCellTemplate let-dataItem>
+                        <a href="javascript:;" class="cursor-pointer text-primary"  (click)="OpenViewPlaylistContent(viewcontent, dataItem.TitleIdLink,dataItem.genreId,dataItem.MediaType)">
+                          <i class="fa fa-play-circle mr-1" aria-hidden="true"></i>  {{dataItem.title}}
+                        </a>
+                      </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column field="Artist" title="Artist"   class="gridrowfont" ></kendo-grid-column>
+                    <kendo-grid-column field="GenreName" title="Genre"   class="gridrowfont" ></kendo-grid-column>
+                    <kendo-grid-column field="id"   title="" class="gridrowfont"  [width]="70">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                          <kendo-svg-icon [icon]="kIcons['trashIcon']" themeColor="error" (click)="openTitleDeleteModal(TitleDeleteModal, dataItem.sId)"></kendo-svg-icon>
+                          </ng-template>
+    
+                    </kendo-grid-column>
+                </kendo-grid>
+              </kendo-expansionpanel>
+              <kendo-expansionpanel title="Master Schedule" class="bg-card mt-5" [expanded]="ExpansionPanelExpanded">
+                <div class="flex flex-col flex-auto overflow-hidden">
+                  <div class="flex flex-col sm:flex-row items-start justify-between border-b">
+                    <div class="row w-full">
+                      <div class="col-lg-4">
+                        <div class="text-lg font-medium tracking-tight leading-6 truncate pb-2">
+                            <i class="fa fa-plus-circle cursor-pointer ml-2" aria-hidden="true" (click)="openFormatModal(modalMasterSchedule)"> Add New</i> 
+                        </div>
+                      </div>
+                        <div class="col-sm-8">
+                         
+                     
+                      </div>
+                    </div>
+                  </div>
+                </div>
+    
+                <div class="row align-items-center mt-7 mb-10" *ngIf="MasterScheduleScrollViewData.length>0 && ExpansionPanelMediaType=='Signage' && !ShowAudoPlaylistContent">
+                  <kendo-scrollview [data]="MasterScheduleScrollViewData"
+                  [width]="width"
+                  [height]="height"
+                  [arrows]="true"
+                  [endless]="true">
+                  <ng-template let-itemPage="item">
+                    <kendo-gridlayout class="bg-card"
+                          [align]="{ horizontal: hAlign, vertical: vAlign }"
+                          [rows]="[100, 100, 100, 100, 100]"
+                          [cols]="['12.25%'  ,'12.25%', '12.25%', '12.25%', '12.25%', '12.25%','12.25%','12.25%']"
+                          [gap]="5"
+                      >
+                      <kendo-gridlayout-item
+                          *ngFor="let item of MasterScheduleItems[itemPage.page]; let i = index"
+                          class="box box-{{ i }} "
+                          [ngStyle]="{backgroundColor: MasterScheduleItems[0][i].color }"
+                          style="cursor: pointer; display:flex; justify-content: center; align-items: center; border-radius: 5px"
+                          (click)="openMasterScheduleDetail(item.id,item.title)"
+                          >
+                              <h3 style="vertical-align:middle;color: white; font-size: 14px;">{{item.title}}</h3>
+                          </kendo-gridlayout-item>
+                    </kendo-gridlayout>
+                  </ng-template>
+                </kendo-scrollview>
+                </div>
+              </kendo-expansionpanel>
+
+
+          </ng-template>
+      </kendo-tabstrip-tab>
+
+      <kendo-tabstrip-tab>
+        <ng-template kendoTabTitle>
+          <kendo-svg-icon [icon]="kIcons['youtubeIcon']" size="xxlarge" data-toggle="tooltip" data-placement="top" title="Video"></kendo-svg-icon>
+        </ng-template>
+
+        <ng-template kendoTabContent>
+          <kendo-expansionpanel title="Library" class="bg-card" [expanded]="ExpansionPanelExpanded">
+            <div class="row align-items-center" style="margin-bottom:10px;" *ngIf="ExpansionPanelMediaType=='Video'">
+                <div class="col-md-2 pr-0" *ngIf="rdoSearchFilterList.length==0">
+                  <kendo-textbox  placeholder="Search" fillMode ="outline"
+                  kendoTextBox [(ngModel)]="txtCommonSearch" (valueChange)="onFilter($event)"></kendo-textbox>
+              </div>
+              <div class="col-md-2 pr-0" *ngIf="rdoSearchFilterList.length>0">
+                <kendo-dropdownlist  [data]="rdoSearchFilterList" textField="DisplayName" fillMode ="outline"
+              valueField="Id" [(ngModel)]="cmdrdoSearchFilter" class="w-100" (valueChange)="onChangeFilterdropdown($event)">
+              </kendo-dropdownlist>
+              </div>
+              <div class="col-md-4 m-0 p-0">
+                  <button kendoButton class="mr-3" (click)="SearchContent()"><i class="fas fa-search"></i></button>
+                  <input type="radio" name="rdocommonsearchvideo" #searchTitleVideo value="title" [(ngModel)]="rdoSearchFilter" (change)="SearchRadioClick()" kendoRadioButton/>
+                  <kendo-label
+                  class="k-radio-label me-2 mr-3"
+                  [for]="searchTitleVideo"
+                  text="Title"
+              ></kendo-label>
+              <input type="radio" class="me-2"  name="rdocommonsearchvideo" #searchArtistVideo value="artist" [(ngModel)]="rdoSearchFilter" (change)="SearchRadioClick()" kendoRadioButton/>
+              <kendo-label
+                      class="k-radio-label me-2 mr-3"
+                      [for]="searchArtistVideo"
+                      text="Artist"
+                  ></kendo-label>
+                 
+              
+                  <input type="radio" class="me-2"  name="rdocommonsearchvideo" #searchAlbumVideo value="album" kendoRadioButton [(ngModel)]="rdoSearchFilter" (change)="SearchRadioClick()"/>
+                  <kendo-label
+                      class="k-radio-label me-2 mr-3"
+                      [for]="searchAlbumVideo"
+                      text="Album"
+                  ></kendo-label>
+                  <input type="radio" class="me-2"  name="rdocommonsearchvideo" #searchGenreVideo value="Genre" kendoRadioButton [(ngModel)]="rdoSearchFilter" (change)="SearchRadioClick()"/>
+                  <kendo-label
+                      class="k-radio-label me-2 mr-3"
+                      [for]="searchGenreVideo"
+                      text="Genre"
+                  ></kendo-label>
+                  
+              </div>
+              <div [ngClass]="ShowContent?'col-sm-12': 'col-sm-6'">
+                      <kendo-breadcrumb class="bg-card"
+                          style="justify-content: end;"
+                          [items]="breadCrumbItems" (itemClick)="onbreadCrumbItemClick($event)"
+                      ></kendo-breadcrumb>
+                  </div>
+              </div>
+              <kendo-scrollview *ngIf="LibraryGenreScrollViewData.length>0 && ExpansionPanelMediaType=='Video' && !ShowContent"
+              [data]="LibraryGenreScrollViewData"
+              [width]="width"
+              [height]="height"
+              [arrows]="true"
+              [endless]="true"
+
+              >
+              <ng-template let-itemPage="item">    
+                  <kendo-gridlayout
+                      [align]="{ horizontal: hAlign, vertical: vAlign }"
+                      [rows]="[100, 100, 100, 100, 100]"
+                      [cols]="['12.25%'  ,'12.25%', '12.25%', '12.25%', '12.25%', '12.25%','12.25%','12.25%']"
+                      [gap]="5"
+                  >
+                  <kendo-gridlayout-item
+                      *ngFor="let item of LibraryGenreItems[itemPage.page]; let i = index"
+                      class="box box-{{ i }} "
+                      [ngStyle]="{backgroundColor: LibraryGenreItems[0][i].color }"
+                      style="cursor: pointer; display:flex; justify-content: center; align-items: center; border-radius: 5px"
+                      (click)="GetLibrarySubGenre(item.id,item.title)"
+                      >
+                          <h3 style="vertical-align:middle;color: white; font-size: 14px;">{{item.title}}</h3>
+                      </kendo-gridlayout-item>
+                  </kendo-gridlayout>
+
+              </ng-template>
+              </kendo-scrollview>
+
+              <kendo-grid *ngIf="ShowContent && ExpansionPanelMediaType=='Video'"
+              [kendoGridBinding]="ContentList"
+              [pageSize]="50"
+              [pageable]="true"
+              [sortable]="true"
+              [selectable]="true"
+              kendoGridSelectBy="id"
+              [(selectedKeys)]="SelectionTitle">
+              <ng-template kendoGridToolbarTemplate>
+                <kendo-textbox
+              placeholder="Search"
+              kendoTextBox
+              (valueChange)="onContentFilter($event)"
+          >
+          </kendo-textbox>
+
+        <!--   <input
+type="radio"
+name="SearchFilterAudio"
+value="album"
+#albumAudio
+[(ngModel)]="rdoSearchFilter" (change)="onChangeSearchFilter()"
+kendoRadioButton
+/>
+<kendo-label [for]="albumAudio" text="Album"></kendo-label>
+
+
+<input
+type="radio"
+name="SearchFilterAudio"
+value="artist"
+#artistAudio
+[(ngModel)]="rdoSearchFilter" (change)="onChangeSearchFilter()"
+kendoRadioButton
+/>
+<kendo-label [for]="artistAudio" text="Artist"></kendo-label>
+
+<kendo-dropdownlist *ngIf="rdoSearchFilter!=null" [data]="rdoSearchFilterList" textField="name"
+                  valueField="id" [(ngModel)]="cmdrdoSearchFilter" class="w-25 pe-2" (valueChange)="onChangeFilterdropdown($event)">
+                  </kendo-dropdownlist>
+                  <kendo-button *ngIf="rdoSearchFilter!=null" (click)="ResetSearch()" class="text-danger">
+                    <span class="k-icon k-i-cancel"></span>
+                </kendo-button> -->
+          <kendo-grid-spacer></kendo-grid-spacer>
+        <i class="fa fa-bars cursor-pointer" #targetPlaylistContextMenu aria-hidden="true"></i>
+        <kendo-contextmenu [target]="targetPlaylistContextMenu" [items]="PlaylistContextMenu" showOn="click" (select)="onSelect($event,modalNewPlaylist,'0')">
+          <ng-template kendoMenuItemTemplate let-item="item">
+            {{ item.text }}
+          </ng-template>
+        </kendo-contextmenu>
+
+              </ng-template>
+              <kendo-grid-checkbox-column class="gridrowfont"  [width]="70"
+  [showSelectAll]="true"
+></kendo-grid-checkbox-column>
+              <kendo-grid-column field="title" title="Title"   class="gridrowfont" >
+                <ng-template kendoGridCellTemplate let-dataItem>
+                  <a href="javascript:;" class="cursor-pointer text-primary"  (click)="OpenViewPlaylistContent(viewcontent, dataItem.TitleIdLink,dataItem.genreId,dataItem.MediaType)">
+                    <i class="fa fa-play-circle mr-1" aria-hidden="true"></i>  {{dataItem.title}}
+                  </a>
+                </ng-template>
+              </kendo-grid-column>
+              <kendo-grid-column field="Artist"   title="Artist" class="gridrowfont" ></kendo-grid-column>
+              <kendo-grid-column field="genreName"   title="Genre" class="gridrowfont" ></kendo-grid-column>
+              <kendo-grid-column field="Length"   title="Length" class="gridrowfont" ></kendo-grid-column>
+              <kendo-grid-column field="id"   title="" class="gridrowfont"  [width]="70">
+                  <ng-template kendoGridCellTemplate let-dataItem>
+                    <i class="fa fa-bars cursor-pointer" #target aria-hidden="true"></i>
+                    
+                        <kendo-contextmenu [target]="target" [items]="PlaylistContextMenu" showOn="click" (select)="onSelect($event,modalNewPlaylist,dataItem.id)">
+                          <ng-template kendoMenuItemTemplate let-item="item">
+                            {{ item.text }}
+                          </ng-template>
+                        </kendo-contextmenu>
+                      
+                    </ng-template>
+
+              </kendo-grid-column>
+            </kendo-grid>
+
+          </kendo-expansionpanel>
+
+            <kendo-expansionpanel title="Playlist Library" class="bg-card mt-5" [expanded]="ExpansionPanelExpanded">
+              <div class="flex flex-col flex-auto overflow-hidden">
+                <div class="flex flex-col sm:flex-row items-start justify-between border-b">
+                  <div class="row w-full">
+                    <div class="col-lg-4">
+                      <div class="text-lg font-medium tracking-tight leading-6 truncate pb-2">
+                        <i class="fa fa-plus-circle cursor-pointer ml-2" aria-hidden="true"  (click)="openFormatModal(modalNewPlaylist)"> Add New</i> 
+                      </div>
+                    </div>
+                      <div class="col-sm-8">
+                        <kendo-breadcrumb class="bg-card text-lg font-medium tracking-tight leading-6 truncate pb-2"
+                            style="justify-content: end;"
+                            [items]="breadCrumbPlaylistItems" (itemClick)="onbreadCrumbPlaylistFormatClick($event)"
+                        ></kendo-breadcrumb>
+                   
+                    </div>
+                  </div>
+                  
+                </div>
+              </div>
+              <div class="row align-items-center mt-7 mb-10" *ngIf="PlaylistsFormatScrollViewData.length>0 && ExpansionPanelMediaType=='Video' && !ShowAudoPlaylistContent">
+                <kendo-scrollview [data]="PlaylistsFormatScrollViewData"
+                [width]="width"
+                [height]="height"
+                [arrows]="true"
+                [endless]="true">
+                <ng-template let-itemPage="item">
+                  <kendo-gridlayout class="bg-card"
+                        [align]="{ horizontal: hAlign, vertical: vAlign }"
+                        [rows]="[100, 100, 100, 100, 100]"
+                        [cols]="['12.25%'  ,'12.25%', '12.25%', '12.25%', '12.25%', '12.25%','12.25%','12.25%']"
+                        [gap]="5"
+                    >
+                    <kendo-gridlayout-item
+                        *ngFor="let item of PlaylistsFormatItems[itemPage.page]; let i = index"
+                        class="box box-{{ i }} "
+                        [ngStyle]="{backgroundColor: PlaylistsFormatItems[0][i].color }"
+                        style="cursor: pointer; display:flex; justify-content: center; align-items: center; border-radius: 5px"
+                        (click)="GetFormatPlaylist(item.id,item.title)"
+                        >
+                            <h3 style="vertical-align:middle;color: white; font-size: 14px;">{{item.title}}</h3>
+                        </kendo-gridlayout-item>
+                  </kendo-gridlayout>
+                </ng-template>
+              </kendo-scrollview>
+              </div>
+                <kendo-grid *ngIf="ShowAudoPlaylistContent && ExpansionPanelMediaType=='Video'"
+                    [kendoGridBinding]="PlaylistContentLists"
+                    [pageSize]="50"
+                    [pageable]="true"
+                    [sortable]="true"
+                    kendoGridSelectBy
+                [(selectedKeys)]="PlaylistContentRowSelection">
+                    <ng-template kendoGridToolbarTemplate>
+                      <kendo-button (click)="PLShuffle()">
+                        <i class="fa fa-random" aria-hidden="true"></i>
+                    </kendo-button> 
+                    <kendo-button (click)="PlaylistSort(PlaylistSortModal)">
+                      <i class="fa fa-sort-amount-asc" aria-hidden="true"></i>
+                  </kendo-button> 
+                  <kendo-button (click)="moveUp()">
+                    <i class="fa fa-arrow-up" aria-hidden="true"></i>
+                </kendo-button> 
+                <kendo-button (click)="moveDown()">
+                  <i class="fa fa-arrow-down" aria-hidden="true"></i>
+              </kendo-button> 
+                  </ng-template>                    
+                    <kendo-grid-column field="title" title="Title"   class="gridrowfont" >
+                      <ng-template kendoGridCellTemplate let-dataItem>
+                        <a href="javascript:;" class="cursor-pointer text-primary"  (click)="OpenViewPlaylistContent(viewcontent, dataItem.TitleIdLink,dataItem.genreId,dataItem.MediaType)">
+                          <i class="fa fa-play-circle mr-1" aria-hidden="true"></i>  {{dataItem.title}}
+                        </a>
+                      </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column field="Artist" title="Artist"   class="gridrowfont" ></kendo-grid-column>
+                    <kendo-grid-column field="GenreName" title="Genre"   class="gridrowfont" ></kendo-grid-column>
+                    <kendo-grid-column field="id"   title="" class="gridrowfont"  [width]="70">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                          <kendo-svg-icon [icon]="kIcons['trashIcon']" themeColor="error" (click)="openTitleDeleteModal(TitleDeleteModal, dataItem.sId)"></kendo-svg-icon>
+                          </ng-template>
+    
+                    </kendo-grid-column>
+                </kendo-grid>
+              </kendo-expansionpanel>
+              <kendo-expansionpanel title="Master Schedule" class="bg-card mt-5" [expanded]="ExpansionPanelExpanded">
+                <div class="flex flex-col flex-auto overflow-hidden">
+                  <div class="flex flex-col sm:flex-row items-start justify-between border-b">
+                    <div class="row w-full">
+                      <div class="col-lg-4">
+                        <div class="text-lg font-medium tracking-tight leading-6 truncate pb-2">
+                            <i class="fa fa-plus-circle cursor-pointer ml-2" aria-hidden="true" (click)="openFormatModal(modalMasterSchedule)"> Add New</i> 
+                        </div>
+                      </div>
+                        <div class="col-sm-8">
+                         
+                     
+                      </div>
+                    </div>
+                  </div>
+                </div>
+    
+                <div class="row align-items-center mt-7 mb-10" *ngIf="MasterScheduleScrollViewData.length>0 && ExpansionPanelMediaType=='Video' && !ShowAudoPlaylistContent">
+                  <kendo-scrollview [data]="MasterScheduleScrollViewData"
+                  [width]="width"
+                  [height]="height"
+                  [arrows]="true"
+                  [endless]="true">
+                  <ng-template let-itemPage="item">
+                    <kendo-gridlayout class="bg-card"
+                          [align]="{ horizontal: hAlign, vertical: vAlign }"
+                          [rows]="[100, 100, 100, 100, 100]"
+                          [cols]="['12.25%'  ,'12.25%', '12.25%', '12.25%', '12.25%', '12.25%','12.25%','12.25%']"
+                          [gap]="5"
+                      >
+                      <kendo-gridlayout-item
+                          *ngFor="let item of MasterScheduleItems[itemPage.page]; let i = index"
+                          class="box box-{{ i }} "
+                          [ngStyle]="{backgroundColor: MasterScheduleItems[0][i].color }"
+                          style="cursor: pointer; display:flex; justify-content: center; align-items: center; border-radius: 5px"
+                          (click)="openMasterScheduleDetail(item.id,item.title)"
+                          >
+                              <h3 style="vertical-align:middle;color: white; font-size: 14px;">{{item.title}}</h3>
+                          </kendo-gridlayout-item>
+                    </kendo-gridlayout>
+                  </ng-template>
+                </kendo-scrollview>
+                </div>
+              </kendo-expansionpanel>
+    
+
+
+
+
+
+
+
+
+
+
+  </ng-template>
+      </kendo-tabstrip-tab>
+
+      <kendo-tabstrip-tab>
+        <ng-template kendoTabTitle>
+          <kendo-svg-icon [icon]="kIcons['fileAudioIcon']" size="xxlarge" data-toggle="tooltip" data-placement="top" title="Audio"></kendo-svg-icon>
+        </ng-template>
+        <ng-template kendoTabContent>
+          <kendo-expansionpanel title="Library" class="bg-card" [expanded]="ExpansionPanelExpanded">
+            <div class="row align-items-center mt-7 mb-10" *ngIf="ExpansionPanelMediaType=='Audio'">
+                <div class="col-md-2 pr-0" *ngIf="rdoSearchFilterList.length==0">
+                    <kendo-textbox  placeholder="Search" fillMode ="outline"
+                    kendoTextBox [(ngModel)]="txtCommonSearch" (valueChange)="onFilter($event)"></kendo-textbox>
+                </div>
+                <div class="col-md-2 pr-0" *ngIf="rdoSearchFilterList.length>0">
+                  <kendo-dropdownlist  [data]="rdoSearchFilterList" textField="DisplayName" fillMode ="outline"
+                valueField="Id" [(ngModel)]="cmdrdoSearchFilter" class="w-100" (valueChange)="onChangeFilterdropdown($event)">
+                </kendo-dropdownlist>
+                </div>
+                <div class="col-md-4 m-0 p-0">
+                    <button kendoButton class="mr-3" size="small" rounded="small" fillMode="outline" themeColor="light" (click)="SearchContent()"><i class="fas fa-search"></i></button>
+                    <input type="radio" name="cat" #searchTitle value="title" [(ngModel)]="rdoSearchFilter" (change)="SearchRadioClick()" kendoRadioButton/>
+                    <kendo-label
+                    class="k-radio-label me-2 mr-3"
+                    [for]="searchTitle"
+                    text="Title"
+                ></kendo-label>
+                <input type="radio" class="me-2"  name="cat" #searchArtist value="artist" [(ngModel)]="rdoSearchFilter" (change)="SearchRadioClick()" kendoRadioButton/>
+                <kendo-label
+                        class="k-radio-label me-2 mr-3"
+                        [for]="searchArtist"
+                        text="Artist"
+                    ></kendo-label>
+                   
+                
+                    <input type="radio" class="me-2"  name="cat" #searchAlbum value="album" kendoRadioButton [(ngModel)]="rdoSearchFilter" (change)="SearchRadioClick()"/>
+                    <kendo-label
+                        class="k-radio-label me-2 mr-3"
+                        [for]="searchAlbum"
+                        text="Album"
+                    ></kendo-label>
+                    <input type="radio" class="me-2"  name="cat" #searchGenre value="Genre" kendoRadioButton [(ngModel)]="rdoSearchFilter" (change)="SearchRadioClick()"/>
+                    <kendo-label
+                        class="k-radio-label me-2 mr-3"
+                        [for]="searchGenre"
+                        text="Genre"
+                    ></kendo-label>
+                    
+                </div>
+                <div [ngClass]="ShowContent?'col-sm-12': 'col-sm-6'">
+                    <kendo-breadcrumb class="bg-card"
+                        style="justify-content: end;"
+                        [items]="breadCrumbItems" (itemClick)="onbreadCrumbItemClick($event)"
+                    ></kendo-breadcrumb>
+                </div>
+            </div>
+            <kendo-scrollview *ngIf="LibraryGenreScrollViewData.length>0 && ExpansionPanelMediaType=='Audio' && !ShowContent"
+            [data]="LibraryGenreScrollViewData"
+            [width]="width"
+            [height]="height"
+            [arrows]="true"
+            [endless]="true"
+
+            >
+            <ng-template let-itemPage="item">    
+                <kendo-gridlayout class="bg-card"
+                    [align]="{ horizontal: hAlign, vertical: vAlign }"
+                    [rows]="[100, 100, 100, 100, 100]"
+                    [cols]="['12.25%'  ,'12.25%', '12.25%', '12.25%', '12.25%', '12.25%','12.25%','12.25%']"
+                    [gap]="5"
+                >
+                <kendo-gridlayout-item
+                    *ngFor="let item of LibraryGenreItems[itemPage.page]; let i = index"
+                    class="box box-{{ i }} "
+                    [ngStyle]="{backgroundColor: LibraryGenreItems[0][i].color }"
+                    style="cursor: pointer; display:flex; justify-content: center; align-items: center; border-radius: 5px"
+                    (click)="GetLibrarySubGenre(item.id,item.title)"
+                    >
+                        <h3 style="vertical-align:middle;color: white; font-size: 14px;">{{item.title}}</h3>
+                    </kendo-gridlayout-item>
+                </kendo-gridlayout>
+
+            </ng-template>
+            </kendo-scrollview>
+
+            <kendo-grid *ngIf="ShowContent && ExpansionPanelMediaType=='Audio'"
+            [kendoGridBinding]="ContentList"
+            [pageSize]="50"
+            [pageable]="true"
+            [sortable]="true"
+            kendoGridSelectBy="id"
+            [(selectedKeys)]="SelectionTitle">
+            <ng-template kendoGridToolbarTemplate>
+              <kendo-textbox
+            placeholder="Search"
+            kendoTextBox
+            (valueChange)="onContentFilter($event)"
+        >
+        </kendo-textbox>
+        <kendo-grid-spacer></kendo-grid-spacer>
+      <i class="fa fa-bars cursor-pointer" #targetPlaylistContextMenu aria-hidden="true"></i>
+      <kendo-contextmenu [target]="targetPlaylistContextMenu" [items]="PlaylistContextMenu" showOn="click" (select)="onSelect($event,modalNewPlaylist,'0')">
+        <ng-template kendoMenuItemTemplate let-item="item">
+          {{ item.text }}
+        </ng-template>
+      </kendo-contextmenu>
+            </ng-template>
+            <kendo-grid-checkbox-column class="gridrowfont"  [width]="70"
+[showSelectAll]="true"
+></kendo-grid-checkbox-column>
+            <kendo-grid-column field="title" title="Title"   class="gridrowfont" >
+              <ng-template kendoGridCellTemplate let-dataItem>
+                <a href="javascript:;" class="cursor-pointer text-primary"  (click)="OpenViewPlaylistContent(viewcontent, dataItem.TitleIdLink,dataItem.genreId,dataItem.MediaType)">
+                  <i class="fa fa-play-circle mr-1" aria-hidden="true"></i>  {{dataItem.title}}
+                </a>
+              </ng-template>
+            </kendo-grid-column>
+            <kendo-grid-column field="Artist"   title="Artist" class="gridrowfont" ></kendo-grid-column>
+            <kendo-grid-column field="genreName"   title="Genre" class="gridrowfont" ></kendo-grid-column>
+            <kendo-grid-column field="Length"   title="Length" class="gridrowfont" ></kendo-grid-column>
+            <kendo-grid-column field="id"   title="" class="gridrowfont"  [width]="70">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                  <i class="fa fa-bars cursor-pointer" #target aria-hidden="true"></i>
+                  
+                      <kendo-contextmenu [target]="target" [items]="PlaylistContextMenu" showOn="click" (select)="onSelect($event,modalNewPlaylist,dataItem.id)">
+                        <ng-template kendoMenuItemTemplate let-item="item">
+                          {{ item.text }}
+                        </ng-template>
+                      </kendo-contextmenu>
+                    
+                  </ng-template>
+
+            </kendo-grid-column>
+          </kendo-grid>
+        </kendo-expansionpanel>
+          <kendo-expansionpanel title="Playlist Library" class="bg-card mt-5" [expanded]="ExpansionPanelExpanded">
+          <div class="flex flex-col flex-auto overflow-hidden">
+            <div class="flex flex-col sm:flex-row items-start justify-between border-b">
+              <div class="row w-full">
+                <div class="col-lg-4">
+                  <div class="text-lg font-medium tracking-tight leading-6 truncate pb-2">
+                    <i class="fa fa-plus-circle cursor-pointer ml-2" aria-hidden="true"  (click)="openFormatModal(modalNewPlaylist)"> Add New</i> 
+                  </div>
+                </div>
+                  <div class="col-sm-8">
+                    <kendo-breadcrumb class="bg-card text-lg font-medium tracking-tight leading-6 truncate pb-2"
+                        style="justify-content: end;"
+                        [items]="breadCrumbPlaylistItems" (itemClick)="onbreadCrumbPlaylistFormatClick($event)"
+                    ></kendo-breadcrumb>
+               
+                </div>
+              </div>
+              
+            </div>
+          </div>
+          <div class="row align-items-center mt-7 mb-10" *ngIf="PlaylistsFormatScrollViewData.length>0 && ExpansionPanelMediaType=='Audio' && !ShowAudoPlaylistContent">
+            <kendo-scrollview [data]="PlaylistsFormatScrollViewData"
+            [width]="width"
+            [height]="height"
+            [arrows]="true"
+            [endless]="true">
+            <ng-template let-itemPage="item">
+              <kendo-gridlayout class="bg-card"
+                    [align]="{ horizontal: hAlign, vertical: vAlign }"
+                    [rows]="[100, 100, 100, 100, 100]"
+                    [cols]="['12.25%'  ,'12.25%', '12.25%', '12.25%', '12.25%', '12.25%','12.25%','12.25%']"
+                    [gap]="5"
+                >
+                <kendo-gridlayout-item
+                    *ngFor="let item of PlaylistsFormatItems[itemPage.page]; let i = index"
+                    class="box box-{{ i }} "
+                    [ngStyle]="{backgroundColor: PlaylistsFormatItems[0][i].color }"
+                    style="cursor: pointer; display:flex; justify-content: center; align-items: center; border-radius: 5px"
+                    (click)="GetFormatPlaylist(item.id,item.title)"
+                    >
+                        <h3 style="vertical-align:middle;color: white; font-size: 14px;">{{item.title}}</h3>
+                    </kendo-gridlayout-item>
+              </kendo-gridlayout>
+            </ng-template>
+          </kendo-scrollview>
+          </div>
+            <kendo-grid *ngIf="ShowAudoPlaylistContent && ExpansionPanelMediaType=='Audio'"
+                [kendoGridBinding]="PlaylistContentLists"
+                [pageSize]="50"
+                [pageable]="true"
+                [sortable]="true"
+                kendoGridSelectBy
+                [(selectedKeys)]="PlaylistContentRowSelection">
+                <ng-template kendoGridToolbarTemplate>
+                  <kendo-button (click)="PLShuffle()">
+                    <i class="fa fa-random" aria-hidden="true"></i>
+                </kendo-button> 
+                <kendo-button (click)="PlaylistSort(PlaylistSortModal)">
+                  <i class="fa fa-sort-amount-asc" aria-hidden="true"></i>
+              </kendo-button> 
+              <kendo-button (click)="moveUp()">
+                <i class="fa fa-arrow-up" aria-hidden="true"></i>
+            </kendo-button> 
+            <kendo-button (click)="moveDown()">
+              <i class="fa fa-arrow-down" aria-hidden="true"></i>
+          </kendo-button> 
+              </ng-template>
+                <kendo-grid-column field="title" title="Title"   class="gridrowfont" >
+                  <ng-template kendoGridCellTemplate let-dataItem>
+                    <a href="javascript:;" class="cursor-pointer text-primary"  (click)="OpenViewPlaylistContent(viewcontent, dataItem.TitleIdLink,dataItem.genreId,dataItem.MediaType)">
+                      <i class="fa fa-play-circle mr-1" aria-hidden="true"></i>  {{dataItem.title}}
+                    </a>
+                  </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column field="Artist" title="Artist"   class="gridrowfont" ></kendo-grid-column>
+                <kendo-grid-column field="GenreName" title="Genre"   class="gridrowfont" ></kendo-grid-column>
+                <kendo-grid-column field="id"   title="" class="gridrowfont"  [width]="70">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                      <kendo-svg-icon [icon]="kIcons['trashIcon']" themeColor="error" (click)="openTitleDeleteModal(TitleDeleteModal, dataItem.sId)"></kendo-svg-icon>
+                      </ng-template>
+
+                </kendo-grid-column>
+            </kendo-grid>
+          </kendo-expansionpanel>
+          <kendo-expansionpanel title="Master Schedule" class="bg-card mt-5" [expanded]="ExpansionPanelExpanded">
+            <div class="flex flex-col flex-auto overflow-hidden">
+              <div class="flex flex-col sm:flex-row items-start justify-between border-b">
+                <div class="row w-full">
+                  <div class="col-lg-4">
+                    <div class="text-lg font-medium tracking-tight leading-6 truncate pb-2">
+                        <i class="fa fa-plus-circle cursor-pointer ml-2" aria-hidden="true" (click)="openFormatModal(modalMasterSchedule)"> Add New</i> 
+                    </div>
+                  </div>
+                    <div class="col-sm-8">
+                     
+                 
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row align-items-center mt-7 mb-10" *ngIf="MasterScheduleScrollViewData.length>0 && ExpansionPanelMediaType=='Audio' && !ShowAudoPlaylistContent">
+              <kendo-scrollview [data]="MasterScheduleScrollViewData"
+              [width]="width"
+              [height]="height"
+              [arrows]="true"
+              [endless]="true">
+              <ng-template let-itemPage="item">
+                <kendo-gridlayout class="bg-card"
+                      [align]="{ horizontal: hAlign, vertical: vAlign }"
+                      [rows]="[100, 100, 100, 100, 100]"
+                      [cols]="['12.25%'  ,'12.25%', '12.25%', '12.25%', '12.25%', '12.25%','12.25%','12.25%']"
+                      [gap]="5"
+                  >
+                  <kendo-gridlayout-item
+                      *ngFor="let item of MasterScheduleItems[itemPage.page]; let i = index"
+                      class="box box-{{ i }} "
+                      [ngStyle]="{backgroundColor: MasterScheduleItems[0][i].color }"
+                      style="cursor: pointer; display:flex; justify-content: center; align-items: center; border-radius: 5px"
+                      (click)="openMasterScheduleDetail(item.id,item.title)"
+                      >
+                          <h3 style="vertical-align:middle;color: white; font-size: 14px;">{{item.title}}</h3>
+                      </kendo-gridlayout-item>
+                </kendo-gridlayout>
+              </ng-template>
+            </kendo-scrollview>
+            </div>
+          </kendo-expansionpanel>
+        </ng-template>
+      </kendo-tabstrip-tab>
+
+
+      <kendo-tabstrip-tab>
+ <ng-template kendoTabTitle>
+          <kendo-svg-icon [icon]="kIcons['aggregateFieldsIcon']" size="xxlarge" data-toggle="tooltip" data-placement="top" title="Templates"></kendo-svg-icon>
+        </ng-template>
+        <ng-template kendoTabContent>
+          <kendo-expansionpanel title="Library" class="bg-card" [expanded]="ExpansionPanelExpanded">
+            <div class="row h-128 overflow-auto" *ngIf="ExpansionPanelMediaType=='Templates'">
+                <div class="col-lg-12">
+                  <kendo-button class="mb-2 mr-sm-2 mr-1" (click)="OpenUploadContentModel(DownloadTemplate)">
+                    Add Templates
+                </kendo-button> 
+                </div>
+                <div class="col-lg-12">
+                  <kendo-grid
+                  [kendoGridBinding]="ContentList"
+                  [pageSize]="50"
+                  [pageable]="true"
+                  [sortable]="true"
+                  [selectable]="true"
+                  kendoGridSelectBy="id"
+                  [(selectedKeys)]="SelectionTitle"
+                  [loading]="loading">
+                  <ng-template kendoGridToolbarTemplate>
+                    <div class="col-md-3 pr-0" *ngIf="rdoSearchFilterList.length==0">
+                      <kendo-textbox  placeholder="Search" class="w-100" fillMode ="outline"
+                      kendoTextBox [(ngModel)]="txtCommonSearch"></kendo-textbox>
+                  </div>
+                   
+                  
+           <kendo-grid-spacer></kendo-grid-spacer>
+              
+            <i class="fa fa-bars cursor-pointer" #targetPlaylistContextMenu aria-hidden="true"></i>
+            <kendo-contextmenu [target]="targetPlaylistContextMenu" [items]="PlaylistContextMenu" showOn="click" (select)="onSelect($event,modalNewPlaylist,'0')">
+              <ng-template kendoMenuItemTemplate let-item="item">
+                {{ item.text }}
+              </ng-template>
+            </kendo-contextmenu>
+
+                  </ng-template>
+                  <kendo-grid-checkbox-column class="gridrowfont"  [width]="70"
+      [showSelectAll]="true"
+    ></kendo-grid-checkbox-column>
+                  <kendo-grid-column field="title" title="Title"   class="gridrowfont" >
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                      <a href="javascript:;" class="cursor-pointer text-primary"  (click)="OpenViewPlaylistContent(viewcontent, dataItem.TitleIdLink,dataItem.genreId,dataItem.MediaType)">
+                        <i class="fa fa-play-circle mr-1" aria-hidden="true"></i>  {{dataItem.title}}
+                      </a>
+                    </ng-template>
+                  </kendo-grid-column>
+                  <kendo-grid-column field="genreName"   title="Orientation" class="gridrowfont" ></kendo-grid-column>
+                  <kendo-grid-column field="Length"   title="Length" class="gridrowfont" ></kendo-grid-column>
+                  <kendo-grid-column field="id"   title="" class="gridrowfont"  [width]="70">
+                      <ng-template kendoGridCellTemplate let-dataItem>
+                        <i class="fa fa-bars cursor-pointer" #target aria-hidden="true"></i>
+                            <kendo-contextmenu [target]="target" [items]="PlaylistContextMenu" showOn="click" (select)="onSelect($event,modalNewPlaylist,dataItem.id)">
+                              <ng-template kendoMenuItemTemplate let-item="item">
+                                {{ item.text }}
+                              </ng-template>
+                            </kendo-contextmenu>
+                          
+                        </ng-template>
+
+                  </kendo-grid-column>
+                </kendo-grid>                      
+                </div>
+              </div>
+            </kendo-expansionpanel>
+
+
+            <kendo-expansionpanel title="Playlist Library" class="bg-card mt-5" [expanded]="ExpansionPanelExpanded">
+              <div class="flex flex-col flex-auto overflow-hidden">
+                <div class="flex flex-col sm:flex-row items-start justify-between border-b">
+                  <div class="row w-full">
+                    <div class="col-lg-4">
+                      <div class="text-lg font-medium tracking-tight leading-6 truncate pb-2">
+                        <i class="fa fa-plus-circle cursor-pointer ml-2" aria-hidden="true"  (click)="openFormatModal(modalNewPlaylist)"> Add New</i> 
+                      </div>
+                    </div>
+                      <div class="col-sm-8">
+                        <kendo-breadcrumb class="bg-card text-lg font-medium tracking-tight leading-6 truncate pb-2"
+                            style="justify-content: end;"
+                            [items]="breadCrumbPlaylistItems" (itemClick)="onbreadCrumbPlaylistFormatClick($event)"
+                        ></kendo-breadcrumb>
+                   
+                    </div>
+                  </div>
+                  
+                </div>
+              </div>
+              <div class="row align-items-center mt-7 mb-10" *ngIf="PlaylistsFormatScrollViewData.length>0 && ExpansionPanelMediaType=='Templates' && !ShowAudoPlaylistContent">
+                <kendo-scrollview [data]="PlaylistsFormatScrollViewData"
+                [width]="width"
+                [height]="height"
+                [arrows]="true"
+                [endless]="true">
+                <ng-template let-itemPage="item">
+                  <kendo-gridlayout class="bg-card"
+                        [align]="{ horizontal: hAlign, vertical: vAlign }"
+                        [rows]="[100, 100, 100, 100, 100]"
+                        [cols]="['12.25%'  ,'12.25%', '12.25%', '12.25%', '12.25%', '12.25%','12.25%','12.25%']"
+                        [gap]="5"
+                    >
+                    <kendo-gridlayout-item
+                        *ngFor="let item of PlaylistsFormatItems[itemPage.page]; let i = index"
+                        class="box box-{{ i }} "
+                        [ngStyle]="{backgroundColor: PlaylistsFormatItems[0][i].color }"
+                        style="cursor: pointer; display:flex; justify-content: center; align-items: center; border-radius: 5px"
+                        (click)="GetFormatPlaylist(item.id,item.title)"
+                        >
+                            <h3 style="vertical-align:middle;color: white; font-size: 14px;">{{item.title}}</h3>
+                        </kendo-gridlayout-item>
+                  </kendo-gridlayout>
+                </ng-template>
+              </kendo-scrollview>
+              </div>
+                <kendo-grid *ngIf="ShowAudoPlaylistContent && ExpansionPanelMediaType=='Templates'"
+                    [kendoGridBinding]="PlaylistContentLists"
+                    [pageSize]="50"
+                    [pageable]="true"
+                    [sortable]="true"
+                    kendoGridSelectBy
+                [(selectedKeys)]="PlaylistContentRowSelection">
+                    <ng-template kendoGridToolbarTemplate>
+                      <kendo-button (click)="PLShuffle()">
+                        <i class="fa fa-random" aria-hidden="true"></i>
+                    </kendo-button> 
+                    <kendo-button (click)="PlaylistSort(PlaylistSortModal)">
+                      <i class="fa fa-sort-amount-asc" aria-hidden="true"></i>
+                  </kendo-button> 
+                  <kendo-button (click)="moveUp()">
+                    <i class="fa fa-arrow-up" aria-hidden="true"></i>
+                </kendo-button> 
+                <kendo-button (click)="moveDown()">
+                  <i class="fa fa-arrow-down" aria-hidden="true"></i>
+              </kendo-button> 
+                  </ng-template>                    
+                    <kendo-grid-column field="title" title="Title"   class="gridrowfont" >
+                      <ng-template kendoGridCellTemplate let-dataItem>
+                        <a href="javascript:;" class="cursor-pointer text-primary"  (click)="OpenViewPlaylistContent(viewcontent, dataItem.TitleIdLink,dataItem.genreId,dataItem.MediaType)">
+                          <i class="fa fa-play-circle mr-1" aria-hidden="true"></i>  {{dataItem.title}}
+                        </a>
+                      </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column field="Artist" title="Artist"   class="gridrowfont" ></kendo-grid-column>
+                    <kendo-grid-column field="GenreName" title="Genre"   class="gridrowfont" ></kendo-grid-column>
+                    <kendo-grid-column field="id"   title="" class="gridrowfont"  [width]="70">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                          <kendo-svg-icon [icon]="kIcons['trashIcon']" themeColor="error" (click)="openTitleDeleteModal(TitleDeleteModal, dataItem.sId)"></kendo-svg-icon>
+                          </ng-template>
+    
+                    </kendo-grid-column>
+                </kendo-grid>
+              </kendo-expansionpanel>
+              <kendo-expansionpanel title="Master Schedule" class="bg-card mt-5" [expanded]="ExpansionPanelExpanded">
+                <div class="flex flex-col flex-auto overflow-hidden">
+                  <div class="flex flex-col sm:flex-row items-start justify-between border-b">
+                    <div class="row w-full">
+                      <div class="col-lg-4">
+                        <div class="text-lg font-medium tracking-tight leading-6 truncate pb-2">
+                            <i class="fa fa-plus-circle cursor-pointer ml-2" aria-hidden="true" (click)="openFormatModal(modalMasterSchedule)"> Add New</i> 
+                        </div>
+                      </div>
+                        <div class="col-sm-8">
+                         
+                     
+                      </div>
+                    </div>
+                  </div>
+                </div>
+    
+                <div class="row align-items-center mt-7 mb-10" *ngIf="MasterScheduleScrollViewData.length>0 && ExpansionPanelMediaType=='Templates' && !ShowAudoPlaylistContent">
+                  <kendo-scrollview [data]="MasterScheduleScrollViewData"
+                  [width]="width"
+                  [height]="height"
+                  [arrows]="true"
+                  [endless]="true">
+                  <ng-template let-itemPage="item">
+                    <kendo-gridlayout class="bg-card"
+                          [align]="{ horizontal: hAlign, vertical: vAlign }"
+                          [rows]="[100, 100, 100, 100, 100]"
+                          [cols]="['12.25%'  ,'12.25%', '12.25%', '12.25%', '12.25%', '12.25%','12.25%','12.25%']"
+                          [gap]="5"
+                      >
+                      <kendo-gridlayout-item
+                          *ngFor="let item of MasterScheduleItems[itemPage.page]; let i = index"
+                          class="box box-{{ i }} "
+                          [ngStyle]="{backgroundColor: MasterScheduleItems[0][i].color }"
+                          style="cursor: pointer; display:flex; justify-content: center; align-items: center; border-radius: 5px"
+                          (click)="openMasterScheduleDetail(item.id,item.title)"
+                          >
+                              <h3 style="vertical-align:middle;color: white; font-size: 14px;">{{item.title}}</h3>
+                          </kendo-gridlayout-item>
+                    </kendo-gridlayout>
+                  </ng-template>
+                </kendo-scrollview>
+                </div>
+              </kendo-expansionpanel>
+
+
+
+        </ng-template>
+      </kendo-tabstrip-tab>
+      
+     <!--  <kendo-tabstrip-tab>
+        <ng-template kendoTabTitle>
+          <kendo-svg-icon [icon]="kIcons['playlistIcon']" size="xxlarge"  data-toggle="tooltip" data-placement="top" title="Playlists"></kendo-svg-icon>
+        </ng-template>
+
+        <ng-template kendoTabContent>
+            <kendo-expansionpanel title="Playlist – Regular" (action)="onAction(3,'Regular')">
+                <div class="row" *ngIf="ExpansionPanelMediaType=='Regular'">
+                    <div class="col-lg-3">
+                      <div class="row">
+                        <div class="col-lg-8">
+                          <kendo-label text="Playlist Group">
+                              <kendo-dropdownlist [data]="FormatList" [value]='FilterFormatDropdownDefaultValue' textField="DisplayName"
+                              valueField="Id" [(ngModel)]="cmbFormat" fillMode ="outline"
+                              (valueChange)="onChangeFormatPlaylist($event)">
+                              </kendo-dropdownlist>
+                            </kendo-label>
+                        </div>
+                        <div class="col-lg-4 p-0 m-0 mt-6 mtbtn pt-1">
+                          <button
+                          class="btn btn-sm btn-primary mb-0 mr-1"
+                          (click)="openFormatModal(modalFormat)"
+                        >
+                          <i class="fa fa-bars" aria-hidden="true"></i>
+                        </button>
+                          <button
+                            class="btn btn-sm btn-danger mb-0 mr-1"
+                            (click)="openDeleteFormatModal(modalDeleteFormat)"
+                          >
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                          </button>
+                         
+                        </div>
+                      </div>
+                        <kendo-grid 
+                [kendoGridBinding]="PlaylistLists"
+                [pageSize]="50"
+                [pageable]="false"
+                [sortable]="true">
+                <kendo-grid-column field="splPlaylistName" title="Name"   class="gridrowfont" >
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                       <a herf="javascript:;" class="text-primary" (click)="FillPlaylistSongs(dataItem.splPlaylistId,dataItem.splPlaylistName)">{{dataItem.splPlaylistName}}</a> 
+                      </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column field="id"   title="" class="gridrowfont"  [width]="70">
+                  <ng-template kendoGridCellTemplate let-dataItem>
+                    <kendo-svg-icon [icon]="kIcons['pencilIcon']" (click)="openEditPlaylistModal(modalPlaylist, dataItem.splPlaylistId,dataItem.splPlaylistName)"></kendo-svg-icon>
+                    </ng-template>
+
+              </kendo-grid-column>
+              </kendo-grid>
+                    </div>
+                    <div class="col-lg-9">
+                      <h5 class="pt-4" style="height: 2.7rem;">{{SelectedPlaylistName}}</h5>
+                        <kendo-grid class="mt-2"
+                [kendoGridBinding]="PlaylistContentLists"
+                [pageSize]="50"
+                [pageable]="true"
+                [sortable]="true">
+                <kendo-grid-column field="title" title="Title"   class="gridrowfont" ></kendo-grid-column>
+                <kendo-grid-column field="Artist" title="Artist"   class="gridrowfont" ></kendo-grid-column>
+                <kendo-grid-column field="GenreName" title="Genre"   class="gridrowfont" ></kendo-grid-column>
+                <kendo-grid-column field="id"   title="" class="gridrowfont"  [width]="70">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                      <kendo-svg-icon [icon]="kIcons['trashIcon']" themeColor="error" (click)="openTitleDeleteModal(TitleDeleteModal, dataItem.sId)"></kendo-svg-icon>
+                      </ng-template>
+
+                </kendo-grid-column>
+              </kendo-grid>
+                    </div>
+                </div>
+            </kendo-expansionpanel>
+            <kendo-expansionpanel title="Playlist – Advertisement" (action)="onAction(4,'Advertisement')">
+                <div class="row" *ngIf="ExpansionPanelMediaType=='Advertisement'">
+                    <div class="col-lg-3 mt-5">
+                        <kendo-grid 
+                [kendoGridBinding]="PlaylistLists"
+                [pageSize]="50"
+                [pageable]="false"
+                [sortable]="true">
+                <kendo-grid-column field="splPlaylistName" title="Name"   class="gridrowfont" >
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                       <a herf="javascript:;" class="text-primary" (click)="FillPlaylistSongs(dataItem.splPlaylistId,dataItem.splPlaylistName)">{{dataItem.splPlaylistName}}</a> 
+                      </ng-template>
+                </kendo-grid-column>
+            </kendo-grid>
+                    </div>
+                    <div class="col-lg-9">
+                        <h5 style="height: 1.5rem;">{{SelectedPlaylistName}}</h5>
+                        <kendo-grid class="mt-2"
+                [kendoGridBinding]="PlaylistContentLists"
+                [pageSize]="50"
+                [pageable]="true"
+                [sortable]="true">
+                <kendo-grid-column field="title" title="Title"   class="gridrowfont" ></kendo-grid-column>
+                <kendo-grid-column field="Artist" title="Artist"   class="gridrowfont" ></kendo-grid-column>
+                <kendo-grid-column field="GenreName" title="Genre"   class="gridrowfont" ></kendo-grid-column>
+                <kendo-grid-column field="id"   title="" class="gridrowfont"  [width]="70">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                      <kendo-svg-icon [icon]="kIcons['trashIcon']" themeColor="error" (click)="openTitleDeleteModal(TitleDeleteModal, dataItem.sId)"></kendo-svg-icon>
+                      </ng-template>
+
+                </kendo-grid-column>
+              </kendo-grid>
+                    </div>
+                </div>
+            </kendo-expansionpanel>
+            <kendo-expansionpanel title="Playlist – Special" (action)="onAction(5,'Special')">
+                <div class="row" *ngIf="ExpansionPanelMediaType=='Special'">
+                    <div class="col-lg-3 mt-5">
+                        <kendo-grid 
+                [kendoGridBinding]="PlaylistLists"
+                [pageSize]="50"
+                [pageable]="false"
+                [sortable]="true">
+                <kendo-grid-column field="splPlaylistName" title="Name"   class="gridrowfont" >
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                       <a herf="javascript:;" class="text-primary" (click)="FillPlaylistSongs(dataItem.splPlaylistId,dataItem.splPlaylistName)">{{dataItem.splPlaylistName}}</a> 
+                      </ng-template>
+                </kendo-grid-column>
+              </kendo-grid>
+                    </div>
+                    <div class="col-lg-9">
+                      <h5 style="height: 1.5rem;">{{SelectedPlaylistName}}</h5>
+                        <kendo-grid class="mt-2"
+                [kendoGridBinding]="PlaylistContentLists"
+                [pageSize]="50"
+                [pageable]="true"
+                [sortable]="true">
+                <kendo-grid-column field="title" title="Title"   class="gridrowfont" ></kendo-grid-column>
+                <kendo-grid-column field="Artist" title="Artist"   class="gridrowfont" ></kendo-grid-column>
+                <kendo-grid-column field="GenreName" title="Genre"   class="gridrowfont" ></kendo-grid-column>
+                <kendo-grid-column field="id"   title="" class="gridrowfont"  [width]="70">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                      <kendo-svg-icon [icon]="kIcons['trashIcon']" themeColor="error" (click)="openTitleDeleteModal(TitleDeleteModal, dataItem.sId)"></kendo-svg-icon>
+                        
+                      </ng-template>
+
+                </kendo-grid-column>
+              </kendo-grid>
+                    </div>
+                </div>
+            </kendo-expansionpanel>
+      
+        </ng-template>
+      </kendo-tabstrip-tab> -->
+    </kendo-tabstrip>
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
+     
+<ng-template #modalNewPlaylist let-c="close" let-d="dismiss">
+    <div class="modal-header bg-primary">
+      <h5 class="text-white">New Playlist</h5>
+      <button
+        type="button"
+        class="close text-white"
+        aria-label="Close"
+        (click)="d('Cross click')"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body bg-card">
+      
+         
+                <div class="row">
+                  <div class="col-lg-9">
+                    <kendo-label text="Playlist Group">
+                        <kendo-dropdownlist [data]="FormatList" [value]='FilterFormatDropdownDefaultValue' textField="DisplayName"
+                        valueField="Id" [(ngModel)]="cmbFormat" fillMode ="outline"
+                        (valueChange)="onChangeFormat($event)">
+                        </kendo-dropdownlist>
+                      </kendo-label>
+                  </div>
+                  <div class="col-lg-3 p-0 m-0 mt-6 mtbtn">
+                    <button
+                    class="btn btn-sm btn-primary mb-2 mr-1"
+                    (click)="openFormatModal(modalFormat)"
+                  >
+                    <i class="fa fa-bars" aria-hidden="true"></i>
+                  </button>
+                    <button
+                      class="btn btn-sm btn-danger mb-2 mr-1"
+                      (click)="openDeleteFormatModal(modalDeleteFormat)"
+                    >
+                      <i class="fa fa-trash" aria-hidden="true"></i>
+                    </button>
+                   
+                  </div>
+                  <div class="col-lg-12">
+                    <kendo-label text="Playlist Name">
+                        <kendo-textbox [(ngModel)]="txtplaylistname" fillMode ="outline"></kendo-textbox>
+                    </kendo-label>
+                  </div>
+                  <div class="col-lg-6 hidden">
+                    <kendo-label text="Type">
+                        <kendo-dropdownlist [data]="PlaylistTypeListItems" [value]='FilterPlaylistTypeDropdownDefaultValue' textField="text"
+                        valueField="value" [(ngModel)]="cmbPlaylistType" fillMode ="outline">
+                        </kendo-dropdownlist>
+                      </kendo-label>
+                  </div>
+                  <div class="col-lg-12 text-right mt-3">
+                        <kendo-button class="bg-primary" (click)="SaveNewPlaylist()">
+                          Save
+                        </kendo-button>
+                  
+                  </div>
+                  
+                </div>
+          
+          
+           
+         
+      
+    </div>
+  </ng-template>
+
+  <ng-template #TitleDeleteModal let-c="close" let-d="dismiss">
+    <div class="modal-header bg-primary">
+      <h5 class="text-white">Delete Title</h5>
+      <button
+        type="button"
+        class="close text-white"
+        aria-label="Close"
+        (click)="d('Cross click')"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body bg-card">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-12">
+            <p>Are you sure to delete?</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12">
+            <button
+              class="btn btn-primary col-sm-2 pull-right"
+              (click)="d('Cross click')"
+            >
+              <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+            </button>
+            <button
+              class="btn btn-danger col-sm-2 pull-right mr-2"
+              (click)="DeleteTitle()"
+              (click)="d('Cross click')"
+            >
+              <i class="fa fa-check fa-lg" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  
+  <ng-template #modalFormat let-c="close" let-d="dismiss">
+    <div class="modal-header bg-primary">
+      <h5 class="text-white">Playlist Group</h5>
+      <button
+        type="button"
+        class="close text-white"
+        aria-label="Close"
+        (click)="d('Cross click')"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body bg-card">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-12">
+            <kendo-label text="Playlist Group">
+              <kendo-textbox placeholder="" class="mb-2 mr-sm-2" fillMode ="outline"
+              kendoTextBox [(ngModel)]="NewFormatName"></kendo-textbox>
+            </kendo-label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12">
+            <kendo-button class="bg-primary col-sm-2 pull-right" (click)="onSubmitNewFormat()"
+            (click)="d('Cross click')">
+              Save
+            </kendo-button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  
+  
+<ng-template #modalDeleteFormat let-c="close" let-d="dismiss">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Delete Campaign</h5>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-card">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12">
+          <p class="smalltext">{{ txtCommonMsg }}</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12" *ngIf="txtMsg != ''">
+          <p class="btn btn-danger">{{ txtMsg }}</p>
+        </div>
+        <div class="col-sm-12">
+          <button
+            class="btn btn-primary col-sm-2 pull-right"
+            (click)="d('Cross click')"
+          >
+            <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+          </button>
+          <button
+            *ngIf="txtMsg == ''"
+            class="btn btn-danger col-sm-2 pull-right mr-2"
+            (click)="DeleteFormat('No')"
+          >
+            <i class="fa fa-check fa-lg" aria-hidden="true"></i>
+          </button>
+
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #modalPlaylist let-c="close" let-d="dismiss">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Playlist</h5>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-card">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12">
+          <kendo-label text="Playlist Name" #flocation>
+            <kendo-textbox placeholder="" class="mb-2 mr-sm-2" fillMode ="outline"
+            kendoTextBox [(ngModel)]="NewPlaylistName"></kendo-textbox>
+          </kendo-label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <kendo-button class="bg-primary col-sm-2 pull-right" (click)="onSubmitUpdatePlaylistName()"
+          (click)="d('Cross click')">
+            Save
+          </kendo-button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+
+<ng-template  #UploadContent let-c="close" let-d="dismiss">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Add Signage</h5>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-card p-6">
+    <app-signage-content-upload></app-signage-content-upload>
+  </div>
+</ng-template>
+<ng-template  #DownloadTemplate let-c="close" let-d="dismiss">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Templates</h5>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-card p-6">
+    <app-download-template></app-download-template>
+  </div>
+</ng-template>
+ 
+<ng-template #modalMasterSchedule let-c="close" let-d="dismiss">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Master Schedule</h5>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-card">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12">
+          <kendo-label text="Master Schedule Name">
+            <kendo-textbox placeholder="" class="p-1 w-full" fillMode ="outline"
+                kendoTextBox [(ngModel)]="NewMasterScheduleName" [ngModelOptions]="{standalone: true}"></kendo-textbox>
+          </kendo-label>
+        </div>
+        <div class="col-sm-12">
+            <kendo-label
+            class="k-checkbox-label mr-2"
+            [for]="Overwritemanual"
+            text="Overwrite manual"
+          ></kendo-label>
+          <input type="checkbox" size="large"  [(ngModel)]="chkOverwritemanual" [ngModelOptions]="{standalone: true}" #Overwritemanual kendoCheckBox />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <kendo-button class="col-sm-2 pull-right" (click)="onSubmitNewMasterSchedule('0','Yes')"
+          (click)="d('Cross click')">
+            Save
+          </kendo-button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template class="tokenmodal" #PlaylistSortModal let-c="close" let-d="dismiss">
+  
+  <button
+    type="button"
+    class="close text-right"
+    aria-label="Close"
+    (click)="PlaylistSortModalClose()"
+    (click)="d('Cross click')"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+ 
+<div class="modal-body">
+  <div class="row">
+    <div class="col-12">
+      <kendo-button class="col-sm-2 pull-right" (click)="SavePlaylistSort()"
+          (click)="d('Cross click')">
+            Save
+          </kendo-button>
+    </div>
+  </div>
+  <div id="disPL" class="table-responsive" style="height: 600px;overflow: auto;">
+    <kendo-grid
+    [kendoGridBinding]="PlaylistSongsSortList"
+    [pageSize]="50"
+    [pageable]="true"
+    [sortable]="true">
+    <kendo-grid-column field="title" title="Title"   class="gridrowfont" ></kendo-grid-column>
+    <kendo-grid-column field="Artist" title="Artist"   class="gridrowfont" ></kendo-grid-column>
+    <kendo-grid-column field="SrNo" title="Sr No"   width="100" >
+      <ng-template kendoGridCellTemplate let-plSongLst>
+        <input
+            type="number"
+            min="1" class="border rounded  w-full p-1 pl-2"
+            value="{{ plSongLst.SrNo }}"
+            (change)="OnChangeSortInterval($event.target.value,plSongLst.sId)" />
+        <!-- <kendo-numerictextbox  [min]="1" format="##" [(value)]="plSongLst.SrNo" fillMode ="outline"
+        (valueChange)="OnChangeSortInterval($event,plSongLst.sId)">
+        </kendo-numerictextbox> -->
+        
+        <div
+        class="hidden row m-0 p-0"
+      >
+        <div
+          class="col-lg-12 m-0 p-0"
+          style="
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          "
+        >
+          <input
+            type="number"
+            min="1"
+            value="{{ plSongLst.SrNo }}"
+            (change)="OnChangeSortInterval($event.target.value,plSongLst.sId)" />
+        </div>
+        
+      </div>
+      </ng-template>
+    </kendo-grid-column>
+    </kendo-grid>
+
+
+  </div>
+</div>
+</ng-template>
+<ng-template class="tokenmodal" #viewcontent let-c="close" let-d="dismiss">
+  
+  <button
+    type="button"
+    class="close text-right"
+    aria-label="Close"
+    (click)="d('Cross click')"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+ 
+<div class="modal-body bg-card p-0">
+  <app-view-content></app-view-content>
+</div>
+</ng-template>

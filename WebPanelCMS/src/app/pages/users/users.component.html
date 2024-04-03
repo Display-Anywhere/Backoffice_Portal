@@ -1,0 +1,186 @@
+<div class="flex flex-col flex-auto min-w-0">
+    <div class="flex-auto p-6 sm:p-10">
+      <div class="w-full max-w-screen-xl mx-auto">
+        <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+            <div class="row">
+                <div class="col-lg-3">
+                    <kendo-label text="Customer Name">
+                        <kendo-dropdownlist
+                        [data]="CustomerList"
+                        textField="DisplayName"
+                        valueField="Id"
+                        [valuePrimitive]="true"
+                        fillMode ="outline"
+                        [(ngModel)]="cmbCustomer" (valueChange)="onChangeCustomer($event)">
+                    </kendo-dropdownlist>
+                    </kendo-label>
+                </div>
+            </div>
+            <kendo-tabstrip (tabSelect)="userAdsonTabSelect($event)">
+                <kendo-tabstrip-tab title="Search" [selected]="!AddNewTabSelected">
+                    <ng-template kendoTabContent>
+                        <div class="row mt-5">
+                            <div class="col-lg-12">
+                              <kendo-grid class="bg-card"
+                                      [kendoGridBinding]="UserList"
+                                      [loading]="loading"
+                                      [pageSize]="50"
+                                      [pageable]="false"
+                                      [sortable]="true">
+                                      <kendo-grid-column field="id" title="2FA">
+                                        <ng-template kendoGridCellTemplate let-uLst>
+                                            <input type="checkbox" rounded="medium" (change)="Enable_Disable_2FA(uLst.id, $event)" kendoCheckBox [checked]="uLst.check" #medium />
+                                        </ng-template>
+                                      </kendo-grid-column>
+                                      <kendo-grid-column field="UserName1" title="User Name"></kendo-grid-column>
+                                      <kendo-grid-column field="email" title="Email">
+                                      </kendo-grid-column>
+                                      <kendo-grid-column *ngIf="!IschkViewOnly" field="id"   title="" class="gridrowfont"  [width]="90">
+                                          <ng-template kendoGridCellTemplate let-adLst>
+                                            <i class="fa fa-pencil-square-o mr-4 cursor-pointer" aria-hidden="true" (click)="onClickEditUser(adLst.id)"></i>
+                                            <i class="fa fa-trash text-danger cursor-pointer" aria-hidden="true" (click)="openDeleteDeleteModal(UserDeleteModal, adLst.id)"></i>
+                                            </ng-template>
+                                      </kendo-grid-column>
+                                  </kendo-grid>
+                            </div>
+                          </div>
+          
+                    </ng-template>
+                </kendo-tabstrip-tab>
+                <kendo-tabstrip-tab title="Add New" [selected]="AddNewTabSelected">
+                    <ng-template kendoTabContent>
+                        <form class="w-full" [formGroup]="Userform">
+                            <div class="row mb-5" *ngIf="profileImageUrl !=''">
+                                <div class="col-sm-12">
+                                    <img 
+                                    class="w-20 h-20 rounded"
+                                    [src]="profileImageUrl">
+                                </div>
+                                </div>
+                            <div class="row">
+                                <div class="col-sm-9">
+
+                               
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <kendo-label text="Login Name">
+                                        <kendo-textbox placeholder="" class="mb-2 mr-sm-2" fillMode ="outline"
+                                        kendoTextBox formControlName="UserName1"></kendo-textbox>
+                                      </kendo-label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <kendo-label text="Email">
+                                        <kendo-textbox placeholder="" class="mb-2 mr-sm-2" fillMode ="outline"
+                                        kendoTextBox formControlName="email"></kendo-textbox>
+                                      </kendo-label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <kendo-label text="Password">
+                                        <kendo-textbox placeholder="" class="mb-2 mr-sm-2" fillMode ="outline"
+                                        kendoTextBox formControlName="Password1"></kendo-textbox>
+                                      </kendo-label>
+                                </div>
+                                </div>
+                                <div class="row mt-5">
+                                    <div class="col-sm-12">
+                                        <h6>
+                                            <kendo-label text="User Rights"></kendo-label>
+                                          </h6>
+                                    </div>
+                                    <div class="col-sm-12  contents">
+                                        <div class="k-form-field-checkbox-wrap ml-4">
+                                            <input kendoCheckBox id="PlayerDetail" rounded="medium" type="checkbox" formControlName="chkPlayerDetail" />
+                                            <kendo-label class="k-checkbox-label" for="PlayerDetail" text="Player Detail"></kendo-label>
+                                        </div>
+                                        <div class="k-form-field-checkbox-wrap ml-4">
+                                            <input kendoCheckBox id="PlaylistLibrary" formControlName="chkPlaylistLibrary" rounded="medium" type="checkbox"  />
+                                            <kendo-label class="k-checkbox-label" for="PlaylistLibrary" text="Playlist Library"></kendo-label>
+                                        </div>
+                                        <div class="k-form-field-checkbox-wrap ml-4">
+                                            <input kendoCheckBox id="Scheduling" formControlName="chkScheduling" rounded="medium" type="checkbox"  />
+                                            <kendo-label class="k-checkbox-label" for="Scheduling" text="Scheduling"></kendo-label>
+                                        </div>
+                                        <div class="k-form-field-checkbox-wrap ml-4">
+                                            <input kendoCheckBox id="Advertisement" formControlName="chkAdvertisement" rounded="medium" type="checkbox"  />
+                                            <kendo-label class="k-checkbox-label" for="Advertisement" text="Advertisement"></kendo-label>
+                                        </div>
+                                        <div class="k-form-field-checkbox-wrap ml-4">
+                                            <input kendoCheckBox id="InstantPlay" formControlName="chkInstantPlay" rounded="medium" type="checkbox"  />
+                                            <kendo-label class="k-checkbox-label" for="InstantPlay" text="Instant Play"></kendo-label>
+                                        </div>
+                                        <div class="k-form-field-checkbox-wrap ml-4">
+                                            <input kendoCheckBox id="Upload" formControlName="chkUpload" rounded="medium" type="checkbox"  />
+                                            <kendo-label class="k-checkbox-label" for="Upload" text="Upload Content"></kendo-label>
+                                        </div>
+                                        <div class="k-form-field-checkbox-wrap ml-4">
+                                            <input kendoCheckBox id="DeleteSong" formControlName="chkDeleteSong" rounded="medium" type="checkbox"  />
+                                            <kendo-label class="k-checkbox-label" for="DeleteSong" text="Delete Content"></kendo-label>
+                                        </div>
+                                        <div class="k-form-field-checkbox-wrap ml-4">
+                                            <input kendoCheckBox id="ViewOnly" formControlName="chkViewOnly" (change)="OnChangeViewOnly($event.target.checked)" rounded="medium" type="checkbox"  />
+                                            <kendo-label class="k-checkbox-label" for="ViewOnly" text="View Only"></kendo-label>
+                                        </div>
+                                        <div class="k-form-field-checkbox-wrap mt-4 ml-4">
+                                            <input kendoCheckBox id="EventMeeting" formControlName="chkEventMeeting" rounded="medium" type="checkbox"  />
+                                            <kendo-label class="k-checkbox-label" for="EventMeeting" text="Event Meeting Only"></kendo-label>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                 </div>
+                                <div class="col-sm-3">
+                                    <kendo-fileselect [(ngModel)]="myProfilePic"  (focus)="fileselect_focus()" accept="image/jpeg, image/x-png"  [ngModelOptions]="{standalone: true}" [restrictions]="ProfilePicRestrictions"> </kendo-fileselect>
+
+                                </div>
+                            </div>
+                                <div class="row">
+                                    <div class="col-sm-2 ml-auto">
+                                        <kendo-button class="bg-primary" (click)="onSubmitUser()">
+                                            Save
+                                        </kendo-button>
+                                        <kendo-button class="ml-5" (click)="Refresh()">
+                                            Cancel
+                                        </kendo-button>
+                                    </div>
+                                    </div>
+                                    <div class="row mt-5">
+                                        <div class="col-sm-12">
+                                            <kendo-grid
+                                            [kendoGridBinding]="TokenList"
+                                            [loading]="loading"
+                                            [pageSize]="25"
+                                            [pageable]="true"
+                                            [sortable]="true"
+                                            kendoGridSelectBy="tokenid"
+                                            [(selectedKeys)]="TokenSelected">
+                                            <ng-template kendoGridToolbarTemplate>
+                                                <kendo-textbox
+            placeholder="Search"
+            kendoTextBox fillMode ="outline"
+            (valueChange)="onFilter($event)"
+            >
+            </kendo-textbox>
+                                            </ng-template>
+                                            <kendo-grid-checkbox-column class="gridrowfont"  [width]="90"
+                                            [showSelectAll]="true"
+                                            ></kendo-grid-checkbox-column>
+                                                    <kendo-grid-column field="countryName" title="Country"   class="gridrowfont"  [width]="120"></kendo-grid-column>
+                                                    <kendo-grid-column field="city"   title="City" class="gridrowfont" ></kendo-grid-column>
+                                                    <kendo-grid-column field="location"   title="Location" class="gridrowfont" ></kendo-grid-column>
+                                                    
+                                                    <kendo-grid-column field="MediaType"   title="Media Type" class="gridrowfont"  [width]="150"></kendo-grid-column>
+                                                    <kendo-grid-column field="tokenCode"   title="Token No" class="gridrowfont"  [width]="250"></kendo-grid-column>
+                                            
+            
+                                        </kendo-grid>
+            
+                                        </div>
+                                        </div>
+                        </form>
+                    </ng-template>
+                </kendo-tabstrip-tab>
+            </kendo-tabstrip>
+        </div>
+</div>
+</div>
+</div>

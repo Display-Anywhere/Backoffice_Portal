@@ -1,11 +1,15 @@
 import { Injectable } from "@angular/core";
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class ConfigAPI {
   private Host = 'https://uatapi.display-anywhere.com/api/';
+  //private Host = 'https://api.test.display-anywhere.com/api/';
+  //private Host = 'https://api.uat.display-anywhere.com/api/';
   //Host=localStorage.getItem('host')
   //Host: string = "https://applicationaddons.com/api/";
    //private Host: string = "https://panelapi.advikon.com/api/";
- //  private Host: string = "http://localhost:60328/api/";
+  // private Host: string = "http://localhost:60328/api/";
    //private Host_panel: string = "https://api.advikon.com/api/";
    //private Host_panel: string = "http://localhost:60328/api/";
    FillQueryCombo: string = this.Host + 'FillQueryCombo';
@@ -28,7 +32,7 @@ export class ConfigAPI {
    SavePlaylistFromBestOf: string = this.Host + 'SavePlaylistFromBestOf';
    Playlist: string = this.Host + 'Playlist';
    SongList: string = this.Host + 'SongList';
-   SaveSF: string = this.Host + 'SaveSF_New';
+   SaveSF: string = this.Host + 'SaveMasterscheduleToken';
    FillSF: string = this.Host + 'FillSF';
    DeleteTokenSch: string = this.Host + 'DeleteTokenSch';
    FillSearchAds: string = this.Host + 'FillSearchAds';
@@ -226,7 +230,11 @@ export class ConfigAPI {
    GetMasterScheduleDetail: string = this.Host + 'GetMasterScheduleDetail';
    SaveMasterScheduleName: string = this.Host + 'SaveMasterScheduleName';
    DeleteMasterSchedule: string = this.Host + 'DeleteMasterSchedule';
-
+   GetDashboardCustomerTotals: string = this.Host + 'GetDashboardCustomerTotals';
+   GetDashboardCities: string = this.Host + 'GetDashboardCities';
+   GetDashboardCityDevices: string = this.Host + 'GetDashboardCityDevices';
+   UploadUserProfilePic: string = this.Host + 'UploadUserProfilePic';
+   MasterSchedulePublication: string = this.Host + 'MasterSchedulePublication';
 }
 
 // localStorage.setItem('UserId', obj.UserId);

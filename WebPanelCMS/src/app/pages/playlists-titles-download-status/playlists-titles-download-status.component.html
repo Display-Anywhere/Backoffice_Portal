@@ -1,0 +1,93 @@
+<mat-progress-bar
+*ngIf="loading"
+[mode]="'indeterminate'"></mat-progress-bar>
+<div class="row">
+  <div class="col-12">
+    <kendo-tabstrip>
+      <kendo-tabstrip-tab title="Playlist Status" [selected]="true">
+        <ng-template kendoTabContent>
+          <div class="row">
+            <div class="col-lg-4 mb-3" *ngIf="dpid==''">
+              <kendo-label text="Playlist">
+                <kendo-dropdownlist
+                [data]="PlaylistList"
+                textField="splPlaylistName"
+                valueField="splPlaylistId"
+                [valuePrimitive]="true"
+                fillMode ="outline"
+                [defaultItem]="{ text: '', value: '0' }"
+                [(ngModel)]="splPlaylistId"  (valueChange)="onChangePlaylist($event.value)"
+              >
+              </kendo-dropdownlist>
+            </kendo-label>
+            </div>
+            <div class="col-lg-12">
+              <kendo-grid class="bg-card"
+              [kendoGridBinding]="ContentList"
+              [pageSize]="50"
+              [pageable]="false"
+              [sortable]="true">
+              <kendo-grid-column field="Title" title="Title"   class="gridrowfont" >
+              </kendo-grid-column>
+              <kendo-grid-column field="artistname" title="Artist"   class="gridrowfont" >
+              </kendo-grid-column>
+              <kendo-grid-column field="MediaType" title="Media Type" class="gridrowfont" >
+              </kendo-grid-column>
+              <kendo-grid-column field="IsFind"   title="Status" class="p-0"  [width]="50">
+                <ng-template kendoGridCellTemplate let-schLst>
+                  <i class="fa fa-check-circle text-success" aria-hidden="true" *ngIf="schLst.IsFind==1"></i>
+                  <i class="fa fa-times-circle text-danger" aria-hidden="true" *ngIf="schLst.IsFind==0" ></i>
+                  </ng-template>
+            </kendo-grid-column>
+              </kendo-grid>
+      </div>
+          </div>
+        </ng-template>
+      </kendo-tabstrip-tab>
+      <kendo-tabstrip-tab title="Normal Advertisemenet Status" >
+        <ng-template kendoTabContent>
+          <div class="row">
+            <div class="col-lg-12">
+              <kendo-grid class="bg-card"
+              [kendoGridBinding]="AdsContentList"
+              [pageSize]="50"
+              [pageable]="false"
+              [sortable]="true">
+              <kendo-grid-column field="Title" title="Name"   class="gridrowfont" >
+              </kendo-grid-column>
+              <kendo-grid-column field="IsFind"   title="Status" class="p-0"  [width]="50">
+                <ng-template kendoGridCellTemplate let-schLst>
+                  <i class="fa fa-check-circle text-success" aria-hidden="true" *ngIf="schLst.IsFind==1"></i>
+                  <i class="fa fa-times-circle text-danger" aria-hidden="true" *ngIf="schLst.IsFind==0" ></i>
+                  </ng-template>
+            </kendo-grid-column>
+              </kendo-grid>
+            </div>
+          </div>
+        </ng-template>
+      </kendo-tabstrip-tab>
+      <kendo-tabstrip-tab title="Playlist Advertisemenet Status">
+        <ng-template kendoTabContent>
+          <div class="row">
+            <div class="col-lg-12">
+              <kendo-grid class="bg-card"
+              [kendoGridBinding]="adsPlContentList"
+              [pageSize]="50"
+              [pageable]="false"
+              [sortable]="true">
+              <kendo-grid-column field="Title" title="Name"   class="gridrowfont" >
+              </kendo-grid-column>
+              <kendo-grid-column field="IsFind"   title="Status" class="p-0"  [width]="50">
+                <ng-template kendoGridCellTemplate let-schLst>
+                  <i class="fa fa-check-circle text-success" aria-hidden="true" *ngIf="schLst.IsFind==1"></i>
+                  <i class="fa fa-times-circle text-danger" aria-hidden="true" *ngIf="schLst.IsFind==0" ></i>
+                  </ng-template>
+            </kendo-grid-column>
+              </kendo-grid>
+            </div>
+          </div>
+        </ng-template>
+      </kendo-tabstrip-tab>
+    </kendo-tabstrip>
+  </div>
+  </div>

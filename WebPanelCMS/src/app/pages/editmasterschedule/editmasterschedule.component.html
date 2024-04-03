@@ -1,0 +1,828 @@
+<div class="flex flex-col flex-auto min-w-0">
+  <div class="flex-auto p-6 sm:p-10">
+<!-- Header -->
+<div class="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between pb-12 border-b bg-card dark:bg-transparent">
+  <!-- Title -->
+  <div>
+      <div class="text-2xl font-medium tracking-tight leading-none">Edit Master Schedule</div>
+       
+  </div>
+  <!-- Actions -->
+  <div class="mt-4 sm:mt-0">
+    <kendo-button  (click)="gotbacktoMasters()">
+      <i class="fa fa-arrow-circle-o-left fa-lg" aria-hidden="true"></i>
+  </kendo-button>
+  </div>
+</div>
+
+
+    <div class="w-full max-w-screen-xl mx-auto">
+      <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+     
+
+<div class="container">
+<div class="row">
+   <div class="col-sm-12" *ngIf="auth.IsAdminLogin$.value == true">
+            <div class="form-row">
+              <div class="form-group col-sm-4 m-0">
+                <label for="SearchcName" class="mb-2 mr-sm-2"
+                  >Customer Name:</label
+                >
+                <kendo-dropdownlist
+        [data]="CustomerList"
+        textField="DisplayName"
+        valueField="Id"
+        [valuePrimitive]="true"
+        fillMode ="outline" aria-disabled="" readonly disabled
+        [(ngModel)]="cmbCustomer_MasterSchedule" (valueChange)="onChangeCustomer_MasterSchedule($event.value)"
+      >
+      </kendo-dropdownlist>
+              </div>
+             
+              <div class="form-group col-sm-4 m-0">
+                
+              </div>              
+            </div>
+          </div>
+          <div class="col-sm-12 mt-2">
+            <div class="row">
+                <div class="form-group col-sm-3 m-0">
+                     
+    <kendo-label text="Master Schedule Name">
+
+    
+    <kendo-textbox placeholder="" class="p-1 w-full" fillMode ="outline"
+                          kendoTextBox [(ngModel)]="NewMasterScheduleName" [ngModelOptions]="{standalone: true}"></kendo-textbox>
+                   </kendo-label>
+                  
+                   
+                </div>
+                <div class="form-group col-sm-5  pt-3 mb-0">
+                  <kendo-label
+                class="k-checkbox-label mr-2"
+                [for]="Overwritemanual"
+                text="Overwrite manual"
+              ></kendo-label>
+              <input type="checkbox" size="large"  [(ngModel)]="chkOverwritemanual" [ngModelOptions]="{standalone: true}" #Overwritemanual kendoCheckBox />
+              <kendo-button class="bg-primary ml-5" (click)="onSubmitNewMasterSchedule(cmbMasterSchedule,'Yes')">
+                Save
+            </kendo-button>
+            
+                </div>
+                   
+              </div>
+          </div>
+          </div>
+        </div>
+      
+       
+          <div class="container p-0 mt-3" *ngIf="ngbNavActiveTabId==4">
+            <div class="row mt-3 mb-3">
+              <div class="col-lg-12 border p-2 bg-primary"><h7>Playlist Schedules</h7></div>
+            </div>
+            <form [formGroup]="SFform">
+             
+              
+              <div class="table-responsive custom_scroll" style="height: 290px !important;">
+                <kendo-grid 
+                [kendoGridBinding]="CustomSchedulePlaylist"
+                [pageSize]="10"
+                [pageable]="false"
+                [sortable]="true">
+                <ng-template kendoGridToolbarTemplate>
+                   
+                    <kendo-button class="bg-primary" (click)="openPlaylistScheduleModal(modalPlaylistSchedule,'0')">
+                      <fa-icon [icon]="['fas', 'plus']"></fa-icon>Add New Playlist Schedule
+                    </kendo-button>
+
+                    <kendo-button class="bg-primary" (click)="PublishScheduleToDevices()">
+                      <fa-icon [icon]="['fas', 'plus']"></fa-icon>Publish Schedule to devices
+                    </kendo-button>
+                    <!-- <kendo-grid-spacer></kendo-grid-spacer>
+                    <kendo-button class="bg-primary" (click)="onSubmitSF(ForceUpdate, ReducePlaylist)">
+                      Save
+                    </kendo-button> -->
+                 
+                  
+                </ng-template>
+                <kendo-grid-column field="pName" title="Playlist Name"   class="gridrowfont" >
+                </kendo-grid-column>
+                <kendo-grid-column field="sTime" title="Start Time"   class="gridrowfont" >
+                </kendo-grid-column>
+                <kendo-grid-column field="eTime" title="End Time"   class="gridrowfont" >
+                </kendo-grid-column>
+                <kendo-grid-column field="wName" title="Week Days"   class="gridrowfont" >
+                </kendo-grid-column>
+
+                <kendo-grid-column field="Id"   title="" class="gridrowfont"  [width]="90">
+                  <ng-template kendoGridCellTemplate let-dataItem>
+                    <i class="fa fa-pencil-square-o mr-4 cursor-pointer" aria-hidden="true" (click)="openPlaylistScheduleModal(modalPlaylistSchedule, dataItem.Id)"></i>
+                    <i class="fa fa-trash text-danger cursor-pointer" aria-hidden="true" (click)="openDeleteModal(SchDeleteContent, dataItem.Id,'Playlist')"></i>
+                    </ng-template>
+              </kendo-grid-column>
+              </kendo-grid>
+               </div>
+               <div class="row mt-3 mb-3">
+                <div class="col-lg-12 border p-2 bg-primary"><h7>Devices</h7></div>
+              </div>
+              <div class="table-responsive mt-4 custom_scroll" style="height: 290px !important;">
+                <kendo-grid
+                [kendoGridBinding]="MasterScheduleTokenInfoList"
+                [pageSize]="15"
+                [pageable]="true"
+                [sortable]="true"
+                [selectable]="false">
+                <ng-template kendoGridToolbarTemplate>
+                   
+                  <kendo-button class="bg-primary" (click)="openAssignScheduleModal(modalAssignScheduleToPlayers)">
+                    <fa-icon [icon]="['fas', 'plus']"></fa-icon>Add new devices
+                  </kendo-button>
+              </ng-template>
+                <kendo-grid-column field="CountryName" title="Country"   class="gridrowfont"  [width]="100"></kendo-grid-column>
+                <kendo-grid-column field="CityName"   title="City" class="gridrowfont" ></kendo-grid-column>
+                <kendo-grid-column field="Location"   title="Location" class="gridrowfont" ></kendo-grid-column>
+                <kendo-grid-column field="mediaType"   title="Media Type" class="gridrowfont"  [width]="150"></kendo-grid-column>
+                <kendo-grid-column field="tno"   title="Token No" class="gridrowfont"  [width]="250"></kendo-grid-column>
+                <kendo-grid-column field="TokenID"   title="" class="gridrowfont"  [width]="90">
+                  <ng-template kendoGridCellTemplate let-dataItem>
+                    <i class="fa fa-pencil-square-o mr-4 cursor-pointer" aria-hidden="true" (click)="open(content, dataItem.TokenID)"></i>
+                    <i class="fa fa-trash text-danger cursor-pointer" aria-hidden="true" (click)="openDeleteModal(SchDeleteContent, dataItem.TokenID,'Player')"></i>
+                  </ng-template>
+              </kendo-grid-column>
+
+
+ 
+
+              </kendo-grid>                      
+              </div>
+            </form>
+            <div class="row mt-3 mb-3">
+              <div class="col-lg-12 border p-2 bg-primary"><h7>Advertisements</h7></div>
+            </div>
+            <div class="mt-4">
+              <app-masterschedule-normalad></app-masterschedule-normalad>
+            </div>
+          </div>
+
+        
+      </div>
+    </div>
+    </div>
+    </div>
+
+
+  <ng-template #SchContent let-c="close" let-d="dismiss">
+    <div class="modal-header bg-primary">
+      <h5 class="text-white">Modify Playlist Time</h5>
+      <button
+        type="button"
+        class="close text-white"
+        aria-label="Close"
+        (click)="d('Cross click')"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body bg-card">
+      <div class="container-fluid">
+        <form [formGroup]="frmTokenInfoModifyPlaylist">
+          <div class="row">
+            <div class="col-sm-12">
+              <label for="mPlaylistName" class="mb-2 mr-sm-2"
+                >Playlist Name:</label
+              >
+              <input
+                type="text"
+                formControlName="ModifyPlaylistName"
+                class="form-control mb-2 mr-sm-2"
+                id="mPlaylistName"
+                readonly
+              />
+            </div>
+            <div class="col-sm-12">
+              <div class="col-sm-6 pull-left" style="padding: 0 0 0 0">
+                <label class="mb-2 mr-sm-2" for="sTime">Start time: </label>
+                <input
+                  id="sTime"
+                  class="form-control mb-2 mr-sm-2"
+                  formControlName="ModifyStartTime"
+                  [owlDateTimeTrigger]="dt1"
+                  [owlDateTime]="dt1"
+                  readonly
+                />
+                <owl-date-time [pickerType]="'timer'" #dt1></owl-date-time>
+              </div>
+              <div class="col-sm-6 pull-right" style="padding: 0 0 0 5px">
+                <label class="mb-2 mr-sm-2" for="sTime">End time: </label>
+                <input
+                  id="eTime"
+                  class="form-control mb-2 mr-sm-2"
+                  formControlName="ModifyEndTime"
+                  [owlDateTimeTrigger]="dt2"
+                  [owlDateTime]="dt2"
+                  readonly
+                />
+                <owl-date-time [pickerType]="'timer'" #dt2></owl-date-time>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <button
+                class="btn btn-primary col-sm-2 pull-right"
+                (click)="onSubmitTokenInfoModifyPlaylist(ForceUpdate)"
+                (click)="d('Cross click')"
+              >
+                Save
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </ng-template>
+  
+  <ng-template #SchDeleteContent let-c="close" let-d="dismiss">
+    <div class="modal-header bg-primary">
+      <h5 class="text-white">Delete Schedule</h5>
+      <button
+        type="button"
+        class="close text-white"
+        aria-label="Close"
+        (click)="d('Cross click')"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body bg-card">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-12">
+            <p>Are you sure to delete?</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12">
+            <button
+              class="btn btn-primary col-sm-2 pull-right"
+              (click)="d('Cross click')"
+            >
+              <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+            </button>
+            <button
+              class="btn btn-danger col-sm-2 pull-right mr-2"
+              (click)="DeleteMasterSchedule()"
+              (click)="d('Cross click')"
+            >
+              <i class="fa fa-check fa-lg" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  
+  <ng-template class="tokenmodal" #content let-c="close" let-d="dismiss">
+    <div class="modal-header bg-primary">
+      <h5 class="text-white">Token Information</h5>
+      <button
+        type="button"
+        class="close text-white"
+        aria-label="Close"
+        (click)="tokenInfoClose()"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body bg-card">
+      <app-token-info></app-token-info>
+    </div>
+  </ng-template>
+  
+  <ng-template #ForceUpdate let-c="close" let-d="dismiss">
+    <div class="modal-header bg-primary">
+      <h5 class="text-white">Publish</h5>
+      <button
+        type="button"
+        class="close text-white"
+        aria-label="Close"
+        (click)="d('Cross click')"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body bg-card">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-12 m-0 p-0">
+            <p style="margin: 0 !important">You want to update locations now?</p>
+          </div>
+          <div class="col-sm-12 m-0 p-0 mt-1">
+            <p style="font-size: smaller; margin: 0 !important">
+              Note: Have in mind that changes will be implemented immediately with
+              restart of the program.
+            </p>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-sm-4 p-0 text-right">
+            <button
+              class="btn btn-primary"
+              (click)="ForceUpdateAll()"
+              (click)="d('Cross click')"
+            >
+            Publish Now
+            </button>
+          </div>
+          
+            <div class="col-sm-6">
+            <button
+            class="btn btn-primary"
+            (click)="PublishSchedule()"
+            (click)="d('Cross click')"
+          >
+            Publish with Schedule
+          </button></div>
+
+          <div class="col-sm-2 p-0 text-right">
+            <button
+              class="btn btn-primary"
+              (click)="d('Cross click')"
+            >
+              <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+            </button>
+            </div>
+          
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #ReducePlaylist let-c="close" let-d="dismiss">
+    <div class="modal-header bg-primary">
+      <h5 class="text-white">Reduce Playlist Content</h5>
+      <button
+        type="button"
+        class="close text-white"
+        aria-label="Close"
+        (click)="d('Cross click')"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body bg-card">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-12 m-0 p-0">
+            <p style="margin: 0 !important">Playlist size exceeds the available space.<strong> The storage limit is {{HoteltvPlaylistLimit}} MB.  Current Size {{HoteltvPlaylistSize}} MB</strong>
+              <button *ngIf="ShowLimitSubmitButton" class="btn btn-primary pull-right"  (click)="onSubmitSF(ForceUpdate, ReducePlaylist)">
+              Submit
+            </button></p>
+          </div>
+          <div class="col-sm-12 m-0 p-0 mt-1">
+            <div id="disPL" class="table-responsive search-results">
+              <table
+                class="table data-table table-striped table-bordered mydatatable"
+                id="eventtable"
+              >
+                <thead class="">
+                  <tr>
+                    <th class="WidthTitlePL bg-primary sticky-top" style="z-index: 1;">Title</th>
+                    <th class="WidthCategoryPL bg-primary sticky-top" style="z-index: 1;">
+                      Orientation</th>
+                    <th class="WidthCategoryPL bg-primary sticky-top" style="z-index: 1;">Size</th>
+                    <th class="Link-Center_Width bg-primary sticky-top" style="z-index: 1;"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="cursor-pointer" *ngFor="let plSongLst of PlaylistSongsList">
+                    <td class="WidthTitlePL">
+                      <a href="javascript:;" (click)="OpenViewContent(viewcontent, plSongLst.TitleIdLink,plSongLst.genreId,plSongLst.MediaType)">
+                        {{ plSongLst.title }}
+                      </a>
+                    </td>
+                    <td class="WidthCategoryPL">
+                      {{ plSongLst.GenreName }}
+                    </td>
+                    <td class="WidthCategoryPL">
+                      {{ plSongLst.FileSize }} MB
+                    </td>
+                    <td class="cursor-pointer Link-Center_Width">
+                      <span (click)="openTitleDeleteModal(TitleDeleteModal, plSongLst.sId)"><i
+                          class="fa fa-trash"
+                          style="color: red"
+                          aria-hidden="true"
+                        ></i
+                      ></span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+              
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template class="tokenmodal" #viewcontent let-c="close" let-d="dismiss">
+  
+    <button
+      type="button"
+      class="close text-right"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+   
+  <div class="modal-body p-0">
+    <app-view-content></app-view-content>
+  </div>
+  </ng-template>
+
+  <ng-template #TitleDeleteModal let-c="close" let-d="dismiss">
+    <div class="modal-header bg-primary">
+      <h5 class="text-white">Delete Title</h5>
+      <button
+        type="button"
+        class="close text-white"
+        aria-label="Close"
+        (click)="d('Cross click')"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body bg-card">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-12">
+            <p>Are you sure to delete?</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12">
+            <button
+              class="btn btn-primary col-sm-2 pull-right"
+              (click)="d('Cross click')"
+            >
+              <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+            </button>
+            <button
+              class="btn btn-danger col-sm-2 pull-right mr-2"
+              (click)="DeleteTitle()"
+              (click)="d('Cross click')"
+            >
+              <i class="fa fa-check fa-lg" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  
+
+  
+<ng-template #OwnTitleDeleteModal let-c="close" let-d="dismiss">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Delete Content</h5>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-card">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12 m-0 p-0 mb-3">
+          <p>{{ lblUpperMsg }}</p>
+        </div>
+      </div>
+       
+      <div class="row">
+        <div class="col-sm-12 m-0 p-0">
+         
+
+          <button
+            class="btn btn-primary col-sm-2 pull-right"
+            (click)="d('Cross click')"
+          >
+            <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+          </button>
+          <button
+            class="btn btn-danger col-sm-2 pull-right mr-2"
+            (click)="DeleteTitleOwn(ForceAction)"
+          >
+            <i class="fa fa-check fa-lg" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<ng-template #modalMasterSchedule let-c="close" let-d="dismiss">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Master Schedule</h5>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-card">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12">
+          <kendo-label
+      class="k-checkbox-label mr-2"
+      [for]="newMasterScheduleName"
+      text="Name"
+    ></kendo-label>
+    <kendo-textbox #newMasterScheduleName placeholder="" class="p-1 mb-3" fillMode ="outline"
+                          kendoTextBox [(ngModel)]="NewMasterScheduleName"></kendo-textbox>
+          
+        </div>
+        <div class="col-sm-12">
+          <kendo-label
+      class="k-checkbox-label mr-2"
+      [for]="Overwritemanual"
+      text="Overwrite manual"
+    ></kendo-label>
+    <input type="checkbox" size="large"  [(ngModel)]="chkOverwritemanual" #Overwritemanual kendoCheckBox />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <button
+            class="btn btn-primary col-sm-2 pull-right"
+            type="button"
+            (click)="onSubmitNewMasterSchedule('0','')"
+          >
+            Save
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #modalPlaylistSchedule let-c="close" let-d="dismiss">
+  <div class="modal-header bg-primary">
+    <h6 *ngIf="EditPschId=='0'">Add New Playlist Schedule</h6>
+    <h6 *ngIf="EditPschId!='0'">Update Playlist Schedule</h6>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close" (click)="PlaylistScheduleClose()"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-card">
+    <div class="container-fluid">
+      <form [formGroup]="SFform">
+      <div class="row">
+        <div class="col-sm-12 m-0">
+           
+            <label class="mb-2 mr-sm-2" for="sTime"
+              >Schedule Type:
+            </label>
+            <kendo-dropdownlist
+        [data]="ScheduleTypeList"
+        textField="text"
+        valueField="value"
+        [valuePrimitive]="true"
+        fillMode ="outline"
+        formControlName="ScheduleType" (valueChange)="onChangeScheduleType($event.value)"
+      >
+      </kendo-dropdownlist>
+          </div>
+         
+
+        
+      </div>
+      <div class="row mb-0">
+
+        <div class="col-sm-6">
+            <label for="fName" class="mb-2 mr-sm-2"
+              >Playlist Group:</label
+            >
+            <kendo-dropdownlist
+        [data]="FormatList"
+        textField="DisplayName"
+        valueField="Id"
+        [valuePrimitive]="true"
+        fillMode ="outline"
+        formControlName="FormatId" (valueChange)="onChangeFormat($event,'')"
+      >
+      </kendo-dropdownlist>
+            <div
+              *ngIf="submitted && f.FormatId.errors"
+              class="invalid-feedback"
+            ></div>
+          </div>
+        <div class=" col-sm-6">
+          <label for="pName" class="mb-2 mr-sm-2"
+            >Playlist Name:</label
+          >
+          <kendo-dropdownlist
+        [data]="PlaylistList"
+        textField="DisplayName"
+        valueField="Id"
+        [valuePrimitive]="true"
+        fillMode ="outline"
+        formControlName="PlaylistId" 
+      >
+      </kendo-dropdownlist>
+
+          <div
+            *ngIf="submitted && f.PlaylistId.errors"
+            class="invalid-feedback"
+          ></div>
+        </div>
+
+        <div
+          *ngIf="f.ScheduleType.value !== 'PercentageSchedule'"
+          class=" col-sm-12"
+        >
+          <div class="col-lg-6  pull-left">
+            <label class="mb-2 mr-sm-2" for="sTime"
+              >Start time:
+            </label>
+            <kendo-timepicker format="HH:mm"  [fillMode] ="selectedFillMode" formControlName="startTime"></kendo-timepicker>
+            <!-- <ngb-timepicker
+              formControlName="startTime"
+            ></ngb-timepicker> -->
+          </div>
+          <div class="col-lg-6 pull-right">
+            <label class="mb-2 mr-sm-2" for="sTime"
+              >End time:
+            </label>
+
+            <kendo-timepicker format="HH:mm"  [fillMode] ="selectedFillMode" formControlName="EndTime"></kendo-timepicker>
+            <!-- <ngb-timepicker
+              formControlName="EndTime"
+            ></ngb-timepicker> -->
+          </div>
+        </div>
+       <div  class=" col-sm-6">
+                      <label for="pName" class="mb-2 mr-sm-2"
+                        >Volume:</label
+                      >
+                      <kendo-dropdownlist
+        [data]="VolumeList"
+        textField="text"
+        valueField="value"
+        [valuePrimitive]="true"
+        fillMode ="outline"
+        formControlName="volume"
+      >
+      </kendo-dropdownlist>
+                    </div>
+
+        <div
+          *ngIf="f.ScheduleType.value !== 'PercentageSchedule'"
+          class=" col-sm-6" >
+          <kendo-label text="Week Days:">
+            <kendo-multiselect
+              [data]="dropdownList"
+              [kendoMultiSelectSummaryTag]="1"
+              formControlName="wList"
+              fillMode ="outline"
+              [checkboxes]="true"
+              [autoClose]="false"
+              textField="itemName"
+              valueField="id"
+            ></kendo-multiselect>
+          </kendo-label>
+          <!-- <label class="mb-2 mr-sm-2" for="week">Week Days:</label>
+          <ng-multiselect-dropdown
+            id="week"
+            [placeholder]="' '"
+            [settings]="dropdownSettings"
+            [data]="dropdownList"
+            formControlName="wList"
+            (onSelect)="onItemSelect($event)"
+            (onSelectAll)="onSelectAll($event)"
+          >
+          </ng-multiselect-dropdown> -->
+        </div>
+        <div
+          *ngIf="f.ScheduleType.value === 'PercentageSchedule'"
+          class=" col-sm-6"
+        >
+          <label class="mb-2 mr-sm-2" for="week">Percentage:</label>
+          <input
+            type="number"
+            min="1"
+            max="100"
+            formControlName="PercentageValue"
+            class="form-control"
+          />
+        </div>
+        <div class="col-sm-6">
+          <kendo-label
+      class="k-checkbox-label mr-2"
+      [for]="Overwritemanual1"
+      text="Overwrite manual"
+    ></kendo-label>
+    <input type="checkbox" size="large"  #Overwritemanual1 kendoCheckBox />
+    
+        </div>
+        <div class=" col-sm-12 text-right">
+          <kendo-button class="bg-primary" style="margin-top: 32px" (click)="AddItem()">
+            <i
+              class="fa fa-plus-circle fa-lg"
+              aria-hidden="true"
+            ></i>
+        </kendo-button> 
+        </div>
+        
+      </div>
+    </form>
+    </div>
+  </div>
+</ng-template>
+<ng-template #modalAssignScheduleToPlayers let-c="close" let-d="dismiss">
+  <div class="modal-header bg-primary">
+    <h6>Add devices</h6>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-card">
+    <!-- <div class="form-group col-sm-4 mb-2 ">
+      <label for="mName" class="mb-2 mr-sm-2"
+        >Media Type:</label
+      >
+      <kendo-dropdownlist
+      [data]="MediaTypeList"
+      textField="DisplayName"
+      valueField="Id"
+      [valuePrimitive]="true"
+      fillMode ="outline" [ngModelOptions]="{ standalone: true }"
+      [(ngModel)]="cmbMediaType" (valueChange)="onChangeMediaType($event.value)"
+    >
+    </kendo-dropdownlist>
+    </div> -->
+      <div class="row">
+      <div class="col-lg-12">
+        <kendo-grid
+        [kendoGridBinding]="TokenList"
+        [pageSize]="50"
+        [pageable]="true"
+        [sortable]="true"
+        [selectable]="true"
+        kendoGridSelectBy="tokenid"
+        [(selectedKeys)]="SelectionToken" [loading]="loading">
+        <ng-template kendoGridToolbarTemplate>
+          <div class="col-md-3 pr-0">
+            <kendo-textbox  placeholder="Search" class="w-full" fillMode ="outline"
+            kendoTextBox [(ngModel)]="searchText" (valueChange)="onPlayerFilter($event)"></kendo-textbox>
+          </div>
+
+ <kendo-grid-spacer></kendo-grid-spacer>
+ <kendo-button class="bg-primary" (click)="onSubmitSF(ForceUpdate, ReducePlaylist)">
+  Save
+</kendo-button>
+ 
+
+        </ng-template>
+        <kendo-grid-checkbox-column class="gridrowfont"  [width]="90"
+[showSelectAll]="true"
+></kendo-grid-checkbox-column>
+        <kendo-grid-column field="countryName" title="Country"   class="gridrowfont"  [width]="100"></kendo-grid-column>
+        <kendo-grid-column field="city"   title="City" class="gridrowfont" ></kendo-grid-column>
+        <kendo-grid-column field="location"   title="Location" class="gridrowfont" ></kendo-grid-column>
+        
+        <kendo-grid-column field="MediaType"   title="Media Type" class="gridrowfont"  [width]="150"></kendo-grid-column>
+        <kendo-grid-column field="tokenCode"   title="Token No" class="gridrowfont"  [width]="250"></kendo-grid-column>
+
+        <!-- <kendo-grid-column field="tokenid"   title="" class="gridrowfont"  [width]="100">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            <kendo-button class="bg-primary mr-2" (click)="open(content, dataItem.tokenid)">
+              <span class="k-icon k-i-pencil"></span>
+          </kendo-button>
+          
+            </ng-template>
+      </kendo-grid-column> -->
+      </kendo-grid>                      
+      </div>
+      </div>
+     
+    
+  </div>
+</ng-template>
