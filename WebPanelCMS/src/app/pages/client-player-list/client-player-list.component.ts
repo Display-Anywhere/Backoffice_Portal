@@ -3059,69 +3059,125 @@ tselect(){
   this.FilterDropdownDefaultValue=this.RecordsFilterList[1]
 }
 PlaylistContentList=[]
+NetworkSpeedlist=[]
         playlist_Name=""
 
-        async openPlaylistContent(modalName,id,pname){
-          this.playlist_Name=pname
-          await this.FillPlaylistSongs(id)
-          this.modalService.open(modalName,{ size: 'lg', centered:true})
+  async openPlaylistContent(modalName,id,pname){
+    this.playlist_Name=pname
+    await this.FillPlaylistSongs(id)
+    this.modalService.open(modalName,{ size: 'lg', centered:true})
+  }
+  FillPlaylistSongs(id) {
+    this.PlaylistContentList=[];
+    this.loading = true;
+    this.pService.PlaylistSong(id, 'No').pipe().subscribe((data) => {
+          var returnData = JSON.stringify(data);
+          var obj = JSON.parse(returnData);
+          this.PlaylistContentList = obj;
+          this.loading = false;
+        },
+        (error) => {
+          this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
+          this.loading = false;
         }
-        FillPlaylistSongs(id) {
-          this.PlaylistContentList=[];
-          this.loading = true;
-          this.pService.PlaylistSong(id, 'No').pipe().subscribe((data) => {
-                var returnData = JSON.stringify(data);
-                var obj = JSON.parse(returnData);
-                this.PlaylistContentList = obj;
-                this.loading = false;
-              },
-              (error) => {
-                this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
-                this.loading = false;
-              }
-            );
-        }
-        OpenViewPlaylistContent(modalName, url,genreId,MediaType){
-          let oType="LS"
-          if (genreId =="303"){
-            oType="PT"
-          }
-          if (genreId =="324"){
-            oType="PT"
-          }
-            localStorage.setItem("ViewContent",url)
-            localStorage.setItem("oType",oType)
-            localStorage.setItem("mViewType",MediaType)
-            
-            if (oType=="LS"){
-              this.modalService.open(modalName, {
-                size: 'Template',
-                centered: true
-              }); 
-            }
-            if (oType=="PT"){
-              this.modalService.open(modalName,{
-                size: 'PT-Template',
-                centered: true
-              }); 
-            }
-            
-          }        
+      );
+  }
+  OpenViewPlaylistContent(modalName, url,genreId,MediaType){
+    let oType="LS"
+    if (genreId =="303"){
+      oType="PT"
+    }
+    if (genreId =="324"){
+      oType="PT"
+    }
+      localStorage.setItem("ViewContent",url)
+      localStorage.setItem("oType",oType)
+      localStorage.setItem("mViewType",MediaType)
+      
+      if (oType=="LS"){
+        this.modalService.open(modalName, {
+          size: 'Template',
+          centered: true
+        }); 
+      }
+      if (oType=="PT"){
+        this.modalService.open(modalName,{
+          size: 'PT-Template',
+          centered: true
+        }); 
+      }
+      
+    }        
 
-          public onFilterPublish(inputValue: string): void {
-            this.ActiveTokenList = process(this.MainActiveTokenList, {
-                filter: {
-                    logic: 'or',
-                    filters: [
-                        {
-                            field: this.getField,
-                            operator: 'contains',
-                            value: inputValue
-                        }
-                    ]
+  public onFilterPublish(inputValue: string): void {
+    this.ActiveTokenList = process(this.MainActiveTokenList, {
+        filter: {
+            logic: 'or',
+            filters: [
+                {
+                    field: this.getField,
+                    operator: 'contains',
+                    value: inputValue
                 }
-            }).data;
+            ]
+        }
+    }).data;
+  
+    this.dataBinding? this.dataBinding.skip = 0 : null;
+  }       
+  OpenBoxRestartBoxModal(content,tid){
+    this.Token_Id_App = tid;
+  this.modalService.open(content, {centered: true });
+  }
+  BoxRestart(){
+    this.loading = true;
+  this.serviceLicense
+    .BoxRestart([this.Token_Id_App])
+    .pipe()
+    .subscribe(
+      (data) => {
+        var returnData = JSON.stringify(data);
+        var obj = JSON.parse(returnData);
+        if (obj.Responce == '1') {
+          this.toastr.info('Request is submitted', 'Success!');
+          this.loading = false;
+        } else {
+          this.toastr.error(
+            'Apologies for the inconvenience.The error is recorded.',
+            ''
+          );
+        }
+        this.loading = false;
+      },
+      (error) => {
+        this.toastr.error(
+          'Apologies for the inconvenience.The error is recorded.',
+          ''
+        );
+        this.loading = false;
+      }
+    );
+  }
+  async OpenNetworkSpeedLogsModal(modalName,id,pname){
+    await this.GetTokenNetworkSpeed(id)
+    this.modalService.open(modalName,{ size: 'lg', centered:true, windowClass: 'tokenmodal'})
+  }
+  GetTokenNetworkSpeed(id) {
+    this.NetworkSpeedlist=[];
+    this.loading = true;
+    this.pService.GetTokenNetworkSpeed(id).pipe().subscribe((data) => {
+      var returnData = JSON.stringify(data);
+      var objData = JSON.parse(returnData);
+      if (objData.response!="0"){
+        this.NetworkSpeedlist= JSON.parse(objData.data)
+      }
           
-            this.dataBinding? this.dataBinding.skip = 0 : null;
-          }          
+          this.loading = false;
+        },
+        (error) => {
+          this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
+          this.loading = false;
+        }
+      );
+  }  
 }

@@ -140,6 +140,12 @@ export class SerLicenseHolderService {
     return this.http.post(this.cApi.DeleteLogo, params, { headers: headers })
       .pipe((data => { return data; }))
   }
+  BoxRestart(tokenid) {
+    let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    var params = JSON.stringify({ tokenid: tokenid });
+    return this.http.post(this.cApi.BoxRestart, params, { headers: headers })
+      .pipe((data => { return data; }))
+  }
   SaveGenre(id, gname, mediatype) {
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     var params = JSON.stringify({ id: id, genrename: gname, mediatype: mediatype });

@@ -43,6 +43,9 @@
                   <kendo-button class="mb-2 mr-sm-2 mr-1" (click)="OpenUploadContentModel(UploadContent)">
                     Add Signage
                 </kendo-button> 
+                <kendo-button class="mb-2 mr-sm-2 mr-1 ml-2" (click)="OpenUploadContentModel(AddOwnUrl)">
+                  Add Template Url
+              </kendo-button> 
                 </div>
                 <div class="col-lg-12">
                   <kendo-grid
@@ -182,18 +185,21 @@
                   <kendo-gridlayout class="bg-card"
                         [align]="{ horizontal: hAlign, vertical: vAlign }"
                         [rows]="[100, 100, 100, 100, 100]"
-                        [cols]="['12.25%'  ,'12.25%', '12.25%', '12.25%', '12.25%', '12.25%','12.25%','12.25%']"
+                        [cols]="['12%'  ,'12%', '12%', '12%', '12%', '12%','12%','12%']"
                         [gap]="5"
                     >
                     <kendo-gridlayout-item
                         *ngFor="let item of PlaylistsFormatItems[itemPage.page]; let i = index"
                         class="box box-{{ i }} "
                         [ngStyle]="{backgroundColor: PlaylistsFormatItems[0][i].color }"
-                        style="cursor: pointer; display:flex; justify-content: center; align-items: center; border-radius: 5px"
-                        (click)="GetFormatPlaylist(item.id,item.title)"
+                        style="cursor: pointer;  border-radius: 5px;overflow: hidden;"
+                         
                         >
-                            <h3 style="vertical-align:middle;color: white; font-size: 14px;">{{item.title}}</h3>
-                        </kendo-gridlayout-item>
+                        <i class="fa fa-cog" (click)="PlaylistAndGroudSettings(modalFormat,item.id,item.title,modalEditPlaylist,item)" aria-hidden="true" style="display: flex;justify-content: end;margin: 4px 4px 0px 0px;"></i>
+                        <h3 (click)="GetFormatPlaylist(item.id,item.title)" class="break-all" style="vertical-align: middle;color: white;font-size: 12px;display: flex;justify-content: center;align-items: center;height: 76%;">
+                         <span class="w-full text-center">{{item.title}}</span>
+                        </h3>
+                      </kendo-gridlayout-item>
                   </kendo-gridlayout>
                 </ng-template>
               </kendo-scrollview>
@@ -263,7 +269,7 @@
                     <kendo-gridlayout class="bg-card"
                           [align]="{ horizontal: hAlign, vertical: vAlign }"
                           [rows]="[100, 100, 100, 100, 100]"
-                          [cols]="['12.25%'  ,'12.25%', '12.25%', '12.25%', '12.25%', '12.25%','12.25%','12.25%']"
+                          [cols]="['12%'  ,'12%', '12%', '12%', '12%', '12%','12%','12%']"
                           [gap]="5"
                       >
                       <kendo-gridlayout-item
@@ -351,7 +357,7 @@
                   <kendo-gridlayout
                       [align]="{ horizontal: hAlign, vertical: vAlign }"
                       [rows]="[100, 100, 100, 100, 100]"
-                      [cols]="['12.25%'  ,'12.25%', '12.25%', '12.25%', '12.25%', '12.25%','12.25%','12.25%']"
+                      [cols]="['12%'  ,'12%', '12%', '12%', '12%', '12%','12%','12%']"
                       [gap]="5"
                   >
                   <kendo-gridlayout-item
@@ -480,17 +486,21 @@ kendoRadioButton
                   <kendo-gridlayout class="bg-card"
                         [align]="{ horizontal: hAlign, vertical: vAlign }"
                         [rows]="[100, 100, 100, 100, 100]"
-                        [cols]="['12.25%'  ,'12.25%', '12.25%', '12.25%', '12.25%', '12.25%','12.25%','12.25%']"
+                        [cols]="['12%'  ,'12%', '12%', '12%', '12%', '12%','12%','12%']"
                         [gap]="5"
                     >
                     <kendo-gridlayout-item
                         *ngFor="let item of PlaylistsFormatItems[itemPage.page]; let i = index"
                         class="box box-{{ i }} "
                         [ngStyle]="{backgroundColor: PlaylistsFormatItems[0][i].color }"
-                        style="cursor: pointer; display:flex; justify-content: center; align-items: center; border-radius: 5px"
-                        (click)="GetFormatPlaylist(item.id,item.title)"
+                        style="cursor: pointer;  border-radius: 5px;overflow: hidden;"
+                         
                         >
-                            <h3 style="vertical-align:middle;color: white; font-size: 14px;">{{item.title}}</h3>
+                        <i class="fa fa-cog" aria-hidden="true" style="display: flex;justify-content: end;margin: 4px 4px 0px 0px;"></i>
+                        <h3 (click)="GetFormatPlaylist(item.id,item.title)" class="break-all" style="vertical-align: middle;color: white;font-size: 12px;display: flex;justify-content: center;align-items: center;height: 76%;">
+                         <span class="w-full text-center">{{item.title}}</span>
+                        </h3>
+
                         </kendo-gridlayout-item>
                   </kendo-gridlayout>
                 </ng-template>
@@ -561,7 +571,7 @@ kendoRadioButton
                     <kendo-gridlayout class="bg-card"
                           [align]="{ horizontal: hAlign, vertical: vAlign }"
                           [rows]="[100, 100, 100, 100, 100]"
-                          [cols]="['12.25%'  ,'12.25%', '12.25%', '12.25%', '12.25%', '12.25%','12.25%','12.25%']"
+                          [cols]="['12%'  ,'12%', '12%', '12%', '12%', '12%','12%','12%']"
                           [gap]="5"
                       >
                       <kendo-gridlayout-item
@@ -657,7 +667,7 @@ kendoRadioButton
                 <kendo-gridlayout class="bg-card"
                     [align]="{ horizontal: hAlign, vertical: vAlign }"
                     [rows]="[100, 100, 100, 100, 100]"
-                    [cols]="['12.25%'  ,'12.25%', '12.25%', '12.25%', '12.25%', '12.25%','12.25%','12.25%']"
+                    [cols]="['12%'  ,'12%', '12%', '12%', '12%', '12%','12%','12%']"
                     [gap]="5"
                 >
                 <kendo-gridlayout-item
@@ -754,7 +764,7 @@ kendoRadioButton
               <kendo-gridlayout class="bg-card"
                     [align]="{ horizontal: hAlign, vertical: vAlign }"
                     [rows]="[100, 100, 100, 100, 100]"
-                    [cols]="['12.25%'  ,'12.25%', '12.25%', '12.25%', '12.25%', '12.25%','12.25%','12.25%']"
+                    [cols]="['12%'  ,'12%', '12%', '12%', '12%', '12%','12%','12%']"
                     [gap]="5"
                 >
                 <kendo-gridlayout-item
@@ -835,7 +845,7 @@ kendoRadioButton
                 <kendo-gridlayout class="bg-card"
                       [align]="{ horizontal: hAlign, vertical: vAlign }"
                       [rows]="[100, 100, 100, 100, 100]"
-                      [cols]="['12.25%'  ,'12.25%', '12.25%', '12.25%', '12.25%', '12.25%','12.25%','12.25%']"
+                      [cols]="['12%'  ,'12%', '12%', '12%', '12%', '12%','12%','12%']"
                       [gap]="5"
                   >
                   <kendo-gridlayout-item
@@ -867,6 +877,9 @@ kendoRadioButton
                   <kendo-button class="mb-2 mr-sm-2 mr-1" (click)="OpenUploadContentModel(DownloadTemplate)">
                     Add Templates
                 </kendo-button> 
+                <kendo-button class="mb-2 mr-sm-2 mr-1 ml-2" (click)="OpenEditTemplates('')">
+                  Edit Templates
+              </kendo-button> 
                 </div>
                 <div class="col-lg-12">
                   <kendo-grid
@@ -955,7 +968,7 @@ kendoRadioButton
                   <kendo-gridlayout class="bg-card"
                         [align]="{ horizontal: hAlign, vertical: vAlign }"
                         [rows]="[100, 100, 100, 100, 100]"
-                        [cols]="['12.25%'  ,'12.25%', '12.25%', '12.25%', '12.25%', '12.25%','12.25%','12.25%']"
+                        [cols]="['12%'  ,'12%', '12%', '12%', '12%', '12%','12%','12%']"
                         [gap]="5"
                     >
                     <kendo-gridlayout-item
@@ -1036,7 +1049,7 @@ kendoRadioButton
                     <kendo-gridlayout class="bg-card"
                           [align]="{ horizontal: hAlign, vertical: vAlign }"
                           [rows]="[100, 100, 100, 100, 100]"
-                          [cols]="['12.25%'  ,'12.25%', '12.25%', '12.25%', '12.25%', '12.25%','12.25%','12.25%']"
+                          [cols]="['12%'  ,'12%', '12%', '12%', '12%', '12%','12%','12%']"
                           [gap]="5"
                       >
                       <kendo-gridlayout-item
@@ -1450,6 +1463,22 @@ kendoRadioButton
     <app-signage-content-upload></app-signage-content-upload>
   </div>
 </ng-template>
+<ng-template  #AddOwnUrl let-c="close" let-d="dismiss">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Add Template Url</h5>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-card p-6">
+    <app-template-url></app-template-url>
+  </div>
+</ng-template>
 <ng-template  #DownloadTemplate let-c="close" let-d="dismiss">
   <div class="modal-header bg-primary">
     <h5 class="text-white">Templates</h5>
@@ -1590,4 +1619,86 @@ kendoRadioButton
 <div class="modal-body bg-card p-0">
   <app-view-content></app-view-content>
 </div>
+</ng-template>
+
+<ng-template #modalEditPlaylist let-c="close" let-d="dismiss">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Playlist Settings</h5>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-card">
+              <div class="row">
+                <div class="col-lg-12 mb-5">
+                  <kendo-label text="Playlist Name">
+                      <kendo-textbox [(ngModel)]="txtplaylistname" fillMode ="outline"></kendo-textbox>
+                  </kendo-label>
+                </div>
+                <div class="col-lg-6">
+                  <div class="row">
+                    <div class="col-lg-10">
+                  <kendo-label
+                  class="k-checkbox-label mr-2"
+                  [for]="NoSound"
+                  text="No Sound"
+                ></kendo-label>
+                </div>
+                <div class="col-lg-2">
+                <input type="checkbox" size="large"  [(ngModel)]="chkNoSoundPlaylist" [ngModelOptions]="{standalone: true}" #NoSound kendoCheckBox />
+              </div>
+              </div>
+                </div>
+</div>
+<div class="row"> 
+                <div class="col-lg-6 mt-5">
+                  <div class="row">
+                    <div class="col-lg-10">
+                  <kendo-label
+                  class="k-checkbox-label mr-2"
+                  [for]="Fixed"
+                  text="Fixed"
+                ></kendo-label>
+              </div>
+              <div class="col-lg-2">
+                <input type="checkbox" size="large"  [(ngModel)]="chkFixedPlaylist" [ngModelOptions]="{standalone: true}" #Fixed kendoCheckBox />
+              </div>
+              </div>
+                </div>
+              </div>
+              <div class="row"> 
+                <div class="col-lg-6 mt-5">
+                  <div class="row">
+                  <div class="col-lg-10">
+                  <kendo-label
+                  class="k-checkbox-label mr-2"
+                  [for]="Allowduplicatecontent"
+                  text="Allow duplicate content"
+                ></kendo-label>
+                </div>
+                <div class="col-lg-2">
+                  <input type="checkbox" size="large"  [(ngModel)]="chkAllowduplicatecontentPlaylist" [ngModelOptions]="{standalone: true}" #Allowduplicatecontent kendoCheckBox />
+                </div>
+              </div>
+                </div>
+                 
+                <div class="col-lg-12 text-right mt-5">
+                      <kendo-button class="bg-primary" (click)="UpdatePlaylist()">
+                        Save
+                      </kendo-button>
+                
+                </div>
+                
+              </div>
+        
+        
+         
+       
+    
+  </div>
 </ng-template>

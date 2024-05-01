@@ -174,7 +174,16 @@
               </span>
         </ng-template>
     </kendo-grid-column>
-   
+    <kendo-grid-column field="IshotelTvOnline" [filterable]="false" [sortable]="false"  title="" width="70">
+      <ng-template kendoGridCellTemplate let-dataItem>
+          <i (click)="OpenBoxRestartBoxModal(RestartBox, dataItem.tokenid)" class="fa fa-lg fa-power-off text-danger" aria-hidden="true"  data-toggle="tooltip" data-placement="top" title="Restart Box"></i>
+      </ng-template>
+  </kendo-grid-column>
+  <kendo-grid-column field="IshotelTvOnline" [filterable]="false" [sortable]="false"  title="" width="70">
+    <ng-template kendoGridCellTemplate let-dataItem>
+        <i (click)="OpenNetworkSpeedLogsModal(NetworkSpeedLogs, dataItem.tokenid)" class="fa fa-lg fa-sitemap text-primary" aria-hidden="true"  data-toggle="tooltip" data-placement="top" title="Device Internet Speed Logs"></i>
+    </ng-template>
+</kendo-grid-column>
 
     
     </kendo-grid>
@@ -2292,6 +2301,83 @@
               </kendo-grid-column>
               <kendo-grid-column field="Artist" title="Artist"></kendo-grid-column>
               <kendo-grid-column field="GenreName" title="Genre"></kendo-grid-column>
+            </kendo-grid>
+     
+  </div>
+</ng-template>
+<ng-template #RestartBox let-c="close" let-d="dismiss">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Restart Box</h5>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-card">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12">
+          <p>Are you sure to restart box?</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <button
+            class="btn btn-primary col-sm-2 pull-right"
+            (click)="d('Cross click')"
+          >
+            <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+          </button>
+          <button
+            class="btn btn-danger col-sm-2 pull-right mr-2"
+            (click)="BoxRestart()"
+            (click)="d('Cross click')"
+          >
+            <i class="fa fa-check fa-lg" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template class="tokenmodal" #NetworkSpeedLogs let-c="close" let-d="dismiss">
+  <div class="modal-header bg-primary">
+    <h5 class="text-white">Network Speed Logs</h5>
+    <button
+    type="button"
+    class="close text-white"
+    aria-label="Close"
+    (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-card p-6">
+    <kendo-grid class="h-128"
+              [kendoGridBinding]="NetworkSpeedlist"
+              [pageSize]="25"
+              [pageable]="true"
+              [sortable]="true">
+              <kendo-grid-column field="downloadSpeed" title="Download Speed"></kendo-grid-column>
+              <kendo-grid-column field="uploadSpeed" title="Upload Speed"></kendo-grid-column>
+              <kendo-grid-column field="latency" title="Latency"></kendo-grid-column>
+              <kendo-grid-column field="startDatetime" title="Start Datetime">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                   {{dataItem.startDatetime |  date:'dd/MMM/yyyy, hh:mm:ss a'}}
+                  
+                </ng-template>
+              </kendo-grid-column>
+              <kendo-grid-column field="endDatetime" title="End Datetime">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                   {{dataItem.endDatetime |  date:'dd/MMM/yyyy, hh:mm:ss a'}}
+                  
+                </ng-template>
+              </kendo-grid-column>
             </kendo-grid>
      
   </div>

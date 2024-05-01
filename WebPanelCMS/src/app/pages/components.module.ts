@@ -41,6 +41,7 @@ import { UploadsModule } from "@progress/kendo-angular-upload";
 import { KpnchannelComponent } from './kpnchannel/kpnchannel.component';
 import { DownloadTemplateComponent } from './download-template/download-template.component';
 import { MasterscheduleNormaladComponent } from './masterschedule-normalad/masterschedule-normalad.component';
+import { TemplateUrlComponent } from './template-url/template-url.component';
 export const MY_CUSTOM_FORMATS = {
   parseInput: 'LL LT',
   fullPickerInput: 'LL LT',
@@ -54,7 +55,7 @@ export const MY_CUSTOM_FORMATS = {
 @NgModule({
   declarations: [  MediaLibraryWithTabComponent,MasterscheduleComponent,EditmasterscheduleComponent,
     TokenInfoComponent,PlaylistsTitlesDownloadStatusComponent,SignageContentUploadComponent,ViewContentComponent,
-    ClientPlayerListComponent,ManagegroupsComponent, CustomerDashboardComponent, DComponent,AdPlaylistsComponent, NormaladComponent, InstantMobileComponent, UsersComponent, KpnchannelComponent, DownloadTemplateComponent, MasterscheduleNormaladComponent
+    ClientPlayerListComponent,ManagegroupsComponent, CustomerDashboardComponent, DComponent,AdPlaylistsComponent, NormaladComponent, InstantMobileComponent, UsersComponent, KpnchannelComponent, DownloadTemplateComponent, MasterscheduleNormaladComponent,TemplateUrlComponent
 ],
  
   exports: [

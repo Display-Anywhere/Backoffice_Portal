@@ -3,13 +3,13 @@ import { Injectable } from "@angular/core";
   providedIn: 'root'
 })
 export class ConfigAPI {
-  private Host = 'https://uatapi.display-anywhere.com/api/';
+ // private Host = 'https://uatapi.display-anywhere.com/api/';
   //private Host = 'https://api.test.display-anywhere.com/api/';
   //private Host = 'https://api.uat.display-anywhere.com/api/';
   //Host=localStorage.getItem('host')
   //Host: string = "https://applicationaddons.com/api/";
    //private Host: string = "https://panelapi.advikon.com/api/";
-  // private Host: string = "http://localhost:60328/api/";
+   private Host: string = "http://localhost:60328/api/";
    //private Host_panel: string = "https://api.advikon.com/api/";
    //private Host_panel: string = "http://localhost:60328/api/";
    FillQueryCombo: string = this.Host + 'FillQueryCombo';
@@ -235,6 +235,8 @@ export class ConfigAPI {
    GetDashboardCityDevices: string = this.Host + 'GetDashboardCityDevices';
    UploadUserProfilePic: string = this.Host + 'UploadUserProfilePic';
    MasterSchedulePublication: string = this.Host + 'MasterSchedulePublication';
+   BoxRestart: string = this.Host + 'BoxRestart';
+   GetTokenNetworkSpeed: string = this.Host + 'GetTokenNetworkSpeed';
 }
 
 // localStorage.setItem('UserId', obj.UserId);

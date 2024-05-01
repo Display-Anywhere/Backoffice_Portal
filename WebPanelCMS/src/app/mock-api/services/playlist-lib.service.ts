@@ -15,6 +15,12 @@ export class PlaylistLibService {
     return this.http.post(this.cApi.FillQueryCombo, params, { headers })
       .pipe((data => data));
   }
+  FillCustomerWithKey(qry) {
+    let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    var params = JSON.stringify({ Query: qry });
+    return this.http.post(this.cApi.FillCustomerWithKey, params, { headers: headers })
+      .pipe((data => { return data; }))
+  }
   Playlist(id: string) {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     const params = JSON.stringify({ Id: id });
@@ -25,6 +31,12 @@ export class PlaylistLibService {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     const params = JSON.stringify({ playlistid: id, IsBestOffPlaylist });
     return this.http.post(this.cApi.PlaylistSong, params, { headers })
+      .pipe((data => data));
+  }
+  GetTokenNetworkSpeed(id) {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const params = JSON.stringify({ id: id });
+    return this.http.post(this.cApi.GetTokenNetworkSpeed, params, { headers })
       .pipe((data => data));
   }
   CommanSearch(type, text, mediaType, IsExplicit, PageNo, ClientId,id) {

@@ -72,6 +72,8 @@ export class MediaLibraryWithTabComponent implements OnInit {
   CustomerList=[]
   expansionpanelIndex
   SelectionTitle
+  OtherKey="";
+  OtherUrl="";
   rdoSearchFilter="Genre"
   rdoSearchFilterList=[]
   cmdrdoSearchFilter=null
@@ -105,6 +107,10 @@ export class MediaLibraryWithTabComponent implements OnInit {
   ExpansionPanelExpanded=true
   PlaylistSongsSortList=[]
   PlaylistContentRowSelection
+  chkNoSoundPlaylist=false
+  chkFixedPlaylist=false
+  chkAllowduplicatecontentPlaylist=false
+  EditPlaylistId="0"
   @ViewChild('flocation') flocationElement: ElementRef;
   @ViewChild(DataBindingDirective) dataBinding?: DataBindingDirective;
 
@@ -131,7 +137,7 @@ export class MediaLibraryWithTabComponent implements OnInit {
       localStorage.getItem('DBType');
 
     this.loading = true;
-    this.pService.FillCombo(q).pipe().subscribe((data) => {
+    this.pService.FillCustomerWithKey(q).pipe().subscribe((data) => {
           var returnData = JSON.stringify(data);
           this.CustomerList = JSON.parse(returnData);
           this.loading = false;
@@ -164,6 +170,11 @@ export class MediaLibraryWithTabComponent implements OnInit {
      // await this.GetLibraryPlaylists(3)
     }
     await this.onAction(0,'Signage')
+    const obj= this.CustomerList.filter(fId => fId.Id == id)
+    console.log(obj)
+    const url='https://content.display-anywhere.com/api/login?key='+ obj[0].apikey;
+    this.OtherUrl= url+'&redirectUri=https://content.display-anywhere.com/my-templates/';
+    this.OtherKey=obj[0].apikey;
   }
   public async onAction(index: number,mediaType): Promise<void> {
     if (this.cmbCustomer=="0"){
@@ -1053,6 +1064,7 @@ GetSpecialPlayListType() {
               );
             }
             this.txtDeletedFormatName = '';
+            this.ClearEditPlaylist()
             this.FillFormat();
           } else if (obj.Responce == '-2') {
             this.toastr.info('This campaign name already exists', '');
@@ -1427,10 +1439,9 @@ GetSpecialPlayListType() {
           for (let index = 0; index < ScrollPageCount; index++) {
             this.PlaylistsFormatScrollViewData.push({page:index})
           }
-          console.log(this.PlaylistsFormatScrollViewData)
           for(var i = 0; i < objLibraryGenreList.length; i++){
             this.LibraryGenreList.push({title: objLibraryGenreList[i].splPlaylistName,id: objLibraryGenreList[i].splPlaylistId})
-            objLibraryGenreItems.push({color: this.getRandomColor(), title: objLibraryGenreList[i].splPlaylistName,id: objLibraryGenreList[i].splPlaylistId})
+            objLibraryGenreItems.push({color: this.getRandomColor(), title: objLibraryGenreList[i].splPlaylistName,id: objLibraryGenreList[i].splPlaylistId, IsVideoMute:objLibraryGenreList[i].IsVideoMute,IsShowDefault:objLibraryGenreList[i].IsShowDefault,chkDuplicateContent:objLibraryGenreList[i].chkDuplicateContent})
             rowIndex++
             eventjsonlength--
             if (rowIndex==scrolLimit){
@@ -1808,6 +1819,116 @@ OpenViewPlaylistContent(modalName, url,genreId,MediaType){
       }); 
     }
     
-  }        
+  }      
+  OpenEditTemplates(Urltype){
+    if (Urltype=="google"){
+      this.router.navigate(['Upload']);
+      localStorage.setItem('innerpage','template');
+    }
+    else{
+    if (this.cmbCustomer == '0') {
+      this.toastr.info('Please select a customer name');
+      return;
+    }
+    if (this.IschkViewOnly==1){
+      this.toastr.info('This feature is not available in view only');
+      return;
+    }
+    if ((this.OtherKey=="") || (this.OtherKey==undefined)){
+      this.toastr.info('Customer is not registered');
+      return;
+    }
+    else{
+    window.open(this.OtherUrl,"_blank")
+    }
+    }
+  }
+  PlaylistAndGroudSettings(modalFormat,id,name,modalEditPlaylist,data){
+    if (this.breadCrumbPlaylistItems.length==1){
+      this.cmbFormat.DisplayName=name
+      this.cmbFormat.Id=id
+      this.openFormatModal(modalFormat)
+    }
+    if (this.breadCrumbPlaylistItems.length==2){
+      let obj= this.breadCrumbPlaylistItems[0]
+      this.txtplaylistname=name
+      this.EditPlaylistId=id
+      this.cmbFormat.Id=obj['title']
+      this.chkFixedPlaylist=Boolean(data.IsShowDefault)
+      this.chkAllowduplicatecontentPlaylist=Boolean(data.chkDuplicateContent)
+      this.chkNoSoundPlaylist=Boolean(data.IsVideoMute)
+      this.modalService.open(modalEditPlaylist,{ centered: true});
+      this.flocationElement.nativeElement.focus();
+    }
+    
+  }
+  ClearEditPlaylist(){
+    this.txtplaylistname=""
+    this.EditPlaylistId="0"
+    this.cmbFormat.Id="0"
+    this.chkFixedPlaylist=false
+    this.chkAllowduplicatecontentPlaylist=false
+    this.chkNoSoundPlaylist=false
+    this.cmbFormat.DisplayName=undefined
+    this.NewFormatName=""
+  }
 
-} 
+  UpdatePlaylist(){
+    if (this.cmbFormat.Id == '0') {
+      this.toastr.info('Please select a campaign name');
+      return;
+    }
+    if (this.txtplaylistname == '') {
+      return;
+    }
+    let payload={
+      id:this.EditPlaylistId,
+      plName:this.txtplaylistname,
+      formatid: this.cmbFormat.Id
+    }
+    this.loading = true;
+    this.pService.SavePlaylist(payload).pipe().subscribe(async (data) => {
+          var returnData = JSON.stringify(data);
+          var obj = JSON.parse(returnData);
+          if (obj.Responce == '1') {
+            this.loading = false;
+            await this.UpdatePlaylistSettings()
+          } else if (obj.Responce == '2') {
+             this.toastr.info('Playlist name already exists', 'Success!');
+            this.loading = false;
+          } else {
+            this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
+            this.loading = false;
+          }
+        },
+        (error) => {
+          // this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
+          this.loading = false;
+        }
+      );
+
+  }
+  UpdatePlaylistSettings(){
+    
+    this.loading = true;
+    this.pService.SettingPlaylist(this.EditPlaylistId,this.chkNoSoundPlaylist,this.chkFixedPlaylist,false,this.chkAllowduplicatecontentPlaylist,"90").pipe().subscribe(async (data) => {
+          var returnData = JSON.stringify(data);
+          var obj = JSON.parse(returnData);
+          this.ClearEditPlaylist()
+          if (obj.Responce == '1') {
+            this.loading = false;
+            this.toastr.info('Saved', 'Success!');
+            this.modalService.dismissAll()
+          } else {
+            // this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
+            this.loading = false;
+          }
+        },
+        (error) => {
+          // this.toastr.error('Apologies for the inconvenience.The error is recorded.','');
+          this.loading = false;
+        }
+      );
+
+  }
+}
