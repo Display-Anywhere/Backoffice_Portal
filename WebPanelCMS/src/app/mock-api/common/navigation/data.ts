@@ -1,13 +1,13 @@
 /* eslint-disable */
 import { FuseNavigationItem } from '@fuse/components/navigation';
 export const defaultNavigation: FuseNavigationItem[]=[
-    /* {
+     {
         id   : 'new',
         title: 'New',
         type : 'basic',
         icon : 'heroicons_outline:clipboard-document-check',
-        link : '/example'
-    }, */
+        link : '/general/registration'
+    },  
     {
         id   : 'dashboard',
         title: 'Dashboard',
@@ -56,16 +56,23 @@ export const defaultNavigation: FuseNavigationItem[]=[
         type : 'basic',
         icon : 'heroicons_outline:play-circle',
         link : '/general/instantplay'
+    },
+    {
+        id   : 'copydata',
+        title: 'Copy Data',
+        type : 'basic',
+        icon : 'heroicons_outline:document-duplicate',
+        link : '/general/copydata'
     }
 ]
 export const compactNavigation: FuseNavigationItem[] = [
-    /* {
+    {
         id   : 'new',
         title: 'New',
         type : 'basic',
         icon : 'heroicons_outline:clipboard-document-check',
-        link : '/example'
-    }, */
+        link : '/general/registration'
+    },
     {
         id   : 'dashboard',
         title: 'Dashboard',
@@ -121,17 +128,24 @@ export const compactNavigation: FuseNavigationItem[] = [
        type : 'basic',
        icon : 'heroicons_outline:play-circle',
        link : '/general/instantplay'
+   },
+   {
+       id   : 'copydata',
+       title: 'Copy Data',
+       type : 'basic',
+       icon : 'heroicons_outline:document-duplicate',
+       link : '/general/copydata'
    }
 
     ];
 export const futuristicNavigation: FuseNavigationItem[] = [
-    /* {
+    {
         id   : 'new',
         title: 'New',
         type : 'basic',
         icon : 'heroicons_outline:clipboard-document-check',
-        link : '/example'
-    }, */
+        link : '/general/registration'
+    },
     {
         id   : 'dashboard',
         title: 'Dashboard',
@@ -187,17 +201,24 @@ export const futuristicNavigation: FuseNavigationItem[] = [
        type : 'basic',
        icon : 'heroicons_outline:play-circle',
        link : '/general/instantplay'
+   },
+   {
+       id   : 'copydata',
+       title: 'Copy Data',
+       type : 'basic',
+       icon : 'heroicons_outline:document-duplicate',
+       link : '/general/copydata'
    }
 
     ];
 export const horizontalNavigation: FuseNavigationItem[] = [
-   /*  {
+    {
         id   : 'new',
         title: 'New',
         type : 'basic',
         icon : 'heroicons_outline:clipboard-document-check',
-        link : '/example'
-    }, */
+        link : '/general/registration'
+    },
     {
         id   : 'dashboard',
         title: 'Dashboard',
@@ -253,6 +274,13 @@ export const horizontalNavigation: FuseNavigationItem[] = [
        type : 'basic',
        icon : 'heroicons_outline:play-circle',
        link : '/general/instantplay'
+   },
+   {
+       id   : 'copydata',
+       title: 'Copy Data',
+       type : 'basic',
+       icon : 'heroicons_outline:document-duplicate',
+       link : '/general/copydata'
    }
 
     ];

@@ -47,7 +47,7 @@
                 <mat-icon [svgIcon]="'heroicons_outline:chat-bubble-left-right'"></mat-icon>
             </button> 
         <kendo-switch [(ngModel)]="ThemeSwitch" (valueChange)="onSwitchChange($event)" class="ml-2"></kendo-switch> -->
-            
+            <app-commonsearch></app-commonsearch>
             <mat-icon *ngIf="!ThemeSwitch"
                             class="icon-size-5 cursor-pointer" (click)="onSwitchChange(true)"
                             [svgIcon]="'heroicons_solid:sun'"></mat-icon>

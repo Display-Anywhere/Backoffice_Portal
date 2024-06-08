@@ -1,7 +1,7 @@
 <div class="flex flex-col flex-auto min-w-0">
   <div class="flex-auto p-6 sm:p-10">
 <!-- Header -->
-<div class="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between pb-12 border-b bg-card dark:bg-transparent">
+<div class="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between pb-12  bg-card dark:bg-transparent">
   <div>
       <div class="text-2xl font-medium tracking-tight leading-none">Media Library</div>
   </div>
@@ -493,10 +493,8 @@ kendoRadioButton
                         *ngFor="let item of PlaylistsFormatItems[itemPage.page]; let i = index"
                         class="box box-{{ i }} "
                         [ngStyle]="{backgroundColor: PlaylistsFormatItems[0][i].color }"
-                        style="cursor: pointer;  border-radius: 5px;overflow: hidden;"
-                         
-                        >
-                        <i class="fa fa-cog" aria-hidden="true" style="display: flex;justify-content: end;margin: 4px 4px 0px 0px;"></i>
+                        style="cursor: pointer;  border-radius: 5px;overflow: hidden;">
+                        <i class="fa fa-cog" (click)="PlaylistAndGroudSettings(modalFormat,item.id,item.title,modalEditPlaylist,item)" aria-hidden="true" style="display: flex;justify-content: end;margin: 4px 4px 0px 0px;"></i>
                         <h3 (click)="GetFormatPlaylist(item.id,item.title)" class="break-all" style="vertical-align: middle;color: white;font-size: 12px;display: flex;justify-content: center;align-items: center;height: 76%;">
                          <span class="w-full text-center">{{item.title}}</span>
                         </h3>
@@ -771,10 +769,11 @@ kendoRadioButton
                     *ngFor="let item of PlaylistsFormatItems[itemPage.page]; let i = index"
                     class="box box-{{ i }} "
                     [ngStyle]="{backgroundColor: PlaylistsFormatItems[0][i].color }"
-                    style="cursor: pointer; display:flex; justify-content: center; align-items: center; border-radius: 5px"
-                    (click)="GetFormatPlaylist(item.id,item.title)"
-                    >
-                        <h3 style="vertical-align:middle;color: white; font-size: 14px;">{{item.title}}</h3>
+                    style="cursor: pointer;  border-radius: 5px;overflow: hidden;">
+                    <i class="fa fa-cog" (click)="PlaylistAndGroudSettings(modalFormat,item.id,item.title,modalEditPlaylist,item)" aria-hidden="true" style="display: flex;justify-content: end;margin: 4px 4px 0px 0px;"></i>
+                        <h3 (click)="GetFormatPlaylist(item.id,item.title)" class="break-all" style="vertical-align: middle;color: white;font-size: 12px;display: flex;justify-content: center;align-items: center;height: 76%;">
+                         <span class="w-full text-center">{{item.title}}</span>
+                        </h3>
                     </kendo-gridlayout-item>
               </kendo-gridlayout>
             </ng-template>
@@ -975,10 +974,11 @@ kendoRadioButton
                         *ngFor="let item of PlaylistsFormatItems[itemPage.page]; let i = index"
                         class="box box-{{ i }} "
                         [ngStyle]="{backgroundColor: PlaylistsFormatItems[0][i].color }"
-                        style="cursor: pointer; display:flex; justify-content: center; align-items: center; border-radius: 5px"
-                        (click)="GetFormatPlaylist(item.id,item.title)"
-                        >
-                            <h3 style="vertical-align:middle;color: white; font-size: 14px;">{{item.title}}</h3>
+                        style="cursor: pointer;  border-radius: 5px;overflow: hidden;">
+                        <i class="fa fa-cog" (click)="PlaylistAndGroudSettings(modalFormat,item.id,item.title,modalEditPlaylist,item)" aria-hidden="true" style="display: flex;justify-content: end;margin: 4px 4px 0px 0px;"></i>
+                        <h3 (click)="GetFormatPlaylist(item.id,item.title)" class="break-all" style="vertical-align: middle;color: white;font-size: 12px;display: flex;justify-content: center;align-items: center;height: 76%;">
+                         <span class="w-full text-center">{{item.title}}</span>
+                        </h3>
                         </kendo-gridlayout-item>
                   </kendo-gridlayout>
                 </ng-template>

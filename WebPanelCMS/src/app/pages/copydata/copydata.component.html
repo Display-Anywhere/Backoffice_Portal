@@ -1,0 +1,120 @@
+<div class="flex flex-col flex-auto min-w-0">
+    <div class="flex-auto p-6 sm:p-10">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between pb-12 bg-card dark:bg-transparent">
+            <div>
+                <div class="text-2xl font-medium tracking-tight leading-none">Copy Playlist</div>
+            </div>
+          </div> 
+          <div class="w-full max-w-screen-xl mx-auto">
+            <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <kendo-label text="Copy From Customer">
+                          <kendo-dropdownlist
+                          [data]="CustomerList"
+                          textField="DisplayName"
+                          valueField="Id"
+                          [valuePrimitive]="true"
+                          fillMode ="outline" [ngModelOptions]="{ standalone: true }"
+                          [(ngModel)]="cmbCustomerId"
+                          [defaultItem]="{ DisplayName: '', Id: '0' }"
+                          (valueChange)="onChangeCustomer()"
+                          >
+                          </kendo-dropdownlist> 
+                          </kendo-label>
+                      </div>
+                      <div class="col-sm-2">
+                        <kendo-label text="Media Type">
+                          <kendo-dropdownlist
+                          [data]="CustomerMediaTypeList"
+                          textField="DisplayName"
+                          valueField="Id"
+                          [valuePrimitive]="true"
+                          [defaultItem]="{ DisplayName: '', Id: '' }"
+                          fillMode ="outline" [ngModelOptions]="{ standalone: true }"
+                          [(ngModel)]="cmbCustomerMediaType" (valueChange)="onChangeCustomerMediaType()"
+                        >
+                        </kendo-dropdownlist>
+                        </kendo-label>
+                      </div>
+                      <div class="col-sm-3">
+                        <kendo-label text="Campaign Name">
+                          <kendo-dropdownlist
+                          [data]="FormatList"
+                          textField="DisplayName"
+                          valueField="Id"
+                          [valuePrimitive]="true"
+                          fillMode ="outline"
+                          [defaultItem]="{ DisplayName: '', Id: '0' }"
+                          [ngModelOptions]="{ standalone: true }"
+                          [(ngModel)]="cmbFormatId" (valueChange)="onChangeFormat($event)"
+                          >
+                          </kendo-dropdownlist> 
+                          </kendo-label>
+                      </div>
+                      <div class="col-sm-3">
+                        <kendo-label text="Playlist Name">
+                          <kendo-dropdownlist
+                          [data]="PlaylistList"
+                          textField="DisplayName"
+                          valueField="Id"
+                          [valuePrimitive]="true"
+                          fillMode ="outline"
+                          [defaultItem]="{ DisplayName: '', Id: '0' }"
+                          [ngModelOptions]="{ standalone: true }"
+                          [(ngModel)]="cmbPlaylistId" >
+                          </kendo-dropdownlist> 
+                          </kendo-label>
+                      </div>
+                      <div class="col-sm-1">
+                        <kendo-button class="bg-primary" style="margin-top: 22px"  (click)="AddItem()">
+                            <i
+                              class="fa fa-plus-circle fa-lg"
+                              aria-hidden="true"
+                            ></i>
+                        </kendo-button>
+                      </div>
+                </div>
+                <div class="row mt-5">
+                    <div class="col-lg-12">
+                        <kendo-grid
+                                [kendoGridBinding]="listofSelectedPlaylist"
+                                [loading]="loading"
+                                [pageSize]="25"
+                                [pageable]="true"
+                                [sortable]="true" class="h-72">
+                                <kendo-grid-column field="formatname"   title="Campaign Name" class="gridrowfont" ></kendo-grid-column>
+                                <kendo-grid-column field="playlistName"   title="Playlist Name" class="gridrowfont" ></kendo-grid-column>
+                                <kendo-grid-column field="_id"   title="" class="gridrowfont"  [width]="90">
+                                    <ng-template kendoGridCellTemplate let-adLst>
+                                        <i class="fa fa-trash text-danger mr-4 cursor-pointer" aria-hidden="true" (click)="RemoveItem(adLst._id)"></i>
+                                    </ng-template>
+
+                                </kendo-grid-column>
+                            </kendo-grid>
+                    </div>
+                </div>
+                <div class="row mt-5">
+                    <div class="col-sm-3">
+                        <kendo-label text="Copy To Customer">
+                          <kendo-dropdownlist
+                          [data]="CopyCustomerList"
+                          textField="DisplayName"
+                          valueField="Id"
+                          [valuePrimitive]="true"
+                          fillMode ="outline" [ngModelOptions]="{ standalone: true }"
+                          [(ngModel)]="cmbCopyCustomerId"
+                          [defaultItem]="{ DisplayName: '', Id: '0' }">
+                          </kendo-dropdownlist> 
+                          </kendo-label>
+                      </div>
+                      <div class="col-sm-2">
+                        <kendo-button class="bg-primary" style="margin-top: 22px" (click)="SaveCopyPlaylist()">
+                            Save
+                          </kendo-button>
+                      </div>
+                </div>
+            </div>
+          </div>
+    </div>
+</div>

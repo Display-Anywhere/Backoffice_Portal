@@ -14,6 +14,7 @@ import { InputsModule } from '@progress/kendo-angular-inputs';
 import { LabelModule } from '@progress/kendo-angular-label';
 import { MenuModule } from '@progress/kendo-angular-menu';
 import { ScrollViewModule } from '@progress/kendo-angular-scrollview';
+import { AuthServiceOwn } from 'app/auth/auth.service';
 import { NavigationService } from 'app/core/navigation/navigation.service';
 import { Navigation } from 'app/core/navigation/navigation.types';
 import { LanguagesComponent } from 'app/layout/common/languages/languages.component';
@@ -24,6 +25,7 @@ import { SearchComponent } from 'app/layout/common/search/search.component';
 import { ShortcutsComponent } from 'app/layout/common/shortcuts/shortcuts.component';
 import { UserComponent } from 'app/layout/common/user/user.component';
 import { KendoThemeService } from 'app/mock-api/services/Kendotheme/theme.service';
+import { ComponentsModule } from 'app/pages/components.module';
 import { Subject, takeUntil } from 'rxjs';
 
 @Component({
@@ -31,7 +33,7 @@ import { Subject, takeUntil } from 'rxjs';
     templateUrl  : './compact.component.html',
     encapsulation: ViewEncapsulation.None,
     standalone   : true,
-    imports      : [FuseLoadingBarComponent, MatButtonModule, MatIconModule, LanguagesComponent, FuseFullscreenComponent, SearchComponent, ShortcutsComponent, MessagesComponent, NotificationsComponent, UserComponent, NgIf, RouterOutlet, QuickChatComponent, FuseVerticalNavigationComponent,DropDownsModule,
+    imports      : [FuseLoadingBarComponent, MatButtonModule, MatIconModule, LanguagesComponent, FuseFullscreenComponent, SearchComponent, ShortcutsComponent, MessagesComponent, NotificationsComponent, UserComponent, NgIf, RouterOutlet, QuickChatComponent, FuseVerticalNavigationComponent,DropDownsModule,ComponentsModule,
         ScrollViewModule,
         LabelModule,FormsModule, 
         MenuModule,
@@ -49,7 +51,7 @@ export class CompactLayoutComponent implements OnInit, OnDestroy
     constructor(
         private _activatedRoute: ActivatedRoute,
         private _router: Router,private KendothemeService: KendoThemeService,
-        private _navigationService: NavigationService,
+        private _navigationService: NavigationService,public authService: AuthServiceOwn,
         private _fuseMediaWatcherService: FuseMediaWatcherService,
         private _fuseNavigationService: FuseNavigationService,private _fuseConfigService: FuseConfigService,
     )
@@ -78,11 +80,24 @@ export class CompactLayoutComponent implements OnInit, OnDestroy
     ngOnInit(): void
     {
         // Subscribe to navigation data
+
         this._navigationService.navigation$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((navigation: Navigation) =>
             {
-                console.log(navigation)
+                navigation.compact.forEach(itemp => {
+                    this.SetNavigationPermissions(itemp)
+                });
+                navigation.default.forEach(itemp => {
+                    this.SetNavigationPermissions(itemp)
+                });
+                navigation.futuristic.forEach(itemp => {
+                    this.SetNavigationPermissions(itemp)
+                });
+                navigation.horizontal.forEach(itemp => {
+                    this.SetNavigationPermissions(itemp)
+                });
+
                 this.navigation = navigation;
             });
 
@@ -94,6 +109,82 @@ export class CompactLayoutComponent implements OnInit, OnDestroy
                 // Check if the screen is small
                 this.isScreenSmall = !matchingAliases.includes('md');
             });
+    }
+    SetNavigationPermissions(itemp){
+        this.authService.IsAdminLogin$.subscribe((res) => {
+            if (res==false){
+                if (itemp.id=="new"){
+                    itemp.hidden=()=>{
+                        return true
+                    }
+                }
+            }
+          });
+          this.authService.chkDashboard$.subscribe((res) => {
+            if (res==false){
+                if (itemp.id=="dashboard"){
+                    itemp.hidden=()=>{
+                        return true
+                    }
+                }
+            }
+          });
+          this.authService.chkPlayerDetail$.subscribe((res) => {
+            if (res==false){
+                if (itemp.id=="playerdetails"){
+                    itemp.hidden=()=>{
+                        return true
+                    }
+                }
+            }
+          });
+          this.authService.chkPlaylistLibrary$.subscribe((res) => {
+            if (res==false){
+                if (itemp.id=="medialibrary"){
+                    itemp.hidden=()=>{
+                        return true
+                    }
+                }
+            }
+          });
+          this.authService.chkAdvertisement$.subscribe((res) => {
+            if (res==false){
+                if (itemp.id=="ads"){
+                    itemp.hidden=()=>{
+                        return true
+                    }
+                }
+            }
+          });
+          this.authService.IsAdminLogin$.subscribe((resAdmin) => {
+            this.authService.IsClientAdminLogin$.subscribe((resSubAdmin) => {
+            if (resAdmin==false && resSubAdmin==false){
+                if (itemp.id=="user"){
+                    itemp.hidden=()=>{
+                        return true
+                    }
+                }
+            }
+          });
+        });
+        this.authService.chkScheduling$.subscribe((res) => {
+            if (res==false){
+                if (itemp.id=="iptv"){
+                    itemp.hidden=()=>{
+                        return true
+                    }
+                }
+            }
+        });
+        this.authService.chkInstantPlay$.subscribe((res) => {
+            if (res==false){
+                if (itemp.id=="instantplay"){
+                    itemp.hidden=()=>{
+                        return true
+                    }
+                }
+            }
+        });
     }
 
     /**

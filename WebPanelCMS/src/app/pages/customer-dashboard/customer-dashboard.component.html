@@ -4,7 +4,7 @@
 <div class="flex flex-col flex-auto min-w-0">
     <div class="flex-auto p-10">
          <!-- Header -->
-<div class="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between pb-12 border-b bg-card dark:bg-transparent">
+<div class="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between pb-12 bg-card dark:bg-transparent">
     <div>
         <div class="text-2xl font-medium tracking-tight leading-none">Dashboard</div>
     </div>
@@ -140,9 +140,9 @@
                                 {{dataItem.PingDateTime | date:'dd/MMM/yyyy'}}
                               </ng-template>
                         </kendo-grid-column>
-                        <kendo-grid-column field="CityId" title="City" class="gridrowfont" ></kendo-grid-column>
-                        <kendo-grid-column field="StateId" title="State" class="gridrowfont" ></kendo-grid-column>
-                        <kendo-grid-column field="CountryId" title="Country" class="gridrowfont" ></kendo-grid-column>
+                        <kendo-grid-column field="CityName" title="City" class="gridrowfont" ></kendo-grid-column>
+                        <kendo-grid-column field="StateName" title="State" class="gridrowfont" ></kendo-grid-column>
+                        <kendo-grid-column field="countryName" title="Country" class="gridrowfont" ></kendo-grid-column>
                         </kendo-grid>
   </div>
   </ng-template>

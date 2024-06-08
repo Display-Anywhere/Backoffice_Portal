@@ -1437,13 +1437,19 @@ if (errorFound==="Yes"){
   }
   ForceUpdateAll() {
     var tSelected = [];
-    if (this.ForceUpdateType == 'New') {
+    /* if (this.ForceUpdateType == 'New') {
       this.TokenSelected_publish.forEach((item) => {
         tSelected.push(item.tokenId);
       });
     }
     if (this.ForceUpdateType == 'Modify') {
       tSelected.push(this.ModifyForceUpdateTokenId);
+    } */
+    this.MasterScheduleTokenInfoList.forEach(item => {
+      tSelected.push(item['TokenID'])
+    }); 
+    if (tSelected.length==0){
+      return
     }
     this.loading = true;
     this.serviceLicense
@@ -1454,7 +1460,7 @@ if (errorFound==="Yes"){
           var returnData = JSON.stringify(data);
           var obj = JSON.parse(returnData);
           if (obj.Responce == '1') {
-            this.toastrSF.info('Update request is submit', 'Success!');
+           // this.toastrSF.info('Update request is submit', 'Success!');
             this.SaveModifyInfo(0,'Pubish request is submitted for ' + JSON.stringify(tSelected));
             this.loading = false;
           } else {
@@ -2117,6 +2123,7 @@ OpenViewContent(modalName, url,oType,MediaType){
           var returnData = JSON.stringify(data);
           var obj = JSON.parse(returnData);
           this.toastrSF.info("Schedules successfully published to device")
+          this.ForceUpdateAll()
             this.loading = false;
         },
         (error) => {

@@ -8,6 +8,7 @@ import { FuseLoadingBarComponent } from '@fuse/components/loading-bar';
 import { FuseNavigationService, FuseVerticalNavigationComponent } from '@fuse/components/navigation';
 import { FuseConfigService } from '@fuse/services/config';
 import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
+import { AuthServiceOwn } from 'app/auth/auth.service';
 import { NavigationService } from 'app/core/navigation/navigation.service';
 import { Navigation } from 'app/core/navigation/navigation.types';
 import { UserService } from 'app/core/user/user.service';
@@ -42,7 +43,7 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy
         private _activatedRoute: ActivatedRoute,
         private _router: Router,
         private _navigationService: NavigationService,
-        private _userService: UserService,
+        private _userService: UserService,public authService: AuthServiceOwn,
         private _fuseMediaWatcherService: FuseMediaWatcherService,
         private _fuseNavigationService: FuseNavigationService,private _fuseConfigService: FuseConfigService
     )
@@ -75,6 +76,18 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((navigation: Navigation) =>
             {
+                navigation.compact.forEach(itemp => {
+                    this.SetNavigationPermissions(itemp)
+                });
+                navigation.default.forEach(itemp => {
+                    this.SetNavigationPermissions(itemp)
+                });
+                navigation.futuristic.forEach(itemp => {
+                    this.SetNavigationPermissions(itemp)
+                });
+                navigation.horizontal.forEach(itemp => {
+                    this.SetNavigationPermissions(itemp)
+                });
                 this.navigation = navigation;
             });
 
@@ -94,6 +107,82 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy
                 // Check if the screen is small
                 this.isScreenSmall = !matchingAliases.includes('md');
             });
+    }
+    SetNavigationPermissions(itemp){
+        this.authService.IsAdminLogin$.subscribe((res) => {
+            if (res==false){
+                if (itemp.id=="new"){
+                    itemp.hidden=()=>{
+                        return true
+                    }
+                }
+            }
+          });
+          this.authService.chkDashboard$.subscribe((res) => {
+            if (res==false){
+                if (itemp.id=="dashboard"){
+                    itemp.hidden=()=>{
+                        return true
+                    }
+                }
+            }
+          });
+          this.authService.chkPlayerDetail$.subscribe((res) => {
+            if (res==false){
+                if (itemp.id=="playerdetails"){
+                    itemp.hidden=()=>{
+                        return true
+                    }
+                }
+            }
+          });
+          this.authService.chkPlaylistLibrary$.subscribe((res) => {
+            if (res==false){
+                if (itemp.id=="medialibrary"){
+                    itemp.hidden=()=>{
+                        return true
+                    }
+                }
+            }
+          });
+          this.authService.chkAdvertisement$.subscribe((res) => {
+            if (res==false){
+                if (itemp.id=="ads"){
+                    itemp.hidden=()=>{
+                        return true
+                    }
+                }
+            }
+          });
+          this.authService.IsAdminLogin$.subscribe((resAdmin) => {
+            this.authService.IsClientAdminLogin$.subscribe((resSubAdmin) => {
+            if (resAdmin==false && resSubAdmin==false){
+                if (itemp.id=="user"){
+                    itemp.hidden=()=>{
+                        return true
+                    }
+                }
+            }
+          });
+        });
+        this.authService.chkScheduling$.subscribe((res) => {
+            if (res==false){
+                if (itemp.id=="iptv"){
+                    itemp.hidden=()=>{
+                        return true
+                    }
+                }
+            }
+        });
+        this.authService.chkInstantPlay$.subscribe((res) => {
+            if (res==false){
+                if (itemp.id=="instantplay"){
+                    itemp.hidden=()=>{
+                        return true
+                    }
+                }
+            }
+        });
     }
 
     /**

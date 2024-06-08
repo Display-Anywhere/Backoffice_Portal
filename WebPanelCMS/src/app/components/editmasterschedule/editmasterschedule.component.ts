@@ -8,16 +8,18 @@ import {
   NgbTimepickerConfig,
   NgbTimeStruct,
 } from '@ng-bootstrap/ng-bootstrap';
-import { StoreForwardService } from 'src/app/store-and-forward/store-forward.service';
-import { AuthServiceOwn } from 'src/app/auth/auth.service';
-import { SerLicenseHolderService } from 'src/app/license-holder/ser-license-holder.service';
+import { StoreForwardService } from 'app/mock-api/services/store-forward.service';
+
+import { SerLicenseHolderService } from 'app/mock-api/services/ser-license-holder.service';
 import { trim } from 'jquery';
-import { PlaylistLibService } from 'src/app/playlist-library/playlist-lib.service';
+//import { PlaylistLibService } from 'src/app/playlist-library/playlist-lib.service';
 import { DecimalPipe } from '@angular/common';
-import { ConfigAPI } from 'src/app/class/ConfigAPI';
 import { process } from '@progress/kendo-data-query';
 import { DataBindingDirective, PageChangeEvent } from '@progress/kendo-angular-grid';
 import { ActivatedRoute, Router } from '@angular/router';
+import { PlaylistLibService } from 'app/mock-api/services/playlist-lib.service';
+import { AuthServiceOwn } from 'app/auth/auth.service';
+import { ConfigAPI } from 'app/class/ConfigAPI';
 @Component({
   selector: 'app-editmasterschedule',
   templateUrl: './editmasterschedule.component.html',
@@ -1389,13 +1391,19 @@ if (errorFound==="Yes"){
   }
   ForceUpdateAll() {
     var tSelected = [];
-    if (this.ForceUpdateType == 'New') {
+    /* if (this.ForceUpdateType == 'New') {
       this.TokenSelected_publish.forEach((item) => {
         tSelected.push(item.tokenId);
       });
     }
     if (this.ForceUpdateType == 'Modify') {
       tSelected.push(this.ModifyForceUpdateTokenId);
+    } */
+    this.MasterScheduleTokenInfoList.forEach(item => {
+      tSelected.push(item['TokenID'])
+    }); 
+    if (tSelected.length==0){
+      return
     }
     this.loading = true;
     this.serviceLicense
@@ -1406,7 +1414,7 @@ if (errorFound==="Yes"){
           var returnData = JSON.stringify(data);
           var obj = JSON.parse(returnData);
           if (obj.Responce == '1') {
-            this.toastrSF.info('Update request is submit', 'Success!');
+           // this.toastrSF.info('Update request is submit', 'Success!');
             this.SaveModifyInfo(0,'Pubish request is submitted for ' + JSON.stringify(tSelected));
             this.loading = false;
           } else {
@@ -2065,10 +2073,27 @@ OpenViewContent(modalName, url,oType,MediaType){
     }
     PublishScheduleToDevices(){
       this.loading = true;
-      setTimeout(() => { 
-        this.loading = false;
-        this.toastrSF.info("Schedules successfully published to device")
-       }, 5000);
+      this.pService
+      .MasterSchedulePublication(this.cmbMasterSchedule)
+      .pipe()
+      .subscribe(
+        async (data) => {
+          var returnData = JSON.stringify(data);
+          var obj = JSON.parse(returnData);
+          this.toastrSF.info("Schedules successfully published to device")
+          this.ForceUpdateAll()
+            this.loading = false;
+        },
+        (error) => {
+          this.toastrSF.error(
+            'Apologies for the inconvenience.The error is recorded.',
+            ''
+          );
+          this.loading = false;
+        }
+      );
+
+       
     }
     async openPlaylistScheduleModal(modalName,id){
       if (this.cid=="0"){

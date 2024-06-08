@@ -520,3 +520,6 @@ video::-webkit-media-controls-panel {
 .gridrowfont{
   font-size: 13px !important;
 }
+.toast-container{
+  position: fixed !important;
+}

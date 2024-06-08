@@ -1,0 +1,316 @@
+<div class="flex flex-col flex-auto min-w-0">
+    <div class="flex-auto p-6 sm:p-10">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between pb-12 bg-card dark:bg-transparent">
+        <div>
+            <div class="text-2xl font-medium tracking-tight leading-none">Registration</div>
+        </div>
+      </div> 
+        <div class="w-full max-w-screen-xl mx-auto">
+            <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <form class="w-full" [formGroup]="Regform">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <kendo-label text="Company Name">
+                                        <kendo-textbox placeholder="" class="mb-2 mr-sm-2" fillMode ="outline"
+                                        kendoTextBox formControlName="customerName"></kendo-textbox>
+                                      </kendo-label>
+                                </div>
+                                <div class="col-sm-3">
+                                    <kendo-label text="Country Name">
+                                        <kendo-dropdownlist
+                                        [data]="CountryList"
+                                        textField="DisplayName"
+                                        valueField="Id"
+                                        [valuePrimitive]="true"
+                                        fillMode ="outline"
+                                        [defaultItem]="{ DisplayName: '', Id: '0' }"
+                                        formControlName="countryName" (valueChange)="onChangeCountry($event)">
+                                        </kendo-dropdownlist> 
+                                        </kendo-label>
+                                </div>
+                                <div class="col-sm-3">
+                                    <kendo-label text="State Name">
+                                        <kendo-dropdownlist
+                                        [data]="StateList"
+                                        textField="DisplayName"
+                                        valueField="Id"
+                                        [valuePrimitive]="true"
+                                        fillMode ="outline"
+                                        [defaultItem]="{ DisplayName: '', Id: '0' }"
+                                        formControlName="stateName" (valueChange)="onChangeState($event)">
+                                        </kendo-dropdownlist> 
+                                        </kendo-label>
+                                </div>
+                                <div class="col-sm-3">
+                                    <kendo-label text="City Name">
+                                        <kendo-dropdownlist
+                                        [data]="CityList"
+                                        textField="DisplayName"
+                                        valueField="Id"
+                                        [valuePrimitive]="true"
+                                        fillMode ="outline"
+                                        [defaultItem]="{ DisplayName: '', Id: '0' }"
+                                        formControlName="cityName" (valueChange)="onChangeCity($event)">
+                                        </kendo-dropdownlist> 
+                                        </kendo-label>
+                                </div>
+                                <div class="col-sm-3">
+                                    <kendo-label text="Customer Code">
+                                        <kendo-textbox placeholder="" class="mb-2 mr-sm-2" fillMode ="outline"
+                                        kendoTextBox formControlName="cCode" [(ngModel)]="Code" readonly=""></kendo-textbox>
+                                      </kendo-label>
+                                </div>
+                                <div class="col-sm-3">
+                                    <kendo-label text="Customer Email">
+                                        <kendo-textbox placeholder="" class="mb-2 mr-sm-2" fillMode ="outline"
+                                        kendoTextBox formControlName="customerEmail"></kendo-textbox>
+                                      </kendo-label>
+                                </div>
+                                <div class="col-sm-3" *ngIf="IsEditClick == 'No'">
+                                    <kendo-label text="Status">
+                                        <kendo-dropdownlist
+                                        [data]="listOfStatus"
+                                        textField="DisplayName"
+                                        valueField="Id"
+                                        [valuePrimitive]="true"
+                                        fillMode ="outline"
+                                        formControlName="aStatus">
+                                      </kendo-dropdownlist>
+                                    </kendo-label>
+                                </div>
+                                <div class="col-sm-3">
+                                    <kendo-label text="Start Date">
+                                        <kendo-datepicker
+                                        [format]="format"
+                                        formControlName="expiryDate" [fillMode]="fillMode"
+                                    ></kendo-datepicker>
+                                    </kendo-label>
+                                </div>
+                                <div class="col-sm-3">
+                                    <kendo-label text="Total Token's">
+                                        <kendo-textbox placeholder="" class="mb-2 mr-sm-2" fillMode ="outline"
+                                        kendoTextBox formControlName="totalToken"></kendo-textbox>
+                                      </kendo-label>
+                                </div>
+                                <div class="col-sm-3">
+                                    <kendo-label text="Support Email">
+                                        <kendo-textbox placeholder="" class="mb-2 mr-sm-2" fillMode ="outline"
+                                        kendoTextBox formControlName="supportEmail"></kendo-textbox>
+                                      </kendo-label>
+                                </div>
+                                <div class="col-sm-3">
+                                    <kendo-label text="Support Ph. No">
+                                        <kendo-textbox placeholder="" class="mb-2 mr-sm-2" fillMode ="outline"
+                                        kendoTextBox formControlName="supportPhNo"></kendo-textbox>
+                                      </kendo-label>
+                                </div>
+                                <div class="col-sm-3">
+                                    <kendo-label text="Street">
+                                        <kendo-textbox placeholder="" class="mb-2 mr-sm-2" fillMode ="outline"
+                                        kendoTextBox formControlName="Street"></kendo-textbox>
+                                      </kendo-label>
+                                </div>
+                                <div class="col-sm-3">
+                                    <kendo-label text="Person Name">
+                                        <kendo-textbox placeholder="" class="mb-2 mr-sm-2" fillMode ="outline"
+                                        kendoTextBox formControlName="personName"></kendo-textbox>
+                                      </kendo-label>
+                                </div>
+                                <div class="col-sm-3">
+                                    <kendo-label text="Content Type">
+                                        <kendo-dropdownlist
+                                        [data]="listOfContentType"
+                                        textField="DisplayName"
+                                        valueField="Id"
+                                        [valuePrimitive]="true"
+                                        fillMode ="outline"
+                                        formControlName="ContentType">
+                                      </kendo-dropdownlist>
+                                    </kendo-label>
+                                </div>
+                                <div class="col-sm-3">
+                                    <kendo-label text="Customer Type">
+                                        <kendo-dropdownlist
+                                        [data]="listOfCustomerType"
+                                        textField="DisplayName"
+                                        valueField="Id"
+                                        [valuePrimitive]="true"
+                                        fillMode ="outline"
+                                        (valueChange)="SetCustomerType($event)">
+                                      </kendo-dropdownlist>
+                                    </kendo-label>
+                                </div>
+                                <div class="col-sm-3">
+                                    <kendo-label text="Main Customer">
+                                        <kendo-dropdownlist
+                                        [data]="MainCustomerList"
+                                        textField="customerName"
+                                        valueField="id"
+                                        [valuePrimitive]="true"
+                                        fillMode ="outline"
+                                        [defaultItem]="{ customerName: '', id: '0' }"
+                                        formControlName="MainCustomer">
+                                        </kendo-dropdownlist> 
+                                        </kendo-label>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-sm-2 ml-auto">
+                                    <kendo-button class="bg-primary" (click)="onSubmitReg(CustomerTokenDeleteModal,'First')">
+                                        Save
+                                    </kendo-button>
+                                    <kendo-button class="ml-5" (click)="Refresh()">
+                                        Cancel
+                                    </kendo-button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="row mt-5">
+                    <div class="col-lg-12">
+                        <kendo-grid
+                        [kendoGridBinding]="CustomerList"
+                        [loading]="loading"
+                        [pageSize]="25"
+                        [pageable]="true"
+                        [sortable]="true">
+                        <ng-template kendoGridToolbarTemplate>
+                          <kendo-textbox
+placeholder="Search"
+kendoTextBox fillMode ="outline"
+(valueChange)="onFilter($event)"
+>
+</kendo-textbox>
+                      </ng-template>
+                        <kendo-grid-column field="countryName"   title="Country" [width]="130" ></kendo-grid-column>
+                        <kendo-grid-column field="customerName"   title="Customer Name" class="gridrowfont" ></kendo-grid-column>
+                        <kendo-grid-column field="customerEmail"   title="E-mail" class="gridrowfont" ></kendo-grid-column>
+                        <kendo-grid-column field="totalToken"   title="Total Token" [width]="125"  ></kendo-grid-column>
+                        <kendo-grid-column field="aStatus"   title="Status" [width]="120" ></kendo-grid-column>
+                        <kendo-grid-column field="id"   title="" class="gridrowfont"  [width]="120">
+                            <ng-template kendoGridCellTemplate let-adLst>
+                                <i class="fa fa-pencil-square-o mr-4 cursor-pointer" aria-hidden="true" (click)="EditCustomer(adLst.id)"></i>
+                                <i class="fa fa-trash text-danger mr-4 cursor-pointer" aria-hidden="true" (click)="openCustomerDeleteModal(CustomerDeleteModal, adLst.id,adLst.token)"></i>
+                                <i class="fa fa-bars cursor-pointer" #targetCustomerActionContextMenu aria-hidden="true"></i>
+                                <kendo-contextmenu [target]="targetCustomerActionContextMenu" showOn="click" #menu size="large">
+                                  <ng-template kendoContextMenuTemplate>
+                                    <div class="cursor-pointer text-primary p-1"  (click)="SendMail(adLst.id); menu.hide()">
+                                      Send email
+                                    </div>
+                                    <div *ngIf="adLst.IsKpnActive === '0'"  class="cursor-pointer text-primary p-1 pt-0" (click)="UpdateKPNStatus('1',adLst.id); menu.hide()">
+                                      Activate DA-IPTV
+                                    </div>
+                                    <div *ngIf="adLst.IsKpnActive === '1'"  class="cursor-pointer text-danger p-1 pt-0" (click)="UpdateKPNStatus('0',adLst.id); menu.hide()">
+                                      Deactivate DA-IPTV
+                                    </div>
+                                    <div *ngIf="adLst.isSanitizerActive === '0'"  class="cursor-pointer text-primary p-1 pt-0" (click)="UpdateSanitizerStatus('1',adLst.id); menu.hide()">
+                                      Activate Sanitizer
+                                    </div>
+                                    <div *ngIf="adLst.isSanitizerActive === '1'"  class="cursor-pointer text-danger p-1 pt-0" (click)="UpdateSanitizerStatus('0',adLst.id); menu.hide()">
+                                      Deactivate Sanitizer
+                                    </div>
+
+                                    <div *ngIf="adLst.Meeting_Active === '0'"  class="cursor-pointer text-primary p-1 pt-0" style="width: 16rem;" (click)="UpdateServiceStatus('1',adLst.id,'MR'); menu.hide()">
+                                      Activate Meeting Rooms
+                                    </div>
+                                    <div *ngIf="adLst.Meeting_Active === '1'"  class="cursor-pointer text-danger p-1 pt-0" (click)="UpdateServiceStatus('0',adLst.id,'MR'); menu.hide()">
+                                      Deactivate Meeting Rooms
+                                    </div>
+                                    <div *ngIf="adLst.h_info_Active === '0'"  class="cursor-pointer text-primary p-1 pt-0" (click)="UpdateServiceStatus('1',adLst.id,'hinfo'); menu.hide()">
+                                      Activate DA-Info
+                                    </div>
+                                    <div *ngIf="adLst.h_info_Active === '1'"  class="cursor-pointer text-danger p-1 pt-0" (click)="UpdateServiceStatus('0',adLst.id,'hinfo'); menu.hide()">
+                                      Deactivate DA-Info
+                                    </div>
+                                    <div *ngIf="adLst.E_Link_Active === '0'"  class="cursor-pointer text-primary p-1 pt-0" (click)="UpdateServiceStatus('1',adLst.id,'elink'); menu.hide()">
+                                      Activate E-Link
+                                    </div>
+                                    <div *ngIf="adLst.E_Link_Active === '1'"  class="cursor-pointer text-danger p-1 pt-0" (click)="UpdateServiceStatus('0',adLst.id,'elink'); menu.hide()">
+                                      Deactivate E-Link
+                                    </div>
+                                    <div *ngIf="adLst.Indicator_Active === '0'"  class="cursor-pointer text-primary p-1 pt-0" (click)="UpdateServiceStatus('1',adLst.id,'indicator'); menu.hide()">
+                                      Activate Online Indicator
+                                    </div>
+                                    <div *ngIf="adLst.Indicator_Active === '1'"  class="cursor-pointer text-danger p-1 pt-0" (click)="UpdateServiceStatus('0',adLst.id,'indicator'); menu.hide()">
+                                      Deactivate Online Indicator
+                                    </div>
+                                    <div *ngIf="adLst.Key === ''"  class="cursor-pointer text-primary p-1 pt-0" (click)="TemplateAccess(adLst.id); menu.hide()">
+                                      Template Access
+                                    </div>
+                                    <div *ngIf="adLst.Key != ''"  class="cursor-pointer p-1 pt-0" (click)="menu.hide()">
+                                      Template Activated
+                                    </div>
+                                    <div *ngIf="adLst.IsTemplateActive === '0'"  class="cursor-pointer text-primary p-1 pt-0" (click)="UpdateExpiryDate_Template_Creator(adLst.id,'Active',adLst.expiryDate,adLst.Key); menu.hide()">
+                                      Activate Template License
+                                    </div>
+                                    <div *ngIf="adLst.IsTemplateActive === '1'"  class="cursor-pointer text-danger p-1 pt-0" (click)="UpdateExpiryDate_Template_Creator(adLst.id,'Disable',adLst.expiryDate,adLst.Key); menu.hide()">
+                                      Deactivate Template License
+                                    </div>
+                                    <div *ngIf="((adLst.aStatus=='Trial') || (adLst.aStatus=='Trial Extend'))"  class="cursor-pointer text-primary p-1 pt-0" (click)="openModalAccountAccess(modalTrialExtend,adLst.expiryDate,adLst.id); menu.hide()">
+                                      Activate Account
+                                    </div>
+                                    <div *ngIf="((adLst.aStatus=='Trial') || (adLst.aStatus=='Trial Extend'))"  class="cursor-pointer text-primary p-1 pt-0" (click)="openModalTrialExtend(modalTrialExtend,adLst.aStatus,adLst.expiryDate,adLst.id); menu.hide()">
+                                      Extend Trial
+                                    </div>
+                                    <div class="cursor-pointer text-primary p-1 pt-0" (click)="openModalClientLogs(modalClientLogs,adLst.id); menu.hide()">
+                                      Logs
+                                    </div>
+                                  </ng-template>
+                                </kendo-contextmenu>
+                                
+                                </ng-template>
+                        </kendo-grid-column>
+                        </kendo-grid>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #CustomerDeleteModal let-c="close" let-d="dismiss">
+    <div class="modal-header bg-primary">
+      <h5 class="text-white">Delete Customer</h5>
+      <button
+        type="button"
+        class="close text-white"
+        aria-label="Close"
+        (click)="d('Cross click')"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-12">
+            <p>Are you sure to delete?</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12">
+            <button
+              class="btn btn-primary col-2 pull-right"
+              (click)="d('Cross click')"
+            >
+              <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+            </button>
+            <button
+              class="btn btn-danger col-2 pull-right mr-2"
+              (click)="DeleteCustomer()"
+              (click)="d('Cross click')"
+            >
+              <i class="fa fa-check fa-lg" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  
+<ng-template #CustomerTokenDeleteModal let-c="close" let-d="dismiss">
+
+</ng-template>

@@ -138,3 +138,6 @@ input[type="file"]::-webkit-file-upload-button {
   --tw-bg-opacity: 1 !important;
     background-color: rgba(var(--fuse-bg-card-rgb), var(--tw-bg-opacity)) !important;
 }
+.toast-container{
+  position: fixed !important;
+}

@@ -1,0 +1,87 @@
+<kendo-textbox placeholder="Search" class="w-full" fillMode ="outline"
+kendoTextBox [(ngModel)]="FindText" [ngModelOptions]="{standalone: true}" (keyup)="SearchToken($event, FindContent)"></kendo-textbox>
+
+<ng-template class="tokenmodal" #FindContent let-c="close" let-d="dismiss">
+    <div class="modal-header bg-primary">
+      <div class="col-lg-6 m-0 p-0" style="float: left">
+        <h5 class="text-white">Records Found</h5>
+      </div>
+      <button
+        type="button"
+        class="close text-white"
+        aria-label="Close"
+        (click)="tokenInfoClose()"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body p-1">
+      
+      <div class="table-responsive">
+        <kendo-grid 
+                [kendoGridBinding]="gridViewList"
+                [pageSize]="15"
+                [pageable]="false"
+                [sortable]="true">
+                <ng-template kendoGridToolbarTemplate>
+                    <kendo-textbox
+            placeholder="Search"
+            kendoTextBox fillMode ="outline"
+            (valueChange)="onFilter($event)"
+        >
+        </kendo-textbox>
+                </ng-template>
+                <kendo-grid-column field="ClientName" title="Client"   class="gridrowfont" ></kendo-grid-column>
+                <kendo-grid-column field="TokenID" title="Token Id"   class="gridrowfont" ></kendo-grid-column>
+                <kendo-grid-column field="CountryNameShort" title="Country"   class="gridrowfont" ></kendo-grid-column>
+                <kendo-grid-column field="StateName" title="State"   class="gridrowfont" ></kendo-grid-column>
+                <!-- <kendo-grid-column field="CityName" title="City"   class="gridrowfont" ></kendo-grid-column> -->
+                <kendo-grid-column field="Location" title="Location"   class="gridrowfont" ></kendo-grid-column>
+                <kendo-grid-column field="mediatype" title="Media Type"   class="gridrowfont" [width]="130"></kendo-grid-column>
+
+                <!-- <kendo-grid-column field="DeviceType"   title="Device Type" class="gridrowfont"  [width]="130">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        <span *ngIf="dataItem.DeviceType == 'HotelTv'">H-Info</span>
+                        <span *ngIf="dataItem.DeviceType != 'HotelTv'">{{dataItem.DeviceType}}</span>                      </ng-template>
+                </kendo-grid-column> -->
+
+                <kendo-grid-column field="TokenID"   title="" class="gridrowfont"  [width]="70">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        <i class="fa fa-info-circle" aria-hidden="true" (click)="FillTokenInfo(dataItem.TokenID,content)" (click)="d('Cross click')"></i>
+                      </ng-template>
+                </kendo-grid-column>
+                
+                
+            </kendo-grid>
+
+      </div>
+  
+      
+    </div>
+  </ng-template>
+
+  <ng-template class="tokenmodal" #content let-c="close" let-d="dismiss">
+    <div class="modal-header bg-primary">
+      <div class="col-lg-6 m-0 p-0" style="float: left">
+        <h5 class="text-white">{{ ClientName }} ({{ SearchTokenId }})</h5>
+      </div>
+      <div class="col-lg-5 m-0 p-0" style="float: right">
+        <h6 class="text-white" style="text-align: right">
+          Last Status: {{ LastStatus }}
+        </h6>
+      </div>
+  
+      <button
+        type="button"
+        class="close text-white"
+        aria-label="Close"
+        (click)="tokenInfoClose()"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body bg-card p-6">
+      <app-token-info></app-token-info>
+    </div>
+  </ng-template>
+  

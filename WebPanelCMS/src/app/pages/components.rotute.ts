@@ -10,7 +10,14 @@ import { UserComponent } from 'app/layout/common/user/user.component';
 import { UsersComponent } from './users/users.component';
 import { KpnchannelComponent } from './kpnchannel/kpnchannel.component';
 import { InstantMobileComponent } from './instant-mobile/instant-mobile.component';
+import { CustomerRegistrationComponent } from './customer-registration/customer-registration.component';
+import { CopydataComponent } from './copydata/copydata.component';
 export const CommonComponentsRoutes: Route[] = [
+  {
+    path: 'registration',
+    component: CustomerRegistrationComponent,
+    //canActivate:[AuthGuard]
+  },
   {
     path: 'dashboard',
     component: CustomerDashboardComponent,
@@ -53,6 +60,11 @@ export const CommonComponentsRoutes: Route[] = [
   {
     path: 'instantplay',
     component: InstantMobileComponent,
+    //canActivate:[AuthGuard]
+  },
+  {
+    path: 'copydata',
+    component: CopydataComponent,
     //canActivate:[AuthGuard]
   },
 ];

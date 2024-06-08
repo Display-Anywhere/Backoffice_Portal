@@ -94,11 +94,11 @@
                                         </div>
                                         <div class="k-form-field-checkbox-wrap ml-4">
                                             <input kendoCheckBox id="PlaylistLibrary" formControlName="chkPlaylistLibrary" rounded="medium" type="checkbox"  />
-                                            <kendo-label class="k-checkbox-label" for="PlaylistLibrary" text="Playlist Library"></kendo-label>
+                                            <kendo-label class="k-checkbox-label" for="PlaylistLibrary" text="Media Library"></kendo-label>
                                         </div>
                                         <div class="k-form-field-checkbox-wrap ml-4">
                                             <input kendoCheckBox id="Scheduling" formControlName="chkScheduling" rounded="medium" type="checkbox"  />
-                                            <kendo-label class="k-checkbox-label" for="Scheduling" text="Scheduling"></kendo-label>
+                                            <kendo-label class="k-checkbox-label" for="Scheduling" text="IPTV"></kendo-label>
                                         </div>
                                         <div class="k-form-field-checkbox-wrap ml-4">
                                             <input kendoCheckBox id="Advertisement" formControlName="chkAdvertisement" rounded="medium" type="checkbox"  />
@@ -108,10 +108,10 @@
                                             <input kendoCheckBox id="InstantPlay" formControlName="chkInstantPlay" rounded="medium" type="checkbox"  />
                                             <kendo-label class="k-checkbox-label" for="InstantPlay" text="Instant Play"></kendo-label>
                                         </div>
-                                        <div class="k-form-field-checkbox-wrap ml-4">
+                                       <!--  <div class="k-form-field-checkbox-wrap ml-4">
                                             <input kendoCheckBox id="Upload" formControlName="chkUpload" rounded="medium" type="checkbox"  />
                                             <kendo-label class="k-checkbox-label" for="Upload" text="Upload Content"></kendo-label>
-                                        </div>
+                                        </div> 
                                         <div class="k-form-field-checkbox-wrap ml-4">
                                             <input kendoCheckBox id="DeleteSong" formControlName="chkDeleteSong" rounded="medium" type="checkbox"  />
                                             <kendo-label class="k-checkbox-label" for="DeleteSong" text="Delete Content"></kendo-label>
@@ -123,7 +123,7 @@
                                         <div class="k-form-field-checkbox-wrap mt-4 ml-4">
                                             <input kendoCheckBox id="EventMeeting" formControlName="chkEventMeeting" rounded="medium" type="checkbox"  />
                                             <kendo-label class="k-checkbox-label" for="EventMeeting" text="Event Meeting Only"></kendo-label>
-                                        </div>
+                                        </div>-->
                                     </div>
                                     
                                 </div>
@@ -134,12 +134,12 @@
                                 </div>
                             </div>
                                 <div class="row">
-                                    <div class="col-sm-2 ml-auto">
-                                        <kendo-button class="bg-primary" (click)="onSubmitUser()">
-                                            Save
-                                        </kendo-button>
-                                        <kendo-button class="ml-5" (click)="Refresh()">
+                                    <div class="col-sm-12">
+                                        <kendo-button class="ml-5 pull-right" (click)="Refresh()">
                                             Cancel
+                                        </kendo-button>
+                                        <kendo-button class="bg-primary pull-right" (click)="onSubmitUser()">
+                                            Save
                                         </kendo-button>
                                     </div>
                                     </div>

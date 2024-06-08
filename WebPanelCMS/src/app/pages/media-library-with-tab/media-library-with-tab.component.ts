@@ -171,7 +171,7 @@ export class MediaLibraryWithTabComponent implements OnInit {
     }
     await this.onAction(0,'Signage')
     const obj= this.CustomerList.filter(fId => fId.Id == id)
-    console.log(obj)
+     
     const url='https://content.display-anywhere.com/api/login?key='+ obj[0].apikey;
     this.OtherUrl= url+'&redirectUri=https://content.display-anywhere.com/my-templates/';
     this.OtherKey=obj[0].apikey;
@@ -291,7 +291,7 @@ export class MediaLibraryWithTabComponent implements OnInit {
   public async onbreadCrumbItemClick(item: BreadCrumbItem): Promise<void> {
     const index = this.breadCrumbItems.findIndex((e) => e.text === item.text);
     this.breadCrumbItems = this.breadCrumbItems.slice(0, index + 1);
-    console.log(this.breadCrumbItems)
+     
     if (this.breadCrumbItems.length==1){
       await this.GetLibraryGenre()
     }
@@ -330,7 +330,7 @@ export class MediaLibraryWithTabComponent implements OnInit {
      this.breadCrumbItems =[{text: genrename,title: id},
       {text: "Sub Genre",title: ""}
     ] 
-    console.log(this.breadCrumbItems)
+     
     this.mService.GetLibrarySubGenre(id,this.ExpansionPanelMediaType).pipe()
       .subscribe(data => {
         var returnData = JSON.stringify(data);
@@ -590,7 +590,7 @@ GetSpecialPlayListType() {
           text:"Existing Playlists",
           items:[]
         }
-        console.log(objres)
+         
         objres.forEach(item => {
           let arrChild={}
           arrChild["text"] = item["splPlaylistName"]
@@ -606,7 +606,7 @@ GetSpecialPlayListType() {
         this.loading = false;
       })
 }
-  SaveNewPlaylist(){
+  async SaveNewPlaylist(){
     if (this.cmbFormat.Id == '0') {
       this.toastr.info('Please select a campaign name');
       return;
@@ -626,6 +626,7 @@ GetSpecialPlayListType() {
           if (obj.Responce == '1') {
             this.loading = false;
             if (obj.MediaType=="New"){
+              await this.getPlaylistsAndGroups()
               await this.SaveNewPlaylistWithType(obj.message)
             }
             else{
@@ -749,7 +750,7 @@ GetSpecialPlayListType() {
     }
     this.tid.push(id.toString());
      
-    console.log(this.tid)
+     
     this.modalService.open(mContent,{ centered: true});
   }
   DeleteTitle() {
@@ -1030,7 +1031,7 @@ GetSpecialPlayListType() {
     this.rdoSearchFilter="title"
     await this.FillSongList()
   }
-  onSubmitNewFormat() {
+  async onSubmitNewFormat() {
     if (this.NewFormatName == '') {
       this.toastr.info('Campaign name cannot be blank', '');
       return;
@@ -1045,11 +1046,12 @@ GetSpecialPlayListType() {
       )
       .pipe()
       .subscribe(
-        (data) => {
+        async (data) => {
           var returnData = JSON.stringify(data);
           var obj = JSON.parse(returnData);
           if (obj.Responce != '-2') {
             this.toastr.info('Saved', 'Success!');
+            await this.getPlaylistsAndGroups()
 
             this.loading = false;
             if (this.txtDeletedFormatName == '') {
@@ -1364,7 +1366,7 @@ GetSpecialPlayListType() {
           var returnData = JSON.stringify(data);
           let obj = JSON.parse(returnData);
           objLibraryGenreList = obj
-          console.log(objLibraryGenreList)
+           
           let rowIndex=0
           var eventjsonlength= objLibraryGenreList.length
   
@@ -1372,11 +1374,11 @@ GetSpecialPlayListType() {
             scrolLimit=objLibraryGenreList.length
           }
           let ScrollPageCount= Math.round(objLibraryGenreList.length/scrolLimit)
-          console.log(ScrollPageCount)
+           
           for (let index = 0; index < ScrollPageCount; index++) {
             this.PlaylistsFormatScrollViewData.push({page:index})
           }
-          console.log(this.PlaylistsFormatScrollViewData)
+          
           for(var i = 0; i < objLibraryGenreList.length; i++){
             this.LibraryGenreList.push({title: objLibraryGenreList[i].DisplayName,id: objLibraryGenreList[i].Id})
             objLibraryGenreItems.push({color: this.getRandomColor(), title: objLibraryGenreList[i].DisplayName,id: objLibraryGenreList[i].Id})
@@ -1426,7 +1428,7 @@ GetSpecialPlayListType() {
         var obj = JSON.parse(returnData);
         if (obj.data !=''){
           let objData= JSON.parse(obj.data)
-          console.log(objData)
+          
           objLibraryGenreList = objData.filter(o => parseInt(o.Formatid) == parseInt(id))
         }
         let rowIndex=0
@@ -1463,7 +1465,7 @@ GetSpecialPlayListType() {
   public async onbreadCrumbPlaylistFormatClick(item: BreadCrumbItem): Promise<void> {
     const index = this.breadCrumbPlaylistItems.findIndex((e) => e.text === item.text);
     this.breadCrumbPlaylistItems = this.breadCrumbPlaylistItems.slice(0, index + 1);
-    console.log(this.breadCrumbPlaylistItems)
+    
     if (this.breadCrumbPlaylistItems.length==1){
       await this.FillPlaylistFormat(this.ExpansionPanelMediaType)
     }
@@ -1709,7 +1711,7 @@ PlaylistSortModalClose(){
   this.SelectPlaylist()
 }
 OnChangeSortInterval(e, sId) {
-  console.log(sId)
+  
   let prvSrNo=0
   this.PlaylistSongsSortList.forEach(item => {
     if (item["sId"]==sId){
@@ -1873,7 +1875,7 @@ OpenViewPlaylistContent(modalName, url,genreId,MediaType){
     this.NewFormatName=""
   }
 
-  UpdatePlaylist(){
+  async UpdatePlaylist(){
     if (this.cmbFormat.Id == '0') {
       this.toastr.info('Please select a campaign name');
       return;
@@ -1893,6 +1895,7 @@ OpenViewPlaylistContent(modalName, url,genreId,MediaType){
           if (obj.Responce == '1') {
             this.loading = false;
             await this.UpdatePlaylistSettings()
+            await this.getPlaylistsAndGroups()
           } else if (obj.Responce == '2') {
              this.toastr.info('Playlist name already exists', 'Success!');
             this.loading = false;
@@ -1931,4 +1934,60 @@ OpenViewPlaylistContent(modalName, url,genreId,MediaType){
       );
 
   }
+  async getPlaylistsAndGroups(){
+    if (this.breadCrumbPlaylistItems.length==1){
+      await this.FillPlaylistFormat(this.ExpansionPanelMediaType)
+    }
+    if (this.breadCrumbPlaylistItems.length==2){
+      const id=this.breadCrumbPlaylistItems[0].title
+      await this.getFormatPlaylists(id)
+  }
+  }
+  async getFormatPlaylists(id){
+    let objLibraryGenreList=[]
+    let objLibraryGenreItems=[]
+    this.PlaylistsFormatItems=[]
+    this.PlaylistsFormatScrollViewData=[]
+    let scrolLimit=24
+    this.ShowAudoPlaylistContent=false
+    await this.mService.GetLibraryPlaylists(this.cmbCustomer.toString(),this.ExpansionPanelMediaType).pipe()
+      .subscribe(data => {
+        var returnData = JSON.stringify(data);
+        var obj = JSON.parse(returnData);
+        if (obj.data !=''){
+          let objData= JSON.parse(obj.data)
+          objLibraryGenreList = objData.filter(o => parseInt(o.Formatid) == parseInt(id))
+        }
+        let rowIndex=0
+          var eventjsonlength= objLibraryGenreList.length
+  
+          if (objLibraryGenreList.length<scrolLimit){
+            scrolLimit=objLibraryGenreList.length
+          }
+          let ScrollPageCount= Math.round(objLibraryGenreList.length/scrolLimit)
+          for (let index = 0; index < ScrollPageCount; index++) {
+            this.PlaylistsFormatScrollViewData.push({page:index})
+          }
+          for(var i = 0; i < objLibraryGenreList.length; i++){
+            this.LibraryGenreList.push({title: objLibraryGenreList[i].splPlaylistName,id: objLibraryGenreList[i].splPlaylistId})
+            objLibraryGenreItems.push({color: this.getRandomColor(), title: objLibraryGenreList[i].splPlaylistName,id: objLibraryGenreList[i].splPlaylistId, IsVideoMute:objLibraryGenreList[i].IsVideoMute,IsShowDefault:objLibraryGenreList[i].IsShowDefault,chkDuplicateContent:objLibraryGenreList[i].chkDuplicateContent})
+            rowIndex++
+            eventjsonlength--
+            if (rowIndex==scrolLimit){
+              this.PlaylistsFormatItems.push(objLibraryGenreItems)
+              objLibraryGenreItems=[]
+              rowIndex=0
+              if (eventjsonlength < 24 ){
+                scrolLimit = eventjsonlength
+              }
+            }
+          }   
+        this.loading = false;
+      },
+        error => {
+          // this.toastr.error("Apologies for the inconvenience.The error is recorded.", '');
+          this.loading = false;
+        })
+  }
+ 
 }

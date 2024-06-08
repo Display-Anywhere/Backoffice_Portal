@@ -163,4 +163,10 @@ SaveModifyLogs(tokenid, ModifyData:string){
     return this.http.post(this.cApi.GetDashboardCityDevices,params,{headers:headers})
      .pipe((data=>{return data;}))
   }
+  SaveCopyPlaylist(json){
+    let headers = new HttpHeaders({ 'Content-Type':'application/json' });
+    var params = json
+    return this.http.post(this.cApi.SaveCopyPlaylist,params,{headers:headers})
+     .pipe((data=>{return data;}))
+  }
 }
