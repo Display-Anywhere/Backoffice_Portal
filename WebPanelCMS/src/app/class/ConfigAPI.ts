@@ -238,6 +238,7 @@ export class ConfigAPI {
    BoxRestart: string = this.Host + 'BoxRestart';
    GetTokenNetworkSpeed: string = this.Host + 'GetTokenNetworkSpeed';
    SaveCopyPlaylist: string = this.Host + 'SaveCopyPlaylist';
+   GetDashboardCustomerDevicesStatus: string = this.Host + 'GetDashboardCustomerDevicesStatus';
 }
 
 // localStorage.setItem('UserId', obj.UserId);

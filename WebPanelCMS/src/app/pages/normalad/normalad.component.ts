@@ -679,11 +679,13 @@ export class NormaladComponent {
           this.loading = false;
         })
   }
-  EditAds(id) {
+  async EditAds(id) {
     this.IsEditClick = "Yes";
     this.loading = true;
+    await this.onChangeCustomer(this.cmbSearchCustomer)
     this.advtid = id;
     this.AddNewTabSelected =true
+
     this.aService.FillSaveAds(id, this.cmbSearchCustomer).pipe()
       .subscribe(data => {
         var returnData = JSON.stringify(data);
@@ -698,6 +700,8 @@ export class NormaladComponent {
         //this.MainTokenList= this.TokenList;
         //this.CustomerList = obj.lstCustomer;
         //this.CustomerSelected = obj.CustomerLst;
+        this.Adform.get('CustomerLst').setValue(this.cmbSearchCustomer);
+        
         this.TokenSelected = obj.TokenLst;
         this.selectedItems = obj.wList;
         this.CountrySelected = obj.CountryLst;

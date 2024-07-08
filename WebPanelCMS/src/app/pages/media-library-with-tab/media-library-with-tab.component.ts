@@ -1989,5 +1989,77 @@ OpenViewPlaylistContent(modalName, url,genreId,MediaType){
           this.loading = false;
         })
   }
- 
+  ConvertImageTimeInterval(value){
+return parseInt(value)
+  }
+  ImageTimeInterval=[]
+  OnChangeImgInterval(e, tid) {
+    const ArrImg = {};
+    ArrImg['ImgInterval'] = e;
+    ArrImg['titleid'] = tid;
+    ArrImg['splId'] = this.PlaylistSelectedForContent;
+    this.ImageTimeInterval = [];
+    this.ImageTimeInterval.push(ArrImg);
+  }
+
+  SaveImageTimeInterval(titleid, Type) {
+    if (this.ImageTimeInterval.length === 0) {
+      return;
+    }
+    if (this.IschkViewOnly==1){
+      this.toastr.info('This feature is not available in view only');
+      return;
+    }
+    if (Type === 'All') {
+      const ImgInterval = this.ImageTimeInterval[0].ImgInterval;
+      this.ImageTimeInterval = [];
+      let ArrImg = {};
+      this.PlaylistContentLists.forEach((item) => {
+        ArrImg = {};
+        ArrImg['ImgInterval'] = ImgInterval;
+        ArrImg['titleid'] = item.id;
+        ArrImg['splId'] = this.PlaylistSelectedForContent;
+        this.ImageTimeInterval.push(ArrImg);
+      });
+    }
+    this.SaveImageTimeInterval_API(Type);
+  }
+  SaveImageTimeInterval_API(type) {
+    this.loading = true;
+    this.pService
+      .SaveImageTimeInterval(this.ImageTimeInterval)
+      .pipe()
+      .subscribe(
+        (data) => {
+          const returnData = JSON.stringify(data);
+          const obj = JSON.parse(returnData);
+          if (obj.Responce === '1') {
+            this.toastr.info('Saved', 'Success!');
+            this.loading = false;
+            if (type == 'All') {
+              this.PlaylistContentLists.forEach((item) => {
+                item.ImageTimeInterval = this.ImageTimeInterval[0].ImgInterval;
+              });
+            }
+            this.ImageTimeInterval = [];
+          } else {
+            this.toastr.error(
+              'Apologies for the inconvenience.The error is recorded.',
+              ''
+            );
+            this.loading = false;
+            this.ImageTimeInterval = [];
+          }
+        },
+        (error) => {
+          this.toastr.error(
+            'Apologies for the inconvenience.The error is recorded.',
+            ''
+          );
+          this.loading = false;
+          this.ImageTimeInterval = [];
+        }
+      );
+  }
+
 }

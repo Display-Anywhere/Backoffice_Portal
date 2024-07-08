@@ -234,6 +234,26 @@
                     </kendo-grid-column>
                     <kendo-grid-column field="Artist" title="Artist"   class="gridrowfont" ></kendo-grid-column>
                     <kendo-grid-column field="GenreName" title="Genre"   class="gridrowfont" ></kendo-grid-column>
+                    <kendo-grid-column field="id"   title="Image Time" class="gridrowfont"  [width]="250">
+                      <ng-template kendoGridCellTemplate let-dataItem>
+                        <div class="row" *ngIf="dataItem.MediaType=='Image'">
+                          <div class="col-lg-6">
+                            <kendo-numerictextbox
+                            format="##"
+        [min]="5"
+        [max]="60"
+        [value]="ConvertImageTimeInterval(dataItem.ImageTimeInterval)" (valueChange)="OnChangeImgInterval($event,dataItem.id)"
+      ></kendo-numerictextbox>
+                          </div>
+                          <div class="col-lg-2">
+                            <kendo-svg-icon [icon]="kIcons['saveIcon']" (click)="SaveImageTimeInterval(dataItem.id, 'Single')" class="cursor-pointer"></kendo-svg-icon>
+                          </div>
+                          <div class="col-lg-4 text-end text-sm">
+                           <span *ngIf="dataItem.ImgAllBtn == 'All'" class="cursor-pointer" (click)="SaveImageTimeInterval(dataItem.id, 'All')"> Save All</span>
+                          </div>
+                        </div>
+                      </ng-template>
+                  </kendo-grid-column>
                     <kendo-grid-column field="id"   title="" class="gridrowfont"  [width]="70">
                         <ng-template kendoGridCellTemplate let-dataItem>
                           <kendo-svg-icon [icon]="kIcons['trashIcon']" themeColor="error" (click)="openTitleDeleteModal(TitleDeleteModal, dataItem.sId)"></kendo-svg-icon>

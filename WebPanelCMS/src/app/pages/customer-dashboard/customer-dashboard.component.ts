@@ -110,8 +110,13 @@ export class CustomerDashboardComponent implements OnInit  {
     }
   );
   } 
-  async OpenViewDashboardCityDevices(modalName,id){
-    await this.GetDashboardCityDevices(id)
+  async OpenViewDashboardCityDevices(modalName,id,searchType){
+    if (searchType==""){
+      await this.GetDashboardCityDevices(id)
+    }
+    else{
+      await this.GetDashboardCustomerDevicesStatus(searchType)
+    }
     this.modalService.open(modalName, {
       size: 'lg',
       centered: true
@@ -137,4 +142,23 @@ export class CustomerDashboardComponent implements OnInit  {
   );
   } 
 
+  GetDashboardCustomerDevicesStatus(searchType){
+    this.loading = true;
+    this.listOfDashboardCustomerCityDevices=[]
+    this.sfService.GetDashboardCustomerDevicesStatus(this.cmbCustomer,searchType).pipe().subscribe(async (data) => {
+      this.loading = false;
+      var returnData = JSON.stringify(data);
+      var objData = JSON.parse(returnData);
+      if (objData.response!="0"){
+        this.listOfDashboardCustomerCityDevices= JSON.parse(objData.data)
+      }
+    },
+    (error) => {
+      this.toastrSF.error(
+        'Apologies for the inconvenience.The error is recorded.',
+        ''
+      );
+    }
+  );
+  } 
 }

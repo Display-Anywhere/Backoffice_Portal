@@ -45,6 +45,7 @@ import { TemplateUrlComponent } from './template-url/template-url.component';
 import { CommonsearchComponent } from './commonsearch/commonsearch.component';
 import { CustomerRegistrationComponent } from './customer-registration/customer-registration.component';
 import { CopydataComponent } from './copydata/copydata.component';
+import { MasterscheduleAdPlaylistsComponent } from './masterschedule-ad-playlists/masterschedule-ad-playlists.component';
 export const MY_CUSTOM_FORMATS = {
   parseInput: 'LL LT',
   fullPickerInput: 'LL LT',
@@ -58,7 +59,7 @@ export const MY_CUSTOM_FORMATS = {
 @NgModule({
   declarations: [  MediaLibraryWithTabComponent,MasterscheduleComponent,EditmasterscheduleComponent,
     TokenInfoComponent,PlaylistsTitlesDownloadStatusComponent,SignageContentUploadComponent,ViewContentComponent,
-    ClientPlayerListComponent,ManagegroupsComponent, CustomerDashboardComponent, DComponent,AdPlaylistsComponent, NormaladComponent, InstantMobileComponent, UsersComponent, KpnchannelComponent, DownloadTemplateComponent, MasterscheduleNormaladComponent,TemplateUrlComponent, CommonsearchComponent, CustomerRegistrationComponent, CopydataComponent
+    ClientPlayerListComponent,ManagegroupsComponent, CustomerDashboardComponent, DComponent,AdPlaylistsComponent, NormaladComponent, InstantMobileComponent, UsersComponent, KpnchannelComponent, DownloadTemplateComponent, MasterscheduleNormaladComponent,TemplateUrlComponent, CommonsearchComponent, CustomerRegistrationComponent, CopydataComponent, MasterscheduleAdPlaylistsComponent
 ],
  
   exports: [
