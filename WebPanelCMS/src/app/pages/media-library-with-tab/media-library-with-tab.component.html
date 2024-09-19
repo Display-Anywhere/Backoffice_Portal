@@ -41,13 +41,13 @@
             <div class="row h-128 overflow-auto" *ngIf="ExpansionPanelMediaType=='Signage'">
                 <div class="col-lg-12">
                   <kendo-button class="mb-2 mr-sm-2 mr-1" (click)="OpenUploadContentModel(UploadContent)">
-                    Add Signage
+                    Add Signage {{rdoSearchFilterList.length}}
                 </kendo-button> 
                 <kendo-button class="mb-2 mr-sm-2 mr-1 ml-2" (click)="OpenUploadContentModel(AddOwnUrl)">
                   Add Template Url
               </kendo-button> 
                 </div>
-                <div class="col-lg-12">
+                <div class="col-lg-12" style="min-height: 29rem;">
                   <kendo-grid
                   [kendoGridBinding]="ContentList"
                   [pageSize]="50"
@@ -136,7 +136,7 @@
                     </ng-template>
                   </kendo-grid-column>
                   <kendo-grid-column field="genreName"   title="Orientation" class="gridrowfont" ></kendo-grid-column>
-                  <kendo-grid-column field="Length"   title="Length" class="gridrowfont" ></kendo-grid-column>
+                  <kendo-grid-column *ngIf="chkSignageMediaType=='Video'" field="Length"   title="Length" class="gridrowfont" ></kendo-grid-column>
                   <kendo-grid-column field="id"   title="" class="gridrowfont"  [width]="70">
                       <ng-template kendoGridCellTemplate let-dataItem>
                         <i class="fa fa-bars cursor-pointer" #target aria-hidden="true"></i>
@@ -161,7 +161,7 @@
                   <div class="row w-full">
                     <div class="col-lg-4">
                       <div class="text-lg font-medium tracking-tight leading-6 truncate pb-2">
-                        <i class="fa fa-plus-circle cursor-pointer ml-2" aria-hidden="true"  (click)="openFormatModal(modalNewPlaylist)"> Add New</i> 
+                        <!-- <i class="fa fa-plus-circle cursor-pointer ml-2" aria-hidden="true"  (click)="openFormatModal(modalNewPlaylist)"> Add New</i>  -->
                       </div>
                     </div>
                       <div class="col-sm-8">
@@ -232,8 +232,13 @@
                         </a>
                       </ng-template>
                     </kendo-grid-column>
-                    <kendo-grid-column field="Artist" title="Artist"   class="gridrowfont" ></kendo-grid-column>
-                    <kendo-grid-column field="GenreName" title="Genre"   class="gridrowfont" ></kendo-grid-column>
+                    <kendo-grid-column field="GenreName" title="Orientation"   class="gridrowfont" ></kendo-grid-column>
+                    <kendo-grid-column field="Length" title="Length"   class="gridrowfont" >
+                      <ng-template kendoGridCellTemplate let-dataItem>
+                        <span *ngIf="dataItem.MediaType=='Image'"></span>
+                        <span *ngIf="dataItem.MediaType !='Image'">{{dataItem.Length}}</span>
+                      </ng-template>
+                    </kendo-grid-column>
                     <kendo-grid-column field="id"   title="Image Time" class="gridrowfont"  [width]="250">
                       <ng-template kendoGridCellTemplate let-dataItem>
                         <div class="row" *ngIf="dataItem.MediaType=='Image'">
@@ -292,14 +297,19 @@
                           [cols]="['12%'  ,'12%', '12%', '12%', '12%', '12%','12%','12%']"
                           [gap]="5"
                       >
+                      <!-- style="cursor: pointer; display:flex; justify-content: center; align-items: center; border-radius: 5px"
+                      style="vertical-align:middle;color: white; font-size: 14px;"
+                      -->
                       <kendo-gridlayout-item
                           *ngFor="let item of MasterScheduleItems[itemPage.page]; let i = index"
                           class="box box-{{ i }} "
                           [ngStyle]="{backgroundColor: MasterScheduleItems[0][i].color }"
-                          style="cursor: pointer; display:flex; justify-content: center; align-items: center; border-radius: 5px"
+                          style="cursor: pointer;  border-radius: 5px;overflow: hidden;"
                           (click)="openMasterScheduleDetail(item.id,item.title)"
                           >
-                              <h3 style="vertical-align:middle;color: white; font-size: 14px;">{{item.title}}</h3>
+                              <h3  class="break-all" style="vertical-align: middle;color: white;font-size: 12px;display: flex;justify-content: center;align-items: center;height: 100%;">
+                                <span class="w-full text-center">{{item.title}}</span>
+                              </h3>
                           </kendo-gridlayout-item>
                     </kendo-gridlayout>
                   </ng-template>
@@ -482,7 +492,7 @@ kendoRadioButton
                   <div class="row w-full">
                     <div class="col-lg-4">
                       <div class="text-lg font-medium tracking-tight leading-6 truncate pb-2">
-                        <i class="fa fa-plus-circle cursor-pointer ml-2" aria-hidden="true"  (click)="openFormatModal(modalNewPlaylist)"> Add New</i> 
+                        <!-- <i class="fa fa-plus-circle cursor-pointer ml-2" aria-hidden="true"  (click)="openFormatModal(modalNewPlaylist)"> Add New</i>  -->
                       </div>
                     </div>
                       <div class="col-sm-8">
@@ -758,7 +768,7 @@ kendoRadioButton
               <div class="row w-full">
                 <div class="col-lg-4">
                   <div class="text-lg font-medium tracking-tight leading-6 truncate pb-2">
-                    <i class="fa fa-plus-circle cursor-pointer ml-2" aria-hidden="true"  (click)="openFormatModal(modalNewPlaylist)"> Add New</i> 
+                    <!-- <i class="fa fa-plus-circle cursor-pointer ml-2" aria-hidden="true"  (click)="openFormatModal(modalNewPlaylist)"> Add New</i>  -->
                   </div>
                 </div>
                   <div class="col-sm-8">
@@ -938,7 +948,7 @@ kendoRadioButton
                     </ng-template>
                   </kendo-grid-column>
                   <kendo-grid-column field="genreName"   title="Orientation" class="gridrowfont" ></kendo-grid-column>
-                  <kendo-grid-column field="Length"   title="Length" class="gridrowfont" ></kendo-grid-column>
+                  <!-- <kendo-grid-column field="Length"   title="Length" class="gridrowfont" ></kendo-grid-column> -->
                   <kendo-grid-column field="id"   title="" class="gridrowfont"  [width]="70">
                       <ng-template kendoGridCellTemplate let-dataItem>
                         <i class="fa fa-bars cursor-pointer" #target aria-hidden="true"></i>
@@ -963,7 +973,7 @@ kendoRadioButton
                   <div class="row w-full">
                     <div class="col-lg-4">
                       <div class="text-lg font-medium tracking-tight leading-6 truncate pb-2">
-                        <i class="fa fa-plus-circle cursor-pointer ml-2" aria-hidden="true"  (click)="openFormatModal(modalNewPlaylist)"> Add New</i> 
+                        <!-- <i class="fa fa-plus-circle cursor-pointer ml-2" aria-hidden="true"  (click)="openFormatModal(modalNewPlaylist)"> Add New</i>  -->
                       </div>
                     </div>
                       <div class="col-sm-8">
@@ -1032,8 +1042,13 @@ kendoRadioButton
                         </a>
                       </ng-template>
                     </kendo-grid-column>
-                    <kendo-grid-column field="Artist" title="Artist"   class="gridrowfont" ></kendo-grid-column>
-                    <kendo-grid-column field="GenreName" title="Genre"   class="gridrowfont" ></kendo-grid-column>
+                    <kendo-grid-column field="GenreName" title="Orientation"   class="gridrowfont" ></kendo-grid-column>
+                    <kendo-grid-column field="Length" title="Length"   class="gridrowfont" >
+                      <ng-template kendoGridCellTemplate let-dataItem>
+                        <span *ngIf="dataItem.MediaType=='Image'"></span>
+                        <span *ngIf="dataItem.MediaType !='Image'">{{dataItem.Length}}</span>
+                      </ng-template>
+                    </kendo-grid-column>
                     <kendo-grid-column field="id"   title="" class="gridrowfont"  [width]="70">
                         <ng-template kendoGridCellTemplate let-dataItem>
                           <kendo-svg-icon [icon]="kIcons['trashIcon']" themeColor="error" (click)="openTitleDeleteModal(TitleDeleteModal, dataItem.sId)"></kendo-svg-icon>

@@ -133,6 +133,12 @@ SaveModifyLogs(tokenid, ModifyData:string){
     return this.http.post(this.cApi.SaveMasterSchedule,params,{headers:headers})
      .pipe((data=>{return data;}))
   }
+  CheckMasterSchedule(json){
+    let headers = new HttpHeaders({ 'Content-Type':'application/json' });
+    var params = json
+    return this.http.post(this.cApi.CheckMasterSchedule,params,{headers:headers})
+     .pipe((data=>{return data;}))
+  }
   GetMasterScheduleDetail(masterscheduleid,dfclientid,UserId){
     let headers = new HttpHeaders({ 'Content-Type':'application/json' });
     var params = JSON.stringify({ masterscheduleid: masterscheduleid,dfclientid:dfclientid,UserId:UserId });

@@ -866,18 +866,48 @@ GetSpecialPlayListType() {
       }
       if (this.rdoSearchFilter=='orientation'){
         this.rdoSearchFilterList=[]
-        this.rdoSearchFilterList=[
-          {
-              "DisplayName": "Landscape MP4",
-              "Id": "297",
-              "check": false
-          },
-          {
-              "DisplayName": "Portrait MP4",
-              "Id": "303",
-              "check": false
-          }
-      ]
+        if (this.chkSignageMediaType=="Video"){
+          this.rdoSearchFilterList=[
+            {
+                "DisplayName": "Landscape MP4",
+                "Id": "297",
+                "check": false
+            },
+            {
+                "DisplayName": "Portrait MP4",
+                "Id": "303",
+                "check": false
+            }
+        ]
+        }
+        if (this.chkSignageMediaType=="Url"){
+          this.rdoSearchFilterList=[
+            {
+                "DisplayName": "Landscape Url",
+                "Id": "496",
+                "check": false
+            },
+            {
+                "DisplayName": "Portrait Url",
+                "Id": "495",
+                "check": false
+            }
+        ]
+        }
+        if (this.chkSignageMediaType=="Image"){
+          this.rdoSearchFilterList=[
+            {
+                "DisplayName": "Landscape Images",
+                "Id": "325",
+                "check": false
+            },
+            {
+                "DisplayName": "Portrait Images",
+                "Id": "324",
+                "check": false
+            }
+        ]
+        }
       }
       if (this.rdoSearchFilter=='folder'){
         await this.FillFolder()
@@ -1028,6 +1058,7 @@ GetSpecialPlayListType() {
       );
   }
   async onChangeSignageMediaType(){
+    this.rdoSearchFilterList=[]
     this.rdoSearchFilter="title"
     await this.FillSongList()
   }

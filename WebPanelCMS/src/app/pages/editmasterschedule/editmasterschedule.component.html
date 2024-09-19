@@ -646,6 +646,7 @@
         [valuePrimitive]="true"
         fillMode ="outline"
         formControlName="PlaylistId" 
+        [defaultItem]="{ DisplayName: '', Id: '0' }"
       >
       </kendo-dropdownlist>
 
@@ -700,7 +701,7 @@
           <kendo-label text="Week Days:">
             <kendo-multiselect
               [data]="dropdownList"
-              [kendoMultiSelectSummaryTag]="1"
+              [kendoMultiSelectSummaryTag]="0"
               formControlName="wList"
               fillMode ="outline"
               [checkboxes]="true"

@@ -111,7 +111,7 @@ export class EditmasterscheduleComponent implements OnInit {
   ScheduleTypeList=[
     { text: "Normal Schedule", value: "Normal" },
     { text: "One to One Schedule", value: "OneToOnePlaylist" },
-    { text: "% Schedule", value: "PercentageSchedule" },
+    /* { text: "% Schedule", value: "PercentageSchedule" }, */
   ]
   VolumeList=[
     { text: "100", value: "100" },
@@ -224,7 +224,7 @@ export class EditmasterscheduleComponent implements OnInit {
       lstPlaylist: [this.CustomSchedulePlaylist],
       ScheduleType: ['Normal', Validators.required],
       PercentageValue: ['0'],
-      volume: ['90'],
+      volume: ['0'],
       MasterScheduleId:['0'],
       mediatype: ['']
     });
@@ -1566,72 +1566,103 @@ if (errorFound==="Yes"){
     });
     let IsTimeFind = 'No';
     let itemPercentageValue = 0;
-    this.CustomSchedulePlaylist.forEach((item) => {
-      itemPercentageValue = itemPercentageValue + item['PercentageValue'];
-      if (
-        item['sTime'] === dt.toTimeString().slice(0, 5) &&
-        item['eTime'] === dt2.toTimeString().slice(0, 5) &&
-        item['wName'] === ObjWeekName
-      ) {
-       // IsTimeFind = 'Yes';
-      }
-    });
-    if (this.SFform.value.ScheduleType == 'Normal') {
-      if (IsTimeFind === 'Yes') {
-        this.toastrSF.error('Same time schedule is already in list');
-        return;
-      }
-    }
-    this.TotalPercentageValue = itemPercentageValue + obj['PercentageValue'];
-
-    if (this.SFform.value.ScheduleType === 'PercentageSchedule') {
-      if (this.TotalPercentageValue > 100) {
-        this.toastrSF.error(
-          'Total percentage value should not be greater than 100'
-        );
-        return;
-      }
-    } else {
-      obj['PercentageValue'] = '0';
-    }
-    this.CustomSchedulePlaylist_ForSave=[]
-    this.CustomSchedulePlaylist_ForSave=[
-      {
-        Id: this.CustomSchedulePlaylist.length + '' + pname[0].Id,
-        pName: pname[0].DisplayName,
-        splId: pname[0].Id,
-        sTime: dt.toTimeString().slice(0, 5),
-        eTime: dt2.toTimeString().slice(0, 5),
-        wId: ObjWeekId,
-        wName: ObjWeekName,
-        PercentageValue: obj['PercentageValue'],
-        volume :obj['volume'],
-        FormatId :obj['FormatId']
-
-      }
-    ]
-    this.CustomSchedulePlaylist = [
-      ...this.CustomSchedulePlaylist,
-      {
-        Id: this.CustomSchedulePlaylist.length + '' + pname[0].Id,
-        pName: pname[0].DisplayName,
-        splId: pname[0].Id,
-        sTime: dt.toTimeString().slice(0, 5),
-        eTime: dt2.toTimeString().slice(0, 5),
-        wId: ObjWeekId,
-        wName: ObjWeekName,
-        PercentageValue: obj['PercentageValue'],
-        volume :obj['volume'],
-        FormatId :obj['FormatId']
-
-      },
-    ];
-    this.SFform.controls['PlaylistId'].setValue('0');
-    this.SFform.controls['PercentageValue'].setValue('0');
-    let wobj=[]
-    this.SFform.controls['wList'].setValue(wobj);
+    let payload={
+      "CustomerId": "0",
+      "FormatId": "0",
+      "lstPlaylist": [
+          {
+            Id: this.EditPschId,
+            pName: pname[0].DisplayName,
+            splId: pname[0].Id,
+            sTime: dt.toTimeString().slice(0, 5),
+            eTime: dt2.toTimeString().slice(0, 5),
+            wId: ObjWeekId,
+            wName: ObjWeekName,
+            PercentageValue: obj['PercentageValue'],
+            volume :obj['volume'],
+            FormatId :obj['FormatId']
+          }
+      ],
+      "MasterScheduleId": this.cmbMasterSchedule
+  }
     
-    await this.SaveMasterSchedule()
+    if (this.SFform.value.ScheduleType == 'Normal') {
+      this.loading = true;
+   
+      await this.sfService
+        .CheckMasterSchedule(payload)
+        .pipe()
+        .subscribe(
+          async (data) => {
+            var returnData = JSON.stringify(data);
+            var objRes = JSON.parse(returnData);
+            if (objRes.Responce == '1') {
+              this.toastrSF.error('Same time schedule is already in list');
+              this.loading = false;
+            } else {
+              this.loading = false;
+              this.TotalPercentageValue = itemPercentageValue + obj['PercentageValue'];
+              if (this.SFform.value.ScheduleType === 'PercentageSchedule') {
+                if (this.TotalPercentageValue > 100) {
+                  this.toastrSF.error(
+                    'Total percentage value should not be greater than 100'
+                  );
+                  return;
+                }
+              } else {
+                obj['PercentageValue'] = '0';
+              }
+              this.CustomSchedulePlaylist_ForSave=[]
+              this.CustomSchedulePlaylist_ForSave=[
+                {
+                  Id: this.CustomSchedulePlaylist.length + '' + pname[0].Id,
+                  pName: pname[0].DisplayName,
+                  splId: pname[0].Id,
+                  sTime: dt.toTimeString().slice(0, 5),
+                  eTime: dt2.toTimeString().slice(0, 5),
+                  wId: ObjWeekId,
+                  wName: ObjWeekName,
+                  PercentageValue: obj['PercentageValue'],
+                  volume :obj['volume'],
+                  FormatId :obj['FormatId']
+          
+                }
+              ]
+              this.CustomSchedulePlaylist = [
+                ...this.CustomSchedulePlaylist,
+                {
+                  Id: this.CustomSchedulePlaylist.length + '' + pname[0].Id,
+                  pName: pname[0].DisplayName,
+                  splId: pname[0].Id,
+                  sTime: dt.toTimeString().slice(0, 5),
+                  eTime: dt2.toTimeString().slice(0, 5),
+                  wId: ObjWeekId,
+                  wName: ObjWeekName,
+                  PercentageValue: obj['PercentageValue'],
+                  volume :obj['volume'],
+                  FormatId :obj['FormatId']
+          
+                },
+              ];
+              this.SFform.controls['PlaylistId'].setValue('0');
+              this.SFform.controls['PercentageValue'].setValue('0');
+              let wobj=[]
+              this.SFform.controls['wList'].setValue(wobj);
+              
+              
+              await this.SaveMasterSchedule()
+            }
+          },
+          (error) => {
+            this.toastrSF.error(
+              'Apologies for the inconvenience.The error is recorded.',
+              ''
+            );
+            this.loading = false;
+          }
+        );
+    }
+    
     /*
     this.PlaylistList =[];
     this.MainPlaylistList.forEach(CSP => {
@@ -1643,6 +1674,7 @@ if (errorFound==="Yes"){
     });
     */
   }
+   
   RemoveItem(id) {
     this.CustomSchedulePlaylist = this.CustomSchedulePlaylist.filter(
       (d) => d.Id !== id
@@ -2143,6 +2175,7 @@ OpenViewContent(modalName, url,oType,MediaType){
       }
       this.initSFform()
       const obj= this.CustomSchedulePlaylist.filter(o => o.Id==id)
+      console.log(obj)
       await this.FillFormat()
       if (obj.length>0){
       const sTime= new Date("1900-01-01 "+obj[0].sTime)
@@ -2153,7 +2186,7 @@ OpenViewContent(modalName, url,oType,MediaType){
       await this.onChangeFormat(obj[0].FormatId, '')
       this.SFform.get('startTime').setValue(sTime);
       this.SFform.get('EndTime').setValue(etime);
-      this.SFform.get('volume').setValue(obj[0].volume);
+      this.SFform.get('volume').setValue(obj[0].volume.toString());
       let week = obj[0].wId.toString().split(",")
       let wid=[]
       for (let index = 0; index < week.length; index++) {
@@ -2166,8 +2199,8 @@ OpenViewContent(modalName, url,oType,MediaType){
       
       this.SFform.get('wList').setValue(wid)
       setTimeout(() => { 
-        this.SFform.get('FormatId').setValue(obj[0].FormatId);
-        this.SFform.get('PlaylistId').setValue(obj[0].splId);
+        this.SFform.get('FormatId').setValue(obj[0].FormatId.toString());
+        this.SFform.get('PlaylistId').setValue(obj[0].splId.toString());
        }, 2000); 
     }
       this.EditPschId=id
@@ -2417,6 +2450,7 @@ OpenViewContent(modalName, url,oType,MediaType){
       
       this.TokenSelected_publish=[];
       this.loading = true;
+      
       this.sfService
         .SaveMasterSchedule(this.SFform.value)
         .pipe()

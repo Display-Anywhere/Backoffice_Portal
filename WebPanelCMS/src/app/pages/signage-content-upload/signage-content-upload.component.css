@@ -7,7 +7,7 @@
   .file-upload .file-select {
     cursor: pointer;
     display: block;
-    color: #34495e;
+    
     cursor: pointer;
   
     text-align: left;
@@ -21,7 +21,7 @@
   
   .file-upload .file-select .file-select-button {
     cursor: pointer;
-    color: #ffffff;
+    
   
     text-align: center;
   }
@@ -44,7 +44,7 @@
   .file-upload.active .file-select .file-select-button {
     cursor: pointer;
     background: #3fa46a;
-    color: #ffffff;
+    
     transition: all 0.2s ease-in-out;
     -moz-transition: all 0.2s ease-in-out;
     -webkit-transition: all 0.2s ease-in-out;
